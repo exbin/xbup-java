@@ -157,8 +157,8 @@ public class XBPSequenceEventProducer implements XBTEventProducer {
     /**
      * Passes end token to source listener.
      *
-     * @throws XBProcessingException
-     * @throws IOException
+     * @throws XBProcessingException if processing error
+     * @throws java.io.IOException if input/output error
      */
     private void putEnd() throws XBProcessingException, IOException {
         eventListener.putXBTToken(new XBTEndToken());

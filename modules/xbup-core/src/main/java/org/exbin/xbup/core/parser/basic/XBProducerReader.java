@@ -68,7 +68,7 @@ public class XBProducerReader implements XBProducer {
      * Opens input byte-stream.
      *
      * @param stream input stream
-     * @throws IOException
+     * @throws java.io.IOException if input/output error
      */
     public void open(InputStream stream) throws IOException {
         source = stream;
@@ -78,8 +78,8 @@ public class XBProducerReader implements XBProducer {
     /**
      * Processes all events and send them to target.
      *
-     * @throws XBProcessingException
-     * @throws IOException
+     * @throws XBProcessingException if processing error
+     * @throws java.io.IOException if input/output error
      */
     public void read() throws XBProcessingException, IOException {
         // Process header
@@ -188,7 +188,7 @@ public class XBProducerReader implements XBProducer {
     /**
      * Resets input stream and parser state.
      *
-     * @throws IOException
+     * @throws java.io.IOException if input/output error
      */
     public void reset() throws IOException {
     }
@@ -196,7 +196,7 @@ public class XBProducerReader implements XBProducer {
     /**
      * Closes input stream.
      *
-     * @throws IOException
+     * @throws java.io.IOException if input/output error
      */
     public void close() throws IOException {
         source.close();

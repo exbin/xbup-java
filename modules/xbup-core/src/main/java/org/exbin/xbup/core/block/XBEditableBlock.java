@@ -80,7 +80,7 @@ public interface XBEditableBlock extends XBBlock {
     /**
      * Removes attribute on given position.
      *
-     * @param attributeIndex
+     * @param attributeIndex attribute index
      */
     public void removeAttribute(int attributeIndex);
 
@@ -122,7 +122,7 @@ public interface XBEditableBlock extends XBBlock {
     /**
      * Removes child on given position.
      *
-     * @param childIndex
+     * @param childIndex child index
      */
     public void removeChild(int childIndex);
 

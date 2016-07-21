@@ -38,8 +38,8 @@ public interface XBPListener {
      * Puts beggining of block.
      *
      * @param terminationMode flag
-     * @throws XBProcessingException
-     * @throws IOException
+     * @throws XBProcessingException if processing error
+     * @throws java.io.IOException if input/output error
      */
     public void putBegin(XBBlockTerminationMode terminationMode) throws XBProcessingException, IOException;
 
@@ -47,8 +47,8 @@ public interface XBPListener {
      * Puts block type.
      *
      * @param type block type
-     * @throws XBProcessingException
-     * @throws IOException
+     * @throws XBProcessingException if processing error
+     * @throws java.io.IOException if input/output error
      */
     public void putType(XBBlockType type) throws XBProcessingException, IOException;
 
@@ -56,8 +56,8 @@ public interface XBPListener {
      * Puts block attribute.
      *
      * @param attribute attribute value
-     * @throws XBProcessingException
-     * @throws IOException
+     * @throws XBProcessingException if processing error
+     * @throws java.io.IOException if input/output error
      */
     public void putAttribute(XBAttribute attribute) throws XBProcessingException, IOException;
 
@@ -65,8 +65,8 @@ public interface XBPListener {
      * Puts block attribute.
      *
      * @param attributeValue attribute value
-     * @throws XBProcessingException
-     * @throws IOException
+     * @throws XBProcessingException if processing error
+     * @throws java.io.IOException if input/output error
      */
     public void putAttribute(byte attributeValue) throws XBProcessingException, IOException;
 
@@ -75,8 +75,8 @@ public interface XBPListener {
      *
      * @param attributeValue attribute value, only non-negative values are
      * accepted
-     * @throws XBProcessingException
-     * @throws IOException
+     * @throws XBProcessingException if processing error
+     * @throws java.io.IOException if input/output error
      */
     public void putAttribute(short attributeValue) throws XBProcessingException, IOException;
 
@@ -85,8 +85,8 @@ public interface XBPListener {
      *
      * @param attributeValue attribute value, only non-negative values are
      * accepted
-     * @throws XBProcessingException
-     * @throws IOException
+     * @throws XBProcessingException if processing error
+     * @throws java.io.IOException if input/output error
      */
     public void putAttribute(int attributeValue) throws XBProcessingException, IOException;
 
@@ -95,8 +95,8 @@ public interface XBPListener {
      *
      * @param attributeValue attribute value, only non-negative values are
      * accepted
-     * @throws XBProcessingException
-     * @throws IOException
+     * @throws XBProcessingException if processing error
+     * @throws java.io.IOException if input/output error
      */
     public void putAttribute(long attributeValue) throws XBProcessingException, IOException;
 
@@ -104,25 +104,25 @@ public interface XBPListener {
      * Puts block data.
      *
      * @param data data stream
-     * @throws XBProcessingException
-     * @throws IOException
+     * @throws XBProcessingException if processing error
+     * @throws java.io.IOException if input/output error
      */
     public void putData(InputStream data) throws XBProcessingException, IOException;
 
     /**
      * Puts end of block.
      *
-     * @throws XBProcessingException
-     * @throws IOException
+     * @throws XBProcessingException if processing error
+     * @throws java.io.IOException if input/output error
      */
     public void putEnd() throws XBProcessingException, IOException;
 
     /**
      * Puts single token.
      *
-     * @param token
-     * @throws XBProcessingException
-     * @throws java.io.IOException
+     * @param token token
+     * @throws XBProcessingException if processing error
+     * @throws java.io.IOException if input/output error
      */
     public void putToken(XBTToken token) throws XBProcessingException, IOException;
 
@@ -130,8 +130,8 @@ public interface XBPListener {
      * Puts serializable object using consist method.
      *
      * @param serial serializable block
-     * @throws XBProcessingException
-     * @throws IOException
+     * @throws XBProcessingException if processing error
+     * @throws java.io.IOException if input/output error
      */
     public void putConsist(XBSerializable serial) throws XBProcessingException, IOException;
 
@@ -139,8 +139,8 @@ public interface XBPListener {
      * Puts serializable object using join method.
      *
      * @param serial serializable object
-     * @throws XBProcessingException
-     * @throws IOException
+     * @throws XBProcessingException if processing error
+     * @throws java.io.IOException if input/output error
      */
     public void putJoin(XBSerializable serial) throws XBProcessingException, IOException;
 
@@ -148,8 +148,8 @@ public interface XBPListener {
      * Puts serializable object using list consist method.
      *
      * @param serial serializable block
-     * @throws XBProcessingException
-     * @throws IOException
+     * @throws XBProcessingException if processing error
+     * @throws java.io.IOException if input/output error
      */
     public void putListConsist(XBSerializable serial) throws XBProcessingException, IOException;
 
@@ -157,8 +157,8 @@ public interface XBPListener {
      * Puts serializable object using list join method.
      *
      * @param serial serializable object
-     * @throws XBProcessingException
-     * @throws IOException
+     * @throws XBProcessingException if processing error
+     * @throws java.io.IOException if input/output error
      */
     public void putListJoin(XBSerializable serial) throws XBProcessingException, IOException;
 
@@ -166,8 +166,8 @@ public interface XBPListener {
      * Puts sequence item.
      *
      * @param item serializable object
-     * @throws XBProcessingException
-     * @throws IOException
+     * @throws XBProcessingException if processing error
+     * @throws java.io.IOException if input/output error
      */
     public void putItem(XBSerialSequenceItem item) throws XBProcessingException, IOException;
 
@@ -175,8 +175,8 @@ public interface XBPListener {
      * Puts serializable object appending all tokens.
      *
      * @param serial serializable object
-     * @throws XBProcessingException
-     * @throws IOException
+     * @throws XBProcessingException if processing error
+     * @throws java.io.IOException if input/output error
      */
     public void putAppend(XBSerializable serial) throws XBProcessingException, IOException;
 }

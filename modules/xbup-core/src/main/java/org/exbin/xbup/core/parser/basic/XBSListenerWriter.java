@@ -87,7 +87,7 @@ public class XBSListenerWriter implements Closeable, XBSListener {
      * Opens output byte-stream.
      *
      * @param outputStream output stream
-     * @throws IOException if input/output error
+     * @throws java.io.IOException if input/output error
      */
     public void open(OutputStream outputStream) throws IOException {
         openStream(outputStream);

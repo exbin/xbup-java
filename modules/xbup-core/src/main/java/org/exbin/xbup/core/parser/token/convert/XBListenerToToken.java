@@ -84,8 +84,8 @@ public class XBListenerToToken implements XBListener, XBSListener {
      *
      * @param token given token
      * @param listener target listener
-     * @throws XBProcessingException
-     * @throws IOException
+     * @throws XBProcessingException if processing error
+     * @throws java.io.IOException if input/output error
      */
     public static void tokenToListener(XBToken token, XBListener listener) throws XBProcessingException, IOException {
         switch (token.getTokenType()) {

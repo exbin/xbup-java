@@ -31,7 +31,7 @@ public interface XBPReadSerialHandler {
      * Reads data from serializable object.
      *
      * @param serial serializable object to process
-     * @throws java.io.IOException
+     * @throws java.io.IOException if input/output error
      */
     public void read(XBSerializable serial) throws XBProcessingException, IOException;
 }

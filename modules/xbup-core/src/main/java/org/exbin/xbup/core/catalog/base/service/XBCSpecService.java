@@ -219,7 +219,7 @@ public interface XBCSpecService<T extends XBCSpec> extends XBCService<T> {
     /**
      * Gets specification's definition.
      *
-     * @param itemId
+     * @param itemId item id
      * @return specification's definition
      */
     public XBCSpecDef getSpecDef(long itemId);

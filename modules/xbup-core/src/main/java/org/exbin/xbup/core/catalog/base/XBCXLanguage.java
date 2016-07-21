@@ -34,7 +34,7 @@ public interface XBCXLanguage extends XBCBase {
     /**
      * Sets language code.
      *
-     * @param langCode
+     * @param langCode language code
      */
     public void setLangCode(String langCode);
 

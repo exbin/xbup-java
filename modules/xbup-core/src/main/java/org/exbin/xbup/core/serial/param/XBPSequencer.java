@@ -41,7 +41,7 @@ public interface XBPSequencer extends XBPListener, XBPProvider {
     /**
      * Performs begin token with default termination mode behavior.
      *
-     * @throws java.io.IOException
+     * @throws java.io.IOException if input/output error
      */
     public void begin() throws XBProcessingException, IOException;
 
@@ -51,7 +51,7 @@ public interface XBPSequencer extends XBPListener, XBPProvider {
      * Reading will check if value fully equals, writting will write it.
      *
      * @param blockType block type to match to
-     * @throws java.io.IOException
+     * @throws java.io.IOException if input/output error
      */
     public void matchType(XBBlockType blockType) throws XBProcessingException, IOException;
 
@@ -60,14 +60,14 @@ public interface XBPSequencer extends XBPListener, XBPProvider {
      *
      * Reading will check if value fully equals, writting will write it.
      *
-     * @throws java.io.IOException
+     * @throws java.io.IOException if input/output error
      */
     public void matchType() throws XBProcessingException, IOException;
 
     /**
      * Performs end token.
      *
-     * @throws java.io.IOException
+     * @throws java.io.IOException if input/output error
      */
     public void end() throws XBProcessingException, IOException;
 
@@ -76,7 +76,7 @@ public interface XBPSequencer extends XBPListener, XBPProvider {
      * target.
      *
      * @param attributeValue attribute value
-     * @throws java.io.IOException
+     * @throws java.io.IOException if input/output error
      */
     public void attribute(XBEditableAttribute attributeValue) throws XBProcessingException, IOException;
 
@@ -84,7 +84,7 @@ public interface XBPSequencer extends XBPListener, XBPProvider {
      * Performs serialization using consist operation.
      *
      * @param serial serializable object
-     * @throws java.io.IOException
+     * @throws java.io.IOException if input/output error
      */
     public void consist(XBSerializable serial) throws XBProcessingException, IOException;
 
@@ -92,7 +92,7 @@ public interface XBPSequencer extends XBPListener, XBPProvider {
      * Performs serialization using join operation.
      *
      * @param serial serializable object
-     * @throws java.io.IOException
+     * @throws java.io.IOException if input/output error
      */
     public void join(XBSerializable serial) throws XBProcessingException, IOException;
 
@@ -100,7 +100,7 @@ public interface XBPSequencer extends XBPListener, XBPProvider {
      * Performs serialization using list consist operation.
      *
      * @param serial serializable object
-     * @throws java.io.IOException
+     * @throws java.io.IOException if input/output error
      */
     public void listConsist(XBSerializable serial) throws XBProcessingException, IOException;
 
@@ -108,7 +108,7 @@ public interface XBPSequencer extends XBPListener, XBPProvider {
      * Performs serialization using list join operation.
      *
      * @param serial serializable object
-     * @throws java.io.IOException
+     * @throws java.io.IOException if input/output error
      */
     public void listJoin(XBSerializable serial) throws XBProcessingException, IOException;
 
@@ -116,8 +116,8 @@ public interface XBPSequencer extends XBPListener, XBPProvider {
      * Performs serialization on serializable object.
      *
      * @param serial serializable object
-     * @throws XBProcessingException
-     * @throws IOException
+     * @throws XBProcessingException if processing error
+     * @throws java.io.IOException if input/output error
      */
     public void append(XBSerializable serial) throws XBProcessingException, IOException;
 }

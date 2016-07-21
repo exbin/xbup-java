@@ -32,7 +32,7 @@ public interface XBCXHDocManager<T extends XBCXHDoc> extends XBCManager<T>, XBCE
     /**
      * Gets documentation for item.
      *
-     * @param item
+     * @param item item
      * @return documentation
      */
     public XBCXHDoc getDocumentation(XBCItem item);

@@ -35,7 +35,7 @@ public interface XBCXFileManager<T extends XBCXFile> extends XBCManager<T>, XBCE
     /**
      * Returns path of XBIndexes for given file.
      *
-     * @param file
+     * @param file file
      * @return array of path indexes
      */
     public Long[] getFileXBPath(XBCXFile file);

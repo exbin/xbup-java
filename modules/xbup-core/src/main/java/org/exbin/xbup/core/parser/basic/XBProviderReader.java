@@ -82,7 +82,7 @@ public class XBProviderReader implements XBProvider {
      * Opens input byte-stream.
      *
      * @param stream input stream
-     * @throws IOException
+     * @throws java.io.IOException if input/output error
      */
     public void open(InputStream stream) throws IOException {
         source = stream;
@@ -92,7 +92,7 @@ public class XBProviderReader implements XBProvider {
     /**
      * Resets input stream and parser state.
      *
-     * @throws IOException
+     * @throws java.io.IOException if input/output error
      */
     public void reset() throws IOException {
         resetParser();
@@ -101,7 +101,7 @@ public class XBProviderReader implements XBProvider {
     /**
      * Closes input stream.
      *
-     * @throws IOException
+     * @throws java.io.IOException if input/output error
      */
     public void close() throws IOException {
         source.close();

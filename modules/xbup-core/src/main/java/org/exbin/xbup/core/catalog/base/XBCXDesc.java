@@ -48,21 +48,21 @@ public interface XBCXDesc extends XBCBase {
     /**
      * Sets relevant item.
      *
-     * @param item
+     * @param item item
      */
     public void setItem(XBCItem item);
 
     /**
      * Sets description text.
      *
-     * @param text
+     * @param text text
      */
     public void setText(String text);
 
     /**
      * Sets description language.
      *
-     * @param language
+     * @param language language
      */
     public void setLang(XBCXLanguage language);
 }

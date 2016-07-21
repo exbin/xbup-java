@@ -34,8 +34,8 @@ public interface XBTProvider extends XBOutput  {
      * Produces single data.
      *
      * @param listener listener to send data to
-     * @throws XBProcessingException
-     * @throws IOException
+     * @throws XBProcessingException if processing error
+     * @throws java.io.IOException if input/output error
      */
     public void produceXBT(XBTListener listener) throws XBProcessingException, IOException;
 }

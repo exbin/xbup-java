@@ -35,8 +35,8 @@ public interface XBChildListener {
      * Puts beggining of block.
      *
      * @param terminationMode flag
-     * @throws XBProcessingException
-     * @throws IOException
+     * @throws XBProcessingException if processing error
+     * @throws java.io.IOException if input/output error
      */
     public void begin(XBBlockTerminationMode terminationMode) throws XBProcessingException, IOException;
 
@@ -44,8 +44,8 @@ public interface XBChildListener {
      * Puts block's attribute.
      *
      * @param attribute attribute value
-     * @throws XBProcessingException
-     * @throws IOException
+     * @throws XBProcessingException if processing error
+     * @throws java.io.IOException if input/output error
      */
     public void addAttribute(UBNatural attribute) throws XBProcessingException, IOException;
 
@@ -53,8 +53,8 @@ public interface XBChildListener {
      * Puts block's child.
      *
      * @param child serializable block
-     * @throws XBProcessingException
-     * @throws IOException
+     * @throws XBProcessingException if processing error
+     * @throws java.io.IOException if input/output error
      */
     public void addChild(XBSerializable child) throws XBProcessingException, IOException;
 
@@ -62,16 +62,16 @@ public interface XBChildListener {
      * Puts block's data.
      *
      * @param data data stream
-     * @throws XBProcessingException
-     * @throws IOException
+     * @throws XBProcessingException if processing error
+     * @throws java.io.IOException if input/output error
      */
     public void addData(InputStream data) throws XBProcessingException, IOException;
 
     /**
      * Puts end of block.
      *
-     * @throws XBProcessingException
-     * @throws IOException
+     * @throws XBProcessingException if processing error
+     * @throws java.io.IOException if input/output error
      */
     public void end() throws XBProcessingException, IOException;
 }

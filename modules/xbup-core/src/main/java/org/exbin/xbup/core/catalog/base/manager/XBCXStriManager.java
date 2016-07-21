@@ -32,7 +32,7 @@ public interface XBCXStriManager<T extends XBCXStri> extends XBCManager<T>, XBCE
     /**
      * Returns string index for given item.
      *
-     * @param item
+     * @param item item
      * @return string index
      */
     public XBCXStri getItemStringId(XBCItem item);

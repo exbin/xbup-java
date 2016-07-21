@@ -37,9 +37,9 @@ public interface XBListConsistSerializable extends XBSerializable {
     /**
      * Sets size of the list.
      *
-     * @param count
+     * @param size target size
      */
-    public void setSize(UBENatural count);
+    public void setSize(UBENatural size);
 
     /**
      * Resets position of the list order.

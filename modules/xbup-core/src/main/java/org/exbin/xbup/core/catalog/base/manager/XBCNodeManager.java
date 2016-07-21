@@ -112,7 +112,7 @@ public interface XBCNodeManager<T extends XBCNode> extends XBCCatalogManager<T> 
     /**
      * Returns Path of XBIndexes for given node.
      *
-     * @param node
+     * @param node node
      * @return catalog path
      */
     public Long[] getNodeXBPath(XBCNode node);

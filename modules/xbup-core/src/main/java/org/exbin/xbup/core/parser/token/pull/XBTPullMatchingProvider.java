@@ -35,8 +35,8 @@ public interface XBTPullMatchingProvider extends XBOutput {
      *
      * @param tokenType requesed token type
      * @return next token
-     * @throws XBProcessingException
-     * @throws IOException
+     * @throws XBProcessingException if processing error
+     * @throws java.io.IOException if input/output error
      */
     public XBTToken pullXBTToken(XBTTokenType tokenType) throws XBProcessingException, IOException;
 }

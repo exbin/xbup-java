@@ -37,8 +37,8 @@ public interface XBSListener extends XBListener {
      * @param terminationMode specify whether block is terminated
      * @param blockSize precomputed size of block or null if no precomputed size
      * is available
-     * @throws XBProcessingException
-     * @throws IOException
+     * @throws XBProcessingException if processing error
+     * @throws java.io.IOException if input/output error
      */
     public void beginXB(XBBlockTerminationMode terminationMode, UBNatural blockSize) throws XBProcessingException, IOException;
 }

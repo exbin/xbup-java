@@ -161,7 +161,7 @@ public interface XBCatalog {
      * Returns basic block type for given basic type.
      *
      * @param blockType block type
-     * @return
+     * @return basic block type
      */
     public XBBlockType getBasicBlockType(XBBasicBlockType blockType);
 }

@@ -65,7 +65,7 @@ public interface XBCSpecManager<T extends XBCSpec> extends XBCCatalogManager<T> 
     /**
      * Returns path of XBIndexes for given node.
      *
-     * @param node
+     * @param node node
      * @return catalog path
      */
     public Long[] getSpecXBPath(XBCSpec node);

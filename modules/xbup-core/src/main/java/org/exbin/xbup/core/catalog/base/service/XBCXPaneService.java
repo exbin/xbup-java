@@ -43,7 +43,7 @@ public interface XBCXPaneService<T extends XBCXBlockPane> extends XBCService<T>,
     /**
      * Gets count of panel editors for given revision.
      *
-     * @param revision
+     * @param revision revision
      * @return count of panel editors
      */
     public long getPanesCount(XBCBlockRev revision);
@@ -92,7 +92,7 @@ public interface XBCXPaneService<T extends XBCXBlockPane> extends XBCService<T>,
     /**
      * Gets editor panel plugin for given plugin and order index.
      *
-     * @param plugin
+     * @param plugin plugin
      * @param pane editor panel order index
      * @return editor panel plugin
      */

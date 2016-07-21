@@ -34,7 +34,7 @@ public interface XBCXNameManager<T extends XBCXName> extends XBCManager<T>, XBCE
     /**
      * Returns name for given item in default language.
      *
-     * @param item
+     * @param item item
      * @return name
      */
     public XBCXName getDefaultItemName(XBCItem item);
@@ -42,8 +42,8 @@ public interface XBCXNameManager<T extends XBCXName> extends XBCManager<T>, XBCE
     /**
      * Returns name for given item and language.
      *
-     * @param item
-     * @param language
+     * @param item item
+     * @param language language
      * @return name
      */
     public XBCXName getItemName(XBCItem item, XBCXLanguage language);
@@ -51,7 +51,7 @@ public interface XBCXNameManager<T extends XBCXName> extends XBCManager<T>, XBCE
     /**
      * Returns list of all names for given item.
      *
-     * @param item
+     * @param item item
      * @return list of names
      */
     public List<XBCXName> getItemNames(XBCItem item);

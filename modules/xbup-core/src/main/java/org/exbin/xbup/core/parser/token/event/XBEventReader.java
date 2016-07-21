@@ -71,7 +71,7 @@ public class XBEventReader implements XBEventProducer {
      * Opens input byte-stream.
      *
      * @param stream input stream
-     * @throws IOException
+     * @throws java.io.IOException if input/output error
      */
     public void open(InputStream stream) throws IOException {
         openStream(stream);
@@ -80,8 +80,8 @@ public class XBEventReader implements XBEventProducer {
     /**
      * Processes all events and send them to target.
      *
-     * @throws XBProcessingException
-     * @throws IOException
+     * @throws XBProcessingException if processing error
+     * @throws java.io.IOException if input/output error
      */
     public void read() throws XBProcessingException, IOException {
         // Process header
@@ -191,7 +191,7 @@ public class XBEventReader implements XBEventProducer {
     /**
      * Closes input stream.
      *
-     * @throws IOException
+     * @throws java.io.IOException if input/output error
      */
     public void close() throws IOException {
         source.close();

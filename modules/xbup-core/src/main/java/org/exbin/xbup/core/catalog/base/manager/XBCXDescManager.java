@@ -34,7 +34,7 @@ public interface XBCXDescManager<T extends XBCXDesc> extends XBCManager<T>, XBCE
     /**
      * Returns description for given item in default language.
      *
-     * @param item
+     * @param item node
      * @return description
      */
     public XBCXDesc getDefaultItemDesc(XBCItem item);
@@ -42,8 +42,8 @@ public interface XBCXDescManager<T extends XBCXDesc> extends XBCManager<T>, XBCE
     /**
      * Returns description for given item and language.
      *
-     * @param item
-     * @param language
+     * @param item item
+     * @param language language
      * @return description
      */
     public XBCXDesc getItemDesc(XBCItem item, XBCXLanguage language);
@@ -51,7 +51,7 @@ public interface XBCXDescManager<T extends XBCXDesc> extends XBCManager<T>, XBCE
     /**
      * Returns list of descriptions for given item.
      *
-     * @param item
+     * @param item item
      * @return descriptions
      */
     public List<XBCXDesc> getItemDescs(XBCItem item);

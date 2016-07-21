@@ -27,7 +27,7 @@ public interface XBCXPlugin extends XBCBase {
     /**
      * Gets node which is owner of this plugin.
      *
-     * @return
+     * @return owner node
      */
     public XBCNode getOwner();
 

@@ -67,7 +67,7 @@ public interface XBCXNameService<T extends XBCXName> extends XBCService<T>, XBCE
     /**
      * Gets name path as a list of dot separated name sequence.
      *
-     * @param item
+     * @param item item
      * @return name path string
      */
     public String getItemNamePath(XBCItem item);

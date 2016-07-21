@@ -77,8 +77,8 @@ public class XBPullWriter implements Closeable, XBPullConsumer {
     /**
      * Opens byte output stream.
      *
-     * @param stream
-     * @throws IOException
+     * @param stream output stream
+     * @throws java.io.IOException if input/output error
      */
     public void open(OutputStream stream) throws IOException {
         openStream(stream);

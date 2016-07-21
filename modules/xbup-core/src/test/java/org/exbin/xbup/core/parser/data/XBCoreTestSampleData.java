@@ -86,7 +86,7 @@ public class XBCoreTestSampleData {
      * Writes tokens matching file "block.xb".
      *
      * @param listener token listener
-     * @throws java.io.IOException
+     * @throws java.io.IOException if input/output error
      */
     public static void writeSampleEmpty(XBListener listener) throws XBProcessingException, IOException {
         listener.beginXB(XBBlockTerminationMode.SIZE_SPECIFIED);
@@ -98,7 +98,7 @@ public class XBCoreTestSampleData {
      * Writes tokens matching file "block.xb".
      *
      * @param listener token listener
-     * @throws java.io.IOException
+     * @throws java.io.IOException if input/output error
      */
     public static void writeSampleBlock(XBListener listener) throws XBProcessingException, IOException {
         listener.beginXB(XBBlockTerminationMode.SIZE_SPECIFIED);
@@ -110,7 +110,7 @@ public class XBCoreTestSampleData {
      * Writes tokens matching file "block_extended.xb".
      *
      * @param listener token listener
-     * @throws java.io.IOException
+     * @throws java.io.IOException if input/output error
      */
     public static void writeSampleBlockExtended(XBListener listener) throws XBProcessingException, IOException {
         listener.beginXB(XBBlockTerminationMode.SIZE_SPECIFIED);
@@ -124,7 +124,7 @@ public class XBCoreTestSampleData {
      * Writes tokens matching file "block_terminated.xb".
      *
      * @param listener token listener
-     * @throws java.io.IOException
+     * @throws java.io.IOException if input/output error
      */
     public static void writeSampleBlockTerminated(XBListener listener) throws XBProcessingException, IOException {
         listener.beginXB(XBBlockTerminationMode.TERMINATED_BY_ZERO);
@@ -136,7 +136,7 @@ public class XBCoreTestSampleData {
      * Writes tokens matching file "block_terminated_extended.xb".
      *
      * @param listener token listener
-     * @throws java.io.IOException
+     * @throws java.io.IOException if input/output error
      */
     public static void writeSampleBlockTerminatedExtended(XBListener listener) throws XBProcessingException, IOException {
         listener.beginXB(XBBlockTerminationMode.TERMINATED_BY_ZERO);
@@ -150,7 +150,7 @@ public class XBCoreTestSampleData {
      * Writes tokens matching file "data.xb".
      *
      * @param listener token listener
-     * @throws java.io.IOException
+     * @throws java.io.IOException if input/output error
      */
     public static void writeSampleData(XBListener listener) throws XBProcessingException, IOException {
         listener.beginXB(XBBlockTerminationMode.SIZE_SPECIFIED);
@@ -163,7 +163,7 @@ public class XBCoreTestSampleData {
      * Writes tokens matching file "data_extended.xb".
      *
      * @param listener token listener
-     * @throws java.io.IOException
+     * @throws java.io.IOException if input/output error
      */
     public static void writeSampleDataExtended(XBListener listener) throws XBProcessingException, IOException {
         listener.beginXB(XBBlockTerminationMode.SIZE_SPECIFIED);
@@ -178,7 +178,7 @@ public class XBCoreTestSampleData {
      * Writes tokens matching file "data_terminated.xb".
      *
      * @param listener token listener
-     * @throws java.io.IOException
+     * @throws java.io.IOException if input/output error
      */
     public static void writeSampleDataTerminated(XBListener listener) throws XBProcessingException, IOException {
         listener.beginXB(XBBlockTerminationMode.TERMINATED_BY_ZERO);
@@ -191,7 +191,7 @@ public class XBCoreTestSampleData {
      * Writes tokens matching file "data_terminated_extended.xb".
      *
      * @param listener token listener
-     * @throws java.io.IOException
+     * @throws java.io.IOException if input/output error
      */
     public static void writeSampleDataTerminatedExtended(XBListener listener) throws XBProcessingException, IOException {
         listener.beginXB(XBBlockTerminationMode.TERMINATED_BY_ZERO);
@@ -206,7 +206,7 @@ public class XBCoreTestSampleData {
      * Writes tokens matching file "block_data.xb".
      *
      * @param listener token listener
-     * @throws java.io.IOException
+     * @throws java.io.IOException if input/output error
      */
     public static void writeSampleBlockData(XBListener listener) throws XBProcessingException, IOException {
         listener.beginXB(XBBlockTerminationMode.SIZE_SPECIFIED);
@@ -222,7 +222,7 @@ public class XBCoreTestSampleData {
      * Writes tokens matching file "block_data_extended.xb".
      *
      * @param listener token listener
-     * @throws java.io.IOException
+     * @throws java.io.IOException if input/output error
      */
     public static void writeSampleBlockDataExtended(XBListener listener) throws XBProcessingException, IOException {
         listener.beginXB(XBBlockTerminationMode.SIZE_SPECIFIED);
@@ -240,7 +240,7 @@ public class XBCoreTestSampleData {
      * Writes tokens matching file "block_data_terminated.xb".
      *
      * @param listener token listener
-     * @throws java.io.IOException
+     * @throws java.io.IOException if input/output error
      */
     public static void writeSampleBlockDataTerminated(XBListener listener) throws XBProcessingException, IOException {
         listener.beginXB(XBBlockTerminationMode.TERMINATED_BY_ZERO);
@@ -256,7 +256,7 @@ public class XBCoreTestSampleData {
      * Writes tokens matching file "block_data_terminated_extended.xb".
      *
      * @param listener token listener
-     * @throws java.io.IOException
+     * @throws java.io.IOException if input/output error
      */
     public static void writeSampleBlockDataTerminatedExtended(XBListener listener) throws XBProcessingException, IOException {
         listener.beginXB(XBBlockTerminationMode.TERMINATED_BY_ZERO);
@@ -274,7 +274,7 @@ public class XBCoreTestSampleData {
      * Writes tokens matching file "block_data_hybrid.xb".
      *
      * @param listener token listener
-     * @throws java.io.IOException
+     * @throws java.io.IOException if input/output error
      */
     public static void writeSampleBlockDataHybrid(XBListener listener) throws XBProcessingException, IOException {
         listener.beginXB(XBBlockTerminationMode.TERMINATED_BY_ZERO);
@@ -290,7 +290,7 @@ public class XBCoreTestSampleData {
      * Writes tokens matching file "block_data_hybrid2.xb".
      *
      * @param listener token listener
-     * @throws java.io.IOException
+     * @throws java.io.IOException if input/output error
      */
     public static void writeSampleBlockDataHybrid2(XBListener listener) throws XBProcessingException, IOException {
         listener.beginXB(XBBlockTerminationMode.SIZE_SPECIFIED);
@@ -306,7 +306,7 @@ public class XBCoreTestSampleData {
      * Writes tokens matching file "two_blocks.xb".
      *
      * @param listener token listener
-     * @throws java.io.IOException
+     * @throws java.io.IOException if input/output error
      */
     public static void writeSampleTwoBlocks(XBListener listener) throws XBProcessingException, IOException {
         listener.beginXB(XBBlockTerminationMode.SIZE_SPECIFIED);
@@ -321,7 +321,7 @@ public class XBCoreTestSampleData {
      * Writes tokens matching file "two_blocks_extended.xb".
      *
      * @param listener token listener
-     * @throws java.io.IOException
+     * @throws java.io.IOException if input/output error
      */
     public static void writeSampleTwoBlocksExtended(XBListener listener) throws XBProcessingException, IOException {
         listener.beginXB(XBBlockTerminationMode.SIZE_SPECIFIED);
@@ -338,7 +338,7 @@ public class XBCoreTestSampleData {
      * Writes tokens matching file "two_blocks_terminated.xb".
      *
      * @param listener token listener
-     * @throws java.io.IOException
+     * @throws java.io.IOException if input/output error
      */
     public static void writeSampleTwoBlocksTerminated(XBListener listener) throws XBProcessingException, IOException {
         listener.beginXB(XBBlockTerminationMode.TERMINATED_BY_ZERO);
@@ -353,7 +353,7 @@ public class XBCoreTestSampleData {
      * Writes tokens matching file "two_blocks_terminated_extended.xb".
      *
      * @param listener token listener
-     * @throws java.io.IOException
+     * @throws java.io.IOException if input/output error
      */
     public static void writeSampleTwoBlocksTerminatedExtended(XBListener listener) throws XBProcessingException, IOException {
         listener.beginXB(XBBlockTerminationMode.TERMINATED_BY_ZERO);
@@ -370,7 +370,7 @@ public class XBCoreTestSampleData {
      * Writes tokens matching file "two_blocks_hybrid.xb".
      *
      * @param listener token listener
-     * @throws java.io.IOException
+     * @throws java.io.IOException if input/output error
      */
     public static void writeSampleTwoBlocksHybrid(XBListener listener) throws XBProcessingException, IOException {
         listener.beginXB(XBBlockTerminationMode.TERMINATED_BY_ZERO);
@@ -385,7 +385,7 @@ public class XBCoreTestSampleData {
      * Writes tokens matching file "two_blocks_hybrid2.xb".
      *
      * @param listener token listener
-     * @throws java.io.IOException
+     * @throws java.io.IOException if input/output error
      */
     public static void writeSampleTwoBlocksHybrid2(XBListener listener) throws XBProcessingException, IOException {
         listener.beginXB(XBBlockTerminationMode.SIZE_SPECIFIED);
@@ -400,7 +400,7 @@ public class XBCoreTestSampleData {
      * Writes tokens matching file "six_blocks.xb".
      *
      * @param listener token listener
-     * @throws java.io.IOException
+     * @throws java.io.IOException if input/output error
      */
     public static void writeSampleSixBlocks(XBListener listener) throws XBProcessingException, IOException {
         listener.beginXB(XBBlockTerminationMode.SIZE_SPECIFIED);
@@ -432,7 +432,7 @@ public class XBCoreTestSampleData {
      * Writes invalid sequence of tokens.
      *
      * @param listener token listener
-     * @throws java.io.IOException
+     * @throws java.io.IOException if input/output error
      */
     public static void writeCorruptedEndWithoutData(XBListener listener) throws XBProcessingException, IOException {
         listener.beginXB(XBBlockTerminationMode.SIZE_SPECIFIED);
@@ -443,7 +443,7 @@ public class XBCoreTestSampleData {
      * Writes invalid sequence of tokens.
      *
      * @param listener token listener
-     * @throws java.io.IOException
+     * @throws java.io.IOException if input/output error
      */
     public static void writeCorruptedDataAttributeMismatch(XBListener listener) throws XBProcessingException, IOException {
         listener.beginXB(XBBlockTerminationMode.SIZE_SPECIFIED);
@@ -456,7 +456,7 @@ public class XBCoreTestSampleData {
      * Writes invalid sequence of tokens.
      *
      * @param listener token listener
-     * @throws java.io.IOException
+     * @throws java.io.IOException if input/output error
      */
     public static void writeCorruptedDataAttributeMismatch2(XBListener listener) throws XBProcessingException, IOException {
         listener.beginXB(XBBlockTerminationMode.SIZE_SPECIFIED);
@@ -472,7 +472,7 @@ public class XBCoreTestSampleData {
      * Writes invalid sequence of tokens.
      *
      * @param listener token listener
-     * @throws java.io.IOException
+     * @throws java.io.IOException if input/output error
      */
     public static void writeCorruptedAttributeAfterEnd(XBListener listener) throws XBProcessingException, IOException {
         listener.beginXB(XBBlockTerminationMode.SIZE_SPECIFIED);

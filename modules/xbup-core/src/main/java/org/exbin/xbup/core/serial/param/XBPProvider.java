@@ -111,7 +111,7 @@ public interface XBPProvider {
      * Pulls content of empty data token if present.
      *
      * @return true if empty data was present
-     * @throws java.io.IOException
+     * @throws java.io.IOException if input/output error
      */
     public boolean pullIfEmptyData() throws XBProcessingException, IOException;
 
@@ -119,7 +119,7 @@ public interface XBPProvider {
      * Pulls empty data block if present.
      *
      * @return true if empty data was present
-     * @throws java.io.IOException
+     * @throws java.io.IOException if input/output error
      */
     public boolean pullIfEmptyBlock() throws XBProcessingException, IOException;
 
@@ -190,8 +190,8 @@ public interface XBPProvider {
      * Pulls given sequence item.
      *
      * @param item serializable object
-     * @throws XBProcessingException
-     * @throws IOException
+     * @throws XBProcessingException if not matching
+     * @throws java.io.IOException if input/output error
      */
     public void pullItem(XBSerialSequenceItem item) throws XBProcessingException, IOException;
 

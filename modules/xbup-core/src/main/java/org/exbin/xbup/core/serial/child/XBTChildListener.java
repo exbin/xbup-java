@@ -36,8 +36,8 @@ public interface XBTChildListener {
      * Puts beggining of block.
      *
      * @param terminationMode flag
-     * @throws XBProcessingException
-     * @throws IOException
+     * @throws XBProcessingException if processing error
+     * @throws java.io.IOException if input/output error
      */
     public void putBegin(XBBlockTerminationMode terminationMode) throws XBProcessingException, IOException;
 
@@ -45,8 +45,8 @@ public interface XBTChildListener {
      * Puts block type.
      *
      * @param type block type
-     * @throws XBProcessingException
-     * @throws IOException
+     * @throws XBProcessingException if processing error
+     * @throws java.io.IOException if input/output error
      */
     public void putType(XBBlockType type) throws XBProcessingException, IOException;
 
@@ -54,8 +54,8 @@ public interface XBTChildListener {
      * Puts block attribute.
      *
      * @param attribute attribute value
-     * @throws XBProcessingException
-     * @throws IOException
+     * @throws XBProcessingException if processing error
+     * @throws java.io.IOException if input/output error
      */
     public void putAttribute(UBNatural attribute) throws XBProcessingException, IOException;
 
@@ -63,8 +63,8 @@ public interface XBTChildListener {
      * Puts block attribute.
      *
      * @param attributeValue attribute value
-     * @throws XBProcessingException
-     * @throws IOException
+     * @throws XBProcessingException if processing error
+     * @throws java.io.IOException if input/output error
      */
     public void putAttribute(byte attributeValue) throws XBProcessingException, IOException;
 
@@ -73,8 +73,8 @@ public interface XBTChildListener {
      *
      * @param attributeValue attribute value, only non-negative values are
      * accepted
-     * @throws XBProcessingException
-     * @throws IOException
+     * @throws XBProcessingException if processing error
+     * @throws java.io.IOException if input/output error
      */
     public void putAttribute(short attributeValue) throws XBProcessingException, IOException;
 
@@ -83,8 +83,8 @@ public interface XBTChildListener {
      *
      * @param attributeValue attribute value, only non-negative values are
      * accepted
-     * @throws XBProcessingException
-     * @throws IOException
+     * @throws XBProcessingException if processing error
+     * @throws java.io.IOException if input/output error
      */
     public void putAttribute(int attributeValue) throws XBProcessingException, IOException;
 
@@ -93,8 +93,8 @@ public interface XBTChildListener {
      *
      * @param attributeValue attribute value, only non-negative values are
      * accepted
-     * @throws XBProcessingException
-     * @throws IOException
+     * @throws XBProcessingException if processing error
+     * @throws java.io.IOException if input/output error
      */
     public void putAttribute(long attributeValue) throws XBProcessingException, IOException;
 
@@ -102,8 +102,8 @@ public interface XBTChildListener {
      * Puts block's child.
      *
      * @param child serializable block
-     * @throws XBProcessingException
-     * @throws IOException
+     * @throws XBProcessingException if processing error
+     * @throws java.io.IOException if input/output error
      */
     public void putChild(XBSerializable child) throws XBProcessingException, IOException;
 
@@ -111,8 +111,8 @@ public interface XBTChildListener {
      * Puts serializable object appending all tokens.
      *
      * @param serial serializable object
-     * @throws XBProcessingException
-     * @throws IOException
+     * @throws XBProcessingException if processing error
+     * @throws java.io.IOException if input/output error
      */
     public void putAppend(XBSerializable serial) throws XBProcessingException, IOException;
 
@@ -120,16 +120,16 @@ public interface XBTChildListener {
      * Puts block data.
      *
      * @param data data stream
-     * @throws XBProcessingException
-     * @throws IOException
+     * @throws XBProcessingException if processing error
+     * @throws java.io.IOException if input/output error
      */
     public void putData(InputStream data) throws XBProcessingException, IOException;
 
     /**
      * Puts end of block.
      *
-     * @throws XBProcessingException
-     * @throws IOException
+     * @throws XBProcessingException if processing error
+     * @throws java.io.IOException if input/output error
      */
     public void putEnd() throws XBProcessingException, IOException;
 }

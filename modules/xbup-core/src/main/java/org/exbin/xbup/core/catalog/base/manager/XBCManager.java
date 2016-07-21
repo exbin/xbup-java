@@ -38,14 +38,14 @@ public interface XBCManager<T extends XBCBase> {
     /**
      * Updates item state to persistent repository.
      *
-     * @param item to update
+     * @param item item to update
      */
     public void persistItem(T item);
 
     /**
      * Deletes item from persistent repository.
      *
-     * @param item
+     * @param item item to remove
      */
     public void removeItem(T item);
 

@@ -84,8 +84,8 @@ public class XBPullReader implements XBPullProvider, XBResetableStream, XBSkipab
     /**
      * Opens byte input stream.
      *
-     * @param stream
-     * @throws IOException
+     * @param stream input stream
+     * @throws java.io.IOException if input/output error
      */
     public void open(InputStream stream) throws IOException {
         openStream(stream);
@@ -140,7 +140,7 @@ public class XBPullReader implements XBPullProvider, XBResetableStream, XBSkipab
      * Indicates parsing completeness.
      *
      * @return true if complete
-     * @throws IOException
+     * @throws java.io.IOException if input/output error
      */
     @Override
     public boolean isFinishedXB() throws IOException {
@@ -168,7 +168,7 @@ public class XBPullReader implements XBPullProvider, XBResetableStream, XBSkipab
      * Main pull reader parser processing method.
      *
      * @return next recognized event item in stream
-     * @throws java.io.IOException
+     * @throws java.io.IOException if input/output error
      */
     @Override
     public XBToken pullXBToken() throws XBProcessingException, IOException {

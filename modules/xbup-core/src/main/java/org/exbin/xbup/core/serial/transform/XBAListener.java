@@ -34,8 +34,8 @@ public interface XBAListener extends XBPListener {
      *
      * @param type block type
      * @param targetType requested target type
-     * @throws XBProcessingException
-     * @throws IOException
+     * @throws XBProcessingException if processing error
+     * @throws java.io.IOException if input/output error
      */
     public void putType(XBBlockType type, XBBlockType targetType) throws XBProcessingException, IOException;
 }

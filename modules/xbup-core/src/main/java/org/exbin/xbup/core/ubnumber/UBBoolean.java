@@ -40,7 +40,7 @@ public interface UBBoolean extends Serializable, UBStreamable, XBEditableAttribu
     /**
      * Sets boolean value.
      *
-     * @param value
+     * @param value value
      */
     public void setValue(boolean value) throws UBOverFlowException;
 

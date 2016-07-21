@@ -40,7 +40,7 @@ public interface XBCXPlugManager<T extends XBCXPlugin> extends XBCManager<T>, XB
     /**
      * Returns path of XBIndexes for given plugin.
      *
-     * @param plugin
+     * @param plugin plugin
      * @return xbindex path
      */
     public Long[] getPluginXBPath(XBCXPlugin plugin);
@@ -48,7 +48,7 @@ public interface XBCXPlugManager<T extends XBCXPlugin> extends XBCManager<T>, XB
     /**
      * Finds plugin by unique index.
      *
-     * @param id
+     * @param id plugin id
      * @return plugin
      */
     public XBCXPlugin findById(long id);

@@ -35,7 +35,7 @@ public interface XBCXPaneManager<T extends XBCXBlockPane> extends XBCManager<T>,
     /**
      * Gets list of all panel editors for given revision.
      *
-     * @param revision
+     * @param revision revision
      * @return panel editors
      */
     public List<XBCXBlockPane> getPanes(XBCBlockRev revision);
@@ -43,7 +43,7 @@ public interface XBCXPaneManager<T extends XBCXBlockPane> extends XBCManager<T>,
     /**
      * Gets count of panel editors for given revision.
      *
-     * @param revision
+     * @param revision revision
      * @return count of panel editors
      */
     public long getPanesCount(XBCBlockRev revision);
@@ -51,8 +51,8 @@ public interface XBCXPaneManager<T extends XBCXBlockPane> extends XBCManager<T>,
     /**
      * Gets panel editor for given revision and priority
      *
-     * @param revision
-     * @param priority
+     * @param revision revision
+     * @param priority priority
      * @return panel editor
      */
     public XBCXBlockPane findPaneByPR(XBCBlockRev revision, long priority);
@@ -76,7 +76,7 @@ public interface XBCXPaneManager<T extends XBCXBlockPane> extends XBCManager<T>,
     /**
      * Gets list of all plugin panels.
      *
-     * @param plugin
+     * @param plugin plugin
      * @return plugin panels
      */
     public List<XBCXPlugPane> getPlugPanes(XBCXPlugin plugin);
@@ -84,7 +84,7 @@ public interface XBCXPaneManager<T extends XBCXBlockPane> extends XBCManager<T>,
     /**
      * Gets count of panel editors for given plugin.
      *
-     * @param plugin
+     * @param plugin plugin
      * @return count of plugin panels
      */
     public long getPlugPanesCount(XBCXPlugin plugin);
@@ -92,8 +92,8 @@ public interface XBCXPaneManager<T extends XBCXBlockPane> extends XBCManager<T>,
     /**
      * Gets plugin panel editor for plugin.
      *
-     * @param plugin
-     * @param pane
+     * @param plugin plugin
+     * @param pane panel editor index
      * @return plugin panel
      */
     public XBCXPlugPane getPlugPane(XBCXPlugin plugin, long pane);

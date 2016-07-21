@@ -36,7 +36,7 @@ public interface XBCXIconService<T extends XBCXIcon> extends XBCService<T>, XBCE
     /**
      * Gets icon mode.
      *
-     * @param iconModeIndex
+     * @param iconModeIndex icon mode index
      * @return icon mode
      */
     public XBCXIconMode getIconMode(Long iconModeIndex);

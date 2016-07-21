@@ -33,8 +33,8 @@ public interface XBEventListener extends XBInput {
      * Puts next token.
      *
      * @param token passed token
-     * @throws XBProcessingException
-     * @throws IOException
+     * @throws XBProcessingException if processing error
+     * @throws java.io.IOException if input/output error
      */
     public void putXBToken(XBToken token) throws XBProcessingException, IOException;
 }

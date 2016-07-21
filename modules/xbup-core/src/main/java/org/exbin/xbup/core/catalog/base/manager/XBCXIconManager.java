@@ -36,15 +36,15 @@ public interface XBCXIconManager<T extends XBCXIcon> extends XBCManager<T>, XBCE
     /**
      * Gets icon mode by unique index.
      *
-     * @param type
+     * @param iconModeId icon mode id
      * @return icon mode
      */
-    public XBCXIconMode getIconMode(Long type);
+    public XBCXIconMode getIconMode(Long iconModeId);
 
     /**
      * Gets list of icons for block specification.
      *
-     * @param blockSpec
+     * @param blockSpec block specification
      * @return list of icons
      */
     public List<XBCXIcon> getBlockSpecIcons(XBCBlockSpec blockSpec);
@@ -52,7 +52,7 @@ public interface XBCXIconManager<T extends XBCXIcon> extends XBCManager<T>, XBCE
     /**
      * Gets default icon for item.
      *
-     * @param item
+     * @param item item
      * @return icon
      */
     public XBCXIcon getDefaultIcon(XBCItem item);

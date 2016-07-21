@@ -37,9 +37,9 @@ public interface XBListJoinSerializable extends XBSerializable {
     /**
      * Sets size of the list.
      *
-     * @param count
+     * @param size target size
      */
-    public void setSize(UBNatural count);
+    public void setSize(UBNatural size);
 
     /**
      * Resets position of the list order.

@@ -80,7 +80,7 @@ public interface XBTEditableBlock extends XBTBlock {
     /**
      * Removes attribute on given position.
      *
-     * @param attributeIndex
+     * @param attributeIndex attribute index
      */
     public void removeAttribute(int attributeIndex);
 
@@ -129,7 +129,7 @@ public interface XBTEditableBlock extends XBTBlock {
     /**
      * Removes child on given position.
      *
-     * @param childIndex
+     * @param childIndex child index
      */
     public void removeChild(int childIndex);
 

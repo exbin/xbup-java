@@ -33,8 +33,8 @@ public interface XBPullProvider extends XBOutput {
      * Pulls next token.
      *
      * @return next token
-     * @throws XBProcessingException
-     * @throws IOException
+     * @throws XBProcessingException if processing error
+     * @throws java.io.IOException if input/output error
      */
     public XBToken pullXBToken() throws XBProcessingException, IOException;
 }

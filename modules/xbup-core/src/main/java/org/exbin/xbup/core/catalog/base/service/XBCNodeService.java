@@ -33,7 +33,7 @@ public interface XBCNodeService<T extends XBCNode> extends XBCService<T> {
     /**
      * Returns specification tree root node.
      *
-     * @return
+     * @return root node
      */
     public XBCNode getRootNode();
 
@@ -49,7 +49,7 @@ public interface XBCNodeService<T extends XBCNode> extends XBCService<T> {
      * Returns subnode of given index.
      *
      * @param parentNode parent node
-     * @param index
+     * @param index sub node index
      * @return node or null
      */
     public XBCNode getSubNode(XBCNode parentNode, long index);
@@ -66,7 +66,7 @@ public interface XBCNodeService<T extends XBCNode> extends XBCService<T> {
      * Returns n-th node from all subnodes sequence.
      *
      * @param parentNode parent node
-     * @param sequenceIndex
+     * @param sequenceIndex sequence index
      * @return node or null
      */
     public XBCNode getSubNodeSeq(XBCNode parentNode, long sequenceIndex);

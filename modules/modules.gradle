@@ -7,7 +7,7 @@ sourceCompatibility = '1.7'
 version = '0.2.0-SNAPSHOT'
 def repositoryName = "xbup-java"
 def libraryUrl = 'http://xbup.exbin.org'
-ext.exbinUtilsVersion = '0.1.0-SNAPSHOT'
+ext.exbinUtilsVersion = '0.1.1-SNAPSHOT'
 
 [compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
 

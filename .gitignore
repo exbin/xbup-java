@@ -1,7 +1,7 @@
 .gradle
 .nb-gradle
 .nb-gradle-properties
-deps/
+deps/*/
 build/
 target/
 /release

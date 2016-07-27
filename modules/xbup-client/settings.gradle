@@ -2,4 +2,4 @@ rootProject.name = 'xbup-client'
 
 include ":modules:xbup-core"
 
-apply from: '../modules-settings.gradle'
+apply from: '../xbup-java-modules-settings.gradle'

@@ -2,7 +2,7 @@ group = 'org.exbin.xbup'
 ext.libraryName = 'XBUP Tree Parser Library'
 ext.libraryDescription = 'Library for XBUP tree parsing'
 
-apply from: '../modules.gradle'
+apply from: '../xbup-java-modules.gradle'
 
 if (!hasProperty('mainClass')) {
     ext.mainClass = ''
@@ -15,7 +15,7 @@ repositories {
 
 dependencies {
     compile(project(':modules:xbup-core'))
-    compile "org.exbin.utils:exbin-binary_data:${exbinUtilsVersion}"
+    compile moduleDep('ExbinUtils', 'org.exbin.utils', 'exbin-binary_data')
     testCompile group: 'junit', name: 'junit', version: '4.10'    
     testCompile project(path: ':modules:xbup-core', configuration: 'tests')
 }

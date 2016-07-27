@@ -1,16 +1,67 @@
-apply plugin: 'base'
-apply plugin: 'distribution'
-apply plugin: 'maven-publish'
 version = '0.2.0-SNAPSHOT'
 
-task wrapper(type: Wrapper, description: 'Creates and deploys the Gradle wrapper to the current directory.') {
-    gradleVersion = '2.1'
+buildscript {
+    repositories {
+        mavenLocal()
+        jcenter()
+    }
+    dependencies {
+        classpath("at.bxm.gradleplugins:gradle-svntools-plugin:latest.integration")
+    }
 }
+
+['base', 'distribution', 'maven-publish', 'at.bxm.svntools'].each {
+    apply plugin: it
+}
+
+task wrapper(type: Wrapper, description: 'Creates and deploys the Gradle wrapper to the current directory.') {
+    gradleVersion = '2.14'
+}
+
+task('cleanDeps') << {
+    println "Deleting temporary dependency modules"
+    File depsCheckFile = rootProject.file("deps/dependency.txt")
+    if (depsCheckFile.exists()) {
+        File depsDir = rootProject.file("deps")
+        depsDir.listFiles().each() { childFile ->
+            if (childFile.isDirectory()) {
+                project.delete(childFile)
+            }
+        }
+    } else {
+        throw new Exception('Invalid dependency path')
+    }
+}
+
+clean.dependsOn cleanDeps
 
 subprojects.each { subproject -> evaluationDependsOn(subproject.path) }
 
 publish.dependsOn {
     project(':modules').subprojects.publish
+}
+
+if (file("deps/_placeholder").exists()) {
+    // Perform restart for new dependency handling
+    def depsLevel
+    if (project.gradle.startParameter.hasProperty('moduleDep')) {
+        depsLevel = project.gradle.startParameter.properties['moduleDep'] + 1
+    } else {
+        depsLevel = 1
+    }
+    def artefactBuild = project.tasks.create([name: "depsRebuild_${depsLevel}", type: GradleBuild])
+    artefactBuild.buildFile = project.file('build.gradle')
+    artefactBuild.tasks = project.gradle.startParameter.taskNames
+
+    def artefactProjectProperties = artefactBuild.startParameter.projectProperties
+    def currentProjectProperties = project.gradle.startParameter.projectProperties
+    artefactProjectProperties << currentProjectProperties
+    artefactProjectProperties << ['moduleDep': depsLevel]
+
+    artefactBuild.execute()
+    
+    // TODO: Terminate current execution
+    throw new StopActionException("task terminated")
 }
 
 distributions {

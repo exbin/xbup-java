@@ -3,4 +3,4 @@ rootProject.name = 'xbup-operation'
 include ":modules:xbup-core"
 include ":modules:xbup-parser-tree"
 
-apply from: '../modules-settings.gradle'
+apply from: '../xbup-java-modules-settings.gradle'

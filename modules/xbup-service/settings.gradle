@@ -4,4 +4,4 @@ include ":modules:xbup-core"
 include ":modules:xbup-catalog"
 include ":modules:xbup-client"
 
-apply from: '../modules-settings.gradle'
+apply from: '../xbup-java-modules-settings.gradle'

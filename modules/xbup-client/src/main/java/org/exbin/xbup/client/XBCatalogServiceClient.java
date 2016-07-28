@@ -34,14 +34,14 @@ public interface XBCatalogServiceClient extends XBServiceClient {
      * @param user user name
      * @param password password
      * @return TODO: 1 if successful, 0 if fails
-     * @throws IOException
+     * @throws IOException if input/output error
      */
     public int login(String user, char[] password) throws IOException;
 
     /**
      * Returns version of service.
      *
-     * @return
+     * @return version
      */
     public String getVersion();
 

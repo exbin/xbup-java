@@ -76,17 +76,20 @@ def createSvnDownloadTask(def moduleName, def svnUrlValue, def targetDirValue) {
 // - otherwise module will be download to deps folder
 project.dependencies.ext.moduleDep = { depsName, packageName, moduleName ->
     def mavenModuleDir = repositories.mavenLocal().url.path + packageName.replace('.', '/') + '/' + moduleName + '/' + ext['deps' + depsName].version
-    if (!new File(mavenModuleDir).isDirectory()) {
+    if (new File(mavenModuleDir).isDirectory()) {
         // Use maven package if available
         return packageName + ':' + moduleName + ':' + ext['deps' + depsName].version
     }
 
+    def depsDir = project.buildDir.parentFile.parentFile.parent + '/deps/'
     if (gradle.startParameter.taskNames.contains("clean") && !gradle.startParameter.projectProperties.containsKey("moduleDep")) {
         // Report as placeholder dependency
+        if (!new File(depsDir + "_placeholder").exists()) {
+            new File(depsDir + "_placeholder").mkdir()
+        }
         return project(':deps')
-    }    
+    }
 
-    def depsDir = project.buildDir.parentFile.parentFile.parent + '/deps/'
     def depModuleDir = depsDir + moduleName
     if (!new File(depModuleDir).isDirectory()) {
         // Download module
@@ -97,13 +100,15 @@ project.dependencies.ext.moduleDep = { depsName, packageName, moduleName ->
         tasks["svnDownload${moduleName}"].execute()
         
         // Report as placeholder dependency
-        new File(depsDir + "_placeholder").mkdir()
+        if (!new File(depsDir + "_placeholder").exists()) {
+            new File(depsDir + "_placeholder").mkdir()
+        }
         return project(':deps')
     }
 
     if (new File(depsDir + "_placeholder").exists()) {
         return project(':deps')
-    }    
+    }
 
     return project(':deps:' + moduleName)
 }

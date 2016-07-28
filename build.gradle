@@ -24,7 +24,7 @@ task('cleanDeps') << {
     if (depsCheckFile.exists()) {
         File depsDir = rootProject.file("deps")
         depsDir.listFiles().each() { childFile ->
-            if (childFile.isDirectory()) {
+            if (childFile.name != '_placeholder' && childFile.isDirectory()) {
                 project.delete(childFile)
             }
         }
@@ -33,7 +33,9 @@ task('cleanDeps') << {
     }
 }
 
-clean.dependsOn cleanDeps
+if (!project.gradle.startParameter.projectProperties.containsKey("moduleDep")) {
+    clean.dependsOn cleanDeps
+}
 
 subprojects.each { subproject -> evaluationDependsOn(subproject.path) }
 
@@ -41,11 +43,11 @@ publish.dependsOn {
     project(':modules').subprojects.publish
 }
 
-if (file("deps/_placeholder").exists()) {
+if (file('deps/_placeholder').exists()) {
     // Perform restart for new dependency handling
     def depsLevel
-    if (project.gradle.startParameter.hasProperty('moduleDep')) {
-        depsLevel = project.gradle.startParameter.properties['moduleDep'] + 1
+    if (project.gradle.startParameter.projectProperties.containsKey('moduleDep')) {
+        depsLevel = project.gradle.startParameter.projectProperties['moduleDep'] + 1
     } else {
         depsLevel = 1
     }
@@ -58,52 +60,62 @@ if (file("deps/_placeholder").exists()) {
     artefactProjectProperties << currentProjectProperties
     artefactProjectProperties << ['moduleDep': depsLevel]
 
+    // Terminate currently invalid tasks
+    // TODO: Fix support for other tasks like distZip
+    subprojects.each { subproject ->
+        if (subproject.tasks.findByPath('assemble') != null) {
+            subproject.tasks['assemble'].setDependsOn([])
+        }
+    }
+    if (project.tasks.findByPath('assemble') != null) {
+        project.tasks['assemble'].setDependsOn([])
+    }
+
     artefactBuild.execute()
-    
-    // TODO: Terminate current execution
-    throw new StopActionException("task terminated")
 }
 
-distributions {
-    main {
-        contents {
-            duplicatesStrategy = 'exclude'
+if (!project.gradle.startParameter.projectProperties.containsKey("moduleDep")) {
+    distributions {
+        main {
+            contents {
+                duplicatesStrategy = 'exclude'
 
-            from project.rootDir
-            include 'lgpl-3.0.txt', 'gpl-3.0.txt'
-            from 'src/dist'
-            include 'readme.txt'
+                from project.rootDir
+                include 'lgpl-3.0.txt', 'gpl-3.0.txt'
+                from 'src/dist'
+                include 'readme.txt'
 
-            into('lib') {
-                from 'lib'
-            }
-            project(':modules').subprojects.each { p ->
-                p.plugins.withType(JavaPlugin) {
-                    into('lib') {
-                        from p.jar.archivePath
-                        include '*'
-                        from p.configurations.runtime
-                        include '*'
-                    }
-                    into('') {
-                        from p.jar
-                        include '*'
-                        from p.sourceJar
-                        include '*'
-                        from p.javadocJar
-                        include '*'
+                into('lib') {
+                    from 'lib'
+                }
+                project(':modules').subprojects.each { p ->
+                    p.plugins.withType(JavaPlugin) {
+                        into('lib') {
+                            from p.jar.archivePath
+                            include '*'
+                            from p.configurations.runtime
+                            include '*'
+                        }
+                        into('') {
+                            from p.jar
+                            include '*'
+                            from p.sourceJar
+                            include '*'
+                            from p.javadocJar
+                            include '*'
+                        }
                     }
                 }
-            }
 
-            into('doc') {
-                from 'doc'
-                include '**'
-            }
-            into('resources') {
-                from 'resources'
-                include '**'
-                exclude 'private'
+                into('doc') {
+                    from 'doc'
+                    include '**'
+                }
+                into('resources') {
+                    from 'resources'
+                    include '**'
+                    exclude 'private'
+                }
             }
         }
     }

@@ -53,7 +53,7 @@ public interface XBPManagerStub<T extends XBCBase> {
     /**
      * Deletes item from persistent repository.
      *
-     * @param item
+     * @param item item
      */
     public void removeItem(T item);
 

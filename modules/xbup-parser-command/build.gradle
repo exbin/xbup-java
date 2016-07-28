@@ -27,5 +27,5 @@ dependencies {
     compile 'org.yaml:snakeyaml:1.13'
     compile moduleDep('ExbinUtils', 'org.exbin.utils', 'exbin-binary_data')
     testCompile group: 'junit', name: 'junit', version: '4.10'    
-    testCompile project(path: ':modules:xbup-core', configuration: 'tests')
+    testCompile project(path: moduleDepPath('XbupJava', 'xbup-core'), configuration: 'tests')
 }

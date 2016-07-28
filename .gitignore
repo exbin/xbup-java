@@ -6,7 +6,6 @@
 !/deps/*.gradle
 build/
 target/
-/release
 *~
 /resources/private/
-/tools/xbcatalogweb/pom.xml
+

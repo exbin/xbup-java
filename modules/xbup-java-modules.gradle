@@ -22,7 +22,7 @@ buildscript {
     }
 }
 
-['java', 'maven-publish', 'at.bxm.svntools'].each {
+['java', 'maven-publish', 'at.bxm.svntools', 'signing'].each {
     apply plugin: it
 }
 
@@ -88,11 +88,7 @@ project.dependencies.ext.moduleDep = { depsName, packageName, moduleName ->
     }
 
     def depsDir = project.buildDir.parentFile.parentFile.parent + '/deps/'
-    if (gradle.startParameter.taskNames.contains("clean") && !gradle.startParameter.projectProperties.containsKey("moduleDep")) {
-        // Report as placeholder dependency
-        if (!new File(depsDir + "_placeholder").exists()) {
-            new File(depsDir + "_placeholder").mkdir()
-        }
+    if (gradle.startParameter.taskNames == ['clean']) {
         return project(':deps')
     }
 
@@ -119,12 +115,20 @@ project.dependencies.ext.moduleDep = { depsName, packageName, moduleName ->
     return project(':deps:' + moduleName)
 }
 
+project.dependencies.ext.moduleDepPath = { depsName, moduleName ->
+    if (depsName == ext.depsThis) {
+        return ":modules:${moduleName}"
+    }
+
+    return ":deps:${moduleName}"
+}
+
 publishing {
     publications {
         maven(MavenPublication) {
             from components.java
             artifact sourceJar {
-                classifier "sources"
+                classifier 'sources'
             }
             artifact (javadocJar) {
                 classifier = 'javadoc'
@@ -164,3 +168,59 @@ publishing {
         mavenLocal()
     }
 }
+
+if (gradle.startParameter.taskNames.contains("uploadArchives") && !version.endsWith('-SNAPSHOT')) {
+    artifacts {
+        archives javadocJar, sourceJar
+    }
+
+    signing {
+        sign configurations.archives
+    }
+
+    uploadArchives {
+        repositories {
+            mavenDeployer {
+                beforeDeployment {
+                    MavenDeployment deployment -> signing.signPom(deployment)
+                }
+
+                repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
+                    authentication(userName: ossrhUsername, password: ossrhPassword)
+                }
+
+                snapshotRepository(url: "https://oss.sonatype.org/content/repositories/snapshots/") {
+                    authentication(userName: ossrhUsername, password: ossrhPassword)
+                }
+
+                pom.project {
+                    name libraryName
+                    packaging 'jar'
+                    description libraryDescription
+                    url libraryUrl
+                
+                    scm {
+                        url "https://github.com/exbin/${repositoryName}"
+                        connection "cm:git:git://github.com/exbin/${repositoryName}.git"
+                        developerConnection "scm:git:git@github.com:exbin/${repositoryName}.git"
+                    }
+                    licenses {
+                        license {
+                            name 'Apache License, Version 2.0'
+                            url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                            distribution 'repo'
+                        }
+                    }
+                    developers {
+                        developer {
+                            id 'HajdaM'
+                            name 'Miroslav Hajda'
+                            email 'hajdam@users.sf.net'
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+

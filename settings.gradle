@@ -25,3 +25,4 @@ if (!gradle.startParameter.taskNames.contains("clean") || gradle.startParameter.
         }
     }
 }
+

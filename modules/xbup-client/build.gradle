@@ -15,6 +15,6 @@ repositories {
 
 dependencies {
     compile moduleDep('XbupJava', 'org.exbin.xbup', 'xbup-core')
-    compile moduleDep('ExbinUtils', 'org.exbin.utils', 'exbin-binary_data')
+    compile moduleDep('ExbinUtilsJava', 'org.exbin.utils', 'exbin-binary_data')
     testCompile group : 'junit', name: 'junit', version: '4.10'
 }

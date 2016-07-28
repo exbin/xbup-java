@@ -4,7 +4,7 @@ version = '0.2.0-SNAPSHOT'
 def repositoryName = "xbup-java"
 def libraryUrl = 'http://xbup.exbin.org'
 
-ext.depsExbinUtils = [
+ext.depsExbinUtilsJava = [
     githubProfile: 'exbin',
     githubRepo: 'exbin-utils-java',
     version: '0.1.1-SNAPSHOT'

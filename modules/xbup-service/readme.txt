@@ -1,7 +1,8 @@
-XBUP Java Catalog Library
+XBUP Java Service Library
 =========================
 
-This is experimental library for XBUP catalog support written in Java.
+Library for XBUP service support written in Java.
 
 Homepage: http://xbup.exbin.org
+License: GNU/LGPL (see lgpl-3.0.txt)
 

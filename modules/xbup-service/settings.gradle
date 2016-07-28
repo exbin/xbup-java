@@ -1,7 +1,3 @@
 rootProject.name = 'xbup-service'
 
-include ":modules:xbup-core"
-include ":modules:xbup-catalog"
-include ":modules:xbup-client"
-
 apply from: '../xbup-java-modules-settings.gradle'

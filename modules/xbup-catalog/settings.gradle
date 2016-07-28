@@ -1,6 +1,3 @@
 rootProject.name = 'xbup-catalog'
 
-include ":modules:xbup-core"
-include ":modules:org.exbin.framework-client"
-
 apply from: '../xbup-java-modules-settings.gradle'

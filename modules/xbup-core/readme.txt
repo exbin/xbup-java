@@ -10,3 +10,4 @@ This is library for core XBUP support. It covers following areas:
 
 Homepage: http://xbup.exbin.org
 License: GNU/LGPL (see lgpl-3.0.txt)
+

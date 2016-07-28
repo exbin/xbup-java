@@ -1,0 +1,4 @@
+// Dummy dependency project
+
+apply plugin: 'java'
+

@@ -12,16 +12,6 @@ ext.depsExbinUtilsJava = [
 
 ext.depsThis = 'XbupJava'
 
-buildscript {
-    repositories {
-        mavenLocal()
-        jcenter()
-    }
-    dependencies {
-        classpath("at.bxm.gradleplugins:gradle-svntools-plugin:latest.integration")
-    }
-}
-
 ['java', 'maven-publish', 'at.bxm.svntools', 'signing'].each {
     apply plugin: it
 }

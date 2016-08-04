@@ -1,3 +1,7 @@
 rootProject.name = 'xbup-parser-tree'
 
+if (rootProject.path == ':') {
+    include ':modules:xbup-core'
+}
+
 apply from: '../xbup-java-modules-settings.gradle'

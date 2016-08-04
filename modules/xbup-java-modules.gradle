@@ -68,7 +68,7 @@ def createSvnDownloadTask(def moduleName, def svnUrlValue, def targetDirValue) {
 // - otherwise module will be download to deps folder
 project.dependencies.ext.moduleDep = { depsName, packageName, moduleName ->
     if (depsName == ext.depsThis) {
-        return project(":modules:" + moduleName)
+        return project(':modules:' + moduleName)
     }
 
     def mavenModuleDir = repositories.mavenLocal().url.path + packageName.replace('.', '/') + '/' + moduleName + '/' + ext['deps' + depsName].version

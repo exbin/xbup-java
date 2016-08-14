@@ -17,6 +17,7 @@
 package org.exbin.xbup.plugin;
 
 import java.io.File;
+import java.io.FileFilter;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
@@ -42,7 +43,7 @@ import org.exbin.xbup.core.serial.param.XBPProviderSerialHandler;
 /**
  * XBUP default implementation of the modules repository.
  *
- * @version 0.2.0 2016/06/21
+ * @version 0.2.0 2016/08/14
  * @author ExBin Project (http://exbin.org)
  */
 public class XBDefaultModuleRepository implements XBModuleRepository {
@@ -65,6 +66,31 @@ public class XBDefaultModuleRepository implements XBModuleRepository {
     public void addModulesFrom(URL moduleClassUrl) {
         try {
             addModulesFrom(moduleClassUrl.toURI());
+        } catch (URISyntaxException ex) {
+            Logger.getLogger(XBDefaultModuleRepository.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    @Override
+    public void addModulesFromPath(URI pathUri) {
+        File directory = new File(pathUri);
+        if (directory.exists() && directory.isDirectory()) {
+            File[] jarFiles = directory.listFiles(new FileFilter() {
+                @Override
+                public boolean accept(File pathname) {
+                    return pathname.isFile() && pathname.getName().endsWith(".jar");
+                }
+            });
+            for (File jarFile : jarFiles) {
+                addModulesFrom(jarFile.toURI());
+            }
+        }
+    }
+
+    @Override
+    public void addModulesFromPath(URL pathUrl) {
+        try {
+            addModulesFromPath(pathUrl.toURI());
         } catch (URISyntaxException ex) {
             Logger.getLogger(XBDefaultModuleRepository.class.getName()).log(Level.SEVERE, null, ex);
         }

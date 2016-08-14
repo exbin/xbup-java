@@ -23,7 +23,7 @@ import java.util.List;
 /**
  * XBUP framework modules repository interface.
  *
- * @version 0.2.0 2016/03/27
+ * @version 0.2.0 2016/08/14
  * @author ExBin Project (http://exbin.org)
  */
 public interface XBModuleRepository {
@@ -31,14 +31,14 @@ public interface XBModuleRepository {
     /**
      * Scans for all valid modules in give directory or specified jar file.
      *
-     * @param moduleJarFileUri
+     * @param moduleJarFileUri jar file URI
      */
     void addModulesFrom(URI moduleJarFileUri);
 
     /**
      * Scans for all valid modules in give directory or specified jar file.
      *
-     * @param moduleJarFileUrl
+     * @param moduleJarFileUrl jar file URL
      */
     void addModulesFrom(URL moduleJarFileUrl);
 
@@ -53,9 +53,23 @@ public interface XBModuleRepository {
     /**
      * Process given manifest file for modules.
      *
-     * @param manifestClass
+     * @param manifestClass manifest class
      */
     void addModulesFromManifest(Class manifestClass);
+
+    /**
+     * Process all jar files in given directory.
+     *
+     * @param pathUri path
+     */
+    void addModulesFromPath(URI pathUri);
+
+    /**
+     * Process all jar files in given directory.
+     *
+     * @param pathUrl path
+     */
+    void addModulesFromPath(URL pathUrl);
 
     /**
      * Gets info about module.

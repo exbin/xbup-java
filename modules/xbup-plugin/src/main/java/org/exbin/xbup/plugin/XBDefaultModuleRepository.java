@@ -28,6 +28,7 @@ import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.net.URLClassLoader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -43,7 +44,7 @@ import org.exbin.xbup.core.serial.param.XBPProviderSerialHandler;
 /**
  * XBUP default implementation of the modules repository.
  *
- * @version 0.2.0 2016/08/14
+ * @version 0.2.0 2016/08/17
  * @author ExBin Project (http://exbin.org)
  */
 public class XBDefaultModuleRepository implements XBModuleRepository {
@@ -59,7 +60,7 @@ public class XBDefaultModuleRepository implements XBModuleRepository {
 
     @Override
     public void addModulesFrom(URI moduleClassUri) {
-        addModulePlugin(moduleClassUri);
+        addModulePlugin(moduleClassUri, false);
     }
 
     @Override
@@ -72,7 +73,7 @@ public class XBDefaultModuleRepository implements XBModuleRepository {
     }
 
     @Override
-    public void addModulesFromPath(URI pathUri) {
+    public void loadModulesFromPath(URI pathUri) {
         File directory = new File(pathUri);
         if (directory.exists() && directory.isDirectory()) {
             File[] jarFiles = directory.listFiles(new FileFilter() {
@@ -82,7 +83,7 @@ public class XBDefaultModuleRepository implements XBModuleRepository {
                 }
             });
             for (File jarFile : jarFiles) {
-                addModulesFrom(jarFile.toURI());
+                addModulePlugin(jarFile.toURI(), true);
             }
         }
     }
@@ -90,7 +91,7 @@ public class XBDefaultModuleRepository implements XBModuleRepository {
     @Override
     public void addModulesFromPath(URL pathUrl) {
         try {
-            addModulesFromPath(pathUrl.toURI());
+            loadModulesFromPath(pathUrl.toURI());
         } catch (URISyntaxException ex) {
             Logger.getLogger(XBDefaultModuleRepository.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -101,7 +102,7 @@ public class XBDefaultModuleRepository implements XBModuleRepository {
         String classpath = System.getProperty("java.class.path");
         String[] classpathEntries = classpath.split(File.pathSeparator);
         for (String classpathEntry : classpathEntries) {
-            addModulePlugin(new File(classpathEntry).toURI());
+            addModulePlugin(new File(classpathEntry).toURI(), false);
         }
     }
 
@@ -117,7 +118,7 @@ public class XBDefaultModuleRepository implements XBModuleRepository {
             String rootDirectory = new File(moduleClassLocation.toExternalForm()).getParent();
             for (String path : paths) {
                 try {
-                    addModulePlugin(new URI(rootDirectory + File.separator + path));
+                    addModulePlugin(new URI(rootDirectory + File.separator + path), false);
                 } catch (URISyntaxException ex) {
                     // Ignore
                 }
@@ -133,13 +134,13 @@ public class XBDefaultModuleRepository implements XBModuleRepository {
      * Attempts to load main library class if library URL contains valid module
      * declaration.
      *
-     * @param libraryUrl library URL
+     * @param libraryUri library URI
      */
-    private void addModulePlugin(URI libraryUrl) {
+    private void addModulePlugin(URI libraryUri, boolean loadClass) {
         URL moduleRecordUrl;
         InputStream moduleRecordStream = null;
         try {
-            moduleRecordUrl = new URL("jar:" + libraryUrl.toURL().toExternalForm() + "!/META-INF/" + MODULE_FILE);
+            moduleRecordUrl = new URL("jar:" + libraryUri.toURL().toExternalForm() + "!/META-INF/" + MODULE_FILE);
             moduleRecordStream = moduleRecordUrl.openStream();
         } catch (IOException ex) {
             // ignore
@@ -159,10 +160,20 @@ public class XBDefaultModuleRepository implements XBModuleRepository {
         if (moduleInfo.getModuleId() != null) {
             XBModule module = null;
             try {
-                Class<?> clazz = Class.forName(moduleInfo.getModuleId());
+                Class<?> clazz;
+                if (loadClass) {
+                    ClassLoader loader;
+                    loader = URLClassLoader.newInstance(
+                            new URL[]{libraryUri.toURL()},
+                            getClass().getClassLoader()
+                    );
+                    clazz = Class.forName(moduleInfo.getModuleId(), true, loader);
+                } else {
+                    clazz = Class.forName(moduleInfo.getModuleId());
+                }
                 Constructor<?> ctor = clazz.getConstructor();
                 module = (XBModule) ctor.newInstance();
-            } catch (ClassNotFoundException | NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) {
+            } catch (ClassNotFoundException | NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException | MalformedURLException ex) {
                 // ignore
             }
 

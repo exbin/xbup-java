@@ -62,7 +62,7 @@ public interface XBModuleRepository {
      *
      * @param pathUri path
      */
-    void addModulesFromPath(URI pathUri);
+    void loadModulesFromPath(URI pathUri);
 
     /**
      * Process all jar files in given directory.

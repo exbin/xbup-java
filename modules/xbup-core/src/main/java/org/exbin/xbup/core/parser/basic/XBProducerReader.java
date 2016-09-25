@@ -25,7 +25,7 @@ import org.exbin.xbup.core.parser.XBParseException;
 import org.exbin.xbup.core.parser.XBParserMode;
 import org.exbin.xbup.core.parser.XBProcessingException;
 import org.exbin.xbup.core.parser.XBProcessingExceptionType;
-import org.exbin.xbup.core.parser.basic.wrapper.ExtendedAreaInputStreamWrapper;
+import org.exbin.xbup.core.parser.basic.wrapper.TailDataInputStreamWrapper;
 import org.exbin.xbup.core.parser.basic.wrapper.FixedDataInputStreamWrapper;
 import org.exbin.xbup.core.parser.basic.wrapper.TerminatedDataInputStreamWrapper;
 import org.exbin.xbup.core.stream.FinishableStream;
@@ -115,9 +115,9 @@ public class XBProducerReader implements XBProducer {
                 sizeLimits.remove(sizeLimits.size() - 1);
 
                 if (sizeLimits.isEmpty()) {
-                    // Process extended area
-                    if (parserMode != XBParserMode.SINGLE_BLOCK && parserMode != XBParserMode.SKIP_EXTENDED && source.available() > 0) {
-                        listener.dataXB(new ExtendedAreaInputStreamWrapper(source));
+                    // Process tail data
+                    if (parserMode != XBParserMode.SINGLE_BLOCK && parserMode != XBParserMode.SKIP_TAIL && source.available() > 0) {
+                        listener.dataXB(new TailDataInputStreamWrapper(source));
                     }
                 }
 
@@ -143,9 +143,9 @@ public class XBProducerReader implements XBProducer {
                     shrinkStatus(sizeLimits, (int) dataWrapper.getLength());
 
                     if (sizeLimits.isEmpty()) {
-                        // Process extended area
-                        if (parserMode != XBParserMode.SINGLE_BLOCK && parserMode != XBParserMode.SKIP_EXTENDED && source.available() > 0) {
-                            listener.dataXB(new ExtendedAreaInputStreamWrapper(source));
+                        // Process tail data
+                        if (parserMode != XBParserMode.SINGLE_BLOCK && parserMode != XBParserMode.SKIP_TAIL && source.available() > 0) {
+                            listener.dataXB(new TailDataInputStreamWrapper(source));
                         }
                     }
 
@@ -174,9 +174,9 @@ public class XBProducerReader implements XBProducer {
                 sizeLimits.remove(sizeLimits.size() - 1);
 
                 if (sizeLimits.isEmpty()) {
-                    // Process extended area
-                    if (parserMode != XBParserMode.SINGLE_BLOCK && parserMode != XBParserMode.SKIP_EXTENDED && source.available() > 0) {
-                        listener.dataXB(new ExtendedAreaInputStreamWrapper(source));
+                    // Process tail data
+                    if (parserMode != XBParserMode.SINGLE_BLOCK && parserMode != XBParserMode.SKIP_TAIL && source.available() > 0) {
+                        listener.dataXB(new TailDataInputStreamWrapper(source));
                     }
                 }
 

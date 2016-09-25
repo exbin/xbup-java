@@ -21,38 +21,38 @@ import java.io.InputStream;
 /**
  * Interface for read access to XBUP level 0 document.
  *
- * @version 0.2.0 2015/09/20
+ * @version 0.2.0 2016/09/24
  * @author ExBin Project (http://exbin.org)
  */
 public interface XBDocument {
 
     /**
-     * Gets root block of the document.
+     * Returns root block of the document.
      *
      * @return root block if exits or null.
      */
     public XBBlock getRootBlock();
 
     /**
-     * Gets size of the whole document if available.
+     * Returns size of the whole document if available.
      *
-     * @return length of whole document in bytes or -1 if not available or
-     * infinity
+     * @return length of whole document in bytes or -1 if not available or is
+     * infinite
      */
     public long getDocumentSize();
 
     /**
-     * Gets extended data area.
+     * Returns tail data input stream.
      *
      * @return InputStream of providing read access to data area
      */
-    public InputStream getExtendedArea();
+    public InputStream getTailData();
 
     /**
-     * Gets size of the extended data area if available.
+     * Returns size of the tail data if available.
      *
-     * @return length of extended area in bytes or -1 if not available or
-     * infinity
+     * @return length of tail data in bytes or -1 if not available or is
+     * infinite
      */
-    public long getExtendedAreaSize();
+    public long getTailDataSize();
 }

@@ -28,7 +28,7 @@ import org.exbin.xbup.core.parser.XBParserState;
 import org.exbin.xbup.core.parser.XBProcessingException;
 import org.exbin.xbup.core.parser.XBProcessingExceptionType;
 import org.exbin.xbup.core.parser.basic.XBHead;
-import org.exbin.xbup.core.parser.basic.wrapper.ExtendedAreaInputStreamWrapper;
+import org.exbin.xbup.core.parser.basic.wrapper.TailDataInputStreamWrapper;
 import org.exbin.xbup.core.parser.basic.wrapper.FixedDataInputStreamWrapper;
 import org.exbin.xbup.core.parser.basic.wrapper.TerminatedDataInputStreamWrapper;
 import org.exbin.xbup.core.parser.token.XBAttributeToken;
@@ -228,14 +228,14 @@ public class XBPullReader implements XBPullProvider, XBResetableStream, XBSkipab
                 }
             }
 
-            case EXTENDED_AREA:
+            case TAIL_DATA:
             case BLOCK_END: {
                 // must be after begin
                 if (sizeLimits.isEmpty()) {
                     if (parserState == XBParserState.BLOCK_END) {
-                        if (parserMode != XBParserMode.SINGLE_BLOCK && parserMode != XBParserMode.SKIP_EXTENDED) {
-                            parserState = XBParserState.EXTENDED_AREA;
-                            ExtendedAreaInputStreamWrapper wrapper = new ExtendedAreaInputStreamWrapper(source);
+                        if (parserMode != XBParserMode.SINGLE_BLOCK && parserMode != XBParserMode.SKIP_TAIL) {
+                            parserState = XBParserState.TAIL_DATA;
+                            TailDataInputStreamWrapper wrapper = new TailDataInputStreamWrapper(source);
                             if (wrapper.available() > 0) {
                                 return new XBDataToken(wrapper);
                             }

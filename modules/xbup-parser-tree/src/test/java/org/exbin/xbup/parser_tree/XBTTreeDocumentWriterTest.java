@@ -16,9 +16,6 @@
  */
 package org.exbin.xbup.parser_tree;
 
-import org.exbin.xbup.parser_tree.XBBlockToXBTBlock;
-import org.exbin.xbup.parser_tree.XBTTreeDocument;
-import org.exbin.xbup.parser_tree.XBTTreeNode;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
@@ -31,7 +28,7 @@ import org.exbin.xbup.core.test.XBTestUtils;
 /**
  * Test class for XBTTreeDocument.
  *
- * @version 0.1.25 2015/08/11
+ * @version 0.2.0 2016/09/25
  * @author ExBin Project (http://exbin.org)
  */
 public class XBTTreeDocumentWriterTest extends TestCase {
@@ -62,8 +59,8 @@ public class XBTTreeDocumentWriterTest extends TestCase {
             XBTTreeDocument document = new XBTTreeDocument();
             XBDocument sampleDocument = XBCoreTestSampleData.getSampleEmptyTree();
             document.setRootBlock(XBTTreeNode.createTreeCopy(new XBBlockToXBTBlock(sampleDocument.getRootBlock())));
-            if (sampleDocument.getExtendedAreaSize() > 0) {
-                document.setExtendedArea(sampleDocument.getExtendedArea());
+            if (sampleDocument.getTailDataSize() > 0) {
+                document.setTailData(sampleDocument.getTailData());
             }
 
             document.toStreamUB(target);
@@ -83,8 +80,8 @@ public class XBTTreeDocumentWriterTest extends TestCase {
             XBTTreeDocument document = new XBTTreeDocument();
             XBDocument sampleDocument = XBCoreTestSampleData.getSampleBlockTree();
             document.setRootBlock(XBTTreeNode.createTreeCopy(new XBBlockToXBTBlock(sampleDocument.getRootBlock())));
-            if (sampleDocument.getExtendedAreaSize() > 0) {
-                document.setExtendedArea(sampleDocument.getExtendedArea());
+            if (sampleDocument.getTailDataSize() > 0) {
+                document.setTailData(sampleDocument.getTailData());
             }
 
             document.toStreamUB(target);
@@ -98,14 +95,14 @@ public class XBTTreeDocumentWriterTest extends TestCase {
      * @throws java.lang.Exception
      */
     @Test
-    public void testWriteSampleBlockExtended() throws Exception {
-        try (InputStream stream = XBTTreeDocumentWriterTest.class.getResourceAsStream(XBCoreTestSampleData.SAMPLE_BLOCK_EXTENDED)) {
+    public void testWriteSampleBlockWithTail() throws Exception {
+        try (InputStream stream = XBTTreeDocumentWriterTest.class.getResourceAsStream(XBCoreTestSampleData.SAMPLE_BLOCK_WITH_TAIL)) {
             ByteArrayOutputStream target = new ByteArrayOutputStream();
             XBTTreeDocument document = new XBTTreeDocument();
-            XBDocument sampleDocument = XBCoreTestSampleData.getSampleBlockExtendedTree();
+            XBDocument sampleDocument = XBCoreTestSampleData.getSampleBlockWithTailTree();
             document.setRootBlock(XBTTreeNode.createTreeCopy(new XBBlockToXBTBlock(sampleDocument.getRootBlock())));
-            if (sampleDocument.getExtendedAreaSize() > 0) {
-                document.setExtendedArea(sampleDocument.getExtendedArea());
+            if (sampleDocument.getTailDataSize() > 0) {
+                document.setTailData(sampleDocument.getTailData());
             }
 
             document.toStreamUB(target);
@@ -125,8 +122,8 @@ public class XBTTreeDocumentWriterTest extends TestCase {
             XBTTreeDocument document = new XBTTreeDocument();
             XBDocument sampleDocument = XBCoreTestSampleData.getSampleBlockTerminatedTree();
             document.setRootBlock(XBTTreeNode.createTreeCopy(new XBBlockToXBTBlock(sampleDocument.getRootBlock())));
-            if (sampleDocument.getExtendedAreaSize() > 0) {
-                document.setExtendedArea(sampleDocument.getExtendedArea());
+            if (sampleDocument.getTailDataSize() > 0) {
+                document.setTailData(sampleDocument.getTailData());
             }
 
             document.toStreamUB(target);
@@ -140,14 +137,14 @@ public class XBTTreeDocumentWriterTest extends TestCase {
      * @throws java.lang.Exception
      */
     @Test
-    public void testWriteSampleBlockTerminatedExtended() throws Exception {
-        try (InputStream stream = XBTTreeDocumentWriterTest.class.getResourceAsStream(XBCoreTestSampleData.SAMPLE_BLOCK_TERMINATED_EXTENDED)) {
+    public void testWriteSampleBlockTerminatedWithTail() throws Exception {
+        try (InputStream stream = XBTTreeDocumentWriterTest.class.getResourceAsStream(XBCoreTestSampleData.SAMPLE_BLOCK_TERMINATED_WITH_TAIL)) {
             ByteArrayOutputStream target = new ByteArrayOutputStream();
             XBTTreeDocument document = new XBTTreeDocument();
-            XBDocument sampleDocument = XBCoreTestSampleData.getSampleBlockTerminatedExtendedTree();
+            XBDocument sampleDocument = XBCoreTestSampleData.getSampleBlockTerminatedWithTailTree();
             document.setRootBlock(XBTTreeNode.createTreeCopy(new XBBlockToXBTBlock(sampleDocument.getRootBlock())));
-            if (sampleDocument.getExtendedAreaSize() > 0) {
-                document.setExtendedArea(sampleDocument.getExtendedArea());
+            if (sampleDocument.getTailDataSize() > 0) {
+                document.setTailData(sampleDocument.getTailData());
             }
 
             document.toStreamUB(target);
@@ -167,8 +164,8 @@ public class XBTTreeDocumentWriterTest extends TestCase {
             XBTTreeDocument document = new XBTTreeDocument();
             XBDocument sampleDocument = XBCoreTestSampleData.getSampleDataTree();
             document.setRootBlock(XBTTreeNode.createTreeCopy(new XBBlockToXBTBlock(sampleDocument.getRootBlock())));
-            if (sampleDocument.getExtendedAreaSize() > 0) {
-                document.setExtendedArea(sampleDocument.getExtendedArea());
+            if (sampleDocument.getTailDataSize() > 0) {
+                document.setTailData(sampleDocument.getTailData());
             }
 
             document.toStreamUB(target);
@@ -182,14 +179,14 @@ public class XBTTreeDocumentWriterTest extends TestCase {
      * @throws java.lang.Exception
      */
     @Test
-    public void testWriteSampleDataExtended() throws Exception {
-        try (InputStream stream = XBTTreeDocumentWriterTest.class.getResourceAsStream(XBCoreTestSampleData.SAMPLE_DATA_EXTENDED)) {
+    public void testWriteSampleDataWithTail() throws Exception {
+        try (InputStream stream = XBTTreeDocumentWriterTest.class.getResourceAsStream(XBCoreTestSampleData.SAMPLE_DATA_WITH_TAIL)) {
             ByteArrayOutputStream target = new ByteArrayOutputStream();
             XBTTreeDocument document = new XBTTreeDocument();
-            XBDocument sampleDocument = XBCoreTestSampleData.getSampleDataExtendedTree();
+            XBDocument sampleDocument = XBCoreTestSampleData.getSampleDataWithTailTree();
             document.setRootBlock(XBTTreeNode.createTreeCopy(new XBBlockToXBTBlock(sampleDocument.getRootBlock())));
-            if (sampleDocument.getExtendedAreaSize() > 0) {
-                document.setExtendedArea(sampleDocument.getExtendedArea());
+            if (sampleDocument.getTailDataSize() > 0) {
+                document.setTailData(sampleDocument.getTailData());
             }
 
             document.toStreamUB(target);
@@ -209,8 +206,8 @@ public class XBTTreeDocumentWriterTest extends TestCase {
             XBTTreeDocument document = new XBTTreeDocument();
             XBDocument sampleDocument = XBCoreTestSampleData.getSampleDataTerminatedTree();
             document.setRootBlock(XBTTreeNode.createTreeCopy(new XBBlockToXBTBlock(sampleDocument.getRootBlock())));
-            if (sampleDocument.getExtendedAreaSize() > 0) {
-                document.setExtendedArea(sampleDocument.getExtendedArea());
+            if (sampleDocument.getTailDataSize() > 0) {
+                document.setTailData(sampleDocument.getTailData());
             }
 
             document.toStreamUB(target);
@@ -224,14 +221,14 @@ public class XBTTreeDocumentWriterTest extends TestCase {
      * @throws java.lang.Exception
      */
     @Test
-    public void testWriteSampleDataTerminatedExtended() throws Exception {
-        try (InputStream stream = XBTTreeDocumentWriterTest.class.getResourceAsStream(XBCoreTestSampleData.SAMPLE_DATA_TERMINATED_EXTENDED)) {
+    public void testWriteSampleDataTerminatedWithTail() throws Exception {
+        try (InputStream stream = XBTTreeDocumentWriterTest.class.getResourceAsStream(XBCoreTestSampleData.SAMPLE_DATA_TERMINATED_WITH_TAIL)) {
             ByteArrayOutputStream target = new ByteArrayOutputStream();
             XBTTreeDocument document = new XBTTreeDocument();
-            XBDocument sampleDocument = XBCoreTestSampleData.getSampleDataTerminatedExtendedTree();
+            XBDocument sampleDocument = XBCoreTestSampleData.getSampleDataTerminatedWithTailTree();
             document.setRootBlock(XBTTreeNode.createTreeCopy(new XBBlockToXBTBlock(sampleDocument.getRootBlock())));
-            if (sampleDocument.getExtendedAreaSize() > 0) {
-                document.setExtendedArea(sampleDocument.getExtendedArea());
+            if (sampleDocument.getTailDataSize() > 0) {
+                document.setTailData(sampleDocument.getTailData());
             }
 
             document.toStreamUB(target);
@@ -251,8 +248,8 @@ public class XBTTreeDocumentWriterTest extends TestCase {
             XBTTreeDocument document = new XBTTreeDocument();
             XBDocument sampleDocument = XBCoreTestSampleData.getSampleBlockDataTree();
             document.setRootBlock(XBTTreeNode.createTreeCopy(new XBBlockToXBTBlock(sampleDocument.getRootBlock())));
-            if (sampleDocument.getExtendedAreaSize() > 0) {
-                document.setExtendedArea(sampleDocument.getExtendedArea());
+            if (sampleDocument.getTailDataSize() > 0) {
+                document.setTailData(sampleDocument.getTailData());
             }
 
             document.toStreamUB(target);
@@ -266,14 +263,14 @@ public class XBTTreeDocumentWriterTest extends TestCase {
      * @throws java.lang.Exception
      */
     @Test
-    public void testWriteSampleBlockDataExtended() throws Exception {
-        try (InputStream stream = XBTTreeDocumentWriterTest.class.getResourceAsStream(XBCoreTestSampleData.SAMPLE_BLOCK_DATA_EXTENDED)) {
+    public void testWriteSampleBlockDataWithTail() throws Exception {
+        try (InputStream stream = XBTTreeDocumentWriterTest.class.getResourceAsStream(XBCoreTestSampleData.SAMPLE_BLOCK_DATA_WITH_TAIL)) {
             ByteArrayOutputStream target = new ByteArrayOutputStream();
             XBTTreeDocument document = new XBTTreeDocument();
-            XBDocument sampleDocument = XBCoreTestSampleData.getSampleBlockDataExtendedTree();
+            XBDocument sampleDocument = XBCoreTestSampleData.getSampleBlockDataWithTailTree();
             document.setRootBlock(XBTTreeNode.createTreeCopy(new XBBlockToXBTBlock(sampleDocument.getRootBlock())));
-            if (sampleDocument.getExtendedAreaSize() > 0) {
-                document.setExtendedArea(sampleDocument.getExtendedArea());
+            if (sampleDocument.getTailDataSize() > 0) {
+                document.setTailData(sampleDocument.getTailData());
             }
 
             document.toStreamUB(target);
@@ -293,8 +290,8 @@ public class XBTTreeDocumentWriterTest extends TestCase {
             XBTTreeDocument document = new XBTTreeDocument();
             XBDocument sampleDocument = XBCoreTestSampleData.getSampleBlockDataTerminatedTree();
             document.setRootBlock(XBTTreeNode.createTreeCopy(new XBBlockToXBTBlock(sampleDocument.getRootBlock())));
-            if (sampleDocument.getExtendedAreaSize() > 0) {
-                document.setExtendedArea(sampleDocument.getExtendedArea());
+            if (sampleDocument.getTailDataSize() > 0) {
+                document.setTailData(sampleDocument.getTailData());
             }
 
             document.toStreamUB(target);
@@ -308,14 +305,14 @@ public class XBTTreeDocumentWriterTest extends TestCase {
      * @throws java.lang.Exception
      */
     @Test
-    public void testWriteSampleBlockDataTerminatedExtended() throws Exception {
-        try (InputStream stream = XBTTreeDocumentWriterTest.class.getResourceAsStream(XBCoreTestSampleData.SAMPLE_BLOCK_DATA_TERMINATED_EXTENDED)) {
+    public void testWriteSampleBlockDataTerminatedWithTail() throws Exception {
+        try (InputStream stream = XBTTreeDocumentWriterTest.class.getResourceAsStream(XBCoreTestSampleData.SAMPLE_BLOCK_DATA_TERMINATED_WITH_TAIL)) {
             ByteArrayOutputStream target = new ByteArrayOutputStream();
             XBTTreeDocument document = new XBTTreeDocument();
-            XBDocument sampleDocument = XBCoreTestSampleData.getSampleBlockDataTerminatedExtendedTree();
+            XBDocument sampleDocument = XBCoreTestSampleData.getSampleBlockDataTerminatedWithTailTree();
             document.setRootBlock(XBTTreeNode.createTreeCopy(new XBBlockToXBTBlock(sampleDocument.getRootBlock())));
-            if (sampleDocument.getExtendedAreaSize() > 0) {
-                document.setExtendedArea(sampleDocument.getExtendedArea());
+            if (sampleDocument.getTailDataSize() > 0) {
+                document.setTailData(sampleDocument.getTailData());
             }
 
             document.toStreamUB(target);
@@ -335,8 +332,8 @@ public class XBTTreeDocumentWriterTest extends TestCase {
             XBTTreeDocument document = new XBTTreeDocument();
             XBDocument sampleDocument = XBCoreTestSampleData.getSampleBlockDataHybridTree();
             document.setRootBlock(XBTTreeNode.createTreeCopy(new XBBlockToXBTBlock(sampleDocument.getRootBlock())));
-            if (sampleDocument.getExtendedAreaSize() > 0) {
-                document.setExtendedArea(sampleDocument.getExtendedArea());
+            if (sampleDocument.getTailDataSize() > 0) {
+                document.setTailData(sampleDocument.getTailData());
             }
 
             document.toStreamUB(target);
@@ -356,8 +353,8 @@ public class XBTTreeDocumentWriterTest extends TestCase {
             XBTTreeDocument document = new XBTTreeDocument();
             XBDocument sampleDocument = XBCoreTestSampleData.getSampleBlockDataHybrid2Tree();
             document.setRootBlock(XBTTreeNode.createTreeCopy(new XBBlockToXBTBlock(sampleDocument.getRootBlock())));
-            if (sampleDocument.getExtendedAreaSize() > 0) {
-                document.setExtendedArea(sampleDocument.getExtendedArea());
+            if (sampleDocument.getTailDataSize() > 0) {
+                document.setTailData(sampleDocument.getTailData());
             }
 
             document.toStreamUB(target);
@@ -377,8 +374,8 @@ public class XBTTreeDocumentWriterTest extends TestCase {
             XBTTreeDocument document = new XBTTreeDocument();
             XBDocument sampleDocument = XBCoreTestSampleData.getSampleTwoBlocksTree();
             document.setRootBlock(XBTTreeNode.createTreeCopy(new XBBlockToXBTBlock(sampleDocument.getRootBlock())));
-            if (sampleDocument.getExtendedAreaSize() > 0) {
-                document.setExtendedArea(sampleDocument.getExtendedArea());
+            if (sampleDocument.getTailDataSize() > 0) {
+                document.setTailData(sampleDocument.getTailData());
             }
 
             document.toStreamUB(target);
@@ -392,14 +389,14 @@ public class XBTTreeDocumentWriterTest extends TestCase {
      * @throws java.lang.Exception
      */
     @Test
-    public void testWriteSampleTwoBlocksExtended() throws Exception {
-        try (InputStream stream = XBTTreeDocumentWriterTest.class.getResourceAsStream(XBCoreTestSampleData.SAMPLE_TWO_BLOCKS_EXTENDED)) {
+    public void testWriteSampleTwoBlocksWithTail() throws Exception {
+        try (InputStream stream = XBTTreeDocumentWriterTest.class.getResourceAsStream(XBCoreTestSampleData.SAMPLE_TWO_BLOCKS_WITH_TAIL)) {
             ByteArrayOutputStream target = new ByteArrayOutputStream();
             XBTTreeDocument document = new XBTTreeDocument();
-            XBDocument sampleDocument = XBCoreTestSampleData.getSampleTwoBlocksExtendedTree();
+            XBDocument sampleDocument = XBCoreTestSampleData.getSampleTwoBlocksWithTailTree();
             document.setRootBlock(XBTTreeNode.createTreeCopy(new XBBlockToXBTBlock(sampleDocument.getRootBlock())));
-            if (sampleDocument.getExtendedAreaSize() > 0) {
-                document.setExtendedArea(sampleDocument.getExtendedArea());
+            if (sampleDocument.getTailDataSize() > 0) {
+                document.setTailData(sampleDocument.getTailData());
             }
 
             document.toStreamUB(target);
@@ -419,8 +416,8 @@ public class XBTTreeDocumentWriterTest extends TestCase {
             XBTTreeDocument document = new XBTTreeDocument();
             XBDocument sampleDocument = XBCoreTestSampleData.getSampleTwoBlocksTerminatedTree();
             document.setRootBlock(XBTTreeNode.createTreeCopy(new XBBlockToXBTBlock(sampleDocument.getRootBlock())));
-            if (sampleDocument.getExtendedAreaSize() > 0) {
-                document.setExtendedArea(sampleDocument.getExtendedArea());
+            if (sampleDocument.getTailDataSize() > 0) {
+                document.setTailData(sampleDocument.getTailData());
             }
 
             document.toStreamUB(target);
@@ -434,14 +431,14 @@ public class XBTTreeDocumentWriterTest extends TestCase {
      * @throws java.lang.Exception
      */
     @Test
-    public void testWriteSampleTwoBlocksTerminatedExtended() throws Exception {
-        try (InputStream stream = XBTTreeDocumentWriterTest.class.getResourceAsStream(XBCoreTestSampleData.SAMPLE_TWO_BLOCKS_TERMINATED_EXTENDED)) {
+    public void testWriteSampleTwoBlocksTerminatedWithTail() throws Exception {
+        try (InputStream stream = XBTTreeDocumentWriterTest.class.getResourceAsStream(XBCoreTestSampleData.SAMPLE_TWO_BLOCKS_TERMINATED_WITH_TAIL)) {
             ByteArrayOutputStream target = new ByteArrayOutputStream();
             XBTTreeDocument document = new XBTTreeDocument();
-            XBDocument sampleDocument = XBCoreTestSampleData.getSampleTwoBlocksTerminatedExtendedTree();
+            XBDocument sampleDocument = XBCoreTestSampleData.getSampleTwoBlocksTerminatedWithTailTree();
             document.setRootBlock(XBTTreeNode.createTreeCopy(new XBBlockToXBTBlock(sampleDocument.getRootBlock())));
-            if (sampleDocument.getExtendedAreaSize() > 0) {
-                document.setExtendedArea(sampleDocument.getExtendedArea());
+            if (sampleDocument.getTailDataSize() > 0) {
+                document.setTailData(sampleDocument.getTailData());
             }
 
             document.toStreamUB(target);
@@ -461,8 +458,8 @@ public class XBTTreeDocumentWriterTest extends TestCase {
             XBTTreeDocument document = new XBTTreeDocument();
             XBDocument sampleDocument = XBCoreTestSampleData.getSampleTwoBlocksHybridTree();
             document.setRootBlock(XBTTreeNode.createTreeCopy(new XBBlockToXBTBlock(sampleDocument.getRootBlock())));
-            if (sampleDocument.getExtendedAreaSize() > 0) {
-                document.setExtendedArea(sampleDocument.getExtendedArea());
+            if (sampleDocument.getTailDataSize() > 0) {
+                document.setTailData(sampleDocument.getTailData());
             }
 
             document.toStreamUB(target);
@@ -482,8 +479,8 @@ public class XBTTreeDocumentWriterTest extends TestCase {
             XBTTreeDocument document = new XBTTreeDocument();
             XBDocument sampleDocument = XBCoreTestSampleData.getSampleTwoBlocksHybrid2Tree();
             document.setRootBlock(XBTTreeNode.createTreeCopy(new XBBlockToXBTBlock(sampleDocument.getRootBlock())));
-            if (sampleDocument.getExtendedAreaSize() > 0) {
-                document.setExtendedArea(sampleDocument.getExtendedArea());
+            if (sampleDocument.getTailDataSize() > 0) {
+                document.setTailData(sampleDocument.getTailData());
             }
 
             document.toStreamUB(target);
@@ -503,8 +500,8 @@ public class XBTTreeDocumentWriterTest extends TestCase {
             XBTTreeDocument document = new XBTTreeDocument();
             XBDocument sampleDocument = XBCoreTestSampleData.getSampleSixBlocksTree();
             document.setRootBlock(XBTTreeNode.createTreeCopy(new XBBlockToXBTBlock(sampleDocument.getRootBlock())));
-            if (sampleDocument.getExtendedAreaSize() > 0) {
-                document.setExtendedArea(sampleDocument.getExtendedArea());
+            if (sampleDocument.getTailDataSize() > 0) {
+                document.setTailData(sampleDocument.getTailData());
             }
 
             document.toStreamUB(target);

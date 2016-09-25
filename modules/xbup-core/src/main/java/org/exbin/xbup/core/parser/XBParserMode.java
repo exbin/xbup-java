@@ -19,13 +19,13 @@ package org.exbin.xbup.core.parser;
 /**
  * Enumeration of possible parsing modes.
  *
- * @version 0.1.25 2015/02/06
+ * @version 0.2.0 2016/09/25
  * @author ExBin Project (http://exbin.org)
  */
 public enum XBParserMode {
 
     /**
-     * Parsing includes both header and extended part / tail.
+     * Parsing includes both header and tail data parts.
      */
     FULL,
     /**
@@ -37,7 +37,7 @@ public enum XBParserMode {
      */
     SKIP_HEAD,
     /**
-     * Skips extended part / tail.
+     * Skips tail.
      */
-    SKIP_EXTENDED
+    SKIP_TAIL
 }

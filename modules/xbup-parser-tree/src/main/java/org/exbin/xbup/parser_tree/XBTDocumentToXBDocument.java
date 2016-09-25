@@ -47,13 +47,13 @@ public class XBTDocumentToXBDocument implements XBEditableDocument {
     }
 
     @Override
-    public InputStream getExtendedArea() {
-        return document.getExtendedArea();
+    public InputStream getTailData() {
+        return document.getTailData();
     }
 
     @Override
-    public long getExtendedAreaSize() {
-        return document.getExtendedAreaSize();
+    public long getTailDataSize() {
+        return document.getTailDataSize();
     }
 
     @Override
@@ -71,12 +71,12 @@ public class XBTDocumentToXBDocument implements XBEditableDocument {
     }
 
     @Override
-    public void setExtendedArea(InputStream source) throws IOException {
+    public void setTailData(InputStream source) throws IOException {
         if (!(document instanceof XBTEditableDocument)) {
-            throw new IllegalStateException("Cannot set extended area of read only document");
+            throw new IllegalStateException("Cannot set tail data of read only document");
         }
 
-        ((XBTEditableDocument) document).setExtendedArea(source);
+        ((XBTEditableDocument) document).setTailData(source);
     }
 
     @Override

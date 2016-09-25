@@ -189,7 +189,7 @@ public class XBChildProviderSerialHandler implements XBChildInputSerialHandler, 
             throw new XBSerialException("Unexpected method after block already finished", XBProcessingExceptionType.UNEXPECTED_ORDER);
         }
 
-        // TODO process extended area
+        // TODO process tail data
         XBToken token = pullProvider.pullXBToken();
         if (token.getTokenType() != XBTokenType.END) {
             throw new XBSerialException("End method was expected but not received", XBProcessingExceptionType.UNEXPECTED_ORDER);

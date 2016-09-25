@@ -102,14 +102,14 @@ public class XBEventWriterTest extends TestCase {
      * @throws java.lang.Exception
      */
     @Test
-    public void testWriteSampleBlockExtended() throws Exception {
-        try (InputStream stream = XBEventWriterTest.class.getResourceAsStream(XBCoreTestSampleData.SAMPLE_BLOCK_EXTENDED)) {
+    public void testWriteSampleBlockWithTail() throws Exception {
+        try (InputStream stream = XBEventWriterTest.class.getResourceAsStream(XBCoreTestSampleData.SAMPLE_BLOCK_WITH_TAIL)) {
             ByteArrayOutputStream target = new ByteArrayOutputStream();
             try (XBEventWriter writer = new XBEventWriter(target)) {
                 XBPrintEventFilter listener = new XBPrintEventFilter(writer);
 
                 writer.open(target);
-                XBCoreTestSampleData.writeSampleBlockExtended(new XBEventListenerToListener(listener));
+                XBCoreTestSampleData.writeSampleBlockWithTail(new XBEventListenerToListener(listener));
                 writer.closeXB();
             }
 
@@ -144,14 +144,14 @@ public class XBEventWriterTest extends TestCase {
      * @throws java.lang.Exception
      */
     @Test
-    public void testWriteSampleBlockTerminatedExtended() throws Exception {
-        try (InputStream stream = XBEventWriterTest.class.getResourceAsStream(XBCoreTestSampleData.SAMPLE_BLOCK_TERMINATED_EXTENDED)) {
+    public void testWriteSampleBlockTerminatedWithTail() throws Exception {
+        try (InputStream stream = XBEventWriterTest.class.getResourceAsStream(XBCoreTestSampleData.SAMPLE_BLOCK_TERMINATED_WITH_TAIL)) {
             ByteArrayOutputStream target = new ByteArrayOutputStream();
             try (XBEventWriter writer = new XBEventWriter(target)) {
                 XBPrintEventFilter listener = new XBPrintEventFilter(writer);
 
                 writer.open(target);
-                XBCoreTestSampleData.writeSampleBlockTerminatedExtended(new XBEventListenerToListener(listener));
+                XBCoreTestSampleData.writeSampleBlockTerminatedWithTail(new XBEventListenerToListener(listener));
                 writer.closeXB();
             }
 
@@ -186,14 +186,14 @@ public class XBEventWriterTest extends TestCase {
      * @throws java.lang.Exception
      */
     @Test
-    public void testWriteSampleDataExtended() throws Exception {
-        try (InputStream stream = XBEventWriterTest.class.getResourceAsStream(XBCoreTestSampleData.SAMPLE_DATA_EXTENDED)) {
+    public void testWriteSampleDataWithTail() throws Exception {
+        try (InputStream stream = XBEventWriterTest.class.getResourceAsStream(XBCoreTestSampleData.SAMPLE_DATA_WITH_TAIL)) {
             ByteArrayOutputStream target = new ByteArrayOutputStream();
             try (XBEventWriter writer = new XBEventWriter(target)) {
                 XBPrintEventFilter listener = new XBPrintEventFilter(writer);
 
                 writer.open(target);
-                XBCoreTestSampleData.writeSampleDataExtended(new XBEventListenerToListener(listener));
+                XBCoreTestSampleData.writeSampleDataWithTail(new XBEventListenerToListener(listener));
                 writer.closeXB();
             }
 
@@ -228,14 +228,14 @@ public class XBEventWriterTest extends TestCase {
      * @throws java.lang.Exception
      */
     @Test
-    public void testWriteSampleDataTerminatedExtended() throws Exception {
-        try (InputStream stream = XBEventWriterTest.class.getResourceAsStream(XBCoreTestSampleData.SAMPLE_DATA_TERMINATED_EXTENDED)) {
+    public void testWriteSampleDataTerminatedWithTail() throws Exception {
+        try (InputStream stream = XBEventWriterTest.class.getResourceAsStream(XBCoreTestSampleData.SAMPLE_DATA_TERMINATED_WITH_TAIL)) {
             ByteArrayOutputStream target = new ByteArrayOutputStream();
             try (XBEventWriter writer = new XBEventWriter(target)) {
                 XBPrintEventFilter listener = new XBPrintEventFilter(writer);
 
                 writer.open(target);
-                XBCoreTestSampleData.writeSampleDataTerminatedExtended(new XBEventListenerToListener(listener));
+                XBCoreTestSampleData.writeSampleDataTerminatedWithTail(new XBEventListenerToListener(listener));
                 writer.closeXB();
             }
 
@@ -270,14 +270,14 @@ public class XBEventWriterTest extends TestCase {
      * @throws java.lang.Exception
      */
     @Test
-    public void testWriteSampleBlockDataExtended() throws Exception {
-        try (InputStream stream = XBEventWriterTest.class.getResourceAsStream(XBCoreTestSampleData.SAMPLE_BLOCK_DATA_EXTENDED)) {
+    public void testWriteSampleBlockDataWithTail() throws Exception {
+        try (InputStream stream = XBEventWriterTest.class.getResourceAsStream(XBCoreTestSampleData.SAMPLE_BLOCK_DATA_WITH_TAIL)) {
             ByteArrayOutputStream target = new ByteArrayOutputStream();
             try (XBEventWriter writer = new XBEventWriter(target)) {
                 XBPrintEventFilter listener = new XBPrintEventFilter(writer);
 
                 writer.open(target);
-                XBCoreTestSampleData.writeSampleBlockDataExtended(new XBEventListenerToListener(listener));
+                XBCoreTestSampleData.writeSampleBlockDataWithTail(new XBEventListenerToListener(listener));
                 writer.closeXB();
             }
 
@@ -312,14 +312,14 @@ public class XBEventWriterTest extends TestCase {
      * @throws java.lang.Exception
      */
     @Test
-    public void testWriteSampleBlockDataTerminatedExtended() throws Exception {
-        try (InputStream stream = XBEventWriterTest.class.getResourceAsStream(XBCoreTestSampleData.SAMPLE_BLOCK_DATA_TERMINATED_EXTENDED)) {
+    public void testWriteSampleBlockDataTerminatedWithTail() throws Exception {
+        try (InputStream stream = XBEventWriterTest.class.getResourceAsStream(XBCoreTestSampleData.SAMPLE_BLOCK_DATA_TERMINATED_WITH_TAIL)) {
             ByteArrayOutputStream target = new ByteArrayOutputStream();
             try (XBEventWriter writer = new XBEventWriter(target)) {
                 XBPrintEventFilter listener = new XBPrintEventFilter(writer);
 
                 writer.open(target);
-                XBCoreTestSampleData.writeSampleBlockDataTerminatedExtended(new XBEventListenerToListener(listener));
+                XBCoreTestSampleData.writeSampleBlockDataTerminatedWithTail(new XBEventListenerToListener(listener));
                 writer.closeXB();
             }
 
@@ -396,14 +396,14 @@ public class XBEventWriterTest extends TestCase {
      * @throws java.lang.Exception
      */
     @Test
-    public void testWriteSampleTwoBlocksExtended() throws Exception {
-        try (InputStream stream = XBEventWriterTest.class.getResourceAsStream(XBCoreTestSampleData.SAMPLE_TWO_BLOCKS_EXTENDED)) {
+    public void testWriteSampleTwoBlocksWithTail() throws Exception {
+        try (InputStream stream = XBEventWriterTest.class.getResourceAsStream(XBCoreTestSampleData.SAMPLE_TWO_BLOCKS_WITH_TAIL)) {
             ByteArrayOutputStream target = new ByteArrayOutputStream();
             try (XBEventWriter writer = new XBEventWriter(target)) {
                 XBPrintEventFilter listener = new XBPrintEventFilter(writer);
 
                 writer.open(target);
-                XBCoreTestSampleData.writeSampleTwoBlocksExtended(new XBEventListenerToListener(listener));
+                XBCoreTestSampleData.writeSampleTwoBlocksWithTail(new XBEventListenerToListener(listener));
                 writer.closeXB();
             }
 
@@ -438,14 +438,14 @@ public class XBEventWriterTest extends TestCase {
      * @throws java.lang.Exception
      */
     @Test
-    public void testWriteSampleTwoBlocksTerminatedExtended() throws Exception {
-        try (InputStream stream = XBEventWriterTest.class.getResourceAsStream(XBCoreTestSampleData.SAMPLE_TWO_BLOCKS_TERMINATED_EXTENDED)) {
+    public void testWriteSampleTwoBlocksTerminatedWithTail() throws Exception {
+        try (InputStream stream = XBEventWriterTest.class.getResourceAsStream(XBCoreTestSampleData.SAMPLE_TWO_BLOCKS_TERMINATED_WITH_TAIL)) {
             ByteArrayOutputStream target = new ByteArrayOutputStream();
             try (XBEventWriter writer = new XBEventWriter(target)) {
                 XBPrintEventFilter listener = new XBPrintEventFilter(writer);
 
                 writer.open(target);
-                XBCoreTestSampleData.writeSampleTwoBlocksTerminatedExtended(new XBEventListenerToListener(listener));
+                XBCoreTestSampleData.writeSampleTwoBlocksTerminatedWithTail(new XBEventListenerToListener(listener));
                 writer.closeXB();
             }
 

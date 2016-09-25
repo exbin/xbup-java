@@ -20,16 +20,16 @@ import java.io.IOException;
 import java.io.InputStream;
 
 /**
- * Input stream wrapper for extended area.
+ * Input stream wrapper for tail data.
  *
- * @version 0.1.23 2014/01/06
+ * @version 0.2.0 2016/09/25
  * @author ExBin Project (http://exbin.org)
  */
-public class ExtendedAreaInputStreamWrapper extends InputStream {
+public class TailDataInputStreamWrapper extends InputStream {
 
     private final InputStream source;
 
-    public ExtendedAreaInputStreamWrapper(final InputStream source) {
+    public TailDataInputStreamWrapper(final InputStream source) {
         this.source = source;
     }
 

@@ -105,16 +105,16 @@ public class XBTreeWriter implements XBProvider, XBProducer {
                     listener.endXB();
                     break;
                 } else {
-                    if (source.getExtendedAreaSize() > 0) {
-                        listener.dataXB(source.getExtendedArea());
-                        state = XBParserState.EXTENDED_AREA;
+                    if (source.getTailDataSize() > 0) {
+                        listener.dataXB(source.getTailData());
+                        state = XBParserState.TAIL_DATA;
                         break;
                     }
                 }
                 // Continuation to next case intended
             }
 
-            case EXTENDED_AREA: {
+            case TAIL_DATA: {
                 listener.endXB();
                 state = XBParserState.EOF;
                 break;

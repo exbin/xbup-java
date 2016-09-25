@@ -22,21 +22,21 @@ import org.exbin.utils.binary_data.BinaryData;
 /**
  * Basic plain implementation of XBTDocument interface.
  *
- * @version 0.2.0 2016/05/24
+ * @version 0.2.0 2016/05/29
  * @author ExBin Project (http://exbin.org)
  */
 public class XBTDefaultDocument implements XBTDocument {
 
     private final XBTBlock rootBlock;
-    private final BinaryData extendedArea;
+    private final BinaryData tailData;
 
     public XBTDefaultDocument(XBTBlock rootBlock) {
         this(rootBlock, null);
     }
 
-    public XBTDefaultDocument(XBTBlock rootBlock, BinaryData extendedArea) {
+    public XBTDefaultDocument(XBTBlock rootBlock, BinaryData tailData) {
         this.rootBlock = rootBlock;
-        this.extendedArea = extendedArea;
+        this.tailData = tailData;
     }
 
     @Override
@@ -45,13 +45,13 @@ public class XBTDefaultDocument implements XBTDocument {
     }
 
     @Override
-    public InputStream getExtendedArea() {
-        return extendedArea.getDataInputStream();
+    public InputStream getTailData() {
+        return tailData.getDataInputStream();
     }
 
     @Override
-    public long getExtendedAreaSize() {
-        return extendedArea == null ? 0 : extendedArea.getDataSize();
+    public long getTailDataSize() {
+        return tailData == null ? 0 : tailData.getDataSize();
     }
 
     @Override

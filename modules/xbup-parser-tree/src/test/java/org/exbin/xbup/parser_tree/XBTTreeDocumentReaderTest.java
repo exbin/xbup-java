@@ -16,9 +16,6 @@
  */
 package org.exbin.xbup.parser_tree;
 
-import org.exbin.xbup.parser_tree.XBTDocumentToXBDocument;
-import org.exbin.xbup.parser_tree.XBTTreeDocument;
-import org.exbin.xbup.parser_tree.XBTTreeNode;
 import junit.framework.TestCase;
 import org.junit.Test;
 import org.exbin.xbup.core.block.XBDocument;
@@ -28,7 +25,7 @@ import org.exbin.xbup.core.test.XBTestUtils;
 /**
  * Test class for XBTTreeDocument.
  *
- * @version 0.1.25 2015/08/12
+ * @version 0.2.0 2016/09/25
  * @author ExBin Project (http://exbin.org)
  */
 public class XBTTreeDocumentReaderTest extends TestCase {
@@ -81,11 +78,11 @@ public class XBTTreeDocumentReaderTest extends TestCase {
      * @throws java.lang.Exception
      */
     @Test
-    public void testReadSampleBlockExtended() throws Exception {
+    public void testReadSampleBlockTailData() throws Exception {
         XBTTreeDocument instance = new XBTTreeDocument(new XBTTreeNode());
-        instance.fromStreamUB(XBTTreeDocumentReaderTest.class.getResourceAsStream(XBCoreTestSampleData.SAMPLE_BLOCK_EXTENDED));
+        instance.fromStreamUB(XBTTreeDocumentReaderTest.class.getResourceAsStream(XBCoreTestSampleData.SAMPLE_BLOCK_WITH_TAIL));
 
-        XBDocument expectedDocument = XBCoreTestSampleData.getSampleBlockExtendedTree();
+        XBDocument expectedDocument = XBCoreTestSampleData.getSampleBlockWithTailTree();
         XBTestUtils.assertEqualsXBDocuments(expectedDocument, new XBTDocumentToXBDocument(instance));
     }
 
@@ -109,11 +106,11 @@ public class XBTTreeDocumentReaderTest extends TestCase {
      * @throws java.lang.Exception
      */
     @Test
-    public void testReadSampleBlockTerminatedExtended() throws Exception {
+    public void testReadSampleBlockTerminatedWithTail() throws Exception {
         XBTTreeDocument instance = new XBTTreeDocument(new XBTTreeNode());
-        instance.fromStreamUB(XBTTreeDocumentReaderTest.class.getResourceAsStream(XBCoreTestSampleData.SAMPLE_BLOCK_TERMINATED_EXTENDED));
+        instance.fromStreamUB(XBTTreeDocumentReaderTest.class.getResourceAsStream(XBCoreTestSampleData.SAMPLE_BLOCK_TERMINATED_WITH_TAIL));
 
-        XBDocument expectedDocument = XBCoreTestSampleData.getSampleBlockTerminatedExtendedTree();
+        XBDocument expectedDocument = XBCoreTestSampleData.getSampleBlockTerminatedWithTailTree();
         XBTestUtils.assertEqualsXBDocuments(expectedDocument, new XBTDocumentToXBDocument(instance));
     }
 
@@ -137,11 +134,11 @@ public class XBTTreeDocumentReaderTest extends TestCase {
      * @throws java.lang.Exception
      */
     @Test
-    public void testReadSampleDataExtended() throws Exception {
+    public void testReadSampleDataWithTail() throws Exception {
         XBTTreeDocument instance = new XBTTreeDocument(new XBTTreeNode());
-        instance.fromStreamUB(XBTTreeDocumentReaderTest.class.getResourceAsStream(XBCoreTestSampleData.SAMPLE_DATA_EXTENDED));
+        instance.fromStreamUB(XBTTreeDocumentReaderTest.class.getResourceAsStream(XBCoreTestSampleData.SAMPLE_DATA_WITH_TAIL));
 
-        XBDocument expectedDocument = XBCoreTestSampleData.getSampleDataExtendedTree();
+        XBDocument expectedDocument = XBCoreTestSampleData.getSampleDataWithTailTree();
         XBTestUtils.assertEqualsXBDocuments(expectedDocument, new XBTDocumentToXBDocument(instance));
     }
 
@@ -165,11 +162,11 @@ public class XBTTreeDocumentReaderTest extends TestCase {
      * @throws java.lang.Exception
      */
     @Test
-    public void testReadSampleDataTerminatedExtended() throws Exception {
+    public void testReadSampleDataTerminatedWithTail() throws Exception {
         XBTTreeDocument instance = new XBTTreeDocument(new XBTTreeNode());
-        instance.fromStreamUB(XBTTreeDocumentReaderTest.class.getResourceAsStream(XBCoreTestSampleData.SAMPLE_DATA_TERMINATED_EXTENDED));
+        instance.fromStreamUB(XBTTreeDocumentReaderTest.class.getResourceAsStream(XBCoreTestSampleData.SAMPLE_DATA_TERMINATED_WITH_TAIL));
 
-        XBDocument expectedDocument = XBCoreTestSampleData.getSampleDataTerminatedExtendedTree();
+        XBDocument expectedDocument = XBCoreTestSampleData.getSampleDataTerminatedWithTailTree();
         XBTestUtils.assertEqualsXBDocuments(expectedDocument, new XBTDocumentToXBDocument(instance));
     }
 
@@ -193,11 +190,11 @@ public class XBTTreeDocumentReaderTest extends TestCase {
      * @throws java.lang.Exception
      */
     @Test
-    public void testReadSampleBlockDataExtended() throws Exception {
+    public void testReadSampleBlockDataWithTail() throws Exception {
         XBTTreeDocument instance = new XBTTreeDocument(new XBTTreeNode());
-        instance.fromStreamUB(XBTTreeDocumentReaderTest.class.getResourceAsStream(XBCoreTestSampleData.SAMPLE_BLOCK_DATA_EXTENDED));
+        instance.fromStreamUB(XBTTreeDocumentReaderTest.class.getResourceAsStream(XBCoreTestSampleData.SAMPLE_BLOCK_DATA_WITH_TAIL));
 
-        XBDocument expectedDocument = XBCoreTestSampleData.getSampleBlockDataExtendedTree();
+        XBDocument expectedDocument = XBCoreTestSampleData.getSampleBlockDataWithTailTree();
         XBTestUtils.assertEqualsXBDocuments(expectedDocument, new XBTDocumentToXBDocument(instance));
     }
 
@@ -221,11 +218,11 @@ public class XBTTreeDocumentReaderTest extends TestCase {
      * @throws java.lang.Exception
      */
     @Test
-    public void testReadSampleBlockDataTerminatedExtended() throws Exception {
+    public void testReadSampleBlockDataTerminatedWithTail() throws Exception {
         XBTTreeDocument instance = new XBTTreeDocument(new XBTTreeNode());
-        instance.fromStreamUB(XBTTreeDocumentReaderTest.class.getResourceAsStream(XBCoreTestSampleData.SAMPLE_BLOCK_DATA_TERMINATED_EXTENDED));
+        instance.fromStreamUB(XBTTreeDocumentReaderTest.class.getResourceAsStream(XBCoreTestSampleData.SAMPLE_BLOCK_DATA_TERMINATED_WITH_TAIL));
 
-        XBDocument expectedDocument = XBCoreTestSampleData.getSampleBlockDataTerminatedExtendedTree();
+        XBDocument expectedDocument = XBCoreTestSampleData.getSampleBlockDataTerminatedWithTailTree();
         XBTestUtils.assertEqualsXBDocuments(expectedDocument, new XBTDocumentToXBDocument(instance));
     }
 
@@ -277,11 +274,11 @@ public class XBTTreeDocumentReaderTest extends TestCase {
      * @throws java.lang.Exception
      */
     @Test
-    public void testReadSampleTwoBlocksExtended() throws Exception {
+    public void testReadSampleTwoBlocksWithTail() throws Exception {
         XBTTreeDocument instance = new XBTTreeDocument(new XBTTreeNode());
-        instance.fromStreamUB(XBTTreeDocumentReaderTest.class.getResourceAsStream(XBCoreTestSampleData.SAMPLE_TWO_BLOCKS_EXTENDED));
+        instance.fromStreamUB(XBTTreeDocumentReaderTest.class.getResourceAsStream(XBCoreTestSampleData.SAMPLE_TWO_BLOCKS_WITH_TAIL));
 
-        XBDocument expectedDocument = XBCoreTestSampleData.getSampleTwoBlocksExtendedTree();
+        XBDocument expectedDocument = XBCoreTestSampleData.getSampleTwoBlocksWithTailTree();
         XBTestUtils.assertEqualsXBDocuments(expectedDocument, new XBTDocumentToXBDocument(instance));
     }
 
@@ -305,11 +302,11 @@ public class XBTTreeDocumentReaderTest extends TestCase {
      * @throws java.lang.Exception
      */
     @Test
-    public void testReadSampleTwoBlocksTerminatedExtended() throws Exception {
+    public void testReadSampleTwoBlocksTerminatedWithTail() throws Exception {
         XBTTreeDocument instance = new XBTTreeDocument(new XBTTreeNode());
-        instance.fromStreamUB(XBTTreeDocumentReaderTest.class.getResourceAsStream(XBCoreTestSampleData.SAMPLE_TWO_BLOCKS_TERMINATED_EXTENDED));
+        instance.fromStreamUB(XBTTreeDocumentReaderTest.class.getResourceAsStream(XBCoreTestSampleData.SAMPLE_TWO_BLOCKS_TERMINATED_WITH_TAIL));
 
-        XBDocument expectedDocument = XBCoreTestSampleData.getSampleTwoBlocksTerminatedExtendedTree();
+        XBDocument expectedDocument = XBCoreTestSampleData.getSampleTwoBlocksTerminatedWithTailTree();
         XBTestUtils.assertEqualsXBDocuments(expectedDocument, new XBTDocumentToXBDocument(instance));
     }
 

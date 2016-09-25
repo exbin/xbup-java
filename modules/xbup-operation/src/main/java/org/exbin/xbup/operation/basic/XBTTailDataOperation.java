@@ -35,12 +35,12 @@ import org.exbin.xbup.operation.XBTDocOperation;
 /**
  * Operation for adding child block.
  *
- * @version 0.2.0 2016/05/24
+ * @version 0.2.0 2016/09/25
  * @author ExBin Project (http://exbin.org)
  */
-public class XBTExtAreaOperation extends XBTDocOperation {
+public class XBTTailDataOperation extends XBTDocOperation {
 
-    public XBTExtAreaOperation(XBTEditableDocument document, XBData data) {
+    public XBTTailDataOperation(XBTEditableDocument document, XBData data) {
         super(document);
         OutputStream dataOutputStream = data.getDataOutputStream();
         XBPSerialWriter writer = new XBPSerialWriter(dataOutputStream);
@@ -64,23 +64,23 @@ public class XBTExtAreaOperation extends XBTDocOperation {
     }
 
     private Operation execute(boolean withUndo) {
-        XBTExtAreaOperation undoOperation = null;
+        XBTTailDataOperation undoOperation = null;
         try {
             if (withUndo) {
                 XBData oldData = new XBData();
-                InputStream extendedArea = document.getExtendedArea();
-                if (extendedArea != null) {
-                    oldData.loadFromStream(extendedArea);
+                InputStream tailDataStream = document.getTailData();
+                if (tailDataStream != null) {
+                    oldData.loadFromStream(tailDataStream);
                 }
-                undoOperation = new XBTExtAreaOperation(document, oldData);
+                undoOperation = new XBTTailDataOperation(document, oldData);
             }
 
-            XBData extendedAreaData = new XBData();
+            XBData tailData = new XBData();
             InputStream dataInputStream = getData().getDataInputStream();
             XBPSerialReader reader = new XBPSerialReader(dataInputStream);
-            Serializator serial = new Serializator(extendedAreaData);
+            Serializator serial = new Serializator(tailData);
             reader.read(serial);
-            document.setExtendedArea(extendedAreaData.getDataInputStream());
+            document.setTailData(tailData.getDataInputStream());
         } catch (XBProcessingException | IOException ex) {
             Logger.getLogger(XBTDeleteBlockOperation.class.getName()).log(Level.SEVERE, null, ex);
             throw new IllegalStateException("Unable to process data");

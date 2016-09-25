@@ -33,7 +33,7 @@ import org.exbin.xbup.core.ubnumber.type.UBNat32;
 /**
  * Sample data and methods for testing purposes.
  *
- * @version 0.1.25 2015/08/11
+ * @version 0.2.0 2016/09/25
  * @author ExBin Project (http://exbin.org)
  */
 public class XBCoreTestSampleData {
@@ -45,23 +45,23 @@ public class XBCoreTestSampleData {
     public final static String SAMPLE_FILES_PATH = "/org/exbin/xbup/core/resources/test/samples/";
     public final static String SAMPLE_EMPTY = SAMPLE_FILES_PATH + "empty.xb";
     public final static String SAMPLE_BLOCK = SAMPLE_FILES_PATH + "block.xb";
-    public final static String SAMPLE_BLOCK_EXTENDED = SAMPLE_FILES_PATH + "block_extended.xb";
+    public final static String SAMPLE_BLOCK_WITH_TAIL = SAMPLE_FILES_PATH + "block_with_tail.xb";
     public final static String SAMPLE_BLOCK_TERMINATED = SAMPLE_FILES_PATH + "block_terminated.xb";
-    public final static String SAMPLE_BLOCK_TERMINATED_EXTENDED = SAMPLE_FILES_PATH + "block_terminated_extended.xb";
+    public final static String SAMPLE_BLOCK_TERMINATED_WITH_TAIL = SAMPLE_FILES_PATH + "block_terminated_with_tail.xb";
     public final static String SAMPLE_DATA = SAMPLE_FILES_PATH + "data.xb";
-    public final static String SAMPLE_DATA_EXTENDED = SAMPLE_FILES_PATH + "data_extended.xb";
+    public final static String SAMPLE_DATA_WITH_TAIL = SAMPLE_FILES_PATH + "data_with_tail.xb";
     public final static String SAMPLE_DATA_TERMINATED = SAMPLE_FILES_PATH + "data_terminated.xb";
-    public final static String SAMPLE_DATA_TERMINATED_EXTENDED = SAMPLE_FILES_PATH + "data_terminated_extended.xb";
+    public final static String SAMPLE_DATA_TERMINATED_WITH_TAIL = SAMPLE_FILES_PATH + "data_terminated_with_tail.xb";
     public final static String SAMPLE_BLOCK_DATA = SAMPLE_FILES_PATH + "block_data.xb";
-    public final static String SAMPLE_BLOCK_DATA_EXTENDED = SAMPLE_FILES_PATH + "block_data_extended.xb";
+    public final static String SAMPLE_BLOCK_DATA_WITH_TAIL = SAMPLE_FILES_PATH + "block_data_with_tail.xb";
     public final static String SAMPLE_BLOCK_DATA_TERMINATED = SAMPLE_FILES_PATH + "block_data_terminated.xb";
-    public final static String SAMPLE_BLOCK_DATA_TERMINATED_EXTENDED = SAMPLE_FILES_PATH + "block_data_terminated_extended.xb";
+    public final static String SAMPLE_BLOCK_DATA_TERMINATED_WITH_TAIL = SAMPLE_FILES_PATH + "block_data_terminated_with_tail.xb";
     public final static String SAMPLE_BLOCK_DATA_HYBRID = SAMPLE_FILES_PATH + "block_data_hybrid.xb";
     public final static String SAMPLE_BLOCK_DATA_HYBRID2 = SAMPLE_FILES_PATH + "block_data_hybrid2.xb";
     public final static String SAMPLE_TWO_BLOCKS = SAMPLE_FILES_PATH + "two_blocks.xb";
-    public final static String SAMPLE_TWO_BLOCKS_EXTENDED = SAMPLE_FILES_PATH + "two_blocks_extended.xb";
+    public final static String SAMPLE_TWO_BLOCKS_WITH_TAIL = SAMPLE_FILES_PATH + "two_blocks_with_tail.xb";
     public final static String SAMPLE_TWO_BLOCKS_TERMINATED = SAMPLE_FILES_PATH + "two_blocks_terminated.xb";
-    public final static String SAMPLE_TWO_BLOCKS_TERMINATED_EXTENDED = SAMPLE_FILES_PATH + "two_blocks_terminated_extended.xb";
+    public final static String SAMPLE_TWO_BLOCKS_TERMINATED_WITH_TAIL = SAMPLE_FILES_PATH + "two_blocks_terminated_with_tail.xb";
     public final static String SAMPLE_TWO_BLOCKS_HYBRID = SAMPLE_FILES_PATH + "two_blocks_hybrid.xb";
     public final static String SAMPLE_TWO_BLOCKS_HYBRID2 = SAMPLE_FILES_PATH + "two_blocks_hybrid2.xb";
     public final static String SAMPLE_SIX_BLOCKS = SAMPLE_FILES_PATH + "six_blocks.xb";
@@ -107,12 +107,12 @@ public class XBCoreTestSampleData {
     }
 
     /**
-     * Writes tokens matching file "block_extended.xb".
+     * Writes tokens matching file "block_with_tail.xb".
      *
      * @param listener token listener
      * @throws java.io.IOException if input/output error
      */
-    public static void writeSampleBlockExtended(XBListener listener) throws XBProcessingException, IOException {
+    public static void writeSampleBlockWithTail(XBListener listener) throws XBProcessingException, IOException {
         listener.beginXB(XBBlockTerminationMode.SIZE_SPECIFIED);
         listener.attribXB(new UBNat32(1));
         ByteArrayInputStream extDataStream = new ByteArrayInputStream(NUMBERS_SEQUENCE_REVERSED);
@@ -133,12 +133,12 @@ public class XBCoreTestSampleData {
     }
 
     /**
-     * Writes tokens matching file "block_terminated_extended.xb".
+     * Writes tokens matching file "block_terminated_with_tail.xb".
      *
      * @param listener token listener
      * @throws java.io.IOException if input/output error
      */
-    public static void writeSampleBlockTerminatedExtended(XBListener listener) throws XBProcessingException, IOException {
+    public static void writeSampleBlockTerminatedWithTail(XBListener listener) throws XBProcessingException, IOException {
         listener.beginXB(XBBlockTerminationMode.TERMINATED_BY_ZERO);
         listener.attribXB(new UBNat32(1));
         ByteArrayInputStream extDataStream = new ByteArrayInputStream(NUMBERS_SEQUENCE_REVERSED);
@@ -160,12 +160,12 @@ public class XBCoreTestSampleData {
     }
 
     /**
-     * Writes tokens matching file "data_extended.xb".
+     * Writes tokens matching file "data_with_tail.xb".
      *
      * @param listener token listener
      * @throws java.io.IOException if input/output error
      */
-    public static void writeSampleDataExtended(XBListener listener) throws XBProcessingException, IOException {
+    public static void writeSampleDataWithTail(XBListener listener) throws XBProcessingException, IOException {
         listener.beginXB(XBBlockTerminationMode.SIZE_SPECIFIED);
         ByteArrayInputStream dataStream = new ByteArrayInputStream(NUMBERS_SEQUENCE);
         listener.dataXB(dataStream);
@@ -188,12 +188,12 @@ public class XBCoreTestSampleData {
     }
 
     /**
-     * Writes tokens matching file "data_terminated_extended.xb".
+     * Writes tokens matching file "data_terminated_with_tail.xb".
      *
      * @param listener token listener
      * @throws java.io.IOException if input/output error
      */
-    public static void writeSampleDataTerminatedExtended(XBListener listener) throws XBProcessingException, IOException {
+    public static void writeSampleDataTerminatedWithTail(XBListener listener) throws XBProcessingException, IOException {
         listener.beginXB(XBBlockTerminationMode.TERMINATED_BY_ZERO);
         ByteArrayInputStream dataStream = new ByteArrayInputStream(NUMBERS_SEQUENCE);
         listener.dataXB(dataStream);
@@ -219,12 +219,12 @@ public class XBCoreTestSampleData {
     }
 
     /**
-     * Writes tokens matching file "block_data_extended.xb".
+     * Writes tokens matching file "block_data_with_tail.xb".
      *
      * @param listener token listener
      * @throws java.io.IOException if input/output error
      */
-    public static void writeSampleBlockDataExtended(XBListener listener) throws XBProcessingException, IOException {
+    public static void writeSampleBlockDataWithTail(XBListener listener) throws XBProcessingException, IOException {
         listener.beginXB(XBBlockTerminationMode.SIZE_SPECIFIED);
         listener.attribXB(new UBNat32(1));
         listener.beginXB(XBBlockTerminationMode.SIZE_SPECIFIED);
@@ -253,12 +253,12 @@ public class XBCoreTestSampleData {
     }
 
     /**
-     * Writes tokens matching file "block_data_terminated_extended.xb".
+     * Writes tokens matching file "block_data_terminated_with_tail.xb".
      *
      * @param listener token listener
      * @throws java.io.IOException if input/output error
      */
-    public static void writeSampleBlockDataTerminatedExtended(XBListener listener) throws XBProcessingException, IOException {
+    public static void writeSampleBlockDataTerminatedWithTail(XBListener listener) throws XBProcessingException, IOException {
         listener.beginXB(XBBlockTerminationMode.TERMINATED_BY_ZERO);
         listener.attribXB(new UBNat32(1));
         listener.beginXB(XBBlockTerminationMode.TERMINATED_BY_ZERO);
@@ -318,12 +318,12 @@ public class XBCoreTestSampleData {
     }
 
     /**
-     * Writes tokens matching file "two_blocks_extended.xb".
+     * Writes tokens matching file "two_blocks_with_tail.xb".
      *
      * @param listener token listener
      * @throws java.io.IOException if input/output error
      */
-    public static void writeSampleTwoBlocksExtended(XBListener listener) throws XBProcessingException, IOException {
+    public static void writeSampleTwoBlocksWithTail(XBListener listener) throws XBProcessingException, IOException {
         listener.beginXB(XBBlockTerminationMode.SIZE_SPECIFIED);
         listener.attribXB(new UBNat32(1));
         listener.beginXB(XBBlockTerminationMode.SIZE_SPECIFIED);
@@ -350,12 +350,12 @@ public class XBCoreTestSampleData {
     }
 
     /**
-     * Writes tokens matching file "two_blocks_terminated_extended.xb".
+     * Writes tokens matching file "two_blocks_terminated_with_tail.xb".
      *
      * @param listener token listener
      * @throws java.io.IOException if input/output error
      */
-    public static void writeSampleTwoBlocksTerminatedExtended(XBListener listener) throws XBProcessingException, IOException {
+    public static void writeSampleTwoBlocksTerminatedWithTail(XBListener listener) throws XBProcessingException, IOException {
         listener.beginXB(XBBlockTerminationMode.TERMINATED_BY_ZERO);
         listener.attribXB(new UBNat32(1));
         listener.beginXB(XBBlockTerminationMode.TERMINATED_BY_ZERO);
@@ -502,20 +502,20 @@ public class XBCoreTestSampleData {
     }
 
     /**
-     * Returns block structure matching file "block_extended.xb".
+     * Returns block structure matching file "block_with_tail.xb".
      *
      * @return tree structure
      */
-    public static XBDocument getSampleBlockExtendedTree() {
-        XBData extendedArea = new XBData();
+    public static XBDocument getSampleBlockWithTailTree() {
+        XBData tailData = new XBData();
         try {
-            extendedArea.loadFromStream(new ByteArrayInputStream(NUMBERS_SEQUENCE_REVERSED));
+            tailData.loadFromStream(new ByteArrayInputStream(NUMBERS_SEQUENCE_REVERSED));
         } catch (IOException ex) {
             Assert.fail();
         }
         return new XBDefaultDocument(
                 new XBDefaultBlock(XBBlockTerminationMode.SIZE_SPECIFIED, new XBAttribute[]{new UBNat32(1)}, new XBBlock[]{}),
-                extendedArea);
+                tailData);
     }
 
     /**
@@ -528,20 +528,20 @@ public class XBCoreTestSampleData {
     }
 
     /**
-     * Returns block structure matching file "block_terminated_extended.xb".
+     * Returns block structure matching file "block_terminated_with_tail.xb".
      *
      * @return tree structure
      */
-    public static XBDocument getSampleBlockTerminatedExtendedTree() {
-        XBData extendedArea = new XBData();
+    public static XBDocument getSampleBlockTerminatedWithTailTree() {
+        XBData tailData = new XBData();
         try {
-            extendedArea.loadFromStream(new ByteArrayInputStream(NUMBERS_SEQUENCE_REVERSED));
+            tailData.loadFromStream(new ByteArrayInputStream(NUMBERS_SEQUENCE_REVERSED));
         } catch (IOException ex) {
             Assert.fail();
         }
         return new XBDefaultDocument(
                 new XBDefaultBlock(XBBlockTerminationMode.TERMINATED_BY_ZERO, new XBAttribute[]{new UBNat32(1)}, new XBBlock[]{}),
-                extendedArea);
+                tailData);
     }
 
     /**
@@ -560,14 +560,14 @@ public class XBCoreTestSampleData {
     }
 
     /**
-     * Returns block structure matching file "data_extended.xb".
+     * Returns block structure matching file "data_with_tail.xb".
      *
      * @return tree structure
      */
-    public static XBDocument getSampleDataExtendedTree() {
-        XBData extendedArea = new XBData();
+    public static XBDocument getSampleDataWithTailTree() {
+        XBData tailData = new XBData();
         try {
-            extendedArea.loadFromStream(new ByteArrayInputStream(NUMBERS_SEQUENCE_REVERSED));
+            tailData.loadFromStream(new ByteArrayInputStream(NUMBERS_SEQUENCE_REVERSED));
         } catch (IOException ex) {
             Assert.fail();
         }
@@ -577,7 +577,7 @@ public class XBCoreTestSampleData {
         } catch (IOException ex) {
             Assert.fail();
         }
-        return new XBDefaultDocument(new XBDefaultBlock(XBBlockTerminationMode.SIZE_SPECIFIED, data), extendedArea);
+        return new XBDefaultDocument(new XBDefaultBlock(XBBlockTerminationMode.SIZE_SPECIFIED, data), tailData);
     }
 
     /**
@@ -600,10 +600,10 @@ public class XBCoreTestSampleData {
      *
      * @return tree structure
      */
-    public static XBDocument getSampleDataTerminatedExtendedTree() {
-        XBData extendedArea = new XBData();
+    public static XBDocument getSampleDataTerminatedWithTailTree() {
+        XBData tailData = new XBData();
         try {
-            extendedArea.loadFromStream(new ByteArrayInputStream(NUMBERS_SEQUENCE_REVERSED));
+            tailData.loadFromStream(new ByteArrayInputStream(NUMBERS_SEQUENCE_REVERSED));
         } catch (IOException ex) {
             Assert.fail();
         }
@@ -613,7 +613,7 @@ public class XBCoreTestSampleData {
         } catch (IOException ex) {
             Assert.fail();
         }
-        return new XBDefaultDocument(new XBDefaultBlock(XBBlockTerminationMode.TERMINATED_BY_ZERO, data), extendedArea);
+        return new XBDefaultDocument(new XBDefaultBlock(XBBlockTerminationMode.TERMINATED_BY_ZERO, data), tailData);
     }
 
     /**
@@ -634,20 +634,20 @@ public class XBCoreTestSampleData {
     }
 
     /**
-     * Returns block structure matching file "block_data_extended.xb".
+     * Returns block structure matching file "block_data_with_tail.xb".
      *
      * @return tree structure
      */
-    public static XBDocument getSampleBlockDataExtendedTree() {
+    public static XBDocument getSampleBlockDataWithTailTree() {
         XBData data = new XBData();
         try {
             data.loadFromStream(new ByteArrayInputStream(NUMBERS_SEQUENCE));
         } catch (IOException ex) {
             Assert.fail();
         }
-        XBData extendedArea = new XBData();
+        XBData tailData = new XBData();
         try {
-            extendedArea.loadFromStream(new ByteArrayInputStream(NUMBERS_SEQUENCE_REVERSED));
+            tailData.loadFromStream(new ByteArrayInputStream(NUMBERS_SEQUENCE_REVERSED));
         } catch (IOException ex) {
             Assert.fail();
         }
@@ -655,7 +655,7 @@ public class XBCoreTestSampleData {
                 new XBDefaultBlock(XBBlockTerminationMode.SIZE_SPECIFIED, new XBAttribute[]{new UBNat32(1)}, new XBBlock[]{
             new XBDefaultBlock(XBBlockTerminationMode.SIZE_SPECIFIED, data)
         }),
-                extendedArea);
+                tailData);
     }
 
     /**
@@ -677,20 +677,20 @@ public class XBCoreTestSampleData {
 
     /**
      * Returns block structure matching file
-     * "block_data_terminated_extended.xb".
+     * "block_data_terminated_with_tail.xb".
      *
      * @return tree structure
      */
-    public static XBDocument getSampleBlockDataTerminatedExtendedTree() {
+    public static XBDocument getSampleBlockDataTerminatedWithTailTree() {
         XBData data = new XBData();
         try {
             data.loadFromStream(new ByteArrayInputStream(NUMBERS_SEQUENCE));
         } catch (IOException ex) {
             Assert.fail();
         }
-        XBData extendedArea = new XBData();
+        XBData tailData = new XBData();
         try {
-            extendedArea.loadFromStream(new ByteArrayInputStream(NUMBERS_SEQUENCE_REVERSED));
+            tailData.loadFromStream(new ByteArrayInputStream(NUMBERS_SEQUENCE_REVERSED));
         } catch (IOException ex) {
             Assert.fail();
         }
@@ -698,7 +698,7 @@ public class XBCoreTestSampleData {
                 new XBDefaultBlock(XBBlockTerminationMode.TERMINATED_BY_ZERO, new XBAttribute[]{new UBNat32(1)}, new XBBlock[]{
             new XBDefaultBlock(XBBlockTerminationMode.TERMINATED_BY_ZERO, data)
         }),
-                extendedArea);
+                tailData);
     }
 
     /**
@@ -747,20 +747,20 @@ public class XBCoreTestSampleData {
     }
 
     /**
-     * Returns block structure matching file "two_blocks_extended.xb".
+     * Returns block structure matching file "two_blocks_with_tail.xb".
      *
      * @return tree structure
      */
-    public static XBDocument getSampleTwoBlocksExtendedTree() {
-        XBData extendedArea = new XBData();
+    public static XBDocument getSampleTwoBlocksWithTailTree() {
+        XBData tailData = new XBData();
         try {
-            extendedArea.loadFromStream(new ByteArrayInputStream(NUMBERS_SEQUENCE_REVERSED));
+            tailData.loadFromStream(new ByteArrayInputStream(NUMBERS_SEQUENCE_REVERSED));
         } catch (IOException ex) {
             Assert.fail();
         }
         return new XBDefaultDocument(new XBDefaultBlock(XBBlockTerminationMode.SIZE_SPECIFIED, new XBAttribute[]{new UBNat32(1)}, new XBBlock[]{
             new XBDefaultBlock(XBBlockTerminationMode.SIZE_SPECIFIED, new XBAttribute[]{new UBNat32(2)}, new XBBlock[]{})
-        }), extendedArea);
+        }), tailData);
     }
 
     /**
@@ -776,20 +776,20 @@ public class XBCoreTestSampleData {
 
     /**
      * Returns block structure matching file
-     * "two_blocks_terminated_extended.xb".
+     * "two_blocks_terminated_with_tail.xb".
      *
      * @return tree structure
      */
-    public static XBDocument getSampleTwoBlocksTerminatedExtendedTree() {
-        XBData extendedArea = new XBData();
+    public static XBDocument getSampleTwoBlocksTerminatedWithTailTree() {
+        XBData tailData = new XBData();
         try {
-            extendedArea.loadFromStream(new ByteArrayInputStream(NUMBERS_SEQUENCE_REVERSED));
+            tailData.loadFromStream(new ByteArrayInputStream(NUMBERS_SEQUENCE_REVERSED));
         } catch (IOException ex) {
             Assert.fail();
         }
         return new XBDefaultDocument(new XBDefaultBlock(XBBlockTerminationMode.TERMINATED_BY_ZERO, new XBAttribute[]{new UBNat32(1)}, new XBBlock[]{
             new XBDefaultBlock(XBBlockTerminationMode.TERMINATED_BY_ZERO, new XBAttribute[]{new UBNat32(2)}, new XBBlock[]{})
-        }), extendedArea);
+        }), tailData);
     }
 
     /**

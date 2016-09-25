@@ -74,13 +74,13 @@ public class XBTReader implements XBTCommandReader, Closeable {
     }
 
     @Override
-    public InputStream getExtendedArea() {
-        return reader.getExtendedArea();
+    public InputStream getTailData() {
+        return reader.getTailData();
     }
 
     @Override
-    public long getExtendedAreaSize() {
-        return reader.getExtendedAreaSize();
+    public long getTailDataSize() {
+        return reader.getTailDataSize();
     }
 
     @Override

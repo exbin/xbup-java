@@ -85,8 +85,8 @@ public class XBTestUtils {
      * @param document compared document
      */
     public static void assertEqualsXBDocuments(XBDocument expectedDocument, XBDocument document) {
-        long extendedAreaSize = expectedDocument.getExtendedAreaSize();
-        assertEquals(extendedAreaSize, document.getExtendedAreaSize());
+        long tailDataSize = expectedDocument.getTailDataSize();
+        assertEquals(tailDataSize, document.getTailDataSize());
         assertEqualsXBBlock(expectedDocument.getRootBlock(), document.getRootBlock());
     }
 
@@ -222,14 +222,14 @@ public class XBTestUtils {
             while ((data.available() >= 0) && (position < 10)) {
                 int readStat = data.read(dataBlob, 0, 1);
                 if (readStat < 0) {
-                    fail("Incorrect extended data");
+                    fail("Incorrect tail data");
                 }
 
                 assertEquals('0' + position, dataBlob[0]);
                 position++;
             }
 
-            assertEquals("Extended data are too short", 10, position);
+            assertEquals("Tail data are too short", 10, position);
         }
     }
 

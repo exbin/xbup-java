@@ -37,7 +37,7 @@ import org.exbin.xbup.core.ubnumber.UBNatural;
 /**
  * XBUP level 0 convertor from tokens to tree node.
  *
- * @version 0.2.0 2015/09/19
+ * @version 0.2.0 2016/09/25
  * @author ExBin Project (http://exbin.org)
  */
 public class XBTreeReader implements XBListener {
@@ -45,7 +45,7 @@ public class XBTreeReader implements XBListener {
     private XBDocument target;
     private XBEditableBlock block;
     private final boolean recursive;
-    private final boolean allowExtendedArea;
+    private final boolean allowTailData;
     private boolean finished;
     private XBParserState parserState;
     private XBSkipBlockListener skipNode;
@@ -55,11 +55,11 @@ public class XBTreeReader implements XBListener {
         this(target, true, true);
     }
 
-    public XBTreeReader(XBDocument target, boolean recursive, boolean allowExtendedArea) {
+    public XBTreeReader(XBDocument target, boolean recursive, boolean allowTailData) {
         this.target = target;
         block = (XBEditableBlock) target.getRootBlock();
         this.recursive = recursive;
-        this.allowExtendedArea = allowExtendedArea;
+        this.allowTailData = allowTailData;
         finished = false;
         if (!recursive) {
             skipNode = new XBSkipBlockListener();
@@ -148,11 +148,11 @@ public class XBTreeReader implements XBListener {
         }
 
         if (level == 0 && (parserState == XBParserState.ATTRIBUTE_PART || parserState == XBParserState.DATA_PART || parserState == XBParserState.BLOCK_END)) {
-            if (allowExtendedArea) {
-                ((XBEditableDocument) target).setExtendedArea(data);
-                parserState = XBParserState.EXTENDED_AREA;
+            if (allowTailData) {
+                ((XBEditableDocument) target).setTailData(data);
+                parserState = XBParserState.TAIL_DATA;
             } else {
-                throw new XBParseException("Unexpected data event for extended area", XBProcessingExceptionType.UNEXPECTED_ORDER);
+                throw new XBParseException("Unexpected data event for tail data", XBProcessingExceptionType.UNEXPECTED_ORDER);
             }
         } else {
             if (parserState == XBParserState.BLOCK_BEGIN) {
@@ -176,7 +176,7 @@ public class XBTreeReader implements XBListener {
             return;
         }
 
-        if (parserState == XBParserState.DATA_PART || parserState == XBParserState.ATTRIBUTE_PART || parserState == XBParserState.BLOCK_END || parserState == XBParserState.EXTENDED_AREA) {
+        if (parserState == XBParserState.DATA_PART || parserState == XBParserState.ATTRIBUTE_PART || parserState == XBParserState.BLOCK_END || parserState == XBParserState.TAIL_DATA) {
             parserState = XBParserState.BLOCK_END;
             if (level > 0) {
                 level--;

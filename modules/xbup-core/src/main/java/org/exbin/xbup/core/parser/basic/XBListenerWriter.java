@@ -97,7 +97,7 @@ public class XBListenerWriter implements Closeable, XBListener {
     }
 
     public void closeXB() throws XBProcessingException, IOException {
-        if (parserState != XBParserState.EOF && parserState != XBParserState.EXTENDED_AREA) {
+        if (parserState != XBParserState.EOF && parserState != XBParserState.TAIL_DATA) {
             throw new XBParseException("Unexpected end of stream", XBProcessingExceptionType.UNEXPECTED_END_OF_STREAM);
         }
 
@@ -162,11 +162,11 @@ public class XBListenerWriter implements Closeable, XBListener {
     @Override
     public void dataXB(InputStream data) throws XBProcessingException, IOException {
         if (depthLevel == 1 && (parserState == XBParserState.ATTRIBUTE_PART || parserState == XBParserState.DATA_PART || parserState == XBParserState.BLOCK_END)) {
-            if (parserMode == XBParserMode.SINGLE_BLOCK || parserMode == XBParserMode.SKIP_EXTENDED) {
-                throw new XBParseException("Extended data block present when not expected", XBProcessingExceptionType.UNEXPECTED_ORDER);
+            if (parserMode == XBParserMode.SINGLE_BLOCK || parserMode == XBParserMode.SKIP_TAIL) {
+                throw new XBParseException("Tail data present when not expected", XBProcessingExceptionType.UNEXPECTED_ORDER);
             }
             endXB();
-            parserState = XBParserState.EXTENDED_AREA;
+            parserState = XBParserState.TAIL_DATA;
             StreamUtils.copyInputStreamToOutputStream(data, stream);
         } else {
             if (parserState != XBParserState.BLOCK_BEGIN) {
@@ -201,7 +201,7 @@ public class XBListenerWriter implements Closeable, XBListener {
     @Override
     public void endXB() throws XBProcessingException, IOException {
         switch (parserState) {
-            case EXTENDED_AREA: {
+            case TAIL_DATA: {
                 parserState = XBParserState.EOF;
                 break;
             }

@@ -30,7 +30,7 @@ import org.exbin.xbup.core.parser.XBParserState;
 import org.exbin.xbup.core.parser.XBProcessingException;
 import org.exbin.xbup.core.parser.XBProcessingExceptionType;
 import org.exbin.xbup.core.parser.basic.XBHead;
-import org.exbin.xbup.core.parser.basic.wrapper.ExtendedAreaInputStreamWrapper;
+import org.exbin.xbup.core.parser.basic.wrapper.TailDataInputStreamWrapper;
 import org.exbin.xbup.core.parser.basic.wrapper.FixedDataInputStreamWrapper;
 import org.exbin.xbup.core.parser.basic.wrapper.TerminatedDataInputStreamWrapper;
 import org.exbin.xbup.core.parser.token.XBAttribute;
@@ -173,7 +173,7 @@ public class XBReader implements XBCommandReader, XBPullProvider, Closeable {
     }
 
     @Override
-    public InputStream getExtendedArea() {
+    public InputStream getTailData() {
         // TODO: Stupid algorithmus for initial testing
         try {
             if (parserState == XBParserState.EOF) {
@@ -182,7 +182,7 @@ public class XBReader implements XBCommandReader, XBPullProvider, Closeable {
 
             while (!isFinishedXB()) {
                 XBToken token = pullXBToken();
-                if (parserState == XBParserState.EXTENDED_AREA) {
+                if (parserState == XBParserState.TAIL_DATA) {
                     return ((XBDataToken) token).getData();
                 }
             }
@@ -193,11 +193,11 @@ public class XBReader implements XBCommandReader, XBPullProvider, Closeable {
     }
 
     @Override
-    public long getExtendedAreaSize() {
+    public long getTailDataSize() {
         try {
             // TODO
-            ExtendedAreaInputStreamWrapper extendedArea = (ExtendedAreaInputStreamWrapper) getExtendedArea();
-            return extendedArea == null ? 0 : extendedArea.available();
+            TailDataInputStreamWrapper tailDataWrapper = (TailDataInputStreamWrapper) getTailData();
+            return tailDataWrapper == null ? 0 : tailDataWrapper.available();
         } catch (IOException ex) {
         }
 
@@ -412,14 +412,14 @@ public class XBReader implements XBCommandReader, XBPullProvider, Closeable {
                 }
             }
 
-            case EXTENDED_AREA:
+            case TAIL_DATA:
             case BLOCK_END: {
                 // must be after begin
                 if (pathPositions.size() == 1) {
                     if (parserState == XBParserState.BLOCK_END) {
-                        if (parserMode != XBParserMode.SINGLE_BLOCK && parserMode != XBParserMode.SKIP_EXTENDED) {
-                            parserState = XBParserState.EXTENDED_AREA;
-                            ExtendedAreaInputStreamWrapper wrapper = new ExtendedAreaInputStreamWrapper(inputStream);
+                        if (parserMode != XBParserMode.SINGLE_BLOCK && parserMode != XBParserMode.SKIP_TAIL) {
+                            parserState = XBParserState.TAIL_DATA;
+                            TailDataInputStreamWrapper wrapper = new TailDataInputStreamWrapper(inputStream);
                             if (wrapper.available() > 0) {
                                 return new XBDataToken(wrapper);
                             }

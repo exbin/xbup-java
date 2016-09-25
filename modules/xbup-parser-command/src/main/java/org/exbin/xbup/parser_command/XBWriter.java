@@ -48,7 +48,7 @@ import org.exbin.xbup.parser_tree.XBTreeWriter;
  * This writer expects source data not to be changed, so exclusive lock is
  * recommended.
  *
- * @version 0.2.0 2016/05/23
+ * @version 0.2.0 2016/09/25
  * @author ExBin Project (http://exbin.org)
  */
 public class XBWriter implements XBCommandWriter, XBPullProvider, Closeable {
@@ -56,7 +56,7 @@ public class XBWriter implements XBCommandWriter, XBPullProvider, Closeable {
     private InputStream inputStream;
     private OutputStream outputStream;
     private XBReader reader;
-    private BinaryData extendedArea = null;
+    private BinaryData tailData = null;
     private XBTreeWriter treeWriter = null;
     private long activeBlockId = 0;
 
@@ -100,7 +100,7 @@ public class XBWriter implements XBCommandWriter, XBPullProvider, Closeable {
             if (treeWriter == null) {
                 XBWriterBlock activeBlock = getActiveBlock();
                 if (activeBlock == null) {
-                    treeWriter = new XBTreeWriter(new XBDefaultDocument(getRootBlock(), getExtendedArea()));
+                    treeWriter = new XBTreeWriter(new XBDefaultDocument(getRootBlock(), getTailData()));
                 } else {
                     treeWriter = new XBTreeWriter(activeBlock);
                 }
@@ -309,23 +309,23 @@ public class XBWriter implements XBCommandWriter, XBPullProvider, Closeable {
     }
 
     @Override
-    public InputStream getExtendedArea() {
+    public InputStream getTailData() {
         XBWriterBlock rootBlock = getRootBlock();
         if (rootBlock != null && rootBlock.isFixedBlock()) {
-            return extendedArea == null ? new XBData().getDataInputStream() : extendedArea.getDataInputStream();
+            return tailData == null ? new XBData().getDataInputStream() : tailData.getDataInputStream();
         }
 
-        return reader.getExtendedArea();
+        return reader.getTailData();
     }
 
     @Override
-    public long getExtendedAreaSize() {
+    public long getTailDataSize() {
         XBWriterBlock rootBlock = getRootBlock();
         if (rootBlock != null && rootBlock.isFixedBlock()) {
-            return extendedArea == null ? -1 : extendedArea.getDataSize();
+            return tailData == null ? -1 : tailData.getDataSize();
         }
 
-        return reader.getExtendedAreaSize();
+        return reader.getTailDataSize();
     }
 
     @Override
@@ -344,14 +344,14 @@ public class XBWriter implements XBCommandWriter, XBPullProvider, Closeable {
     }
 
     @Override
-    public void setExtendedArea(InputStream source) throws IOException {
-        extendedArea = new XBData();
-        ((XBData) extendedArea).loadFromStream(source);
+    public void setTailData(InputStream source) throws IOException {
+        tailData = new XBData();
+        ((XBData) tailData).loadFromStream(source);
     }
 
     @Override
     public void clear() {
-        extendedArea = null;
+        tailData = null;
         throw new UnsupportedOperationException("Not supported yet.");
     }
 

@@ -22,7 +22,7 @@ import java.io.InputStream;
 /**
  * Basic interface for editable XBUP level 1 document.
  *
- * @version 0.2.0 2016/02/29
+ * @version 0.2.0 2016/09/24
  * @author ExBin Project (http://exbin.org)
  */
 public interface XBTEditableDocument extends XBTDocument {
@@ -35,12 +35,12 @@ public interface XBTEditableDocument extends XBTDocument {
     void setRootBlock(XBTBlock block);
 
     /**
-     * Sets extended data area.
+     * Sets tail data.
      *
      * @param source data stream
      * @throws java.io.IOException if input/output error
      */
-    void setExtendedArea(InputStream source) throws IOException;
+    void setTailData(InputStream source) throws IOException;
 
     /**
      * Clears all data in this document.

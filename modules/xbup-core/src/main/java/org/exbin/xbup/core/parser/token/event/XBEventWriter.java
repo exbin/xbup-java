@@ -92,7 +92,7 @@ public class XBEventWriter implements Closeable, XBEventListener {
     }
 
     public void closeXB() throws XBProcessingException, IOException {
-        if (parserState != XBParserState.EOF && parserState != XBParserState.EXTENDED_AREA) {
+        if (parserState != XBParserState.EOF && parserState != XBParserState.TAIL_DATA) {
             throw new XBParseException("Unexpected end of stream", XBProcessingExceptionType.UNEXPECTED_END_OF_STREAM);
         }
 
@@ -161,11 +161,11 @@ public class XBEventWriter implements Closeable, XBEventListener {
 
             case DATA: {
                 if (depthLevel == 1 && (parserState == XBParserState.ATTRIBUTE_PART || parserState == XBParserState.DATA_PART || parserState == XBParserState.BLOCK_END)) {
-                    if (parserMode == XBParserMode.SINGLE_BLOCK || parserMode == XBParserMode.SKIP_EXTENDED) {
-                        throw new XBParseException("Extended data block present when not expected", XBProcessingExceptionType.UNEXPECTED_ORDER);
+                    if (parserMode == XBParserMode.SINGLE_BLOCK || parserMode == XBParserMode.SKIP_TAIL) {
+                        throw new XBParseException("Tail data present when not expected", XBProcessingExceptionType.UNEXPECTED_ORDER);
                     }
                     putXBToken(new XBEndToken());
-                    parserState = XBParserState.EXTENDED_AREA;
+                    parserState = XBParserState.TAIL_DATA;
                     StreamUtils.copyInputStreamToOutputStream(((XBDataToken) token).getData(), stream);
                 } else {
                     if (parserState != XBParserState.BLOCK_BEGIN) {
@@ -201,7 +201,7 @@ public class XBEventWriter implements Closeable, XBEventListener {
 
             case END: {
                 switch (parserState) {
-                    case EXTENDED_AREA: {
+                    case TAIL_DATA: {
                         parserState = XBParserState.EOF;
                         break;
                     }

@@ -24,21 +24,21 @@ import org.exbin.xbup.core.type.XBData;
 /**
  * Basic plain implementation of XBEditableDocument interface.
  *
- * @version 0.2.0 2016/05/24
+ * @version 0.2.0 2016/09/25
  * @author ExBin Project (http://exbin.org)
  */
 public class XBDefaultEditableDocument implements XBEditableDocument {
 
     private XBBlock rootBlock;
-    private BinaryData extendedArea;
+    private BinaryData tailData;
 
     public XBDefaultEditableDocument(XBBlock rootBlock) {
         this(rootBlock, null);
     }
 
-    public XBDefaultEditableDocument(XBBlock rootBlock, BinaryData extendedArea) {
+    public XBDefaultEditableDocument(XBBlock rootBlock, BinaryData tailData) {
         this.rootBlock = rootBlock;
-        this.extendedArea = extendedArea;
+        this.tailData = tailData;
     }
 
     @Override
@@ -47,13 +47,13 @@ public class XBDefaultEditableDocument implements XBEditableDocument {
     }
 
     @Override
-    public InputStream getExtendedArea() {
-        return extendedArea.getDataInputStream();
+    public InputStream getTailData() {
+        return tailData.getDataInputStream();
     }
 
     @Override
-    public long getExtendedAreaSize() {
-        return extendedArea == null ? 0 : extendedArea.getDataSize();
+    public long getTailDataSize() {
+        return tailData == null ? 0 : tailData.getDataSize();
     }
 
     @Override
@@ -67,15 +67,15 @@ public class XBDefaultEditableDocument implements XBEditableDocument {
     }
 
     @Override
-    public void setExtendedArea(InputStream source) throws IOException {
+    public void setTailData(InputStream source) throws IOException {
         XBData data = new XBData();
         data.loadFromStream(source);
-        extendedArea = data;
+        tailData = data;
     }
 
     @Override
     public void clear() {
         rootBlock = null;
-        extendedArea = null;
+        tailData = null;
     }
 }

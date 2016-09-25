@@ -146,7 +146,7 @@ public class XBTChildListenerSerialHandler implements XBTChildOutputSerialHandle
         if (state == XBChildSerialState.TYPE) {
             throw new XBSerialException("Data event is not allowed after block type event", XBProcessingExceptionType.UNEXPECTED_ORDER);
         }
-        // TODO test depth for extended area
+        // TODO test depth for tail data
         /*
          if (state == XBChildSerialState.DATA) {
          throw new XBSerialException("Data event is not allowed after another data event", XBProcessingExceptionType.UNEXPECTED_ORDER);

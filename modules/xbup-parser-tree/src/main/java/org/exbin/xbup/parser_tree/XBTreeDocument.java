@@ -32,17 +32,17 @@ import org.exbin.xbup.core.ubnumber.UBStreamable;
 /**
  * Basic object model parser XBUP level 0 document representation.
  *
- * @version 0.2.0 2016/05/24
+ * @version 0.2.0 2016/05/25
  * @author ExBin Project (http://exbin.org)
  */
 public class XBTreeDocument extends XBTree implements XBEditableDocument, UBStreamable {
 
     private boolean modified;
     private String fileName;
-    private XBData extendedAreaData;
+    private XBData tailData;
 
     public XBTreeDocument() {
-        extendedAreaData = null;
+        tailData = null;
     }
 
     public XBTreeDocument(XBTreeNode rootNode) {
@@ -54,10 +54,10 @@ public class XBTreeDocument extends XBTree implements XBEditableDocument, UBStre
     public int toStreamUB(OutputStream stream) throws IOException {
         int size = XBHead.writeXBUPHead(stream);
         size += super.toStreamUB(stream);
-        if (extendedAreaData != null) {
-            size += extendedAreaData.getDataSize();
-            if (!extendedAreaData.isEmpty()) {
-                extendedAreaData.saveToStream(stream);
+        if (tailData != null) {
+            size += tailData.getDataSize();
+            if (!tailData.isEmpty()) {
+                tailData.saveToStream(stream);
             }
         }
         return size;
@@ -69,56 +69,56 @@ public class XBTreeDocument extends XBTree implements XBEditableDocument, UBStre
         clear();
         if (stream.available() > 0) {
             size += super.fromStreamUB(stream);
-            setExtendedArea(stream);
+            setTailData(stream);
         }
-        return (int) (size + getExtendedAreaSize());
+        return (int) (size + getTailDataSize());
     }
 
     @Override
     public int getSizeUB() {
         int size = XBHead.getXBUPHeadSize();
         size += super.getSizeUB();
-        if (getExtendedArea() != null) {
-            size += getExtendedAreaSize();
+        if (getTailData() != null) {
+            size += getTailDataSize();
         }
         return size;
     }
 
     @Override
-    public InputStream getExtendedArea() {
-        if (extendedAreaData == null) {
+    public InputStream getTailData() {
+        if (tailData == null) {
             return null;
         }
-        return extendedAreaData.getDataInputStream();
+        return tailData.getDataInputStream();
     }
 
-    public BinaryData getExtendedArray() {
-        return extendedAreaData;
+    public BinaryData getTailDataArray() {
+        return tailData;
     }
 
     @Override
-    public void setExtendedArea(InputStream source) throws IOException {
+    public void setTailData(InputStream source) throws IOException {
         if (source == null) {
-            extendedAreaData = null;
+            tailData = null;
         } else {
-            extendedAreaData = new XBData();
-            extendedAreaData.loadFromStream(source);
+            tailData = new XBData();
+            tailData.loadFromStream(source);
         }
     }
 
     @Override
-    public long getExtendedAreaSize() {
-        if (extendedAreaData == null) {
+    public long getTailDataSize() {
+        if (tailData == null) {
             return 0;
         }
-        return extendedAreaData.getDataSize();
+        return tailData.getDataSize();
     }
 
     @Override
     public void clear() {
         super.clear();
-        if (extendedAreaData != null) {
-            extendedAreaData = null;
+        if (tailData != null) {
+            tailData = null;
         }
     }
 
@@ -165,7 +165,7 @@ public class XBTreeDocument extends XBTree implements XBEditableDocument, UBStre
     }
 
     public long getDocumentSize() {
-        long documentSize = getExtendedAreaSize();
+        long documentSize = getTailDataSize();
         if (getRootBlock() != null) {
             documentSize += getRootBlock().getBlockSize();
         }

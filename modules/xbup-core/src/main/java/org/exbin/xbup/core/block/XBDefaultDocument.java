@@ -24,28 +24,28 @@ import org.exbin.xbup.core.type.XBData;
 /**
  * Basic plain implementation of XBDocument interface.
  *
- * @version 0.2.0 2015/10/17
+ * @version 0.2.0 2016/09/25
  * @author ExBin Project (http://exbin.org)
  */
 public class XBDefaultDocument implements XBDocument {
 
     private final XBBlock rootBlock;
-    private final BinaryData extendedArea;
+    private final BinaryData tailData;
 
     public XBDefaultDocument(XBBlock rootBlock) {
         this(rootBlock, (BinaryData) null);
     }
 
-    public XBDefaultDocument(XBBlock rootBlock, BinaryData extendedArea) {
+    public XBDefaultDocument(XBBlock rootBlock, BinaryData tailData) {
         this.rootBlock = rootBlock;
-        this.extendedArea = extendedArea;
+        this.tailData = tailData;
     }
 
-    public XBDefaultDocument(XBBlock rootBlock, InputStream extendedArea) throws IOException {
+    public XBDefaultDocument(XBBlock rootBlock, InputStream tailDataStream) throws IOException {
         this.rootBlock = rootBlock;
         XBData data = new XBData();
-        data.loadFromStream(extendedArea);
-        this.extendedArea = data;
+        data.loadFromStream(tailDataStream);
+        this.tailData = data;
     }
 
     @Override
@@ -54,13 +54,13 @@ public class XBDefaultDocument implements XBDocument {
     }
 
     @Override
-    public InputStream getExtendedArea() {
-        return extendedArea.getDataInputStream();
+    public InputStream getTailData() {
+        return tailData.getDataInputStream();
     }
 
     @Override
-    public long getExtendedAreaSize() {
-        return extendedArea == null ? 0 : extendedArea.getDataSize();
+    public long getTailDataSize() {
+        return tailData == null ? 0 : tailData.getDataSize();
     }
 
     @Override

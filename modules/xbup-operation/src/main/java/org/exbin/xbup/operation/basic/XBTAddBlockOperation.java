@@ -151,7 +151,7 @@ public class XBTAddBlockOperation extends XBTDocOperation {
                         serializationHandler.end();
 
                         XBTreeReader treeReader = new XBTreeReader(new XBTBlockToXBBlock(newNode));
-                        XBEventReader reader = new XBEventReader(data.getDataInputStream(), XBParserMode.SKIP_EXTENDED);
+                        XBEventReader reader = new XBEventReader(data.getDataInputStream(), XBParserMode.SKIP_TAIL);
                         reader.attachXBEventListener(new XBListenerToEventListener(treeReader));
                         reader.read();
                         reader.close();

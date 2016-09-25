@@ -33,7 +33,7 @@ import static org.exbin.xbup.core.test.XBTestUtils.assertEqualsInputStream;
 /**
  * Test class for XBListenerWriter.
  *
- * @version 0.1.25 2015/08/10
+ * @version 0.2.0 2016/09/25
  * @author ExBin Project (http://exbin.org)
  */
 public class XBListenerWriterTest extends TestCase {
@@ -96,12 +96,12 @@ public class XBListenerWriterTest extends TestCase {
      * @throws java.lang.Exception
      */
     @Test
-    public void testWriteSampleBlockExtended() throws Exception {
-        try (InputStream stream = XBListenerWriterTest.class.getResourceAsStream(XBCoreTestSampleData.SAMPLE_BLOCK_EXTENDED)) {
+    public void testWriteSampleBlockWithTail() throws Exception {
+        try (InputStream stream = XBListenerWriterTest.class.getResourceAsStream(XBCoreTestSampleData.SAMPLE_BLOCK_WITH_TAIL)) {
             ByteArrayOutputStream target = new ByteArrayOutputStream();
             try (XBListenerWriter writer = new XBListenerWriter(target)) {
                 XBPrintFilter listener = new XBPrintFilter(writer);
-                XBCoreTestSampleData.writeSampleBlockExtended(listener);
+                XBCoreTestSampleData.writeSampleBlockWithTail(listener);
                 writer.closeXB();
             }
 
@@ -134,12 +134,12 @@ public class XBListenerWriterTest extends TestCase {
      * @throws java.lang.Exception
      */
     @Test
-    public void testWriteSampleBlockTerminatedExtended() throws Exception {
-        try (InputStream stream = XBListenerWriterTest.class.getResourceAsStream(XBCoreTestSampleData.SAMPLE_BLOCK_TERMINATED_EXTENDED)) {
+    public void testWriteSampleBlockTerminatedWithTail() throws Exception {
+        try (InputStream stream = XBListenerWriterTest.class.getResourceAsStream(XBCoreTestSampleData.SAMPLE_BLOCK_TERMINATED_WITH_TAIL)) {
             ByteArrayOutputStream target = new ByteArrayOutputStream();
             try (XBListenerWriter writer = new XBListenerWriter(target)) {
                 XBPrintFilter listener = new XBPrintFilter(writer);
-                XBCoreTestSampleData.writeSampleBlockTerminatedExtended(listener);
+                XBCoreTestSampleData.writeSampleBlockTerminatedWithTail(listener);
                 writer.closeXB();
             }
 
@@ -172,12 +172,12 @@ public class XBListenerWriterTest extends TestCase {
      * @throws java.lang.Exception
      */
     @Test
-    public void testWriteSampleDataExtended() throws Exception {
-        try (InputStream stream = XBListenerWriterTest.class.getResourceAsStream(XBCoreTestSampleData.SAMPLE_DATA_EXTENDED)) {
+    public void testWriteSampleDataWithTail() throws Exception {
+        try (InputStream stream = XBListenerWriterTest.class.getResourceAsStream(XBCoreTestSampleData.SAMPLE_DATA_WITH_TAIL)) {
             ByteArrayOutputStream target = new ByteArrayOutputStream();
             try (XBListenerWriter writer = new XBListenerWriter(target)) {
                 XBPrintFilter listener = new XBPrintFilter(writer);
-                XBCoreTestSampleData.writeSampleDataExtended(listener);
+                XBCoreTestSampleData.writeSampleDataWithTail(listener);
                 writer.closeXB();
             }
 
@@ -210,12 +210,12 @@ public class XBListenerWriterTest extends TestCase {
      * @throws java.lang.Exception
      */
     @Test
-    public void testWriteSampleDataTerminatedExtended() throws Exception {
-        try (InputStream stream = XBListenerWriterTest.class.getResourceAsStream(XBCoreTestSampleData.SAMPLE_DATA_TERMINATED_EXTENDED)) {
+    public void testWriteSampleDataTerminatedWithTail() throws Exception {
+        try (InputStream stream = XBListenerWriterTest.class.getResourceAsStream(XBCoreTestSampleData.SAMPLE_DATA_TERMINATED_WITH_TAIL)) {
             ByteArrayOutputStream target = new ByteArrayOutputStream();
             try (XBListenerWriter writer = new XBListenerWriter(target)) {
                 XBPrintFilter listener = new XBPrintFilter(writer);
-                XBCoreTestSampleData.writeSampleDataTerminatedExtended(listener);
+                XBCoreTestSampleData.writeSampleDataTerminatedWithTail(listener);
                 writer.closeXB();
             }
 
@@ -248,12 +248,12 @@ public class XBListenerWriterTest extends TestCase {
      * @throws java.lang.Exception
      */
     @Test
-    public void testWriteSampleBlockDataExtended() throws Exception {
-        try (InputStream stream = XBListenerWriterTest.class.getResourceAsStream(XBCoreTestSampleData.SAMPLE_BLOCK_DATA_EXTENDED)) {
+    public void testWriteSampleBlockDataWithTail() throws Exception {
+        try (InputStream stream = XBListenerWriterTest.class.getResourceAsStream(XBCoreTestSampleData.SAMPLE_BLOCK_DATA_WITH_TAIL)) {
             ByteArrayOutputStream target = new ByteArrayOutputStream();
             try (XBListenerWriter writer = new XBListenerWriter(target)) {
                 XBPrintFilter listener = new XBPrintFilter(writer);
-                XBCoreTestSampleData.writeSampleBlockDataExtended(listener);
+                XBCoreTestSampleData.writeSampleBlockDataWithTail(listener);
                 writer.closeXB();
             }
 
@@ -286,12 +286,12 @@ public class XBListenerWriterTest extends TestCase {
      * @throws java.lang.Exception
      */
     @Test
-    public void testWriteSampleBlockDataTerminatedExtended() throws Exception {
-        try (InputStream stream = XBListenerWriterTest.class.getResourceAsStream(XBCoreTestSampleData.SAMPLE_BLOCK_DATA_TERMINATED_EXTENDED)) {
+    public void testWriteSampleBlockDataTerminatedWithTail() throws Exception {
+        try (InputStream stream = XBListenerWriterTest.class.getResourceAsStream(XBCoreTestSampleData.SAMPLE_BLOCK_DATA_TERMINATED_WITH_TAIL)) {
             ByteArrayOutputStream target = new ByteArrayOutputStream();
             try (XBListenerWriter writer = new XBListenerWriter(target)) {
                 XBPrintFilter listener = new XBPrintFilter(writer);
-                XBCoreTestSampleData.writeSampleBlockDataTerminatedExtended(listener);
+                XBCoreTestSampleData.writeSampleBlockDataTerminatedWithTail(listener);
                 writer.closeXB();
             }
 
@@ -362,12 +362,12 @@ public class XBListenerWriterTest extends TestCase {
      * @throws java.lang.Exception
      */
     @Test
-    public void testWriteSampleTwoBlocksExtended() throws Exception {
-        try (InputStream stream = XBListenerWriterTest.class.getResourceAsStream(XBCoreTestSampleData.SAMPLE_TWO_BLOCKS_EXTENDED)) {
+    public void testWriteSampleTwoBlocksWithTail() throws Exception {
+        try (InputStream stream = XBListenerWriterTest.class.getResourceAsStream(XBCoreTestSampleData.SAMPLE_TWO_BLOCKS_WITH_TAIL)) {
             ByteArrayOutputStream target = new ByteArrayOutputStream();
             try (XBListenerWriter writer = new XBListenerWriter(target)) {
                 XBPrintFilter listener = new XBPrintFilter(writer);
-                XBCoreTestSampleData.writeSampleTwoBlocksExtended(listener);
+                XBCoreTestSampleData.writeSampleTwoBlocksWithTail(listener);
                 writer.closeXB();
             }
 
@@ -400,12 +400,12 @@ public class XBListenerWriterTest extends TestCase {
      * @throws java.lang.Exception
      */
     @Test
-    public void testWriteSampleTwoBlocksTerminatedExtended() throws Exception {
-        try (InputStream stream = XBListenerWriterTest.class.getResourceAsStream(XBCoreTestSampleData.SAMPLE_TWO_BLOCKS_TERMINATED_EXTENDED)) {
+    public void testWriteSampleTwoBlocksTerminatedWithTail() throws Exception {
+        try (InputStream stream = XBListenerWriterTest.class.getResourceAsStream(XBCoreTestSampleData.SAMPLE_TWO_BLOCKS_TERMINATED_WITH_TAIL)) {
             ByteArrayOutputStream target = new ByteArrayOutputStream();
             try (XBListenerWriter writer = new XBListenerWriter(target)) {
                 XBPrintFilter listener = new XBPrintFilter(writer);
-                XBCoreTestSampleData.writeSampleTwoBlocksTerminatedExtended(listener);
+                XBCoreTestSampleData.writeSampleTwoBlocksTerminatedWithTail(listener);
                 writer.closeXB();
             }
 

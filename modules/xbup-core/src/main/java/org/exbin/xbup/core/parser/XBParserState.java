@@ -49,9 +49,9 @@ public enum XBParserState {
      */
     CHILDREN_PART,
     /**
-     * Inside extended part.
+     * Inside tail data.
      */
-    EXTENDED_AREA,
+    TAIL_DATA,
     /**
      * End of block or end of multiple blocks.
      */

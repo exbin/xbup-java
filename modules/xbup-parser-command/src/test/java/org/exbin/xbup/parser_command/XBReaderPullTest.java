@@ -16,7 +16,6 @@
  */
 package org.exbin.xbup.parser_command;
 
-import org.exbin.xbup.parser_command.XBReader;
 import java.io.IOException;
 import java.io.InputStream;
 import junit.framework.TestCase;
@@ -35,7 +34,7 @@ import static org.exbin.xbup.parser_command.XBCommandParserTestUtils.getResource
 /**
  * Test class for pull capabilites of XBReader.
  *
- * @version 0.2.0 2015/09/23
+ * @version 0.2.0 2016/09/25
  * @author ExBin Project (http://exbin.org)
  */
 public class XBReaderPullTest extends TestCase {
@@ -98,11 +97,11 @@ public class XBReaderPullTest extends TestCase {
      * @throws java.lang.Exception
      */
     @Test
-    public void testReadSampleBlockExtended() throws Exception {
-        try (InputStream stream = getResourceAsSeekableStream(XBCoreTestSampleData.SAMPLE_BLOCK_EXTENDED); XBReader instance = new XBReader(stream)) {
+    public void testReadSampleBlockWithTail() throws Exception {
+        try (InputStream stream = getResourceAsSeekableStream(XBCoreTestSampleData.SAMPLE_BLOCK_WITH_TAIL); XBReader instance = new XBReader(stream)) {
             BufferAssertXBFilter assertListener;
             XBConsumerToListener buffer = new XBConsumerToListener(null);
-            XBCoreTestSampleData.writeSampleBlockExtended(buffer);
+            XBCoreTestSampleData.writeSampleBlockWithTail(buffer);
             assertListener = new BufferAssertXBFilter(buffer.getTokens());
 
             XBProducer producer = new XBProviderToProducer(new XBPullProviderToProvider(instance));
@@ -136,11 +135,11 @@ public class XBReaderPullTest extends TestCase {
      * @throws java.lang.Exception
      */
     @Test
-    public void testReadSampleBlockTerminatedExtended() throws Exception {
-        try (InputStream stream = getResourceAsSeekableStream(XBCoreTestSampleData.SAMPLE_BLOCK_TERMINATED_EXTENDED); XBReader instance = new XBReader(stream)) {
+    public void testReadSampleBlockTerminatedWithTail() throws Exception {
+        try (InputStream stream = getResourceAsSeekableStream(XBCoreTestSampleData.SAMPLE_BLOCK_TERMINATED_WITH_TAIL); XBReader instance = new XBReader(stream)) {
             BufferAssertXBFilter assertListener;
             XBConsumerToListener buffer = new XBConsumerToListener(null);
-            XBCoreTestSampleData.writeSampleBlockTerminatedExtended(buffer);
+            XBCoreTestSampleData.writeSampleBlockTerminatedWithTail(buffer);
             assertListener = new BufferAssertXBFilter(buffer.getTokens());
 
             XBProducer producer = new XBProviderToProducer(new XBPullProviderToProvider(instance));
@@ -174,11 +173,11 @@ public class XBReaderPullTest extends TestCase {
      * @throws java.lang.Exception
      */
     @Test
-    public void testReadSampleDataExtended() throws Exception {
-        try (InputStream stream = getResourceAsSeekableStream(XBCoreTestSampleData.SAMPLE_DATA_EXTENDED); XBReader instance = new XBReader(stream)) {
+    public void testReadSampleDataWithTail() throws Exception {
+        try (InputStream stream = getResourceAsSeekableStream(XBCoreTestSampleData.SAMPLE_DATA_WITH_TAIL); XBReader instance = new XBReader(stream)) {
             BufferAssertXBFilter assertListener;
             XBConsumerToListener buffer = new XBConsumerToListener(null);
-            XBCoreTestSampleData.writeSampleDataExtended(buffer);
+            XBCoreTestSampleData.writeSampleDataWithTail(buffer);
             assertListener = new BufferAssertXBFilter(buffer.getTokens());
 
             XBProducer producer = new XBProviderToProducer(new XBPullProviderToProvider(instance));
@@ -212,11 +211,11 @@ public class XBReaderPullTest extends TestCase {
      * @throws java.lang.Exception
      */
     @Test
-    public void testReadSampleDataTerminatedExtended() throws Exception {
-        try (InputStream stream = getResourceAsSeekableStream(XBCoreTestSampleData.SAMPLE_DATA_TERMINATED_EXTENDED); XBReader instance = new XBReader(stream)) {
+    public void testReadSampleDataTerminatedWithTail() throws Exception {
+        try (InputStream stream = getResourceAsSeekableStream(XBCoreTestSampleData.SAMPLE_DATA_TERMINATED_WITH_TAIL); XBReader instance = new XBReader(stream)) {
             BufferAssertXBFilter assertListener;
             XBConsumerToListener buffer = new XBConsumerToListener(null);
-            XBCoreTestSampleData.writeSampleDataTerminatedExtended(buffer);
+            XBCoreTestSampleData.writeSampleDataTerminatedWithTail(buffer);
             assertListener = new BufferAssertXBFilter(buffer.getTokens());
 
             XBProducer producer = new XBProviderToProducer(new XBPullProviderToProvider(instance));
@@ -250,11 +249,11 @@ public class XBReaderPullTest extends TestCase {
      * @throws java.lang.Exception
      */
     @Test
-    public void testReadSampleBlockDataExtended() throws Exception {
-        try (InputStream stream = getResourceAsSeekableStream(XBCoreTestSampleData.SAMPLE_BLOCK_DATA_EXTENDED); XBReader instance = new XBReader(stream)) {
+    public void testReadSampleBlockDataWithTail() throws Exception {
+        try (InputStream stream = getResourceAsSeekableStream(XBCoreTestSampleData.SAMPLE_BLOCK_DATA_WITH_TAIL); XBReader instance = new XBReader(stream)) {
             BufferAssertXBFilter assertListener;
             XBConsumerToListener buffer = new XBConsumerToListener(null);
-            XBCoreTestSampleData.writeSampleBlockDataExtended(buffer);
+            XBCoreTestSampleData.writeSampleBlockDataWithTail(buffer);
             assertListener = new BufferAssertXBFilter(buffer.getTokens());
 
             XBProducer producer = new XBProviderToProducer(new XBPullProviderToProvider(instance));
@@ -288,11 +287,11 @@ public class XBReaderPullTest extends TestCase {
      * @throws java.lang.Exception
      */
     @Test
-    public void testReadSampleBlockDataTerminatedExtended() throws Exception {
-        try (InputStream stream = getResourceAsSeekableStream(XBCoreTestSampleData.SAMPLE_BLOCK_DATA_TERMINATED_EXTENDED); XBReader instance = new XBReader(stream)) {
+    public void testReadSampleBlockDataTerminatedWithTail() throws Exception {
+        try (InputStream stream = getResourceAsSeekableStream(XBCoreTestSampleData.SAMPLE_BLOCK_DATA_TERMINATED_WITH_TAIL); XBReader instance = new XBReader(stream)) {
             BufferAssertXBFilter assertListener;
             XBConsumerToListener buffer = new XBConsumerToListener(null);
-            XBCoreTestSampleData.writeSampleBlockDataTerminatedExtended(buffer);
+            XBCoreTestSampleData.writeSampleBlockDataTerminatedWithTail(buffer);
             assertListener = new BufferAssertXBFilter(buffer.getTokens());
 
             XBProducer producer = new XBProviderToProducer(new XBPullProviderToProvider(instance));
@@ -364,11 +363,11 @@ public class XBReaderPullTest extends TestCase {
      * @throws java.lang.Exception
      */
     @Test
-    public void testReadSampleTwoBlocksExtended() throws Exception {
-        try (InputStream stream = getResourceAsSeekableStream(XBCoreTestSampleData.SAMPLE_TWO_BLOCKS_EXTENDED); XBReader instance = new XBReader(stream)) {
+    public void testReadSampleTwoBlocksWithTail() throws Exception {
+        try (InputStream stream = getResourceAsSeekableStream(XBCoreTestSampleData.SAMPLE_TWO_BLOCKS_WITH_TAIL); XBReader instance = new XBReader(stream)) {
             BufferAssertXBFilter assertListener;
             XBConsumerToListener buffer = new XBConsumerToListener(null);
-            XBCoreTestSampleData.writeSampleTwoBlocksExtended(buffer);
+            XBCoreTestSampleData.writeSampleTwoBlocksWithTail(buffer);
             assertListener = new BufferAssertXBFilter(buffer.getTokens());
 
             XBProducer producer = new XBProviderToProducer(new XBPullProviderToProvider(instance));
@@ -402,11 +401,11 @@ public class XBReaderPullTest extends TestCase {
      * @throws java.lang.Exception
      */
     @Test
-    public void testReadSampleTwoBlocksTerminatedExtended() throws Exception {
-        try (InputStream stream = getResourceAsSeekableStream(XBCoreTestSampleData.SAMPLE_TWO_BLOCKS_TERMINATED_EXTENDED); XBReader instance = new XBReader(stream)) {
+    public void testReadSampleTwoBlocksTerminatedWithTail() throws Exception {
+        try (InputStream stream = getResourceAsSeekableStream(XBCoreTestSampleData.SAMPLE_TWO_BLOCKS_TERMINATED_WITH_TAIL); XBReader instance = new XBReader(stream)) {
             BufferAssertXBFilter assertListener;
             XBConsumerToListener buffer = new XBConsumerToListener(null);
-            XBCoreTestSampleData.writeSampleTwoBlocksTerminatedExtended(buffer);
+            XBCoreTestSampleData.writeSampleTwoBlocksTerminatedWithTail(buffer);
             assertListener = new BufferAssertXBFilter(buffer.getTokens());
 
             XBProducer producer = new XBProviderToProducer(new XBPullProviderToProvider(instance));

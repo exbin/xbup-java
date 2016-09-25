@@ -16,8 +16,6 @@
  */
 package org.exbin.xbup.parser_tree;
 
-import org.exbin.xbup.parser_tree.XBTreeNode;
-import org.exbin.xbup.parser_tree.XBTreeDocument;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -31,7 +29,7 @@ import org.exbin.xbup.core.ubnumber.type.UBNat32;
 /**
  * Test class for XBTreeDocument.
  *
- * @version 0.1.23 2013/11/07
+ * @version 0.2.0 2016/09/25
  * @author ExBin Project (http://exbin.org)
  */
 public class XBTreeDocumentTest extends TestCase {

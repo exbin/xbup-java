@@ -18,7 +18,6 @@ package org.exbin.xbup.plugin;
 
 import java.io.File;
 import java.io.FileFilter;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Constructor;
@@ -44,7 +43,7 @@ import org.exbin.xbup.core.serial.param.XBPProviderSerialHandler;
 /**
  * XBUP default implementation of the modules repository.
  *
- * @version 0.2.0 2016/08/17
+ * @version 0.2.0 2016/11/30
  * @author ExBin Project (http://exbin.org)
  */
 public class XBDefaultModuleRepository implements XBModuleRepository {
@@ -115,17 +114,15 @@ public class XBDefaultModuleRepository implements XBModuleRepository {
             Manifest manifest = new Manifest(manifestUrl.openStream());
             String classPaths = manifest.getMainAttributes().getValue(new Attributes.Name("Class-Path"));
             String[] paths = classPaths.split(" ");
-            String rootDirectory = new File(moduleClassLocation.toExternalForm()).getParent();
+            String rootDirectory = new File(moduleClassLocation.toURI()).getParentFile().toURI().toString();
             for (String path : paths) {
                 try {
-                    addModulePlugin(new URI(rootDirectory + File.separator + path), false);
+                    addModulePlugin(new URI(rootDirectory + path), false);
                 } catch (URISyntaxException ex) {
                     // Ignore
                 }
             }
-        } catch (FileNotFoundException | MalformedURLException ex) {
-            // Ignore
-        } catch (IOException ex) {
+        } catch (IOException | URISyntaxException ex) {
             // Ignore
         }
     }

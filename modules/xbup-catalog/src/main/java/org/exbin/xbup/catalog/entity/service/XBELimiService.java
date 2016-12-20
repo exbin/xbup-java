@@ -18,13 +18,13 @@ package org.exbin.xbup.catalog.entity.service;
 
 import java.io.Serializable;
 import javax.annotation.PostConstruct;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 import org.exbin.xbup.catalog.XBECatalog;
 import org.exbin.xbup.catalog.entity.XBEItemLimi;
 import org.exbin.xbup.catalog.entity.manager.XBELimiManager;
 import org.exbin.xbup.core.catalog.base.manager.XBCLimiManager;
 import org.exbin.xbup.core.catalog.base.service.XBCLimiService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 /**
  * Interface for XBEItemLimi items service.

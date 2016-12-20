@@ -19,7 +19,6 @@ package org.exbin.xbup.core.parser.token.pull;
 import java.io.IOException;
 import java.io.InputStream;
 import junit.framework.TestCase;
-import org.junit.Test;
 import org.exbin.xbup.core.parser.XBParseException;
 import org.exbin.xbup.core.parser.XBProcessingException;
 import org.exbin.xbup.core.parser.XBProcessingExceptionType;
@@ -29,6 +28,7 @@ import org.exbin.xbup.core.parser.basic.convert.XBProviderToProducer;
 import org.exbin.xbup.core.parser.data.XBCoreTestSampleData;
 import org.exbin.xbup.core.parser.token.pull.convert.XBPullProviderToProvider;
 import org.exbin.xbup.core.test.XBTestUtils.BufferAssertXBFilter;
+import org.junit.Test;
 
 /**
  * Test class for XBPullReader.

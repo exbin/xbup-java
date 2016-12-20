@@ -22,7 +22,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import static junit.framework.Assert.assertEquals;
 import junit.framework.TestCase;
-import org.junit.Test;
 import org.exbin.xbup.core.block.XBBlockTerminationMode;
 import org.exbin.xbup.core.parser.XBProcessingException;
 import org.exbin.xbup.core.parser.XBProcessingExceptionType;
@@ -30,6 +29,7 @@ import org.exbin.xbup.core.parser.basic.convert.XBConsumerToListener;
 import org.exbin.xbup.core.parser.basic.convert.XBPrintFilter;
 import org.exbin.xbup.core.parser.data.XBCoreTestSampleData;
 import static org.exbin.xbup.core.test.XBTestUtils.assertEqualsInputStream;
+import org.junit.Test;
 
 /**
  * Test class for XBConsumerWriter.

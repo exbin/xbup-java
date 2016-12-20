@@ -19,12 +19,12 @@ package org.exbin.xbup.service.entity.service;
 import java.io.Serializable;
 import javax.annotation.PostConstruct;
 import javax.persistence.EntityManager;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 import org.exbin.xbup.core.catalog.base.service.XBCDefaultItemService;
 import org.exbin.xbup.service.base.service.ServiceLogItemService;
 import org.exbin.xbup.service.entity.ServiceELogItem;
 import org.exbin.xbup.service.entity.manager.ServiceELogItemManager;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 /**
  * Interface for XBEItem items service.

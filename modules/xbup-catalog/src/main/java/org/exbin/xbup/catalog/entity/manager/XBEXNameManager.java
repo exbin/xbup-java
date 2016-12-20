@@ -22,7 +22,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.persistence.EntityTransaction;
 import javax.persistence.NoResultException;
-import org.springframework.stereotype.Repository;
 import org.exbin.xbup.catalog.XBECatalog;
 import org.exbin.xbup.catalog.entity.XBEItem;
 import org.exbin.xbup.catalog.entity.XBENode;
@@ -36,6 +35,7 @@ import org.exbin.xbup.core.catalog.base.manager.XBCNodeManager;
 import org.exbin.xbup.core.catalog.base.manager.XBCSpecManager;
 import org.exbin.xbup.core.catalog.base.manager.XBCXLangManager;
 import org.exbin.xbup.core.catalog.base.manager.XBCXNameManager;
+import org.springframework.stereotype.Repository;
 
 /**
  * XBUP catalog item name manager.

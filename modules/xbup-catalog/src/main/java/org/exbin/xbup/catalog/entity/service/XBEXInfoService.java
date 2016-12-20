@@ -18,14 +18,14 @@ package org.exbin.xbup.catalog.entity.service;
 
 import java.io.Serializable;
 import javax.annotation.PostConstruct;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 import org.exbin.xbup.catalog.XBECatalog;
 import org.exbin.xbup.catalog.entity.XBEXItemInfo;
 import org.exbin.xbup.catalog.entity.manager.XBEXInfoManager;
 import org.exbin.xbup.core.catalog.base.XBCNode;
 import org.exbin.xbup.core.catalog.base.manager.XBCXInfoManager;
 import org.exbin.xbup.core.catalog.base.service.XBCXInfoService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 /**
  * Interface forXBEXItemInfoo items service.

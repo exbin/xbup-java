@@ -19,8 +19,6 @@ package org.exbin.xbup.catalog.entity.service;
 import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 import org.exbin.xbup.catalog.XBECatalog;
 import org.exbin.xbup.catalog.entity.XBEXBlockLine;
 import org.exbin.xbup.catalog.entity.XBEXPlugLine;
@@ -32,6 +30,8 @@ import org.exbin.xbup.core.catalog.base.XBCXPlugLine;
 import org.exbin.xbup.core.catalog.base.XBCXPlugin;
 import org.exbin.xbup.core.catalog.base.manager.XBCXLineManager;
 import org.exbin.xbup.core.catalog.base.service.XBCXLineService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 /**
  * Interface for XBEXBlockLine items service.

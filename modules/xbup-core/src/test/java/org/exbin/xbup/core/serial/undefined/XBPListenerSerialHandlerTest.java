@@ -21,7 +21,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import junit.framework.TestCase;
-import org.junit.Test;
 import org.exbin.xbup.core.block.XBBlockTerminationMode;
 import org.exbin.xbup.core.parser.XBProcessingException;
 import org.exbin.xbup.core.parser.data.XBCoreTestSampleTypes;
@@ -46,6 +45,7 @@ import org.exbin.xbup.core.type.XBString;
 import org.exbin.xbup.core.ubnumber.type.UBInt32;
 import org.exbin.xbup.core.ubnumber.type.UBNat32;
 import org.exbin.xbup.core.ubnumber.type.UBRea;
+import org.junit.Test;
 
 /**
  * Test class for XBPListenerSerialHandler.

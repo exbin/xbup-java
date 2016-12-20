@@ -17,7 +17,6 @@
 package org.exbin.xbup.core.serial.undefined;
 
 import junit.framework.TestCase;
-import org.junit.Test;
 import org.exbin.xbup.core.parser.data.XBCoreTestSampleTypes;
 import org.exbin.xbup.core.parser.token.pull.XBPullReader;
 import org.exbin.xbup.core.parser.token.pull.convert.XBToXBTPullConvertor;
@@ -26,6 +25,7 @@ import org.exbin.xbup.core.type.XBString;
 import org.exbin.xbup.core.ubnumber.type.UBInt32;
 import org.exbin.xbup.core.ubnumber.type.UBNat32;
 import org.exbin.xbup.core.ubnumber.type.UBRea;
+import org.junit.Test;
 
 /**
  * Test class for XBPProviderSerialHandler.

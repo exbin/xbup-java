@@ -20,8 +20,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 import org.exbin.xbup.catalog.XBECatalog;
 import org.exbin.xbup.catalog.entity.XBEBlockSpec;
 import org.exbin.xbup.catalog.entity.XBEFormatSpec;
@@ -64,6 +62,8 @@ import org.exbin.xbup.core.catalog.base.manager.XBCXHDocManager;
 import org.exbin.xbup.core.catalog.base.manager.XBCXNameManager;
 import org.exbin.xbup.core.catalog.base.manager.XBCXStriManager;
 import org.exbin.xbup.core.catalog.base.service.XBCSpecService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 /**
  * Entity class for XBESpec items service.

@@ -20,10 +20,10 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import junit.framework.TestCase;
-import org.junit.Test;
 import org.exbin.xbup.core.block.XBDocument;
 import org.exbin.xbup.core.parser.data.XBCoreTestSampleData;
 import org.exbin.xbup.core.test.XBTestUtils;
+import org.junit.Test;
 
 /**
  * Test class for XBTTreeDocument.

@@ -20,8 +20,6 @@ import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.swing.ImageIcon;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 import org.exbin.xbup.catalog.XBECatalog;
 import org.exbin.xbup.catalog.entity.XBEXIcon;
 import org.exbin.xbup.catalog.entity.XBEXIconMode;
@@ -32,6 +30,8 @@ import org.exbin.xbup.core.catalog.base.XBCItem;
 import org.exbin.xbup.core.catalog.base.XBCXIcon;
 import org.exbin.xbup.core.catalog.base.manager.XBCXIconManager;
 import org.exbin.xbup.core.catalog.base.service.XBCXIconService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 /**
  * Interface for XBEXIcon items service.

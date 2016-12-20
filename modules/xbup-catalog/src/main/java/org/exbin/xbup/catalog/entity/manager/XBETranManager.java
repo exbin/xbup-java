@@ -17,10 +17,10 @@
 package org.exbin.xbup.catalog.entity.manager;
 
 import java.io.Serializable;
-import org.springframework.stereotype.Repository;
 import org.exbin.xbup.catalog.XBECatalog;
 import org.exbin.xbup.catalog.entity.XBETran;
 import org.exbin.xbup.core.catalog.base.manager.XBCTranManager;
+import org.springframework.stereotype.Repository;
 
 /**
  * XBUP catalog transformation manager.

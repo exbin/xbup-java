@@ -22,7 +22,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.persistence.NoResultException;
 import javax.swing.ImageIcon;
-import org.springframework.stereotype.Repository;
 import org.exbin.xbup.catalog.XBECatalog;
 import org.exbin.xbup.catalog.entity.XBEXIcon;
 import org.exbin.xbup.catalog.entity.XBEXIconMode;
@@ -32,6 +31,7 @@ import org.exbin.xbup.core.catalog.base.XBCXFile;
 import org.exbin.xbup.core.catalog.base.XBCXIcon;
 import org.exbin.xbup.core.catalog.base.manager.XBCXFileManager;
 import org.exbin.xbup.core.catalog.base.manager.XBCXIconManager;
+import org.springframework.stereotype.Repository;
 
 /**
  * XBUP catalog icon manager.

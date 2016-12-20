@@ -20,11 +20,11 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import junit.framework.TestCase;
-import org.junit.Test;
 import org.exbin.xbup.core.block.XBBlock;
 import org.exbin.xbup.core.parser.XBProcessingException;
 import org.exbin.xbup.core.parser.token.XBAttribute;
 import org.exbin.xbup.core.ubnumber.type.UBNat32;
+import org.junit.Test;
 
 /**
  * Test class for XBTreeDocument.

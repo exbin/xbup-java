@@ -18,10 +18,10 @@ package org.exbin.xbup.service.entity.manager;
 
 import java.io.Serializable;
 import javax.persistence.EntityManager;
-import org.springframework.stereotype.Repository;
 import org.exbin.xbup.catalog.entity.manager.XBEDefaultManager;
 import org.exbin.xbup.service.base.manager.ServiceLogItemManager;
 import org.exbin.xbup.service.entity.ServiceELogItem;
+import org.springframework.stereotype.Repository;
 
 /**
  * XBUP catalog item manager.

@@ -17,12 +17,12 @@
 package org.exbin.xbup.parser_tree;
 
 import junit.framework.TestCase;
-import org.junit.Test;
 import org.exbin.xbup.core.parser.basic.convert.XBConsumerToListener;
 import org.exbin.xbup.core.parser.basic.convert.XBTPrintFilter;
 import org.exbin.xbup.core.parser.basic.convert.XBTToXBConvertor;
 import org.exbin.xbup.core.parser.data.XBCoreTestSampleData;
 import org.exbin.xbup.core.test.XBTestUtils.BufferAssertXBFilter;
+import org.junit.Test;
 
 /**
  * Test class for XBTTreeWriter.

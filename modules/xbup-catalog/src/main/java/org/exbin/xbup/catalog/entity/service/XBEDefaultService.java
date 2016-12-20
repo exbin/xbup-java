@@ -16,11 +16,11 @@
  */
 package org.exbin.xbup.catalog.entity.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.exbin.xbup.catalog.XBECatalog;
 import org.exbin.xbup.core.catalog.base.XBCBase;
 import org.exbin.xbup.core.catalog.base.service.XBCDefaultItemService;
 import org.exbin.xbup.core.catalog.base.service.XBCService;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * Default service for catalog items.

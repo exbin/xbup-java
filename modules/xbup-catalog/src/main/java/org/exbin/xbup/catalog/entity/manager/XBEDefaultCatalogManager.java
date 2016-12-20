@@ -16,9 +16,9 @@
  */
 package org.exbin.xbup.catalog.entity.manager;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.exbin.xbup.catalog.XBECatalog;
 import org.exbin.xbup.core.catalog.base.XBCBase;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * Default manager for catalog items.

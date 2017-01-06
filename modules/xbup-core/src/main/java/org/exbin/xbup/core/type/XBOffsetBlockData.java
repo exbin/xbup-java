@@ -117,4 +117,9 @@ public class XBOffsetBlockData implements BinaryData {
         InputStream inputStream = getDataInputStream();
         StreamUtils.copyInputStreamToOutputStream(inputStream, outputStream);
     }
+    
+    @Override
+    public void dispose() {
+        blockData.dispose();
+    }
 }

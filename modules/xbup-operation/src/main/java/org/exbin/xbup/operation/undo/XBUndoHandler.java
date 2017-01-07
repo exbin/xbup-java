@@ -25,7 +25,7 @@ public interface XBUndoHandler {
     /**
      * Performs revert to sync point.
      *
-     * @throws java.lang.Exception
+     * @throws java.lang.Exception exception
      */
     void doSync() throws Exception;
 
@@ -33,7 +33,7 @@ public interface XBUndoHandler {
      * Adds new step into command list.
      *
      * @param command command
-     * @throws java.lang.Exception
+     * @throws java.lang.Exception exception
      */
     void execute(Command command) throws Exception;
 
@@ -59,7 +59,7 @@ public interface XBUndoHandler {
     /**
      * Performs single redo step.
      *
-     * @throws java.lang.Exception
+     * @throws java.lang.Exception exception
      */
     void performRedo() throws Exception;
 
@@ -67,14 +67,14 @@ public interface XBUndoHandler {
      * Performs multiple redo step.
      *
      * @param count count of steps
-     * @throws Exception
+     * @throws Exception exception
      */
     void performRedo(int count) throws Exception;
 
     /**
      * Performs single undo step.
      *
-     * @throws java.lang.Exception
+     * @throws java.lang.Exception exception
      */
     void performUndo() throws Exception;
 
@@ -82,7 +82,7 @@ public interface XBUndoHandler {
      * Performs multiple undo step.
      *
      * @param count count of steps
-     * @throws Exception
+     * @throws Exception exception
      */
     void performUndo(int count) throws Exception;
 
@@ -90,7 +90,7 @@ public interface XBUndoHandler {
      * Performs undo or redo operation to reach given position.
      *
      * @param targetPosition desired position
-     * @throws java.lang.Exception
+     * @throws java.lang.Exception exception
      */
     void setCommandPosition(long targetPosition) throws Exception;
 

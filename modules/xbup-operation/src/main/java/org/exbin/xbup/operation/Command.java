@@ -36,7 +36,7 @@ public interface Command {
     /**
      * Performs operation on given document.
      *
-     * @throws java.lang.Exception
+     * @throws java.lang.Exception exception
      */
     public void execute() throws Exception;
 
@@ -48,14 +48,14 @@ public interface Command {
     /**
      * Performs redo on given document.
      *
-     * @throws java.lang.Exception
+     * @throws java.lang.Exception exception
      */
     public void redo() throws Exception;
 
     /**
      * Performs undo operation on given document.
      *
-     * @throws java.lang.Exception
+     * @throws java.lang.Exception exception
      */
     public void undo() throws Exception;
 
@@ -69,7 +69,7 @@ public interface Command {
     /**
      * Disposes command.
      *
-     * @throws java.lang.Exception
+     * @throws java.lang.Exception exception
      */
     public void dispose() throws Exception;
 

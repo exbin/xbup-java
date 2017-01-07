@@ -24,14 +24,17 @@ import org.exbin.xbup.core.catalog.base.XBCNode;
 
 /**
  * Interface for XB catalog update handler.
+ *
  * Provides methods for updating catalog database.
  *
- * @version 0.1.17 2009/02/09
+ * @version 0.2.0 2017/01/07
  * @author ExBin Project (http://exbin.org)
  */
 public interface XBCUpdateHandler {
 
-    /** Initialize Updater. */
+    /**
+     * Initialize Updater.
+     */
     public void init();
 
     public XBContext updateTypeSpecFromWS(Long[] path, long specId);
@@ -50,7 +53,11 @@ public interface XBCUpdateHandler {
 
     public XBCNode addNodeFromWS(XBCNode node, Long nodeId);
 
-    /** Process all catalog data in given path and subnodes. */
+    /**
+     * Process all catalog data in given path and subnodes.
+     *
+     * @param path path
+     */
     public void processAllData(Long[] path);
 
     public boolean processNodePath(Long[] path);

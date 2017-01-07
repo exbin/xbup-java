@@ -33,6 +33,7 @@ import org.exbin.xbup.core.catalog.XBCatalog;
 import org.exbin.xbup.core.catalog.base.XBCBlockRev;
 import org.exbin.xbup.core.catalog.base.XBCGroupRev;
 import org.exbin.xbup.core.catalog.base.XBCGroupSpec;
+import org.exbin.xbup.core.catalog.base.XBCSpec;
 import org.exbin.xbup.core.catalog.base.XBCSpecDef;
 import org.exbin.xbup.core.catalog.base.service.XBCSpecService;
 import org.exbin.xbup.core.parser.XBProcessingException;
@@ -49,7 +50,7 @@ import org.exbin.xbup.core.ubnumber.type.UBENat32;
 /**
  * XBUP level 1 group definition.
  *
- * @version 0.1.25 2015/02/20
+ * @version 0.2.0 2017/01/07
  * @author ExBin Project (http://exbin.org)
  */
 public class XBCGroupDef implements XBGroupDef, XBPSequenceSerializable {
@@ -64,7 +65,7 @@ public class XBCGroupDef implements XBGroupDef, XBPSequenceSerializable {
 
     @Override
     public List<XBGroupParam> getGroupParams() {
-        XBCSpecService specService = (XBCSpecService) catalog.getCatalogService(XBCSpecService.class);
+        XBCSpecService<? extends XBCSpec> specService = (XBCSpecService<? extends XBCSpec>) catalog.getCatalogService(XBCSpecService.class);
         List<XBGroupParam> resultList = new ArrayList<>();
         List<XBCSpecDef> specDefs = specService.getSpecDefs(groupSpec);
         for (XBCSpecDef specDef : specDefs) {

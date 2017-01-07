@@ -47,7 +47,7 @@ public abstract class XBTDocCommand extends AbstractCommand {
     /**
      * Default dispose is empty.
      *
-     * @throws Exception
+     * @throws Exception exception
      */
     @Override
     public void dispose() throws Exception {

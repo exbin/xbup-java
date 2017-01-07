@@ -184,7 +184,7 @@ public class XBTreeNode implements XBEditableBlock, TreeNode, UBStreamable {
      * @param stream data stream
      * @param terminable specify if terminator can be read
      * @return size of read bytes
-     * @throws java.io.IOException
+     * @throws java.io.IOException exception on input/output error
      */
     public int fromStreamUB(InputStream stream, boolean terminable) throws IOException, XBProcessingException {
         clear();
@@ -245,7 +245,7 @@ public class XBTreeNode implements XBEditableBlock, TreeNode, UBStreamable {
      * @param maxSize Maximum size of bytes to consume. Otherwise Exception.
      * Zero means terminationMode block.
      * @return size of bytes read
-     * @throws java.io.IOException
+     * @throws java.io.IOException exception on input/output error
      */
     public int childrenFromStreamUB(InputStream stream, Integer maxSize) throws IOException, XBProcessingException {
         children.clear();

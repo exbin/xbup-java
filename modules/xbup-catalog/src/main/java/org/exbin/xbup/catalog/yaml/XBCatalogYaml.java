@@ -43,6 +43,8 @@ import org.exbin.xbup.core.catalog.base.XBCNode;
 import org.exbin.xbup.core.catalog.base.XBCRev;
 import org.exbin.xbup.core.catalog.base.XBCSpec;
 import org.exbin.xbup.core.catalog.base.XBCSpecDef;
+import org.exbin.xbup.core.catalog.base.XBCXHDoc;
+import org.exbin.xbup.core.catalog.base.XBCXStri;
 import org.exbin.xbup.core.catalog.base.service.XBCNodeService;
 import org.exbin.xbup.core.catalog.base.service.XBCRevService;
 import org.exbin.xbup.core.catalog.base.service.XBCSpecService;
@@ -55,7 +57,7 @@ import org.yaml.snakeyaml.Yaml;
 /**
  * XB Catalog import and export to yaml.
  *
- * @version 0.1.24 2014/12/09
+ * @version 0.2.0 2017/01/07
  * @author ExBin Project (http://exbin.org)
  */
 public class XBCatalogYaml {
@@ -120,10 +122,10 @@ public class XBCatalogYaml {
     }
 
     public void exportSpec(XBCItem item, Map<String, Object> targetData) {
-        XBCSpecService specService = (XBCSpecService) catalog.getCatalogService(XBCSpecService.class);
-        XBCXStriService striService = (XBCXStriService) catalog.getCatalogService(XBCXStriService.class);
+        XBCSpecService<? extends XBCSpec> specService = (XBCSpecService<? extends XBCSpec>) catalog.getCatalogService(XBCSpecService.class);
+        XBCXStriService<? extends XBCXStri> striService = (XBCXStriService<? extends XBCXStri>) catalog.getCatalogService(XBCXStriService.class);
 
-        List defs = new ArrayList();
+        List<Map<String, Object>> defs = new ArrayList<>();
 
         List<XBCSpecDef> specDefs = specService.getSpecDefs((XBCSpec) item);
         for (XBCSpecDef specDef : specDefs) {
@@ -151,12 +153,12 @@ public class XBCatalogYaml {
     }
 
     public void exportNode(XBCNode node, Map<String, Object> targetData) {
-        XBCNodeService nodeService = (XBCNodeService) catalog.getCatalogService(XBCNodeService.class);
-        XBCSpecService specService = (XBCSpecService) catalog.getCatalogService(XBCSpecService.class);
+        XBCNodeService<? extends XBCNode> nodeService = (XBCNodeService<? extends XBCNode>) catalog.getCatalogService(XBCNodeService.class);
+        XBCSpecService<? extends XBCSpec> specService = (XBCSpecService<? extends XBCSpec>) catalog.getCatalogService(XBCSpecService.class);
 
         exportItem(node, targetData);
 
-        List blockSpecMaps = new ArrayList();
+        List<Map<String, Object>> blockSpecMaps = new ArrayList<>();
         List<XBCBlockSpec> blockSpecs = specService.getBlockSpecs(node);
         for (XBCBlockSpec blockSpec : blockSpecs) {
             Map<String, Object> specData = new HashMap<>();
@@ -166,7 +168,7 @@ public class XBCatalogYaml {
         }
         targetData.put("block", blockSpecMaps);
 
-        List groupSpecMaps = new ArrayList();
+        List<Map<String, Object>> groupSpecMaps = new ArrayList<>();
         List<XBCGroupSpec> groupSpecs = specService.getGroupSpecs(node);
         for (XBCGroupSpec groupSpec : groupSpecs) {
             Map<String, Object> specData = new HashMap<>();
@@ -176,7 +178,7 @@ public class XBCatalogYaml {
         }
         targetData.put("group", groupSpecMaps);
 
-        List formatSpecMaps = new ArrayList();
+        List<Map<String, Object>> formatSpecMaps = new ArrayList<>();
         List<XBCFormatSpec> formatSpecs = specService.getFormatSpecs(node);
         for (XBCFormatSpec formatSpec : formatSpecs) {
             Map<String, Object> specData = new HashMap<>();
@@ -186,10 +188,9 @@ public class XBCatalogYaml {
         }
         targetData.put("format", formatSpecMaps);
 
-        List nodeSpecMaps = new ArrayList();
-        List subNodes = nodeService.getSubNodes(node);
-        for (Object subNodeObject : subNodes) {
-            XBCNode subNode = (XBCNode) subNodeObject;
+        List<Map<String, Object>> nodeSpecMaps = new ArrayList<>();
+        List<XBCNode> subNodes = nodeService.getSubNodes(node);
+        for (XBCNode subNode : subNodes) {
             Map<String, Object> subNodeData = new HashMap<>();
             // TODO: Replace recursion with iteration
             exportNode(subNode, subNodeData);
@@ -201,16 +202,14 @@ public class XBCatalogYaml {
     public void importCatalogItem(InputStream stream, XBENode parentNode) {
 
         Yaml yaml = new Yaml();
-        Map<String, Object> doc;
-        doc = (Map<String, Object>) yaml.load(stream);
-
-        importNode(doc, parentNode);
+        Object doc = yaml.load(stream);
+        importNode((Map<String, Object>) doc, parentNode);
     }
 
     public void importItem(Map<String, Object> blockData, XBEItem target) {
-        XBCSpecService specService = (XBCSpecService) catalog.getCatalogService(XBCSpecService.class);
-        XBCXStriService striService = (XBCXStriService) catalog.getCatalogService(XBCXStriService.class);
-        XBCXHDocService hdocService = (XBCXHDocService) catalog.getCatalogService(XBCXHDocService.class);
+        XBCSpecService<? extends XBCSpec> specService = (XBCSpecService<? extends XBCSpec>) catalog.getCatalogService(XBCSpecService.class);
+        XBCXStriService<? extends XBCXStri> striService = (XBCXStriService<? extends XBCXStri>) catalog.getCatalogService(XBCXStriService.class);
+        XBCXHDocService<? extends XBCXHDoc> hdocService = (XBCXHDocService<? extends XBCXHDoc>) catalog.getCatalogService(XBCXHDocService.class);
 
         String stringId = (String) blockData.get("id");
         ((XBEXStriService) striService).setItemStringIdText(target, stringId);
@@ -223,13 +222,13 @@ public class XBCatalogYaml {
     }
 
     public void importSpec(Map<String, Object> specData, XBESpec target) {
-        XBCSpecService specService = (XBCSpecService) catalog.getCatalogService(XBCSpecService.class);
-        XBCRevService revService = (XBCRevService) catalog.getCatalogService(XBCRevService.class);
-        XBCXStriService striService = (XBCXStriService) catalog.getCatalogService(XBCXStriService.class);
+        XBCSpecService<? extends XBCSpec> specService = (XBCSpecService<? extends XBCSpec>) catalog.getCatalogService(XBCSpecService.class);
+        XBCRevService<? extends XBCRev> revService = (XBCRevService<? extends XBCRev>) catalog.getCatalogService(XBCRevService.class);
+        XBCXStriService<? extends XBCXStri> striService = (XBCXStriService<? extends XBCXStri>) catalog.getCatalogService(XBCXStriService.class);
 
         XBEBlockSpec blockSpec = (XBEBlockSpec) specService.createBlockSpec();
         //blockSpec.setParent((XBENode) parentNode);
-        specService.persistItem(blockSpec);
+        ((XBCSpecService<XBCSpec>) specService).persistItem(blockSpec);
         importItem(specData, blockSpec);
 
         List defs = (List) specData.get("def");
@@ -241,7 +240,7 @@ public class XBCatalogYaml {
             XBParamType bindType = getBindType(bind);
 
             XBESpecDef specDef = (XBESpecDef) specService.createSpecDef(blockSpec, bindType);
-            specService.persistItem(specDef);
+            ((XBCSpecService) specService).persistItem(specDef);
             importItem(def, specDef);
 
             specDef.setCatalogItem(blockSpec);
@@ -255,15 +254,15 @@ public class XBCatalogYaml {
                 specDef.setTarget(targetRev);
             }
 
-            specService.persistItem(specDef);
+            ((XBCSpecService) specService).persistItem(specDef);
         }
 
-        specService.persistItem(blockSpec);
+        ((XBCSpecService) specService).persistItem(blockSpec);
     }
 
     public void importNode(Map<String, Object> nodeData, XBENode target) {
-        XBCSpecService specService = (XBCSpecService) catalog.getCatalogService(XBCSpecService.class);
-        XBCNodeService nodeService = (XBCNodeService) catalog.getCatalogService(XBCNodeService.class);
+        XBCSpecService<? extends XBCSpec> specService = (XBCSpecService<? extends XBCSpec>) catalog.getCatalogService(XBCSpecService.class);
+        XBCNodeService<? extends XBCNode> nodeService = (XBCNodeService<? extends XBCNode>) catalog.getCatalogService(XBCNodeService.class);
 
         List<Object> nodes = (List<Object>) nodeData.get("node");
         if (nodes != null) {
@@ -271,7 +270,7 @@ public class XBCatalogYaml {
                 Map<String, Object> subNodeData = (Map<String, Object>) node;
                 XBENode subNode = (XBENode) nodeService.createItem();
                 subNode.setOwner(target);
-                nodeService.persistItem(subNode);
+                ((XBCNodeService) nodeService).persistItem(subNode);
                 importItem(subNodeData, subNode);
                 // TODO: Replace recursion with iteration
                 importNode(subNodeData, subNode);
@@ -288,7 +287,7 @@ public class XBCatalogYaml {
                 blockSpecIndex++;
                 blockSpec.setXBIndex(blockSpecIndex);
 
-                specService.persistItem(blockSpec);
+                ((XBCSpecService) specService).persistItem(blockSpec);
 
                 importItem(blockData, blockSpec);
                 importSpec(blockData, blockSpec);
@@ -305,7 +304,7 @@ public class XBCatalogYaml {
                 groupSpecIndex++;
                 groupSpec.setXBIndex(groupSpecIndex);
 
-                specService.persistItem(groupSpec);
+                ((XBCSpecService) specService).persistItem(groupSpec);
 
                 importItem(groupData, groupSpec);
                 importSpec(groupData, groupSpec);
@@ -322,7 +321,7 @@ public class XBCatalogYaml {
                 formatSpecIndex++;
                 formatSpec.setXBIndex(formatSpecIndex);
 
-                specService.persistItem(formatSpec);
+                ((XBCSpecService) specService).persistItem(formatSpec);
 
                 importItem(formatData, formatSpec);
                 importSpec(formatData, formatSpec);

@@ -101,8 +101,8 @@ public class XBCatalogNetServiceServer extends XBTCPServiceServer {
     /**
      * Performs login to the server
      *
-     * @param user
-     * @param password
+     * @param user user
+     * @param password password
      * @return 0 for OK
      */
     public int login(String user, char[] password) {

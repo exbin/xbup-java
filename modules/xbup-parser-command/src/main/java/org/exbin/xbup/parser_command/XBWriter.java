@@ -202,7 +202,7 @@ public class XBWriter implements XBCommandWriter, XBPullProvider, Closeable {
      * Seeks given reader block.
      *
      * @param targetBlock target reader block
-     * @throws IOException
+     * @throws IOException exception on input/output error
      */
     public void seekBlock(XBWriterBlock targetBlock) throws XBProcessingException, IOException {
         setActiveBlockId(targetBlock);

@@ -34,7 +34,7 @@ public interface XBUndoUpdateListener {
     /**
      * Reports new command added to undo sequence.
      *
-     * @param command
+     * @param command command
      */
     void undoCommandAdded(Command command);
 }

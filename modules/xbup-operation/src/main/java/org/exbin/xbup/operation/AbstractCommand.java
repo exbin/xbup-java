@@ -31,7 +31,7 @@ public abstract class AbstractCommand implements Command {
     /**
      * Default execution method performs simply redo operation.
      *
-     * @throws Exception
+     * @throws Exception exception
      */
     @Override
     public void execute() throws Exception {
@@ -50,7 +50,7 @@ public abstract class AbstractCommand implements Command {
     /**
      * Default dispose method do nothing.
      *
-     * @throws Exception
+     * @throws Exception exception
      */
     @Override
     public void dispose() throws Exception {

@@ -27,6 +27,10 @@ import java.util.EventListener;
  */
 public interface XBCUpdateListener extends EventListener {
 
-    /** Indicates if web service is started to use. */
+    /**
+     * Indicates if web service is started to use.
+     *
+     * @param status status flag
+     */
     public void webServiceUsage(boolean status);
 }

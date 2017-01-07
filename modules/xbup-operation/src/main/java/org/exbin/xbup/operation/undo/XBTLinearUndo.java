@@ -54,8 +54,8 @@ public class XBTLinearUndo implements XBUndoHandler {
     /**
      * Adds new step into revert list.
      *
-     * @param command
-     * @throws java.lang.Exception
+     * @param command command
+     * @throws java.lang.Exception exception
      */
     @Override
     public void execute(Command command) throws Exception {
@@ -87,7 +87,7 @@ public class XBTLinearUndo implements XBUndoHandler {
     /**
      * Performs single undo step.
      *
-     * @throws java.lang.Exception
+     * @throws java.lang.Exception exception
      */
     @Override
     public void performUndo() throws Exception {
@@ -107,7 +107,7 @@ public class XBTLinearUndo implements XBUndoHandler {
     /**
      * Performs single redo step.
      *
-     * @throws java.lang.Exception
+     * @throws java.lang.Exception exception
      */
     @Override
     public void performRedo() throws Exception {
@@ -128,7 +128,7 @@ public class XBTLinearUndo implements XBUndoHandler {
      * Performs multiple undo step.
      *
      * @param count count of steps
-     * @throws Exception
+     * @throws Exception exception
      */
     @Override
     public void performUndo(int count) throws Exception {
@@ -147,7 +147,7 @@ public class XBTLinearUndo implements XBUndoHandler {
      * Performs multiple redo step.
      *
      * @param count count of steps
-     * @throws Exception
+     * @throws Exception exception
      */
     @Override
     public void performRedo(int count) throws Exception {
@@ -190,7 +190,7 @@ public class XBTLinearUndo implements XBUndoHandler {
     /**
      * Performs revert to sync point.
      *
-     * @throws java.lang.Exception
+     * @throws java.lang.Exception exception
      */
     @Override
     public void doSync() throws Exception {
@@ -246,7 +246,7 @@ public class XBTLinearUndo implements XBUndoHandler {
      * Performs undo or redo operation to reach given position.
      *
      * @param targetPosition desired position
-     * @throws java.lang.Exception
+     * @throws java.lang.Exception exception
      */
     @Override
     public void setCommandPosition(long targetPosition) throws Exception {

@@ -34,7 +34,7 @@ public interface Operation {
     /**
      * Performs operation on given document.
      *
-     * @throws java.lang.Exception
+     * @throws java.lang.Exception exception
      */
     public void execute() throws Exception;
 
@@ -42,14 +42,14 @@ public interface Operation {
      * Performs operation on given document and returns undo operation.
      *
      * @return undo operation or null if not available
-     * @throws java.lang.Exception
+     * @throws java.lang.Exception exception
      */
     public Operation executeWithUndo() throws Exception;
 
     /**
      * Disposes command.
      *
-     * @throws java.lang.Exception
+     * @throws java.lang.Exception exception
      */
     public void dispose() throws Exception;
 }

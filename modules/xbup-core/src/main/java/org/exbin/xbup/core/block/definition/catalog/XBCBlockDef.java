@@ -32,6 +32,7 @@ import org.exbin.xbup.core.block.definition.XBRevisionDef;
 import org.exbin.xbup.core.catalog.XBCatalog;
 import org.exbin.xbup.core.catalog.base.XBCBlockRev;
 import org.exbin.xbup.core.catalog.base.XBCBlockSpec;
+import org.exbin.xbup.core.catalog.base.XBCSpec;
 import org.exbin.xbup.core.catalog.base.XBCSpecDef;
 import org.exbin.xbup.core.catalog.base.service.XBCSpecService;
 import org.exbin.xbup.core.parser.XBProcessingException;
@@ -48,7 +49,7 @@ import org.exbin.xbup.core.ubnumber.type.UBENat32;
 /**
  * XBUP level 1 block definition.
  *
- * @version 0.1.25 2015/02/20
+ * @version 0.2.0 2017/01/07
  * @author ExBin Project (http://exbin.org)
  */
 public class XBCBlockDef implements XBBlockDef, XBPSequenceSerializable {
@@ -64,7 +65,7 @@ public class XBCBlockDef implements XBBlockDef, XBPSequenceSerializable {
     @Override
     public List<XBBlockParam> getBlockParams() {
         List<XBBlockParam> resultList = new ArrayList<>();
-        XBCSpecService specService = (XBCSpecService) catalog.getCatalogService(XBCSpecService.class);
+        XBCSpecService<? extends XBCSpec> specService = (XBCSpecService<? extends XBCSpec>) catalog.getCatalogService(XBCSpecService.class);
         List<XBCSpecDef> specDefs = specService.getSpecDefs(blockSpec);
         for (XBCSpecDef specDef : specDefs) {
             resultList.add(convertParam(specDef));

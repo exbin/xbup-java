@@ -42,7 +42,7 @@ public class XBLinearUndo {
     /**
      * Creates a new instance.
      *
-     * @param tree
+     * @param tree main tree object
      */
     public XBLinearUndo(XBTree tree) {
         this.tree = tree;

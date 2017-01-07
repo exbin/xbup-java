@@ -34,12 +34,14 @@ public interface XBCommandReader extends XBDocument, Closeable {
      * Opens input byte-stream.
      *
      * @param stream input stream
-     * @throws java.io.IOException
+     * @throws java.io.IOException exception on input/output error
      */
     public void open(InputStream stream) throws IOException;
 
     /**
      * Closes input stream.
+     *
+     * @throws java.io.IOException exception on input/output error
      */
     @Override
     public void close() throws IOException;
@@ -47,7 +49,7 @@ public interface XBCommandReader extends XBDocument, Closeable {
     /**
      * Resets parser.
      *
-     * @throws IOException
+     * @throws IOException exception on input/output error
      */
     public void resetXB() throws IOException;
 

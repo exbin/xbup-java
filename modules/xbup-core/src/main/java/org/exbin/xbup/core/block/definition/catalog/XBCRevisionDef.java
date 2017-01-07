@@ -38,7 +38,7 @@ import org.exbin.xbup.core.ubnumber.type.UBNat32;
 /**
  * XBUP level 1 revision definition.
  *
- * @version 0.1.25 2015/02/20
+ * @version 0.2.0 2017/01/07
  * @author ExBin Project (http://exbin.org)
  */
 public class XBCRevisionDef implements XBRevisionDef, XBPSequenceSerializable {
@@ -54,7 +54,7 @@ public class XBCRevisionDef implements XBRevisionDef, XBPSequenceSerializable {
     @Override
     public List<XBRevisionParam> getRevParams() {
         List<XBRevisionParam> result = new ArrayList<>();
-        XBCRevService revService = (XBCRevService) catalog.getCatalogService(XBCRevService.class);
+        XBCRevService<? extends XBCRev> revService = (XBCRevService<? extends XBCRev>) catalog.getCatalogService(XBCRevService.class);
         for (XBCRev rev : (List<XBCRev>) revService.getRevs(spec)) {
             result.add(new XBRevisionParam(rev.getXBLimit()));
         }

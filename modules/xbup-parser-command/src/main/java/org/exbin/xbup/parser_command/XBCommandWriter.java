@@ -33,7 +33,7 @@ public interface XBCommandWriter extends XBEditableDocument, XBCommandReader, Cl
      * Saves data to byte-stream.
      *
      * @param stream output stream
-     * @throws java.io.IOException
+     * @throws java.io.IOException exception on input/output error
      */
     public void save(OutputStream stream) throws IOException;
 

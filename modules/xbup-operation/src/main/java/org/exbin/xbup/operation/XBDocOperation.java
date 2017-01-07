@@ -47,7 +47,7 @@ public abstract class XBDocOperation implements Operation {
     /**
      * Default dispose is empty.
      *
-     * @throws Exception
+     * @throws Exception exception
      */
     @Override
     public void dispose() throws Exception {

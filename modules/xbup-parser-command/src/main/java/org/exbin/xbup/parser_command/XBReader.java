@@ -350,7 +350,7 @@ public class XBReader implements XBCommandReader, XBPullProvider, Closeable {
      * Pulls next token from the reader.
      *
      * @return next recognized event item in stream
-     * @throws IOException
+     * @throws IOException exception on input/output error
      */
     @Override
     public XBToken pullXBToken() throws XBProcessingException, IOException {
@@ -498,7 +498,7 @@ public class XBReader implements XBCommandReader, XBPullProvider, Closeable {
      * Seeks given reader block.
      *
      * @param targetBlock target reader block
-     * @throws IOException
+     * @throws IOException exception on input/output error
      */
     public void seekBlock(XBCommandBlock targetBlock) throws XBProcessingException, IOException {
         if (activeBlock != targetBlock) {
@@ -511,7 +511,7 @@ public class XBReader implements XBCommandReader, XBPullProvider, Closeable {
      * Seeks given block path in stream.
      *
      * @param blockPath target block path
-     * @throws IOException
+     * @throws IOException exception on input/output error
      */
     public void seekBlockPath(long[] blockPath) throws XBProcessingException, IOException {
         if (blockPath == null) {

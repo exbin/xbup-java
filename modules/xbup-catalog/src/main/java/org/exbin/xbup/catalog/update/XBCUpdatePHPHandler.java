@@ -182,11 +182,11 @@ public class XBCUpdatePHPHandler implements XBCUpdateHandler {
         try {
             fireUsageEvent(true);
             // Test existence
-            ItemInfo result = port.getFormatCatalogSpecInfo(path, new Long(specId), lang);
+            ItemInfo result = port.getFormatCatalogSpecInfo(path, specId, lang);
             if (result == null) {
                 return null;
             }
-            XBEFormatSpec spec = updateFormatSpec(path, new Long(specId));
+            XBEFormatSpec spec = updateFormatSpec(path, specId);
             if (spec == null) {
                 return null;
             }
@@ -266,6 +266,7 @@ public class XBCUpdatePHPHandler implements XBCUpdateHandler {
         }
         return (XBEBlockSpec) spec;
     }
+
     /*
      public XBAttributeType updateAttribSpec(Long[] path, Long specId) {
      if (!processAttribNodesPath(path)) return null;
@@ -371,9 +372,9 @@ public class XBCUpdatePHPHandler implements XBCUpdateHandler {
     /**
      * Adds node from WS Catalog interface.
      *
-     * @param node
-     * @param nodeId
-     * @return
+     * @param node node
+     * @param nodeId node id
+     * @return node instance
      */
     @Override
     public XBENode addNodeFromWS(XBCNode node, Long nodeId) {
@@ -488,7 +489,7 @@ public class XBCUpdatePHPHandler implements XBCUpdateHandler {
     /**
      * Recursively receive all information about given specification node.
      *
-     * @param path
+     * @param path path
      */
     @Override
     public void processAllData(Long[] path) {

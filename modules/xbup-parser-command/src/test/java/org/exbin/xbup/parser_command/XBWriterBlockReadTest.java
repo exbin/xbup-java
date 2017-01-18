@@ -20,13 +20,12 @@ import junit.framework.TestCase;
 import org.exbin.xbup.core.block.XBDocument;
 import org.exbin.xbup.core.parser.data.XBCoreTestSampleData;
 import org.exbin.xbup.core.test.XBTestUtils;
-import static org.exbin.xbup.parser_command.XBCommandParserTestUtils.getResourceAsSeekableStream;
 import org.junit.Test;
 
 /**
- * Test class for XBTreeDocument.
+ * Test class for XBWriter.
  *
- * @version 0.2.0 2016/09/25
+ * @version 0.2.0 2017/01/18
  * @author ExBin Project (http://exbin.org)
  */
 public class XBWriterBlockReadTest extends TestCase {
@@ -53,7 +52,7 @@ public class XBWriterBlockReadTest extends TestCase {
     @Test
     public void testReadSampleEmpty() throws Exception {
         XBWriter instance = new XBWriter();
-        instance.open(getResourceAsSeekableStream(XBCoreTestSampleData.SAMPLE_EMPTY));
+        instance.open(XBCommandParserTestUtils.getResourceAsSeekableStream(XBCoreTestSampleData.SAMPLE_EMPTY));
 
         XBDocument expectedDocument = XBCoreTestSampleData.getSampleEmptyTree();
         XBTestUtils.assertEqualsXBDocuments(expectedDocument, instance);
@@ -67,7 +66,7 @@ public class XBWriterBlockReadTest extends TestCase {
     @Test
     public void testReadSampleBlock() throws Exception {
         XBWriter instance = new XBWriter();
-        instance.open(getResourceAsSeekableStream(XBCoreTestSampleData.SAMPLE_BLOCK));
+        instance.open(XBCommandParserTestUtils.getResourceAsSeekableStream(XBCoreTestSampleData.SAMPLE_BLOCK));
 
         XBDocument expectedDocument = XBCoreTestSampleData.getSampleBlockTree();
         XBTestUtils.assertEqualsXBDocuments(expectedDocument, instance);
@@ -81,7 +80,7 @@ public class XBWriterBlockReadTest extends TestCase {
     @Test
     public void testReadSampleBlockWithTail() throws Exception {
         XBWriter instance = new XBWriter();
-        instance.open(getResourceAsSeekableStream(XBCoreTestSampleData.SAMPLE_BLOCK_WITH_TAIL));
+        instance.open(XBCommandParserTestUtils.getResourceAsSeekableStream(XBCoreTestSampleData.SAMPLE_BLOCK_WITH_TAIL));
 
         XBDocument expectedDocument = XBCoreTestSampleData.getSampleBlockWithTailTree();
         XBTestUtils.assertEqualsXBDocuments(expectedDocument, instance);
@@ -95,7 +94,7 @@ public class XBWriterBlockReadTest extends TestCase {
     @Test
     public void testReadSampleBlockTerminated() throws Exception {
         XBWriter instance = new XBWriter();
-        instance.open(getResourceAsSeekableStream(XBCoreTestSampleData.SAMPLE_BLOCK_TERMINATED));
+        instance.open(XBCommandParserTestUtils.getResourceAsSeekableStream(XBCoreTestSampleData.SAMPLE_BLOCK_TERMINATED));
 
         XBDocument expectedDocument = XBCoreTestSampleData.getSampleBlockTerminatedTree();
         XBTestUtils.assertEqualsXBDocuments(expectedDocument, instance);
@@ -109,7 +108,7 @@ public class XBWriterBlockReadTest extends TestCase {
     @Test
     public void testReadSampleBlockTerminatedWithTail() throws Exception {
         XBWriter instance = new XBWriter();
-        instance.open(getResourceAsSeekableStream(XBCoreTestSampleData.SAMPLE_BLOCK_TERMINATED_WITH_TAIL));
+        instance.open(XBCommandParserTestUtils.getResourceAsSeekableStream(XBCoreTestSampleData.SAMPLE_BLOCK_TERMINATED_WITH_TAIL));
 
         XBDocument expectedDocument = XBCoreTestSampleData.getSampleBlockTerminatedWithTailTree();
         XBTestUtils.assertEqualsXBDocuments(expectedDocument, instance);
@@ -123,7 +122,7 @@ public class XBWriterBlockReadTest extends TestCase {
     @Test
     public void testReadSampleData() throws Exception {
         XBWriter instance = new XBWriter();
-        instance.open(getResourceAsSeekableStream(XBCoreTestSampleData.SAMPLE_DATA));
+        instance.open(XBCommandParserTestUtils.getResourceAsSeekableStream(XBCoreTestSampleData.SAMPLE_DATA));
 
         XBDocument expectedDocument = XBCoreTestSampleData.getSampleDataTree();
         XBTestUtils.assertEqualsXBDocuments(expectedDocument, instance);
@@ -137,7 +136,7 @@ public class XBWriterBlockReadTest extends TestCase {
     @Test
     public void testReadSampleDataWithTail() throws Exception {
         XBWriter instance = new XBWriter();
-        instance.open(getResourceAsSeekableStream(XBCoreTestSampleData.SAMPLE_DATA_WITH_TAIL));
+        instance.open(XBCommandParserTestUtils.getResourceAsSeekableStream(XBCoreTestSampleData.SAMPLE_DATA_WITH_TAIL));
 
         XBDocument expectedDocument = XBCoreTestSampleData.getSampleDataWithTailTree();
         XBTestUtils.assertEqualsXBDocuments(expectedDocument, instance);
@@ -151,7 +150,7 @@ public class XBWriterBlockReadTest extends TestCase {
     @Test
     public void testReadSampleDataTerminated() throws Exception {
         XBWriter instance = new XBWriter();
-        instance.open(getResourceAsSeekableStream(XBCoreTestSampleData.SAMPLE_DATA_TERMINATED));
+        instance.open(XBCommandParserTestUtils.getResourceAsSeekableStream(XBCoreTestSampleData.SAMPLE_DATA_TERMINATED));
 
         XBDocument expectedDocument = XBCoreTestSampleData.getSampleDataTerminatedTree();
         XBTestUtils.assertEqualsXBDocuments(expectedDocument, instance);
@@ -165,7 +164,7 @@ public class XBWriterBlockReadTest extends TestCase {
     @Test
     public void testReadSampleDataTerminatedWithTail() throws Exception {
         XBWriter instance = new XBWriter();
-        instance.open(getResourceAsSeekableStream(XBCoreTestSampleData.SAMPLE_DATA_TERMINATED_WITH_TAIL));
+        instance.open(XBCommandParserTestUtils.getResourceAsSeekableStream(XBCoreTestSampleData.SAMPLE_DATA_TERMINATED_WITH_TAIL));
 
         XBDocument expectedDocument = XBCoreTestSampleData.getSampleDataTerminatedWithTailTree();
         XBTestUtils.assertEqualsXBDocuments(expectedDocument, instance);
@@ -179,7 +178,7 @@ public class XBWriterBlockReadTest extends TestCase {
     @Test
     public void testReadSampleBlockData() throws Exception {
         XBWriter instance = new XBWriter();
-        instance.open(getResourceAsSeekableStream(XBCoreTestSampleData.SAMPLE_BLOCK_DATA));
+        instance.open(XBCommandParserTestUtils.getResourceAsSeekableStream(XBCoreTestSampleData.SAMPLE_BLOCK_DATA));
 
         XBDocument expectedDocument = XBCoreTestSampleData.getSampleBlockDataTree();
         XBTestUtils.assertEqualsXBDocuments(expectedDocument, instance);
@@ -193,7 +192,7 @@ public class XBWriterBlockReadTest extends TestCase {
     @Test
     public void testReadSampleBlockDataWithTail() throws Exception {
         XBWriter instance = new XBWriter();
-        instance.open(getResourceAsSeekableStream(XBCoreTestSampleData.SAMPLE_BLOCK_DATA_WITH_TAIL));
+        instance.open(XBCommandParserTestUtils.getResourceAsSeekableStream(XBCoreTestSampleData.SAMPLE_BLOCK_DATA_WITH_TAIL));
 
         XBDocument expectedDocument = XBCoreTestSampleData.getSampleBlockDataWithTailTree();
         XBTestUtils.assertEqualsXBDocuments(expectedDocument, instance);
@@ -207,7 +206,7 @@ public class XBWriterBlockReadTest extends TestCase {
     @Test
     public void testReadSampleBlockDataTerminated() throws Exception {
         XBWriter instance = new XBWriter();
-        instance.open(getResourceAsSeekableStream(XBCoreTestSampleData.SAMPLE_BLOCK_DATA_TERMINATED));
+        instance.open(XBCommandParserTestUtils.getResourceAsSeekableStream(XBCoreTestSampleData.SAMPLE_BLOCK_DATA_TERMINATED));
 
         XBDocument expectedDocument = XBCoreTestSampleData.getSampleBlockDataTerminatedTree();
         XBTestUtils.assertEqualsXBDocuments(expectedDocument, instance);
@@ -221,7 +220,7 @@ public class XBWriterBlockReadTest extends TestCase {
     @Test
     public void testReadSampleBlockDataTerminatedWithTail() throws Exception {
         XBWriter instance = new XBWriter();
-        instance.open(getResourceAsSeekableStream(XBCoreTestSampleData.SAMPLE_BLOCK_DATA_TERMINATED_WITH_TAIL));
+        instance.open(XBCommandParserTestUtils.getResourceAsSeekableStream(XBCoreTestSampleData.SAMPLE_BLOCK_DATA_TERMINATED_WITH_TAIL));
 
         XBDocument expectedDocument = XBCoreTestSampleData.getSampleBlockDataTerminatedWithTailTree();
         XBTestUtils.assertEqualsXBDocuments(expectedDocument, instance);
@@ -235,7 +234,7 @@ public class XBWriterBlockReadTest extends TestCase {
     @Test
     public void testReadSampleBlockDataHybrid() throws Exception {
         XBWriter instance = new XBWriter();
-        instance.open(getResourceAsSeekableStream(XBCoreTestSampleData.SAMPLE_BLOCK_DATA_HYBRID));
+        instance.open(XBCommandParserTestUtils.getResourceAsSeekableStream(XBCoreTestSampleData.SAMPLE_BLOCK_DATA_HYBRID));
 
         XBDocument expectedDocument = XBCoreTestSampleData.getSampleBlockDataHybridTree();
         XBTestUtils.assertEqualsXBDocuments(expectedDocument, instance);
@@ -249,7 +248,7 @@ public class XBWriterBlockReadTest extends TestCase {
     @Test
     public void testReadSampleBlockDataHybrid2() throws Exception {
         XBWriter instance = new XBWriter();
-        instance.open(getResourceAsSeekableStream(XBCoreTestSampleData.SAMPLE_BLOCK_DATA_HYBRID2));
+        instance.open(XBCommandParserTestUtils.getResourceAsSeekableStream(XBCoreTestSampleData.SAMPLE_BLOCK_DATA_HYBRID2));
 
         XBDocument expectedDocument = XBCoreTestSampleData.getSampleBlockDataHybrid2Tree();
         XBTestUtils.assertEqualsXBDocuments(expectedDocument, instance);
@@ -263,7 +262,7 @@ public class XBWriterBlockReadTest extends TestCase {
     @Test
     public void testReadSampleTwoBlocks() throws Exception {
         XBWriter instance = new XBWriter();
-        instance.open(getResourceAsSeekableStream(XBCoreTestSampleData.SAMPLE_TWO_BLOCKS));
+        instance.open(XBCommandParserTestUtils.getResourceAsSeekableStream(XBCoreTestSampleData.SAMPLE_TWO_BLOCKS));
 
         XBDocument expectedDocument = XBCoreTestSampleData.getSampleTwoBlocksTree();
         XBTestUtils.assertEqualsXBDocuments(expectedDocument, instance);
@@ -277,7 +276,7 @@ public class XBWriterBlockReadTest extends TestCase {
     @Test
     public void testReadSampleTwoBlocksWithTail() throws Exception {
         XBWriter instance = new XBWriter();
-        instance.open(getResourceAsSeekableStream(XBCoreTestSampleData.SAMPLE_TWO_BLOCKS_WITH_TAIL));
+        instance.open(XBCommandParserTestUtils.getResourceAsSeekableStream(XBCoreTestSampleData.SAMPLE_TWO_BLOCKS_WITH_TAIL));
 
         XBDocument expectedDocument = XBCoreTestSampleData.getSampleTwoBlocksWithTailTree();
         XBTestUtils.assertEqualsXBDocuments(expectedDocument, instance);
@@ -291,7 +290,7 @@ public class XBWriterBlockReadTest extends TestCase {
     @Test
     public void testReadSampleTwoBlocksTerminated() throws Exception {
         XBWriter instance = new XBWriter();
-        instance.open(getResourceAsSeekableStream(XBCoreTestSampleData.SAMPLE_TWO_BLOCKS_TERMINATED));
+        instance.open(XBCommandParserTestUtils.getResourceAsSeekableStream(XBCoreTestSampleData.SAMPLE_TWO_BLOCKS_TERMINATED));
 
         XBDocument expectedDocument = XBCoreTestSampleData.getSampleTwoBlocksTerminatedTree();
         XBTestUtils.assertEqualsXBDocuments(expectedDocument, instance);
@@ -305,7 +304,7 @@ public class XBWriterBlockReadTest extends TestCase {
     @Test
     public void testReadSampleTwoBlocksTerminatedWithTail() throws Exception {
         XBWriter instance = new XBWriter();
-        instance.open(getResourceAsSeekableStream(XBCoreTestSampleData.SAMPLE_TWO_BLOCKS_TERMINATED_WITH_TAIL));
+        instance.open(XBCommandParserTestUtils.getResourceAsSeekableStream(XBCoreTestSampleData.SAMPLE_TWO_BLOCKS_TERMINATED_WITH_TAIL));
 
         XBDocument expectedDocument = XBCoreTestSampleData.getSampleTwoBlocksTerminatedWithTailTree();
         XBTestUtils.assertEqualsXBDocuments(expectedDocument, instance);
@@ -319,7 +318,7 @@ public class XBWriterBlockReadTest extends TestCase {
     @Test
     public void testReadSampleTwoBlocksHybrid() throws Exception {
         XBWriter instance = new XBWriter();
-        instance.open(getResourceAsSeekableStream(XBCoreTestSampleData.SAMPLE_TWO_BLOCKS_HYBRID));
+        instance.open(XBCommandParserTestUtils.getResourceAsSeekableStream(XBCoreTestSampleData.SAMPLE_TWO_BLOCKS_HYBRID));
 
         XBDocument expectedDocument = XBCoreTestSampleData.getSampleTwoBlocksHybridTree();
         XBTestUtils.assertEqualsXBDocuments(expectedDocument, instance);
@@ -333,7 +332,7 @@ public class XBWriterBlockReadTest extends TestCase {
     @Test
     public void testReadSampleTwoBlocksHybrid2() throws Exception {
         XBWriter instance = new XBWriter();
-        instance.open(getResourceAsSeekableStream(XBCoreTestSampleData.SAMPLE_TWO_BLOCKS_HYBRID2));
+        instance.open(XBCommandParserTestUtils.getResourceAsSeekableStream(XBCoreTestSampleData.SAMPLE_TWO_BLOCKS_HYBRID2));
 
         XBDocument expectedDocument = XBCoreTestSampleData.getSampleTwoBlocksHybrid2Tree();
         XBTestUtils.assertEqualsXBDocuments(expectedDocument, instance);
@@ -347,7 +346,7 @@ public class XBWriterBlockReadTest extends TestCase {
     @Test
     public void testReadSampleSixBlocks() throws Exception {
         XBWriter instance = new XBWriter();
-        instance.open(getResourceAsSeekableStream(XBCoreTestSampleData.SAMPLE_SIX_BLOCKS));
+        instance.open(XBCommandParserTestUtils.getResourceAsSeekableStream(XBCoreTestSampleData.SAMPLE_SIX_BLOCKS));
 
         XBDocument expectedDocument = XBCoreTestSampleData.getSampleSixBlocksTree();
         XBTestUtils.assertEqualsXBDocuments(expectedDocument, instance);

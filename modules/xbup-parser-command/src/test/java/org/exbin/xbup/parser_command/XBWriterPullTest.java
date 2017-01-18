@@ -28,13 +28,12 @@ import org.exbin.xbup.core.parser.basic.convert.XBProviderToProducer;
 import org.exbin.xbup.core.parser.data.XBCoreTestSampleData;
 import org.exbin.xbup.core.parser.token.pull.convert.XBPullProviderToProvider;
 import org.exbin.xbup.core.test.XBTestUtils.BufferAssertXBFilter;
-import static org.exbin.xbup.parser_command.XBCommandParserTestUtils.getResourceAsSeekableStream;
 import org.junit.Test;
 
 /**
  * Test class for pull capabilites of XBWriter.
  *
- * @version 0.2.0 2016/09/25
+ * @version 0.2.0 2017/01/18
  * @author ExBin Project (http://exbin.org)
  */
 public class XBWriterPullTest extends TestCase {
@@ -60,7 +59,7 @@ public class XBWriterPullTest extends TestCase {
      */
     @Test
     public void testReadSampleEmpty() throws Exception {
-        try (InputStream stream = getResourceAsSeekableStream(XBCoreTestSampleData.SAMPLE_EMPTY); XBWriter instance = new XBWriter(stream, null)) {
+        try (InputStream stream = XBCommandParserTestUtils.getResourceAsSeekableStream(XBCoreTestSampleData.SAMPLE_EMPTY); XBWriter instance = new XBWriter(stream, null)) {
             BufferAssertXBFilter assertListener;
             XBConsumerToListener buffer = new XBConsumerToListener(null);
             XBCoreTestSampleData.writeSampleEmpty(buffer);
@@ -79,7 +78,7 @@ public class XBWriterPullTest extends TestCase {
      */
     @Test
     public void testReadSampleBlock() throws Exception {
-        try (InputStream stream = getResourceAsSeekableStream(XBCoreTestSampleData.SAMPLE_BLOCK); XBWriter instance = new XBWriter(stream, null)) {
+        try (InputStream stream = XBCommandParserTestUtils.getResourceAsSeekableStream(XBCoreTestSampleData.SAMPLE_BLOCK); XBWriter instance = new XBWriter(stream, null)) {
             BufferAssertXBFilter assertListener;
             XBConsumerToListener buffer = new XBConsumerToListener(null);
             XBCoreTestSampleData.writeSampleBlock(buffer);
@@ -98,7 +97,7 @@ public class XBWriterPullTest extends TestCase {
      */
     @Test
     public void testReadSampleBlockWithTail() throws Exception {
-        try (InputStream stream = getResourceAsSeekableStream(XBCoreTestSampleData.SAMPLE_BLOCK_WITH_TAIL); XBWriter instance = new XBWriter(stream, null)) {
+        try (InputStream stream = XBCommandParserTestUtils.getResourceAsSeekableStream(XBCoreTestSampleData.SAMPLE_BLOCK_WITH_TAIL); XBWriter instance = new XBWriter(stream, null)) {
             BufferAssertXBFilter assertListener;
             XBConsumerToListener buffer = new XBConsumerToListener(null);
             XBCoreTestSampleData.writeSampleBlockWithTail(buffer);
@@ -117,7 +116,7 @@ public class XBWriterPullTest extends TestCase {
      */
     @Test
     public void testReadSampleBlockTerminated() throws Exception {
-        try (InputStream stream = getResourceAsSeekableStream(XBCoreTestSampleData.SAMPLE_BLOCK_TERMINATED); XBWriter instance = new XBWriter(stream, null)) {
+        try (InputStream stream = XBCommandParserTestUtils.getResourceAsSeekableStream(XBCoreTestSampleData.SAMPLE_BLOCK_TERMINATED); XBWriter instance = new XBWriter(stream, null)) {
             BufferAssertXBFilter assertListener;
             XBConsumerToListener buffer = new XBConsumerToListener(null);
             XBCoreTestSampleData.writeSampleBlockTerminated(buffer);
@@ -136,7 +135,7 @@ public class XBWriterPullTest extends TestCase {
      */
     @Test
     public void testReadSampleBlockTerminatedWithTail() throws Exception {
-        try (InputStream stream = getResourceAsSeekableStream(XBCoreTestSampleData.SAMPLE_BLOCK_TERMINATED_WITH_TAIL); XBWriter instance = new XBWriter(stream, null)) {
+        try (InputStream stream = XBCommandParserTestUtils.getResourceAsSeekableStream(XBCoreTestSampleData.SAMPLE_BLOCK_TERMINATED_WITH_TAIL); XBWriter instance = new XBWriter(stream, null)) {
             BufferAssertXBFilter assertListener;
             XBConsumerToListener buffer = new XBConsumerToListener(null);
             XBCoreTestSampleData.writeSampleBlockTerminatedWithTail(buffer);
@@ -155,7 +154,7 @@ public class XBWriterPullTest extends TestCase {
      */
     @Test
     public void testReadSampleData() throws Exception {
-        try (InputStream stream = getResourceAsSeekableStream(XBCoreTestSampleData.SAMPLE_DATA); XBWriter instance = new XBWriter(stream, null)) {
+        try (InputStream stream = XBCommandParserTestUtils.getResourceAsSeekableStream(XBCoreTestSampleData.SAMPLE_DATA); XBWriter instance = new XBWriter(stream, null)) {
             BufferAssertXBFilter assertListener;
             XBConsumerToListener buffer = new XBConsumerToListener(null);
             XBCoreTestSampleData.writeSampleData(buffer);
@@ -174,7 +173,7 @@ public class XBWriterPullTest extends TestCase {
      */
     @Test
     public void testReadSampleDataWithTail() throws Exception {
-        try (InputStream stream = getResourceAsSeekableStream(XBCoreTestSampleData.SAMPLE_DATA_WITH_TAIL); XBWriter instance = new XBWriter(stream, null)) {
+        try (InputStream stream = XBCommandParserTestUtils.getResourceAsSeekableStream(XBCoreTestSampleData.SAMPLE_DATA_WITH_TAIL); XBWriter instance = new XBWriter(stream, null)) {
             BufferAssertXBFilter assertListener;
             XBConsumerToListener buffer = new XBConsumerToListener(null);
             XBCoreTestSampleData.writeSampleDataWithTail(buffer);
@@ -193,7 +192,7 @@ public class XBWriterPullTest extends TestCase {
      */
     @Test
     public void testReadSampleDataTerminated() throws Exception {
-        try (InputStream stream = getResourceAsSeekableStream(XBCoreTestSampleData.SAMPLE_DATA_TERMINATED); XBWriter instance = new XBWriter(stream, null)) {
+        try (InputStream stream = XBCommandParserTestUtils.getResourceAsSeekableStream(XBCoreTestSampleData.SAMPLE_DATA_TERMINATED); XBWriter instance = new XBWriter(stream, null)) {
             BufferAssertXBFilter assertListener;
             XBConsumerToListener buffer = new XBConsumerToListener(null);
             XBCoreTestSampleData.writeSampleDataTerminated(buffer);
@@ -212,7 +211,7 @@ public class XBWriterPullTest extends TestCase {
      */
     @Test
     public void testReadSampleDataTerminatedWithTail() throws Exception {
-        try (InputStream stream = getResourceAsSeekableStream(XBCoreTestSampleData.SAMPLE_DATA_TERMINATED_WITH_TAIL); XBWriter instance = new XBWriter(stream, null)) {
+        try (InputStream stream = XBCommandParserTestUtils.getResourceAsSeekableStream(XBCoreTestSampleData.SAMPLE_DATA_TERMINATED_WITH_TAIL); XBWriter instance = new XBWriter(stream, null)) {
             BufferAssertXBFilter assertListener;
             XBConsumerToListener buffer = new XBConsumerToListener(null);
             XBCoreTestSampleData.writeSampleDataTerminatedWithTail(buffer);
@@ -231,7 +230,7 @@ public class XBWriterPullTest extends TestCase {
      */
     @Test
     public void testReadSampleBlockData() throws Exception {
-        try (InputStream stream = getResourceAsSeekableStream(XBCoreTestSampleData.SAMPLE_BLOCK_DATA); XBWriter instance = new XBWriter(stream, null)) {
+        try (InputStream stream = XBCommandParserTestUtils.getResourceAsSeekableStream(XBCoreTestSampleData.SAMPLE_BLOCK_DATA); XBWriter instance = new XBWriter(stream, null)) {
             BufferAssertXBFilter assertListener;
             XBConsumerToListener buffer = new XBConsumerToListener(null);
             XBCoreTestSampleData.writeSampleBlockData(buffer);
@@ -250,7 +249,7 @@ public class XBWriterPullTest extends TestCase {
      */
     @Test
     public void testReadSampleBlockDataWithTail() throws Exception {
-        try (InputStream stream = getResourceAsSeekableStream(XBCoreTestSampleData.SAMPLE_BLOCK_DATA_WITH_TAIL); XBWriter instance = new XBWriter(stream, null)) {
+        try (InputStream stream = XBCommandParserTestUtils.getResourceAsSeekableStream(XBCoreTestSampleData.SAMPLE_BLOCK_DATA_WITH_TAIL); XBWriter instance = new XBWriter(stream, null)) {
             BufferAssertXBFilter assertListener;
             XBConsumerToListener buffer = new XBConsumerToListener(null);
             XBCoreTestSampleData.writeSampleBlockDataWithTail(buffer);
@@ -269,7 +268,7 @@ public class XBWriterPullTest extends TestCase {
      */
     @Test
     public void testReadSampleBlockDataTerminated() throws Exception {
-        try (InputStream stream = getResourceAsSeekableStream(XBCoreTestSampleData.SAMPLE_BLOCK_DATA_TERMINATED); XBWriter instance = new XBWriter(stream, null)) {
+        try (InputStream stream = XBCommandParserTestUtils.getResourceAsSeekableStream(XBCoreTestSampleData.SAMPLE_BLOCK_DATA_TERMINATED); XBWriter instance = new XBWriter(stream, null)) {
             BufferAssertXBFilter assertListener;
             XBConsumerToListener buffer = new XBConsumerToListener(null);
             XBCoreTestSampleData.writeSampleBlockDataTerminated(buffer);
@@ -288,7 +287,7 @@ public class XBWriterPullTest extends TestCase {
      */
     @Test
     public void testReadSampleBlockDataTerminatedWithTail() throws Exception {
-        try (InputStream stream = getResourceAsSeekableStream(XBCoreTestSampleData.SAMPLE_BLOCK_DATA_TERMINATED_WITH_TAIL); XBWriter instance = new XBWriter(stream, null)) {
+        try (InputStream stream = XBCommandParserTestUtils.getResourceAsSeekableStream(XBCoreTestSampleData.SAMPLE_BLOCK_DATA_TERMINATED_WITH_TAIL); XBWriter instance = new XBWriter(stream, null)) {
             BufferAssertXBFilter assertListener;
             XBConsumerToListener buffer = new XBConsumerToListener(null);
             XBCoreTestSampleData.writeSampleBlockDataTerminatedWithTail(buffer);
@@ -307,7 +306,7 @@ public class XBWriterPullTest extends TestCase {
      */
     @Test
     public void testReadSampleBlockDataHybrid() throws Exception {
-        try (InputStream stream = getResourceAsSeekableStream(XBCoreTestSampleData.SAMPLE_BLOCK_DATA_HYBRID); XBWriter instance = new XBWriter(stream, null)) {
+        try (InputStream stream = XBCommandParserTestUtils.getResourceAsSeekableStream(XBCoreTestSampleData.SAMPLE_BLOCK_DATA_HYBRID); XBWriter instance = new XBWriter(stream, null)) {
             BufferAssertXBFilter assertListener;
             XBConsumerToListener buffer = new XBConsumerToListener(null);
             XBCoreTestSampleData.writeSampleBlockDataHybrid(buffer);
@@ -326,7 +325,7 @@ public class XBWriterPullTest extends TestCase {
      */
     @Test
     public void testReadSampleBlockDataHybrid2() throws Exception {
-        try (InputStream stream = getResourceAsSeekableStream(XBCoreTestSampleData.SAMPLE_BLOCK_DATA_HYBRID2); XBWriter instance = new XBWriter(stream, null)) {
+        try (InputStream stream = XBCommandParserTestUtils.getResourceAsSeekableStream(XBCoreTestSampleData.SAMPLE_BLOCK_DATA_HYBRID2); XBWriter instance = new XBWriter(stream, null)) {
             BufferAssertXBFilter assertListener;
             XBConsumerToListener buffer = new XBConsumerToListener(null);
             XBCoreTestSampleData.writeSampleBlockDataHybrid2(buffer);
@@ -345,7 +344,7 @@ public class XBWriterPullTest extends TestCase {
      */
     @Test
     public void testReadSampleTwoBlocks() throws Exception {
-        try (InputStream stream = getResourceAsSeekableStream(XBCoreTestSampleData.SAMPLE_TWO_BLOCKS); XBWriter instance = new XBWriter(stream, null)) {
+        try (InputStream stream = XBCommandParserTestUtils.getResourceAsSeekableStream(XBCoreTestSampleData.SAMPLE_TWO_BLOCKS); XBWriter instance = new XBWriter(stream, null)) {
             BufferAssertXBFilter assertListener;
             XBConsumerToListener buffer = new XBConsumerToListener(null);
             XBCoreTestSampleData.writeSampleTwoBlocks(buffer);
@@ -364,7 +363,7 @@ public class XBWriterPullTest extends TestCase {
      */
     @Test
     public void testReadSampleTwoBlocksWithTail() throws Exception {
-        try (InputStream stream = getResourceAsSeekableStream(XBCoreTestSampleData.SAMPLE_TWO_BLOCKS_WITH_TAIL); XBWriter instance = new XBWriter(stream, null)) {
+        try (InputStream stream = XBCommandParserTestUtils.getResourceAsSeekableStream(XBCoreTestSampleData.SAMPLE_TWO_BLOCKS_WITH_TAIL); XBWriter instance = new XBWriter(stream, null)) {
             BufferAssertXBFilter assertListener;
             XBConsumerToListener buffer = new XBConsumerToListener(null);
             XBCoreTestSampleData.writeSampleTwoBlocksWithTail(buffer);
@@ -383,7 +382,7 @@ public class XBWriterPullTest extends TestCase {
      */
     @Test
     public void testReadSampleTwoBlocksTerminated() throws Exception {
-        try (InputStream stream = getResourceAsSeekableStream(XBCoreTestSampleData.SAMPLE_TWO_BLOCKS_TERMINATED); XBWriter instance = new XBWriter(stream, null)) {
+        try (InputStream stream = XBCommandParserTestUtils.getResourceAsSeekableStream(XBCoreTestSampleData.SAMPLE_TWO_BLOCKS_TERMINATED); XBWriter instance = new XBWriter(stream, null)) {
             BufferAssertXBFilter assertListener;
             XBConsumerToListener buffer = new XBConsumerToListener(null);
             XBCoreTestSampleData.writeSampleTwoBlocksTerminated(buffer);
@@ -402,7 +401,7 @@ public class XBWriterPullTest extends TestCase {
      */
     @Test
     public void testReadSampleTwoBlocksTerminatedWithTail() throws Exception {
-        try (InputStream stream = getResourceAsSeekableStream(XBCoreTestSampleData.SAMPLE_TWO_BLOCKS_TERMINATED_WITH_TAIL); XBWriter instance = new XBWriter(stream, null)) {
+        try (InputStream stream = XBCommandParserTestUtils.getResourceAsSeekableStream(XBCoreTestSampleData.SAMPLE_TWO_BLOCKS_TERMINATED_WITH_TAIL); XBWriter instance = new XBWriter(stream, null)) {
             BufferAssertXBFilter assertListener;
             XBConsumerToListener buffer = new XBConsumerToListener(null);
             XBCoreTestSampleData.writeSampleTwoBlocksTerminatedWithTail(buffer);
@@ -421,7 +420,7 @@ public class XBWriterPullTest extends TestCase {
      */
     @Test
     public void testReadSampleTwoBlocksHybrid() throws Exception {
-        try (InputStream stream = getResourceAsSeekableStream(XBCoreTestSampleData.SAMPLE_TWO_BLOCKS_HYBRID); XBWriter instance = new XBWriter(stream, null)) {
+        try (InputStream stream = XBCommandParserTestUtils.getResourceAsSeekableStream(XBCoreTestSampleData.SAMPLE_TWO_BLOCKS_HYBRID); XBWriter instance = new XBWriter(stream, null)) {
             BufferAssertXBFilter assertListener;
             XBConsumerToListener buffer = new XBConsumerToListener(null);
             XBCoreTestSampleData.writeSampleTwoBlocksHybrid(buffer);
@@ -440,7 +439,7 @@ public class XBWriterPullTest extends TestCase {
      */
     @Test
     public void testReadSampleTwoBlocksHybrid2() throws Exception {
-        try (InputStream stream = getResourceAsSeekableStream(XBCoreTestSampleData.SAMPLE_TWO_BLOCKS_HYBRID2); XBWriter instance = new XBWriter(stream, null)) {
+        try (InputStream stream = XBCommandParserTestUtils.getResourceAsSeekableStream(XBCoreTestSampleData.SAMPLE_TWO_BLOCKS_HYBRID2); XBWriter instance = new XBWriter(stream, null)) {
             BufferAssertXBFilter assertListener;
             XBConsumerToListener buffer = new XBConsumerToListener(null);
             XBCoreTestSampleData.writeSampleTwoBlocksHybrid2(buffer);
@@ -459,7 +458,7 @@ public class XBWriterPullTest extends TestCase {
      */
     @Test
     public void testReadSampleSixBlocks() throws Exception {
-        try (InputStream stream = getResourceAsSeekableStream(XBCoreTestSampleData.SAMPLE_SIX_BLOCKS); XBWriter instance = new XBWriter(stream, null)) {
+        try (InputStream stream = XBCommandParserTestUtils.getResourceAsSeekableStream(XBCoreTestSampleData.SAMPLE_SIX_BLOCKS); XBWriter instance = new XBWriter(stream, null)) {
             BufferAssertXBFilter assertListener;
             XBConsumerToListener buffer = new XBConsumerToListener(null);
             XBCoreTestSampleData.writeSampleSixBlocks(buffer);
@@ -480,7 +479,7 @@ public class XBWriterPullTest extends TestCase {
     public void testReadCorruptedEmptyFile() throws Exception {
         Throwable ex = null;
 
-        try (InputStream stream = getResourceAsSeekableStream(XBCoreTestSampleData.CORRUPTED_EMPTY)) {
+        try (InputStream stream = XBCommandParserTestUtils.getResourceAsSeekableStream(XBCoreTestSampleData.CORRUPTED_EMPTY)) {
             XBWriter instance = new XBWriter(stream, null);
             try {
                 instance.pullXBToken();
@@ -500,7 +499,7 @@ public class XBWriterPullTest extends TestCase {
     @Test
     public void testReadCorruptedSingleByte() throws Exception {
         Throwable ex = null;
-        try (InputStream stream = getResourceAsSeekableStream(XBCoreTestSampleData.CORRUPTED_SINGLE_BYTE)) {
+        try (InputStream stream = XBCommandParserTestUtils.getResourceAsSeekableStream(XBCoreTestSampleData.CORRUPTED_SINGLE_BYTE)) {
             XBWriter instance = new XBWriter(stream, null);
             try {
                 instance.pullXBToken();
@@ -521,7 +520,7 @@ public class XBWriterPullTest extends TestCase {
     public void testReadCorruptedWrongHeader() throws Exception {
         Throwable ex = null;
 
-        try (InputStream stream = getResourceAsSeekableStream(XBCoreTestSampleData.CORRUPTED_WRONG_HEADER)) {
+        try (InputStream stream = XBCommandParserTestUtils.getResourceAsSeekableStream(XBCoreTestSampleData.CORRUPTED_WRONG_HEADER)) {
             XBWriter instance = new XBWriter(stream, null);
             try {
                 instance.pullXBToken();
@@ -542,7 +541,7 @@ public class XBWriterPullTest extends TestCase {
     public void testReadCorruptedIncompleteBlock() throws Exception {
         Throwable ex = null;
 
-        try (InputStream stream = getResourceAsSeekableStream(XBCoreTestSampleData.CORRUPTED_INCOMPLETE_BLOCK)) {
+        try (InputStream stream = XBCommandParserTestUtils.getResourceAsSeekableStream(XBCoreTestSampleData.CORRUPTED_INCOMPLETE_BLOCK)) {
             XBWriter instance = new XBWriter(stream, null);
             try {
                 while (!instance.isFinishedXB()) {
@@ -565,7 +564,7 @@ public class XBWriterPullTest extends TestCase {
     public void testReadCorruptedIncompleteBlock2() throws Exception {
         Throwable ex = null;
 
-        try (InputStream stream = getResourceAsSeekableStream(XBCoreTestSampleData.CORRUPTED_INCOMPLETE_BLOCK2)) {
+        try (InputStream stream = XBCommandParserTestUtils.getResourceAsSeekableStream(XBCoreTestSampleData.CORRUPTED_INCOMPLETE_BLOCK2)) {
             XBWriter instance = new XBWriter(stream, null);
             try {
                 while (!instance.isFinishedXB()) {
@@ -588,7 +587,7 @@ public class XBWriterPullTest extends TestCase {
     public void testReadCorruptedIncompleteBlockTerminated() throws Exception {
         Throwable ex = null;
 
-        try (InputStream stream = getResourceAsSeekableStream(XBCoreTestSampleData.CORRUPTED_INCOMPLETE_BLOCK_TERMINATED)) {
+        try (InputStream stream = XBCommandParserTestUtils.getResourceAsSeekableStream(XBCoreTestSampleData.CORRUPTED_INCOMPLETE_BLOCK_TERMINATED)) {
             XBWriter instance = new XBWriter(stream, null);
             try {
                 while (!instance.isFinishedXB()) {
@@ -611,7 +610,7 @@ public class XBWriterPullTest extends TestCase {
     public void testReadCorruptedIncompleteData() throws Exception {
         Throwable ex = null;
 
-        try (InputStream stream = getResourceAsSeekableStream(XBCoreTestSampleData.CORRUPTED_INCOMPLETE_DATA)) {
+        try (InputStream stream = XBCommandParserTestUtils.getResourceAsSeekableStream(XBCoreTestSampleData.CORRUPTED_INCOMPLETE_DATA)) {
             XBWriter instance = new XBWriter(stream, null);
             try {
                 while (!instance.isFinishedXB()) {
@@ -634,7 +633,7 @@ public class XBWriterPullTest extends TestCase {
     public void testReadCorruptedIncompleteDataTerminated() throws Exception {
         Throwable ex = null;
 
-        try (InputStream stream = getResourceAsSeekableStream(XBCoreTestSampleData.CORRUPTED_INCOMPLETE_DATA_TERMINATED)) {
+        try (InputStream stream = XBCommandParserTestUtils.getResourceAsSeekableStream(XBCoreTestSampleData.CORRUPTED_INCOMPLETE_DATA_TERMINATED)) {
             XBWriter instance = new XBWriter(stream, null);
             try {
                 while (!instance.isFinishedXB()) {
@@ -657,7 +656,7 @@ public class XBWriterPullTest extends TestCase {
     public void testReadCorruptedUnexpectedTerminator() throws Exception {
         Throwable ex = null;
 
-        try (InputStream stream = getResourceAsSeekableStream(XBCoreTestSampleData.CORRUPTED_UNEXPECTED_TERMINATOR)) {
+        try (InputStream stream = XBCommandParserTestUtils.getResourceAsSeekableStream(XBCoreTestSampleData.CORRUPTED_UNEXPECTED_TERMINATOR)) {
             XBWriter instance = new XBWriter(stream, null);
             try {
                 while (!instance.isFinishedXB()) {
@@ -680,7 +679,7 @@ public class XBWriterPullTest extends TestCase {
     public void testReadCorruptedUnexpectedTerminator2() throws Exception {
         Throwable ex = null;
 
-        try (InputStream stream = getResourceAsSeekableStream(XBCoreTestSampleData.CORRUPTED_UNEXPECTED_TERMINATOR2)) {
+        try (InputStream stream = XBCommandParserTestUtils.getResourceAsSeekableStream(XBCoreTestSampleData.CORRUPTED_UNEXPECTED_TERMINATOR2)) {
             XBWriter instance = new XBWriter(stream, null);
             try {
                 while (!instance.isFinishedXB()) {
@@ -703,7 +702,7 @@ public class XBWriterPullTest extends TestCase {
     public void testReadCorruptedChildOverflow() throws Exception {
         Throwable ex = null;
 
-        try (InputStream stream = getResourceAsSeekableStream(XBCoreTestSampleData.CORRUPTED_CHILD_OVERFLOW)) {
+        try (InputStream stream = XBCommandParserTestUtils.getResourceAsSeekableStream(XBCoreTestSampleData.CORRUPTED_CHILD_OVERFLOW)) {
             XBWriter instance = new XBWriter(stream, null);
             try {
                 while (!instance.isFinishedXB()) {
@@ -726,7 +725,7 @@ public class XBWriterPullTest extends TestCase {
     public void testReadCorruptedAttributeOverflow() throws Exception {
         Throwable ex = null;
 
-        try (InputStream stream = getResourceAsSeekableStream(XBCoreTestSampleData.CORRUPTED_ATTRIBUTE_OVERFLOW)) {
+        try (InputStream stream = XBCommandParserTestUtils.getResourceAsSeekableStream(XBCoreTestSampleData.CORRUPTED_ATTRIBUTE_OVERFLOW)) {
             XBWriter instance = new XBWriter(stream, null);
             try {
                 while (!instance.isFinishedXB()) {
@@ -749,7 +748,7 @@ public class XBWriterPullTest extends TestCase {
     public void testReadCorruptedDataOverflow() throws Exception {
         Throwable ex = null;
 
-        try (InputStream stream = getResourceAsSeekableStream(XBCoreTestSampleData.CORRUPTED_DATA_OVERFLOW)) {
+        try (InputStream stream = XBCommandParserTestUtils.getResourceAsSeekableStream(XBCoreTestSampleData.CORRUPTED_DATA_OVERFLOW)) {
             XBWriter instance = new XBWriter(stream, null);
             try {
                 while (!instance.isFinishedXB()) {

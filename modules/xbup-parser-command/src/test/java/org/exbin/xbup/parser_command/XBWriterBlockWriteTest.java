@@ -27,7 +27,7 @@ import org.exbin.xbup.parser_tree.XBTreeNode;
 import org.junit.Test;
 
 /**
- * Test class for XBTreeDocument.
+ * Test class for XBDocument.
  *
  * @version 0.2.0 2016/09/25
  * @author ExBin Project (http://exbin.org)

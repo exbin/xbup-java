@@ -18,6 +18,8 @@ package org.exbin.xbup.core.block.declaration;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.exbin.xbup.core.block.XBBlockTerminationMode;
 import org.exbin.xbup.core.block.XBBlockType;
 import org.exbin.xbup.core.catalog.XBCatalog;
@@ -29,11 +31,12 @@ import org.exbin.xbup.core.parser.token.XBTTokenType;
 import org.exbin.xbup.core.parser.token.convert.XBTListenerToToken;
 import org.exbin.xbup.core.parser.token.event.XBTEventListener;
 import org.exbin.xbup.core.serial.basic.XBReceivingFinished;
+import org.exbin.xbup.core.serial.basic.XBTBasicInputReceivingSerialHandler;
 
 /**
  * Representation of the current declaration typeConvertor for block types.
  *
- * @version 0.1.25 2015/02/26
+ * @version 0.2.0 2017/01/19
  * @author ExBin Project (http://exbin.org)
  */
 public class XBLevelContext implements XBTListener, XBTEventListener {
@@ -58,19 +61,19 @@ public class XBLevelContext implements XBTListener, XBTEventListener {
             typeConvertor = declaration;
         }
 
-//        declaration = new XBDeclaration();
-//        declaration.setHeaderMode(true);
-//        try {
-//            declaration.serializeRecvFromXB(new XBTBasicInputReceivingSerialHandler() {
-//
-//                @Override
-//                public void process(XBTListener listener) {
-//                    declarationBuilderListener = listener;
-//                }
-//            });
-//        } catch (XBProcessingException | IOException ex) {
-//            Logger.getLogger(XBLevelContext.class.getName()).log(Level.SEVERE, null, ex);
-//        }
+        declaration = new XBDeclaration();
+        declaration.setHeaderMode(true);
+        try {
+            declaration.serializeRecvFromXB(new XBTBasicInputReceivingSerialHandler() {
+
+                @Override
+                public void process(XBTListener listener) {
+                    declarationBuilderListener = listener;
+                }
+            });
+        } catch (XBProcessingException | IOException ex) {
+            Logger.getLogger(XBLevelContext.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     public int getDepthLevel() {

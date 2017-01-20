@@ -36,7 +36,7 @@ import org.exbin.xbup.core.serial.basic.XBTBasicInputReceivingSerialHandler;
 /**
  * Representation of the current declaration typeConvertor for block types.
  *
- * @version 0.2.0 2017/01/19
+ * @version 0.2.0 2017/01/20
  * @author ExBin Project (http://exbin.org)
  */
 public class XBLevelContext implements XBTListener, XBTEventListener {
@@ -49,10 +49,14 @@ public class XBLevelContext implements XBTListener, XBTEventListener {
     private XBTListener declarationBuilderListener = null;
 
     public XBLevelContext(XBCatalog catalog, int depthLevel) {
-        this(catalog, null, depthLevel);
+        this(catalog, null, depthLevel, true);
     }
 
     public XBLevelContext(XBCatalog catalog, XBTypeConvertor context, int depthLevel) {
+        this(catalog, context, depthLevel, true);
+    }
+
+    public XBLevelContext(XBCatalog catalog, XBTypeConvertor context, int depthLevel, boolean useDeclaration) {
         this.catalog = catalog;
         this.depthLevel = depthLevel;
         if (context != null) {
@@ -61,18 +65,21 @@ public class XBLevelContext implements XBTListener, XBTEventListener {
             typeConvertor = declaration;
         }
 
-        declaration = new XBDeclaration();
-        declaration.setHeaderMode(true);
-        try {
-            declaration.serializeRecvFromXB(new XBTBasicInputReceivingSerialHandler() {
+        System.out.println("XBLevelContext " + useDeclaration);
+        if (useDeclaration) {
+            declaration = new XBDeclaration();
+            declaration.setHeaderMode(true);
+            try {
+                declaration.serializeRecvFromXB(new XBTBasicInputReceivingSerialHandler() {
 
-                @Override
-                public void process(XBTListener listener) {
-                    declarationBuilderListener = listener;
-                }
-            });
-        } catch (XBProcessingException | IOException ex) {
-            Logger.getLogger(XBLevelContext.class.getName()).log(Level.SEVERE, null, ex);
+                    @Override
+                    public void process(XBTListener listener) {
+                        declarationBuilderListener = listener;
+                    }
+                });
+            } catch (XBProcessingException | IOException ex) {
+                Logger.getLogger(XBLevelContext.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }
 

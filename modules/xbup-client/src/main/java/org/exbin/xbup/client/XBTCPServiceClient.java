@@ -32,12 +32,13 @@ import org.exbin.xbup.core.parser.token.XBTToken;
 import org.exbin.xbup.core.parser.token.XBTTokenType;
 import org.exbin.xbup.core.parser.token.event.XBEventWriter;
 import org.exbin.xbup.core.parser.token.event.convert.XBTEventTypeUndeclaringFilter;
+import org.exbin.xbup.core.parser.token.event.convert.XBTEventTypeUndeclaringFilterNoDeclaration;
 import org.exbin.xbup.core.parser.token.event.convert.XBTPrintEventFilter;
 import org.exbin.xbup.core.parser.token.event.convert.XBTToXBEventConvertor;
 import org.exbin.xbup.core.parser.token.pull.XBPullReader;
 import org.exbin.xbup.core.parser.token.pull.convert.XBTPrintPullFilter;
 import org.exbin.xbup.core.parser.token.pull.convert.XBTPullPreLoader;
-import org.exbin.xbup.core.parser.token.pull.convert.XBTPullTypeDeclaringFilter;
+import org.exbin.xbup.core.parser.token.pull.convert.XBTPullTypeDeclaringFilterNoDeclaration;
 import org.exbin.xbup.core.parser.token.pull.convert.XBToXBTPullConvertor;
 import org.exbin.xbup.core.remote.XBCallHandler;
 import org.exbin.xbup.core.remote.XBServiceClient;
@@ -100,7 +101,7 @@ public class XBTCPServiceClient implements XBServiceClient {
 
                 @Override
                 public XBInput getParametersInput() throws XBProcessingException, IOException {
-                    currentInput = new XBTEventTypeUndeclaringFilter(catalog, new XBTPrintEventFilter("O", new XBTToXBEventConvertor(new XBEventWriter(loggingOutputStream, XBParserMode.SINGLE_BLOCK))));
+                    currentInput = new XBTEventTypeUndeclaringFilterNoDeclaration(catalog, new XBTPrintEventFilter("O", new XBTToXBEventConvertor(new XBEventWriter(loggingOutputStream, XBParserMode.SINGLE_BLOCK))));
                     return currentInput;
                 }
 
@@ -111,7 +112,7 @@ public class XBTCPServiceClient implements XBServiceClient {
                         currentInput = null;
                     }
 
-                    currentOutput = new XBTPullPreLoader(new XBTPullTypeDeclaringFilter(catalog, new XBTPrintPullFilter("I", new XBToXBTPullConvertor(new XBPullReader(loggingInputStream, XBParserMode.SINGLE_BLOCK)))));
+                    currentOutput = new XBTPullPreLoader(new XBTPullTypeDeclaringFilterNoDeclaration(catalog, new XBTPrintPullFilter("I", new XBToXBTPullConvertor(new XBPullReader(loggingInputStream, XBParserMode.SINGLE_BLOCK)))));
                     XBTPullPreLoader output = (XBTPullPreLoader) currentOutput;
                     XBTToken beginToken = output.pullXBTToken();
                     if (beginToken.getTokenType() != XBTTokenType.BEGIN) {

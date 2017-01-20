@@ -49,13 +49,13 @@ import org.exbin.xbup.core.parser.token.XBTToken;
 import org.exbin.xbup.core.parser.token.XBTTypeToken;
 import org.exbin.xbup.core.parser.token.event.XBEventWriter;
 import org.exbin.xbup.core.parser.token.event.XBTEventListener;
-import org.exbin.xbup.core.parser.token.event.convert.XBTEventTypeUndeclaringFilter;
+import org.exbin.xbup.core.parser.token.event.convert.XBTEventTypeUndeclaringFilterNoDeclaration;
 import org.exbin.xbup.core.parser.token.event.convert.XBTPrintEventFilter;
 import org.exbin.xbup.core.parser.token.event.convert.XBTToXBEventConvertor;
 import org.exbin.xbup.core.parser.token.pull.XBPullReader;
 import org.exbin.xbup.core.parser.token.pull.XBTPullProvider;
 import org.exbin.xbup.core.parser.token.pull.convert.XBTPrintPullFilter;
-import org.exbin.xbup.core.parser.token.pull.convert.XBTPullTypeDeclaringFilter;
+import org.exbin.xbup.core.parser.token.pull.convert.XBTPullTypeDeclaringFilterNoDeclaration;
 import org.exbin.xbup.core.parser.token.pull.convert.XBToXBTPullConvertor;
 import org.exbin.xbup.core.remote.XBExecutable;
 import org.exbin.xbup.core.remote.XBMultiProcedure;
@@ -67,7 +67,7 @@ import org.exbin.xbup.service.entity.service.ServiceELogItemService;
 /**
  * XBUP level 1 RPC server using TCP/IP networking.
  *
- * @version 0.2.0 2016/02/20
+ * @version 0.2.0 2017/01/20
  * @author ExBin Project (http://exbin.org)
  */
 public class XBTCPServiceServer implements XBServiceServer {
@@ -131,10 +131,10 @@ public class XBTCPServiceServer implements XBServiceServer {
                         ? new XBLoggingOutputStream(socket.getOutputStream()) : socket.getOutputStream();
                 XBHead.checkXBUPHead(inputStream);
                 while (!isStop()) {
-                    XBTPullTypeDeclaringFilter input = new XBTPullTypeDeclaringFilter(catalog, new XBTPrintPullFilter("I", new XBToXBTPullConvertor(new XBPullReader(inputStream, XBParserMode.SINGLE_BLOCK))));
-                    XBTEventTypeUndeclaringFilter output = new XBTEventTypeUndeclaringFilter(catalog, new XBTPrintEventFilter("O", new XBTToXBEventConvertor(new XBEventWriter(outputStream, XBParserMode.SINGLE_BLOCK))));
+                    XBTPullTypeDeclaringFilterNoDeclaration input = new XBTPullTypeDeclaringFilterNoDeclaration(catalog, new XBTPrintPullFilter("I", new XBToXBTPullConvertor(new XBPullReader(inputStream, XBParserMode.SINGLE_BLOCK))));
+                    XBTEventTypeUndeclaringFilterNoDeclaration output = new XBTEventTypeUndeclaringFilterNoDeclaration(catalog, new XBTPrintEventFilter("O", new XBTToXBEventConvertor(new XBEventWriter(outputStream, XBParserMode.SINGLE_BLOCK))));
                     respondMessage(input, output);
-                    
+
                     if (debugMode) {
                         ServiceELogItem logItem = logItemService.createItem();
                         logItem.setCreated(new Date());
@@ -171,7 +171,7 @@ public class XBTCPServiceServer implements XBServiceServer {
         }
     }
 
-    public void respondMessage(XBTPullTypeDeclaringFilter input, XBTEventTypeUndeclaringFilter output) throws IOException, XBProcessingException {
+    public void respondMessage(XBTPullTypeDeclaringFilterNoDeclaration input, XBTEventTypeUndeclaringFilterNoDeclaration output) throws IOException, XBProcessingException {
         XBTTypePreloadingPullProvider preloading = new XBTTypePreloadingPullProvider(input);
         // TODO do proper matching later
         XBDeclBlockType blockType = (XBDeclBlockType) preloading.getBlockType();
@@ -266,9 +266,9 @@ public class XBTCPServiceServer implements XBServiceServer {
     private class ExecutionEventListener implements XBTEventListener {
 
         private boolean started = false;
-        private final XBTEventTypeUndeclaringFilter output;
+        private final XBTEventTypeUndeclaringFilterNoDeclaration output;
 
-        public ExecutionEventListener(XBTEventTypeUndeclaringFilter output) {
+        public ExecutionEventListener(XBTEventTypeUndeclaringFilterNoDeclaration output) {
             this.output = output;
         }
 

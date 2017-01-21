@@ -65,7 +65,6 @@ public class XBLevelContext implements XBTListener, XBTEventListener {
             typeConvertor = declaration;
         }
 
-        System.out.println("XBLevelContext " + useDeclaration);
         if (useDeclaration) {
             declaration = new XBDeclaration();
             declaration.setHeaderMode(true);

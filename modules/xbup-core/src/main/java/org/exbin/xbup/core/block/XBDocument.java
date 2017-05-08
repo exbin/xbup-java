@@ -17,11 +17,12 @@
 package org.exbin.xbup.core.block;
 
 import java.io.InputStream;
+import javax.annotation.Nullable;
 
 /**
  * Interface for read access to XBUP level 0 document.
  *
- * @version 0.2.0 2016/09/24
+ * @version 0.2.1 2017/05/08
  * @author ExBin Project (http://exbin.org)
  */
 public interface XBDocument {
@@ -31,6 +32,7 @@ public interface XBDocument {
      *
      * @return root block if exits or null.
      */
+    @Nullable
     public XBBlock getRootBlock();
 
     /**
@@ -46,6 +48,7 @@ public interface XBDocument {
      *
      * @return InputStream of providing read access to data area
      */
+    @Nullable
     public InputStream getTailData();
 
     /**

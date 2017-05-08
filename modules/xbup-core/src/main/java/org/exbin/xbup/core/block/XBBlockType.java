@@ -16,13 +16,15 @@
  */
 package org.exbin.xbup.core.block;
 
+import javax.annotation.Nullable;
+
 /**
  * Interface for block type.
  *
  * Block type can be represented in either as particular type from current
  * context or specific block type defined in catalog or local definition.
  *
- * @version 0.1.24 2014/08/27
+ * @version 0.2.1 2017/05/08
  * @author ExBin Project (http://exbin.org)
  */
 public interface XBBlockType {
@@ -32,5 +34,6 @@ public interface XBBlockType {
      *
      * @return basic block type or null
      */
+    @Nullable
     public XBBasicBlockType getAsBasicType();
 }

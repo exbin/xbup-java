@@ -17,13 +17,15 @@
 package org.exbin.xbup.core.block;
 
 import java.io.InputStream;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import org.exbin.utils.binary_data.BinaryData;
 import org.exbin.xbup.core.parser.token.XBAttribute;
 
 /**
  * Interface for read access to XBUP level 1 block.
  *
- * @version 0.2.0 2016/05/24
+ * @version 0.2.1 2017/05/08
  * @author ExBin Project (http://exbin.org)
  */
 public interface XBTBlock {
@@ -33,6 +35,7 @@ public interface XBTBlock {
      *
      * @return parent block
      */
+    @Nullable
     public XBTBlock getParent();
 
     /**
@@ -41,6 +44,7 @@ public interface XBTBlock {
      *
      * @return terminated mode
      */
+    @Nonnull
     public XBBlockTerminationMode getTerminationMode();
 
     /**
@@ -48,6 +52,7 @@ public interface XBTBlock {
      *
      * @return data mode
      */
+    @Nonnull
     public XBBlockDataMode getDataMode();
 
     /**
@@ -55,6 +60,7 @@ public interface XBTBlock {
      *
      * @return block type
      */
+    @Nonnull
     public XBBlockType getBlockType();
 
     /**
@@ -62,6 +68,7 @@ public interface XBTBlock {
      *
      * @return array of attributes
      */
+    @Nullable
     public XBAttribute[] getAttributes();
 
     /**
@@ -72,6 +79,7 @@ public interface XBTBlock {
      * @param attributeIndex index of attribute
      * @return attribute value
      */
+    @Nullable
     public XBAttribute getAttributeAt(int attributeIndex);
 
     /**
@@ -86,6 +94,7 @@ public interface XBTBlock {
      *
      * @return array of child blocks
      */
+    @Nullable
     public XBTBlock[] getChildren();
 
     /**
@@ -96,6 +105,7 @@ public interface XBTBlock {
      * @param childIndex index of child block
      * @return child block
      */
+    @Nullable
     public XBTBlock getChildAt(int childIndex);
 
     /**
@@ -110,6 +120,7 @@ public interface XBTBlock {
      *
      * @return data stream
      */
+    @Nullable
     public InputStream getData();
 
     /**
@@ -117,5 +128,6 @@ public interface XBTBlock {
      *
      * @return block data or null
      */
+    @Nullable
     public BinaryData getBlockData();
 }

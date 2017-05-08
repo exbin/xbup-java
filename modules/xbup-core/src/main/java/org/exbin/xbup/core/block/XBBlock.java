@@ -17,13 +17,15 @@
 package org.exbin.xbup.core.block;
 
 import java.io.InputStream;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import org.exbin.utils.binary_data.BinaryData;
 import org.exbin.xbup.core.parser.token.XBAttribute;
 
 /**
  * Interface for read access to XBUP level 0 block.
  *
- * @version 0.2.0 2015/09/19
+ * @version 0.2.1 2017/05/08
  * @author ExBin Project (http://exbin.org)
  */
 public interface XBBlock {
@@ -33,13 +35,15 @@ public interface XBBlock {
      *
      * @return Parent block.
      */
-    public XBBlock getParent();
+    @Nullable
+    XBBlock getParent();
 
     /**
      * Returns mode whether this block is data block.
      *
      * @return data mode
      */
+    @Nonnull
     public XBBlockDataMode getDataMode();
 
     /**
@@ -48,6 +52,7 @@ public interface XBBlock {
      *
      * @return termination mode
      */
+    @Nonnull
     public XBBlockTerminationMode getTerminationMode();
 
     /**
@@ -55,6 +60,7 @@ public interface XBBlock {
      *
      * @return array of attributes
      */
+    @Nullable
     public XBAttribute[] getAttributes();
 
     /**
@@ -63,6 +69,7 @@ public interface XBBlock {
      * @param attributeIndex index/order of attribute
      * @return attribute value
      */
+    @Nullable
     public XBAttribute getAttributeAt(int attributeIndex);
 
     /**
@@ -77,6 +84,7 @@ public interface XBBlock {
      *
      * @return list of child blocks
      */
+    @Nullable
     public XBBlock[] getChildren();
 
     /**
@@ -85,6 +93,7 @@ public interface XBBlock {
      * @param childIndex index of child block
      * @return child block
      */
+    @Nullable
     public XBBlock getChildAt(int childIndex);
 
     /**
@@ -99,6 +108,7 @@ public interface XBBlock {
      *
      * @return block data or null
      */
+    @Nullable
     public InputStream getData();
 
     /**
@@ -106,5 +116,6 @@ public interface XBBlock {
      *
      * @return block data or null
      */
+    @Nullable
     public BinaryData getBlockData();
 }

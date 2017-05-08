@@ -18,11 +18,12 @@ package org.exbin.xbup.core.block;
 
 import java.util.HashMap;
 import java.util.Map;
+import javax.annotation.Nonnull;
 
 /**
  * XBUP basic specification block types enumeration.
  *
- * @version 0.1.24 2014/12/05
+ * @version 0.2.1 2017/05/08
  * @author ExBin Project (http://exbin.org)
  */
 public enum XBBasicBlockType {
@@ -102,6 +103,7 @@ public enum XBBasicBlockType {
 
     private final int blockId;
 
+    @Nonnull
     private static final Map<Integer, XBBasicBlockType> map = new HashMap<>();
 
     static {
@@ -118,6 +120,7 @@ public enum XBBasicBlockType {
         return blockId;
     }
 
+    @Nonnull
     public static XBBasicBlockType valueOf(int blockId) {
         return map.get(blockId);
     }

@@ -17,35 +17,45 @@
 package org.exbin.xbup.core.block;
 
 import java.io.InputStream;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import org.exbin.utils.binary_data.BinaryData;
 
 /**
  * Basic plain implementation of XBTDocument interface.
  *
- * @version 0.2.0 2016/05/29
+ * @version 0.2.1 2017/05/09
  * @author ExBin Project (http://exbin.org)
  */
 public class XBTDefaultDocument implements XBTDocument {
 
+    @Nonnull
     private final XBTBlock rootBlock;
+    @Nullable
     private final BinaryData tailData;
 
-    public XBTDefaultDocument(XBTBlock rootBlock) {
+    public XBTDefaultDocument(@Nonnull XBTBlock rootBlock) {
         this(rootBlock, null);
     }
 
-    public XBTDefaultDocument(XBTBlock rootBlock, BinaryData tailData) {
+    public XBTDefaultDocument(@Nonnull XBTBlock rootBlock, @Nullable BinaryData tailData) {
         this.rootBlock = rootBlock;
         this.tailData = tailData;
     }
 
+    @Nonnull
     @Override
     public XBTBlock getRootBlock() {
         return rootBlock;
     }
 
+    @Nullable
     @Override
     public InputStream getTailData() {
+        if (tailData == null) {
+            return null;
+        }
+
         return tailData.getDataInputStream();
     }
 

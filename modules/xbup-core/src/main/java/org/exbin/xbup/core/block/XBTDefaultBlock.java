@@ -17,6 +17,8 @@
 package org.exbin.xbup.core.block;
 
 import java.io.InputStream;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import org.exbin.utils.binary_data.BinaryData;
 import org.exbin.xbup.core.parser.token.XBAttribute;
 import org.exbin.xbup.core.type.XBData;
@@ -24,17 +26,24 @@ import org.exbin.xbup.core.type.XBData;
 /**
  * Basic plain implementation of XBTBlock interface.
  *
- * @version 0.2.0 2016/05/24
+ * @version 0.2.1 2017/05/09
  * @author ExBin Project (http://exbin.org)
  */
 public class XBTDefaultBlock implements XBTBlock {
 
+    @Nullable
     private XBTBlock parent;
+    @Nonnull
     private final XBBlockDataMode dataMode;
+    @Nonnull
     private final XBBlockTerminationMode terminationMode;
+    @Nullable
     private final XBBlockType blockType;
+    @Nullable
     private final XBAttribute[] attributes;
+    @Nullable
     private final XBTBlock[] children;
+    @Nullable
     private final BinaryData data;
 
     /**
@@ -52,10 +61,10 @@ public class XBTDefaultBlock implements XBTBlock {
      * @param terminationMode termination mode
      * @param data block data
      */
-    public XBTDefaultBlock(XBTBlock parent, XBBlockTerminationMode terminationMode, BinaryData data) {
+    public XBTDefaultBlock(@Nullable XBTBlock parent, @Nullable XBBlockTerminationMode terminationMode, @Nullable BinaryData data) {
         dataMode = XBBlockDataMode.DATA_BLOCK;
         this.parent = parent;
-        this.terminationMode = terminationMode;
+        this.terminationMode = terminationMode == null ? XBBlockTerminationMode.SIZE_SPECIFIED : terminationMode;
         this.blockType = null;
         this.attributes = null;
         this.children = null;
@@ -69,7 +78,7 @@ public class XBTDefaultBlock implements XBTBlock {
      * @param terminationMode termination mode
      * @param data block data
      */
-    public XBTDefaultBlock(XBBlockTerminationMode terminationMode, BinaryData data) {
+    public XBTDefaultBlock(@Nullable XBBlockTerminationMode terminationMode, @Nullable BinaryData data) {
         this(null, terminationMode, data);
     }
 
@@ -83,7 +92,7 @@ public class XBTDefaultBlock implements XBTBlock {
      * @param attributes attributes
      * @param children children blocks
      */
-    public XBTDefaultBlock(XBTBlock parent, XBBlockTerminationMode terminationMode, XBBlockType blockType, XBAttribute[] attributes, XBTBlock[] children) {
+    public XBTDefaultBlock(@Nullable XBTBlock parent, @Nullable XBBlockTerminationMode terminationMode, @Nullable XBBlockType blockType, @Nullable XBAttribute[] attributes, @Nullable XBTBlock[] children) {
         dataMode = XBBlockDataMode.NODE_BLOCK;
         this.parent = parent;
         this.terminationMode = terminationMode == null ? XBBlockTerminationMode.SIZE_SPECIFIED : terminationMode;
@@ -105,11 +114,11 @@ public class XBTDefaultBlock implements XBTBlock {
      * @param attributes attributes
      * @param children children blocks
      */
-    public XBTDefaultBlock(XBBlockTerminationMode terminationMode, XBBlockType blockType, XBAttribute[] attributes, XBTBlock[] children) {
+    public XBTDefaultBlock(@Nullable XBBlockTerminationMode terminationMode, @Nullable XBBlockType blockType, @Nullable XBAttribute[] attributes, @Nullable XBTBlock[] children) {
         this(null, terminationMode, blockType, attributes, children);
     }
 
-    private void attachChildren(XBTBlock[] children) {
+    private void attachChildren(@Nonnull XBTBlock[] children) {
         for (XBTBlock child : children) {
             if (child instanceof XBTDefaultBlock) {
                 ((XBTDefaultBlock) child).setParent(this);
@@ -119,6 +128,7 @@ public class XBTDefaultBlock implements XBTBlock {
         }
     }
 
+    @Nullable
     @Override
     public XBTBlock getParent() {
         return parent;
@@ -130,30 +140,35 @@ public class XBTDefaultBlock implements XBTBlock {
      *
      * @param parent parent block
      */
-    public void setParent(XBTBlock parent) {
+    public void setParent(@Nullable XBTBlock parent) {
         this.parent = parent;
     }
 
+    @Nonnull
     @Override
     public XBBlockDataMode getDataMode() {
         return dataMode;
     }
 
+    @Nonnull
     @Override
     public XBBlockTerminationMode getTerminationMode() {
         return terminationMode;
     }
 
+    @Nonnull
     @Override
     public XBBlockType getBlockType() {
         return blockType;
     }
 
+    @Nullable
     @Override
     public XBAttribute[] getAttributes() {
         return attributes;
     }
 
+    @Nullable
     @Override
     public XBAttribute getAttributeAt(int attributeIndex) {
         return attributes[attributeIndex];
@@ -164,11 +179,13 @@ public class XBTDefaultBlock implements XBTBlock {
         return attributes.length;
     }
 
+    @Nullable
     @Override
     public XBTBlock[] getChildren() {
         return children;
     }
 
+    @Nullable
     @Override
     public XBTBlock getChildAt(int childIndex) {
         return children[childIndex];
@@ -179,11 +196,13 @@ public class XBTDefaultBlock implements XBTBlock {
         return children.length;
     }
 
+    @Nullable
     @Override
     public InputStream getData() {
         return data.getDataInputStream();
     }
 
+    @Nullable
     @Override
     public BinaryData getBlockData() {
         return data;
@@ -197,7 +216,7 @@ public class XBTDefaultBlock implements XBTBlock {
      * @param block target block
      * @return position index
      */
-    public static int getBlockIndex(XBTBlock block) {
+    public static int getBlockIndex(@Nullable XBTBlock block) {
         if (block == null) {
             return -1;
         }
@@ -227,7 +246,7 @@ public class XBTDefaultBlock implements XBTBlock {
      * @param block target block
      * @return position index
      */
-    public static int getChildIndexOf(XBTBlock parent, XBTBlock block) {
+    public static int getChildIndexOf(@Nullable XBTBlock parent, @Nullable XBTBlock block) {
         if (block == null || parent == null) {
             return -1;
         }

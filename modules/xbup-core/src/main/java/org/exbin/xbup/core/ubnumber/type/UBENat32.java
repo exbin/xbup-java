@@ -19,6 +19,7 @@ package org.exbin.xbup.core.ubnumber.type;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import javax.annotation.Nonnull;
 import org.exbin.xbup.core.parser.XBProcessingException;
 import org.exbin.xbup.core.parser.XBProcessingExceptionType;
 import org.exbin.xbup.core.ubnumber.UBENatural;
@@ -55,7 +56,7 @@ public class UBENat32 implements UBENatural {
     /**
      * This is copy constructor.
      */
-    private UBENat32(UBENat32 value) {
+    private UBENat32(@Nonnull UBENat32 value) {
         infinity = value.isInfinity();
         this.value = value.getLong();
     }
@@ -130,7 +131,7 @@ public class UBENat32 implements UBENatural {
     }
 
     @Override
-    public int fromStreamUB(InputStream stream) throws IOException, XBProcessingException {
+    public int fromStreamUB(@Nonnull InputStream stream) throws IOException, XBProcessingException {
         infinity = false;
         byte buf[] = new byte[1];
         readBuf(stream, buf);
@@ -180,14 +181,14 @@ public class UBENat32 implements UBENatural {
         throw new XBProcessingException("Value is too big for 32-bit value", XBProcessingExceptionType.UNSUPPORTED);
     }
 
-    private void readBuf(InputStream stream, byte[] buf) throws IOException {
+    private void readBuf(@Nonnull InputStream stream, @Nonnull byte[] buf) throws IOException {
         if (stream.read(buf) < 0) {
             throw new XBProcessingException("End of data reached", XBProcessingExceptionType.UNEXPECTED_END_OF_STREAM);
         }
     }
 
     @Override
-    public int toStreamUB(OutputStream stream) throws IOException {
+    public int toStreamUB(@Nonnull OutputStream stream) throws IOException {
         char output;
         if (infinity) {
             output = 127;
@@ -252,6 +253,7 @@ public class UBENat32 implements UBENatural {
         }
     }
 
+    @Nonnull
     public static UBENat32 getInfinity() {
         UBENat32 value = new UBENat32();
         value.infinity = true;
@@ -301,10 +303,11 @@ public class UBENat32 implements UBENatural {
     }
 
     @Override
-    public void convertFromNatural(UBNatural nat) {
+    public void convertFromNatural(@Nonnull UBNatural nat) {
         setNaturalLong(nat.getLong());
     }
 
+    @Nonnull
     @Override
     public UBNatural convertToNatural() {
         return new UBNat32(getNaturalLong());

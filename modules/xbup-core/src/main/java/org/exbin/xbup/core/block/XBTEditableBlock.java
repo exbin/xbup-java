@@ -18,13 +18,15 @@ package org.exbin.xbup.core.block;
 
 import java.io.IOException;
 import java.io.InputStream;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import org.exbin.utils.binary_data.BinaryData;
 import org.exbin.xbup.core.parser.token.XBAttribute;
 
 /**
  * Interface for editable XBUP level 1 block.
  *
- * @version 0.2.0 2016/05/24
+ * @version 0.2.1 2017/05/09
  * @author ExBin Project (http://exbin.org)
  */
 public interface XBTEditableBlock extends XBTBlock {
@@ -34,28 +36,28 @@ public interface XBTEditableBlock extends XBTBlock {
      *
      * @param parent block
      */
-    public void setParent(XBTBlock parent);
+    public void setParent(@Nullable XBTBlock parent);
 
     /**
      * Sets terminated mode.
      *
      * @param terminationMode terminated mode flag
      */
-    public void setTerminationMode(XBBlockTerminationMode terminationMode);
+    public void setTerminationMode(@Nonnull XBBlockTerminationMode terminationMode);
 
     /**
      * Sets data mode.
      *
      * @param dataMode data mode
      */
-    public void setDataMode(XBBlockDataMode dataMode);
+    public void setDataMode(@Nonnull XBBlockDataMode dataMode);
 
     /**
      * Sets array of attributes in order of appearance.
      *
      * @param attributes array of attributes
      */
-    public void setAttributes(XBAttribute[] attributes);
+    public void setAttributes(@Nonnull XBAttribute[] attributes);
 
     /**
      * Sets attribute of given index.
@@ -66,7 +68,7 @@ public interface XBTEditableBlock extends XBTBlock {
      * @param attribute attribute value
      * @param attributeIndex attribute index
      */
-    public void setAttributeAt(XBAttribute attribute, int attributeIndex);
+    public void setAttributeAt(@Nonnull XBAttribute attribute, int attributeIndex);
 
     /**
      * Sets count of attributes.
@@ -89,14 +91,14 @@ public interface XBTEditableBlock extends XBTBlock {
      *
      * @param blockType block type
      */
-    public void setBlockType(XBBlockType blockType);
+    public void setBlockType(@Nonnull XBBlockType blockType);
 
     /**
      * Sets array of all children.
      *
      * @param blocks array of blocks
      */
-    public void setChildren(XBTBlock[] blocks);
+    public void setChildren(@Nonnull XBTBlock[] blocks);
 
     /**
      * This method instantiates new child node.
@@ -115,7 +117,7 @@ public interface XBTEditableBlock extends XBTBlock {
      * @param block child block
      * @param childIndex child index
      */
-    public void setChildAt(XBTBlock block, int childIndex);
+    public void setChildAt(@Nonnull XBTBlock block, int childIndex);
 
     /**
      * Gets count of children.
@@ -139,14 +141,14 @@ public interface XBTEditableBlock extends XBTBlock {
      * @param data data stream
      * @throws java.io.IOException if input/output error
      */
-    public void setData(InputStream data) throws IOException;
+    public void setData(@Nonnull InputStream data) throws IOException;
 
     /**
      * Sets block data.
      *
      * @param data data stream
      */
-    public void setData(BinaryData data);
+    public void setData(@Nonnull BinaryData data);
 
     /**
      * Clears all data, attributes and child blocks.

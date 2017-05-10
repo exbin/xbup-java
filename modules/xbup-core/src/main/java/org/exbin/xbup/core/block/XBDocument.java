@@ -33,7 +33,7 @@ public interface XBDocument {
      * @return root block if exits or null.
      */
     @Nullable
-    public XBBlock getRootBlock();
+    XBBlock getRootBlock();
 
     /**
      * Returns size of the whole document if available.
@@ -41,7 +41,7 @@ public interface XBDocument {
      * @return length of whole document in bytes or -1 if not available or is
      * infinite
      */
-    public long getDocumentSize();
+    long getDocumentSize();
 
     /**
      * Returns tail data input stream.
@@ -49,7 +49,7 @@ public interface XBDocument {
      * @return InputStream of providing read access to data area
      */
     @Nullable
-    public InputStream getTailData();
+    InputStream getTailData();
 
     /**
      * Returns size of the tail data if available.
@@ -57,5 +57,5 @@ public interface XBDocument {
      * @return length of tail data in bytes or -1 if not available or is
      * infinite
      */
-    public long getTailDataSize();
+    long getTailDataSize();
 }

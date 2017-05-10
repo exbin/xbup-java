@@ -16,27 +16,30 @@
  */
 package org.exbin.xbup.core.block;
 
+import javax.annotation.Nonnull;
 import org.exbin.xbup.core.ubnumber.UBNatural;
 
 /**
  * Interface for block type represented by group id and block id.
  *
- * @version 0.1.24 2014/08/26
+ * @version 0.2.1 2017/05/10
  * @author ExBin Project (http://exbin.org)
  */
 public interface XBFBlockType extends XBBlockType {
 
     /**
      * Gets group ID of this block.
-     * 
+     *
      * @return value of group index
      */
-    public UBNatural getGroupID();
+    @Nonnull
+    UBNatural getGroupID();
 
     /**
      * Gets block ID of this block.
-     * 
+     *
      * @return value of block index
      */
-    public UBNatural getBlockID();
+    @Nonnull
+    UBNatural getBlockID();
 }

@@ -36,5 +36,5 @@ public interface XBPSequenceSerializable extends XBSerializable {
      * @throws XBProcessingException if proccesing problem encountered
      * @throws IOException if input/output problem encountered
      */
-    public void serializeXB(XBPSequenceSerialHandler serializationHandler) throws XBProcessingException, IOException;
+    void serializeXB(XBPSequenceSerialHandler serializationHandler) throws XBProcessingException, IOException;
 }

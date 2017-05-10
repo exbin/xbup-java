@@ -18,13 +18,15 @@ package org.exbin.xbup.core.block;
 
 import java.io.IOException;
 import java.io.InputStream;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import org.exbin.utils.binary_data.BinaryData;
 import org.exbin.xbup.core.parser.token.XBAttribute;
 
 /**
  * Interface for editable XBUP level 0 block.
  *
- * @version 0.2.0 2015/09/19
+ * @version 0.2.1 2017/05/10
  * @author ExBin Project (http://exbin.org)
  */
 public interface XBEditableBlock extends XBBlock {
@@ -34,28 +36,28 @@ public interface XBEditableBlock extends XBBlock {
      *
      * @param parent parent block
      */
-    public void setParent(XBBlock parent);
+    void setParent(@Nullable XBBlock parent);
 
     /**
      * Sets terminated mode.
      *
      * @param terminationMode terminated mode flag
      */
-    public void setTerminationMode(XBBlockTerminationMode terminationMode);
+    void setTerminationMode(@Nonnull XBBlockTerminationMode terminationMode);
 
     /**
      * Sets data block mode.
      *
      * @param dataMode data block mode
      */
-    public void setDataMode(XBBlockDataMode dataMode);
+    void setDataMode(@Nullable XBBlockDataMode dataMode);
 
     /**
      * Sets array of attributes in order of appearance.
      *
      * @param attributes array of attributes
      */
-    public void setAttributes(XBAttribute[] attributes);
+    void setAttributes(@Nullable XBAttribute[] attributes);
 
     /**
      * Sets attribute of given index.
@@ -66,7 +68,7 @@ public interface XBEditableBlock extends XBBlock {
      * @param attribute attribute value
      * @param attributeIndex attribute index
      */
-    public void setAttributeAt(XBAttribute attribute, int attributeIndex);
+    void setAttributeAt(@Nonnull XBAttribute attribute, int attributeIndex);
 
     /**
      * Sets count of attributes.
@@ -75,21 +77,21 @@ public interface XBEditableBlock extends XBBlock {
      *
      * @param count count of attributes
      */
-    public void setAttributesCount(int count);
+    void setAttributesCount(int count);
 
     /**
      * Removes attribute on given position.
      *
      * @param attributeIndex attribute index
      */
-    public void removeAttribute(int attributeIndex);
+    void removeAttribute(int attributeIndex);
 
     /**
      * Sets array of all children.
      *
      * @param blocks array of children blocks
      */
-    public void setChildren(XBBlock[] blocks);
+    void setChildren(@Nullable XBBlock[] blocks);
 
     /**
      * Sets children of given index.
@@ -100,7 +102,7 @@ public interface XBEditableBlock extends XBBlock {
      * @param block child block
      * @param childIndex index of child block
      */
-    public void setChildAt(XBBlock block, int childIndex);
+    void setChildAt(@Nonnull XBBlock block, int childIndex);
 
     /**
      * Gets count of children blocks.
@@ -109,7 +111,7 @@ public interface XBEditableBlock extends XBBlock {
      *
      * @param count count of children
      */
-    public void setChildrenCount(int count);
+    void setChildrenCount(int count);
 
     /**
      * This method instantiates new child node.
@@ -117,14 +119,14 @@ public interface XBEditableBlock extends XBBlock {
      * @param childIndex child index
      * @return new instance of block
      */
-    public XBBlock createNewChild(int childIndex);
+    XBBlock createNewChild(int childIndex);
 
     /**
      * Removes child on given position.
      *
      * @param childIndex child index
      */
-    public void removeChild(int childIndex);
+    void removeChild(int childIndex);
 
     /**
      * Sets block data.
@@ -132,17 +134,17 @@ public interface XBEditableBlock extends XBBlock {
      * @param data data stream
      * @throws java.io.IOException exception on input/output error
      */
-    public void setData(InputStream data) throws IOException;
+    void setData(@Nullable InputStream data) throws IOException;
 
     /**
      * Sets block data.
      *
      * @param data data stream
      */
-    public void setData(BinaryData data);
+    void setData(@Nullable BinaryData data);
 
     /**
      * Clears all data, attributes and child blocks.
      */
-    public void clear();
+    void clear();
 }

@@ -16,12 +16,13 @@
  */
 package org.exbin.xbup.core.ubnumber;
 
+import javax.annotation.Nonnull;
 import org.exbin.xbup.core.ubnumber.exception.UBOverFlowException;
 
 /**
  * Interface for LRUB-encoded real value.
  *
- * @version 0.1.25 2015/02/06
+ * @version 0.2.1 2017/05/10
  * @author ExBin Project (http://exbin.org)
  */
 public interface UBReal {
@@ -34,7 +35,7 @@ public interface UBReal {
      * @return integer value
      * @throws UBOverFlowException if value is out of range
      */
-    public int getInt() throws UBOverFlowException;
+    int getInt() throws UBOverFlowException;
 
     /**
      * Gets long integer value.
@@ -42,7 +43,7 @@ public interface UBReal {
      * @return long integer value
      * @throws UBOverFlowException if value is out of range
      */
-    public long getLong() throws UBOverFlowException;
+    long getLong() throws UBOverFlowException;
 
     /**
      * Gets float value.
@@ -50,7 +51,7 @@ public interface UBReal {
      * @return float value
      * @throws UBOverFlowException if value is out of range
      */
-    public float getFloat() throws UBOverFlowException;
+    float getFloat() throws UBOverFlowException;
 
     /**
      * Gets double value.
@@ -58,54 +59,56 @@ public interface UBReal {
      * @return double value
      * @throws UBOverFlowException if value is out of range
      */
-    public double getDouble() throws UBOverFlowException;
+    double getDouble() throws UBOverFlowException;
 
     /**
      * Returns if value is zero.
      *
      * @return true if value equals zero
      */
-    public boolean isZero();
+    boolean isZero();
 
     /**
      * Sets integer value.
      *
      * @param value integer value
      */
-    public void setValue(int value) throws UBOverFlowException;
+    void setValue(int value) throws UBOverFlowException;
 
     /**
      * Sets long integer value.
      *
      * @param value long integer value
      */
-    public void setValue(long value) throws UBOverFlowException;
+    void setValue(long value) throws UBOverFlowException;
 
     /**
      * Sets float value.
      *
      * @param value float value
      */
-    public void setValue(float value) throws UBOverFlowException;
+    void setValue(float value) throws UBOverFlowException;
 
     /**
      * Sets double value.
      *
      * @param value double value
      */
-    public void setValue(double value) throws UBOverFlowException;
+    void setValue(double value) throws UBOverFlowException;
 
     /**
      * Gets base part of real value.
      *
      * @return base part
      */
-    public UBInteger getBase();
+    @Nonnull
+    UBInteger getBase();
 
     /**
      * Gets mantissa part of real value.
      *
      * @return mantissa part
      */
-    public UBInteger getMantissa();
+    @Nonnull
+    UBInteger getMantissa();
 }

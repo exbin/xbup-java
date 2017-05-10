@@ -16,13 +16,14 @@
  */
 package org.exbin.xbup.core.parser.token;
 
+import javax.annotation.Nonnull;
 import org.exbin.xbup.core.ubnumber.UBNatural;
 import org.exbin.xbup.core.ubnumber.exception.UBOverFlowException;
 
 /**
- * Interface for single attribute.
+ * Interface for single editable attribute.
  *
- * @version 0.1.25 2015/02/09
+ * @version 0.2.1 2017/05/10
  * @author ExBin Project (http://exbin.org)
  */
 public interface XBEditableAttribute extends XBAttribute {
@@ -30,7 +31,7 @@ public interface XBEditableAttribute extends XBAttribute {
     /**
      * Sets zero value in natural form.
      */
-    public void setNaturalZero();
+    void setNaturalZero();
 
     /**
      * Gets short integer value of natural form.
@@ -38,7 +39,7 @@ public interface XBEditableAttribute extends XBAttribute {
      * @param intValue integer value to set
      * @throws UBOverFlowException if value is out of range
      */
-    public void setNaturalInt(int intValue) throws UBOverFlowException;
+    void setNaturalInt(int intValue) throws UBOverFlowException;
 
     /**
      * Gets long integer value of natural form.
@@ -46,12 +47,12 @@ public interface XBEditableAttribute extends XBAttribute {
      * @param longValue long value to set
      * @throws UBOverFlowException if value is out of range
      */
-    public void setNaturalLong(long longValue) throws UBOverFlowException;
+    void setNaturalLong(long longValue) throws UBOverFlowException;
 
     /**
      * Sets this value using conversion from UBNatural form.
      *
      * @param natural natural value
      */
-    public void convertFromNatural(UBNatural natural);
+    void convertFromNatural(@Nonnull UBNatural natural);
 }

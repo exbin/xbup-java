@@ -16,13 +16,14 @@
  */
 package org.exbin.xbup.core.block.declaration;
 
+import javax.annotation.Nullable;
 import org.exbin.xbup.core.block.definition.XBBlockDef;
 import org.exbin.xbup.core.serial.XBSerializable;
 
 /**
  * Block declaration interface, either for catalog or local definition.
  *
- * @version 0.1.25 2015/02/02
+ * @version 0.2.1 2017/05/10
  * @author ExBin Project (http://exbin.org)
  */
 public interface XBBlockDecl extends XBSerializable {
@@ -32,12 +33,13 @@ public interface XBBlockDecl extends XBSerializable {
      *
      * @return block definition
      */
-    public XBBlockDef getBlockDef();
+    @Nullable
+    XBBlockDef getBlockDef();
 
     /**
      * Returns linked revision.
      *
      * @return revision
      */
-    public long getRevision();
+    long getRevision();
 }

@@ -20,12 +20,13 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.Serializable;
+import javax.annotation.Nonnull;
 
 /**
  * This interface provides methods for object conversion from and to stream in
  * XBUP protocol stack in its native form.
  *
- * @version 0.1.23 2014/01/27
+ * @version 0.2.1 2017/05/20
  * @author ExBin Project (http://exbin.org)
  */
 public interface UBStreamable extends Serializable {
@@ -37,7 +38,7 @@ public interface UBStreamable extends Serializable {
      * @return count of bytes written to stream
      * @throws IOException if stream throws it
      */
-    public int toStreamUB(OutputStream stream) throws IOException;
+    public int toStreamUB(@Nonnull OutputStream stream) throws IOException;
 
     /**
      * Reads value in UB Encoding from standard byte stream.
@@ -46,7 +47,7 @@ public interface UBStreamable extends Serializable {
      * @return count of bytes read from stream
      * @throws IOException if stream throws it
      */
-    public int fromStreamUB(InputStream stream) throws IOException;
+    public int fromStreamUB(@Nonnull InputStream stream) throws IOException;
 
     /**
      * Returns size of data which would be saved in byte stream.

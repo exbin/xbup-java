@@ -16,21 +16,23 @@
  */
 package org.exbin.xbup.core.block;
 
+import javax.annotation.Nonnull;
 import org.exbin.xbup.core.block.declaration.XBBlockDecl;
 
 /**
  * Interface for block type represented by declaration.
  *
- * @version 0.1.24 2014/10/03
+ * @version 0.2.1 2017/05/10
  * @author ExBin Project (http://exbin.org)
  */
 public interface XBDBlockType extends XBBlockType {
 
     /**
      * Gets block declaration.
-     * 
+     *
      * @return block declaration
      */
-    public XBBlockDecl getBlockDecl();
+    @Nonnull
+    XBBlockDecl getBlockDecl();
 
 }

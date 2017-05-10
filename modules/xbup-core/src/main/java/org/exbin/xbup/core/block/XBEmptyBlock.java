@@ -18,6 +18,8 @@ package org.exbin.xbup.core.block;
 
 import java.io.IOException;
 import java.io.InputStream;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import org.exbin.utils.binary_data.BinaryData;
 import org.exbin.xbup.core.parser.XBProcessingException;
 import org.exbin.xbup.core.parser.XBProcessingExceptionType;
@@ -32,7 +34,7 @@ import org.exbin.xbup.core.ubnumber.UBNatural;
 /**
  * Read-only empty level 0 block.
  *
- * @version 0.2.0 2015/09/19
+ * @version 0.2.1 2017/05/10
  * @author ExBin Project (http://exbin.org)
  */
 public class XBEmptyBlock implements XBBlock, XBPSequenceSerializable {
@@ -42,26 +44,31 @@ public class XBEmptyBlock implements XBBlock, XBPSequenceSerializable {
     public XBEmptyBlock() {
     }
 
+    @Nullable
     @Override
     public XBBlock getParent() {
         return null;
     }
 
+    @Nonnull
     @Override
     public XBBlockTerminationMode getTerminationMode() {
         return XBBlockTerminationMode.SIZE_SPECIFIED;
     }
 
+    @Nonnull
     @Override
     public XBBlockDataMode getDataMode() {
         return XBBlockDataMode.DATA_BLOCK;
     }
 
+    @Nullable
     @Override
     public XBAttribute[] getAttributes() {
         return new XBAttribute[0];
     }
 
+    @Nullable
     @Override
     public UBNatural getAttributeAt(int attributeIndex) {
         return null;
@@ -72,11 +79,13 @@ public class XBEmptyBlock implements XBBlock, XBPSequenceSerializable {
         return 0;
     }
 
+    @Nullable
     @Override
     public XBBlock[] getChildren() {
         return new XBBlock[0];
     }
 
+    @Nullable
     @Override
     public XBBlock getChildAt(int childIndex) {
         return null;
@@ -87,16 +96,19 @@ public class XBEmptyBlock implements XBBlock, XBPSequenceSerializable {
         return 0;
     }
 
+    @Nullable
     @Override
     public InputStream getData() {
         return XBTEmptyDataToken.getEmptyToken().getData();
     }
 
+    @Nullable
     @Override
     public BinaryData getBlockData() {
         return new XBData();
     }
 
+    @Nonnull
     public static XBEmptyBlock getEmptyBlock() {
         if (cachedEmptyBlock == null) {
             cachedEmptyBlock = new XBEmptyBlock();
@@ -106,7 +118,7 @@ public class XBEmptyBlock implements XBBlock, XBPSequenceSerializable {
     }
 
     @Override
-    public void serializeXB(XBPSequenceSerialHandler serializationHandler) throws XBProcessingException, IOException {
+    public void serializeXB(@Nonnull XBPSequenceSerialHandler serializationHandler) throws XBProcessingException, IOException {
         serializationHandler.begin();
         if (serializationHandler.getSerializationMode() == XBSerializationMode.PULL) {
             InputStream pullData = serializationHandler.pullData();

@@ -17,13 +17,14 @@
 package org.exbin.xbup.core.block.declaration;
 
 import java.util.List;
+import javax.annotation.Nullable;
 import org.exbin.xbup.core.block.definition.XBGroupDef;
 import org.exbin.xbup.core.serial.XBSerializable;
 
 /**
  * Group declaration interface, either for catalog or local definition.
  *
- * @version 0.1.25 2015/02/02
+ * @version 0.2.1 2017/05/10
  * @author ExBin Project (http://exbin.org)
  */
 public interface XBGroupDecl extends XBSerializable {
@@ -31,21 +32,23 @@ public interface XBGroupDecl extends XBSerializable {
     /**
      * Returns linked group definition.
      *
-     * @return grouo definition
+     * @return group definition
      */
-    public XBGroupDef getGroupDef();
+    @Nullable
+    XBGroupDef getGroupDef();
 
     /**
      * Returns linked revision.
      *
      * @return revision
      */
-    public long getRevision();
+    long getRevision();
 
     /**
      * Returns list of block declarations.
      *
      * @return list of block declarations
      */
-    public List<XBBlockDecl> getBlockDecls();
+    @Nullable
+    List<XBBlockDecl> getBlockDecls();
 }

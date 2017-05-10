@@ -16,6 +16,8 @@
  */
 package org.exbin.xbup.core.block.declaration;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import org.exbin.xbup.core.block.XBBasicBlockType;
 import org.exbin.xbup.core.block.XBDBlockType;
 import org.exbin.xbup.core.block.declaration.local.XBLBlockDecl;
@@ -23,14 +25,15 @@ import org.exbin.xbup.core.block.declaration.local.XBLBlockDecl;
 /**
  * Block type defined using block declaration.
  *
- * @version 0.1.24 2014/10/03
+ * @version 0.2.1 2017/05/10
  * @author ExBin Project (http://exbin.org)
  */
 public class XBDeclBlockType implements XBDBlockType {
 
+    @Nonnull
     private XBBlockDecl blockDecl;
 
-    public XBDeclBlockType(XBBlockDecl blockDecl) {
+    public XBDeclBlockType(@Nonnull XBBlockDecl blockDecl) {
         this.blockDecl = blockDecl;
     }
 
@@ -42,6 +45,7 @@ public class XBDeclBlockType implements XBDBlockType {
         this.blockDecl = new XBLBlockDecl(blockRevisionCatalogPath);
     }
 
+    @Nullable
     @Override
     public XBBasicBlockType getAsBasicType() {
         return null;
@@ -61,12 +65,13 @@ public class XBDeclBlockType implements XBDBlockType {
         return blockDecl.hashCode();
     }
 
+    @Nonnull
     @Override
     public XBBlockDecl getBlockDecl() {
         return blockDecl;
     }
 
-    public void setBlockDecl(XBBlockDecl blockDecl) {
+    public void setBlockDecl(@Nonnull XBBlockDecl blockDecl) {
         this.blockDecl = blockDecl;
     }
 }

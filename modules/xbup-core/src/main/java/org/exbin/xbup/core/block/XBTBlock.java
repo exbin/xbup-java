@@ -36,7 +36,7 @@ public interface XBTBlock {
      * @return parent block
      */
     @Nullable
-    public XBTBlock getParent();
+    XBTBlock getParent();
 
     /**
      * Returns whether this block is using sequence of children ended with
@@ -45,7 +45,7 @@ public interface XBTBlock {
      * @return terminated mode
      */
     @Nonnull
-    public XBBlockTerminationMode getTerminationMode();
+    XBBlockTerminationMode getTerminationMode();
 
     /**
      * Returns whether this block is data block.
@@ -53,7 +53,7 @@ public interface XBTBlock {
      * @return data mode
      */
     @Nonnull
-    public XBBlockDataMode getDataMode();
+    XBBlockDataMode getDataMode();
 
     /**
      * Gets block type.
@@ -61,7 +61,7 @@ public interface XBTBlock {
      * @return block type
      */
     @Nonnull
-    public XBBlockType getBlockType();
+    XBBlockType getBlockType();
 
     /**
      * Gets array of attributes in order of appearance.
@@ -69,7 +69,7 @@ public interface XBTBlock {
      * @return array of attributes
      */
     @Nullable
-    public XBAttribute[] getAttributes();
+    XBAttribute[] getAttributes();
 
     /**
      * Gets attribute of given index.
@@ -80,14 +80,14 @@ public interface XBTBlock {
      * @return attribute value
      */
     @Nullable
-    public XBAttribute getAttributeAt(int attributeIndex);
+    XBAttribute getAttributeAt(int attributeIndex);
 
     /**
      * Gets count of attributes.
      *
      * @return count of attributes
      */
-    public int getAttributesCount();
+    int getAttributesCount();
 
     /**
      * Gets array of all children.
@@ -95,7 +95,7 @@ public interface XBTBlock {
      * @return array of child blocks
      */
     @Nullable
-    public XBTBlock[] getChildren();
+    XBTBlock[] getChildren();
 
     /**
      * Gets children of given index.
@@ -106,14 +106,14 @@ public interface XBTBlock {
      * @return child block
      */
     @Nullable
-    public XBTBlock getChildAt(int childIndex);
+    XBTBlock getChildAt(int childIndex);
 
     /**
      * Gets count of children blocks.
      *
      * @return count of children
      */
-    public int getChildrenCount();
+    int getChildrenCount();
 
     /**
      * Gets block data.
@@ -121,7 +121,7 @@ public interface XBTBlock {
      * @return data stream
      */
     @Nullable
-    public InputStream getData();
+    InputStream getData();
 
     /**
      * Gets block data.
@@ -129,5 +129,5 @@ public interface XBTBlock {
      * @return block data or null
      */
     @Nullable
-    public BinaryData getBlockData();
+    BinaryData getBlockData();
 }

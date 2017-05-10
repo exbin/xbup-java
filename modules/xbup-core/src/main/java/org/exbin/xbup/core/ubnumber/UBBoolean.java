@@ -23,7 +23,7 @@ import org.exbin.xbup.core.ubnumber.exception.UBOverFlowException;
 /**
  * Interface for LRUB-encoded boolean value.
  *
- * @version 0.1.24 2015/01/13
+ * @version 0.2.1 2017/05/10
  * @author ExBin Project (http://exbin.org)
  */
 public interface UBBoolean extends Serializable, UBStreamable, XBEditableAttribute {
@@ -35,21 +35,21 @@ public interface UBBoolean extends Serializable, UBStreamable, XBEditableAttribu
      *
      * @return value
      */
-    public boolean getBoolean() throws UBOverFlowException;
+    boolean getBoolean() throws UBOverFlowException;
 
     /**
      * Sets boolean value.
      *
      * @param value value
      */
-    public void setValue(boolean value) throws UBOverFlowException;
+    void setValue(boolean value) throws UBOverFlowException;
 
     /**
      * Gets count of long value segments.
      *
      * @return count of long segments
      */
-    public long getSegmentCount();
+    long getSegmentCount();
 
     /**
      * Gets long integer segment of value.
@@ -57,5 +57,5 @@ public interface UBBoolean extends Serializable, UBStreamable, XBEditableAttribu
      * @param segmentIndex index of segment, 0 for lowest value
      * @return long integer
      */
-    public long getValueSegment(long segmentIndex);
+    long getValueSegment(long segmentIndex);
 }

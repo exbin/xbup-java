@@ -26,7 +26,7 @@ import org.exbin.xbup.core.type.XBData;
 /**
  * Basic plain implementation of XBBlock interface.
  *
- * @version 0.2.1 2017/05/08
+ * @version 0.2.1 2017/05/10
  * @author ExBin Project (http://exbin.org)
  */
 public class XBDefaultBlock implements XBBlock {
@@ -106,7 +106,7 @@ public class XBDefaultBlock implements XBBlock {
      * @param attributes attributes
      * @param children children blocks
      */
-    public XBDefaultBlock(XBBlockTerminationMode terminationMode, XBAttribute[] attributes, XBBlock[] children) {
+    public XBDefaultBlock(@Nullable XBBlockTerminationMode terminationMode, @Nullable XBAttribute[] attributes, @Nullable XBBlock[] children) {
         this(null, terminationMode, attributes, children);
     }
 
@@ -136,21 +136,25 @@ public class XBDefaultBlock implements XBBlock {
         this.parent = parent;
     }
 
+    @Nonnull
     @Override
     public XBBlockDataMode getDataMode() {
         return dataMode;
     }
 
+    @Nonnull
     @Override
     public XBBlockTerminationMode getTerminationMode() {
         return terminationMode;
     }
 
+    @Nullable
     @Override
     public XBAttribute[] getAttributes() {
         return attributes;
     }
 
+    @Nullable
     @Override
     public XBAttribute getAttributeAt(int attributeIndex) {
         return attributes[attributeIndex];
@@ -158,7 +162,7 @@ public class XBDefaultBlock implements XBBlock {
 
     @Override
     public int getAttributesCount() {
-        return attributes.length;
+        return attributes == null ? 0 : attributes.length;
     }
 
     @Override
@@ -166,6 +170,7 @@ public class XBDefaultBlock implements XBBlock {
         return children;
     }
 
+    @Nullable
     @Override
     public XBBlock getChildAt(int childIndex) {
         return children[childIndex];
@@ -176,11 +181,13 @@ public class XBDefaultBlock implements XBBlock {
         return children.length;
     }
 
+    @Nonnull
     @Override
     public InputStream getData() {
-        return data.getDataInputStream();
+        return data == null ? null : data.getDataInputStream();
     }
 
+    @Nullable
     @Override
     public BinaryData getBlockData() {
         return data;
@@ -203,12 +210,13 @@ public class XBDefaultBlock implements XBBlock {
             return -1;
         }
 
-        if (block.getParent() != null) {
+        XBBlock blockParent = block.getParent();
+        if (blockParent != null) {
             int result = getBlockIndex(block.getParent()) + 1;
             int childIndex = 0;
             XBBlock child;
             do {
-                child = block.getParent().getChildAt(childIndex);
+                child = blockParent.getChildAt(childIndex);
                 if (block.equals(child)) {
                     return result + childIndex;
                 }
@@ -233,10 +241,15 @@ public class XBDefaultBlock implements XBBlock {
             return -1;
         }
 
+        XBBlock blockParent = block.getParent();
+        if (blockParent == null) {
+            return -1;
+        }
+
         int childIndex = 0;
         XBBlock child;
         do {
-            child = block.getParent().getChildAt(childIndex);
+            child = blockParent.getChildAt(childIndex);
             if (block.equals(child)) {
                 return childIndex;
             }

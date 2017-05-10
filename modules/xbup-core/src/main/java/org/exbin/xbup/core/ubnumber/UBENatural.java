@@ -23,7 +23,7 @@ import org.exbin.xbup.core.ubnumber.exception.UBOverFlowException;
 /**
  * Interface for LRUB-encoded natural value with infinity constant.
  *
- * @version 0.1.25 2015/02/06
+ * @version 0.2.1 2017/05/10
  * @author ExBin Project (http://exbin.org)
  */
 public interface UBENatural extends Serializable, UBStreamable, XBEditableAttribute {
@@ -39,7 +39,7 @@ public interface UBENatural extends Serializable, UBStreamable, XBEditableAttrib
      * @return integer value
      * @throws UBOverFlowException if value is out of range
      */
-    public int getInt() throws UBOverFlowException;
+    int getInt() throws UBOverFlowException;
 
     /**
      * Gets long integer value.
@@ -47,35 +47,35 @@ public interface UBENatural extends Serializable, UBStreamable, XBEditableAttrib
      * @return long integer value
      * @throws UBOverFlowException if value is out of range
      */
-    public long getLong() throws UBOverFlowException;
+    long getLong() throws UBOverFlowException;
 
     /**
      * Returns if value is zero.
      *
      * @return true if value equals zero
      */
-    public boolean isZero();
+    boolean isZero();
 
     /**
      * Sets integer value.
      *
      * @param value integer value
      */
-    public void setValue(int value) throws UBOverFlowException;
+    void setValue(int value) throws UBOverFlowException;
 
     /**
      * Sets long integer value.
      *
      * @param value long integer value
      */
-    public void setValue(long value) throws UBOverFlowException;
+    void setValue(long value) throws UBOverFlowException;
 
     /**
      * Gets count of long value segments.
      *
      * @return count of long segments
      */
-    public long getSegmentCount();
+    long getSegmentCount();
 
     /**
      * Gets long integer segment of value.
@@ -83,17 +83,17 @@ public interface UBENatural extends Serializable, UBStreamable, XBEditableAttrib
      * @param segmentIndex index of segment, 0 for lowest value
      * @return long integer
      */
-    public long getValueSegment(long segmentIndex);
+    long getValueSegment(long segmentIndex);
 
     /**
      * Reads infinity flag.
      *
      * @return true if value represents infinity
      */
-    public boolean isInfinity();
+    boolean isInfinity();
 
     /**
      * Sets value to infinity constant.
      */
-    public void setInfinity();
+    void setInfinity();
 }

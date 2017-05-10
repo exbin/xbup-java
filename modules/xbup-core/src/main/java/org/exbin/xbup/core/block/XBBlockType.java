@@ -35,5 +35,5 @@ public interface XBBlockType {
      * @return basic block type or null
      */
     @Nullable
-    public XBBasicBlockType getAsBasicType();
+    XBBasicBlockType getAsBasicType();
 }

@@ -18,34 +18,40 @@ package org.exbin.xbup.core.block;
 
 import java.io.IOException;
 import java.io.InputStream;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import org.exbin.utils.binary_data.BinaryData;
 import org.exbin.xbup.core.type.XBData;
 
 /**
  * Basic plain implementation of XBEditableDocument interface.
  *
- * @version 0.2.0 2016/09/25
+ * @version 0.2.1 2017/05/10
  * @author ExBin Project (http://exbin.org)
  */
 public class XBDefaultEditableDocument implements XBEditableDocument {
 
+    @Nonnull
     private XBBlock rootBlock;
+    @Nullable
     private BinaryData tailData;
 
-    public XBDefaultEditableDocument(XBBlock rootBlock) {
+    public XBDefaultEditableDocument(@Nonnull XBBlock rootBlock) {
         this(rootBlock, null);
     }
 
-    public XBDefaultEditableDocument(XBBlock rootBlock, BinaryData tailData) {
+    public XBDefaultEditableDocument(@Nonnull XBBlock rootBlock, @Nullable BinaryData tailData) {
         this.rootBlock = rootBlock;
         this.tailData = tailData;
     }
 
+    @Nonnull
     @Override
     public XBBlock getRootBlock() {
         return rootBlock;
     }
 
+    @Nullable
     @Override
     public InputStream getTailData() {
         return tailData.getDataInputStream();
@@ -62,20 +68,24 @@ public class XBDefaultEditableDocument implements XBEditableDocument {
     }
 
     @Override
-    public void setRootBlock(XBBlock block) {
+    public void setRootBlock(@Nonnull XBBlock block) {
         rootBlock = block;
     }
 
     @Override
-    public void setTailData(InputStream source) throws IOException {
-        XBData data = new XBData();
-        data.loadFromStream(source);
-        tailData = data;
+    public void setTailData(@Nullable InputStream source) throws IOException {
+        if (source == null) {
+            tailData = null;
+        } else {
+            XBData data = new XBData();
+            data.loadFromStream(source);
+            tailData = data;
+        }
     }
 
     @Override
     public void clear() {
-        rootBlock = null;
+        rootBlock = new XBDefaultBlock();
         tailData = null;
     }
 }

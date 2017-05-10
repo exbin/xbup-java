@@ -18,11 +18,13 @@ package org.exbin.xbup.core.block;
 
 import java.io.IOException;
 import java.io.InputStream;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 /**
  * Interface for editable XBUP level 0 document.
  *
- * @version 0.2.0 2016/09/24
+ * @version 0.2.1 2017/05/10
  * @author ExBin Project (http://exbin.org)
  */
 public interface XBEditableDocument extends XBDocument {
@@ -32,7 +34,7 @@ public interface XBEditableDocument extends XBDocument {
      *
      * @param block the block to use as root block for this document
      */
-    public void setRootBlock(XBBlock block);
+    void setRootBlock(@Nonnull XBBlock block);
 
     /**
      * Sets tail data.
@@ -40,10 +42,10 @@ public interface XBEditableDocument extends XBDocument {
      * @param source data stream
      * @throws java.io.IOException exception on input/output error
      */
-    public void setTailData(InputStream source) throws IOException;
+    void setTailData(@Nullable InputStream source) throws IOException;
 
     /**
      * Clears all data in this document.
      */
-    public void clear();
+    void clear();
 }

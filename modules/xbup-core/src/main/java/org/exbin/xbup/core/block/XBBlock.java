@@ -25,7 +25,7 @@ import org.exbin.xbup.core.parser.token.XBAttribute;
 /**
  * Interface for read access to XBUP level 0 block.
  *
- * @version 0.2.1 2017/05/08
+ * @version 0.2.1 2017/05/10
  * @author ExBin Project (http://exbin.org)
  */
 public interface XBBlock {
@@ -44,7 +44,7 @@ public interface XBBlock {
      * @return data mode
      */
     @Nonnull
-    public XBBlockDataMode getDataMode();
+    XBBlockDataMode getDataMode();
 
     /**
      * Returns whether this block is using sequence of children ended with
@@ -53,7 +53,7 @@ public interface XBBlock {
      * @return termination mode
      */
     @Nonnull
-    public XBBlockTerminationMode getTerminationMode();
+    XBBlockTerminationMode getTerminationMode();
 
     /**
      * Gets array of attributes in order of appearance.
@@ -61,7 +61,7 @@ public interface XBBlock {
      * @return array of attributes
      */
     @Nullable
-    public XBAttribute[] getAttributes();
+    XBAttribute[] getAttributes();
 
     /**
      * Gets attribute of given index / order.
@@ -70,14 +70,14 @@ public interface XBBlock {
      * @return attribute value
      */
     @Nullable
-    public XBAttribute getAttributeAt(int attributeIndex);
+    XBAttribute getAttributeAt(int attributeIndex);
 
     /**
      * Gets count of attributes.
      *
      * @return count of attributes
      */
-    public int getAttributesCount();
+    int getAttributesCount();
 
     /**
      * Gets array of all children blocks.
@@ -85,7 +85,7 @@ public interface XBBlock {
      * @return list of child blocks
      */
     @Nullable
-    public XBBlock[] getChildren();
+    XBBlock[] getChildren();
 
     /**
      * Gets child block of given index.
@@ -94,14 +94,14 @@ public interface XBBlock {
      * @return child block
      */
     @Nullable
-    public XBBlock getChildAt(int childIndex);
+    XBBlock getChildAt(int childIndex);
 
     /**
      * Gets count of children.
      *
      * @return count of children
      */
-    public int getChildrenCount();
+    int getChildrenCount();
 
     /**
      * Gets block data.
@@ -109,7 +109,7 @@ public interface XBBlock {
      * @return block data or null
      */
     @Nullable
-    public InputStream getData();
+    InputStream getData();
 
     /**
      * Gets block data.
@@ -117,5 +117,5 @@ public interface XBBlock {
      * @return block data or null
      */
     @Nullable
-    public BinaryData getBlockData();
+    BinaryData getBlockData();
 }

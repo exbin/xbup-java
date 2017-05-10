@@ -16,6 +16,7 @@
  */
 package org.exbin.xbup.core.parser.token;
 
+import javax.annotation.Nonnull;
 import org.exbin.xbup.core.ubnumber.UBNatural;
 import org.exbin.xbup.core.ubnumber.UBStreamable;
 import org.exbin.xbup.core.ubnumber.exception.UBOverFlowException;
@@ -23,7 +24,7 @@ import org.exbin.xbup.core.ubnumber.exception.UBOverFlowException;
 /**
  * Interface for single attribute.
  *
- * @version 0.1.25 2015/02/09
+ * @version 0.2.1 2017/05/10
  * @author ExBin Project (http://exbin.org)
  */
 public interface XBAttribute extends UBStreamable {
@@ -33,7 +34,7 @@ public interface XBAttribute extends UBStreamable {
      *
      * @return true if value equals zero
      */
-    public boolean isNaturalZero();
+    boolean isNaturalZero();
 
     /**
      * Gets short integer value of natural form.
@@ -41,7 +42,7 @@ public interface XBAttribute extends UBStreamable {
      * @return integer value
      * @throws UBOverFlowException if value is out of range
      */
-    public int getNaturalInt() throws UBOverFlowException;
+    int getNaturalInt() throws UBOverFlowException;
 
     /**
      * Gets long integer value of natural form.
@@ -49,7 +50,7 @@ public interface XBAttribute extends UBStreamable {
      * @return long integer value
      * @throws UBOverFlowException if value is out of range
      */
-    public long getNaturalLong() throws UBOverFlowException;
+    long getNaturalLong() throws UBOverFlowException;
 
     /**
      * Converts this value to UBNatural form.
@@ -59,5 +60,6 @@ public interface XBAttribute extends UBStreamable {
      *
      * @return natural value
      */
-    public UBNatural convertToNatural();
+    @Nonnull
+    UBNatural convertToNatural();
 }

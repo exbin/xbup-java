@@ -22,7 +22,7 @@ import javax.annotation.Nullable;
 /**
  * Interface for read access to XBUP level 1 document.
  *
- * @version 0.2.1 2017/05/08
+ * @version 0.2.1 2017/05/10
  * @author ExBin Project (http://exbin.org)
  */
 public interface XBTDocument {
@@ -41,7 +41,7 @@ public interface XBTDocument {
      * @return length of whole document in bytes or -1 if not available or is
      * infinite
      */
-    public long getDocumentSize();
+    long getDocumentSize();
 
     /**
      * Returns tail data input stream.
@@ -49,7 +49,7 @@ public interface XBTDocument {
      * @return data stream
      */
     @Nullable
-    public InputStream getTailData();
+    InputStream getTailData();
 
     /**
      * Returns size of the tail data if available.
@@ -57,5 +57,5 @@ public interface XBTDocument {
      * @return length of tail data in bytes or -1 if not available or is
      * infinite
      */
-    public long getTailDataSize();
+    long getTailDataSize();
 }

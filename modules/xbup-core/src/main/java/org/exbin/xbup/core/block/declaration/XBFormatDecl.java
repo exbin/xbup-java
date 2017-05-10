@@ -17,13 +17,14 @@
 package org.exbin.xbup.core.block.declaration;
 
 import java.util.List;
+import javax.annotation.Nullable;
 import org.exbin.xbup.core.block.definition.XBFormatDef;
 import org.exbin.xbup.core.serial.XBSerializable;
 
 /**
  * Format declaration interface, either for catalog or local definition.
  *
- * @version 0.1.24 2014/09/27
+ * @version 0.2.1 2017/05/10
  * @author ExBin Project (http://exbin.org)
  */
 public interface XBFormatDecl extends XBSerializable {
@@ -33,19 +34,21 @@ public interface XBFormatDecl extends XBSerializable {
      *
      * @return format definition
      */
-    public XBFormatDef getFormatDef();
+    @Nullable
+    XBFormatDef getFormatDef();
 
     /**
      * Returns list of group declarations.
      *
      * @return list of group declarations
      */
-    public List<XBGroupDecl> getGroupDecls();
+    @Nullable
+    List<XBGroupDecl> getGroupDecls();
 
     /**
      * Returns linked revision.
      *
      * @return revision
      */
-    public long getRevision();
+    long getRevision();
 }

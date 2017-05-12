@@ -18,6 +18,7 @@ package org.exbin.xbup.core.parser.basic;
 
 import java.io.IOException;
 import java.io.InputStream;
+import javax.annotation.Nonnull;
 import org.exbin.xbup.core.block.XBBlockTerminationMode;
 import org.exbin.xbup.core.block.XBBlockType;
 import org.exbin.xbup.core.parser.XBProcessingException;
@@ -29,7 +30,7 @@ import org.exbin.xbup.core.stream.XBOutput;
  *
  * Execution is receiver side controlled (pull).
  *
- * @version 0.1.25 2015/02/14
+ * @version 0.2.1 2017/05/12
  * @author ExBin Project (http://exbin.org)
  */
 public interface XBTMatchingProvider extends XBOutput {
@@ -41,7 +42,8 @@ public interface XBTMatchingProvider extends XBOutput {
      * @throws XBProcessingException if processing error
      * @throws IOException if input/output error
      */
-    public XBBlockTerminationMode matchBeginXBT() throws XBProcessingException, IOException;
+    @Nonnull
+    XBBlockTerminationMode matchBeginXBT() throws XBProcessingException, IOException;
 
     /**
      * Matches block begin with exact termination mode.
@@ -50,7 +52,7 @@ public interface XBTMatchingProvider extends XBOutput {
      * @throws XBProcessingException if processing error
      * @throws IOException if input/output error
      */
-    public void matchBeginXBT(XBBlockTerminationMode terminationMode) throws XBProcessingException, IOException;
+    void matchBeginXBT(@Nonnull XBBlockTerminationMode terminationMode) throws XBProcessingException, IOException;
 
     /**
      * Matches type of block.
@@ -59,7 +61,8 @@ public interface XBTMatchingProvider extends XBOutput {
      * @throws XBProcessingException if processing error
      * @throws IOException if input/output error
      */
-    public XBBlockType matchTypeXBT() throws XBProcessingException, IOException;
+    @Nonnull
+    XBBlockType matchTypeXBT() throws XBProcessingException, IOException;
 
     /**
      * Matches type of block with exact value.
@@ -68,27 +71,26 @@ public interface XBTMatchingProvider extends XBOutput {
      * @throws XBProcessingException if processing error
      * @throws IOException if input/output error
      */
-    public void matchTypeXBT(XBBlockType type) throws XBProcessingException, IOException;
+    void matchTypeXBT(@Nonnull XBBlockType type) throws XBProcessingException, IOException;
 
     /**
      * Matches block attribute.
      *
      * @return attribute value
-     * @throws XBProcessingException if processing error if unable to parse
-     * attribute value
+     * @throws XBProcessingException if processing error
      * @throws IOException if input/output error
      */
-    public XBAttribute matchAttribXBT() throws XBProcessingException, IOException;
+    @Nonnull
+    XBAttribute matchAttribXBT() throws XBProcessingException, IOException;
 
     /**
      * Matches block attribute with exact value.
      *
      * @param value attribute value
-     * @throws XBProcessingException if processing error if unable to parse
-     * attribute value
+     * @throws XBProcessingException if processing error
      * @throws IOException if input/output error
      */
-    public void matchAttribXBT(XBAttribute value) throws XBProcessingException, IOException;
+    void matchAttribXBT(@Nonnull XBAttribute value) throws XBProcessingException, IOException;
 
     /**
      * Matches block data.
@@ -99,7 +101,8 @@ public interface XBTMatchingProvider extends XBOutput {
      * @throws XBProcessingException if processing error
      * @throws IOException if input/output error
      */
-    public InputStream matchDataXBT() throws XBProcessingException, IOException;
+    @Nonnull
+    InputStream matchDataXBT() throws XBProcessingException, IOException;
 
     /**
      * Matches block data comparing it to specified data.
@@ -108,7 +111,7 @@ public interface XBTMatchingProvider extends XBOutput {
      * @throws XBProcessingException if processing error
      * @throws IOException if input/output error
      */
-    public void matchDataXBT(InputStream data) throws XBProcessingException, IOException;
+    void matchDataXBT(@Nonnull InputStream data) throws XBProcessingException, IOException;
 
     /**
      * Matches block end.
@@ -116,5 +119,5 @@ public interface XBTMatchingProvider extends XBOutput {
      * @throws XBProcessingException if processing error
      * @throws IOException if input/output error
      */
-    public void matchEndXBT() throws XBProcessingException, IOException;
+    void matchEndXBT() throws XBProcessingException, IOException;
 }

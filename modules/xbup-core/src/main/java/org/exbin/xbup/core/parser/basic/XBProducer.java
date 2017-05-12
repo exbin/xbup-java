@@ -16,6 +16,7 @@
  */
 package org.exbin.xbup.core.parser.basic;
 
+import javax.annotation.Nonnull;
 import org.exbin.xbup.core.stream.XBOutput;
 
 /**
@@ -23,7 +24,7 @@ import org.exbin.xbup.core.stream.XBOutput;
  *
  * Execution is sender side controlled (push).
  *
- * @version 0.1.25 2015/02/13
+ * @version 0.2.1 2017/05/12
  * @author ExBin Project (http://exbin.org)
  */
 public interface XBProducer extends XBOutput {
@@ -33,5 +34,5 @@ public interface XBProducer extends XBOutput {
      *
      * @param listener data listener to attach
      */
-    public void attachXBListener(XBListener listener);
+    void attachXBListener(@Nonnull XBListener listener);
 }

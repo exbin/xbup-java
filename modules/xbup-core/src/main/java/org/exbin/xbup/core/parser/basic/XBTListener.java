@@ -18,6 +18,7 @@ package org.exbin.xbup.core.parser.basic;
 
 import java.io.IOException;
 import java.io.InputStream;
+import javax.annotation.Nonnull;
 import org.exbin.xbup.core.block.XBBlockTerminationMode;
 import org.exbin.xbup.core.block.XBBlockType;
 import org.exbin.xbup.core.parser.XBProcessingException;
@@ -29,7 +30,7 @@ import org.exbin.xbup.core.stream.XBInput;
  *
  * Execution is sender side controlled (push).
  *
- * @version 0.1.25 2015/02/09
+ * @version 0.2.1 2017/05/12
  * @author ExBin Project (http://exbin.org)
  */
 public interface XBTListener extends XBInput {
@@ -41,7 +42,7 @@ public interface XBTListener extends XBInput {
      * @throws XBProcessingException if processing error
      * @throws IOException if input/output error
      */
-    public void beginXBT(XBBlockTerminationMode terminationMode) throws XBProcessingException, IOException;
+    void beginXBT(@Nonnull XBBlockTerminationMode terminationMode) throws XBProcessingException, IOException;
 
     /**
      * Reports type of block.
@@ -50,7 +51,7 @@ public interface XBTListener extends XBInput {
      * @throws XBProcessingException if processing error
      * @throws IOException if input/output error
      */
-    public void typeXBT(XBBlockType blockType) throws XBProcessingException, IOException;
+    void typeXBT(@Nonnull XBBlockType blockType) throws XBProcessingException, IOException;
 
     /**
      * Reports block attribute.
@@ -60,7 +61,7 @@ public interface XBTListener extends XBInput {
      * attribute value
      * @throws IOException if input/output error
      */
-    public void attribXBT(XBAttribute attribute) throws XBProcessingException, IOException;
+    void attribXBT(@Nonnull XBAttribute attribute) throws XBProcessingException, IOException;
 
     /**
      * Reports block data.
@@ -71,7 +72,7 @@ public interface XBTListener extends XBInput {
      * @throws XBProcessingException if processing error
      * @throws IOException if input/output error
      */
-    public void dataXBT(InputStream data) throws XBProcessingException, IOException;
+    void dataXBT(@Nonnull InputStream data) throws XBProcessingException, IOException;
 
     /**
      * Reports block end.
@@ -79,5 +80,5 @@ public interface XBTListener extends XBInput {
      * @throws XBProcessingException if processing error
      * @throws IOException if input/output error
      */
-    public void endXBT() throws XBProcessingException, IOException;
+    void endXBT() throws XBProcessingException, IOException;
 }

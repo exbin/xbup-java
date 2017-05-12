@@ -17,6 +17,7 @@
 package org.exbin.xbup.core.parser.basic;
 
 import java.io.IOException;
+import javax.annotation.Nonnull;
 import org.exbin.xbup.core.parser.XBProcessingException;
 import org.exbin.xbup.core.stream.XBOutput;
 
@@ -25,7 +26,7 @@ import org.exbin.xbup.core.stream.XBOutput;
  *
  * Execution is receiver side controlled (pull).
  *
- * @version 0.1.25 2015/02/13
+ * @version 0.2.1 2017/05/12
  * @author ExBin Project (http://exbin.org)
  */
 public interface XBProvider extends XBOutput {
@@ -37,5 +38,5 @@ public interface XBProvider extends XBOutput {
      * @throws XBProcessingException if processing error
      * @throws java.io.IOException if input/output error
      */
-    public void produceXB(XBListener listener) throws XBProcessingException, IOException;
+    void produceXB(@Nonnull XBListener listener) throws XBProcessingException, IOException;
 }

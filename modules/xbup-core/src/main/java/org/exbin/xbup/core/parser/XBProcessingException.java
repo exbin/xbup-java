@@ -16,31 +16,35 @@
  */
 package org.exbin.xbup.core.parser;
 
+import javax.annotation.Nullable;
+
 /**
  * Exception class for XBUP protocol processing.
  *
- * @version 0.1.24 2014/11/27
+ * @version 0.2.1 2017/05/12
  * @author ExBin Project (http://exbin.org)
  */
 public class XBProcessingException extends RuntimeException {
 
+    @Nullable
     private XBProcessingExceptionType errorType = XBProcessingExceptionType.UNKNOWN;
+    @Nullable
     private long[] treePath = null;
 
     public XBProcessingException() {
         super();
     }
 
-    public XBProcessingException(String message) {
+    public XBProcessingException(@Nullable String message) {
         super(message);
     }
 
-    public XBProcessingException(String message, XBProcessingExceptionType errorType) {
+    public XBProcessingException(@Nullable String message, @Nullable XBProcessingExceptionType errorType) {
         this(message);
         this.errorType = errorType;
     }
 
-    public XBProcessingException(String message, long[] treePath) {
+    public XBProcessingException(@Nullable String message, @Nullable long[] treePath) {
         this(message);
         this.treePath = treePath;
     }
@@ -66,11 +70,11 @@ public class XBProcessingException extends RuntimeException {
         return hash;
     }
 
-    public XBProcessingExceptionType getErrorType() {
+    public @Nullable XBProcessingExceptionType getErrorType() {
         return errorType;
     }
 
-    public long[] getTreePath() {
+    public @Nullable long[] getTreePath() {
         return treePath;
     }
 }

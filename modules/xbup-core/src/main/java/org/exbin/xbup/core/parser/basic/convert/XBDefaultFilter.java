@@ -18,6 +18,7 @@ package org.exbin.xbup.core.parser.basic.convert;
 
 import java.io.IOException;
 import java.io.InputStream;
+import javax.annotation.Nonnull;
 import org.exbin.xbup.core.block.XBBlockTerminationMode;
 import org.exbin.xbup.core.parser.XBProcessingException;
 import org.exbin.xbup.core.parser.basic.XBFilter;
@@ -29,7 +30,7 @@ import org.exbin.xbup.core.parser.token.XBAttribute;
  *
  * This filter doesn't change data which are passing thru.
  *
- * @version 0.1.25 2015/02/06
+ * @version 0.2.1 2017/05/12
  * @author ExBin Project (http://exbin.org)
  */
 public class XBDefaultFilter implements XBFilter, XBListener {
@@ -37,17 +38,17 @@ public class XBDefaultFilter implements XBFilter, XBListener {
     private XBListener listener = null;
 
     @Override
-    public void beginXB(XBBlockTerminationMode terminationMode) throws XBProcessingException, IOException {
+    public void beginXB(@Nonnull XBBlockTerminationMode terminationMode) throws XBProcessingException, IOException {
         listener.beginXB(terminationMode);
     }
 
     @Override
-    public void attribXB(XBAttribute value) throws XBProcessingException, IOException {
+    public void attribXB(@Nonnull XBAttribute value) throws XBProcessingException, IOException {
         listener.attribXB(value);
     }
 
     @Override
-    public void dataXB(InputStream data) throws XBProcessingException, IOException {
+    public void dataXB(@Nonnull InputStream data) throws XBProcessingException, IOException {
         listener.dataXB(data);
     }
 
@@ -57,7 +58,7 @@ public class XBDefaultFilter implements XBFilter, XBListener {
     }
 
     @Override
-    public void attachXBListener(XBListener listener) {
+    public void attachXBListener(@Nonnull XBListener listener) {
         this.listener = listener;
     }
 }

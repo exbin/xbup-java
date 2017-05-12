@@ -18,6 +18,7 @@ package org.exbin.xbup.core.parser.basic;
 
 import java.io.IOException;
 import java.io.InputStream;
+import javax.annotation.Nonnull;
 import org.exbin.xbup.core.block.XBBlockTerminationMode;
 import org.exbin.xbup.core.parser.XBProcessingException;
 import org.exbin.xbup.core.parser.token.XBAttribute;
@@ -28,7 +29,7 @@ import org.exbin.xbup.core.stream.XBInput;
  *
  * Execution is sender side controlled (push).
  *
- * @version 0.1.25 2015/02/13
+ * @version 0.2.1 2017/05/12
  * @author ExBin Project (http://exbin.org)
  */
 public interface XBListener extends XBInput {
@@ -40,16 +41,16 @@ public interface XBListener extends XBInput {
      * @throws XBProcessingException if processing error
      * @throws IOException if input/output error
      */
-    public void beginXB(XBBlockTerminationMode terminationMode) throws XBProcessingException, IOException;
+    void beginXB(@Nonnull XBBlockTerminationMode terminationMode) throws XBProcessingException, IOException;
 
     /**
      * Reports block attribute.
      *
      * @param attribute given attribute
-     * @throws XBProcessingException if processing error if unable to parse attribute value
+     * @throws XBProcessingException if processing error
      * @throws IOException if input/output error
      */
-    public void attribXB(XBAttribute attribute) throws XBProcessingException, IOException;
+    void attribXB(@Nonnull XBAttribute attribute) throws XBProcessingException, IOException;
 
     /**
      * Reports block data.
@@ -60,7 +61,7 @@ public interface XBListener extends XBInput {
      * @throws XBProcessingException if processing error
      * @throws IOException if input/output error
      */
-    public void dataXB(InputStream data) throws XBProcessingException, IOException;
+    void dataXB(@Nonnull InputStream data) throws XBProcessingException, IOException;
 
     /**
      * Reports block end.
@@ -68,5 +69,5 @@ public interface XBListener extends XBInput {
      * @throws XBProcessingException if processing error
      * @throws IOException if input/output error
      */
-    public void endXB() throws XBProcessingException, IOException;
+    void endXB() throws XBProcessingException, IOException;
 }

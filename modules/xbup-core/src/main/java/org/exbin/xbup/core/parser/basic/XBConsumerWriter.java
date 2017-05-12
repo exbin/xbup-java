@@ -22,6 +22,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
+import javax.annotation.Nonnull;
 import org.exbin.xbup.core.block.XBBlockDataMode;
 import org.exbin.xbup.core.block.XBBlockTerminationMode;
 import org.exbin.xbup.core.parser.XBParseException;
@@ -47,11 +48,12 @@ import org.exbin.xbup.core.util.StreamUtils;
 /**
  * XBUP level 0 consumer writer.
  *
- * @version 0.1.25 2015/08/10
+ * @version 0.2.1 2017/05/12
  * @author ExBin Project (http://exbin.org)
  */
 public class XBConsumerWriter implements Closeable, XBConsumer {
 
+    @Nonnull
     private XBParserMode parserMode = XBParserMode.FULL;
 
     private OutputStream stream;

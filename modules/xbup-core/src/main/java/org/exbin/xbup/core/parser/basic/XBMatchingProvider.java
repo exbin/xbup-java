@@ -18,6 +18,7 @@ package org.exbin.xbup.core.parser.basic;
 
 import java.io.IOException;
 import java.io.InputStream;
+import javax.annotation.Nonnull;
 import org.exbin.xbup.core.block.XBBlockTerminationMode;
 import org.exbin.xbup.core.parser.XBProcessingException;
 import org.exbin.xbup.core.parser.token.XBAttribute;
@@ -28,7 +29,7 @@ import org.exbin.xbup.core.stream.XBOutput;
  *
  * Execution is receiver side controlled (pull).
  *
- * @version 0.1.25 2015/02/14
+ * @version 0.2.1 2017/05/12
  * @author ExBin Project (http://exbin.org)
  */
 public interface XBMatchingProvider extends XBOutput {
@@ -40,7 +41,8 @@ public interface XBMatchingProvider extends XBOutput {
      * @throws XBProcessingException if processing error
      * @throws IOException if input/output error
      */
-    public XBBlockTerminationMode matchBeginXB() throws XBProcessingException, IOException;
+    @Nonnull
+    XBBlockTerminationMode matchBeginXB() throws XBProcessingException, IOException;
 
     /**
      * Matches block begin with exact termination mode.
@@ -49,17 +51,17 @@ public interface XBMatchingProvider extends XBOutput {
      * @throws XBProcessingException if processing error
      * @throws IOException if input/output error
      */
-    public void matchBeginXB(XBBlockTerminationMode terminationMode) throws XBProcessingException, IOException;
+    void matchBeginXB(@Nonnull XBBlockTerminationMode terminationMode) throws XBProcessingException, IOException;
 
     /**
      * Matches block attribute.
      *
      * @return attribute value
-     * @throws XBProcessingException if processing error if unable to parse
-     * attribute value
+     * @throws XBProcessingException if processing error
      * @throws IOException if input/output error
      */
-    public XBAttribute matchAttribXB() throws XBProcessingException, IOException;
+    @Nonnull
+    XBAttribute matchAttribXB() throws XBProcessingException, IOException;
 
     /**
      * Matches block attribute with exact value.
@@ -69,7 +71,7 @@ public interface XBMatchingProvider extends XBOutput {
      * attribute value
      * @throws IOException if input/output error
      */
-    public void matchAttribXB(XBAttribute value) throws XBProcessingException, IOException;
+    void matchAttribXB(@Nonnull XBAttribute value) throws XBProcessingException, IOException;
 
     /**
      * Matches block data.
@@ -80,7 +82,8 @@ public interface XBMatchingProvider extends XBOutput {
      * @throws XBProcessingException if processing error
      * @throws IOException if input/output error
      */
-    public InputStream matchDataXB() throws XBProcessingException, IOException;
+    @Nonnull
+    InputStream matchDataXB() throws XBProcessingException, IOException;
 
     /**
      * Matches block data comparing it to specified data.
@@ -89,7 +92,7 @@ public interface XBMatchingProvider extends XBOutput {
      * @throws XBProcessingException if processing error
      * @throws IOException if input/output error
      */
-    public void matchDataXB(InputStream data) throws XBProcessingException, IOException;
+    void matchDataXB(@Nonnull InputStream data) throws XBProcessingException, IOException;
 
     /**
      * Matches block end.
@@ -97,5 +100,5 @@ public interface XBMatchingProvider extends XBOutput {
      * @throws XBProcessingException if processing error
      * @throws IOException if input/output error
      */
-    public void matchEndXB() throws XBProcessingException, IOException;
+    void matchEndXB() throws XBProcessingException, IOException;
 }

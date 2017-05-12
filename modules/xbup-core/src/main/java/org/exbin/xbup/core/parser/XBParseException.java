@@ -16,10 +16,12 @@
  */
 package org.exbin.xbup.core.parser;
 
+import javax.annotation.Nullable;
+
 /**
  * Exception class for XBUP protocol parsing.
  *
- * @version 0.1.24 2014/11/27
+ * @version 0.2.1 2017/05/12
  * @author ExBin Project (http://exbin.org)
  */
 public class XBParseException extends XBProcessingException {
@@ -30,38 +32,38 @@ public class XBParseException extends XBProcessingException {
         super();
     }
 
-    public XBParseException(String message) {
+    public XBParseException(@Nullable String message) {
         super(message);
     }
 
-    public XBParseException(String message, XBProcessingExceptionType errorType) {
+    public XBParseException(@Nullable String message, @Nullable XBProcessingExceptionType errorType) {
         super(message, errorType);
     }
 
-    public XBParseException(String message, long[] treePath) {
+    public XBParseException(@Nullable String message, @Nullable long[] treePath) {
         super(message, treePath);
     }
 
-    public XBParseException(String message, XBProcessingExceptionType errorType, long[] treePath) {
+    public XBParseException(@Nullable String message, @Nullable XBProcessingExceptionType errorType, @Nullable long[] treePath) {
         super(message, errorType, treePath);
     }
 
-    public XBParseException(String message, long position) {
+    public XBParseException(@Nullable String message, long position) {
         super(message);
         this.position = position;
     }
 
-    public XBParseException(String message, XBProcessingExceptionType errorType, long position) {
+    public XBParseException(@Nullable String message, @Nullable XBProcessingExceptionType errorType, long position) {
         super(message, errorType);
         this.position = position;
     }
 
-    public XBParseException(String message, long[] treePath, long position) {
+    public XBParseException(@Nullable String message, @Nullable long[] treePath, long position) {
         super(message, treePath);
         this.position = position;
     }
 
-    public XBParseException(String message, XBProcessingExceptionType errorType, long[] treePath, long position) {
+    public XBParseException(@Nullable String message, @Nullable XBProcessingExceptionType errorType, @Nullable long[] treePath, long position) {
         super(message, errorType, treePath);
         this.position = position;
     }

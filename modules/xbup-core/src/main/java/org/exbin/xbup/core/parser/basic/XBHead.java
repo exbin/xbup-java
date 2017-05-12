@@ -23,6 +23,7 @@ import java.util.Arrays;
 import java.util.logging.Handler;
 import java.util.logging.Level;
 import java.util.logging.LogRecord;
+import javax.annotation.Nonnull;
 import org.exbin.xbup.core.parser.XBParseException;
 import org.exbin.xbup.core.parser.XBProcessingException;
 import org.exbin.xbup.core.parser.XBProcessingExceptionType;
@@ -30,7 +31,7 @@ import org.exbin.xbup.core.parser.XBProcessingExceptionType;
 /**
  * XBUP document header validator/provider.
  *
- * @version 0.1.24 2014/10/04
+ * @version 0.2.1 2017/05/12
  * @author ExBin Project (http://exbin.org)
  */
 public class XBHead {
@@ -40,7 +41,7 @@ public class XBHead {
      *
      * See http://en.wikipedia.org/wiki/MIME
      */
-    public static final String MIME_XBUP = "others/x-xbup";
+    public static final String XBUP_MIME_TYPE = "others/x-xbup";
 
     /**
      * Blob header for files encoded using XBUP protocol.
@@ -53,10 +54,10 @@ public class XBHead {
      * 02 - Minor version (09 used from wr9, 11 used from wr11, 01 used till
      * wr16)<br>
      */
-    public static byte[] XB_HEADER = {-2, 0, 'X', 'B', 0, 2};
+    public static final byte[] XB_HEADER_DEVELOPMENT_VERSION = {-2, 0, 'X', 'B', 0, 2};
 
-    private static final String defaultBundle = "sun.util.logging.resources.logging";
-    public static final Level XB_DEBUG_LEVEL = new XBDebugLevel("XB_DEBUG", 658, defaultBundle);
+    private static final String DEFAULT_BUNLDE_PACKAGE = "sun.util.logging.resources.logging";
+    public static final Level XB_DEBUG_LEVEL = new XBDebugLevel("XB_DEBUG", 658, DEFAULT_BUNLDE_PACKAGE);
 
     /**
      * Writes head of XBUP file into stream.
@@ -66,8 +67,8 @@ public class XBHead {
      * @throws java.io.IOException if input/output error
      */
     public static int writeXBUPHead(OutputStream stream) throws IOException {
-        stream.write(XBHead.XB_HEADER);
-        return XBHead.XB_HEADER.length;
+        stream.write(XBHead.XB_HEADER_DEVELOPMENT_VERSION);
+        return XBHead.XB_HEADER_DEVELOPMENT_VERSION.length;
     }
 
     /**
@@ -76,7 +77,7 @@ public class XBHead {
      * @return count of bytes of XBUP file head
      */
     public static int getXBUPHeadSize() {
-        return XBHead.XB_HEADER.length;
+        return XBHead.XB_HEADER_DEVELOPMENT_VERSION.length;
     }
 
     /**
@@ -87,9 +88,9 @@ public class XBHead {
      * @throws IOException and ParseException
      * @throws XBProcessingException if header doesn't match correct format
      */
-    public static int checkXBUPHead(InputStream stream) throws IOException, XBProcessingException {
-        byte[] head = new byte[XB_HEADER.length];
-        int length = XB_HEADER.length;
+    public static int checkXBUPHead(@Nonnull InputStream stream) throws IOException, XBProcessingException {
+        byte[] head = new byte[XB_HEADER_DEVELOPMENT_VERSION.length];
+        int length = XB_HEADER_DEVELOPMENT_VERSION.length;
         int offset = 0;
         int redByte = 0;
         while (redByte < length) {
@@ -102,7 +103,7 @@ public class XBHead {
             length -= redByte;
         }
 
-        if (!Arrays.equals(XB_HEADER, head)) {
+        if (!Arrays.equals(XB_HEADER_DEVELOPMENT_VERSION, head)) {
             String header = "";
             for (int i = 0; i < head.length; i++) {
                 header += Integer.toString((head[i] & 0xff) + 0x100, 16).substring(1);
@@ -111,7 +112,7 @@ public class XBHead {
             throw new XBParseException("Unsupported header: 0x" + header, XBProcessingExceptionType.CORRUPTED_HEADER);
         }
 
-        return XB_HEADER.length;
+        return XB_HEADER_DEVELOPMENT_VERSION.length;
     }
 
     private static class XBDebugLevel extends Level {

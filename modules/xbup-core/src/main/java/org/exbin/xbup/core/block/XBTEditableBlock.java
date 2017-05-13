@@ -26,7 +26,7 @@ import org.exbin.xbup.core.parser.token.XBAttribute;
 /**
  * Interface for editable XBUP level 1 block.
  *
- * @version 0.2.1 2017/05/10
+ * @version 0.2.1 2017/05/13
  * @author ExBin Project (http://exbin.org)
  */
 public interface XBTEditableBlock extends XBTBlock {
@@ -57,7 +57,7 @@ public interface XBTEditableBlock extends XBTBlock {
      *
      * @param attributes array of attributes
      */
-    void setAttributes(@Nonnull XBAttribute[] attributes);
+    void setAttributes(@Nullable XBAttribute[] attributes);
 
     /**
      * Sets attribute of given index.
@@ -98,7 +98,7 @@ public interface XBTEditableBlock extends XBTBlock {
      *
      * @param blocks array of blocks
      */
-    void setChildren(@Nonnull XBTBlock[] blocks);
+    void setChildren(@Nullable XBTBlock[] blocks);
 
     /**
      * This method instantiates new child node.
@@ -141,14 +141,14 @@ public interface XBTEditableBlock extends XBTBlock {
      * @param data data stream
      * @throws java.io.IOException if input/output error
      */
-    void setData(@Nonnull InputStream data) throws IOException;
+    void setData(@Nullable InputStream data) throws IOException;
 
     /**
      * Sets block data.
      *
      * @param data data stream
      */
-    void setData(@Nonnull BinaryData data);
+    void setData(@Nullable BinaryData data);
 
     /**
      * Clears all data, attributes and child blocks.

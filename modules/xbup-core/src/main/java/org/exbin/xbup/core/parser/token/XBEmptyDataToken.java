@@ -17,15 +17,18 @@
 package org.exbin.xbup.core.parser.token;
 
 import java.io.ByteArrayInputStream;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 /**
  * XBUP protocol level 0 empty data token.
  *
- * @version 0.1.24 2015/01/04
+ * @version 0.2.1 2017/05/14
  * @author ExBin Project (http://exbin.org)
  */
 public class XBEmptyDataToken extends XBDataToken {
 
+    @Nullable
     private static XBEmptyDataToken cachedEmptyToken = null;
 
     public XBEmptyDataToken() {
@@ -37,6 +40,7 @@ public class XBEmptyDataToken extends XBDataToken {
         return true;
     }
 
+    @Nonnull
     public static XBEmptyDataToken getEmptyToken() {
         if (cachedEmptyToken == null) {
             cachedEmptyToken = new XBEmptyDataToken();

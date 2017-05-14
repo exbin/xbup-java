@@ -16,6 +16,7 @@
  */
 package org.exbin.xbup.core.parser.token;
 
+import javax.annotation.Nonnull;
 import org.exbin.xbup.core.block.XBBlockTerminationMode;
 
 /**
@@ -24,22 +25,25 @@ import org.exbin.xbup.core.block.XBBlockTerminationMode;
  * Class marks beggining of block. Terminated flag carry information about
  * method for block termination type in bitstream.
  *
- * @version 0.1.23 2014/02/01
+ * @version 0.2.1 2017/05/14
  * @author ExBin Project (http://exbin.org)
  */
 public class XBBeginToken extends XBToken {
 
+    @Nonnull
     private final XBBlockTerminationMode terminationMode;
 
     public XBBeginToken(XBBlockTerminationMode terminationMode) {
         this.terminationMode = terminationMode;
     }
 
+    @Nonnull
     public XBBlockTerminationMode getTerminationMode() {
         return terminationMode;
     }
 
     @Override
+    @Nonnull
     public XBTokenType getTokenType() {
         return XBTokenType.BEGIN;
     }

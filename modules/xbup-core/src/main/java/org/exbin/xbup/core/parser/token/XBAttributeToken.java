@@ -16,22 +16,26 @@
  */
 package org.exbin.xbup.core.parser.token;
 
+import javax.annotation.Nonnull;
+
 /**
  * XBUP protocol level 0 attribute token.
  *
  * This class carry single UBNatural value.
  *
- * @version 0.1.24 2015/02/09
+ * @version 0.2.1 2017/05/14
  * @author ExBin Project (http://exbin.org)
  */
 public class XBAttributeToken extends XBToken {
 
+    @Nonnull
     private final XBAttribute attribute;
 
-    public XBAttributeToken(XBAttribute attribute) {
+    public XBAttributeToken(@Nonnull XBAttribute attribute) {
         this.attribute = attribute;
     }
 
+    @Nonnull
     public XBAttribute getAttribute() {
         return attribute;
     }
@@ -46,6 +50,7 @@ public class XBAttributeToken extends XBToken {
     }
 
     @Override
+    @Nonnull
     public XBTokenType getTokenType() {
         return XBTokenType.ATTRIBUTE;
     }

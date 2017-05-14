@@ -16,6 +16,7 @@
  */
 package org.exbin.xbup.core.parser.token;
 
+import javax.annotation.Nonnull;
 import org.exbin.xbup.core.ubnumber.type.UBNat32;
 
 /**
@@ -23,7 +24,7 @@ import org.exbin.xbup.core.ubnumber.type.UBNat32;
  *
  * This class carry single UBNatural with zero value.
  *
- * @version 0.1.24 2015/01/05
+ * @version 0.2.1 2017/05/14
  * @author ExBin Project (http://exbin.org)
  */
 public class XBTZeroAttributeToken extends XBTAttributeToken {
@@ -39,6 +40,7 @@ public class XBTZeroAttributeToken extends XBTAttributeToken {
         return super.isZero();
     }
 
+    @Nonnull
     public static XBTZeroAttributeToken getZeroToken() {
         if (cachedZeroToken == null) {
             cachedZeroToken = new XBTZeroAttributeToken();

@@ -16,6 +16,7 @@
  */
 package org.exbin.xbup.core.block.definition;
 
+import javax.annotation.Nullable;
 import org.exbin.xbup.core.block.declaration.XBBlockDecl;
 import org.exbin.xbup.core.serial.XBSerializable;
 
@@ -26,7 +27,7 @@ import org.exbin.xbup.core.serial.XBSerializable;
  * Without declaration (blockDecl) it means single attribute for join and data
  * block for consist mode and their lists respectively.
  *
- * @version 0.1.25 2015/02/02
+ * @version 0.2.1 2017/05/15
  * @author ExBin Project (http://exbin.org)
  */
 public interface XBBlockParam extends XBSpecParam, XBSerializable {
@@ -36,5 +37,6 @@ public interface XBBlockParam extends XBSpecParam, XBSerializable {
      *
      * @return block declaration
      */
-    public XBBlockDecl getBlockDecl();
+    @Nullable
+    XBBlockDecl getBlockDecl();
 }

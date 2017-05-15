@@ -19,7 +19,7 @@ package org.exbin.xbup.core.parser.token.pull;
 /**
  * XBUP protocol level 0 pull filter.
  *
- * @version 0.1.23 2013/11/22
+ * @version 0.2.1 2017/05/15
  * @author ExBin Project (http://exbin.org)
  */
 public interface XBPullFilter extends XBPullConsumer, XBPullProvider {

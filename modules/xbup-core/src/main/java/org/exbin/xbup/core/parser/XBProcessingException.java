@@ -16,17 +16,18 @@
  */
 package org.exbin.xbup.core.parser;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 /**
  * Exception class for XBUP protocol processing.
  *
- * @version 0.2.1 2017/05/12
+ * @version 0.2.1 2017/05/15
  * @author ExBin Project (http://exbin.org)
  */
 public class XBProcessingException extends RuntimeException {
 
-    @Nullable
+    @Nonnull
     private XBProcessingExceptionType errorType = XBProcessingExceptionType.UNKNOWN;
     @Nullable
     private long[] treePath = null;
@@ -39,7 +40,7 @@ public class XBProcessingException extends RuntimeException {
         super(message);
     }
 
-    public XBProcessingException(@Nullable String message, @Nullable XBProcessingExceptionType errorType) {
+    public XBProcessingException(@Nullable String message, @Nonnull XBProcessingExceptionType errorType) {
         this(message);
         this.errorType = errorType;
     }
@@ -49,13 +50,17 @@ public class XBProcessingException extends RuntimeException {
         this.treePath = treePath;
     }
 
-    public XBProcessingException(String message, XBProcessingExceptionType errorType, long[] treePath) {
+    public XBProcessingException(@Nullable String message, @Nonnull XBProcessingExceptionType errorType, @Nullable long[] treePath) {
         this(message, errorType);
         this.treePath = treePath;
     }
 
     @Override
-    public boolean equals(Object obj) {
+    public boolean equals(@Nullable Object obj) {
+        if (obj == null) {
+            return false;
+        }
+
         if (obj instanceof XBProcessingException) {
             return (getMessage().equals(((XBProcessingException) obj).getMessage()) && (errorType == ((XBProcessingException) obj).getErrorType()));
         }
@@ -70,11 +75,13 @@ public class XBProcessingException extends RuntimeException {
         return hash;
     }
 
-    public @Nullable XBProcessingExceptionType getErrorType() {
+    @Nonnull
+    public XBProcessingExceptionType getErrorType() {
         return errorType;
     }
 
-    public @Nullable long[] getTreePath() {
+    @Nullable
+    public long[] getTreePath() {
         return treePath;
     }
 }

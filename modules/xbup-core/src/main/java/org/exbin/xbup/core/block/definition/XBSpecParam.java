@@ -16,10 +16,12 @@
  */
 package org.exbin.xbup.core.block.definition;
 
+import javax.annotation.Nonnull;
+
 /**
  * XBUP parameter definition interface.
  *
- * @version 0.1.24 2014/12/06
+ * @version 0.2.1 2017/05/15
  * @author ExBin Project (http://exbin.org)
  */
 public interface XBSpecParam {
@@ -29,5 +31,6 @@ public interface XBSpecParam {
      *
      * @return type of this parameter
      */
-    public XBParamType getParamType();
+    @Nonnull
+    XBParamType getParamType();
 }

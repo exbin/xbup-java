@@ -17,11 +17,12 @@
 package org.exbin.xbup.core.block.definition;
 
 import java.util.List;
+import javax.annotation.Nullable;
 
 /**
  * XBUP level 1 revision definition interface.
  *
- * @version 0.1.24 2014/12/07
+ * @version 0.2.1 2017/05/15
  * @author ExBin Project (http://exbin.org)
  */
 public interface XBRevisionDef {
@@ -31,7 +32,8 @@ public interface XBRevisionDef {
      *
      * @return list of revision parameters
      */
-    public List<XBRevisionParam> getRevParams();
+    @Nullable
+    List<XBRevisionParam> getRevParams();
 
     /**
      * Returns revision group limit for given revision.
@@ -39,5 +41,5 @@ public interface XBRevisionDef {
      * @param revision revision index
      * @return group count
      */
-    public int getRevisionLimit(long revision);
+    int getRevisionLimit(long revision);
 }

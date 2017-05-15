@@ -16,12 +16,13 @@
  */
 package org.exbin.xbup.core.parser.token.pull;
 
+import javax.annotation.Nonnull;
 import org.exbin.xbup.core.stream.XBInput;
 
 /**
  * XBUP level 1 pull consumer.
  *
- * @version 0.1.25 2015/02/13
+ * @version 0.2.1 2017/05/15
  * @author ExBin Project (http://exbin.org)
  */
 public interface XBTPullConsumer extends XBInput {
@@ -31,5 +32,5 @@ public interface XBTPullConsumer extends XBInput {
      *
      * @param pullProvider token provider
      */
-    public void attachXBTPullProvider(XBTPullProvider pullProvider);
+    void attachXBTPullProvider(@Nonnull XBTPullProvider pullProvider);
 }

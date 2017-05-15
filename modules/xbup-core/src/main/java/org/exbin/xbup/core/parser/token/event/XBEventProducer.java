@@ -16,12 +16,13 @@
  */
 package org.exbin.xbup.core.parser.token.event;
 
+import javax.annotation.Nonnull;
 import org.exbin.xbup.core.stream.XBOutput;
 
 /**
  * XBUP level 0 event producer.
  *
- * @version 0.1.25 2015/02/13
+ * @version 0.2.1 2017/05/15
  * @author ExBin Project (http://exbin.org)
  */
 public interface XBEventProducer extends XBOutput {
@@ -31,5 +32,5 @@ public interface XBEventProducer extends XBOutput {
      *
      * @param eventListener listener to be used for events
      */
-    public void attachXBEventListener(XBEventListener eventListener);
+    void attachXBEventListener(@Nonnull XBEventListener eventListener);
 }

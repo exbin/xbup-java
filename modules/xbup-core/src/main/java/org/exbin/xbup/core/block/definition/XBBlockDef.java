@@ -17,12 +17,13 @@
 package org.exbin.xbup.core.block.definition;
 
 import java.util.List;
+import javax.annotation.Nullable;
 import org.exbin.xbup.core.serial.XBSerializable;
 
 /**
  * XBUP level 1 block definition interface.
  *
- * @version 0.1.25 2015/02/20
+ * @version 0.2.1 2017/05/15
  * @author ExBin Project (http://exbin.org)
  */
 public interface XBBlockDef extends XBSerializable {
@@ -32,7 +33,7 @@ public interface XBBlockDef extends XBSerializable {
      *
      * @return count of declarations
      */
-    public long getParamsCount();
+    long getParamsCount();
 
     /**
      * Returns block parameter of given index.
@@ -40,19 +41,22 @@ public interface XBBlockDef extends XBSerializable {
      * @param paramIndex parameter index
      * @return block parameter
      */
-    public XBBlockParam getBlockParam(int paramIndex);
+    @Nullable
+    XBBlockParam getBlockParam(int paramIndex);
 
     /**
      * Gets list of parameters in order of appearance.
      *
      * @return list of parameters
      */
-    public List<XBBlockParam> getBlockParams();
+    @Nullable
+    List<XBBlockParam> getBlockParams();
 
     /**
      * Gets revision definition.
      *
      * @return revision definition
      */
-    public XBRevisionDef getRevisionDef();
+    @Nullable
+    XBRevisionDef getRevisionDef();
 }

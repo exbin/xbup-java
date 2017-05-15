@@ -17,12 +17,13 @@
 package org.exbin.xbup.core.block.definition;
 
 import java.util.List;
+import javax.annotation.Nullable;
 import org.exbin.xbup.core.serial.XBSerializable;
 
 /**
  * XBUP level 1 group definition interface.
  *
- * @version 0.1.25 2015/02/20
+ * @version 0.2.1 2017/05/15
  * @author ExBin Project (http://exbin.org)
  */
 public interface XBGroupDef extends XBSerializable {
@@ -32,7 +33,7 @@ public interface XBGroupDef extends XBSerializable {
      *
      * @return count of group parameters
      */
-    public long getParamsCount();
+    long getParamsCount();
 
     /**
      * Returns group parameter of given index.
@@ -40,19 +41,22 @@ public interface XBGroupDef extends XBSerializable {
      * @param paramIndex parameter index
      * @return group parameter
      */
-    public XBGroupParam getGroupParam(int paramIndex);
+    @Nullable
+    XBGroupParam getGroupParam(int paramIndex);
 
     /**
      * Gets list of group parameters.
      *
      * @return list of group parameters
      */
-    public List<XBGroupParam> getGroupParams();
+    @Nullable
+    List<XBGroupParam> getGroupParams();
 
     /**
      * Gets revision definition.
      *
      * @return revision definition
      */
-    public XBRevisionDef getRevisionDef();
+    @Nullable
+    XBRevisionDef getRevisionDef();
 }

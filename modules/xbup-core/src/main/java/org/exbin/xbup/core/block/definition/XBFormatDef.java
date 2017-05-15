@@ -17,12 +17,13 @@
 package org.exbin.xbup.core.block.definition;
 
 import java.util.List;
+import javax.annotation.Nullable;
 import org.exbin.xbup.core.serial.XBSerializable;
 
 /**
  * XBUP level 1 format definition interface.
  *
- * @version 0.1.25 2015/02/20
+ * @version 0.2.1 2017/05/15
  * @author ExBin Project (http://exbin.org)
  */
 public interface XBFormatDef extends XBSerializable {
@@ -32,21 +33,23 @@ public interface XBFormatDef extends XBSerializable {
      *
      * @return count of parameters
      */
-    public long getParamsCount();
+    long getParamsCount();
 
     /**
      * Gets list of format parameters.
      *
      * @return list of format parameters
      */
-    public List<XBFormatParam> getFormatParams();
+    @Nullable
+    List<XBFormatParam> getFormatParams();
 
     /**
      * Returns revision definition.
      *
      * @return revision definition
      */
-    public XBRevisionDef getRevisionDef();
+    @Nullable
+    XBRevisionDef getRevisionDef();
 
     /**
      * Returns format parameter of given index.
@@ -54,5 +57,6 @@ public interface XBFormatDef extends XBSerializable {
      * @param paramIndex parameter index
      * @return format parameter
      */
-    public XBFormatParam getFormatParam(int paramIndex);
+    @Nullable
+    XBFormatParam getFormatParam(int paramIndex);
 }

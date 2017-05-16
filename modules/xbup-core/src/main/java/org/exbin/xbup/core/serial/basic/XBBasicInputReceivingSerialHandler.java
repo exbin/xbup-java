@@ -16,13 +16,14 @@
  */
 package org.exbin.xbup.core.serial.basic;
 
+import javax.annotation.Nonnull;
 import org.exbin.xbup.core.parser.basic.XBListener;
 import org.exbin.xbup.core.serial.XBInputSerialHandler;
 
 /**
  * Interface for XBUP level 0 serialization input handler using basic parser.
  *
- * @version 0.1.25 2015/02/04
+ * @version 0.2.1 2017/05/16
  * @author ExBin Project (http://exbin.org)
  */
 public interface XBBasicInputReceivingSerialHandler extends XBInputSerialHandler {
@@ -32,5 +33,5 @@ public interface XBBasicInputReceivingSerialHandler extends XBInputSerialHandler
      *
      * @param listener listener
      */
-    public void process(XBListener listener);
+    void process(@Nonnull XBListener listener);
 }

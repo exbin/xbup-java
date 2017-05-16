@@ -17,6 +17,7 @@
 package org.exbin.xbup.core.serial.basic;
 
 import java.io.IOException;
+import javax.annotation.Nonnull;
 import org.exbin.xbup.core.parser.XBProcessingException;
 import org.exbin.xbup.core.serial.XBSerializable;
 
@@ -25,7 +26,7 @@ import org.exbin.xbup.core.serial.XBSerializable;
  * XBUP level 1 protocol using basic parser in reversed receiving stream
  * control.
  *
- * @version 0.1.25 2015/02/04
+ * @version 0.2.1 2017/05/16
  * @author ExBin Project (http://exbin.org)
  */
 public interface XBTBasicReceivingSerializable extends XBSerializable {
@@ -37,7 +38,7 @@ public interface XBTBasicReceivingSerializable extends XBSerializable {
      * @throws XBProcessingException if proccesing problem encountered
      * @throws IOException if input/output problem encountered
      */
-    public void serializeRecvFromXB(XBTBasicInputReceivingSerialHandler serializationHandler) throws XBProcessingException, IOException;
+    void serializeRecvFromXB(@Nonnull XBTBasicInputReceivingSerialHandler serializationHandler) throws XBProcessingException, IOException;
 
     /**
      * Performs serialization to XBUP protocol.
@@ -46,5 +47,5 @@ public interface XBTBasicReceivingSerializable extends XBSerializable {
      * @throws XBProcessingException if proccesing problem encountered
      * @throws IOException if input/output problem encountered
      */
-    public void serializeRecvToXB(XBTBasicOutputReceivingSerialHandler serializationHandler) throws XBProcessingException, IOException;
+    void serializeRecvToXB(@Nonnull XBTBasicOutputReceivingSerialHandler serializationHandler) throws XBProcessingException, IOException;
 }

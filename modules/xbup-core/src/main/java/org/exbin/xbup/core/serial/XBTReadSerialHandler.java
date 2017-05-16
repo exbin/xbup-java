@@ -16,10 +16,12 @@
  */
 package org.exbin.xbup.core.serial;
 
+import javax.annotation.Nonnull;
+
 /**
  * Interface for XBUP level 1 serialization reading processor.
  *
- * @version 0.1.24 2015/01/18
+ * @version 0.2.1 2017/05/16
  * @author ExBin Project (http://exbin.org)
  */
 public interface XBTReadSerialHandler {
@@ -29,5 +31,5 @@ public interface XBTReadSerialHandler {
      *
      * @param serial serializable object to process
      */
-    public void read(XBSerializable serial);
+    void read(@Nonnull XBSerializable serial);
 }

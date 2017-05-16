@@ -19,7 +19,7 @@ package org.exbin.xbup.core.serial.basic;
 /**
  * Simple interface to test if serialization is finished.
  *
- * @version 0.1.25 2015/02/04
+ * @version 0.2.1 2017/05/16
  * @author ExBin Project (http://exbin.org)
  */
 public interface XBReceivingFinished {
@@ -29,5 +29,5 @@ public interface XBReceivingFinished {
      *
      * @return true if finished
      */
-    public boolean isFinished();
+    boolean isFinished();
 }

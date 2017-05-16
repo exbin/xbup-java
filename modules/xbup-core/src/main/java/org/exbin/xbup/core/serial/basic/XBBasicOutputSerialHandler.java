@@ -16,13 +16,14 @@
  */
 package org.exbin.xbup.core.serial.basic;
 
+import javax.annotation.Nonnull;
 import org.exbin.xbup.core.parser.basic.XBProducer;
 import org.exbin.xbup.core.serial.XBOutputSerialHandler;
 
 /**
  * Interface for XBUP level 0 serialization output handler using basic parser.
  *
- * @version 0.1.25 2015/02/04
+ * @version 0.2.1 2017/05/16
  * @author ExBin Project (http://exbin.org)
  */
 public interface XBBasicOutputSerialHandler extends XBOutputSerialHandler {
@@ -32,5 +33,5 @@ public interface XBBasicOutputSerialHandler extends XBOutputSerialHandler {
      *
      * @param producer producer
      */
-    public void process(XBProducer producer);
+    void process(@Nonnull XBProducer producer);
 }

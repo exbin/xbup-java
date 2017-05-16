@@ -16,28 +16,35 @@
  */
 package org.exbin.xbup.core.serial.basic;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import org.exbin.xbup.core.parser.basic.XBConsumer;
 import org.exbin.xbup.core.parser.basic.XBProvider;
 
 /**
  * XBUP level 0 serialization handler using basic parser mapping to provider.
  *
- * @version 0.1.25 2015/02/04
+ * @version 0.2.1 2017/05/16
  * @author ExBin Project (http://exbin.org)
  */
 public class XBProviderSerialHandler implements XBBasicInputSerialHandler {
 
+    @Nullable
     private XBProvider provider = null;
 
     public XBProviderSerialHandler() {
     }
 
-    public void attachXBProvider(XBProvider provider) {
+    public void attachXBProvider(@Nonnull XBProvider provider) {
         this.provider = provider;
     }
 
     @Override
-    public void process(XBConsumer consumer) {
+    public void process(@Nonnull XBConsumer consumer) {
+        if (provider == null) {
+            throw new UnsupportedOperationException("Not supported yet.");
+        }
+
         consumer.attachXBProvider(provider);
     }
 }

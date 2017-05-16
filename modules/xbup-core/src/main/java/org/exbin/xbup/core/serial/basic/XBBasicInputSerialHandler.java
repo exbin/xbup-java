@@ -16,13 +16,14 @@
  */
 package org.exbin.xbup.core.serial.basic;
 
+import javax.annotation.Nonnull;
 import org.exbin.xbup.core.parser.basic.XBConsumer;
 import org.exbin.xbup.core.serial.XBInputSerialHandler;
 
 /**
  * Interface for XBUP level 0 serialization input handler using basic parser.
  *
- * @version 0.1.25 2015/02/04
+ * @version 0.2.1 2017/05/16
  * @author ExBin Project (http://exbin.org)
  */
 public interface XBBasicInputSerialHandler extends XBInputSerialHandler {
@@ -32,5 +33,5 @@ public interface XBBasicInputSerialHandler extends XBInputSerialHandler {
      *
      * @param consumer consumer
      */
-    public void process(XBConsumer consumer);
+    void process(@Nonnull XBConsumer consumer);
 }

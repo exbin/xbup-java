@@ -16,28 +16,35 @@
  */
 package org.exbin.xbup.core.serial.basic;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import org.exbin.xbup.core.parser.basic.XBListener;
 import org.exbin.xbup.core.parser.basic.XBProducer;
 
 /**
  * XBUP level 0 serialization handler using basic parser mapping to listener.
  *
- * @version 0.1.25 2015/02/04
+ * @version 0.2.1 2017/05/16
  * @author ExBin Project (http://exbin.org)
  */
 public class XBListenerSerialHandler implements XBBasicOutputSerialHandler {
 
+    @Nullable
     private XBListener listener;
 
     public XBListenerSerialHandler() {
     }
 
-    public void attachXBListener(XBListener listener) {
+    public void attachXBListener(@Nonnull XBListener listener) {
         this.listener = listener;
     }
 
     @Override
-    public void process(XBProducer producer) {
+    public void process(@Nonnull XBProducer producer) {
+        if (listener == null) {
+            throw new UnsupportedOperationException("Not supported yet.");
+        }
+
         producer.attachXBListener(listener);
     }
 }

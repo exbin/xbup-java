@@ -17,12 +17,13 @@
 package org.exbin.xbup.core.serial;
 
 import java.io.IOException;
+import javax.annotation.Nonnull;
 import org.exbin.xbup.core.parser.XBProcessingException;
 
 /**
  * Interface for XBUP level 1 serialization reading processor.
  *
- * @version 0.1.25 2015/06/29
+ * @version 0.2.1 2017/05/17
  * @author ExBin Project (http://exbin.org)
  */
 public interface XBPReadSerialHandler {
@@ -33,5 +34,5 @@ public interface XBPReadSerialHandler {
      * @param serial serializable object to process
      * @throws java.io.IOException if input/output error
      */
-    public void read(XBSerializable serial) throws XBProcessingException, IOException;
+    void read(@Nonnull XBSerializable serial) throws XBProcessingException, IOException;
 }

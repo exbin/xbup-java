@@ -16,10 +16,12 @@
  */
 package org.exbin.xbup.core.stream;
 
+import javax.annotation.Nonnull;
+
 /**
  * Interface for method adding support for stream finishing detection.
  *
- * @version 0.1.25 2015/02/14
+ * @version 0.2.1 2017/05/17
  * @author ExBin Project (http://exbin.org)
  */
 public interface XBFinishedStreamMethod {
@@ -29,5 +31,6 @@ public interface XBFinishedStreamMethod {
      *
      * @return stream finished handler
      */
-    public XBFinishedStream getFinishedStreamXB();
+    @Nonnull
+    XBFinishedStream getFinishedStreamXB();
 }

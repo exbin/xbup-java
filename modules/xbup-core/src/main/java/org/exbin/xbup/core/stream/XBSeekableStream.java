@@ -21,7 +21,7 @@ import java.io.IOException;
 /**
  * Interface for stream with seekable tokens.
  *
- * @version 0.1.25 2015/02/14
+ * @version 0.2.1 2017/05/17
  * @author ExBin Project (http://exbin.org)
  */
 public interface XBSeekableStream {
@@ -32,19 +32,19 @@ public interface XBSeekableStream {
      * @param position target position
      * @throws IOException if input/output error
      */
-    public void seekXB(long position) throws IOException;
+    void seekXB(long position) throws IOException;
 
     /**
      * Returns current position in stream.
      *
      * @return current position in stream, -1 if unable to determine
      */
-    public long getPositionXB();
+    long getPositionXB();
 
     /**
      * Returns length of stream.
      *
      * @return length of stream in bytes, -1 if unable to determine
      */
-    public long getStreamSizeXB();
+    long getStreamSizeXB();
 }

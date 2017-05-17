@@ -18,6 +18,7 @@ package org.exbin.xbup.core.serial.child;
 
 import java.io.IOException;
 import java.io.InputStream;
+import javax.annotation.Nonnull;
 import org.exbin.xbup.core.block.XBBlockTerminationMode;
 import org.exbin.xbup.core.block.XBBlockType;
 import org.exbin.xbup.core.parser.XBProcessingException;
@@ -27,7 +28,7 @@ import org.exbin.xbup.core.serial.XBSerializable;
 /**
  * XBUP level 1 child serialization provider interface.
  *
- * @version 0.1.24 2014/12/03
+ * @version 0.2.1 2017/05/17
  * @author ExBin Project (http://exbin.org)
  */
 public interface XBTChildProvider {
@@ -39,7 +40,8 @@ public interface XBTChildProvider {
      * @throws XBProcessingException if not matching
      * @throws IOException if input/output exception occurs
      */
-    public XBBlockTerminationMode pullBegin() throws XBProcessingException, IOException;
+    @Nonnull
+    XBBlockTerminationMode pullBegin() throws XBProcessingException, IOException;
 
     /**
      * Pulls block type.
@@ -48,7 +50,8 @@ public interface XBTChildProvider {
      * @throws XBProcessingException if not matching
      * @throws IOException if input/output exception occurs
      */
-    public XBBlockType pullType() throws XBProcessingException, IOException;
+    @Nonnull
+    XBBlockType pullType() throws XBProcessingException, IOException;
 
     /**
      * Pulls block attribute.
@@ -57,7 +60,8 @@ public interface XBTChildProvider {
      * @throws XBProcessingException if not matching
      * @throws IOException if input/output exception occurs
      */
-    public XBAttribute pullAttribute() throws XBProcessingException, IOException;
+    @Nonnull
+    XBAttribute pullAttribute() throws XBProcessingException, IOException;
 
     /**
      * Pulls block attribute.
@@ -66,7 +70,7 @@ public interface XBTChildProvider {
      * @throws XBProcessingException if not matching
      * @throws IOException if input/output exception occurs
      */
-    public byte pullByteAttribute() throws XBProcessingException, IOException;
+    byte pullByteAttribute() throws XBProcessingException, IOException;
 
     /**
      * Pulls block attribute.
@@ -75,7 +79,7 @@ public interface XBTChildProvider {
      * @throws XBProcessingException if not matching
      * @throws IOException if input/output exception occurs
      */
-    public short pullShortAttribute() throws XBProcessingException, IOException;
+    short pullShortAttribute() throws XBProcessingException, IOException;
 
     /**
      * Pulls block attribute.
@@ -84,7 +88,7 @@ public interface XBTChildProvider {
      * @throws XBProcessingException if not matching
      * @throws IOException if input/output exception occurs
      */
-    public int pullIntAttribute() throws XBProcessingException, IOException;
+    int pullIntAttribute() throws XBProcessingException, IOException;
 
     /**
      * Pulls block attribute.
@@ -93,7 +97,7 @@ public interface XBTChildProvider {
      * @throws XBProcessingException if not matching
      * @throws IOException if input/output exception occurs
      */
-    public long pullLongAttribute() throws XBProcessingException, IOException;
+    long pullLongAttribute() throws XBProcessingException, IOException;
 
     /**
      * Pulls block child.
@@ -102,7 +106,7 @@ public interface XBTChildProvider {
      * @throws XBProcessingException if not matching
      * @throws IOException if input/output exception occurs
      */
-    public void pullChild(XBSerializable child) throws XBProcessingException, IOException;
+    void pullChild(@Nonnull XBSerializable child) throws XBProcessingException, IOException;
 
     /**
      * Pulls serializable object appending all tokens.
@@ -111,7 +115,7 @@ public interface XBTChildProvider {
      * @throws XBProcessingException if not matching
      * @throws IOException if input/output exception occurs
      */
-    public void pullAppend(XBSerializable serial) throws XBProcessingException, IOException;
+    void pullAppend(@Nonnull XBSerializable serial) throws XBProcessingException, IOException;
 
     /**
      * Pulls block data.
@@ -120,7 +124,8 @@ public interface XBTChildProvider {
      * @throws XBProcessingException if not matching
      * @throws IOException if input/output exception occurs
      */
-    public InputStream pullData() throws XBProcessingException, IOException;
+    @Nonnull
+    InputStream pullData() throws XBProcessingException, IOException;
 
     /**
      * Pulls end of block.
@@ -128,5 +133,5 @@ public interface XBTChildProvider {
      * @throws XBProcessingException if not matching
      * @throws IOException if input/output exception occurs
      */
-    public void pullEnd() throws XBProcessingException, IOException;
+    void pullEnd() throws XBProcessingException, IOException;
 }

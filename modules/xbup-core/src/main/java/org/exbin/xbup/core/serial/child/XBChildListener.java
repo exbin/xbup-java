@@ -18,6 +18,7 @@ package org.exbin.xbup.core.serial.child;
 
 import java.io.IOException;
 import java.io.InputStream;
+import javax.annotation.Nonnull;
 import org.exbin.xbup.core.block.XBBlockTerminationMode;
 import org.exbin.xbup.core.parser.XBProcessingException;
 import org.exbin.xbup.core.serial.XBSerializable;
@@ -26,7 +27,7 @@ import org.exbin.xbup.core.ubnumber.UBNatural;
 /**
  * XBUP level 0 child serialization listener interface.
  *
- * @version 0.1.24 2014/08/23
+ * @version 0.2.1 2017/05/17
  * @author ExBin Project (http://exbin.org)
  */
 public interface XBChildListener {
@@ -38,7 +39,7 @@ public interface XBChildListener {
      * @throws XBProcessingException if processing error
      * @throws java.io.IOException if input/output error
      */
-    public void begin(XBBlockTerminationMode terminationMode) throws XBProcessingException, IOException;
+    void begin(@Nonnull XBBlockTerminationMode terminationMode) throws XBProcessingException, IOException;
 
     /**
      * Puts block's attribute.
@@ -47,7 +48,7 @@ public interface XBChildListener {
      * @throws XBProcessingException if processing error
      * @throws java.io.IOException if input/output error
      */
-    public void addAttribute(UBNatural attribute) throws XBProcessingException, IOException;
+    void addAttribute(@Nonnull UBNatural attribute) throws XBProcessingException, IOException;
 
     /**
      * Puts block's child.
@@ -56,7 +57,7 @@ public interface XBChildListener {
      * @throws XBProcessingException if processing error
      * @throws java.io.IOException if input/output error
      */
-    public void addChild(XBSerializable child) throws XBProcessingException, IOException;
+    void addChild(@Nonnull XBSerializable child) throws XBProcessingException, IOException;
 
     /**
      * Puts block's data.
@@ -65,7 +66,7 @@ public interface XBChildListener {
      * @throws XBProcessingException if processing error
      * @throws java.io.IOException if input/output error
      */
-    public void addData(InputStream data) throws XBProcessingException, IOException;
+    void addData(@Nonnull InputStream data) throws XBProcessingException, IOException;
 
     /**
      * Puts end of block.
@@ -73,5 +74,5 @@ public interface XBChildListener {
      * @throws XBProcessingException if processing error
      * @throws java.io.IOException if input/output error
      */
-    public void end() throws XBProcessingException, IOException;
+    void end() throws XBProcessingException, IOException;
 }

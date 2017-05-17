@@ -22,7 +22,7 @@ import org.exbin.xbup.core.parser.XBProcessingException;
 /**
  * Interface for stream with skipable tokens.
  *
- * @version 0.1.25 2015/02/14
+ * @version 0.2.1 2017/05/17
  * @author ExBin Project (http://exbin.org)
  */
 public interface XBSkipableStream {
@@ -33,7 +33,7 @@ public interface XBSkipableStream {
      * @param tokenCount count of tokens
      * @throws java.io.IOException if input/output error
      */
-    public void skipXB(long tokenCount) throws XBProcessingException, IOException;
+    void skipXB(long tokenCount) throws XBProcessingException, IOException;
 
     /**
      * Skips child blocks.
@@ -41,7 +41,7 @@ public interface XBSkipableStream {
      * @param childBlocksCount count of child blocks to skip
      * @throws java.io.IOException if input/output error
      */
-    public void skipChildXB(long childBlocksCount) throws XBProcessingException, IOException;
+    void skipChildXB(long childBlocksCount) throws XBProcessingException, IOException;
 
     /**
      * Skips child blocks.
@@ -49,5 +49,5 @@ public interface XBSkipableStream {
      * @param childBlocksCount count of child blocks to skip
      * @throws java.io.IOException if input/output error
      */
-    public void skipAttributesXB(long childBlocksCount) throws XBProcessingException, IOException;
+    void skipAttributesXB(long childBlocksCount) throws XBProcessingException, IOException;
 }

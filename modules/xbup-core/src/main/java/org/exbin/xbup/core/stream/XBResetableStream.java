@@ -19,7 +19,7 @@ package org.exbin.xbup.core.stream;
 /**
  * Interface for XBUP data resetabe stream.
  *
- * @version 0.1.25 2015/02/14
+ * @version 0.2.1 2017/05/17
  * @author ExBin Project (http://exbin.org)
  */
 public interface XBResetableStream {
@@ -27,5 +27,5 @@ public interface XBResetableStream {
     /**
      * Resets XBUP stream to initial position and state.
      */
-    public void resetXB();
+    void resetXB();
 }

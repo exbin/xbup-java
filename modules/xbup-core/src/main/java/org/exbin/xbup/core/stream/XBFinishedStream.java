@@ -21,7 +21,7 @@ import java.io.IOException;
 /**
  * Interface for stream with method for finishing detection.
  *
- * @version 0.1.25 2015/02/14
+ * @version 0.2.1 2017/05/17
  * @author ExBin Project (http://exbin.org)
  */
 public interface XBFinishedStream {
@@ -32,5 +32,5 @@ public interface XBFinishedStream {
      * @return true if stream ended
      * @throws IOException if unable to determine stream end
      */
-    public boolean isFinishedXB() throws IOException;
+    boolean isFinishedXB() throws IOException;
 }

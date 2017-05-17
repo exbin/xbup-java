@@ -18,6 +18,7 @@ package org.exbin.xbup.core.serial.child;
 
 import java.io.IOException;
 import java.io.InputStream;
+import javax.annotation.Nonnull;
 import org.exbin.xbup.core.block.XBBlockTerminationMode;
 import org.exbin.xbup.core.parser.XBProcessingException;
 import org.exbin.xbup.core.parser.token.XBAttribute;
@@ -26,7 +27,7 @@ import org.exbin.xbup.core.serial.XBSerializable;
 /**
  * XBUP level 0 child serialization provider interface.
  *
- * @version 0.1.24 2014/08/23
+ * @version 0.2.1 2017/05/17
  * @author ExBin Project (http://exbin.org)
  */
 public interface XBChildProvider {
@@ -38,7 +39,8 @@ public interface XBChildProvider {
      * @throws XBProcessingException if not matching
      * @throws IOException if input/output exception occurs
      */
-    public XBBlockTerminationMode begin() throws XBProcessingException, IOException;
+    @Nonnull
+    XBBlockTerminationMode begin() throws XBProcessingException, IOException;
 
     /**
      * Gets block attribute.
@@ -47,7 +49,8 @@ public interface XBChildProvider {
      * @throws XBProcessingException if not matching
      * @throws IOException if input/output exception occurs
      */
-    public XBAttribute nextAttribute() throws XBProcessingException, IOException;
+    @Nonnull
+    XBAttribute nextAttribute() throws XBProcessingException, IOException;
 
     /**
      * Gets block child.
@@ -56,7 +59,7 @@ public interface XBChildProvider {
      * @throws XBProcessingException if not matching
      * @throws IOException if input/output exception occurs
      */
-    public void nextChild(XBSerializable child) throws XBProcessingException, IOException;
+    void nextChild(@Nonnull XBSerializable child) throws XBProcessingException, IOException;
 
     /**
      * Gets block data.
@@ -65,7 +68,8 @@ public interface XBChildProvider {
      * @throws XBProcessingException if not matching
      * @throws IOException if input/output exception occurs
      */
-    public InputStream nextData() throws XBProcessingException, IOException;
+    @Nonnull
+    InputStream nextData() throws XBProcessingException, IOException;
 
     /**
      * Gets end of block.
@@ -73,5 +77,5 @@ public interface XBChildProvider {
      * @throws XBProcessingException if not matching
      * @throws IOException if input/output exception occurs
      */
-    public void end() throws XBProcessingException, IOException;
+    void end() throws XBProcessingException, IOException;
 }

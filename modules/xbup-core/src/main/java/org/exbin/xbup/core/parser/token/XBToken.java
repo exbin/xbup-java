@@ -16,10 +16,12 @@
  */
 package org.exbin.xbup.core.parser.token;
 
+import javax.annotation.Nonnull;
+
 /**
  * XBUP protocol level 0 token.
  *
- * @version 0.1.23 2013/11/01
+ * @version 0.2.1 2017/05/18
  * @author ExBin Project (http://exbin.org)
  */
 public abstract class XBToken extends TypedToken {
@@ -30,5 +32,6 @@ public abstract class XBToken extends TypedToken {
      * @return current token type.
      */
     @Override
+    @Nonnull
     public abstract XBTokenType getTokenType();
 }

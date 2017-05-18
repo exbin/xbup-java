@@ -16,13 +16,18 @@
  */
 package org.exbin.xbup.core.ubnumber.exception;
 
+import javax.annotation.Nullable;
+
 /**
  * Runtime exception related to LRUB-encoded values processing.
  *
- * @version 0.1.24 2014/06/07
+ * @version 0.2.1 2017/05/18
  * @author ExBin Project (http://exbin.org)
  */
 public class UBException extends RuntimeException {
+
+    @Nullable
+    private String comment;
 
     /**
      * Creates a new instance of UBException.
@@ -35,6 +40,7 @@ public class UBException extends RuntimeException {
      *
      * @param comment exception comment
      */
-    public UBException(String comment) {
+    public UBException(@Nullable String comment) {
+        this.comment = comment;
     }
 }

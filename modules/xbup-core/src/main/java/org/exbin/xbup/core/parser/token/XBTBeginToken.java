@@ -25,10 +25,13 @@ import org.exbin.xbup.core.block.XBBlockTerminationMode;
  * Class marks beggining of block. Terminated flag carry information about
  * method for block termination type in bitstream.
  *
- * @version 0.2.1 2017/05/14
+ * @version 0.2.1 2017/05/18
  * @author ExBin Project (http://exbin.org)
  */
 public class XBTBeginToken extends XBTToken {
+
+    private static XBTBeginToken sizeSpecifiedBeginToken = null;
+    private static XBTBeginToken terminatedByZeroBeginToken = null;
 
     @Nonnull
     private final XBBlockTerminationMode terminationMode;
@@ -46,5 +49,35 @@ public class XBTBeginToken extends XBTToken {
     @Nonnull
     public XBTTokenType getTokenType() {
         return XBTTokenType.BEGIN;
+    }
+
+    @Nonnull
+    public static XBTBeginToken getInstance(@Nonnull XBBlockTerminationMode terminationMode) {
+        switch (terminationMode) {
+            case SIZE_SPECIFIED:
+                return getSizeSpecifiedInstance();
+            case TERMINATED_BY_ZERO:
+                return getTerminatedByZeroInstance();
+            default:
+                throw new IllegalStateException("Unexpected termination mode");
+        }
+    }
+
+    @Nonnull
+    public static XBTBeginToken getSizeSpecifiedInstance() {
+        if (sizeSpecifiedBeginToken == null) {
+            sizeSpecifiedBeginToken = new XBTBeginToken(XBBlockTerminationMode.SIZE_SPECIFIED);
+        }
+
+        return sizeSpecifiedBeginToken;
+    }
+
+    @Nonnull
+    public static XBTBeginToken getTerminatedByZeroInstance() {
+        if (terminatedByZeroBeginToken == null) {
+            terminatedByZeroBeginToken = new XBTBeginToken(XBBlockTerminationMode.TERMINATED_BY_ZERO);
+        }
+
+        return terminatedByZeroBeginToken;
     }
 }

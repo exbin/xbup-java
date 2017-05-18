@@ -16,10 +16,12 @@
  */
 package org.exbin.xbup.core.ubnumber.exception;
 
+import javax.annotation.Nullable;
+
 /**
  * Runtime exception related to LRUB-encoded values processing precision issues.
  *
- * @version 0.1.24 2014/06/07
+ * @version 0.2.1 2017/05/18
  * @author ExBin Project (http://exbin.org)
  */
 public class UBPrecissionException extends UBException {
@@ -36,7 +38,7 @@ public class UBPrecissionException extends UBException {
      *
      * @param comment exception comment
      */
-    public UBPrecissionException(String comment) {
+    public UBPrecissionException(@Nullable String comment) {
         super(comment);
     }
 }

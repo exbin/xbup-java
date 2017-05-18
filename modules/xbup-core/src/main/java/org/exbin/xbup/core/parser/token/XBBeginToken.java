@@ -25,15 +25,18 @@ import org.exbin.xbup.core.block.XBBlockTerminationMode;
  * Class marks beggining of block. Terminated flag carry information about
  * method for block termination type in bitstream.
  *
- * @version 0.2.1 2017/05/14
+ * @version 0.2.1 2017/05/18
  * @author ExBin Project (http://exbin.org)
  */
 public class XBBeginToken extends XBToken {
 
+    private static XBBeginToken sizeSpecifiedBeginToken = null;
+    private static XBBeginToken terminatedByZeroBeginToken = null;
+
     @Nonnull
     private final XBBlockTerminationMode terminationMode;
 
-    public XBBeginToken(XBBlockTerminationMode terminationMode) {
+    public XBBeginToken(@Nonnull XBBlockTerminationMode terminationMode) {
         this.terminationMode = terminationMode;
     }
 
@@ -46,5 +49,35 @@ public class XBBeginToken extends XBToken {
     @Nonnull
     public XBTokenType getTokenType() {
         return XBTokenType.BEGIN;
+    }
+
+    @Nonnull
+    public static XBBeginToken getInstance(@Nonnull XBBlockTerminationMode terminationMode) {
+        switch (terminationMode) {
+            case SIZE_SPECIFIED:
+                return getSizeSpecifiedInstance();
+            case TERMINATED_BY_ZERO:
+                return getTerminatedByZeroInstance();
+            default:
+                throw new IllegalStateException("Unexpected termination mode");
+        }
+    }
+
+    @Nonnull
+    public static XBBeginToken getSizeSpecifiedInstance() {
+        if (sizeSpecifiedBeginToken == null) {
+            sizeSpecifiedBeginToken = new XBBeginToken(XBBlockTerminationMode.SIZE_SPECIFIED);
+        }
+
+        return sizeSpecifiedBeginToken;
+    }
+
+    @Nonnull
+    public static XBBeginToken getTerminatedByZeroInstance() {
+        if (terminatedByZeroBeginToken == null) {
+            terminatedByZeroBeginToken = new XBBeginToken(XBBlockTerminationMode.TERMINATED_BY_ZERO);
+        }
+
+        return terminatedByZeroBeginToken;
     }
 }

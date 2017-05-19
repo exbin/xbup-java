@@ -38,7 +38,7 @@ import org.exbin.xbup.core.parser.token.pull.XBTPullProvider;
 /**
  * XBUP level 0 to level 1 pull convertor which introduces unknown type.
  *
- * @version 0.1.24 2014/11/27
+ * @version 0.2.1 2017/05/19
  * @author ExBin Project (http://exbin.org)
  */
 public class XBToXBTPullUnknownConvertor implements XBPullProvider, XBTPullConsumer {
@@ -68,7 +68,7 @@ public class XBToXBTPullUnknownConvertor implements XBPullProvider, XBTPullConsu
 
         switch (token.getTokenType()) {
             case BEGIN: {
-                return new XBBeginToken(((XBTBeginToken) token).getTerminationMode());
+                return XBBeginToken.createToken(((XBTBeginToken) token).getTerminationMode());
             }
             case ATTRIBUTE: {
                 return new XBAttributeToken(((XBTAttributeToken) token).getAttribute());

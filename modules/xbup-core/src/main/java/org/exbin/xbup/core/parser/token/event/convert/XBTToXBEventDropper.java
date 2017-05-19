@@ -35,7 +35,7 @@ import org.exbin.xbup.core.ubnumber.type.UBNat32;
 /**
  * XBUP level 1 to level 0 event convertor which drops node types.
  *
- * @version 0.1.23 2013/11/22
+ * @version 0.2.1 2017/05/19
  * @author ExBin Project (http://exbin.org)
  */
 public class XBTToXBEventDropper implements XBTEventListener, XBEventProducer {
@@ -62,7 +62,7 @@ public class XBTToXBEventDropper implements XBTEventListener, XBEventProducer {
 
         switch (token.getTokenType()) {
             case BEGIN: {
-                target.putXBToken(new XBBeginToken(((XBTBeginToken) token).getTerminationMode()));
+                target.putXBToken(XBBeginToken.createToken(((XBTBeginToken) token).getTerminationMode()));
                 break;
             }
 

@@ -42,7 +42,7 @@ import org.exbin.xbup.core.ubnumber.UBNatural;
  *
  * Uses token buffer stored in memory.
  *
- * @version 0.1.25 2015/02/06
+ * @version 0.2.1 2017/05/19
  * @author ExBin Project (http://exbin.org)
  */
 public class XBProducerToProvider implements XBProvider {
@@ -55,12 +55,12 @@ public class XBProducerToProvider implements XBProvider {
 
             @Override
             public void beginXB(XBBlockTerminationMode terminationMode) throws XBProcessingException, IOException {
-                tokens.add(new XBBeginToken(terminationMode));
+                tokens.add(XBBeginToken.createToken(terminationMode));
             }
 
             @Override
             public void beginXB(XBBlockTerminationMode terminationMode, UBNatural blockSize) throws XBProcessingException, IOException {
-                tokens.add(new XBSBeginToken(terminationMode, blockSize));
+                tokens.add(XBSBeginToken.create(terminationMode, blockSize));
             }
 
             @Override

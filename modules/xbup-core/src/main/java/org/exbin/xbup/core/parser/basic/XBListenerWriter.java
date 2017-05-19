@@ -45,7 +45,7 @@ import org.exbin.xbup.core.util.StreamUtils;
 /**
  * XBUP level 0 listener writer.
  *
- * @version 0.1.25 2015/08/02
+ * @version 0.2.1 2017/05/19
  * @author ExBin Project (http://exbin.org)
  */
 public class XBListenerWriter implements Closeable, XBListener {
@@ -126,11 +126,11 @@ public class XBListenerWriter implements Closeable, XBListener {
             attributePartSizeValue = 0;
             dataMode = null;
             if (bufferedFromLevel >= 0) {
-                tokenBuffer.putXBToken(new XBBeginToken(terminationMode));
+                tokenBuffer.putXBToken(XBBeginToken.createToken(terminationMode));
             } else {
                 if (terminationMode == XBBlockTerminationMode.SIZE_SPECIFIED) {
                     bufferedFromLevel = depthLevel;
-                    tokenBuffer.putXBToken(new XBBeginToken(terminationMode));
+                    tokenBuffer.putXBToken(XBBeginToken.createToken(terminationMode));
                 }
             }
 

@@ -35,7 +35,7 @@ import org.exbin.xbup.core.ubnumber.UBNatural;
 /**
  * XBUP level 0 serialization handler using basic parser mapping to listener.
  *
- * @version 0.1.24 2014/11/26
+ * @version 0.2.1 2017/05/19
  * @author ExBin Project (http://exbin.org)
  */
 public class XBChildListenerSerialHandler implements XBChildOutputSerialHandler, XBTokenOutputSerialHandler {
@@ -69,7 +69,7 @@ public class XBChildListenerSerialHandler implements XBChildOutputSerialHandler,
         }
 
         depth++;
-        eventListener.putXBToken(new XBBeginToken(terminationMode));
+        eventListener.putXBToken(XBBeginToken.createToken(terminationMode));
         state = XBChildSerialState.ATTRIBUTE_PART;
     }
 
@@ -82,7 +82,7 @@ public class XBChildListenerSerialHandler implements XBChildOutputSerialHandler,
             throw new XBSerialException("Unable to add attributes after data or child blocks", XBProcessingExceptionType.UNEXPECTED_ORDER);
         }
         if (state == XBChildSerialState.BLOCK_BEGIN) {
-            eventListener.putXBToken(new XBBeginToken(XBBlockTerminationMode.SIZE_SPECIFIED));
+            eventListener.putXBToken(XBBeginToken.createToken(XBBlockTerminationMode.SIZE_SPECIFIED));
         }
 
         eventListener.putXBToken(new XBAttributeToken(attribute));
@@ -139,7 +139,7 @@ public class XBChildListenerSerialHandler implements XBChildOutputSerialHandler,
             throw new XBSerialException("Data block is not allowed after children", XBProcessingExceptionType.UNEXPECTED_ORDER);
         }
         if (state == XBChildSerialState.BLOCK_BEGIN) {
-            eventListener.putXBToken(new XBBeginToken(XBBlockTerminationMode.SIZE_SPECIFIED));
+            eventListener.putXBToken(XBBeginToken.createToken(XBBlockTerminationMode.SIZE_SPECIFIED));
         }
 
         eventListener.putXBToken(new XBDataToken(data));

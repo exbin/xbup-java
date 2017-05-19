@@ -52,7 +52,7 @@ import org.exbin.xbup.core.ubnumber.type.UBNat32;
  * This reader expects data not to be changed, so exclusive lock on source data
  * is recommended.
  *
- * @version 0.2.0 2015/10/14
+ * @version 0.2.1 2017/05/19
  * @author ExBin Project (http://exbin.org)
  */
 public class XBReader implements XBCommandReader, XBPullProvider, Closeable {
@@ -408,7 +408,7 @@ public class XBReader implements XBCommandReader, XBPullProvider, Closeable {
                         }
                     }
 
-                    return new XBBeginToken(dataPartSizeValue == null ? XBBlockTerminationMode.TERMINATED_BY_ZERO : XBBlockTerminationMode.SIZE_SPECIFIED);
+                    return XBBeginToken.createToken(dataPartSizeValue == null ? XBBlockTerminationMode.TERMINATED_BY_ZERO : XBBlockTerminationMode.SIZE_SPECIFIED);
                 }
             }
 

@@ -34,7 +34,7 @@ import org.exbin.xbup.core.ubnumber.UBNatural;
 /**
  * Event listener to listener convertor for XBUP protocol level 0.
  *
- * @version 0.1.24 2014/11/27
+ * @version 0.2.1 2017/05/19
  * @author ExBin Project (http://exbin.org)
  */
 public class XBEventListenerToListener implements XBListener, XBSListener {
@@ -52,12 +52,12 @@ public class XBEventListenerToListener implements XBListener, XBSListener {
 
     @Override
     public void beginXB(XBBlockTerminationMode terminationMode) throws XBProcessingException, IOException {
-        eventListener.putXBToken(new XBBeginToken(terminationMode));
+        eventListener.putXBToken(XBBeginToken.createToken(terminationMode));
     }
 
     @Override
     public void beginXB(XBBlockTerminationMode terminationMode, UBNatural blockSize) throws XBProcessingException, IOException {
-        eventListener.putXBToken(new XBSBeginToken(terminationMode, blockSize));
+        eventListener.putXBToken(XBSBeginToken.create(terminationMode, blockSize));
     }
 
     @Override

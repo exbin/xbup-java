@@ -25,7 +25,7 @@ import org.exbin.xbup.core.block.XBBlockTerminationMode;
  * Class marks beggining of block. Terminated flag carry information about
  * method for block termination type in bitstream.
  *
- * @version 0.2.1 2017/05/18
+ * @version 0.2.1 2017/05/19
  * @author ExBin Project (http://exbin.org)
  */
 public class XBBeginToken extends XBToken {
@@ -36,7 +36,7 @@ public class XBBeginToken extends XBToken {
     @Nonnull
     private final XBBlockTerminationMode terminationMode;
 
-    public XBBeginToken(@Nonnull XBBlockTerminationMode terminationMode) {
+    private XBBeginToken(@Nonnull XBBlockTerminationMode terminationMode) {
         this.terminationMode = terminationMode;
     }
 
@@ -52,7 +52,7 @@ public class XBBeginToken extends XBToken {
     }
 
     @Nonnull
-    public static XBBeginToken getInstance(@Nonnull XBBlockTerminationMode terminationMode) {
+    public static XBBeginToken createToken(@Nonnull XBBlockTerminationMode terminationMode) {
         switch (terminationMode) {
             case SIZE_SPECIFIED:
                 return getSizeSpecifiedInstance();

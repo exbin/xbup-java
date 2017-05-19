@@ -46,7 +46,7 @@ import org.exbin.xbup.core.util.StreamUtils;
 /**
  * XBUP level 0 listener writer with support for precomputed blocks.
  *
- * @version 0.1.25 2015/08/08
+ * @version 0.2.1 2017/05/19
  * @author ExBin Project (http://exbin.org)
  */
 public class XBSListenerWriter implements Closeable, XBSListener {
@@ -133,7 +133,7 @@ public class XBSListenerWriter implements Closeable, XBSListener {
             attributePartSizeValue = 0;
             dataMode = null;
             if (bufferedFromLevel >= 0) {
-                tokenBuffer.putXBToken(new XBBeginToken(terminationMode));
+                tokenBuffer.putXBToken(XBBeginToken.createToken(terminationMode));
                 sizeLimits.add(null);
             } else {
                 if (terminationMode == XBBlockTerminationMode.SIZE_SPECIFIED) {
@@ -142,7 +142,7 @@ public class XBSListenerWriter implements Closeable, XBSListener {
                      blockSize.toStreamUB(stream);
                      } else { */
                     bufferedFromLevel = depthLevel;
-                    tokenBuffer.putXBToken(new XBBeginToken(terminationMode));
+                    tokenBuffer.putXBToken(XBBeginToken.createToken(terminationMode));
                     sizeLimits.add(null);
                     // }
                 } else {

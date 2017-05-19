@@ -35,7 +35,7 @@ import org.junit.Test;
 /**
  * Test class for XBEventWriter.
  *
- * @version 0.1.25 2015/08/09
+ * @version 0.2.1 2017/05/19
  * @author ExBin Project (http://exbin.org)
  */
 public class XBEventWriterTest extends TestCase {
@@ -551,7 +551,7 @@ public class XBEventWriterTest extends TestCase {
             try (XBEventWriter writer = new XBEventWriter(target)) {
                 XBPrintEventFilter listener = new XBPrintEventFilter(writer);
 
-                listener.putXBToken(new XBBeginToken(XBBlockTerminationMode.SIZE_SPECIFIED));
+                listener.putXBToken(XBBeginToken.createToken(XBBlockTerminationMode.SIZE_SPECIFIED));
                 writer.closeXB();
             }
         } catch (XBProcessingException | IOException e) {

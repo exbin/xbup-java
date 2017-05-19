@@ -36,7 +36,7 @@ import org.exbin.xbup.core.parser.token.event.XBTEventListener;
 /**
  * XBUP level 0 to level 1 event convertor which introduces unknown type.
  *
- * @version 0.1.24 2014/11/27
+ * @version 0.2.1 2017/05/19
  * @author ExBin Project (http://exbin.org)
  */
 public class XBTToXBEventUnwrapper implements XBTEventListener, XBEventProducer {
@@ -57,7 +57,7 @@ public class XBTToXBEventUnwrapper implements XBTEventListener, XBEventProducer 
     public void putXBTToken(XBTToken token) throws XBProcessingException, IOException {
         switch (token.getTokenType()) {
             case BEGIN: {
-                eventListener.putXBToken(new XBBeginToken(((XBTBeginToken) token).getTerminationMode()));
+                eventListener.putXBToken(XBBeginToken.createToken(((XBTBeginToken) token).getTerminationMode()));
                 break;
             }
             case TYPE: {

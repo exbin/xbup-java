@@ -47,7 +47,7 @@ import org.exbin.xbup.core.ubnumber.type.UBNat32;
 /**
  * Record about single module.
  *
- * @version 0.2.0 2016/03/28
+ * @version 0.2.1 2017/05/19
  * @author ExBin Project (http://exbin.org)
  */
 public class XBModuleInfo implements XBPSequenceSerializable, XBModuleRecord {
@@ -190,7 +190,7 @@ public class XBModuleInfo implements XBPSequenceSerializable, XBModuleRecord {
         public void putXBTToken(XBTToken token) throws XBProcessingException, IOException {
             switch (token.getTokenType()) {
                 case BEGIN: {
-                    eventListener.putXBToken(new XBBeginToken(((XBTBeginToken) token).getTerminationMode()));
+                    eventListener.putXBToken(XBBeginToken.createToken(((XBTBeginToken) token).getTerminationMode()));
                     blockIdSent = false;
                     break;
                 }

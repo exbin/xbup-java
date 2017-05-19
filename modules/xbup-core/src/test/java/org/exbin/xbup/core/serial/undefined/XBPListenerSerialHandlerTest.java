@@ -50,7 +50,7 @@ import org.junit.Test;
 /**
  * Test class for XBPListenerSerialHandler.
  *
- * @version 0.2.0 2015/12/01
+ * @version 0.2.1 2017/05/19
  * @author ExBin Project (http://exbin.org)
  */
 public class XBPListenerSerialHandlerTest extends TestCase {
@@ -216,7 +216,7 @@ public class XBPListenerSerialHandlerTest extends TestCase {
         @Override
         public void putXBToken(XBToken token) throws XBProcessingException, IOException {
             if (token.getTokenType() == XBTokenType.BEGIN) {
-                eventListener.putXBToken(new XBBeginToken(XBBlockTerminationMode.TERMINATED_BY_ZERO));
+                eventListener.putXBToken(XBBeginToken.createToken(XBBlockTerminationMode.TERMINATED_BY_ZERO));
             } else {
                 eventListener.putXBToken(token);
             }
@@ -241,7 +241,7 @@ public class XBPListenerSerialHandlerTest extends TestCase {
         public void putXBTToken(XBTToken token) throws XBProcessingException, IOException {
             switch (token.getTokenType()) {
                 case BEGIN: {
-                    eventListener.putXBToken(new XBBeginToken(((XBTBeginToken) token).getTerminationMode()));
+                    eventListener.putXBToken(XBBeginToken.createToken(((XBTBeginToken) token).getTerminationMode()));
                     blockIdSent = false;
                     break;
                 }

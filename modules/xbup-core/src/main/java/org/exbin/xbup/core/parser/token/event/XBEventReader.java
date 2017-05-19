@@ -40,7 +40,7 @@ import org.exbin.xbup.core.ubnumber.type.UBNat32;
 /**
  * Basic XBUP level 0 event reader - producer.
  *
- * @version 0.1.25 2015/07/23
+ * @version 0.2.1 2017/05/19
  * @author ExBin Project (http://exbin.org)
  */
 public class XBEventReader implements XBEventProducer {
@@ -133,7 +133,7 @@ public class XBEventReader implements XBEventProducer {
                 int dataPartSizeLength = dataPartSize.fromStreamUB(source);
                 Integer dataPartSizeValue = dataPartSize.isInfinity() ? null : dataPartSize.getInt();
 
-                listener.putXBToken(new XBBeginToken(dataPartSizeValue == null ? XBBlockTerminationMode.TERMINATED_BY_ZERO : XBBlockTerminationMode.SIZE_SPECIFIED));
+                listener.putXBToken(XBBeginToken.createToken(dataPartSizeValue == null ? XBBlockTerminationMode.TERMINATED_BY_ZERO : XBBlockTerminationMode.SIZE_SPECIFIED));
 
                 if (attributePartSizeValue == dataPartSizeLength) {
                     // Process data block

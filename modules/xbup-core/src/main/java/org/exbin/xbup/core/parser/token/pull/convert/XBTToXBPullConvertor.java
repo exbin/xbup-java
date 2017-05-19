@@ -62,7 +62,7 @@ public class XBTToXBPullConvertor implements XBTPullConsumer, XBPullProvider {
         XBTToken token = pullProvider.pullXBTToken();
         switch (token.getTokenType()) {
             case BEGIN:
-                return new XBBeginToken(((XBTBeginToken) token).getTerminationMode());
+                return XBBeginToken.createToken(((XBTBeginToken) token).getTerminationMode());
 
             case TYPE: {
                 if (((XBTTypeToken) token).getBlockType() instanceof XBFBlockType) {

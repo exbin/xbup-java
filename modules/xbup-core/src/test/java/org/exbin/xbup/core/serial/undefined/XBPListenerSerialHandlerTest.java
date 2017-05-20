@@ -216,7 +216,7 @@ public class XBPListenerSerialHandlerTest extends TestCase {
         @Override
         public void putXBToken(XBToken token) throws XBProcessingException, IOException {
             if (token.getTokenType() == XBTokenType.BEGIN) {
-                eventListener.putXBToken(XBBeginToken.createToken(XBBlockTerminationMode.TERMINATED_BY_ZERO));
+                eventListener.putXBToken(XBBeginToken.create(XBBlockTerminationMode.TERMINATED_BY_ZERO));
             } else {
                 eventListener.putXBToken(token);
             }
@@ -241,7 +241,7 @@ public class XBPListenerSerialHandlerTest extends TestCase {
         public void putXBTToken(XBTToken token) throws XBProcessingException, IOException {
             switch (token.getTokenType()) {
                 case BEGIN: {
-                    eventListener.putXBToken(XBBeginToken.createToken(((XBTBeginToken) token).getTerminationMode()));
+                    eventListener.putXBToken(XBBeginToken.create(((XBTBeginToken) token).getTerminationMode()));
                     blockIdSent = false;
                     break;
                 }
@@ -262,7 +262,7 @@ public class XBPListenerSerialHandlerTest extends TestCase {
                     break;
                 }
                 case END: {
-                    eventListener.putXBToken(new XBEndToken());
+                    eventListener.putXBToken(XBEndToken.create());
                     break;
                 }
             }

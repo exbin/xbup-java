@@ -52,7 +52,7 @@ public class XBProviderToPullProvider implements XBPullProvider {
         provider.produceXB(new XBSListener() {
             @Override
             public void beginXB(XBBlockTerminationMode terminationMode) throws XBProcessingException, IOException {
-                token = XBBeginToken.createToken(terminationMode);
+                token = XBBeginToken.create(terminationMode);
             }
 
             @Override
@@ -72,7 +72,7 @@ public class XBProviderToPullProvider implements XBPullProvider {
 
             @Override
             public void endXB() throws XBProcessingException, IOException {
-                token = new XBEndToken();
+                token = XBEndToken.create();
             }
         });
 

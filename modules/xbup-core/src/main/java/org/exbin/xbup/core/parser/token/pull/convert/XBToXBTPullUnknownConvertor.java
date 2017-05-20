@@ -68,7 +68,7 @@ public class XBToXBTPullUnknownConvertor implements XBPullProvider, XBTPullConsu
 
         switch (token.getTokenType()) {
             case BEGIN: {
-                return XBBeginToken.createToken(((XBTBeginToken) token).getTerminationMode());
+                return XBBeginToken.create(((XBTBeginToken) token).getTerminationMode());
             }
             case ATTRIBUTE: {
                 return new XBAttributeToken(((XBTAttributeToken) token).getAttribute());
@@ -77,7 +77,7 @@ public class XBToXBTPullUnknownConvertor implements XBPullProvider, XBTPullConsu
                 return new XBDataToken(((XBTDataToken) token).getData());
             }
             case END: {
-                return new XBEndToken();
+                return XBEndToken.create();
             }
         }
 

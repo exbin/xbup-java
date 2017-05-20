@@ -170,7 +170,7 @@ public class XBSEventWriter implements Closeable, XBEventListener {
                     if (parserMode == XBParserMode.SINGLE_BLOCK || parserMode == XBParserMode.SKIP_TAIL) {
                         throw new XBParseException("Tail data present when not expected", XBProcessingExceptionType.UNEXPECTED_ORDER);
                     }
-                    putXBToken(new XBEndToken());
+                    putXBToken(XBEndToken.create());
                     parserState = XBParserState.TAIL_DATA;
                     StreamUtils.copyInputStreamToOutputStream(((XBDataToken) token).getData(), stream);
                 } else {
@@ -222,7 +222,7 @@ public class XBSEventWriter implements Closeable, XBEventListener {
                     case BLOCK_END:
                     case DATA_PART: {
                         if (bufferedFromLevel >= 0) {
-                            tokenBuffer.putXBToken(new XBEndToken());
+                            tokenBuffer.putXBToken(XBEndToken.create());
                             if (bufferedFromLevel == depthLevel) {
                                 tokenBuffer.write(stream);
                                 bufferedFromLevel = -1;

@@ -21,14 +21,14 @@ import javax.annotation.Nonnull;
 /**
  * XBUP protocol level 0 end token.
  *
- * @version 0.2.1 2017/05/18
+ * @version 0.2.1 2017/05/20
  * @author ExBin Project (http://exbin.org)
  */
 public class XBEndToken extends XBToken {
 
     private static XBEndToken instance = null;
 
-    public XBEndToken() {
+    private XBEndToken() {
     }
 
     @Override
@@ -38,7 +38,7 @@ public class XBEndToken extends XBToken {
     }
 
     @Nonnull
-    public static XBEndToken getInstance() {
+    public static XBEndToken create() {
         if (instance == null) {
             instance = new XBEndToken();
         }

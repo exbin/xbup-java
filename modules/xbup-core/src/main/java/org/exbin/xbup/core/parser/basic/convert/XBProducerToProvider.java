@@ -55,7 +55,7 @@ public class XBProducerToProvider implements XBProvider {
 
             @Override
             public void beginXB(XBBlockTerminationMode terminationMode) throws XBProcessingException, IOException {
-                tokens.add(XBBeginToken.createToken(terminationMode));
+                tokens.add(XBBeginToken.create(terminationMode));
             }
 
             @Override
@@ -75,7 +75,7 @@ public class XBProducerToProvider implements XBProvider {
 
             @Override
             public void endXB() throws XBProcessingException, IOException {
-                tokens.add(new XBEndToken());
+                tokens.add(XBEndToken.create());
             }
         });
     }

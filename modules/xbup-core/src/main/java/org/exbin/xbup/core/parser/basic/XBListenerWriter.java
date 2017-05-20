@@ -126,11 +126,11 @@ public class XBListenerWriter implements Closeable, XBListener {
             attributePartSizeValue = 0;
             dataMode = null;
             if (bufferedFromLevel >= 0) {
-                tokenBuffer.putXBToken(XBBeginToken.createToken(terminationMode));
+                tokenBuffer.putXBToken(XBBeginToken.create(terminationMode));
             } else {
                 if (terminationMode == XBBlockTerminationMode.SIZE_SPECIFIED) {
                     bufferedFromLevel = depthLevel;
-                    tokenBuffer.putXBToken(XBBeginToken.createToken(terminationMode));
+                    tokenBuffer.putXBToken(XBBeginToken.create(terminationMode));
                 }
             }
 
@@ -213,7 +213,7 @@ public class XBListenerWriter implements Closeable, XBListener {
             case BLOCK_END:
             case DATA_PART: {
                 if (bufferedFromLevel >= 0) {
-                    tokenBuffer.putXBToken(new XBEndToken());
+                    tokenBuffer.putXBToken(XBEndToken.create());
                     if (bufferedFromLevel == depthLevel) {
                         tokenBuffer.write(stream);
                         bufferedFromLevel = -1;

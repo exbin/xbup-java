@@ -68,7 +68,7 @@ public class XBConsumerToListener implements XBSListener {
 
     @Override
     public void beginXB(XBBlockTerminationMode terminationMode) throws XBProcessingException, IOException {
-        tokens.add(XBBeginToken.createToken(terminationMode));
+        tokens.add(XBBeginToken.create(terminationMode));
     }
 
     @Override
@@ -88,7 +88,7 @@ public class XBConsumerToListener implements XBSListener {
 
     @Override
     public void endXB() throws XBProcessingException, IOException {
-        tokens.add(new XBEndToken());
+        tokens.add(XBEndToken.create());
     }
 
     public List<XBToken> getTokens() {

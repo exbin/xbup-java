@@ -69,7 +69,7 @@ public class XBChildListenerSerialHandler implements XBChildOutputSerialHandler,
         }
 
         depth++;
-        eventListener.putXBToken(XBBeginToken.createToken(terminationMode));
+        eventListener.putXBToken(XBBeginToken.create(terminationMode));
         state = XBChildSerialState.ATTRIBUTE_PART;
     }
 
@@ -82,7 +82,7 @@ public class XBChildListenerSerialHandler implements XBChildOutputSerialHandler,
             throw new XBSerialException("Unable to add attributes after data or child blocks", XBProcessingExceptionType.UNEXPECTED_ORDER);
         }
         if (state == XBChildSerialState.BLOCK_BEGIN) {
-            eventListener.putXBToken(XBBeginToken.createToken(XBBlockTerminationMode.SIZE_SPECIFIED));
+            eventListener.putXBToken(XBBeginToken.create(XBBlockTerminationMode.SIZE_SPECIFIED));
         }
 
         eventListener.putXBToken(new XBAttributeToken(attribute));
@@ -139,7 +139,7 @@ public class XBChildListenerSerialHandler implements XBChildOutputSerialHandler,
             throw new XBSerialException("Data block is not allowed after children", XBProcessingExceptionType.UNEXPECTED_ORDER);
         }
         if (state == XBChildSerialState.BLOCK_BEGIN) {
-            eventListener.putXBToken(XBBeginToken.createToken(XBBlockTerminationMode.SIZE_SPECIFIED));
+            eventListener.putXBToken(XBBeginToken.create(XBBlockTerminationMode.SIZE_SPECIFIED));
         }
 
         eventListener.putXBToken(new XBDataToken(data));
@@ -156,6 +156,6 @@ public class XBChildListenerSerialHandler implements XBChildOutputSerialHandler,
         }
 
         depth--;
-        eventListener.putXBToken(new XBEndToken());
+        eventListener.putXBToken(XBEndToken.create());
     }
 }

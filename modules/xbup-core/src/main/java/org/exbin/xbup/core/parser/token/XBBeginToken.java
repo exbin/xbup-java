@@ -52,7 +52,7 @@ public class XBBeginToken extends XBToken {
     }
 
     @Nonnull
-    public static XBBeginToken createToken(@Nonnull XBBlockTerminationMode terminationMode) {
+    public static XBBeginToken create(@Nonnull XBBlockTerminationMode terminationMode) {
         switch (terminationMode) {
             case SIZE_SPECIFIED:
                 return getSizeSpecifiedInstance();

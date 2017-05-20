@@ -57,7 +57,7 @@ public class XBTToXBEventUnwrapper implements XBTEventListener, XBEventProducer 
     public void putXBTToken(XBTToken token) throws XBProcessingException, IOException {
         switch (token.getTokenType()) {
             case BEGIN: {
-                eventListener.putXBToken(XBBeginToken.createToken(((XBTBeginToken) token).getTerminationMode()));
+                eventListener.putXBToken(XBBeginToken.create(((XBTBeginToken) token).getTerminationMode()));
                 break;
             }
             case TYPE: {
@@ -76,7 +76,7 @@ public class XBTToXBEventUnwrapper implements XBTEventListener, XBEventProducer 
                 break;
             }
             case END: {
-                eventListener.putXBToken(new XBEndToken());
+                eventListener.putXBToken(XBEndToken.create());
                 break;
             }
             default: {

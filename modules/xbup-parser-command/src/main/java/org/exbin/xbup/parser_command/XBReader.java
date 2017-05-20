@@ -408,7 +408,7 @@ public class XBReader implements XBCommandReader, XBPullProvider, Closeable {
                         }
                     }
 
-                    return XBBeginToken.createToken(dataPartSizeValue == null ? XBBlockTerminationMode.TERMINATED_BY_ZERO : XBBlockTerminationMode.SIZE_SPECIFIED);
+                    return XBBeginToken.create(dataPartSizeValue == null ? XBBlockTerminationMode.TERMINATED_BY_ZERO : XBBlockTerminationMode.SIZE_SPECIFIED);
                 }
             }
 
@@ -434,7 +434,7 @@ public class XBReader implements XBCommandReader, XBPullProvider, Closeable {
                     }
                 }
 
-                return new XBEndToken();
+                return XBEndToken.create();
             }
 
             case ATTRIBUTE_PART: {

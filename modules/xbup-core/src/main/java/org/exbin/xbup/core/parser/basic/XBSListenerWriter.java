@@ -133,7 +133,7 @@ public class XBSListenerWriter implements Closeable, XBSListener {
             attributePartSizeValue = 0;
             dataMode = null;
             if (bufferedFromLevel >= 0) {
-                tokenBuffer.putXBToken(XBBeginToken.createToken(terminationMode));
+                tokenBuffer.putXBToken(XBBeginToken.create(terminationMode));
                 sizeLimits.add(null);
             } else {
                 if (terminationMode == XBBlockTerminationMode.SIZE_SPECIFIED) {
@@ -142,7 +142,7 @@ public class XBSListenerWriter implements Closeable, XBSListener {
                      blockSize.toStreamUB(stream);
                      } else { */
                     bufferedFromLevel = depthLevel;
-                    tokenBuffer.putXBToken(XBBeginToken.createToken(terminationMode));
+                    tokenBuffer.putXBToken(XBBeginToken.create(terminationMode));
                     sizeLimits.add(null);
                     // }
                 } else {
@@ -233,7 +233,7 @@ public class XBSListenerWriter implements Closeable, XBSListener {
             case BLOCK_END:
             case DATA_PART: {
                 if (bufferedFromLevel >= 0) {
-                    tokenBuffer.putXBToken(new XBEndToken());
+                    tokenBuffer.putXBToken(XBEndToken.create());
                     if (bufferedFromLevel == depthLevel) {
                         tokenBuffer.write(stream);
                         bufferedFromLevel = -1;

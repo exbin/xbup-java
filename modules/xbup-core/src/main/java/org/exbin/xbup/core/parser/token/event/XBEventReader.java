@@ -123,7 +123,7 @@ public class XBEventReader implements XBEventProducer {
                     }
                 }
 
-                listener.putXBToken(new XBEndToken());
+                listener.putXBToken(XBEndToken.create());
             } else {
                 // Process regular block
                 int attributePartSizeValue = attributePartSize.getInt();
@@ -133,7 +133,7 @@ public class XBEventReader implements XBEventProducer {
                 int dataPartSizeLength = dataPartSize.fromStreamUB(source);
                 Integer dataPartSizeValue = dataPartSize.isInfinity() ? null : dataPartSize.getInt();
 
-                listener.putXBToken(XBBeginToken.createToken(dataPartSizeValue == null ? XBBlockTerminationMode.TERMINATED_BY_ZERO : XBBlockTerminationMode.SIZE_SPECIFIED));
+                listener.putXBToken(XBBeginToken.create(dataPartSizeValue == null ? XBBlockTerminationMode.TERMINATED_BY_ZERO : XBBlockTerminationMode.SIZE_SPECIFIED));
 
                 if (attributePartSizeValue == dataPartSizeLength) {
                     // Process data block
@@ -151,7 +151,7 @@ public class XBEventReader implements XBEventProducer {
                         }
                     }
 
-                    listener.putXBToken(new XBEndToken());
+                    listener.putXBToken(XBEndToken.create());
                 } else {
                     // Process standard block
                     sizeLimits.add(dataPartSizeValue);
@@ -183,7 +183,7 @@ public class XBEventReader implements XBEventProducer {
                     }
                 }
 
-                listener.putXBToken(new XBEndToken());
+                listener.putXBToken(XBEndToken.create());
             }
         } while (!sizeLimits.isEmpty());
     }

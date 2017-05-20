@@ -551,7 +551,7 @@ public class XBEventWriterTest extends TestCase {
             try (XBEventWriter writer = new XBEventWriter(target)) {
                 XBPrintEventFilter listener = new XBPrintEventFilter(writer);
 
-                listener.putXBToken(XBBeginToken.createToken(XBBlockTerminationMode.SIZE_SPECIFIED));
+                listener.putXBToken(XBBeginToken.create(XBBlockTerminationMode.SIZE_SPECIFIED));
                 writer.closeXB();
             }
         } catch (XBProcessingException | IOException e) {

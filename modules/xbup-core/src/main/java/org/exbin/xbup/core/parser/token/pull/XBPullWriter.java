@@ -143,7 +143,7 @@ public class XBPullWriter implements Closeable, XBPullConsumer {
                             if (depthLevel == 1 && token.getTokenType() == XBTokenType.DATA) {
                                 if (parserMode != XBParserMode.SINGLE_BLOCK && parserMode != XBParserMode.SKIP_TAIL) {
                                     if (bufferedFromLevel >= 0) {
-                                        tokenBuffer.putXBToken(new XBEndToken());
+                                        tokenBuffer.putXBToken(XBEndToken.create());
                                         if (bufferedFromLevel == depthLevel) {
                                             tokenBuffer.write(stream);
                                             bufferedFromLevel = -1;
@@ -204,7 +204,7 @@ public class XBPullWriter implements Closeable, XBPullConsumer {
                             if (depthLevel == 1 && token.getTokenType() == XBTokenType.DATA) {
                                 if (parserMode != XBParserMode.SINGLE_BLOCK && parserMode != XBParserMode.SKIP_TAIL) {
                                     if (bufferedFromLevel >= 0) {
-                                        tokenBuffer.putXBToken(new XBEndToken());
+                                        tokenBuffer.putXBToken(XBEndToken.create());
                                         if (bufferedFromLevel == depthLevel) {
                                             tokenBuffer.write(stream);
                                             bufferedFromLevel = -1;
@@ -258,7 +258,7 @@ public class XBPullWriter implements Closeable, XBPullConsumer {
                     if (depthLevel == 1 && token.getTokenType() == XBTokenType.DATA) {
                         if (parserMode != XBParserMode.SINGLE_BLOCK && parserMode != XBParserMode.SKIP_TAIL) {
                             if (bufferedFromLevel >= 0) {
-                                tokenBuffer.putXBToken(new XBEndToken());
+                                tokenBuffer.putXBToken(XBEndToken.create());
                                 if (bufferedFromLevel == depthLevel) {
                                     tokenBuffer.write(stream);
                                     bufferedFromLevel = -1;

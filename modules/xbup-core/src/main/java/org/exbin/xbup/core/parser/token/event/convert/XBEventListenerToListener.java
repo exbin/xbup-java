@@ -52,7 +52,7 @@ public class XBEventListenerToListener implements XBListener, XBSListener {
 
     @Override
     public void beginXB(XBBlockTerminationMode terminationMode) throws XBProcessingException, IOException {
-        eventListener.putXBToken(XBBeginToken.createToken(terminationMode));
+        eventListener.putXBToken(XBBeginToken.create(terminationMode));
     }
 
     @Override
@@ -67,6 +67,6 @@ public class XBEventListenerToListener implements XBListener, XBSListener {
 
     @Override
     public void endXB() throws XBProcessingException, IOException {
-        eventListener.putXBToken(new XBEndToken());
+        eventListener.putXBToken(XBEndToken.create());
     }
 }

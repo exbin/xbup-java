@@ -190,7 +190,7 @@ public class XBModuleInfo implements XBPSequenceSerializable, XBModuleRecord {
         public void putXBTToken(XBTToken token) throws XBProcessingException, IOException {
             switch (token.getTokenType()) {
                 case BEGIN: {
-                    eventListener.putXBToken(XBBeginToken.createToken(((XBTBeginToken) token).getTerminationMode()));
+                    eventListener.putXBToken(XBBeginToken.create(((XBTBeginToken) token).getTerminationMode()));
                     blockIdSent = false;
                     break;
                 }
@@ -211,7 +211,7 @@ public class XBModuleInfo implements XBPSequenceSerializable, XBModuleRecord {
                     break;
                 }
                 case END: {
-                    eventListener.putXBToken(new XBEndToken());
+                    eventListener.putXBToken(XBEndToken.create());
                     break;
                 }
             }

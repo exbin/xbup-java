@@ -62,7 +62,7 @@ public class XBTToXBEventDropper implements XBTEventListener, XBEventProducer {
 
         switch (token.getTokenType()) {
             case BEGIN: {
-                target.putXBToken(XBBeginToken.createToken(((XBTBeginToken) token).getTerminationMode()));
+                target.putXBToken(XBBeginToken.create(((XBTBeginToken) token).getTerminationMode()));
                 break;
             }
 

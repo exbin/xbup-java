@@ -98,7 +98,7 @@ public class XBPSequencePullConsumer implements XBTPullConsumer {
                 processingState = XBParamProcessingState.BEGIN;
                 if (token.getTokenType() == XBTTokenType.END) {
                     emptyNodeMode = true;
-                    return new XBTBeginToken(XBBlockTerminationMode.SIZE_SPECIFIED);
+                    return XBTBeginToken.create(XBBlockTerminationMode.SIZE_SPECIFIED);
                 } else if (token.getTokenType() != XBTTokenType.BEGIN) {
                     throw new XBProcessingException("Unexpected token type " + token.getTokenType(), XBProcessingExceptionType.UNEXPECTED_ORDER);
                 }
@@ -127,7 +127,7 @@ public class XBPSequencePullConsumer implements XBTPullConsumer {
                     if (!attributeSequence.isEmpty()) {
                         return attributeSequence.remove(0);
                     } else {
-                        return new XBTZeroAttributeToken();
+                        return XBTZeroAttributeToken.create();
                     }
                 }
 
@@ -145,7 +145,7 @@ public class XBPSequencePullConsumer implements XBTPullConsumer {
 
                 processingState = XBParamProcessingState.DATA;
                 if (emptyNodeMode) {
-                    return new XBTEmptyDataToken();
+                    return XBTEmptyDataToken.create();
                 }
 
                 XBTToken token = pullProvider.pullXBTToken();
@@ -166,7 +166,7 @@ public class XBPSequencePullConsumer implements XBTPullConsumer {
                     attributeSequence = attributeSequences.remove(attributeSequences.size() - 1);
                 }
 
-                return new XBTEndToken();
+                return XBTEndToken.create();
             }
         }
 

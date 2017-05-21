@@ -77,14 +77,14 @@ public class XBTPullParamFilter implements XBTPullFilter {
     @Override
     public XBTToken pullXBTToken() throws XBProcessingException, IOException {
         if (state == XBParserState.START) {
-            return new XBTEndToken();
+            return XBTEndToken.create();
         }
 
         if (currentParameter == targetParameter) {
             return pullProvider.pullXBTToken();
         }
 
-        return new XBTEndToken();
+        return XBTEndToken.create();
     }
 
     public void setParameterIndex(int parameterIndex) throws XBProcessingException {

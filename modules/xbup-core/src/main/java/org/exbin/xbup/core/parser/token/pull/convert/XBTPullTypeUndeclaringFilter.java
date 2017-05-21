@@ -86,7 +86,7 @@ public class XBTPullTypeUndeclaringFilter implements XBTPullFilter {
                 ByteArrayOutputStream dataStream = new ByteArrayOutputStream();
                 StreamUtils.copyInputStreamToOutputStream(inputStream, dataStream);
                 currentContext.dataXBT(new ByteArrayInputStream(dataStream.toByteArray()));
-                token = new XBTDataToken(new ByteArrayInputStream(dataStream.toByteArray()));
+                token = XBTDataToken.create(new ByteArrayInputStream(dataStream.toByteArray()));
             } else {
                 XBTListenerToToken.tokenToListener(token, currentContext);
             }
@@ -113,7 +113,7 @@ public class XBTPullTypeUndeclaringFilter implements XBTPullFilter {
                         if (fixedType == null) {
                             throw new XBProcessingException("Unable to match block type", XBProcessingExceptionType.BLOCK_TYPE_MISMATCH);
                         }
-                        return new XBTTypeToken(fixedType);
+                        return XBTTypeToken.create(fixedType);
                     }
                 }
 

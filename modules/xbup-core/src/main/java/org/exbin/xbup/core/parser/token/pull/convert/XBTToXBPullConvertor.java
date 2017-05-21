@@ -66,18 +66,18 @@ public class XBTToXBPullConvertor implements XBTPullConsumer, XBPullProvider {
 
             case TYPE: {
                 if (((XBTTypeToken) token).getBlockType() instanceof XBFBlockType) {
-                    buffer = new XBAttributeToken(((XBFBlockType) ((XBTTypeToken) token).getBlockType()).getBlockID());
-                    return new XBAttributeToken(((XBFBlockType) ((XBTTypeToken) token).getBlockType()).getGroupID());
+                    buffer = XBAttributeToken.create(((XBFBlockType) ((XBTTypeToken) token).getBlockType()).getBlockID());
+                    return XBAttributeToken.create(((XBFBlockType) ((XBTTypeToken) token).getBlockType()).getGroupID());
                 }
 
                 throw new XBProcessingException("Unexpected block type", XBProcessingExceptionType.BLOCK_TYPE_MISMATCH);
             }
 
             case ATTRIBUTE:
-                return new XBAttributeToken(((XBTAttributeToken) token).getAttribute());
+                return XBAttributeToken.create(((XBTAttributeToken) token).getAttribute());
 
             case DATA:
-                return new XBDataToken(((XBTDataToken) token).getData());
+                return XBDataToken.create(((XBTDataToken) token).getData());
 
             case END:
                 return XBEndToken.create();

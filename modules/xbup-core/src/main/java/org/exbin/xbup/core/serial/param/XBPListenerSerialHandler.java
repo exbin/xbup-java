@@ -120,7 +120,7 @@ public class XBPListenerSerialHandler implements XBPOutputSerialHandler, XBPSequ
         switch (processingState) {
             case START: {
                 if (paramType.isConsist()) {
-                    eventListener.putToken(new XBTBeginToken(terminationMode));
+                    eventListener.putToken(XBTBeginToken.create(terminationMode));
                 }
                 processingState = XBParamProcessingState.BEGIN;
                 break;
@@ -148,7 +148,7 @@ public class XBPListenerSerialHandler implements XBPOutputSerialHandler, XBPSequ
 
         if (processingState == XBParamProcessingState.BEGIN) {
             if (paramType.isConsist()) {
-                eventListener.putToken(new XBTTypeToken(type));
+                eventListener.putToken(XBTTypeToken.create(type));
             }
             processingState = XBParamProcessingState.TYPE;
         } else {
@@ -164,7 +164,7 @@ public class XBPListenerSerialHandler implements XBPOutputSerialHandler, XBPSequ
         }
 
         if (processingState == XBParamProcessingState.BEGIN || processingState == XBParamProcessingState.TYPE || processingState == XBParamProcessingState.ATTRIBUTES) {
-            eventListener.putToken(new XBTAttributeToken(attribute));
+            eventListener.putToken(XBTAttributeToken.create(attribute));
             processingState = XBParamProcessingState.ATTRIBUTES;
         } else {
             throw new XBProcessingException("Unexpected token order", XBProcessingExceptionType.UNEXPECTED_ORDER);
@@ -179,7 +179,7 @@ public class XBPListenerSerialHandler implements XBPOutputSerialHandler, XBPSequ
         }
 
         if (processingState == XBParamProcessingState.BEGIN) {
-            eventListener.putToken(new XBTDataToken(data));
+            eventListener.putToken(XBTDataToken.create(data));
             processingState = XBParamProcessingState.DATA;
         } else {
             throw new XBProcessingException("Unexpected token order", XBProcessingExceptionType.UNEXPECTED_ORDER);
@@ -196,7 +196,7 @@ public class XBPListenerSerialHandler implements XBPOutputSerialHandler, XBPSequ
 
         if (processingState == XBParamProcessingState.TYPE || processingState == XBParamProcessingState.ATTRIBUTES || processingState == XBParamProcessingState.DATA) {
             if (paramType.isConsist()) {
-                eventListener.putToken(new XBTEndToken());
+                eventListener.putToken(XBTEndToken.create());
             }
             processingState = XBParamProcessingState.END;
             if (processingStates.isEmpty()) {

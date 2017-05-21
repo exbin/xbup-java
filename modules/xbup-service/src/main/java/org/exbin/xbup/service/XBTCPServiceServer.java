@@ -190,7 +190,7 @@ public class XBTCPServiceServer implements XBServiceServer {
             // TODO Exception processing
             throw new UnsupportedOperationException("Not supported yet.");
         }
-        eventListener.putXBTToken(new XBTEndToken());
+        eventListener.putXBTToken(XBTEndToken.create());
     }
 
     @Override
@@ -275,8 +275,8 @@ public class XBTCPServiceServer implements XBServiceServer {
         @Override
         public void putXBTToken(XBTToken token) throws XBProcessingException, IOException {
             if (!started) {
-                output.putXBTToken(new XBTBeginToken(XBBlockTerminationMode.SIZE_SPECIFIED)); // TODO terminated
-                output.putXBTToken(new XBTTypeToken(new XBDeclBlockType(XBTCPServiceClient.SERVICE_INVOCATION_SUCCESSFUL)));
+                output.putXBTToken(XBTBeginToken.create(XBBlockTerminationMode.SIZE_SPECIFIED)); // TODO terminated
+                output.putXBTToken(XBTTypeToken.create(new XBDeclBlockType(XBTCPServiceClient.SERVICE_INVOCATION_SUCCESSFUL)));
                 started = true;
             }
 

@@ -65,12 +65,12 @@ public class XBProducerToProvider implements XBProvider {
 
             @Override
             public void attribXB(XBAttribute value) throws XBProcessingException, IOException {
-                tokens.add(new XBAttributeToken(value));
+                tokens.add(XBAttributeToken.create(value));
             }
 
             @Override
             public void dataXB(InputStream data) throws XBProcessingException, IOException {
-                tokens.add(new XBDataToken(data));
+                tokens.add(XBDataToken.create(data));
             }
 
             @Override

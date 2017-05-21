@@ -421,7 +421,7 @@ public class XBReader implements XBCommandReader, XBPullProvider, Closeable {
                             parserState = XBParserState.TAIL_DATA;
                             TailDataInputStreamWrapper wrapper = new TailDataInputStreamWrapper(inputStream);
                             if (wrapper.available() > 0) {
-                                return new XBDataToken(wrapper);
+                                return XBDataToken.create(wrapper);
                             }
                         }
                     }
@@ -457,7 +457,7 @@ public class XBReader implements XBCommandReader, XBPullProvider, Closeable {
                     currentAttributeIndex++;
                 }
 
-                return new XBAttributeToken(attribute);
+                return XBAttributeToken.create(attribute);
             }
 
             case DATA_PART: {
@@ -465,7 +465,7 @@ public class XBReader implements XBCommandReader, XBPullProvider, Closeable {
                         ? new TerminatedDataInputStreamWrapper(inputStream)
                         : new FixedDataInputStreamWrapper(inputStream, dataPartSizeValue);
                 parserState = XBParserState.BLOCK_END;
-                return new XBDataToken((InputStream) dataWrapper);
+                return XBDataToken.create((InputStream) dataWrapper);
             }
 
             case EOF:

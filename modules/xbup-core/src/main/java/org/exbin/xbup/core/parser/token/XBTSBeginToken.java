@@ -29,17 +29,33 @@ import org.exbin.xbup.core.ubnumber.UBNatural;
  *
  * Additional blockSize represents precomputed size of block if available.
  *
- * @version 0.2.1 2017/05/14
+ * @version 0.2.1 2017/05/21
  * @author ExBin Project (http://exbin.org)
  */
-public class XBTSBeginToken extends XBTBeginToken {
+public class XBTSBeginToken extends XBTToken {
 
     @Nullable
     private UBNatural blockSize;
+    @Nonnull
+    private XBBlockTerminationMode terminationMode;
 
-    public XBTSBeginToken(@Nonnull XBBlockTerminationMode terminationMode, @Nullable UBNatural blockSize) {
-        super(terminationMode);
+    private XBTSBeginToken(@Nonnull XBBlockTerminationMode terminationMode, @Nullable UBNatural blockSize) {
+        this.terminationMode = terminationMode;
         this.blockSize = blockSize;
+    }
+
+    @Override
+    public XBTTokenType getTokenType() {
+        return XBTTokenType.BEGIN;
+    }
+
+    @Nonnull
+    public XBBlockTerminationMode getTerminationMode() {
+        return terminationMode;
+    }
+
+    public void setTerminationMode(@Nonnull XBBlockTerminationMode terminationMode) {
+        this.terminationMode = terminationMode;
     }
 
     @Nullable
@@ -49,5 +65,10 @@ public class XBTSBeginToken extends XBTBeginToken {
 
     public void setBlockSize(@Nullable UBNatural blockSize) {
         this.blockSize = blockSize;
+    }
+
+    @Nonnull
+    public static XBTSBeginToken create(@Nonnull XBBlockTerminationMode terminationMode, @Nullable UBNatural blockSize) {
+        return new XBTSBeginToken(terminationMode, blockSize);
     }
 }

@@ -18,6 +18,8 @@ package org.exbin.xbup.core.parser.token.event.convert;
 
 import java.io.IOException;
 import java.io.InputStream;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import org.exbin.xbup.core.block.XBBlockTerminationMode;
 import org.exbin.xbup.core.block.XBBlockType;
 import org.exbin.xbup.core.parser.XBProcessingException;
@@ -36,45 +38,46 @@ import org.exbin.xbup.core.ubnumber.UBNatural;
 /**
  * Event listener to listener convertor for XBUP protocol level 1.
  *
- * @version 0.1.24 2014/11/27
+ * @version 0.2.1 2017/05/21
  * @author ExBin Project (http://exbin.org)
  */
 public class XBTEventListenerToListener implements XBTListener, XBTSListener {
 
+    @Nonnull
     private final XBTEventListener eventListener;
 
-    public XBTEventListenerToListener(XBTEventListener eventListener) {
+    public XBTEventListenerToListener(@Nonnull XBTEventListener eventListener) {
         this.eventListener = eventListener;
     }
 
     @Override
-    public void attribXBT(XBAttribute attribute) throws XBProcessingException, IOException {
-        eventListener.putXBTToken(new XBTAttributeToken(attribute));
+    public void attribXBT(@Nonnull XBAttribute attribute) throws XBProcessingException, IOException {
+        eventListener.putXBTToken(XBTAttributeToken.create(attribute));
     }
 
     @Override
-    public void beginXBT(XBBlockTerminationMode terminationMode) throws XBProcessingException, IOException {
-        eventListener.putXBTToken(new XBTBeginToken(terminationMode));
+    public void beginXBT(@Nonnull XBBlockTerminationMode terminationMode) throws XBProcessingException, IOException {
+        eventListener.putXBTToken(XBTBeginToken.create(terminationMode));
     }
 
     @Override
-    public void beginXBT(XBBlockTerminationMode terminationMode, UBNatural blockSize) throws XBProcessingException, IOException {
-        eventListener.putXBTToken(new XBTSBeginToken(terminationMode, blockSize));
+    public void beginXBT(@Nonnull XBBlockTerminationMode terminationMode, @Nullable UBNatural blockSize) throws XBProcessingException, IOException {
+        eventListener.putXBTToken(XBTSBeginToken.create(terminationMode, blockSize));
     }
 
     @Override
-    public void typeXBT(XBBlockType type) throws XBProcessingException, IOException {
-        eventListener.putXBTToken(new XBTTypeToken(type));
+    public void typeXBT(@Nonnull XBBlockType type) throws XBProcessingException, IOException {
+        eventListener.putXBTToken(XBTTypeToken.create(type));
     }
 
     @Override
-    public void dataXBT(InputStream data) throws XBProcessingException, IOException {
-        eventListener.putXBTToken(new XBTDataToken(data));
+    public void dataXBT(@Nonnull InputStream data) throws XBProcessingException, IOException {
+        eventListener.putXBTToken(XBTDataToken.create(data));
     }
 
     @Override
     public void endXBT() throws XBProcessingException, IOException {
-        eventListener.putXBTToken(new XBTEndToken());
+        eventListener.putXBTToken(XBTEndToken.create());
     }
 
     public boolean isClosed() {

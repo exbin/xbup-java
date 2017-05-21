@@ -28,7 +28,7 @@ import javax.annotation.Nonnull;
  * Class carry data represented as byte stream available via InputStream class.
  * You have to process data before processing next event.
  *
- * @version 0.2.1 2017/05/14
+ * @version 0.2.1 2017/05/21
  * @author ExBin Project (http://exbin.org)
  */
 public class XBTDataToken extends XBTToken {
@@ -36,7 +36,7 @@ public class XBTDataToken extends XBTToken {
     @Nonnull
     private final InputStream data;
 
-    public XBTDataToken(@Nonnull InputStream data) {
+    private XBTDataToken(@Nonnull InputStream data) {
         this.data = data;
     }
 
@@ -66,5 +66,10 @@ public class XBTDataToken extends XBTToken {
     @Nonnull
     public XBTTokenType getTokenType() {
         return XBTTokenType.DATA;
+    }
+
+    @Nonnull
+    public static XBTDataToken create(@Nonnull InputStream data) {
+        return new XBTDataToken(data);
     }
 }

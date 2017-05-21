@@ -62,12 +62,12 @@ public class XBProviderToPullProvider implements XBPullProvider {
 
             @Override
             public void attribXB(XBAttribute value) throws XBProcessingException, IOException {
-                token = new XBAttributeToken(value);
+                token = XBAttributeToken.create(value);
             }
 
             @Override
             public void dataXB(InputStream data) throws XBProcessingException, IOException {
-                token = new XBDataToken(data);
+                token = XBDataToken.create(data);
             }
 
             @Override

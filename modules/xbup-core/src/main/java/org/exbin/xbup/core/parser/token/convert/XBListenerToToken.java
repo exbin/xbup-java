@@ -35,7 +35,7 @@ import org.exbin.xbup.core.ubnumber.UBNatural;
  * XBUP level 0 listener to single token convertor and static method for reverse
  * operation.
  *
- * @version 0.2.1 2017/05/19
+ * @version 0.2.1 2017/05/21
  * @author ExBin Project (http://exbin.org)
  */
 public class XBListenerToToken implements XBListener, XBSListener {
@@ -66,12 +66,12 @@ public class XBListenerToToken implements XBListener, XBSListener {
 
     @Override
     public void attribXB(XBAttribute value) throws XBProcessingException, IOException {
-        token = new XBAttributeToken(value);
+        token = XBAttributeToken.create(value);
     }
 
     @Override
     public void dataXB(InputStream data) throws XBProcessingException, IOException {
-        token = new XBDataToken(data);
+        token = XBDataToken.create(data);
     }
 
     @Override

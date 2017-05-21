@@ -17,35 +17,39 @@
 package org.exbin.xbup.core.parser.token;
 
 import javax.annotation.Nonnull;
-import org.exbin.xbup.core.ubnumber.type.UBNat32;
+import javax.annotation.Nullable;
 
 /**
  * XBUP protocol level 1 zero attribute token.
  *
  * This class carry single UBNatural with zero value.
  *
- * @version 0.2.1 2017/05/14
+ * @version 0.2.1 2017/05/21
  * @author ExBin Project (http://exbin.org)
  */
-public class XBTZeroAttributeToken extends XBTAttributeToken {
+public class XBTZeroAttributeToken extends XBTToken {
 
-    private static XBTZeroAttributeToken cachedZeroToken = null;
+    @Nullable
+    private static XBTZeroAttributeToken instance = null;
 
-    public XBTZeroAttributeToken() {
-        super(new UBNat32());
+    private XBTZeroAttributeToken() {
     }
 
     @Override
+    public XBTTokenType getTokenType() {
+        return XBTTokenType.ATTRIBUTE;
+    }
+
     public boolean isZero() {
-        return super.isZero();
+        return true;
     }
 
     @Nonnull
-    public static XBTZeroAttributeToken getZeroToken() {
-        if (cachedZeroToken == null) {
-            cachedZeroToken = new XBTZeroAttributeToken();
+    public static XBTZeroAttributeToken create() {
+        if (instance == null) {
+            instance = new XBTZeroAttributeToken();
         }
 
-        return cachedZeroToken;
+        return instance;
     }
 }

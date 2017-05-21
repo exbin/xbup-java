@@ -70,7 +70,7 @@ public class XBTChildListenerSerialHandler implements XBTChildOutputSerialHandle
             throw new XBSerialException("Unable to set block terminated mode", XBProcessingExceptionType.UNEXPECTED_ORDER);
         }
 
-        eventListener.putXBTToken(new XBTBeginToken(terminationMode));
+        eventListener.putXBTToken(XBTBeginToken.create(terminationMode));
         state = XBChildSerialState.ATTRIBUTE_PART;
     }
 
@@ -80,10 +80,10 @@ public class XBTChildListenerSerialHandler implements XBTChildOutputSerialHandle
             throw new XBSerialException("Unexpected method after block already finished", XBProcessingExceptionType.UNEXPECTED_ORDER);
         }
         if (state == XBChildSerialState.BLOCK_BEGIN) {
-            eventListener.putXBTToken(new XBTBeginToken(XBBlockTerminationMode.SIZE_SPECIFIED));
+            eventListener.putXBTToken(XBTBeginToken.create(XBBlockTerminationMode.SIZE_SPECIFIED));
         }
 
-        eventListener.putXBTToken(new XBTTypeToken(type));
+        eventListener.putXBTToken(XBTTypeToken.create(type));
         state = XBChildSerialState.TYPE;
     }
 
@@ -99,7 +99,7 @@ public class XBTChildListenerSerialHandler implements XBTChildOutputSerialHandle
             throw new XBSerialException("Missing block type event", XBProcessingExceptionType.UNEXPECTED_ORDER);
         }
 
-        eventListener.putXBTToken(new XBTAttributeToken(attribute));
+        eventListener.putXBTToken(XBTAttributeToken.create(attribute));
         state = XBChildSerialState.ATTRIBUTES;
     }
 
@@ -155,10 +155,10 @@ public class XBTChildListenerSerialHandler implements XBTChildOutputSerialHandle
          throw new XBSerialException("Data block is not allowed after children", XBProcessingExceptionType.UNEXPECTED_ORDER);
          } */
         if (state == XBChildSerialState.BLOCK_BEGIN) {
-            eventListener.putXBTToken(new XBTBeginToken(XBBlockTerminationMode.SIZE_SPECIFIED));
+            eventListener.putXBTToken(XBTBeginToken.create(XBBlockTerminationMode.SIZE_SPECIFIED));
         }
 
-        eventListener.putXBTToken(new XBTDataToken(data));
+        eventListener.putXBTToken(XBTDataToken.create(data));
         state = XBChildSerialState.DATA;
     }
 
@@ -171,7 +171,7 @@ public class XBTChildListenerSerialHandler implements XBTChildOutputSerialHandle
             throw new XBSerialException("At least one attribute or data required");
         }
 
-        eventListener.putXBTToken(new XBTEndToken());
+        eventListener.putXBTToken(XBTEndToken.create());
     }
 
     @Override

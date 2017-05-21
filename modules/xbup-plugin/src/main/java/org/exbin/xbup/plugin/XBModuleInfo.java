@@ -195,19 +195,19 @@ public class XBModuleInfo implements XBPSequenceSerializable, XBModuleRecord {
                     break;
                 }
                 case TYPE: {
-                    eventListener.putXBToken(new XBAttributeToken(new UBNat32()));
+                    eventListener.putXBToken(XBAttributeToken.create(new UBNat32()));
                     break;
                 }
                 case ATTRIBUTE: {
                     if (!blockIdSent) {
-                        eventListener.putXBToken(new XBAttributeToken(new UBNat32()));
+                        eventListener.putXBToken(XBAttributeToken.create(new UBNat32()));
                         blockIdSent = true;
                     }
-                    eventListener.putXBToken(new XBAttributeToken(((XBTAttributeToken) token).getAttribute()));
+                    eventListener.putXBToken(XBAttributeToken.create(((XBTAttributeToken) token).getAttribute()));
                     break;
                 }
                 case DATA: {
-                    eventListener.putXBToken(new XBDataToken(((XBTDataToken) token).getData()));
+                    eventListener.putXBToken(XBDataToken.create(((XBTDataToken) token).getData()));
                     break;
                 }
                 case END: {

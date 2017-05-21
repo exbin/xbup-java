@@ -237,7 +237,7 @@ public class XBPullReader implements XBPullProvider, XBResetableStream, XBSkipab
                             parserState = XBParserState.TAIL_DATA;
                             TailDataInputStreamWrapper wrapper = new TailDataInputStreamWrapper(source);
                             if (wrapper.available() > 0) {
-                                return new XBDataToken(wrapper);
+                                return XBDataToken.create(wrapper);
                             }
                         }
                     }
@@ -271,7 +271,7 @@ public class XBPullReader implements XBPullProvider, XBResetableStream, XBSkipab
                     }
                 }
 
-                return new XBAttributeToken(attribute);
+                return XBAttributeToken.create(attribute);
             }
 
             case DATA_PART: {
@@ -280,7 +280,7 @@ public class XBPullReader implements XBPullProvider, XBResetableStream, XBSkipab
                         : new FixedDataInputStreamWrapper(source, dataPartSizeValue);
 
                 parserState = XBParserState.BLOCK_END;
-                return new XBDataToken((InputStream) dataWrapper);
+                return XBDataToken.create((InputStream) dataWrapper);
             }
 
             case EOF:

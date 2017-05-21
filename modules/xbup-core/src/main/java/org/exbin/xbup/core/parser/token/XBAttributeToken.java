@@ -23,7 +23,7 @@ import javax.annotation.Nonnull;
  *
  * This class carry single UBNatural value.
  *
- * @version 0.2.1 2017/05/14
+ * @version 0.2.1 2017/05/21
  * @author ExBin Project (http://exbin.org)
  */
 public class XBAttributeToken extends XBToken {
@@ -31,7 +31,7 @@ public class XBAttributeToken extends XBToken {
     @Nonnull
     private final XBAttribute attribute;
 
-    public XBAttributeToken(@Nonnull XBAttribute attribute) {
+    private XBAttributeToken(@Nonnull XBAttribute attribute) {
         this.attribute = attribute;
     }
 
@@ -54,4 +54,10 @@ public class XBAttributeToken extends XBToken {
     public XBTokenType getTokenType() {
         return XBTokenType.ATTRIBUTE;
     }
+
+    @Nonnull
+    public static XBAttributeToken create(@Nonnull XBAttribute attribute) {
+        return new XBAttributeToken(attribute);
+    }
+
 }

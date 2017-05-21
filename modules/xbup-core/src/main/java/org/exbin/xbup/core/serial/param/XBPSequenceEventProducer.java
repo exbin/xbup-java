@@ -161,7 +161,7 @@ public class XBPSequenceEventProducer implements XBTEventProducer {
      * @throws java.io.IOException if input/output error
      */
     private void putEnd() throws XBProcessingException, IOException {
-        eventListener.putXBTToken(new XBTEndToken());
+        eventListener.putXBTToken(XBTEndToken.create());
     }
 
     public void putChild(XBSerializable child) throws XBProcessingException, IOException {

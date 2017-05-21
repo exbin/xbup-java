@@ -61,29 +61,29 @@ public class XBTToXBPullWrapper implements XBTPullProvider, XBPullConsumer {
         if (attrToken != null) {
             token = attrToken;
             attrToken = null;
-            return new XBTAttributeToken(((XBAttributeToken) token).getAttribute());
+            return XBTAttributeToken.create(((XBAttributeToken) token).getAttribute());
         }
 
         token = pullProvider.pullXBToken();
         switch (token.getTokenType()) {
             case BEGIN: {
                 typeSent = false;
-                return new XBTBeginToken(((XBBeginToken) token).getTerminationMode());
+                return XBTBeginToken.create(((XBBeginToken) token).getTerminationMode());
             }
             case ATTRIBUTE: {
                 if (!typeSent) {
                     attrToken = token;
                     typeSent = true;
-                    return new XBTTypeToken(unknownBlockType);
+                    return XBTTypeToken.create(unknownBlockType);
                 }
 
-                return new XBTAttributeToken(((XBAttributeToken) token).getAttribute());
+                return XBTAttributeToken.create(((XBAttributeToken) token).getAttribute());
             }
             case DATA: {
-                return new XBTDataToken(((XBDataToken) token).getData());
+                return XBTDataToken.create(((XBDataToken) token).getData());
             }
             case END: {
-                return new XBTEndToken();
+                return XBTEndToken.create();
             }
             default: {
                 throw new IllegalStateException();

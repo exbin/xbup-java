@@ -21,7 +21,6 @@ import java.io.InputStream;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 
 /**
  * XBUP protocol level 0 data token.
@@ -29,7 +28,7 @@ import javax.annotation.Nullable;
  * Class carry data represented as byte stream available via InputStream class.
  * You have to process data before processing next event.
  *
- * @version 0.2.1 2017/05/14
+ * @version 0.2.1 2017/05/21
  * @author ExBin Project (http://exbin.org)
  */
 public class XBDataToken extends XBToken {
@@ -37,7 +36,7 @@ public class XBDataToken extends XBToken {
     @Nonnull
     private final InputStream data;
 
-    public XBDataToken(@Nonnull InputStream data) {
+    private XBDataToken(@Nonnull InputStream data) {
         this.data = data;
     }
 
@@ -67,5 +66,10 @@ public class XBDataToken extends XBToken {
     @Nonnull
     public XBTokenType getTokenType() {
         return XBTokenType.DATA;
+    }
+
+    @Nonnull
+    public static XBDataToken create(@Nonnull InputStream data) {
+        return new XBDataToken(data);
     }
 }

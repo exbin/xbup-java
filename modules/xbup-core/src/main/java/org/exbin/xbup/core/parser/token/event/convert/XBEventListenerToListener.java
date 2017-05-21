@@ -47,7 +47,7 @@ public class XBEventListenerToListener implements XBListener, XBSListener {
 
     @Override
     public void attribXB(XBAttribute value) throws XBProcessingException, IOException {
-        eventListener.putXBToken(new XBAttributeToken(value));
+        eventListener.putXBToken(XBAttributeToken.create(value));
     }
 
     @Override
@@ -62,7 +62,7 @@ public class XBEventListenerToListener implements XBListener, XBSListener {
 
     @Override
     public void dataXB(InputStream data) throws XBProcessingException, IOException {
-        eventListener.putXBToken(new XBDataToken(data));
+        eventListener.putXBToken(XBDataToken.create(data));
     }
 
     @Override

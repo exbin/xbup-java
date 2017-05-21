@@ -119,7 +119,7 @@ public class XBEventReader implements XBEventProducer {
                 if (sizeLimits.isEmpty()) {
                     // Process tail data
                     if (parserMode != XBParserMode.SINGLE_BLOCK && parserMode != XBParserMode.SKIP_TAIL && source.available() > 0) {
-                        listener.putXBToken(new XBDataToken(new TailDataInputStreamWrapper(source)));
+                        listener.putXBToken(XBDataToken.create(new TailDataInputStreamWrapper(source)));
                     }
                 }
 
@@ -140,14 +140,14 @@ public class XBEventReader implements XBEventProducer {
                     FinishableStream dataWrapper = (dataPartSizeValue == null)
                             ? new TerminatedDataInputStreamWrapper(source)
                             : new FixedDataInputStreamWrapper(source, dataPartSizeValue);
-                    listener.putXBToken(new XBDataToken((InputStream) dataWrapper));
+                    listener.putXBToken(XBDataToken.create((InputStream) dataWrapper));
                     dataWrapper.finish();
                     shrinkStatus(sizeLimits, (int) dataWrapper.getLength());
 
                     if (sizeLimits.isEmpty()) {
                         // Process tail data
                         if (parserMode != XBParserMode.SINGLE_BLOCK && parserMode != XBParserMode.SKIP_TAIL && source.available() > 0) {
-                            listener.putXBToken(new XBDataToken(new TailDataInputStreamWrapper(source)));
+                            listener.putXBToken(XBDataToken.create(new TailDataInputStreamWrapper(source)));
                         }
                     }
 
@@ -166,7 +166,7 @@ public class XBEventReader implements XBEventProducer {
                         }
 
                         attributePartSizeValue -= attributeLength;
-                        listener.putXBToken(new XBAttributeToken(attribute));
+                        listener.putXBToken(XBAttributeToken.create(attribute));
                     }
                 }
             }
@@ -179,7 +179,7 @@ public class XBEventReader implements XBEventProducer {
                     // Process tail data
                     if (parserMode != XBParserMode.SINGLE_BLOCK && parserMode != XBParserMode.SKIP_TAIL && source.available() > 0) {
                         TailDataInputStreamWrapper dataWrapper = new TailDataInputStreamWrapper(source);
-                        listener.putXBToken(new XBDataToken(dataWrapper));
+                        listener.putXBToken(XBDataToken.create(dataWrapper));
                     }
                 }
 

@@ -62,8 +62,8 @@ public class XBTToXBEventConvertor implements XBTEventListener, XBEventProducer 
 
             case TYPE: {
                 if (((XBTTypeToken) token).getBlockType() instanceof XBFBlockType) {
-                    target.putXBToken(new XBAttributeToken(((XBFBlockType) ((XBTTypeToken) token).getBlockType()).getGroupID()));
-                    target.putXBToken(new XBAttributeToken(((XBFBlockType) ((XBTTypeToken) token).getBlockType()).getBlockID()));
+                    target.putXBToken(XBAttributeToken.create(((XBFBlockType) ((XBTTypeToken) token).getBlockType()).getGroupID()));
+                    target.putXBToken(XBAttributeToken.create(((XBFBlockType) ((XBTTypeToken) token).getBlockType()).getBlockID()));
                     break;
                 } else {
                     throw new XBProcessingException("Unexpected block type", XBProcessingExceptionType.BLOCK_TYPE_MISMATCH);
@@ -71,12 +71,12 @@ public class XBTToXBEventConvertor implements XBTEventListener, XBEventProducer 
             }
 
             case ATTRIBUTE: {
-                target.putXBToken(new XBAttributeToken(((XBTAttributeToken) token).getAttribute()));
+                target.putXBToken(XBAttributeToken.create(((XBTAttributeToken) token).getAttribute()));
                 break;
             }
 
             case DATA: {
-                target.putXBToken(new XBDataToken(((XBTDataToken) token).getData()));
+                target.putXBToken(XBDataToken.create(((XBTDataToken) token).getData()));
                 break;
             }
 

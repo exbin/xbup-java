@@ -68,31 +68,31 @@ public class XBTConsumerToListener implements XBTSListener {
 
     @Override
     public void beginXBT(XBBlockTerminationMode terminationMode) throws XBProcessingException, IOException {
-        tokens.add(new XBTBeginToken(terminationMode));
+        tokens.add(XBTBeginToken.create(terminationMode));
     }
 
     @Override
     public void beginXBT(XBBlockTerminationMode terminationMode, UBNatural blockSize) throws XBProcessingException, IOException {
-        tokens.add(new XBTSBeginToken(terminationMode, blockSize));
+        tokens.add(XBTSBeginToken.create(terminationMode, blockSize));
     }
 
     @Override
     public void typeXBT(XBBlockType type) throws XBProcessingException, IOException {
-        tokens.add(new XBTTypeToken(type));
+        tokens.add(XBTTypeToken.create(type));
     }
 
     @Override
     public void attribXBT(XBAttribute value) throws XBProcessingException, IOException {
-        tokens.add(new XBTAttributeToken(value));
+        tokens.add(XBTAttributeToken.create(value));
     }
 
     @Override
     public void dataXBT(InputStream data) throws XBProcessingException, IOException {
-        tokens.add(new XBTDataToken(data));
+        tokens.add(XBTDataToken.create(data));
     }
 
     @Override
     public void endXBT() throws XBProcessingException, IOException {
-        tokens.add(new XBTEndToken());
+        tokens.add(XBTEndToken.create());
     }
 }

@@ -39,7 +39,7 @@ import org.exbin.xbup.core.util.StreamUtils;
 /**
  * Token buffer to store received tokens into memory structure.
  *
- * @version 0.1.25 2015/08/11
+ * @version 0.2.1 2017/05/21
  * @author ExBin Project (http://exbin.org)
  */
 public class XBTokenBuffer implements XBEventListener {
@@ -104,7 +104,7 @@ public class XBTokenBuffer implements XBEventListener {
                         dataPartSize = dataStream.size();
                     }
 
-                    XBDataToken copiedToken = new XBDataToken(new ByteArrayInputStream(dataStream.toByteArray()));
+                    XBDataToken copiedToken = XBDataToken.create(new ByteArrayInputStream(dataStream.toByteArray()));
                     tokenList.set(bufferTokenIndex, copiedToken);
                     addBufferLevelDataPartSize(bufferLevelSizes, dataPartSize);
                     break;

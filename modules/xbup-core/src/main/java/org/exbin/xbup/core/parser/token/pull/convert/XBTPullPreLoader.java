@@ -90,7 +90,7 @@ public class XBTPullPreLoader implements XBTPullFilter {
             if (nextToken.getTokenType() == XBTTokenType.DATA) {
                 ByteArrayOutputStream stream = new ByteArrayOutputStream();
                 StreamUtils.copyInputStreamToOutputStream(((XBTDataToken) nextToken).getData(), stream);
-                nextToken = new XBTDataToken(new ByteArrayInputStream(stream.toByteArray()));
+                nextToken = XBTDataToken.create(new ByteArrayInputStream(stream.toByteArray()));
             }
         }
 
@@ -115,7 +115,6 @@ public class XBTPullPreLoader implements XBTPullFilter {
 
     // TODO: Make it later so, that more effective skip is used when source
     // supports it
-
     /**
      * Skips remaining attributes if child is requested.
      *

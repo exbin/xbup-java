@@ -71,7 +71,7 @@ public class XBToXBTPullConvertor implements XBPullConsumer, XBTPullProvider {
         switch (token.getTokenType()) {
             case BEGIN: {
                 first = true;
-                return new XBTBeginToken(((XBBeginToken) token).getTerminationMode());
+                return XBTBeginToken.create(((XBBeginToken) token).getTerminationMode());
             }
 
             case ATTRIBUTE: {
@@ -87,17 +87,17 @@ public class XBToXBTPullConvertor implements XBPullConsumer, XBTPullProvider {
                         blockType = new XBFixedBlockType(((XBAttributeToken) token).getAttribute().getNaturalLong(), 0);
                     }
 
-                    return new XBTTypeToken(blockType);
+                    return XBTTypeToken.create(blockType);
                 } else {
-                    return new XBTAttributeToken(((XBAttributeToken) token).getAttribute());
+                    return XBTAttributeToken.create(((XBAttributeToken) token).getAttribute());
                 }
             }
 
             case DATA:
-                return new XBTDataToken(((XBDataToken) token).getData());
+                return XBTDataToken.create(((XBDataToken) token).getData());
 
             case END:
-                return new XBTEndToken();
+                return XBTEndToken.create();
 
             default:
                 throw new XBProcessingException("Unexpected token type", XBProcessingExceptionType.UNKNOWN);

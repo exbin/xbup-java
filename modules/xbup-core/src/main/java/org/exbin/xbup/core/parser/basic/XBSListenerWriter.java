@@ -164,7 +164,7 @@ public class XBSListenerWriter implements Closeable, XBSListener {
         if (parserState == XBParserState.ATTRIBUTE_PART) {
             dataMode = XBBlockDataMode.NODE_BLOCK;
             if (bufferedFromLevel >= 0) {
-                tokenBuffer.putXBToken(new XBAttributeToken(attribute));
+                tokenBuffer.putXBToken(XBAttributeToken.create(attribute));
             } else {
                 int attributeSize = attribute.getSizeUB();
                 shrinkStatus(sizeLimits, attributeSize);
@@ -192,7 +192,7 @@ public class XBSListenerWriter implements Closeable, XBSListener {
 
             dataMode = XBBlockDataMode.DATA_BLOCK;
             if (bufferedFromLevel >= 0) {
-                tokenBuffer.putXBToken(new XBDataToken(data));
+                tokenBuffer.putXBToken(XBDataToken.create(data));
             } else {
                 OutputStream streamWrapper;
                 if (terminationMode == XBBlockTerminationMode.SIZE_SPECIFIED) {

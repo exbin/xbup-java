@@ -37,7 +37,7 @@ import org.exbin.xbup.core.ubnumber.UBNatural;
  * XBUP level 1 listener to token convertor and static method for reverse
  * operation.
  *
- * @version 0.1.24 2014/11/27
+ * @version 0.2.1 2017/05/21
  * @author ExBin Project (http://exbin.org)
  */
 public class XBTListenerToToken implements XBTListener, XBTSListener {
@@ -54,32 +54,32 @@ public class XBTListenerToToken implements XBTListener, XBTSListener {
 
     @Override
     public void beginXBT(XBBlockTerminationMode terminationMode) throws XBProcessingException, IOException {
-        token = new XBTBeginToken(terminationMode);
+        token = XBTBeginToken.create(terminationMode);
     }
 
     @Override
     public void beginXBT(XBBlockTerminationMode terminationMode, UBNatural blockSize) throws XBProcessingException, IOException {
-        token = new XBTSBeginToken(terminationMode, blockSize);
+        token = XBTSBeginToken.create(terminationMode, blockSize);
     }
 
     @Override
     public void typeXBT(XBBlockType blockType) throws XBProcessingException, IOException {
-        token = new XBTTypeToken(blockType);
+        token = XBTTypeToken.create(blockType);
     }
 
     @Override
     public void attribXBT(XBAttribute value) throws XBProcessingException, IOException {
-        token = new XBTAttributeToken(value);
+        token = XBTAttributeToken.create(value);
     }
 
     @Override
     public void dataXBT(InputStream data) throws XBProcessingException, IOException {
-        token = new XBTDataToken(data);
+        token = XBTDataToken.create(data);
     }
 
     @Override
     public void endXBT() throws XBProcessingException, IOException {
-        token = new XBTEndToken();
+        token = XBTEndToken.create();
     }
 
     /**

@@ -94,7 +94,7 @@ public class XBTEmptyBlock implements XBTBlock, XBPSequenceSerializable {
 
     @Override
     public InputStream getData() {
-        return XBTEmptyDataToken.getEmptyToken().getData();
+        return XBTEmptyDataToken.create().getData();
     }
 
     @Override

@@ -44,7 +44,7 @@ import org.exbin.xbup.core.util.StreamUtils;
 
 /**
  * Filter to convert declared stand-alone block types to fixed types.
- * 
+ *
  * TODO: Remove
  *
  * @version 0.2.0 2017/01/20
@@ -87,7 +87,7 @@ public class XBTEventTypeUndeclaringFilterNoDeclaration implements XBTEventFilte
                 ByteArrayOutputStream dataStream = new ByteArrayOutputStream();
                 StreamUtils.copyInputStreamToOutputStream(inputStream, dataStream);
                 currentContext.dataXBT(new ByteArrayInputStream(dataStream.toByteArray()));
-                token = new XBTDataToken(new ByteArrayInputStream(dataStream.toByteArray()));
+                token = XBTDataToken.create(new ByteArrayInputStream(dataStream.toByteArray()));
             } else {
                 XBTListenerToToken.tokenToListener(token, currentContext);
             }
@@ -115,7 +115,7 @@ public class XBTEventTypeUndeclaringFilterNoDeclaration implements XBTEventFilte
                         if (fixedType == null) {
                             throw new XBProcessingException("Unable to match block type", XBProcessingExceptionType.BLOCK_TYPE_MISMATCH);
                         }
-                        eventListener.putXBTToken(new XBTTypeToken(fixedType));
+                        eventListener.putXBTToken(XBTTypeToken.create(fixedType));
                         return;
                     }
                 }

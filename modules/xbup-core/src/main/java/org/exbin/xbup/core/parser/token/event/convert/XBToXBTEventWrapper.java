@@ -17,6 +17,7 @@
 package org.exbin.xbup.core.parser.token.event.convert;
 
 import java.io.IOException;
+import javax.annotation.Nonnull;
 import org.exbin.xbup.core.block.XBFixedBlockType;
 import org.exbin.xbup.core.parser.XBProcessingException;
 import org.exbin.xbup.core.parser.token.XBAttributeToken;
@@ -55,28 +56,28 @@ public class XBToXBTEventWrapper implements XBEventListener, XBTEventProducer {
     }
 
     @Override
-    public void putXBToken(XBToken token) throws XBProcessingException, IOException {
+    public void putXBToken(@Nonnull XBToken token) throws XBProcessingException, IOException {
         switch (token.getTokenType()) {
             case BEGIN: {
                 typeSent = false;
-                eventListener.putXBTToken(new XBTBeginToken(((XBBeginToken) token).getTerminationMode()));
+                eventListener.putXBTToken(XBTBeginToken.create(((XBBeginToken) token).getTerminationMode()));
                 break;
             }
             case ATTRIBUTE: {
                 if (!typeSent) {
-                    eventListener.putXBTToken(new XBTTypeToken(unknownBlockType));
+                    eventListener.putXBTToken(XBTTypeToken.create(unknownBlockType));
                     typeSent = true;
                 }
 
-                eventListener.putXBTToken(new XBTAttributeToken(((XBAttributeToken) token).getAttribute()));
+                eventListener.putXBTToken(XBTAttributeToken.create(((XBAttributeToken) token).getAttribute()));
                 break;
             }
             case DATA: {
-                eventListener.putXBTToken(new XBTDataToken(((XBDataToken) token).getData()));
+                eventListener.putXBTToken(XBTDataToken.create(((XBDataToken) token).getData()));
                 break;
             }
             case END: {
-                eventListener.putXBTToken(new XBTEndToken());
+                eventListener.putXBTToken(XBTEndToken.create());
                 break;
             }
             default: {

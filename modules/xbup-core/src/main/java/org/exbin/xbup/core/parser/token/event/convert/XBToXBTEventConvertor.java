@@ -17,6 +17,7 @@
 package org.exbin.xbup.core.parser.token.event.convert;
 
 import java.io.IOException;
+import javax.annotation.Nonnull;
 import org.exbin.xbup.core.block.XBFixedBlockType;
 import org.exbin.xbup.core.parser.XBProcessingException;
 import org.exbin.xbup.core.parser.token.XBAttributeToken;
@@ -56,14 +57,14 @@ public class XBToXBTEventConvertor implements XBEventListener, XBTEventProducer 
     }
 
     @Override
-    public void putXBToken(XBToken token) throws XBProcessingException, IOException {
+    public void putXBToken(@Nonnull XBToken token) throws XBProcessingException, IOException {
         switch (token.getTokenType()) {
             case BEGIN: {
                 if (expectType && group != null) {
-                    target.putXBTToken(new XBTTypeToken(new XBFixedBlockType(group.getLong(), 0)));
+                    target.putXBTToken(XBTTypeToken.create(new XBFixedBlockType(group.getLong(), 0)));
                 }
 
-                target.putXBTToken(new XBTBeginToken(((XBBeginToken) token).getTerminationMode()));
+                target.putXBTToken(XBTBeginToken.create(((XBBeginToken) token).getTerminationMode()));
                 expectType = true;
                 group = null;
                 break;
@@ -72,32 +73,32 @@ public class XBToXBTEventConvertor implements XBEventListener, XBTEventProducer 
             case ATTRIBUTE: {
                 if (expectType) {
                     if (group != null) {
-                        target.putXBTToken(new XBTTypeToken(new XBFixedBlockType(group.getLong(), (((XBAttributeToken) token).getAttribute()).getNaturalLong())));
+                        target.putXBTToken(XBTTypeToken.create(new XBFixedBlockType(group.getLong(), (((XBAttributeToken) token).getAttribute()).getNaturalLong())));
                         expectType = false;
                     } else {
                         group = ((XBAttributeToken) token).getAttribute().convertToNatural();
                     }
                 } else {
-                    target.putXBTToken(new XBTAttributeToken(((XBAttributeToken) token).getAttribute()));
+                    target.putXBTToken(XBTAttributeToken.create(((XBAttributeToken) token).getAttribute()));
                 }
                 break;
             }
 
             case DATA: {
                 if (expectType && group != null) {
-                    target.putXBTToken(new XBTTypeToken(new XBFixedBlockType(group.getLong(), 0)));
+                    target.putXBTToken(XBTTypeToken.create(new XBFixedBlockType(group.getLong(), 0)));
                 }
 
-                target.putXBTToken(new XBTDataToken(((XBDataToken) token).getData()));
+                target.putXBTToken(XBTDataToken.create(((XBDataToken) token).getData()));
                 break;
             }
 
             case END: {
                 if (expectType && group != null) {
-                    target.putXBTToken(new XBTTypeToken(new XBFixedBlockType(group.getLong(), 0)));
+                    target.putXBTToken(XBTTypeToken.create(new XBFixedBlockType(group.getLong(), 0)));
                 }
 
-                target.putXBTToken(new XBTEndToken());
+                target.putXBTToken(XBTEndToken.create());
                 break;
             }
         }

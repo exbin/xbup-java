@@ -17,6 +17,7 @@
 package org.exbin.xbup.core.parser.token;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 /**
  * XBUP protocol level 0 end token.
@@ -26,6 +27,7 @@ import javax.annotation.Nonnull;
  */
 public class XBEndToken extends XBToken {
 
+    @Nullable
     private static XBEndToken instance = null;
 
     private XBEndToken() {

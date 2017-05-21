@@ -44,7 +44,7 @@ import org.exbin.xbup.core.util.StreamUtils;
 
 /**
  * Filter to convert block types from fixed types to stand-alone types.
- * 
+ *
  * TODO: Drop
  *
  * @version 0.2.0 2017/01/20
@@ -88,7 +88,7 @@ public class XBTPullTypeDeclaringFilterNoDeclaration implements XBTPullFilter {
                 ByteArrayOutputStream dataStream = new ByteArrayOutputStream();
                 StreamUtils.copyInputStreamToOutputStream(inputStream, dataStream);
                 currentContext.dataXBT(new ByteArrayInputStream(dataStream.toByteArray()));
-                token = new XBTDataToken(new ByteArrayInputStream(dataStream.toByteArray()));
+                token = XBTDataToken.create(new ByteArrayInputStream(dataStream.toByteArray()));
             } else {
                 XBTListenerToToken.tokenToListener(token, currentContext);
             }
@@ -113,7 +113,7 @@ public class XBTPullTypeDeclaringFilterNoDeclaration implements XBTPullFilter {
                     if (blockType instanceof XBFBlockType) {
                         if (((XBFBlockType) blockType).getGroupID().isNaturalZero()) {
                             if (catalog != null) {
-                                return new XBTTypeToken(catalog.getBasicBlockType(blockType.getAsBasicType()));
+                                return XBTTypeToken.create(catalog.getBasicBlockType(blockType.getAsBasicType()));
                             } else {
                                 return token;
                             }
@@ -124,7 +124,7 @@ public class XBTPullTypeDeclaringFilterNoDeclaration implements XBTPullFilter {
                             throw new XBProcessingException("Unable to match block type", XBProcessingExceptionType.BLOCK_TYPE_MISMATCH);
                         }
 
-                        return new XBTTypeToken(declType);
+                        return XBTTypeToken.create(declType);
                     }
                 }
 

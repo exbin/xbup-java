@@ -183,7 +183,7 @@ public class XBPProviderSerialHandler implements XBPInputSerialHandler, XBPSeque
 
         paramTypes.add(paramType);
         paramType = XBParamType.CONSIST;
-        beginToken = new XBTBeginToken(pullBegin());
+        beginToken = XBTBeginToken.create(pullBegin());
         if (pullIfEmptyData()) {
             pullEnd();
             beginToken = null;
@@ -214,20 +214,20 @@ public class XBPProviderSerialHandler implements XBPInputSerialHandler, XBPSeque
     public XBTToken pullToken(XBTTokenType tokenType) throws XBProcessingException, IOException {
         switch (tokenType) {
             case BEGIN: {
-                return new XBTBeginToken(pullBegin());
+                return XBTBeginToken.create(pullBegin());
             }
             case TYPE: {
-                return new XBTTypeToken(pullType());
+                return XBTTypeToken.create(pullType());
             }
             case ATTRIBUTE: {
-                return new XBTAttributeToken(pullAttribute());
+                return XBTAttributeToken.create(pullAttribute());
             }
             case DATA: {
-                return new XBTDataToken(pullData());
+                return XBTDataToken.create(pullData());
             }
             case END: {
                 pullEnd();
-                return new XBTEndToken();
+                return XBTEndToken.create();
             }
         }
 

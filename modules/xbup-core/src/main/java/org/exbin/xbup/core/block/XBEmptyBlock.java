@@ -99,7 +99,7 @@ public class XBEmptyBlock implements XBBlock, XBPSequenceSerializable {
     @Nullable
     @Override
     public InputStream getData() {
-        return XBTEmptyDataToken.getEmptyToken().getData();
+        return XBTEmptyDataToken.create().getData();
     }
 
     @Nullable

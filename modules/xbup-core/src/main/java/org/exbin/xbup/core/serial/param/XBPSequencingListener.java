@@ -69,19 +69,19 @@ public class XBPSequencingListener implements XBPListener {
     @Override
     public void putBegin(XBBlockTerminationMode terminationMode) throws XBProcessingException, IOException {
         depth++;
-        serialSequence.add(new XBSerialSequenceItem(XBSerialSequenceOp.TOKEN, new XBPTokenWrapper(new XBTBeginToken(terminationMode))));
+        serialSequence.add(new XBSerialSequenceItem(XBSerialSequenceOp.TOKEN, new XBPTokenWrapper(XBTBeginToken.create(terminationMode))));
     }
 
     @Override
     public void putType(XBBlockType type) throws XBProcessingException, IOException {
         validate();
-        serialSequence.add(new XBSerialSequenceItem(XBSerialSequenceOp.TOKEN, new XBPTokenWrapper(new XBTTypeToken(type))));
+        serialSequence.add(new XBSerialSequenceItem(XBSerialSequenceOp.TOKEN, new XBPTokenWrapper(XBTTypeToken.create(type))));
     }
 
     @Override
     public void putAttribute(XBAttribute attribute) throws XBProcessingException, IOException {
         validate();
-        serialSequence.add(new XBSerialSequenceItem(XBSerialSequenceOp.TOKEN, new XBPTokenWrapper(new XBTAttributeToken(attribute))));
+        serialSequence.add(new XBSerialSequenceItem(XBSerialSequenceOp.TOKEN, new XBPTokenWrapper(XBTAttributeToken.create(attribute))));
     }
 
     @Override
@@ -111,13 +111,13 @@ public class XBPSequencingListener implements XBPListener {
     @Override
     public void putData(InputStream data) throws XBProcessingException, IOException {
         validate();
-        serialSequence.add(new XBSerialSequenceItem(XBSerialSequenceOp.TOKEN, new XBPTokenWrapper(new XBTDataToken(data))));
+        serialSequence.add(new XBSerialSequenceItem(XBSerialSequenceOp.TOKEN, new XBPTokenWrapper(XBTDataToken.create(data))));
     }
 
     @Override
     public void putEnd() throws XBProcessingException, IOException {
         validate();
-        serialSequence.add(new XBSerialSequenceItem(XBSerialSequenceOp.TOKEN, new XBPTokenWrapper(new XBTEndToken())));
+        serialSequence.add(new XBSerialSequenceItem(XBSerialSequenceOp.TOKEN, new XBPTokenWrapper(XBTEndToken.create())));
         depth--;
     }
 

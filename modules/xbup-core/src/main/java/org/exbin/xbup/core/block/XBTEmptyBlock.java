@@ -22,7 +22,7 @@ import org.exbin.utils.binary_data.BinaryData;
 import org.exbin.xbup.core.parser.XBProcessingException;
 import org.exbin.xbup.core.parser.XBProcessingExceptionType;
 import org.exbin.xbup.core.parser.token.XBAttribute;
-import org.exbin.xbup.core.parser.token.XBTEmptyDataToken;
+import org.exbin.xbup.core.parser.token.XBTDataToken;
 import org.exbin.xbup.core.serial.param.XBPSequenceSerialHandler;
 import org.exbin.xbup.core.serial.param.XBPSequenceSerializable;
 import org.exbin.xbup.core.serial.param.XBSerializationMode;
@@ -94,7 +94,7 @@ public class XBTEmptyBlock implements XBTBlock, XBPSequenceSerializable {
 
     @Override
     public InputStream getData() {
-        return XBTEmptyDataToken.create().getData();
+        return XBTDataToken.createEmptyToken().getData();
     }
 
     @Override

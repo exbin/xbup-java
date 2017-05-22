@@ -21,15 +21,10 @@ import javax.annotation.Nonnull;
 /**
  * XBUP protocol level 1 end token.
  *
- * @version 0.2.1 2017/05/21
+ * @version 0.2.1 2017/05/22
  * @author ExBin Project (http://exbin.org)
  */
-public class XBTEndToken extends XBTToken {
-
-    private static XBTEndToken instance = null;
-
-    private XBTEndToken() {
-    }
+public abstract class XBTEndToken implements XBTToken {
 
     @Override
     @Nonnull
@@ -37,12 +32,20 @@ public class XBTEndToken extends XBTToken {
         return XBTTokenType.END;
     }
 
+    private static XBTEndToken instance = null;
+
     @Nonnull
     public static XBTEndToken create() {
         if (instance == null) {
-            instance = new XBTEndToken();
+            instance = new XBTEndTokenImpl();
         }
 
         return instance;
+    }
+
+    private static class XBTEndTokenImpl extends XBTEndToken {
+
+        XBTEndTokenImpl() {
+        }
     }
 }

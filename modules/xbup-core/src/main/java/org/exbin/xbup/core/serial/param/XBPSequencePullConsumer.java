@@ -29,11 +29,9 @@ import org.exbin.xbup.core.parser.param.XBParamProcessingState;
 import org.exbin.xbup.core.parser.token.XBTAttributeToken;
 import org.exbin.xbup.core.parser.token.XBTBeginToken;
 import org.exbin.xbup.core.parser.token.XBTDataToken;
-import org.exbin.xbup.core.parser.token.XBTEmptyDataToken;
 import org.exbin.xbup.core.parser.token.XBTEndToken;
 import org.exbin.xbup.core.parser.token.XBTToken;
 import org.exbin.xbup.core.parser.token.XBTTokenType;
-import org.exbin.xbup.core.parser.token.XBTZeroAttributeToken;
 import org.exbin.xbup.core.parser.token.event.XBTEventProducer;
 import org.exbin.xbup.core.parser.token.event.convert.XBTEventProducerToProducer;
 import org.exbin.xbup.core.parser.token.pull.XBTPullConsumer;
@@ -127,7 +125,7 @@ public class XBPSequencePullConsumer implements XBTPullConsumer {
                     if (!attributeSequence.isEmpty()) {
                         return attributeSequence.remove(0);
                     } else {
-                        return XBTZeroAttributeToken.create();
+                        return XBTAttributeToken.createZeroToken();
                     }
                 }
 
@@ -145,7 +143,7 @@ public class XBPSequencePullConsumer implements XBTPullConsumer {
 
                 processingState = XBParamProcessingState.DATA;
                 if (emptyNodeMode) {
-                    return XBTEmptyDataToken.create();
+                    return XBTDataToken.createEmptyToken();
                 }
 
                 XBTToken token = pullProvider.pullXBTToken();

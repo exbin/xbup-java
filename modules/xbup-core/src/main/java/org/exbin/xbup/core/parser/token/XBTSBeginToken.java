@@ -29,10 +29,10 @@ import org.exbin.xbup.core.ubnumber.UBNatural;
  *
  * Additional blockSize represents precomputed size of block if available.
  *
- * @version 0.2.1 2017/05/21
+ * @version 0.2.1 2017/05/22
  * @author ExBin Project (http://exbin.org)
  */
-public class XBTSBeginToken extends XBTToken {
+public class XBTSBeginToken extends XBTBeginToken {
 
     @Nullable
     private UBNatural blockSize;
@@ -50,6 +50,7 @@ public class XBTSBeginToken extends XBTToken {
     }
 
     @Nonnull
+    @Override
     public XBBlockTerminationMode getTerminationMode() {
         return terminationMode;
     }

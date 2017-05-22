@@ -42,7 +42,6 @@ import org.exbin.xbup.core.parser.token.XBTBeginToken;
 import org.exbin.xbup.core.parser.token.XBTEndToken;
 import org.exbin.xbup.core.parser.token.XBTToken;
 import org.exbin.xbup.core.parser.token.XBTTypeToken;
-import org.exbin.xbup.core.parser.token.XBTZeroAttributeToken;
 import org.exbin.xbup.core.parser.token.convert.XBTListenerToToken;
 import org.exbin.xbup.core.parser.token.event.XBTEventListener;
 import org.exbin.xbup.core.parser.token.pull.XBTPullProvider;
@@ -54,7 +53,7 @@ import org.exbin.xbup.core.ubnumber.type.UBNat32;
 /**
  * Extracting specified parameters from XBUP level 2 blocks.
  *
- * @version 0.1.24 2015/01/18
+ * @version 0.2.1 2017/05/22
  * @author ExBin Project (http://exbin.org)
  */
 public class XBATreeParamExtractor implements XBTPullProvider, XBTEventListener {
@@ -490,7 +489,7 @@ public class XBATreeParamExtractor implements XBTPullProvider, XBTEventListener 
     private XBTToken getNextAttributeToken() {
         if (position.attributeCount >= source.getAttributesCount()) {
             position.attributeCount++;
-            return XBTZeroAttributeToken.create();
+            return XBTAttributeToken.createZeroToken();
         }
 
         XBTAttributeToken attributeToken = XBTAttributeToken.create(source.getAttributeAt(position.attributeCount));

@@ -25,31 +25,27 @@ import org.exbin.xbup.core.block.XBBlockTerminationMode;
  * Class marks beggining of block. Terminated flag carry information about
  * method for block termination type in bitstream.
  *
- * @version 0.2.1 2017/05/21
+ * @version 0.2.1 2017/05/22
  * @author ExBin Project (http://exbin.org)
  */
-public class XBTBeginToken extends XBTToken {
+public abstract class XBTBeginToken implements XBTToken {
 
-    private static XBTBeginToken sizeSpecifiedBeginToken = null;
-    private static XBTBeginToken terminatedByZeroBeginToken = null;
-
+    /**
+     * Returns termination mode of the token.
+     *
+     * @return termination mode
+     */
     @Nonnull
-    private final XBBlockTerminationMode terminationMode;
-
-    private XBTBeginToken(@Nonnull XBBlockTerminationMode terminationMode) {
-        this.terminationMode = terminationMode;
-    }
-
-    @Nonnull
-    public XBBlockTerminationMode getTerminationMode() {
-        return terminationMode;
-    }
+    public abstract XBBlockTerminationMode getTerminationMode();
 
     @Override
     @Nonnull
     public XBTTokenType getTokenType() {
         return XBTTokenType.BEGIN;
     }
+
+    private static XBTBeginTokenImpl sizeSpecifiedBeginToken = null;
+    private static XBTBeginTokenImpl terminatedByZeroBeginToken = null;
 
     @Nonnull
     public static XBTBeginToken create(@Nonnull XBBlockTerminationMode terminationMode) {
@@ -66,7 +62,7 @@ public class XBTBeginToken extends XBTToken {
     @Nonnull
     public static XBTBeginToken getSizeSpecifiedInstance() {
         if (sizeSpecifiedBeginToken == null) {
-            sizeSpecifiedBeginToken = new XBTBeginToken(XBBlockTerminationMode.SIZE_SPECIFIED);
+            sizeSpecifiedBeginToken = new XBTBeginTokenImpl(XBBlockTerminationMode.SIZE_SPECIFIED);
         }
 
         return sizeSpecifiedBeginToken;
@@ -75,9 +71,25 @@ public class XBTBeginToken extends XBTToken {
     @Nonnull
     public static XBTBeginToken getTerminatedByZeroInstance() {
         if (terminatedByZeroBeginToken == null) {
-            terminatedByZeroBeginToken = new XBTBeginToken(XBBlockTerminationMode.TERMINATED_BY_ZERO);
+            terminatedByZeroBeginToken = new XBTBeginTokenImpl(XBBlockTerminationMode.TERMINATED_BY_ZERO);
         }
 
         return terminatedByZeroBeginToken;
+    }
+
+    private static class XBTBeginTokenImpl extends XBTBeginToken {
+
+        @Nonnull
+        private final XBBlockTerminationMode terminationMode;
+
+        private XBTBeginTokenImpl(@Nonnull XBBlockTerminationMode terminationMode) {
+            this.terminationMode = terminationMode;
+        }
+
+        @Nonnull
+        @Override
+        public XBBlockTerminationMode getTerminationMode() {
+            return terminationMode;
+        }
     }
 }

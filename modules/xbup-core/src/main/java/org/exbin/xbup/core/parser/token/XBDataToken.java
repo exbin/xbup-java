@@ -16,11 +16,13 @@
  */
 package org.exbin.xbup.core.parser.token;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 /**
  * XBUP protocol level 0 data token.
@@ -28,22 +30,18 @@ import javax.annotation.Nonnull;
  * Class carry data represented as byte stream available via InputStream class.
  * You have to process data before processing next event.
  *
- * @version 0.2.1 2017/05/21
+ * @version 0.2.1 2017/05/22
  * @author ExBin Project (http://exbin.org)
  */
-public class XBDataToken extends XBToken {
+public abstract class XBDataToken implements XBToken {
 
+    /**
+     * Returns token data.
+     *
+     * @return token data
+     */
     @Nonnull
-    private final InputStream data;
-
-    private XBDataToken(@Nonnull InputStream data) {
-        this.data = data;
-    }
-
-    @Nonnull
-    public InputStream getData() {
-        return data;
-    }
+    public abstract InputStream getData();
 
     /**
      * Returns true if this is empty data token.
@@ -52,15 +50,7 @@ public class XBDataToken extends XBToken {
      *
      * @return true if data are empty
      */
-    public boolean isEmpty() {
-        try {
-            return data.available() == 0;
-        } catch (IOException ex) {
-            Logger.getLogger(XBDataToken.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-        return false;
-    }
+    public abstract boolean isEmpty();
 
     @Override
     @Nonnull
@@ -70,6 +60,65 @@ public class XBDataToken extends XBToken {
 
     @Nonnull
     public static XBDataToken create(@Nonnull InputStream data) {
-        return new XBDataToken(data);
+        return new XBDataTokenImpl(data);
+    }
+
+    private static class XBDataTokenImpl extends XBDataToken {
+
+        @Nonnull
+        private final InputStream data;
+
+        public XBDataTokenImpl(InputStream data) {
+            this.data = data;
+        }
+
+        @Override
+        public XBTokenType getTokenType() {
+            return super.getTokenType();
+        }
+
+        @Override
+        public InputStream getData() {
+            return data;
+        }
+
+        @Override
+        public boolean isEmpty() {
+            try {
+                return data.available() == 0;
+            } catch (IOException ex) {
+                Logger.getLogger(XBDataToken.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+            return false;
+        }
+    }
+
+    @Nullable
+    private static XBEmptyDataToken instance = null;
+
+    @Nonnull
+    public static XBDataToken createEmptyToken() {
+        if (instance == null) {
+            instance = new XBEmptyDataToken();
+        }
+
+        return instance;
+    }
+
+    private static class XBEmptyDataToken extends XBDataToken {
+
+        XBEmptyDataToken() {
+        }
+
+        @Override
+        public boolean isEmpty() {
+            return true;
+        }
+
+        @Override
+        public InputStream getData() {
+            return new ByteArrayInputStream(new byte[0]);
+        }
     }
 }

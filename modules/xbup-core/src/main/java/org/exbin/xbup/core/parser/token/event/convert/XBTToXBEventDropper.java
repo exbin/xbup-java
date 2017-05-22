@@ -27,7 +27,6 @@ import org.exbin.xbup.core.parser.token.XBTBeginToken;
 import org.exbin.xbup.core.parser.token.XBTDataToken;
 import org.exbin.xbup.core.parser.token.XBTToken;
 import org.exbin.xbup.core.parser.token.XBTTokenType;
-import org.exbin.xbup.core.parser.token.XBZeroAttributeToken;
 import org.exbin.xbup.core.parser.token.event.XBEventListener;
 import org.exbin.xbup.core.parser.token.event.XBEventProducer;
 import org.exbin.xbup.core.parser.token.event.XBTEventListener;
@@ -35,7 +34,7 @@ import org.exbin.xbup.core.parser.token.event.XBTEventListener;
 /**
  * XBUP level 1 to level 0 event convertor which drops node types.
  *
- * @version 0.2.1 2017/05/21
+ * @version 0.2.1 2017/05/22
  * @author ExBin Project (http://exbin.org)
  */
 public class XBTToXBEventDropper implements XBTEventListener, XBEventProducer {
@@ -56,7 +55,7 @@ public class XBTToXBEventDropper implements XBTEventListener, XBEventProducer {
     @Override
     public void putXBTToken(XBTToken token) throws XBProcessingException, IOException {
         if (typeProcessed && (token.getTokenType() != XBTTokenType.ATTRIBUTE)) {
-            target.putXBToken(XBZeroAttributeToken.create());
+            target.putXBToken(XBAttributeToken.createZeroToken());
             typeProcessed = false;
         }
 

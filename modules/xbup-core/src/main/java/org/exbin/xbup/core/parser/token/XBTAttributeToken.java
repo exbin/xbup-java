@@ -17,37 +17,28 @@
 package org.exbin.xbup.core.parser.token;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import org.exbin.xbup.core.ubnumber.type.UBNat32;
 
 /**
  * XBUP protocol level 1 attribute token.
  *
  * This class carry single UBNatural value.
  *
- * @version 0.2.1 2017/05/21
+ * @version 0.2.1 2017/05/22
  * @author ExBin Project (http://exbin.org)
  */
-public class XBTAttributeToken extends XBTToken {
+public abstract class XBTAttributeToken implements XBTToken {
 
     @Nonnull
-    private final XBAttribute attribute;
-
-    private XBTAttributeToken(@Nonnull XBAttribute attribute) {
-        this.attribute = attribute;
-    }
-
-    @Nonnull
-    public XBAttribute getAttribute() {
-        return attribute;
-    }
+    public abstract XBAttribute getAttribute();
 
     /**
      * Returns true if this is attribute is zero.
      *
      * @return true if attribute is zero
      */
-    public boolean isZero() {
-        return attribute == null || attribute.isNaturalZero();
-    }
+    public abstract boolean isZero();
 
     @Override
     @Nonnull
@@ -57,6 +48,62 @@ public class XBTAttributeToken extends XBTToken {
 
     @Nonnull
     public static XBTAttributeToken create(@Nonnull XBAttribute attribute) {
-        return new XBTAttributeToken(attribute);
+        return new XBTAttributeTokenImpl(attribute);
+
+    }
+
+    private static class XBTAttributeTokenImpl extends XBTAttributeToken {
+
+        @Nonnull
+        private final XBAttribute attribute;
+
+        private XBTAttributeTokenImpl(@Nonnull XBAttribute attribute) {
+            this.attribute = attribute;
+        }
+
+        @Nonnull
+        @Override
+        public XBAttribute getAttribute() {
+            return attribute;
+        }
+
+        @Override
+        public boolean isZero() {
+            return attribute.isNaturalZero();
+        }
+
+        @Override
+        @Nonnull
+        public XBTTokenType getTokenType() {
+            return XBTTokenType.ATTRIBUTE;
+        }
+    }
+
+    @Nullable
+    private static XBTZeroAttributeToken instance = null;
+
+    @Nonnull
+    public static XBTAttributeToken createZeroToken() {
+        if (instance == null) {
+            instance = new XBTZeroAttributeToken();
+        }
+
+        return instance;
+    }
+
+    private static class XBTZeroAttributeToken extends XBTAttributeToken {
+
+        private XBTZeroAttributeToken() {
+        }
+
+        @Override
+        public XBAttribute getAttribute() {
+            return new UBNat32();
+        }
+
+        @Override
+        public boolean isZero() {
+            return true;
+        }
     }
 }

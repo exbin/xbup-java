@@ -22,22 +22,13 @@ import org.exbin.xbup.core.block.XBBlockType;
 /**
  * XBUP protocol level 1 block type token.
  *
- * @version 0.2.1 2017/05/21
+ * @version 0.2.1 2017/05/22
  * @author ExBin Project (http://exbin.org)
  */
-public class XBTTypeToken extends XBTToken {
+public abstract class XBTTypeToken implements XBTToken {
 
     @Nonnull
-    private final XBBlockType blockType;
-
-    private XBTTypeToken(@Nonnull XBBlockType blockType) {
-        this.blockType = blockType;
-    }
-
-    @Nonnull
-    public XBBlockType getBlockType() {
-        return blockType;
-    }
+    public abstract XBBlockType getBlockType();
 
     @Override
     @Nonnull
@@ -47,6 +38,22 @@ public class XBTTypeToken extends XBTToken {
 
     @Nonnull
     public static XBTTypeToken create(@Nonnull XBBlockType blockType) {
-        return new XBTTypeToken(blockType);
+        return new XBTTypeTokenImpl(blockType);
+    }
+
+    private static class XBTTypeTokenImpl extends XBTTypeToken {
+
+        @Nonnull
+        private final XBBlockType blockType;
+
+        private XBTTypeTokenImpl(@Nonnull XBBlockType blockType) {
+            this.blockType = blockType;
+        }
+
+        @Nonnull
+        @Override
+        public XBBlockType getBlockType() {
+            return blockType;
+        }
     }
 }

@@ -19,6 +19,7 @@ package org.exbin.xbup.core.ubnumber.type;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import javax.annotation.Nonnull;
 import org.exbin.xbup.core.block.declaration.XBDeclBlockType;
 import org.exbin.xbup.core.parser.XBProcessingException;
 import org.exbin.xbup.core.parser.XBProcessingExceptionType;
@@ -72,12 +73,12 @@ public class UBBool implements UBBoolean, XBPSequenceSerializable {
     }
 
     @Override
-    public int fromStreamUB(InputStream stream) throws IOException, XBProcessingException {
-        byte buf[] = new byte[1];
-        if (stream.read(buf) < 0) {
+    public int fromStreamUB(@Nonnull InputStream stream) throws IOException, XBProcessingException {
+        byte[] buffer = new byte[1];
+        if (stream.read(buffer) < 0) {
             throw new XBProcessingException("End of data reached", XBProcessingExceptionType.UNEXPECTED_END_OF_STREAM);
         }
-        long input = (char) buf[0] & 0xFF;
+        long input = (char) buffer[0] & 0xFF;
         if (input > 1 || input < 0) {
             throw new XBProcessingException("Unsupported boolean value", XBProcessingExceptionType.UNEXPECTED_END_OF_STREAM);
         }
@@ -86,7 +87,7 @@ public class UBBool implements UBBoolean, XBPSequenceSerializable {
     }
 
     @Override
-    public int toStreamUB(OutputStream stream) throws IOException {
+    public int toStreamUB(@Nonnull OutputStream stream) throws IOException {
         stream.write((char) (value ? 1 : 0));
         return 1;
     }
@@ -97,7 +98,7 @@ public class UBBool implements UBBoolean, XBPSequenceSerializable {
     }
 
     @Override
-    public void serializeXB(XBPSequenceSerialHandler serial) throws XBProcessingException, IOException {
+    public void serializeXB(@Nonnull XBPSequenceSerialHandler serial) throws XBProcessingException, IOException {
         serial.begin();
         serial.matchType(new XBDeclBlockType(XBUP_BLOCKREV_CATALOGPATH));
         if (serial.getSerializationMode() == XBSerializationMode.PULL) {
@@ -143,11 +144,12 @@ public class UBBool implements UBBoolean, XBPSequenceSerializable {
     }
 
     @Override
-    public void convertFromNatural(UBNatural natural) {
+    public void convertFromNatural(@Nonnull UBNatural natural) {
         setNaturalInt(natural.getInt());
     }
 
     @Override
+    @Nonnull
     public UBNatural convertToNatural() {
         return new UBNat32(getNaturalInt());
     }

@@ -17,6 +17,8 @@
 package org.exbin.xbup.core.serial.token;
 
 import java.io.IOException;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import org.exbin.xbup.core.parser.XBProcessingException;
 import org.exbin.xbup.core.parser.XBProcessingExceptionType;
 import org.exbin.xbup.core.parser.token.XBTToken;
@@ -26,22 +28,24 @@ import org.exbin.xbup.core.parser.token.pull.XBTPullProvider;
  * XBUP level 1 serialization token handler using token parser mapping to
  * provider.
  *
- * @version 0.1.23 2014/03/08
+ * @version 0.2.1 2017/05/23
  * @author ExBin Project (http://exbin.org)
  */
 public class XBTPullProviderSerialHandler implements XBTPullProvider, XBTTokenInputSerialHandler {
 
+    @Nullable
     private XBTPullProvider provider;
 
     public XBTPullProviderSerialHandler() {
     }
 
     @Override
-    public void attachXBTPullProvider(XBTPullProvider provider) {
+    public void attachXBTPullProvider(@Nonnull XBTPullProvider provider) {
         this.provider = provider;
     }
 
     @Override
+    @Nonnull
     public XBTToken pullXBTToken() throws XBProcessingException, IOException {
         if (provider == null) {
             throw new XBProcessingException("Requested tokens before initialization", XBProcessingExceptionType.UNEXPECTED_ORDER);

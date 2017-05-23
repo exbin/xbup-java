@@ -16,13 +16,14 @@
  */
 package org.exbin.xbup.core.serial.token;
 
+import javax.annotation.Nonnull;
 import org.exbin.xbup.core.parser.token.pull.XBTPullProvider;
 import org.exbin.xbup.core.serial.XBInputSerialHandler;
 
 /**
  * Interface for XBUP level 1 serialization input handler using token parser.
  *
- * @version 0.1.24 2014/08/23
+ * @version 0.2.1 2017/05/23
  * @author ExBin Project (http://exbin.org)
  */
 public interface XBTTokenInputSerialHandler extends XBInputSerialHandler {
@@ -32,5 +33,5 @@ public interface XBTTokenInputSerialHandler extends XBInputSerialHandler {
      *
      * @param provider provider
      */
-    public void attachXBTPullProvider(XBTPullProvider provider);
+    void attachXBTPullProvider(@Nonnull XBTPullProvider provider);
 }

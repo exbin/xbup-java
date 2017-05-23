@@ -16,6 +16,7 @@
  */
 package org.exbin.xbup.core.ubnumber;
 
+import javax.annotation.Nonnull;
 import org.exbin.xbup.core.ubnumber.exception.UBOverFlowException;
 
 /**
@@ -98,6 +99,7 @@ public interface UBEReal {
      *
      * @return base part
      */
+    @Nonnull
     UBNatural getBase();
 
     /**
@@ -105,6 +107,7 @@ public interface UBEReal {
      *
      * @return mantissa part
      */
+    @Nonnull
     UBNatural getMantissa();
 
     /**

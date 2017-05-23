@@ -276,8 +276,8 @@ public class UBNat32 implements UBNatural, XBPSequenceSerializable {
         return getLong();
     }
 
-    @Nonnull
     @Override
+    @Nonnull
     public UBNatural convertToNatural() {
         return this;
     }

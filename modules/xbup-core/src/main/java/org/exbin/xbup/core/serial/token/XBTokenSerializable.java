@@ -17,6 +17,7 @@
 package org.exbin.xbup.core.serial.token;
 
 import java.io.IOException;
+import javax.annotation.Nonnull;
 import org.exbin.xbup.core.parser.XBProcessingException;
 import org.exbin.xbup.core.serial.XBSerializable;
 
@@ -24,7 +25,7 @@ import org.exbin.xbup.core.serial.XBSerializable;
  * Interface is providing serialization methods for serialization into XBUP
  * level 0 protocol.
  *
- * @version 0.1.24 2014/08/23
+ * @version 0.2.1 2017/05/23
  * @author ExBin Project (http://exbin.org)
  */
 public interface XBTokenSerializable extends XBSerializable {
@@ -36,7 +37,7 @@ public interface XBTokenSerializable extends XBSerializable {
      * @throws XBProcessingException if proccesing problem encountered
      * @throws IOException if input/output problem encountered
      */
-    public void serializeFromXB(XBTokenInputSerialHandler serializationHandler) throws XBProcessingException, IOException;
+    void serializeFromXB(@Nonnull XBTokenInputSerialHandler serializationHandler) throws XBProcessingException, IOException;
 
     /**
      * Performs serialization to XBUP protocol using particular method.
@@ -45,5 +46,5 @@ public interface XBTokenSerializable extends XBSerializable {
      * @throws XBProcessingException if proccesing problem encountered
      * @throws IOException if input/output problem encountered
      */
-    public void serializeToXB(XBTokenOutputSerialHandler serializationHandler) throws XBProcessingException, IOException;
+    void serializeToXB(@Nonnull XBTokenOutputSerialHandler serializationHandler) throws XBProcessingException, IOException;
 }

@@ -19,6 +19,7 @@ package org.exbin.xbup.core.ubnumber.type;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import javax.annotation.Nonnull;
 import org.exbin.xbup.core.block.declaration.XBDeclBlockType;
 import org.exbin.xbup.core.parser.XBProcessingException;
 import org.exbin.xbup.core.parser.XBProcessingExceptionType;
@@ -32,7 +33,7 @@ import org.exbin.xbup.core.ubnumber.exception.UBOverFlowException;
 /**
  * UBInteger stored as int value (limited value capacity to 32 bits).
  *
- * @version 0.2.0 2015/11/30
+ * @version 0.2.1 2017/05/23
  * @author ExBin Project (http://exbin.org)
  */
 public class UBInt32 implements UBInteger, XBPSequenceSerializable {
@@ -112,7 +113,7 @@ public class UBInt32 implements UBInteger, XBPSequenceSerializable {
     }
 
     @Override
-    public void serializeXB(XBPSequenceSerialHandler serial) throws XBProcessingException, IOException {
+    public void serializeXB(@Nonnull XBPSequenceSerialHandler serial) throws XBProcessingException, IOException {
         serial.begin();
         serial.matchType(new XBDeclBlockType(XBUP_BLOCKREV_CATALOGPATH));
         if (serial.getSerializationMode() == XBSerializationMode.PULL) {
@@ -124,10 +125,10 @@ public class UBInt32 implements UBInteger, XBPSequenceSerializable {
     }
 
     @Override
-    public int fromStreamUB(InputStream stream) throws IOException, XBProcessingException {
-        byte buf[] = new byte[1];
-        readBuf(stream, buf);
-        long input = (char) buf[0] & 0xFF;
+    public int fromStreamUB(@Nonnull InputStream stream) throws IOException, XBProcessingException {
+        byte[] buffer = new byte[1];
+        readBuf(stream, buffer);
+        long input = (char) buffer[0] & 0xFF;
         if (input < 0x80) {
             boolean negativeValue = (input & 0x40) > 0;
             value = input & 0x3F;
@@ -136,28 +137,28 @@ public class UBInt32 implements UBInteger, XBPSequenceSerializable {
         } else if (input < 0xC0) {
             boolean negativeValue = (input & 0x20) > 0;
             value = (input & 0x1F) << 8;
-            readBuf(stream, buf);
-            value += (buf[0] & 0xFF);
+            readBuf(stream, buffer);
+            value += (buffer[0] & 0xFF);
             value = negativeValue ? value -= 0x2040 : value + 0x40;
             return 2;
         } else if (input < 0xE0) {
             boolean negativeValue = (input & 0x10) > 0;
             value = (input & 0xF) << 16;
-            readBuf(stream, buf);
-            value += (buf[0] & 0xFF) << 8;
-            readBuf(stream, buf);
-            value += (buf[0] & 0xFF);
+            readBuf(stream, buffer);
+            value += (buffer[0] & 0xFF) << 8;
+            readBuf(stream, buffer);
+            value += (buffer[0] & 0xFF);
             value = negativeValue ? value -= 0x102040 : value + 0x2040;
             return 3;
         } else if (input < 0xF0) {
             boolean negativeValue = (input & 0x8) > 0;
             value = (input & 0x7) << 24;
-            readBuf(stream, buf);
-            value += (buf[0] & 0xFF) << 16;
-            readBuf(stream, buf);
-            value += (buf[0] & 0xFF) << 8;
-            readBuf(stream, buf);
-            value += (buf[0] & 0xFF);
+            readBuf(stream, buffer);
+            value += (buffer[0] & 0xFF) << 16;
+            readBuf(stream, buffer);
+            value += (buffer[0] & 0xFF) << 8;
+            readBuf(stream, buffer);
+            value += (buffer[0] & 0xFF);
             value = negativeValue ? value -= 0x8102040 : value + 0x102040;
             return 4;
         } else if (input < 0xF8) {
@@ -166,14 +167,14 @@ public class UBInt32 implements UBInteger, XBPSequenceSerializable {
                 throw new XBProcessingException("Value is too big for 32-bit value", XBProcessingExceptionType.UNSUPPORTED);
             }
             value = (input & 0x3) << 32;
-            readBuf(stream, buf);
-            value += (buf[0] & 0xFF) << 24;
-            readBuf(stream, buf);
-            value += (buf[0] & 0xFF) << 16;
-            readBuf(stream, buf);
-            value += (buf[0] & 0xFF) << 8;
-            readBuf(stream, buf);
-            value += (buf[0] & 0xFF);
+            readBuf(stream, buffer);
+            value += (buffer[0] & 0xFF) << 24;
+            readBuf(stream, buffer);
+            value += (buffer[0] & 0xFF) << 16;
+            readBuf(stream, buffer);
+            value += (buffer[0] & 0xFF) << 8;
+            readBuf(stream, buffer);
+            value += (buffer[0] & 0xFF);
             value += 0x8102040;
             return 5;
         }
@@ -181,14 +182,14 @@ public class UBInt32 implements UBInteger, XBPSequenceSerializable {
         throw new XBProcessingException("Value is too big for 32-bit value", XBProcessingExceptionType.UNSUPPORTED);
     }
 
-    private void readBuf(InputStream stream, byte[] buf) throws IOException {
-        if (stream.read(buf) < 0) {
+    private void readBuf(@Nonnull InputStream stream, byte[] buffer) throws IOException {
+        if (stream.read(buffer) < 0) {
             throw new XBProcessingException("End of data reached", XBProcessingExceptionType.UNEXPECTED_END_OF_STREAM);
         }
     }
 
     @Override
-    public int toStreamUB(OutputStream stream) throws IOException {
+    public int toStreamUB(@Nonnull OutputStream stream) throws IOException {
         if (value < 0) {
             if (value >= -0x40) {
                 stream.write((char) (0x80 + value));
@@ -356,11 +357,12 @@ public class UBInt32 implements UBInteger, XBPSequenceSerializable {
     }
 
     @Override
-    public void convertFromNatural(UBNatural nat) {
+    public void convertFromNatural(@Nonnull UBNatural nat) {
         setNaturalLong(nat.getLong());
     }
 
     @Override
+    @Nonnull
     public UBNatural convertToNatural() {
         return new UBNat32(getNaturalLong());
     }

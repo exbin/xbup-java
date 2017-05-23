@@ -19,6 +19,7 @@ package org.exbin.xbup.core.ubnumber.type;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import javax.annotation.Nonnull;
 import org.exbin.xbup.core.block.XBBlockTerminationMode;
 import org.exbin.xbup.core.parser.XBProcessingException;
 import org.exbin.xbup.core.parser.token.XBAttribute;
@@ -51,7 +52,7 @@ public class UBPath32 implements UBStreamable, XBTChildSerializable {
     }
 
     @Override
-    public int fromStreamUB(InputStream stream) throws IOException, XBProcessingException {
+    public int fromStreamUB(@Nonnull InputStream stream) throws IOException, XBProcessingException {
         UBNat32 arrayLength = new UBNat32();
         int length = arrayLength.fromStreamUB(stream);
         path = new long[arrayLength.getInt()];
@@ -64,7 +65,7 @@ public class UBPath32 implements UBStreamable, XBTChildSerializable {
     }
 
     @Override
-    public int toStreamUB(OutputStream stream) throws IOException {
+    public int toStreamUB(@Nonnull OutputStream stream) throws IOException {
         int length = (new UBNat32(path.length)).toStreamUB(stream);
         for (int i = 0; i < path.length; i++) {
             length += (new UBNat32(path[i])).toStreamUB(stream);
@@ -105,7 +106,7 @@ public class UBPath32 implements UBStreamable, XBTChildSerializable {
     }
 
     @Override
-    public void serializeFromXB(XBTChildInputSerialHandler serial) throws XBProcessingException, IOException {
+    public void serializeFromXB(@Nonnull XBTChildInputSerialHandler serial) throws XBProcessingException, IOException {
         serial.pullBegin();
         XBAttribute length = serial.pullAttribute();
         path = new long[length.getNaturalInt()];
@@ -117,7 +118,7 @@ public class UBPath32 implements UBStreamable, XBTChildSerializable {
     }
 
     @Override
-    public void serializeToXB(XBTChildOutputSerialHandler serial) throws XBProcessingException, IOException {
+    public void serializeToXB(@Nonnull XBTChildOutputSerialHandler serial) throws XBProcessingException, IOException {
         serial.putBegin(XBBlockTerminationMode.SIZE_SPECIFIED);
         serial.putAttribute(new UBNat32(path.length));
         for (int i = 0; i < path.length; i++) {

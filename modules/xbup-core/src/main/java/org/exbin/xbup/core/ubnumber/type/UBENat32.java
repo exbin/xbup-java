@@ -133,46 +133,46 @@ public class UBENat32 implements UBENatural {
     @Override
     public int fromStreamUB(@Nonnull InputStream stream) throws IOException, XBProcessingException {
         infinity = false;
-        byte buf[] = new byte[1];
-        readBuf(stream, buf);
-        long input = (char) buf[0] & 0xFF;
+        byte[] buffer = new byte[1];
+        readBuf(stream, buffer);
+        long input = (char) buffer[0] & 0xFF;
         if (input < 0x7F) {
-            value = buf[0];
+            value = buffer[0];
             return 1;
         } else if (input == 0x7F) {
             infinity = true;
             return 1;
         } else if (input < 0xC0) {
             value = (input & 0x7F) << 8;
-            readBuf(stream, buf);
-            value += ((char) buf[0] & 0xFF) + 0x7F;
+            readBuf(stream, buffer);
+            value += ((char) buffer[0] & 0xFF) + 0x7F;
             return 2;
         } else if (input < 0xE0) {
             value = (input & 0x3F) << 16;
-            readBuf(stream, buf);
-            value += ((char) buf[0] & 0xFF) << 8;
-            readBuf(stream, buf);
-            value += ((char) buf[0] & 0xFF) + 0x407F;
+            readBuf(stream, buffer);
+            value += ((char) buffer[0] & 0xFF) << 8;
+            readBuf(stream, buffer);
+            value += ((char) buffer[0] & 0xFF) + 0x407F;
             return 3;
         } else if (input < 0xF0) {
             value = (input & 0x1F) << 24;
-            readBuf(stream, buf);
-            value += ((char) buf[0] & 0xFF) << 16;
-            readBuf(stream, buf);
-            value += ((char) buf[0] & 0xFF) << 8;
-            readBuf(stream, buf);
-            value += ((char) buf[0] & 0xFF) + 0x20407F;
+            readBuf(stream, buffer);
+            value += ((char) buffer[0] & 0xFF) << 16;
+            readBuf(stream, buffer);
+            value += ((char) buffer[0] & 0xFF) << 8;
+            readBuf(stream, buffer);
+            value += ((char) buffer[0] & 0xFF) + 0x20407F;
             return 4;
         } else if (input < 0xF8) {
             value = (input & 0x0F) << 32;
-            readBuf(stream, buf);
-            value += (buf[0] & 0xFF) << 24;
-            readBuf(stream, buf);
-            value += (buf[0] & 0xFF) << 16;
-            readBuf(stream, buf);
-            value += (buf[0] & 0xFF) << 8;
-            readBuf(stream, buf);
-            value += (buf[0] & 0xFF) + 0x1020407F;
+            readBuf(stream, buffer);
+            value += (buffer[0] & 0xFF) << 24;
+            readBuf(stream, buffer);
+            value += (buffer[0] & 0xFF) << 16;
+            readBuf(stream, buffer);
+            value += (buffer[0] & 0xFF) << 8;
+            readBuf(stream, buffer);
+            value += (buffer[0] & 0xFF) + 0x1020407F;
             if (value >= 0x1020407F) {
                 return 5;
             }

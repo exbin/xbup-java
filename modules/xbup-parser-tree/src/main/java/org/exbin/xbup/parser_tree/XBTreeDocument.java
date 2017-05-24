@@ -21,6 +21,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import org.exbin.utils.binary_data.BinaryData;
 import org.exbin.xbup.core.block.XBBlock;
 import org.exbin.xbup.core.block.XBEditableDocument;
@@ -32,26 +34,28 @@ import org.exbin.xbup.core.ubnumber.UBStreamable;
 /**
  * Basic object model parser XBUP level 0 document representation.
  *
- * @version 0.2.0 2016/05/25
+ * @version 0.2.1 2017/05/24
  * @author ExBin Project (http://exbin.org)
  */
 public class XBTreeDocument extends XBTree implements XBEditableDocument, UBStreamable {
 
     private boolean modified;
+    @Nullable
     private String fileName;
+    @Nullable
     private XBData tailData;
 
     public XBTreeDocument() {
         tailData = null;
     }
 
-    public XBTreeDocument(XBTreeNode rootNode) {
+    public XBTreeDocument(@Nullable XBTreeNode rootNode) {
         this();
         super.setRootBlock(rootNode);
     }
 
     @Override
-    public int toStreamUB(OutputStream stream) throws IOException {
+    public int toStreamUB(@Nonnull OutputStream stream) throws IOException {
         int size = XBHead.writeXBUPHead(stream);
         size += super.toStreamUB(stream);
         if (tailData != null) {
@@ -64,7 +68,7 @@ public class XBTreeDocument extends XBTree implements XBEditableDocument, UBStre
     }
 
     @Override
-    public int fromStreamUB(InputStream stream) throws IOException, XBProcessingException {
+    public int fromStreamUB(@Nonnull InputStream stream) throws IOException, XBProcessingException {
         int size = XBHead.checkXBUPHead(stream);
         clear();
         if (stream.available() > 0) {
@@ -85,6 +89,7 @@ public class XBTreeDocument extends XBTree implements XBEditableDocument, UBStre
     }
 
     @Override
+    @Nullable
     public InputStream getTailData() {
         if (tailData == null) {
             return null;
@@ -92,12 +97,13 @@ public class XBTreeDocument extends XBTree implements XBEditableDocument, UBStre
         return tailData.getDataInputStream();
     }
 
+    @Nullable
     public BinaryData getTailDataArray() {
         return tailData;
     }
 
     @Override
-    public void setTailData(InputStream source) throws IOException {
+    public void setTailData(@Nullable InputStream source) throws IOException {
         if (source == null) {
             tailData = null;
         } else {
@@ -123,7 +129,7 @@ public class XBTreeDocument extends XBTree implements XBEditableDocument, UBStre
     }
 
     @Override
-    public void setRootBlock(XBBlock block) {
+    public void setRootBlock(@Nullable XBBlock block) {
         if (block != null && !(block instanceof XBTreeNode)) {
             throw new IllegalArgumentException("Unsupported type of root block");
         }
@@ -138,11 +144,12 @@ public class XBTreeDocument extends XBTree implements XBEditableDocument, UBStre
         this.modified = modified;
     }
 
+    @Nullable
     public String getFileName() {
         return fileName;
     }
 
-    public void setFileName(String fileName) {
+    public void setFileName(@Nullable String fileName) {
         this.fileName = fileName;
     }
 
@@ -164,10 +171,12 @@ public class XBTreeDocument extends XBTree implements XBEditableDocument, UBStre
         return size;
     }
 
+    @Override
     public long getDocumentSize() {
         long documentSize = getTailDataSize();
-        if (getRootBlock() != null) {
-            documentSize += getRootBlock().getBlockSize();
+        XBTreeNode rootBlock = getRootBlock();
+        if (rootBlock != null) {
+            documentSize += rootBlock.getBlockSize();
         }
         return documentSize;
     }

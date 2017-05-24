@@ -19,6 +19,8 @@ package org.exbin.xbup.parser_tree;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import org.exbin.xbup.core.block.XBTBlock;
 import org.exbin.xbup.core.block.declaration.XBContext;
 import org.exbin.xbup.core.catalog.XBCatalog;
@@ -28,34 +30,37 @@ import org.exbin.xbup.core.ubnumber.UBStreamable;
 /**
  * XBUP level 1 object model parser tree.
  *
- * @version 0.2.0 2015/09/19
+ * @version 0.2.1 2017/05/24
  * @author ExBin Project (http://exbin.org)
  */
 public class XBTTree implements UBStreamable {
 
+    @Nullable
     private XBTTreeNode rootNode;
+    @Nullable
     private XBCatalog catalog;
+    @Nullable
     protected XBContext rootContext;
 
     public XBTTree(XBCatalog catalog) {
         this(catalog, null);
     }
 
-    public XBTTree(XBCatalog catalog, XBContext rootContext) {
+    public XBTTree(@Nullable XBCatalog catalog, @Nullable XBContext rootContext) {
         rootNode = null;
         this.catalog = catalog;
         this.rootContext = rootContext;
     }
 
     @Override
-    public int fromStreamUB(InputStream stream) throws IOException, XBProcessingException {
+    public int fromStreamUB(@Nonnull InputStream stream) throws IOException, XBProcessingException {
         clear();
         XBTTreeNode newRoot = new XBTTreeNode();
         setRootBlock(newRoot);
         return newRoot.fromStreamUB(stream);
     }
 
-    public void setCatalog(XBCatalog catalog) {
+    public void setCatalog(@Nullable XBCatalog catalog) {
         this.catalog = catalog;
         if (catalog != null) {
             rootContext = catalog.getRootContext();
@@ -65,12 +70,13 @@ public class XBTTree implements UBStreamable {
     }
 
     public void processSpec() {
-        if (getRootBlock() != null) {
-            ((XBTTreeNode) getRootBlock()).processSpec(catalog, rootContext);
+        if (rootNode != null) {
+            rootNode.processSpec(catalog, rootContext);
         }
     }
 
-    public XBTTreeNode newNodeInstance(XBTTreeNode parent) {
+    @Nonnull
+    public XBTTreeNode newNodeInstance(@Nullable XBTTreeNode parent) {
         return new XBTTreeNode(parent);
     }
 
@@ -79,7 +85,7 @@ public class XBTTree implements UBStreamable {
     }
 
     @Override
-    public int toStreamUB(OutputStream stream) throws IOException {
+    public int toStreamUB(@Nonnull OutputStream stream) throws IOException {
         if (getRootBlock() != null) {
             return rootNode.toStreamUB(stream);
         } else {
@@ -89,35 +95,39 @@ public class XBTTree implements UBStreamable {
 
     @Override
     public int getSizeUB() {
-        if (getRootBlock() != null) {
+        if (rootNode != null) {
             return rootNode.getSizeUB();
         } else {
             return 0;
         }
     }
 
+    @Nullable
     public XBTBlock findNodeByIndex(long index) {
         return rootNode.findNodeByIndex(index);
     }
 
+    @Nullable
     public XBTTreeNode getRootBlock() {
         return rootNode;
     }
 
-    public void setRootBlock(XBTTreeNode rootNode) {
+    public void setRootBlock(@Nullable XBTTreeNode rootNode) {
         this.rootNode = rootNode;
         processSpec();
     }
 
+    @Nullable
     public XBContext getRootContext() {
         return rootContext;
     }
 
-    public void setRootContext(XBContext rootContext) {
+    public void setRootContext(@Nullable XBContext rootContext) {
         this.rootContext = rootContext;
         processSpec();
     }
 
+    @Nullable
     public XBCatalog getCatalog() {
         return catalog;
     }

@@ -21,6 +21,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import org.exbin.utils.binary_data.BinaryData;
 import org.exbin.xbup.core.block.XBTBlock;
 import org.exbin.xbup.core.block.XBTEditableDocument;
@@ -32,13 +34,15 @@ import org.exbin.xbup.core.type.XBData;
 /**
  * Basic object model parser XBUP level 1 document representation.
  *
- * @version 0.2.0 2016/09/25
+ * @version 0.2.1 2017/05/24
  * @author ExBin Project (http://exbin.org)
  */
 public class XBTTreeDocument extends XBTTree implements XBTEditableDocument {
 
     private boolean modified;
+    @Nullable
     private String fileName;
+    @Nullable
     private XBData tailData;
 
     public XBTTreeDocument() {
@@ -46,17 +50,17 @@ public class XBTTreeDocument extends XBTTree implements XBTEditableDocument {
         tailData = null;
     }
 
-    public XBTTreeDocument(XBTTreeNode rootNode) {
+    public XBTTreeDocument(@Nullable XBTTreeNode rootNode) {
         this();
         super.setRootBlock(rootNode);
     }
 
-    public XBTTreeDocument(XBCatalog catalog) {
+    public XBTTreeDocument(@Nullable XBCatalog catalog) {
         super(catalog);
     }
 
     @Override
-    public int toStreamUB(OutputStream stream) throws IOException {
+    public int toStreamUB(@Nonnull OutputStream stream) throws IOException {
         int size = XBHead.writeXBUPHead(stream);
         size += super.toStreamUB(stream);
         if (tailData != null) {
@@ -69,7 +73,7 @@ public class XBTTreeDocument extends XBTTree implements XBTEditableDocument {
     }
 
     @Override
-    public int fromStreamUB(InputStream stream) throws IOException, XBProcessingException {
+    public int fromStreamUB(@Nonnull InputStream stream) throws IOException, XBProcessingException {
         int size = XBHead.checkXBUPHead(stream);
         clear();
         if (stream.available() > 0) {
@@ -90,6 +94,7 @@ public class XBTTreeDocument extends XBTTree implements XBTEditableDocument {
     }
 
     @Override
+    @Nullable
     public InputStream getTailData() {
         if (tailData == null) {
             return null;
@@ -97,12 +102,13 @@ public class XBTTreeDocument extends XBTTree implements XBTEditableDocument {
         return tailData.getDataInputStream();
     }
 
+    @Nullable
     public BinaryData getTailDataArray() {
         return tailData;
     }
 
     @Override
-    public void setTailData(InputStream source) throws IOException {
+    public void setTailData(@Nullable InputStream source) throws IOException {
         if (source == null) {
             tailData = null;
         } else {
@@ -128,7 +134,7 @@ public class XBTTreeDocument extends XBTTree implements XBTEditableDocument {
     }
 
     @Override
-    public void setRootBlock(XBTBlock block) {
+    public void setRootBlock(@Nullable XBTBlock block) {
         if (block != null && !(block instanceof XBTTreeNode)) {
             throw new IllegalArgumentException("Unsupported type of root block");
         }
@@ -144,11 +150,12 @@ public class XBTTreeDocument extends XBTTree implements XBTEditableDocument {
         this.modified = modified;
     }
 
+    @Nullable
     public String getFileName() {
         return fileName;
     }
 
-    public void setFileName(String fileName) {
+    public void setFileName(@Nullable String fileName) {
         this.fileName = fileName;
     }
 
@@ -176,20 +183,23 @@ public class XBTTreeDocument extends XBTTree implements XBTEditableDocument {
     }
 
     @Override
+    @Nullable
     public XBTBlock findBlockByIndex(long index) {
         return (XBTBlock) super.findNodeByIndex(index);
     }
 
     @Override
-    public XBTBlock createNewBlock(XBTBlock parent) {
+    @Nonnull
+    public XBTBlock createNewBlock(@Nullable XBTBlock parent) {
         return newNodeInstance((XBTTreeNode) parent);
     }
 
     @Override
     public long getDocumentSize() {
         long documentSize = getTailDataSize();
-        if (getRootBlock() != null) {
-            documentSize += getRootBlock().getBlockSize();
+        XBTTreeNode rootBlock = getRootBlock();
+        if (rootBlock != null) {
+            documentSize += rootBlock.getBlockSize();
         }
         return documentSize;
     }

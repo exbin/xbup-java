@@ -19,17 +19,20 @@ package org.exbin.xbup.parser_tree;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import org.exbin.xbup.core.parser.XBProcessingException;
 import org.exbin.xbup.core.ubnumber.UBStreamable;
 
 /**
  * XBUP level 0 object model parser tree.
  *
- * @version 0.1.20 2010/09/12
+ * @version 0.2.1 2017/05/24
  * @author ExBin Project (http://exbin.org)
  */
 public class XBTree implements UBStreamable {
 
+    @Nullable
     private XBTreeNode rootNode;
 
     public XBTree() {
@@ -41,8 +44,8 @@ public class XBTree implements UBStreamable {
     }
 
     @Override
-    public int toStreamUB(OutputStream stream) throws IOException {
-        if (getRootBlock() != null) {
+    public int toStreamUB(@Nonnull OutputStream stream) throws IOException {
+        if (rootNode != null) {
             return rootNode.toStreamUB(stream);
         } else {
             return 0;
@@ -50,7 +53,7 @@ public class XBTree implements UBStreamable {
     }
 
     @Override
-    public int fromStreamUB(InputStream stream) throws IOException, XBProcessingException {
+    public int fromStreamUB(@Nonnull InputStream stream) throws IOException, XBProcessingException {
         clear();
         rootNode = new XBTreeNode();
         return rootNode.fromStreamUB(stream);
@@ -58,26 +61,29 @@ public class XBTree implements UBStreamable {
 
     @Override
     public int getSizeUB() {
-        if (getRootBlock() != null) {
+        if (rootNode != null) {
             return rootNode.getSizeUB();
         } else {
             return 0;
         }
     }
 
+    @Nullable
     public XBTreeNode findBlockByIndex(long index) {
         return rootNode.findNodeByIndex(index);
     }
 
-    public XBTreeNode newNodeInstance(XBTreeNode parent) {
+    @Nonnull
+    public XBTreeNode newNodeInstance(@Nullable XBTreeNode parent) {
         return new XBTreeNode(parent);
     }
 
+    @Nullable
     public XBTreeNode getRootBlock() {
         return rootNode;
     }
 
-    public void setRootBlock(XBTreeNode rootNode) {
+    public void setRootBlock(@Nullable XBTreeNode rootNode) {
         this.rootNode = rootNode;
     }
 }

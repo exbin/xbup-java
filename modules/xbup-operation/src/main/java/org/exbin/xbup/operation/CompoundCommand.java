@@ -18,11 +18,12 @@ package org.exbin.xbup.operation;
 
 import java.util.Collection;
 import java.util.List;
+import javax.annotation.Nonnull;
 
 /**
  * Interface for compound XBUP editor command.
  *
- * @version 0.1.25 2015/04/13
+ * @version 0.2.1 2017/05/25
  * @author ExBin Project (http://exbin.org)
  */
 public interface CompoundCommand extends Command {
@@ -32,26 +33,27 @@ public interface CompoundCommand extends Command {
      *
      * @param command appended command
      */
-    public void appendCommand(Command command);
+    void appendCommand(@Nonnull Command command);
 
     /**
      * Append list of commands to the list of commands.
      *
      * @param commands appended commands
      */
-    public void appendCommands(Collection<Command> commands);
+    void appendCommands(@Nonnull Collection<Command> commands);
 
     /**
      * Returns list of commands.
      *
      * @return list of commands
      */
-    public List<Command> getCommands();
+    @Nonnull
+    List<Command> getCommands();
 
     /**
      * Returns true if compound command is empty.
      *
      * @return true if command is empty
      */
-    public boolean isEmpty();
+    boolean isEmpty();
 }

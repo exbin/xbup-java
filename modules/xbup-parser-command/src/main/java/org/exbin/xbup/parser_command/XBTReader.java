@@ -19,6 +19,8 @@ package org.exbin.xbup.parser_command;
 import java.io.Closeable;
 import java.io.IOException;
 import java.io.InputStream;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import org.exbin.xbup.core.block.XBTBlock;
 import org.exbin.xbup.core.parser.XBParserMode;
 import org.exbin.xbup.parser_tree.XBBlockToXBTBlock;
@@ -29,11 +31,12 @@ import org.exbin.xbup.parser_tree.XBBlockToXBTBlock;
  * This reader expects data not to be changed, so exclusive lock on source data
  * is recommended.
  *
- * @version 0.2.0 2015/09/20
+ * @version 0.2.1 2017/05/24
  * @author ExBin Project (http://exbin.org)
  */
 public class XBTReader implements XBTCommandReader, Closeable {
 
+    @Nonnull
     private final XBReader reader;
 
     public XBTReader() throws IOException {
@@ -49,7 +52,7 @@ public class XBTReader implements XBTCommandReader, Closeable {
     }
 
     @Override
-    public void open(InputStream stream) throws IOException {
+    public void open(@Nonnull InputStream stream) throws IOException {
         reader.open(stream);
     }
 
@@ -64,16 +67,19 @@ public class XBTReader implements XBTCommandReader, Closeable {
     }
 
     @Override
+    @Nonnull
     public XBTBlock getRootBlock() {
         return new XBBlockToXBTBlock(reader.getRootBlock());
     }
 
     @Override
+    @Nonnull
     public XBTBlock getBlock(long[] blockPath) {
         return new XBBlockToXBTBlock(reader.getBlock(blockPath));
     }
 
     @Override
+    @Nullable
     public InputStream getTailData() {
         return reader.getTailData();
     }

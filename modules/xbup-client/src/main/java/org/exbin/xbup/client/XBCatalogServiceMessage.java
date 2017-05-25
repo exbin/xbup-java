@@ -16,6 +16,7 @@
  */
 package org.exbin.xbup.client;
 
+import javax.annotation.Nonnull;
 import org.exbin.xbup.core.parser.basic.XBListener;
 import org.exbin.xbup.core.parser.basic.XBMatchingProvider;
 import org.exbin.xbup.core.parser.token.event.XBEventListener;
@@ -24,7 +25,7 @@ import org.exbin.xbup.core.parser.token.pull.XBPullProvider;
 /**
  * Catalog service message interface.
  *
- * @version 0.1.25 2015/02/21
+ * @version 0.2.1 2017/05/25
  * @author ExBin Project (http://exbin.org)
  */
 public interface XBCatalogServiceMessage {
@@ -34,28 +35,32 @@ public interface XBCatalogServiceMessage {
      *
      * @return token output stream
      */
-    public XBEventListener getXBOutputStream();
+    @Nonnull
+    XBEventListener getXBOutputStream();
 
     /**
      * Gets input stream.
      *
      * @return token input stream
      */
-    public XBPullProvider getXBInputStream();
+    @Nonnull
+    XBPullProvider getXBInputStream();
 
     /**
      * Gets output listener.
      *
      * @return listener
      */
-    public XBListener getXBOutput();
+    @Nonnull
+    XBListener getXBOutput();
 
     /**
      * Gets input checker.
      *
      * @return input stream checker
      */
-    public XBMatchingProvider getXBInput();
+    @Nonnull
+    XBMatchingProvider getXBInput();
 
     /**
      * Closes message.

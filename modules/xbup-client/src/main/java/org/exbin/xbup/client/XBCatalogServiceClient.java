@@ -18,12 +18,14 @@ package org.exbin.xbup.client;
 
 import java.io.IOException;
 import java.net.Socket;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import org.exbin.xbup.core.remote.XBServiceClient;
 
 /**
  * Connection client handler for remote catalogs.
  *
- * @version 0.1.25 2015/03/16
+ * @version 0.2.1 2017/05/25
  * @author ExBin Project (http://exbin.org)
  */
 public interface XBCatalogServiceClient extends XBServiceClient {
@@ -36,66 +38,71 @@ public interface XBCatalogServiceClient extends XBServiceClient {
      * @return TODO: 1 if successful, 0 if fails
      * @throws IOException if input/output error
      */
-    public int login(String user, char[] password) throws IOException;
+    int login(@Nonnull String user, char[] password) throws IOException;
 
     /**
      * Returns version of service.
      *
      * @return version
      */
-    public String getVersion();
+    @Nonnull
+    String getVersion();
 
     /**
      * Closes connection to service.
      */
-    public void close();
+    void close();
 
     /**
      * Performs ping to remote service.
      *
      * @return true if sucessful
      */
-    public boolean ping();
+    boolean ping();
 
     /**
      * Returns service host string.
      *
      * @return service host string
      */
-    public String getHost();
+    @Nullable
+    String getHost();
 
     /**
      * Returns port number.
      *
      * @return port number
      */
-    public int getPort();
+    int getPort();
 
     /**
      * Returns local address.
      *
      * @return local address
      */
-    public String getLocalAddress();
+    @Nullable
+    String getLocalAddress();
 
     /**
      * Returns host address.
      *
      * @return host address
      */
-    public String getHostAddress();
+    @Nullable
+    String getHostAddress();
 
     /**
      * Performs validation of the connection.
      *
      * @return true if successful
      */
-    public boolean validate();
+    boolean validate();
 
     /**
      * Returns socket.
      *
      * @return socket
      */
-    public Socket getSocket();
+    @Nullable
+    Socket getSocket();
 }

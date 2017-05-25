@@ -17,12 +17,13 @@
 package org.exbin.xbup.service.base;
 
 import java.util.Date;
+import javax.annotation.Nonnull;
 import org.exbin.xbup.core.catalog.base.XBCBase;
 
 /**
  * Interface for service log item entity.
  *
- * @version 0.2.0 2016/02/20
+ * @version 0.2.1 2017/05/25
  * @author ExBin Project (http://exbin.org)
  */
 public interface ServiceLogItem extends XBCBase {
@@ -32,19 +33,22 @@ public interface ServiceLogItem extends XBCBase {
      *
      * @return time
      */
-    public Date getCreated();
+    @Nonnull
+    Date getCreated();
 
     /**
      * Gets log request data.
      *
      * @return data
      */
-    public byte[] getRequestData();
+    @Nonnull
+    byte[] getRequestData();
 
     /**
      * Gets log response data.
      *
      * @return data
      */
-    public byte[] getResponseData();
+    @Nonnull
+    byte[] getResponseData();
 }

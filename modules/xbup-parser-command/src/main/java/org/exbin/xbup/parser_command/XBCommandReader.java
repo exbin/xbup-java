@@ -19,13 +19,15 @@ package org.exbin.xbup.parser_command;
 import java.io.Closeable;
 import java.io.IOException;
 import java.io.InputStream;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import org.exbin.xbup.core.block.XBBlock;
 import org.exbin.xbup.core.block.XBDocument;
 
 /**
  * XBUP level 0 command reader interface.
  *
- * @version 0.2.0 2015/09/22
+ * @version 0.2.1 2017/05/24
  * @author ExBin Project (http://exbin.org)
  */
 public interface XBCommandReader extends XBDocument, Closeable {
@@ -36,7 +38,7 @@ public interface XBCommandReader extends XBDocument, Closeable {
      * @param stream input stream
      * @throws java.io.IOException exception on input/output error
      */
-    public void open(InputStream stream) throws IOException;
+    void open(@Nonnull InputStream stream) throws IOException;
 
     /**
      * Closes input stream.
@@ -44,14 +46,14 @@ public interface XBCommandReader extends XBDocument, Closeable {
      * @throws java.io.IOException exception on input/output error
      */
     @Override
-    public void close() throws IOException;
+    void close() throws IOException;
 
     /**
      * Resets parser.
      *
      * @throws IOException exception on input/output error
      */
-    public void resetXB() throws IOException;
+    void resetXB() throws IOException;
 
     /**
      * Returns block handler for given path in document.
@@ -59,5 +61,6 @@ public interface XBCommandReader extends XBDocument, Closeable {
      * @param blockPath path to block in document
      * @return block handler
      */
-    public XBBlock getBlock(long[] blockPath);
+    @Nullable
+    XBBlock getBlock(long[] blockPath);
 }

@@ -16,10 +16,12 @@
  */
 package org.exbin.xbup.plugin;
 
+import javax.annotation.Nonnull;
+
 /**
  * Interface for application module management.
  *
- * @version 0.2.0 2016/03/28
+ * @version 0.2.1 2017/05/25
  * @author ExBin Project (http://exbin.org)
  */
 public interface XBModuleHandler {
@@ -29,5 +31,6 @@ public interface XBModuleHandler {
      *
      * @return the moduleRepository
      */
-    public XBModuleRepository getModuleRepository();
+    @Nonnull
+    XBModuleRepository getModuleRepository();
 }

@@ -19,12 +19,13 @@ package org.exbin.xbup.parser_command;
 import java.io.Closeable;
 import java.io.IOException;
 import java.io.OutputStream;
+import javax.annotation.Nonnull;
 import org.exbin.xbup.core.block.XBEditableDocument;
 
 /**
  * XBUP level 0 command writer interface.
  *
- * @version 0.2.0 2015/10/04
+ * @version 0.2.1 2017/05/24
  * @author ExBin Project (http://exbin.org)
  */
 public interface XBCommandWriter extends XBEditableDocument, XBCommandReader, Closeable {
@@ -35,10 +36,10 @@ public interface XBCommandWriter extends XBEditableDocument, XBCommandReader, Cl
      * @param stream output stream
      * @throws java.io.IOException exception on input/output error
      */
-    public void save(OutputStream stream) throws IOException;
+    void save(@Nonnull OutputStream stream) throws IOException;
 
     /**
      * Writes all the changes to the source file.
      */
-    public void flush();
+    void flush();
 }

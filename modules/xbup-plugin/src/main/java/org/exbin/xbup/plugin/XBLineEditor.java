@@ -16,13 +16,14 @@
  */
 package org.exbin.xbup.plugin;
 
+import javax.annotation.Nonnull;
 import javax.swing.JComponent;
 import org.exbin.xbup.core.serial.XBSerializable;
 
 /**
  * XBUP Line Editor Plugin Base Interface.
  *
- * @version 0.1.24 2015/01/06
+ * @version 0.2.1 2017/05/25
  * @author ExBin Project (http://exbin.org)
  */
 public interface XBLineEditor extends XBSerializable {
@@ -32,13 +33,15 @@ public interface XBLineEditor extends XBSerializable {
      *
      * @return component
      */
-    public JComponent getComponent();
+    @Nonnull
+    JComponent getComponent();
 
     /**
      * Returns instance of value editing component.
      *
      * @return component
      */
+    @Nonnull
     public JComponent getEditor();
 
     /**
@@ -47,14 +50,14 @@ public interface XBLineEditor extends XBSerializable {
      * @param editor editor component
      * @return true, if value was changed or cannot compare values
      */
-    public boolean finishEditor(JComponent editor);
+    public boolean finishEditor(@Nonnull JComponent editor);
 
     /**
      * Attaches change listener.
      *
      * @param listener change listener
      */
-    public void attachChangeListener(ChangeListener listener);
+    public void attachChangeListener(@Nonnull ChangeListener listener);
 
     /**
      * Change listener interface.

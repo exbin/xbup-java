@@ -18,11 +18,12 @@ package org.exbin.xbup.operation;
 
 import java.util.Collection;
 import java.util.List;
+import javax.annotation.Nonnull;
 
 /**
  * Interface for compound XBUP editor operation.
  *
- * @version 0.1.25 2015/04/18
+ * @version 0.2.1 2017/05/25
  * @author ExBin Project (http://exbin.org)
  */
 public interface CompoundOperation extends Operation {
@@ -32,26 +33,27 @@ public interface CompoundOperation extends Operation {
      *
      * @param operation appended operation
      */
-    public void appendOperation(Operation operation);
+    void appendOperation(@Nonnull Operation operation);
 
     /**
      * Append list of operations to the list of operations.
      *
      * @param operations appended operations
      */
-    public void appendOperations(Collection<Operation> operations);
+    void appendOperations(@Nonnull Collection<Operation> operations);
 
     /**
      * Returns list of operations.
      *
      * @return list of operations
      */
-    public List<Operation> getOperations();
+    @Nonnull
+    List<Operation> getOperations();
 
     /**
      * Returns true if compound operation is empty.
      *
      * @return true if operation is empty
      */
-    public boolean isEmpty();
+    boolean isEmpty();
 }

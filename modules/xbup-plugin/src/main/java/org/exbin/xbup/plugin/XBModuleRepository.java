@@ -19,11 +19,13 @@ package org.exbin.xbup.plugin;
 import java.net.URI;
 import java.net.URL;
 import java.util.List;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 /**
  * XBUP framework modules repository interface.
  *
- * @version 0.2.0 2016/08/14
+ * @version 0.2.1 2017/05/25
  * @author ExBin Project (http://exbin.org)
  */
 public interface XBModuleRepository {
@@ -33,14 +35,14 @@ public interface XBModuleRepository {
      *
      * @param moduleJarFileUri jar file URI
      */
-    void addModulesFrom(URI moduleJarFileUri);
+    void addModulesFrom(@Nonnull URI moduleJarFileUri);
 
     /**
      * Scans for all valid modules in give directory or specified jar file.
      *
      * @param moduleJarFileUrl jar file URL
      */
-    void addModulesFrom(URL moduleJarFileUrl);
+    void addModulesFrom(@Nonnull URL moduleJarFileUrl);
 
     /**
      * Scans for all valid modules in jar libraries included using class path
@@ -55,21 +57,21 @@ public interface XBModuleRepository {
      *
      * @param manifestClass manifest class
      */
-    void addModulesFromManifest(Class manifestClass);
+    void addModulesFromManifest(@Nonnull Class manifestClass);
 
     /**
      * Process all jar files in given directory.
      *
      * @param pathUri path
      */
-    void loadModulesFromPath(URI pathUri);
+    void loadModulesFromPath(@Nonnull URI pathUri);
 
     /**
      * Process all jar files in given directory.
      *
      * @param pathUrl path
      */
-    void addModulesFromPath(URL pathUrl);
+    void addModulesFromPath(@Nonnull URL pathUrl);
 
     /**
      * Gets info about module.
@@ -77,6 +79,7 @@ public interface XBModuleRepository {
      * @param moduleId module identifier
      * @return application module record
      */
+    @Nullable
     XBModuleRecord getModuleRecordById(String moduleId);
 
     /**
@@ -85,6 +88,7 @@ public interface XBModuleRepository {
      * @param moduleId module identifier
      * @return application module
      */
+    @Nullable
     XBModule getModuleById(String moduleId);
 
     /**
@@ -94,6 +98,7 @@ public interface XBModuleRepository {
      * @param interfaceClass interface class
      * @return application module record
      */
+    @Nullable
     <T extends XBModule> T getModuleByInterface(Class<T> interfaceClass);
 
     /**
@@ -101,6 +106,7 @@ public interface XBModuleRepository {
      *
      * @return list of modules
      */
+    @Nullable
     List<XBModuleRecord> getModulesList();
 
     /**

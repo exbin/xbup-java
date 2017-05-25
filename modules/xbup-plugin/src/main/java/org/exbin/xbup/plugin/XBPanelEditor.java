@@ -16,14 +16,13 @@
  */
 package org.exbin.xbup.plugin;
 
+import javax.annotation.Nonnull;
 import javax.swing.JPanel;
 
 /**
  * XBUP Panel Editor Plugin Base Interface.
  *
- * TODO: Move to another library to get rid of jspf dependency
- *
- * @version 0.1.24 2015/01/14
+ * @version 0.2.1 2017/05/25
  * @author ExBin Project (http://exbin.org)
  */
 public interface XBPanelEditor {
@@ -33,14 +32,15 @@ public interface XBPanelEditor {
      *
      * @return component
      */
-    public JPanel getPanel();
+    @Nonnull
+    JPanel getPanel();
 
     /**
      * Attaches change listener.
      *
      * @param listener change listener
      */
-    public void attachChangeListener(ChangeListener listener);
+    void attachChangeListener(@Nonnull ChangeListener listener);
 
     /**
      * Change listener interface.

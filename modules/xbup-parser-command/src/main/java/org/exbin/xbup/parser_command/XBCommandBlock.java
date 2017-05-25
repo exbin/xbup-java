@@ -29,5 +29,5 @@ public interface XBCommandBlock {
      *
      * @return block path
      */
-    public long[] getBlockPath();
+    long[] getBlockPath();
 }

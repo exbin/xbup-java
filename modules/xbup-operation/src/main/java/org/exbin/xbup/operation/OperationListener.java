@@ -16,10 +16,12 @@
  */
 package org.exbin.xbup.operation;
 
+import javax.annotation.Nonnull;
+
 /**
  * Operation execution listener.
  *
- * @version 0.2.0 2016/02/29
+ * @version 0.2.1 2017/05/25
  * @author ExBin Project (http://exbin.org)
  */
 public interface OperationListener {
@@ -29,5 +31,5 @@ public interface OperationListener {
      *
      * @param event change event
      */
-    void notifyChange(OperationEvent event);
+    void notifyChange(@Nonnull OperationEvent event);
 }

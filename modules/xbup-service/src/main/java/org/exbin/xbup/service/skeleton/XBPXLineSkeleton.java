@@ -21,7 +21,6 @@ import org.exbin.xbup.catalog.XBAECatalog;
 import org.exbin.xbup.catalog.entity.XBEBlockRev;
 import org.exbin.xbup.catalog.entity.XBEXBlockLine;
 import org.exbin.xbup.catalog.entity.XBEXPlugLine;
-import org.exbin.xbup.catalog.entity.service.XBERevService;
 import org.exbin.xbup.client.stub.XBPXLineStub;
 import org.exbin.xbup.core.block.XBBlockType;
 import org.exbin.xbup.core.block.XBTEmptyBlock;
@@ -43,7 +42,7 @@ import org.exbin.xbup.core.ubnumber.type.UBNat32;
 /**
  * RPC skeleton class for XBRXBlockLine catalog items.
  *
- * @version 0.1.25 2015/03/16
+ * @version 0.2.1 2017/05/27
  * @author ExBin Project (http://exbin.org)
  */
 public class XBPXLineSkeleton {
@@ -64,7 +63,7 @@ public class XBPXLineSkeleton {
                 XBAttribute index = provider.pullAttribute();
                 provider.end();
 
-                XBCXLineService lineService = (XBCXLineService) catalog.getCatalogService(XBCXLineService.class);
+                XBCXLineService lineService = catalog.getCatalogService(XBCXLineService.class);
                 XBEXPlugLine plugLine = (XBEXPlugLine) lineService.findPlugLineById(index.getNaturalLong());
 
                 XBPListenerSerialHandler listener = new XBPListenerSerialHandler(resultInput);
@@ -81,7 +80,7 @@ public class XBPXLineSkeleton {
                 XBAttribute index = provider.pullAttribute();
                 provider.end();
 
-                XBCXLineService lineService = (XBCXLineService) catalog.getCatalogService(XBCXLineService.class);
+                XBCXLineService lineService = catalog.getCatalogService(XBCXLineService.class);
                 XBEXPlugLine plugLine = (XBEXPlugLine) lineService.findPlugLineById(index.getNaturalLong());
 
                 XBPListenerSerialHandler listener = new XBPListenerSerialHandler(resultInput);
@@ -98,7 +97,7 @@ public class XBPXLineSkeleton {
                 XBAttribute index = provider.pullAttribute();
                 provider.end();
 
-                XBCXLineService lineService = (XBCXLineService) catalog.getCatalogService(XBCXLineService.class);
+                XBCXLineService lineService = catalog.getCatalogService(XBCXLineService.class);
                 XBEXBlockLine blockLine = (XBEXBlockLine) lineService.findById(index.getNaturalLong());
 
                 XBPListenerSerialHandler listener = new XBPListenerSerialHandler(resultInput);
@@ -115,7 +114,7 @@ public class XBPXLineSkeleton {
                 XBAttribute index = provider.pullAttribute();
                 provider.end();
 
-                XBCXLineService lineService = (XBCXLineService) catalog.getCatalogService(XBCXLineService.class);
+                XBCXLineService lineService = catalog.getCatalogService(XBCXLineService.class);
                 XBEXBlockLine blockLine = (XBEXBlockLine) lineService.findById(index.getNaturalLong());
 
                 XBPListenerSerialHandler listener = new XBPListenerSerialHandler(resultInput);
@@ -132,7 +131,7 @@ public class XBPXLineSkeleton {
                 XBAttribute index = provider.pullAttribute();
                 provider.end();
 
-                XBCXLineService lineService = (XBCXLineService) catalog.getCatalogService(XBCXLineService.class);
+                XBCXLineService lineService = catalog.getCatalogService(XBCXLineService.class);
                 XBEXBlockLine blockLine = (XBEXBlockLine) lineService.findById(index.getNaturalLong());
 
                 XBPListenerSerialHandler listener = new XBPListenerSerialHandler(resultInput);
@@ -148,7 +147,7 @@ public class XBPXLineSkeleton {
                 provider.matchType(blockType);
                 provider.end();
 
-                XBCXLineService lineService = (XBCXLineService) catalog.getCatalogService(XBCXLineService.class);
+                XBCXLineService lineService = catalog.getCatalogService(XBCXLineService.class);
 
                 XBPListenerSerialHandler listener = new XBPListenerSerialHandler(resultInput);
                 listener.process(new UBNat32(lineService.getItemsCount()));
@@ -165,8 +164,8 @@ public class XBPXLineSkeleton {
                 XBAttribute priority = provider.pullAttribute();
                 provider.end();
 
-                XBCXLineService lineService = (XBCXLineService) catalog.getCatalogService(XBCXLineService.class);
-                XBERevService revService = (XBERevService) catalog.getCatalogService(XBCRevService.class);
+                XBCXLineService lineService = catalog.getCatalogService(XBCXLineService.class);
+                XBCRevService revService = catalog.getCatalogService(XBCRevService.class);
                 XBEBlockRev rev = (XBEBlockRev) revService.getItem(index.getNaturalLong());
                 XBEXBlockLine blockLine = rev == null ? null : (XBEXBlockLine) lineService.findLineByPR(rev, priority.getNaturalLong());
 
@@ -183,7 +182,7 @@ public class XBPXLineSkeleton {
                 provider.matchType(blockType);
                 provider.end();
 
-                XBCXLineService lineService = (XBCXLineService) catalog.getCatalogService(XBCXLineService.class);
+                XBCXLineService lineService = catalog.getCatalogService(XBCXLineService.class);
 
                 XBPListenerSerialHandler listener = new XBPListenerSerialHandler(resultInput);
                 listener.process(new UBNat32(lineService.getAllPlugLinesCount()));
@@ -200,8 +199,8 @@ public class XBPXLineSkeleton {
                 XBAttribute lineOrder = provider.pullAttribute();
                 provider.end();
 
-                XBCXLineService lineService = (XBCXLineService) catalog.getCatalogService(XBCXLineService.class);
-                XBCXPlugService pluginService = (XBCXPlugService) catalog.getCatalogService(XBCXPlugService.class);
+                XBCXLineService lineService = catalog.getCatalogService(XBCXLineService.class);
+                XBCXPlugService pluginService = catalog.getCatalogService(XBCXPlugService.class);
                 XBCXPlugin plugin = pluginService.findById(index.getNaturalLong());
                 XBEXPlugLine plugLine = plugin == null ? null : (XBEXPlugLine) lineService.getPlugLine(plugin, lineOrder.getNaturalLong());
 

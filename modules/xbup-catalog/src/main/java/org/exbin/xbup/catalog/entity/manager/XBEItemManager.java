@@ -32,7 +32,7 @@ import org.springframework.stereotype.Repository;
 /**
  * XBUP catalog item manager.
  *
- * @version 0.1.24 2014/12/12
+ * @version 0.2.1 2017/05/27
  * @author ExBin Project (http://exbin.org)
  */
 @Repository
@@ -47,7 +47,7 @@ public class XBEItemManager extends XBEDefaultCatalogManager<XBEItem> implements
     }
 
     public List<XBItemWithDetail> findAllPaged(int startFrom, int maxResults, String filterCondition, String orderCondition, String specType) {
-        XBEXLangManager langManager = ((XBEXLangManager) catalog.getCatalogManager(XBCXLangManager.class));
+        XBCXLangManager langManager = catalog.getCatalogManager(XBCXLangManager.class);
         long languageId = langManager.getDefaultLang().getId();
         if (orderCondition == null) {
             orderCondition = "item.id";
@@ -60,8 +60,8 @@ public class XBEItemManager extends XBEDefaultCatalogManager<XBEItem> implements
                 + " LEFT JOIN XBXStri stri ON stri.item = item"
                 + (filterCondition == null
                 || filterCondition.isEmpty() ? ""
-                        : " WHERE "
-                        + filterCondition)
+                : " WHERE "
+                + filterCondition)
                 + " ORDER BY " + orderCondition);
         query.setFirstResult(startFrom);
         query.setMaxResults(maxResults);
@@ -84,7 +84,7 @@ public class XBEItemManager extends XBEDefaultCatalogManager<XBEItem> implements
     }
 
     public int findAllPagedCount(String filterCondition, String specType) {
-        XBEXLangManager langManager = ((XBEXLangManager) catalog.getCatalogManager(XBCXLangManager.class));
+        XBCXLangManager langManager = catalog.getCatalogManager(XBCXLangManager.class);
         long languageId = langManager.getDefaultLang().getId();
 
         String filterPrefix = "";
@@ -119,7 +119,7 @@ public class XBEItemManager extends XBEDefaultCatalogManager<XBEItem> implements
                 "SELECT COUNT(item) FROM " + (specType == null ? "XBItem" : specType) + " item"
                 + (filterCondition == null
                 || filterCondition.isEmpty() ? ""
-                        : " WHERE ")
+                : " WHERE ")
                 + filterPrefix
                 + filterCondition
                 + filterPostfix

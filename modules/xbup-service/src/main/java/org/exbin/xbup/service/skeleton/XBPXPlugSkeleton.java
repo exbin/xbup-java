@@ -38,7 +38,7 @@ import org.exbin.xbup.core.ubnumber.type.UBNat32;
 /**
  * RPC skeleton class for XBRXPlugin catalog items.
  *
- * @version 0.1.25 2015/03/16
+ * @version 0.2.1 2017/05/27
  * @author ExBin Project (http://exbin.org)
  */
 public class XBPXPlugSkeleton {
@@ -59,7 +59,7 @@ public class XBPXPlugSkeleton {
                 XBAttribute index = provider.pullAttribute();
                 provider.end();
 
-                XBCXPlugService pluginService = (XBCXPlugService) catalog.getCatalogService(XBCXPlugService.class);
+                XBCXPlugService pluginService = catalog.getCatalogService(XBCXPlugService.class);
                 XBEXPlugin plugin = (XBEXPlugin) pluginService.findById(index.getNaturalLong());
 
                 XBPListenerSerialHandler listener = new XBPListenerSerialHandler(resultInput);
@@ -76,7 +76,7 @@ public class XBPXPlugSkeleton {
                 XBAttribute index = provider.pullAttribute();
                 provider.end();
 
-                XBCXPlugService pluginService = (XBCXPlugService) catalog.getCatalogService(XBCXPlugService.class);
+                XBCXPlugService pluginService = catalog.getCatalogService(XBCXPlugService.class);
                 XBEXPlugin plugin = (XBEXPlugin) pluginService.findById(index.getNaturalLong());
                 XBCXFile file = plugin == null ? null : plugin.getPluginFile();
 
@@ -94,7 +94,7 @@ public class XBPXPlugSkeleton {
                 XBAttribute index = provider.pullAttribute();
                 provider.end();
 
-                XBCXPlugService pluginService = (XBCXPlugService) catalog.getCatalogService(XBCXPlugService.class);
+                XBCXPlugService pluginService = catalog.getCatalogService(XBCXPlugService.class);
                 XBEXPlugin plugin = (XBEXPlugin) pluginService.findById(index.getNaturalLong());
 
                 XBPListenerSerialHandler listener = new XBPListenerSerialHandler(resultInput);

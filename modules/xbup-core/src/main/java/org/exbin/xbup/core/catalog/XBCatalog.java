@@ -17,6 +17,8 @@
 package org.exbin.xbup.core.catalog;
 
 import java.util.List;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import org.exbin.xbup.core.block.XBBasicBlockType;
 import org.exbin.xbup.core.block.XBBlockType;
 import org.exbin.xbup.core.block.declaration.XBBlockDecl;
@@ -34,7 +36,7 @@ import org.exbin.xbup.core.parser.token.pull.XBTPullProvider;
 /**
  * Interface for XBUP level 1 catalog.
  *
- * @version 0.1.25 2015/02/25
+ * @version 0.2.1 2017/05/27
  * @author ExBin Project (http://exbin.org)
  */
 public interface XBCatalog {
@@ -44,7 +46,8 @@ public interface XBCatalog {
      *
      * @return block types processing context
      */
-    public XBContext getRootContext();
+    @Nonnull
+    XBContext getRootContext();
 
     /**
      * Returns a type of block for given XB Path.
@@ -54,7 +57,8 @@ public interface XBCatalog {
      * @return block type declaration for given catalog or null if traversal
      * fails
      */
-    public XBBlockDecl findBlockTypeByPath(Long[] xbCatalogPath, int revision);
+    @Nullable
+    XBBlockDecl findBlockTypeByPath(@Nonnull Long[] xbCatalogPath, int revision);
 
     /**
      * Returns a group type for given XB Path.
@@ -63,7 +67,8 @@ public interface XBCatalog {
      * @param revision XB index of revision
      * @return group Type for given catalog or null if fails
      */
-    public XBGroupDecl findGroupTypeByPath(Long[] xbCatalogPath, int revision);
+    @Nullable
+    XBGroupDecl findGroupTypeByPath(@Nonnull Long[] xbCatalogPath, int revision);
 
     /**
      * Returns a format type for given XB Path.
@@ -72,7 +77,8 @@ public interface XBCatalog {
      * @param revision XB index of revision
      * @return format Type for given catalog or null if fails
      */
-    public XBFormatDecl findFormatTypeByPath(Long[] xbCatalogPath, int revision);
+    @Nullable
+    XBFormatDecl findFormatTypeByPath(@Nonnull Long[] xbCatalogPath, int revision);
 
     /**
      * Returns list of binded specifications for given format specification for
@@ -81,7 +87,7 @@ public interface XBCatalog {
      * @param spec a format specification
      * @return list of group specifications
      */
-    List<XBGroupDecl> getGroups(XBCFormatSpec spec);
+    List<XBGroupDecl> getGroups(@Nonnull XBCFormatSpec spec);
 
     /**
      * Returns list of binded specifications for given group specification for
@@ -90,37 +96,43 @@ public interface XBCatalog {
      * @param spec a group specification
      * @return list of block specifications
      */
-    List<XBBlockDecl> getBlocks(XBCGroupSpec spec);
+    List<XBBlockDecl> getBlocks(@Nonnull XBCGroupSpec spec);
 
     /**
      * Returns catalog service of given type.
      *
-     * @param type a class for desired instance of catalog service
+     * @param <T> base param
+     * @param serviceClass a class for desired instance of catalog service
      * @return service
      */
-    public XBCService<? extends XBCBase> getCatalogService(Class type);
+    @Nonnull
+    <T extends XBCService<? extends XBCBase>> T getCatalogService(@Nonnull Class<T> serviceClass);
 
     /**
      * Returns catalog manager of given type.
      *
-     * @param type a class for desired instance of catalog manager
+     * @param <T> base param
+     * @param managerClass a class for desired instance of catalog manager
      * @return manager
      */
-    public XBCManager<? extends XBCBase> getCatalogManager(Class type);
+    @Nonnull
+    <T extends XBCManager<? extends XBCBase>> T getCatalogManager(@Nonnull Class<T> managerClass);
 
     /**
      * Returns list of catalog services.
      *
      * @return list of all catalog extensions
      */
-    public List<XBCService<? extends XBCBase>> getCatalogServices();
+    @Nonnull
+    List<XBCService<? extends XBCBase>> getCatalogServices();
 
     /**
      * Returns list of catalog managers.
      *
      * @return list of all catalog extensions
      */
-    public List<XBCManager<? extends XBCBase>> getCatalogManagers();
+    @Nonnull
+    List<XBCManager<? extends XBCBase>> getCatalogManagers();
 
     /**
      * Adds catalog manager to catalog repository.
@@ -130,7 +142,7 @@ public interface XBCatalog {
      * @param type type of extension
      * @param ext instance of extension, must implement XBCExtension
      */
-    public void addCatalogManager(Class type, XBCManager<? extends XBCBase> ext);
+    void addCatalogManager(Class type, XBCManager<? extends XBCBase> ext);
 
     /**
      * Adds catalog service to catalog repository.
@@ -138,7 +150,7 @@ public interface XBCatalog {
      * @param type type of extension
      * @param ext instance of extension, must implement XBCExtension
      */
-    public void addCatalogService(Class type, XBCService<? extends XBCBase> ext);
+    void addCatalogService(Class type, XBCService<? extends XBCBase> ext);
 
     /**
      * Processes declaration block and it's children and construct new context.
@@ -147,7 +159,7 @@ public interface XBCatalog {
      * @param blockProvider data provider
      * @return new context
      */
-    public XBContext processDeclaration(XBContext parent, XBTPullProvider blockProvider);
+    XBContext processDeclaration(XBContext parent, XBTPullProvider blockProvider);
 
     /**
      * Gets path for given specification.
@@ -155,7 +167,8 @@ public interface XBCatalog {
      * @param spec specification
      * @return path
      */
-    public Long[] getSpecPath(XBCSpec spec);
+    @Nonnull
+    Long[] getSpecPath(@Nonnull XBCSpec spec);
 
     /**
      * Returns basic block type for given basic type.
@@ -163,5 +176,6 @@ public interface XBCatalog {
      * @param blockType block type
      * @return basic block type
      */
-    public XBBlockType getBasicBlockType(XBBasicBlockType blockType);
+    @Nonnull
+    XBBlockType getBasicBlockType(@Nonnull XBBasicBlockType blockType);
 }

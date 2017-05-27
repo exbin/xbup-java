@@ -32,7 +32,6 @@ import org.exbin.xbup.core.catalog.XBCatalog;
 import org.exbin.xbup.core.catalog.base.XBCFormatRev;
 import org.exbin.xbup.core.catalog.base.XBCFormatSpec;
 import org.exbin.xbup.core.catalog.base.XBCGroupRev;
-import org.exbin.xbup.core.catalog.base.XBCSpec;
 import org.exbin.xbup.core.catalog.base.XBCSpecDef;
 import org.exbin.xbup.core.catalog.base.service.XBCSpecService;
 import org.exbin.xbup.core.parser.XBProcessingException;
@@ -49,7 +48,7 @@ import org.exbin.xbup.core.ubnumber.type.UBENat32;
 /**
  * XBUP level 1 format definition.
  *
- * @version 0.2.0 2017/01/07
+ * @version 0.2.1 2017/05/27
  * @author ExBin Project (http://exbin.org)
  */
 public class XBCFormatDef implements XBFormatDef, XBPSequenceSerializable {
@@ -64,7 +63,7 @@ public class XBCFormatDef implements XBFormatDef, XBPSequenceSerializable {
 
     @Override
     public List<XBFormatParam> getFormatParams() {
-        XBCSpecService<? extends XBCSpec> specService = (XBCSpecService<? extends XBCSpec>) catalog.getCatalogService(XBCSpecService.class);
+        XBCSpecService specService = catalog.getCatalogService(XBCSpecService.class);
         List<XBFormatParam> resultList = new ArrayList<>();
         List<XBCSpecDef> specDefs = specService.getSpecDefs(formatSpec);
         for (XBCSpecDef specDef : specDefs) {
@@ -81,7 +80,7 @@ public class XBCFormatDef implements XBFormatDef, XBPSequenceSerializable {
 
     @Override
     public XBFormatParam getFormatParam(int paramIndex) {
-        XBCSpecService specService = (XBCSpecService) catalog.getCatalogService(XBCSpecService.class);
+        XBCSpecService specService = catalog.getCatalogService(XBCSpecService.class);
         XBCSpecDef specDef = specService.findSpecDefByXB(formatSpec, paramIndex);
         if (specDef == null) {
             return null;
@@ -92,7 +91,7 @@ public class XBCFormatDef implements XBFormatDef, XBPSequenceSerializable {
 
     @Override
     public long getParamsCount() {
-        XBCSpecService specService = (XBCSpecService) catalog.getCatalogService(XBCSpecService.class);
+        XBCSpecService specService = catalog.getCatalogService(XBCSpecService.class);
         return specService.findMaxSpecDefXB(formatSpec);
     }
 
@@ -120,7 +119,7 @@ public class XBCFormatDef implements XBFormatDef, XBPSequenceSerializable {
 
             @Override
             public UBENatural getSize() {
-                XBCSpecService specService = (XBCSpecService) catalog.getCatalogService(XBCSpecService.class);
+                XBCSpecService specService = catalog.getCatalogService(XBCSpecService.class);
                 return new UBENat32(specService.findMaxSpecDefXB(formatSpec));
             }
 

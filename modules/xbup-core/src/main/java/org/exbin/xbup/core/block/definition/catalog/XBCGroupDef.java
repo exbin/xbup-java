@@ -33,7 +33,6 @@ import org.exbin.xbup.core.catalog.XBCatalog;
 import org.exbin.xbup.core.catalog.base.XBCBlockRev;
 import org.exbin.xbup.core.catalog.base.XBCGroupRev;
 import org.exbin.xbup.core.catalog.base.XBCGroupSpec;
-import org.exbin.xbup.core.catalog.base.XBCSpec;
 import org.exbin.xbup.core.catalog.base.XBCSpecDef;
 import org.exbin.xbup.core.catalog.base.service.XBCSpecService;
 import org.exbin.xbup.core.parser.XBProcessingException;
@@ -65,7 +64,7 @@ public class XBCGroupDef implements XBGroupDef, XBPSequenceSerializable {
 
     @Override
     public List<XBGroupParam> getGroupParams() {
-        XBCSpecService<? extends XBCSpec> specService = (XBCSpecService<? extends XBCSpec>) catalog.getCatalogService(XBCSpecService.class);
+        XBCSpecService specService = catalog.getCatalogService(XBCSpecService.class);
         List<XBGroupParam> resultList = new ArrayList<>();
         List<XBCSpecDef> specDefs = specService.getSpecDefs(groupSpec);
         for (XBCSpecDef specDef : specDefs) {
@@ -82,7 +81,7 @@ public class XBCGroupDef implements XBGroupDef, XBPSequenceSerializable {
 
     @Override
     public XBGroupParam getGroupParam(int paramIndex) {
-        XBCSpecService specService = (XBCSpecService) catalog.getCatalogService(XBCSpecService.class);
+        XBCSpecService specService = catalog.getCatalogService(XBCSpecService.class);
         XBCSpecDef specDef = specService.findSpecDefByXB(groupSpec, paramIndex);
         if (specDef == null) {
             return null;
@@ -93,7 +92,7 @@ public class XBCGroupDef implements XBGroupDef, XBPSequenceSerializable {
 
     @Override
     public long getParamsCount() {
-        XBCSpecService specService = (XBCSpecService) catalog.getCatalogService(XBCSpecService.class);
+        XBCSpecService specService = catalog.getCatalogService(XBCSpecService.class);
         return specService.findMaxSpecDefXB(groupSpec);
     }
 
@@ -121,7 +120,7 @@ public class XBCGroupDef implements XBGroupDef, XBPSequenceSerializable {
 
             @Override
             public UBENatural getSize() {
-                XBCSpecService specService = (XBCSpecService) catalog.getCatalogService(XBCSpecService.class);
+                XBCSpecService specService = catalog.getCatalogService(XBCSpecService.class);
                 return new UBENat32(specService.findMaxSpecDefXB(groupSpec));
             }
 

@@ -152,7 +152,7 @@ public class XBCatalogNetServiceServer extends XBTCPServiceServer {
      * @return true if update required
      */
     public boolean shallUpdate() {
-        XBCNodeService nodeService = (XBCNodeService) catalog.getCatalogService(XBCNodeService.class);
+        XBCNodeService nodeService = catalog.getCatalogService(XBCNodeService.class);
 
         if (nodeService.getRootNode() == null) {
             return true;

@@ -24,11 +24,11 @@ import javax.persistence.EntityTransaction;
 import javax.persistence.NoResultException;
 import org.exbin.xbup.catalog.XBECatalog;
 import org.exbin.xbup.catalog.entity.XBEItem;
-import org.exbin.xbup.catalog.entity.XBENode;
-import org.exbin.xbup.catalog.entity.XBESpec;
 import org.exbin.xbup.catalog.entity.XBEXDesc;
 import org.exbin.xbup.catalog.entity.XBEXLanguage;
 import org.exbin.xbup.core.catalog.base.XBCItem;
+import org.exbin.xbup.core.catalog.base.XBCNode;
+import org.exbin.xbup.core.catalog.base.XBCSpec;
 import org.exbin.xbup.core.catalog.base.XBCXDesc;
 import org.exbin.xbup.core.catalog.base.XBCXLanguage;
 import org.exbin.xbup.core.catalog.base.manager.XBCNodeManager;
@@ -40,7 +40,7 @@ import org.springframework.stereotype.Repository;
 /**
  * XBUP catalog description manager.
  *
- * @version 0.1.21 2012/01/01
+ * @version 0.2.1 2017/05/27
  * @author ExBin Project (http://exbin.org)
  */
 @Repository
@@ -60,7 +60,8 @@ public class XBEXDescManager extends XBEDefaultCatalogManager<XBEXDesc> implemen
             return null;
         }
 
-        XBCXLanguage language = ((XBCXLangManager) catalog.getCatalogManager(XBCXLangManager.class)).getDefaultLang();
+        XBCXLangManager langManager = catalog.getCatalogManager(XBCXLangManager.class);
+        XBCXLanguage language = langManager.getDefaultLang();
         return getItemDesc(item, language);
     }
 
@@ -98,12 +99,13 @@ public class XBEXDescManager extends XBEDefaultCatalogManager<XBEXDesc> implemen
     @Override
     public void initializeExtension() {
         EntityTransaction tx = em.getTransaction();
-        XBENodeManager nodeManager = (XBENodeManager) catalog.getCatalogManager(XBCNodeManager.class);
-        XBESpecManager specManager = (XBESpecManager) catalog.getCatalogManager(XBCSpecManager.class);
+        XBCNodeManager nodeManager = catalog.getCatalogManager(XBCNodeManager.class);
+        XBCSpecManager specManager = catalog.getCatalogManager(XBCSpecManager.class);
         try {
             tx.begin();
-            XBENode node = nodeManager.getRootNode();
-            XBEXLanguage defaultLang = (XBEXLanguage) ((XBEXLangManager) catalog.getCatalogManager(XBCXLangManager.class)).getDefaultLang();
+            XBCNode node = nodeManager.getRootNode();
+            XBCXLangManager langManager = catalog.getCatalogManager(XBCXLangManager.class);
+            XBCXLanguage defaultLang = langManager.getDefaultLang();
 
             XBEXDesc desc = new XBEXDesc();
             desc.setItem(node);
@@ -111,7 +113,7 @@ public class XBEXDescManager extends XBEDefaultCatalogManager<XBEXDesc> implemen
             desc.setText("Specification's catalog root node");
             em.persist(desc);
 
-            XBESpec spec = specManager.findFormatSpecByXB(node, 0);
+            XBCSpec spec = specManager.findFormatSpecByXB(node, 0);
             desc = new XBEXDesc();
             desc.setItem(spec);
             desc.setLang(defaultLang);

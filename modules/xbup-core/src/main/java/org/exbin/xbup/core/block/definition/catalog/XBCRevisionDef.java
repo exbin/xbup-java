@@ -38,7 +38,7 @@ import org.exbin.xbup.core.ubnumber.type.UBNat32;
 /**
  * XBUP level 1 revision definition.
  *
- * @version 0.2.0 2017/01/07
+ * @version 0.2.1 2017/05/27
  * @author ExBin Project (http://exbin.org)
  */
 public class XBCRevisionDef implements XBRevisionDef, XBPSequenceSerializable {
@@ -54,7 +54,7 @@ public class XBCRevisionDef implements XBRevisionDef, XBPSequenceSerializable {
     @Override
     public List<XBRevisionParam> getRevParams() {
         List<XBRevisionParam> result = new ArrayList<>();
-        XBCRevService<? extends XBCRev> revService = (XBCRevService<? extends XBCRev>) catalog.getCatalogService(XBCRevService.class);
+        XBCRevService revService = catalog.getCatalogService(XBCRevService.class);
         for (XBCRev rev : (List<XBCRev>) revService.getRevs(spec)) {
             result.add(new XBRevisionParam(rev.getXBLimit()));
         }
@@ -63,7 +63,7 @@ public class XBCRevisionDef implements XBRevisionDef, XBPSequenceSerializable {
     }
 
     public XBRevisionParam getRevParam(int position) {
-        XBCRevService revService = (XBCRevService) catalog.getCatalogService(XBCRevService.class);
+        XBCRevService revService = catalog.getCatalogService(XBCRevService.class);
         XBCRev rev = revService.getRev(spec, position);
         XBRevisionParam revisionParam = new XBRevisionParam(rev.getXBLimit());
         return revisionParam;
@@ -85,7 +85,7 @@ public class XBCRevisionDef implements XBRevisionDef, XBPSequenceSerializable {
 
             @Override
             public UBNatural getSize() {
-                XBCRevService revService = (XBCRevService) catalog.getCatalogService(XBCRevService.class);
+                XBCRevService revService = catalog.getCatalogService(XBCRevService.class);
                 return new UBNat32(revService.getRevsCount(spec));
             }
 

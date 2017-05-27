@@ -147,9 +147,9 @@ public class XBCUpdatePHPHandler implements XBCUpdateHandler {
         }
 
         // TODO: Icon modes - currently static only
-        XBEXIconService iconService = (XBEXIconService) catalog.getCatalogService(XBCXIconService.class);
+        XBCXIconService iconService = catalog.getCatalogService(XBCXIconService.class);
         if (iconService != null) {
-            if (iconService.getIconMode(new Long(1)) == null) {
+            if (iconService.getIconMode(1l) == null) {
                 XBEXIconMode iconMode = new XBEXIconMode();
                 iconMode.setCaption("PNG 16x16");
                 iconMode.setId(new Long(1));

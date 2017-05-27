@@ -176,7 +176,7 @@ public class XBTCPServiceServer implements XBServiceServer {
         // TODO do proper matching later
         XBDeclBlockType blockType = (XBDeclBlockType) preloading.getBlockType();
         XBCBlockDecl blockDecl = (XBCBlockDecl) blockType.getBlockDecl();
-        XBCSpecService specService = (XBCSpecService) catalog.getCatalogService(XBCSpecService.class);
+        XBCSpecService specService = catalog.getCatalogService(XBCSpecService.class);
         blockType.setBlockDecl(new XBLBlockDecl(specService.getSpecXBPath(blockDecl.getBlockSpecRev().getParent()), blockDecl.getBlockSpecRev().getXBIndex().intValue()));
         XBExecutable executable = procMap.get(blockType);
 

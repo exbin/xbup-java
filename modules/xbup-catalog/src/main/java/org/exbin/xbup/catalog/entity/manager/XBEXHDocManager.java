@@ -78,7 +78,7 @@ public class XBEXHDocManager extends XBEDefaultCatalogManager<XBEXHDoc> implemen
 
     @Override
     public XBEXHDoc getDocumentation(XBCItem item) {
-        XBEXLangManager langManager = ((XBEXLangManager) catalog.getCatalogManager(XBCXLangManager.class));
+        XBCXLangManager langManager = catalog.getCatalogManager(XBCXLangManager.class);
         if (!(item instanceof XBEItem)) {
             return null;
         }

@@ -68,7 +68,7 @@ import org.springframework.stereotype.Service;
 /**
  * Entity class for XBESpec items service.
  *
- * @version 0.1.25 2015/02/20
+ * @version 0.2.1 2017/05/27
  * @author ExBin Project (http://exbin.org)
  */
 @Service
@@ -264,25 +264,25 @@ public class XBESpecService extends XBEDefaultService<XBESpec> implements XBCSpe
 
     @Override
     public void removeItemDepth(XBCSpecDef specDef) {
-        XBCXNameManager nameManager = (XBCXNameManager) catalog.getCatalogManager(XBCXNameManager.class);
+        XBCXNameManager nameManager = catalog.getCatalogManager(XBCXNameManager.class);
         List<XBCXName> itemNames = nameManager.getItemNames(specDef);
         for (XBCXName itemName : itemNames) {
             nameManager.removeItem(itemName);
         }
 
-        XBCXDescManager descManager = (XBCXDescManager) catalog.getCatalogManager(XBCXDescManager.class);
+        XBCXDescManager descManager = catalog.getCatalogManager(XBCXDescManager.class);
         List<XBCXDesc> itemDescs = descManager.getItemDescs(specDef);
         for (XBCXDesc itemDesc : itemDescs) {
             descManager.removeItem(itemDesc);
         }
 
-        XBCXStriManager striManager = (XBCXStriManager) catalog.getCatalogManager(XBCXStriManager.class);
+        XBCXStriManager striManager = catalog.getCatalogManager(XBCXStriManager.class);
         XBCXStri itemStri = striManager.getItemStringId(specDef);
         if (itemStri != null) {
             striManager.removeItem(itemStri);
         }
 
-        XBCXHDocManager hdocManager = (XBCXHDocManager) catalog.getCatalogManager(XBCXHDocManager.class);
+        XBCXHDocManager hdocManager = catalog.getCatalogManager(XBCXHDocManager.class);
         XBCXHDoc itemHDoc = hdocManager.getDocumentation(specDef);
         if (itemHDoc != null) {
             hdocManager.removeItem(itemHDoc);

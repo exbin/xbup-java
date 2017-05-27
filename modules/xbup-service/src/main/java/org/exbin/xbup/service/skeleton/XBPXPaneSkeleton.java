@@ -21,7 +21,6 @@ import org.exbin.xbup.catalog.XBAECatalog;
 import org.exbin.xbup.catalog.entity.XBEBlockRev;
 import org.exbin.xbup.catalog.entity.XBEXBlockPane;
 import org.exbin.xbup.catalog.entity.XBEXPlugPane;
-import org.exbin.xbup.catalog.entity.service.XBERevService;
 import org.exbin.xbup.client.stub.XBPXPaneStub;
 import org.exbin.xbup.core.block.XBBlockType;
 import org.exbin.xbup.core.block.XBTEmptyBlock;
@@ -43,7 +42,7 @@ import org.exbin.xbup.core.ubnumber.type.UBNat32;
 /**
  * RPC skeleton class for XBRXBlockPane catalog items.
  *
- * @version 0.1.25 2015/03/16
+ * @version 0.2.1 2017/05/27
  * @author ExBin Project (http://exbin.org)
  */
 public class XBPXPaneSkeleton {
@@ -64,7 +63,7 @@ public class XBPXPaneSkeleton {
                 XBAttribute index = provider.pullAttribute();
                 provider.end();
 
-                XBCXPaneService paneService = (XBCXPaneService) catalog.getCatalogService(XBCXPaneService.class);
+                XBCXPaneService paneService = catalog.getCatalogService(XBCXPaneService.class);
                 XBEXPlugPane plugPane = (XBEXPlugPane) paneService.findPlugPaneById(index.getNaturalLong());
 
                 XBPListenerSerialHandler listener = new XBPListenerSerialHandler(resultInput);
@@ -81,7 +80,7 @@ public class XBPXPaneSkeleton {
                 XBAttribute index = provider.pullAttribute();
                 provider.end();
 
-                XBCXPaneService paneService = (XBCXPaneService) catalog.getCatalogService(XBCXPaneService.class);
+                XBCXPaneService paneService = catalog.getCatalogService(XBCXPaneService.class);
                 XBEXPlugPane plugPane = (XBEXPlugPane) paneService.findPlugPaneById(index.getNaturalLong());
 
                 XBPListenerSerialHandler listener = new XBPListenerSerialHandler(resultInput);
@@ -98,7 +97,7 @@ public class XBPXPaneSkeleton {
                 XBAttribute index = provider.pullAttribute();
                 provider.end();
 
-                XBCXPaneService paneService = (XBCXPaneService) catalog.getCatalogService(XBCXPaneService.class);
+                XBCXPaneService paneService = catalog.getCatalogService(XBCXPaneService.class);
                 XBEXBlockPane blockPane = (XBEXBlockPane) paneService.findById(index.getNaturalLong());
 
                 XBPListenerSerialHandler listener = new XBPListenerSerialHandler(resultInput);
@@ -115,7 +114,7 @@ public class XBPXPaneSkeleton {
                 XBAttribute index = provider.pullAttribute();
                 provider.end();
 
-                XBCXPaneService paneService = (XBCXPaneService) catalog.getCatalogService(XBCXPaneService.class);
+                XBCXPaneService paneService = catalog.getCatalogService(XBCXPaneService.class);
                 XBEXBlockPane blockPane = (XBEXBlockPane) paneService.findById(index.getNaturalLong());
 
                 XBPListenerSerialHandler listener = new XBPListenerSerialHandler(resultInput);
@@ -132,7 +131,7 @@ public class XBPXPaneSkeleton {
                 XBAttribute index = provider.pullAttribute();
                 provider.end();
 
-                XBCXPaneService paneService = (XBCXPaneService) catalog.getCatalogService(XBCXPaneService.class);
+                XBCXPaneService paneService = catalog.getCatalogService(XBCXPaneService.class);
                 XBEXBlockPane blockPane = (XBEXBlockPane) paneService.findById(index.getNaturalLong());
 
                 XBPListenerSerialHandler listener = new XBPListenerSerialHandler(resultInput);
@@ -148,7 +147,7 @@ public class XBPXPaneSkeleton {
                 provider.matchType(blockType);
                 provider.end();
 
-                XBCXPaneService paneService = (XBCXPaneService) catalog.getCatalogService(XBCXPaneService.class);
+                XBCXPaneService paneService = catalog.getCatalogService(XBCXPaneService.class);
 
                 XBPListenerSerialHandler listener = new XBPListenerSerialHandler(resultInput);
                 listener.process(new UBNat32(paneService.getItemsCount()));
@@ -165,8 +164,8 @@ public class XBPXPaneSkeleton {
                 XBAttribute priority = provider.pullAttribute();
                 provider.end();
 
-                XBCXPaneService paneService = (XBCXPaneService) catalog.getCatalogService(XBCXPaneService.class);
-                XBERevService revService = (XBERevService) catalog.getCatalogService(XBCRevService.class);
+                XBCXPaneService paneService = catalog.getCatalogService(XBCXPaneService.class);
+                XBCRevService revService = catalog.getCatalogService(XBCRevService.class);
                 XBEBlockRev rev = (XBEBlockRev) revService.getItem(index.getNaturalLong());
                 XBEXBlockPane blockPane = rev == null ? null : (XBEXBlockPane) paneService.findPaneByPR(rev, priority.getNaturalLong());
 
@@ -183,7 +182,7 @@ public class XBPXPaneSkeleton {
                 provider.matchType(blockType);
                 provider.end();
 
-                XBCXPaneService paneService = (XBCXPaneService) catalog.getCatalogService(XBCXPaneService.class);
+                XBCXPaneService paneService = catalog.getCatalogService(XBCXPaneService.class);
 
                 XBPListenerSerialHandler listener = new XBPListenerSerialHandler(resultInput);
                 listener.process(new UBNat32(paneService.getAllPlugPanesCount()));
@@ -200,8 +199,8 @@ public class XBPXPaneSkeleton {
                 XBAttribute paneOrder = provider.pullAttribute();
                 provider.end();
 
-                XBCXPaneService paneService = (XBCXPaneService) catalog.getCatalogService(XBCXPaneService.class);
-                XBCXPlugService pluginService = (XBCXPlugService) catalog.getCatalogService(XBCXPlugService.class);
+                XBCXPaneService paneService = catalog.getCatalogService(XBCXPaneService.class);
+                XBCXPlugService pluginService = catalog.getCatalogService(XBCXPlugService.class);
                 XBCXPlugin plugin = pluginService.findById(index.getNaturalLong());
                 XBEXPlugPane plugPane = plugin == null ? null : (XBEXPlugPane) paneService.getPlugPane(plugin, paneOrder.getNaturalLong());
 

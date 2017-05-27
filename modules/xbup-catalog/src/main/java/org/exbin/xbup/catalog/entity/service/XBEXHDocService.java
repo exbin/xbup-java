@@ -90,7 +90,7 @@ public class XBEXHDocService extends XBEDefaultService<XBEXHDoc> implements XBCX
         if (file == null) {
             return null;
         }
-        XBCXFileService fileService = (XBCXFileService) catalog.getCatalogService(XBCXFileService.class);
+        XBCXFileService fileService = catalog.getCatalogService(XBCXFileService.class);
         try {
             return new java.util.Scanner(fileService.getFile(file)).useDelimiter("\\A").next();
         } catch (java.util.NoSuchElementException ex) {

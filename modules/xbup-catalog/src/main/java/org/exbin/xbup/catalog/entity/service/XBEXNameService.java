@@ -21,7 +21,6 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import org.exbin.xbup.catalog.XBECatalog;
 import org.exbin.xbup.catalog.entity.XBEXName;
-import org.exbin.xbup.catalog.entity.manager.XBEXLangManager;
 import org.exbin.xbup.catalog.entity.manager.XBEXNameManager;
 import org.exbin.xbup.core.catalog.base.XBCExtension;
 import org.exbin.xbup.core.catalog.base.XBCItem;
@@ -98,7 +97,7 @@ public class XBEXNameService extends XBEDefaultService<XBEXName> implements XBCX
             }
         } else {
             if (name == null) {
-                XBEXLangManager langManager = ((XBEXLangManager) catalog.getCatalogManager(XBCXLangManager.class));
+                XBCXLangManager langManager = catalog.getCatalogManager(XBCXLangManager.class);
                 name = createItem();
                 name.setItem(item);
                 name.setLang(langManager.getDefaultLang());

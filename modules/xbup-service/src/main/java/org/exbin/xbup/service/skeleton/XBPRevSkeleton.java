@@ -28,6 +28,7 @@ import org.exbin.xbup.core.block.XBBlockType;
 import org.exbin.xbup.core.block.XBTEmptyBlock;
 import org.exbin.xbup.core.block.declaration.XBDeclBlockType;
 import org.exbin.xbup.core.catalog.base.XBCRev;
+import org.exbin.xbup.core.catalog.base.XBCSpec;
 import org.exbin.xbup.core.catalog.base.service.XBCRevService;
 import org.exbin.xbup.core.catalog.base.service.XBCSpecService;
 import org.exbin.xbup.core.parser.XBProcessingException;
@@ -64,9 +65,9 @@ public class XBPRevSkeleton {
                 long xbIndex = provider.pullLongAttribute();
                 provider.end();
 
-                XBERevService revService = (XBERevService) catalog.getCatalogService(XBCRevService.class);
-                XBESpecService specService = (XBESpecService) catalog.getCatalogService(XBCSpecService.class);
-                XBESpec spec = specService.getItem(specId);
+                XBCRevService revService = catalog.getCatalogService(XBCRevService.class);
+                XBCSpecService specService = catalog.getCatalogService(XBCSpecService.class);
+                XBCSpec spec = (XBCSpec) specService.getItem(specId);
                 XBERev rev = spec == null ? null : (XBERev) revService.findRevByXB(spec, xbIndex);
 
                 XBPListenerSerialHandler listener = new XBPListenerSerialHandler(resultInput);
@@ -83,9 +84,9 @@ public class XBPRevSkeleton {
                 long specId = provider.pullLongAttribute();
                 provider.end();
 
-                XBERevService revService = (XBERevService) catalog.getCatalogService(XBCRevService.class);
-                XBESpecService specService = (XBESpecService) catalog.getCatalogService(XBCSpecService.class);
-                XBESpec spec = specService.getItem(specId);
+                XBCRevService revService = catalog.getCatalogService(XBCRevService.class);
+                XBCSpecService specService = catalog.getCatalogService(XBCSpecService.class);
+                XBCSpec spec = (XBCSpec) specService.getItem(specId);
 
                 XBPListenerSerialHandler listener = new XBPListenerSerialHandler(resultInput);
                 listener.process(new UBNat32(revService.getRevsCount(spec)));
@@ -102,9 +103,9 @@ public class XBPRevSkeleton {
                 long orderIndex = provider.pullLongAttribute();
                 provider.end();
 
-                XBERevService revService = (XBERevService) catalog.getCatalogService(XBCRevService.class);
-                XBESpecService specService = (XBESpecService) catalog.getCatalogService(XBCSpecService.class);
-                XBESpec spec = specService.getItem(specId);
+                XBCRevService revService = catalog.getCatalogService(XBCRevService.class);
+                XBCSpecService specService = catalog.getCatalogService(XBCSpecService.class);
+                XBCSpec spec = (XBCSpec) specService.getItem(specId);
                 XBERev rev = spec == null ? null : (XBERev) revService.getRev(spec, orderIndex);
 
                 XBPListenerSerialHandler listener = new XBPListenerSerialHandler(resultInput);
@@ -121,9 +122,9 @@ public class XBPRevSkeleton {
                 long specId = provider.pullLongAttribute();
                 provider.end();
 
-                XBERevService revService = (XBERevService) catalog.getCatalogService(XBCRevService.class);
-                XBESpecService specService = (XBESpecService) catalog.getCatalogService(XBCSpecService.class);
-                XBESpec spec = specService.getItem(specId);
+                XBCRevService revService = catalog.getCatalogService(XBCRevService.class);
+                XBCSpecService specService = catalog.getCatalogService(XBCSpecService.class);
+                XBCSpec spec = (XBCSpec) specService.getItem(specId);
                 List<XBCRev> revs = revService.getRevs(spec);
 
                 XBPListenerSerialHandler listener = new XBPListenerSerialHandler(resultInput);
@@ -146,8 +147,8 @@ public class XBPRevSkeleton {
                 long revId = provider.pullLongAttribute();
                 provider.end();
 
-                XBERevService revService = (XBERevService) catalog.getCatalogService(XBCRevService.class);
-                XBERev rev = revService.getItem(revId);
+                XBCRevService revService = catalog.getCatalogService(XBCRevService.class);
+                XBCRev rev = (XBCRev) revService.getItem(revId);
 
                 XBPListenerSerialHandler listener = new XBPListenerSerialHandler(resultInput);
                 listener.process(rev == null ? XBTEmptyBlock.getEmptyBlock() : new UBNat32(rev.getXBLimit()));
@@ -162,7 +163,7 @@ public class XBPRevSkeleton {
                 provider.matchType(blockType);
                 provider.end();
 
-                XBERevService revService = (XBERevService) catalog.getCatalogService(XBCRevService.class);
+                XBCRevService revService = catalog.getCatalogService(XBCRevService.class);
 
                 XBPListenerSerialHandler listener = new XBPListenerSerialHandler(resultInput);
                 listener.process(new UBNat32(revService.getItemsCount()));

@@ -32,7 +32,6 @@ import org.exbin.xbup.core.block.definition.XBRevisionDef;
 import org.exbin.xbup.core.catalog.XBCatalog;
 import org.exbin.xbup.core.catalog.base.XBCBlockRev;
 import org.exbin.xbup.core.catalog.base.XBCBlockSpec;
-import org.exbin.xbup.core.catalog.base.XBCSpec;
 import org.exbin.xbup.core.catalog.base.XBCSpecDef;
 import org.exbin.xbup.core.catalog.base.service.XBCSpecService;
 import org.exbin.xbup.core.parser.XBProcessingException;
@@ -65,7 +64,7 @@ public class XBCBlockDef implements XBBlockDef, XBPSequenceSerializable {
     @Override
     public List<XBBlockParam> getBlockParams() {
         List<XBBlockParam> resultList = new ArrayList<>();
-        XBCSpecService<? extends XBCSpec> specService = (XBCSpecService<? extends XBCSpec>) catalog.getCatalogService(XBCSpecService.class);
+        XBCSpecService specService = catalog.getCatalogService(XBCSpecService.class);
         List<XBCSpecDef> specDefs = specService.getSpecDefs(blockSpec);
         for (XBCSpecDef specDef : specDefs) {
             resultList.add(convertParam(specDef));
@@ -76,7 +75,7 @@ public class XBCBlockDef implements XBBlockDef, XBPSequenceSerializable {
 
     @Override
     public long getParamsCount() {
-        XBCSpecService specService = (XBCSpecService) catalog.getCatalogService(XBCSpecService.class);
+        XBCSpecService specService = catalog.getCatalogService(XBCSpecService.class);
         return specService.findMaxSpecDefXB(blockSpec);
     }
 
@@ -87,7 +86,7 @@ public class XBCBlockDef implements XBBlockDef, XBPSequenceSerializable {
 
     @Override
     public XBBlockParam getBlockParam(int paramIndex) {
-        XBCSpecService specService = (XBCSpecService) catalog.getCatalogService(XBCSpecService.class);
+        XBCSpecService specService = catalog.getCatalogService(XBCSpecService.class);
         XBCSpecDef specDef = specService.findSpecDefByXB(blockSpec, paramIndex);
         if (specDef == null) {
             return null;
@@ -130,7 +129,7 @@ public class XBCBlockDef implements XBBlockDef, XBPSequenceSerializable {
 
             @Override
             public UBENatural getSize() {
-                XBCSpecService specService = (XBCSpecService) catalog.getCatalogService(XBCSpecService.class);
+                XBCSpecService specService = catalog.getCatalogService(XBCSpecService.class);
                 Long maxSpecDefXB = specService.findMaxSpecDefXB(blockSpec);
                 return new UBENat32(maxSpecDefXB == null ? 0 : maxSpecDefXB);
             }

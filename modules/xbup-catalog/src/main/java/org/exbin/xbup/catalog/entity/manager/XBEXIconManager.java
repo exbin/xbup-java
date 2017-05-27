@@ -114,7 +114,7 @@ public class XBEXIconManager extends XBEDefaultCatalogManager<XBEXIcon> implemen
 
     @Override
     public ImageIcon getDefaultImageIcon(XBCItem item) {
-        XBEXFileManager fileManager = (XBEXFileManager) catalog.getCatalogManager(XBCXFileManager.class);
+        XBCXFileManager fileManager = catalog.getCatalogManager(XBCXFileManager.class);
         XBCXIcon icon = getDefaultIcon(item);
         if (icon == null) {
             return null;

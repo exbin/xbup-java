@@ -39,7 +39,7 @@ import org.exbin.xbup.core.ubnumber.type.UBNat32;
 /**
  * RPC skeleton class for XBRXIcon catalog items.
  *
- * @version 0.1.25 2015/09/06
+ * @version 0.2.1 2017/05/27
  * @author ExBin Project (http://exbin.org)
  */
 public class XBPXIconSkeleton {
@@ -60,7 +60,7 @@ public class XBPXIconSkeleton {
                 XBAttribute index = provider.pullAttribute();
                 provider.end();
 
-                XBCXIconService iconService = (XBCXIconService) catalog.getCatalogService(XBCXIconService.class);
+                XBCXIconService iconService = catalog.getCatalogService(XBCXIconService.class);
                 XBCXIcon icon = (XBCXIcon) iconService.getItem(index.getNaturalLong());
 
                 XBPListenerSerialHandler listener = new XBPListenerSerialHandler(resultInput);
@@ -77,7 +77,7 @@ public class XBPXIconSkeleton {
                 XBAttribute index = provider.pullAttribute();
                 provider.end();
 
-                XBCXIconService iconService = (XBCXIconService) catalog.getCatalogService(XBCXIconService.class);
+                XBCXIconService iconService = catalog.getCatalogService(XBCXIconService.class);
                 XBCXIcon icon = (XBCXIcon) iconService.getItem(index.getNaturalLong());
 
                 XBPListenerSerialHandler listener = new XBPListenerSerialHandler(resultInput);
@@ -101,8 +101,8 @@ public class XBPXIconSkeleton {
                 XBAttribute index = provider.pullAttribute();
                 provider.end();
 
-                XBCXIconService iconService = (XBCXIconService) catalog.getCatalogService(XBCXIconService.class);
-                XBCItemService itemService = (XBCItemService) catalog.getCatalogService(XBCItemService.class);
+                XBCXIconService iconService = catalog.getCatalogService(XBCXIconService.class);
+                XBCItemService itemService = catalog.getCatalogService(XBCItemService.class);
                 XBCItem item = (XBCItem) itemService.getItem(index.getNaturalLong());
                 XBCXIcon icon = item == null ? null : iconService.getDefaultIcon(item);
 
@@ -120,7 +120,7 @@ public class XBPXIconSkeleton {
                 XBAttribute index = provider.pullAttribute();
                 provider.end();
 
-                XBCXIconService iconService = (XBCXIconService) catalog.getCatalogService(XBCXIconService.class);
+                XBCXIconService iconService = catalog.getCatalogService(XBCXIconService.class);
                 XBCXIcon icon = (XBCXIcon) iconService.getItem(index.getNaturalLong());
 
                 XBPListenerSerialHandler listener = new XBPListenerSerialHandler(resultInput);
@@ -137,8 +137,8 @@ public class XBPXIconSkeleton {
                 XBAttribute index = provider.pullAttribute();
                 provider.end();
 
-                XBCXIconService iconService = (XBCXIconService) catalog.getCatalogService(XBCXIconService.class);
-                XBCItemService itemService = (XBCItemService) catalog.getCatalogService(XBCItemService.class);
+                XBCXIconService iconService = catalog.getCatalogService(XBCXIconService.class);
+                XBCItemService itemService = catalog.getCatalogService(XBCItemService.class);
                 XBCItem item = (XBCItem) itemService.getItem(index.getNaturalLong());
                 XBCXIcon icon = item == null ? null : iconService.getDefaultBigIcon(item);
 
@@ -156,8 +156,8 @@ public class XBPXIconSkeleton {
                 XBAttribute index = provider.pullAttribute();
                 provider.end();
 
-                XBCXIconService iconService = (XBCXIconService) catalog.getCatalogService(XBCXIconService.class);
-                XBCItemService itemService = (XBCItemService) catalog.getCatalogService(XBCItemService.class);
+                XBCXIconService iconService = catalog.getCatalogService(XBCXIconService.class);
+                XBCItemService itemService = catalog.getCatalogService(XBCItemService.class);
                 XBCItem item = (XBCItem) itemService.getItem(index.getNaturalLong());
                 XBCXIcon icon = item == null ? null : iconService.getDefaultSmallIcon(item);
 

@@ -25,7 +25,7 @@ import javax.annotation.Nullable;
 /**
  * XBUP framework modules repository interface.
  *
- * @version 0.2.1 2017/05/25
+ * @version 0.2.1 2017/05/28
  * @author ExBin Project (http://exbin.org)
  */
 public interface XBModuleRepository {
@@ -80,7 +80,7 @@ public interface XBModuleRepository {
      * @return application module record
      */
     @Nullable
-    XBModuleRecord getModuleRecordById(String moduleId);
+    XBModuleRecord getModuleRecordById(@Nonnull String moduleId);
 
     /**
      * Gets module for specified identified.
@@ -89,7 +89,7 @@ public interface XBModuleRepository {
      * @return application module
      */
     @Nullable
-    XBModule getModuleById(String moduleId);
+    XBModule getModuleById(@Nonnull String moduleId);
 
     /**
      * Gets module instance by module interface.
@@ -99,7 +99,7 @@ public interface XBModuleRepository {
      * @return application module record
      */
     @Nullable
-    <T extends XBModule> T getModuleByInterface(Class<T> interfaceClass);
+    <T extends XBModule> T getModuleByInterface(@Nonnull Class<T> interfaceClass);
 
     /**
      * Gets list of modules.

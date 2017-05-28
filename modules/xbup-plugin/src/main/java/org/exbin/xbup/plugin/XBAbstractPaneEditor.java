@@ -16,14 +16,17 @@
  */
 package org.exbin.xbup.plugin;
 
+import javax.annotation.Nullable;
+
 /**
  * XBUP Line Editor Plugin Base Abstract Class.
  *
- * @version 0.1.24 2015/01/14
+ * @version 0.2.1 2017/05/28
  * @author ExBin Project (http://exbin.org)
  */
 public abstract class XBAbstractPaneEditor implements XBPanelEditor {
 
+    @Nullable
     private ChangeListener changeListener = null;
 
     public void fireValueChange() {
@@ -33,7 +36,7 @@ public abstract class XBAbstractPaneEditor implements XBPanelEditor {
     }
 
     @Override
-    public void attachChangeListener(ChangeListener listener) {
+    public void attachChangeListener(@Nullable ChangeListener listener) {
         changeListener = listener;
     }
 }

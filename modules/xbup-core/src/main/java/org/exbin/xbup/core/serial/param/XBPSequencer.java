@@ -37,6 +37,7 @@ public interface XBPSequencer extends XBPListener, XBPProvider {
      * @return sequencing mode depending on whether data are serialized from or
      * to token stream
      */
+    @Nonnull
     XBSerializationMode getSerializationMode();
 
     /**

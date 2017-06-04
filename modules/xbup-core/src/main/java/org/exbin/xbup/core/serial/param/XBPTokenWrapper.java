@@ -17,20 +17,21 @@
 package org.exbin.xbup.core.serial.param;
 
 import java.io.IOException;
+import javax.annotation.Nonnull;
 import org.exbin.xbup.core.parser.XBProcessingException;
 import org.exbin.xbup.core.parser.token.XBTToken;
 
 /**
  * Token wrapper for level 2 serialization event.
  *
- * @version 0.1.24 2015/01/22
+ * @version 0.2.1 2017/06/04
  * @author ExBin Project (http://exbin.org)
  */
 public class XBPTokenWrapper implements XBPSerializable {
 
     private XBTToken token;
 
-    public XBPTokenWrapper(XBTToken token) {
+    public XBPTokenWrapper(@Nonnull XBTToken token) {
         this.token = token;
     }
 
@@ -38,17 +39,17 @@ public class XBPTokenWrapper implements XBPSerializable {
         return token;
     }
 
-    public void setToken(XBTToken token) {
+    public void setToken(@Nonnull XBTToken token) {
         this.token = token;
     }
 
     @Override
-    public void serializeFromXB(XBPInputSerialHandler serializationHandler) throws XBProcessingException, IOException {
+    public void serializeFromXB(@Nonnull XBPInputSerialHandler serializationHandler) throws XBProcessingException, IOException {
         token = serializationHandler.pullToken(token.getTokenType());
     }
 
     @Override
-    public void serializeToXB(XBPOutputSerialHandler serializationHandler) throws XBProcessingException, IOException {
+    public void serializeToXB(@Nonnull XBPOutputSerialHandler serializationHandler) throws XBProcessingException, IOException {
         serializationHandler.putToken(token);
     }
 }

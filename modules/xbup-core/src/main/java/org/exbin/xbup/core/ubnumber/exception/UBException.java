@@ -27,12 +27,13 @@ import javax.annotation.Nullable;
 public class UBException extends RuntimeException {
 
     @Nullable
-    private String comment;
+    private final String comment;
 
     /**
      * Creates a new instance of UBException.
      */
     public UBException() {
+        this(null);
     }
 
     /**

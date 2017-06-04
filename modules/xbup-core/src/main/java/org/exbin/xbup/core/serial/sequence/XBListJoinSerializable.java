@@ -16,13 +16,15 @@
  */
 package org.exbin.xbup.core.serial.sequence;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import org.exbin.xbup.core.serial.XBSerializable;
 import org.exbin.xbup.core.ubnumber.UBNatural;
 
 /**
  * XBUP level 1 serialization list for finite list.
  *
- * @version 0.1.24 2015/01/22
+ * @version 0.2.1 2017/06/04
  * @author ExBin Project (http://exbin.org)
  */
 public interface XBListJoinSerializable extends XBSerializable {
@@ -32,24 +34,26 @@ public interface XBListJoinSerializable extends XBSerializable {
      *
      * @return size of list
      */
-    public UBNatural getSize();
+    @Nonnull
+    UBNatural getSize();
 
     /**
      * Sets size of the list.
      *
      * @param size target size
      */
-    public void setSize(UBNatural size);
+    void setSize(@Nonnull UBNatural size);
 
     /**
      * Resets position of the list order.
      */
-    public void reset();
+    void reset();
 
     /**
      * Gets next item from the list.
      *
      * @return next item
      */
-    public XBSerializable next();
+    @Nullable
+    XBSerializable next();
 }

@@ -18,6 +18,8 @@ package org.exbin.xbup.core.serial.transform;
 
 import java.io.IOException;
 import java.util.List;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import org.exbin.xbup.core.block.XBBlockType;
 import org.exbin.xbup.core.parser.XBProcessingException;
 import org.exbin.xbup.core.serial.param.XBPProvider;
@@ -25,7 +27,7 @@ import org.exbin.xbup.core.serial.param.XBPProvider;
 /**
  * TODO: XBUP level 2 child serialization provider interface.
  *
- * @version 0.1.24 2015/01/21
+ * @version 0.2.1 2017/06/04
  * @author ExBin Project (http://exbin.org)
  */
 public interface XBAProvider extends XBPProvider {
@@ -33,12 +35,13 @@ public interface XBAProvider extends XBPProvider {
     /**
      * Pulls and matches block type.
      *
-     * @param blockTypes list of block types to match to
+     * @param blockType list of block types to match to
      * @return block type
      * @throws XBProcessingException if not matching
      * @throws IOException if input/output exception occurs
      */
-    public XBBlockType pullMatchingType(XBBlockType blockTypes) throws XBProcessingException, IOException;
+    @Nullable
+    XBBlockType pullMatchingType(@Nonnull XBBlockType blockType) throws XBProcessingException, IOException;
 
     /**
      * Pulls and matches one of block types.
@@ -48,5 +51,6 @@ public interface XBAProvider extends XBPProvider {
      * @throws XBProcessingException if not matching
      * @throws IOException if input/output exception occurs
      */
-    public XBBlockType pullMatchingType(List<XBBlockType> blockTypes) throws XBProcessingException, IOException;
+    @Nullable
+    XBBlockType pullMatchingType(@Nullable List<XBBlockType> blockTypes) throws XBProcessingException, IOException;
 }

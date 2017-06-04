@@ -17,6 +17,7 @@
 package org.exbin.xbup.core.serial.param;
 
 import java.io.IOException;
+import javax.annotation.Nonnull;
 import org.exbin.xbup.core.parser.XBProcessingException;
 import org.exbin.xbup.core.serial.XBSerializable;
 
@@ -24,7 +25,7 @@ import org.exbin.xbup.core.serial.XBSerializable;
  * Interface is providing serialization method for serialization from and into
  * XBUP level 2 protocol using serialization sequence.
  *
- * @version 0.1.24 2015/01/22
+ * @version 0.2.1 2017/06/04
  * @author ExBin Project (http://exbin.org)
  */
 public interface XBPSequenceSerializable extends XBSerializable {
@@ -36,5 +37,5 @@ public interface XBPSequenceSerializable extends XBSerializable {
      * @throws XBProcessingException if proccesing problem encountered
      * @throws IOException if input/output problem encountered
      */
-    void serializeXB(XBPSequenceSerialHandler serializationHandler) throws XBProcessingException, IOException;
+    void serializeXB(@Nonnull XBPSequenceSerialHandler serializationHandler) throws XBProcessingException, IOException;
 }

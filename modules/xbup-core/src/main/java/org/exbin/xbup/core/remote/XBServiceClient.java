@@ -16,10 +16,12 @@
  */
 package org.exbin.xbup.core.remote;
 
+import javax.annotation.Nonnull;
+
 /**
  * XBService client interface.
  *
- * @version 0.1.25 2015/02/22
+ * @version 0.2.1 2017/05/29
  * @author ExBin Project (http://exbin.org)
  */
 public interface XBServiceClient {
@@ -29,5 +31,6 @@ public interface XBServiceClient {
      *
      * @return call handler
      */
-    public XBCallHandler procedureCall();
+    @Nonnull
+    XBCallHandler procedureCall();
 }

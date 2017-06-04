@@ -17,6 +17,7 @@
 package org.exbin.xbup.core.remote;
 
 import java.io.IOException;
+import javax.annotation.Nonnull;
 import org.exbin.xbup.core.parser.XBProcessingException;
 import org.exbin.xbup.core.stream.XBInput;
 import org.exbin.xbup.core.stream.XBOutput;
@@ -24,7 +25,7 @@ import org.exbin.xbup.core.stream.XBOutput;
 /**
  * XBUP RPC procedure interface.
  *
- * @version 0.1.25 2015/02/15
+ * @version 0.2.1 2017/05/29
  * @author ExBin Project (http://exbin.org)
  */
 public interface XBProcedure extends XBExecutable {
@@ -36,5 +37,5 @@ public interface XBProcedure extends XBExecutable {
      * @param result handler for procedure result data
      * @throws IOException if input/output error
      */
-    public void execute(XBOutput parameters, XBInput result) throws XBProcessingException, IOException;
+    void execute(@Nonnull XBOutput parameters, @Nonnull XBInput result) throws XBProcessingException, IOException;
 }

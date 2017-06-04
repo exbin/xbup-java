@@ -17,31 +17,35 @@
 package org.exbin.xbup.core.serial.token;
 
 import java.io.IOException;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import org.exbin.xbup.core.parser.XBProcessingException;
 import org.exbin.xbup.core.parser.XBProcessingExceptionType;
 import org.exbin.xbup.core.parser.token.XBToken;
 import org.exbin.xbup.core.parser.token.event.XBEventListener;
 
 /**
- * XBUP level 0 serialization token handler using token parser mapping to listener.
+ * XBUP level 0 serialization token handler using token parser mapping to
+ * listener.
  *
- * @version 0.1.23 2014/03/08
+ * @version 0.2.1 2017/06/04
  * @author ExBin Project (http://exbin.org)
  */
 public class XBEventListenerSerialHandler implements XBEventListener, XBTokenOutputSerialHandler {
 
+    @Nullable
     private XBEventListener listener;
 
     public XBEventListenerSerialHandler() {
     }
 
     @Override
-    public void attachXBEventListener(XBEventListener listener) {
+    public void attachXBEventListener(@Nonnull XBEventListener listener) {
         this.listener = listener;
     }
 
     @Override
-    public void putXBToken(XBToken token) throws XBProcessingException, IOException {
+    public void putXBToken(@Nonnull XBToken token) throws XBProcessingException, IOException {
         if (listener == null) {
             throw new XBProcessingException("Receiving tokens before initialization", XBProcessingExceptionType.UNEXPECTED_ORDER);
         }

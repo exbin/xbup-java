@@ -43,6 +43,7 @@ public interface XBPProvider {
      * @throws XBProcessingException if not matching
      * @throws IOException if input/output exception occurs
      */
+    @Nonnull
     XBBlockTerminationMode pullBegin() throws XBProcessingException, IOException;
 
     /**
@@ -52,6 +53,7 @@ public interface XBPProvider {
      * @throws XBProcessingException if not matching
      * @throws IOException if input/output exception occurs
      */
+    @Nonnull
     XBBlockType pullType() throws XBProcessingException, IOException;
 
     /**
@@ -61,6 +63,7 @@ public interface XBPProvider {
      * @throws XBProcessingException if not matching
      * @throws IOException if input/output exception occurs
      */
+    @Nonnull
     XBAttribute pullAttribute() throws XBProcessingException, IOException;
 
     /**

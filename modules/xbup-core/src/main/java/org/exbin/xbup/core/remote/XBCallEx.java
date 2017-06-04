@@ -17,6 +17,7 @@
 package org.exbin.xbup.core.remote;
 
 import java.io.IOException;
+import javax.annotation.Nonnull;
 import org.exbin.xbup.core.parser.XBProcessingException;
 import org.exbin.xbup.core.stream.XBInput;
 import org.exbin.xbup.core.stream.XBOutput;
@@ -24,7 +25,7 @@ import org.exbin.xbup.core.stream.XBOutput;
 /**
  * XBUP RPC procedure call interface.
  *
- * @version 0.1.25 2015/02/22
+ * @version 0.2.1 2017/05/29
  * @author ExBin Project (http://exbin.org)
  */
 public interface XBCallEx {
@@ -36,7 +37,8 @@ public interface XBCallEx {
      * @return result type
      * @throws IOException if input/output error
      */
-    public XBProcedureResultType call(XBInput parameters) throws XBProcessingException, IOException;
+    @Nonnull
+    XBProcedureResultType call(@Nonnull XBInput parameters) throws XBProcessingException, IOException;
 
     /**
      * Executes if call was invoked properly.
@@ -44,7 +46,7 @@ public interface XBCallEx {
      * @param result handler for procedure result data
      * @throws IOException if input/output error
      */
-    public void result(XBOutput result) throws XBProcessingException, IOException;
+    void result(@Nonnull XBOutput result) throws XBProcessingException, IOException;
 
     /**
      * Invocates if procedure call failed with exception.
@@ -52,5 +54,5 @@ public interface XBCallEx {
      * @param data exception data
      * @throws IOException if input/output error
      */
-    public void exception(XBOutput data) throws XBProcessingException, IOException;
+    void exception(@Nonnull XBOutput data) throws XBProcessingException, IOException;
 }

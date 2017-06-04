@@ -16,12 +16,13 @@
  */
 package org.exbin.xbup.core.remote;
 
+import javax.annotation.Nonnull;
 import org.exbin.xbup.core.block.XBBlockType;
 
 /**
  * XBUP RPC server interface.
  *
- * @version 0.1.25 2015/03/10
+ * @version 0.2.1 2017/05/29
  * @author ExBin Project (http://exbin.org)
  */
 public interface XBServiceServer {
@@ -32,13 +33,12 @@ public interface XBServiceServer {
      * @param procedureType procedure type
      * @param procedure procedure handler to add
      */
-    public void addXBProcedure(XBBlockType procedureType, XBExecutable procedure);
+    void addXBProcedure(@Nonnull XBBlockType procedureType, @Nonnull XBExecutable procedure);
 
     /**
      * Unregisters procedure handling.
      *
      * @param procedureType procedure type
      */
-    public void removeXBProcedure(XBBlockType procedureType);
-
+    void removeXBProcedure(@Nonnull XBBlockType procedureType);
 }

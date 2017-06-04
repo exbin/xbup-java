@@ -22,36 +22,36 @@ import org.exbin.xbup.core.block.declaration.XBBlockDecl;
 /**
  * XBUP level 1 RPC procedure definition interface.
  *
- * @version 0.1.21 2011/10/30
+ * @version 0.2.1 2017/05/29
  * @author ExBin Project (http://exbin.org)
  */
 public interface XBProcedureDef {
 
     /**
      * Returns type of this procedure.
-     * 
+     *
      * @return type of this procedure
      */
-    public XBBlockType getType();
+    XBBlockType getType();
 
     /**
      * Returns type of input data parameter.
-     * 
+     *
      * @return declaration of input type
      */
-    public XBBlockDecl getParameterType();
+    XBBlockDecl getParameterType();
 
     /**
      * Returns type of output data returned as result.
-     * 
+     *
      * @return declaration of output type
      */
-    public XBBlockDecl getReturnType();
+    XBBlockDecl getReturnType();
 
     /**
      * Returns type of status data for reporting proper execution or exception.
-     * 
+     *
      * @return declaration of execution status type
      */
-    public XBBlockDecl getStatusType();
+    XBBlockDecl getStatusType();
 }

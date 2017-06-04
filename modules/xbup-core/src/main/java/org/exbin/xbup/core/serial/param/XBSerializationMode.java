@@ -20,10 +20,17 @@ package org.exbin.xbup.core.serial.param;
  * Serialization mode to distinguish if serialization is performed from or to
  * token stream.
  *
- * @version 0.1.24 2014/12/06
+ * @version 0.2.1 2017/06/04
  * @author ExBin Project (http://exbin.org)
  */
 public enum XBSerializationMode {
 
-    PULL, PUSH
+    /**
+     * Serialization accepts requests for pulling data from source.
+     */
+    PULL,
+    /**
+     * Serialization accepts requests for pushing data to target.
+     */
+    PUSH
 }

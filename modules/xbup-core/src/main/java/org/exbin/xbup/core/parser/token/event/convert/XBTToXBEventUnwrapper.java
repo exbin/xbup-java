@@ -37,15 +37,17 @@ import org.exbin.xbup.core.parser.token.event.XBTEventListener;
 /**
  * XBUP level 0 to level 1 event convertor which introduces unknown type.
  *
- * @version 0.2.1 2017/05/19
+ * @version 0.2.1 2017/06/05
  * @author ExBin Project (http://exbin.org)
  */
 public class XBTToXBEventUnwrapper implements XBTEventListener, XBEventProducer {
 
+    @Nonnull
     private XBEventListener eventListener;
+    @Nonnull
     private final XBFixedBlockType unknownBlockType = new XBFixedBlockType();
 
-    public XBTToXBEventUnwrapper(XBEventListener eventListener) {
+    public XBTToXBEventUnwrapper(@Nonnull XBEventListener eventListener) {
         this.eventListener = eventListener;
     }
 
@@ -80,9 +82,8 @@ public class XBTToXBEventUnwrapper implements XBTEventListener, XBEventProducer 
                 eventListener.putXBToken(XBEndToken.create());
                 break;
             }
-            default: {
-                throw new IllegalStateException();
-            }
+            default:
+                throw new IllegalStateException("Unexpected token type " + token.getTokenType().toString());
         }
     }
 }

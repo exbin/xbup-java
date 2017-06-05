@@ -16,6 +16,7 @@
  */
 package org.exbin.xbup.core.parser.token.event.convert;
 
+import javax.annotation.Nonnull;
 import org.exbin.xbup.core.parser.basic.XBListener;
 import org.exbin.xbup.core.parser.basic.XBProducer;
 import org.exbin.xbup.core.parser.token.event.XBEventProducer;
@@ -23,19 +24,20 @@ import org.exbin.xbup.core.parser.token.event.XBEventProducer;
 /**
  * Event producer to producer convertor for XBUP protocol level 0.
  *
- * @version 0.1.23 2014/02/06
+ * @version 0.2.1 2017/06/05
  * @author ExBin Project (http://exbin.org)
  */
 public class XBEventProducerToProducer implements XBProducer {
 
+    @Nonnull
     private final XBEventProducer eventProducer;
 
-    public XBEventProducerToProducer(XBEventProducer eventProducer) {
+    public XBEventProducerToProducer(@Nonnull XBEventProducer eventProducer) {
         this.eventProducer = eventProducer;
     }
 
     @Override
-    public void attachXBListener(XBListener eventListener) {
+    public void attachXBListener(@Nonnull XBListener eventListener) {
         eventProducer.attachXBEventListener(new XBListenerToEventListener(eventListener));
     }
 }

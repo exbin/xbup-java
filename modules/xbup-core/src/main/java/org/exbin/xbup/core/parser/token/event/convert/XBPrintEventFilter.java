@@ -17,30 +17,30 @@
 package org.exbin.xbup.core.parser.token.event.convert;
 
 import java.io.IOException;
+import javax.annotation.Nonnull;
 import org.exbin.xbup.core.parser.XBProcessingException;
+import org.exbin.xbup.core.parser.XBProcessingExceptionType;
 import org.exbin.xbup.core.parser.token.XBAttributeToken;
 import org.exbin.xbup.core.parser.token.XBBeginToken;
 import org.exbin.xbup.core.parser.token.XBDataToken;
 import org.exbin.xbup.core.parser.token.XBToken;
-import static org.exbin.xbup.core.parser.token.XBTokenType.ATTRIBUTE;
-import static org.exbin.xbup.core.parser.token.XBTokenType.BEGIN;
-import static org.exbin.xbup.core.parser.token.XBTokenType.DATA;
-import static org.exbin.xbup.core.parser.token.XBTokenType.END;
 import org.exbin.xbup.core.parser.token.event.XBEventFilter;
 import org.exbin.xbup.core.parser.token.event.XBEventListener;
 
 /**
  * XBUP level 1 event filter printing out informations about tokens.
  *
- * @version 0.1.25 2015/07/13
+ * @version 0.2.1 2017/06/05
  * @author ExBin Project (http://exbin.org)
  */
 public class XBPrintEventFilter implements XBEventFilter {
 
+    @Nonnull
     private XBEventListener eventListener;
+    @Nonnull
     private String prefix = "";
 
-    public XBPrintEventFilter(String prefix, XBEventListener eventListener) {
+    public XBPrintEventFilter(@Nonnull String prefix, @Nonnull XBEventListener eventListener) {
         this(eventListener);
         this.prefix = prefix;
     }
@@ -50,7 +50,7 @@ public class XBPrintEventFilter implements XBEventFilter {
     }
 
     @Override
-    public void putXBToken(XBToken token) throws XBProcessingException, IOException {
+    public void putXBToken(@Nonnull XBToken token) throws XBProcessingException, IOException {
         switch (token.getTokenType()) {
             case BEGIN: {
                 System.out.println(prefix + "> Begin (" + ((XBBeginToken) token).getTerminationMode().toString() + "):");
@@ -68,6 +68,8 @@ public class XBPrintEventFilter implements XBEventFilter {
                 System.out.println(prefix + "< End.");
                 break;
             }
+            default:
+                throw new XBProcessingException("Unexpected token type", XBProcessingExceptionType.UNKNOWN);
         }
 
         if (eventListener != null) {
@@ -76,7 +78,7 @@ public class XBPrintEventFilter implements XBEventFilter {
     }
 
     @Override
-    public void attachXBEventListener(XBEventListener eventListener) {
+    public void attachXBEventListener(@Nonnull XBEventListener eventListener) {
         this.eventListener = eventListener;
     }
 }

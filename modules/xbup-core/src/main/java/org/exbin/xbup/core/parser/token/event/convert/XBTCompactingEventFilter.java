@@ -22,6 +22,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import org.exbin.xbup.core.block.XBBasicBlockType;
 import org.exbin.xbup.core.block.XBBlockTerminationMode;
 import org.exbin.xbup.core.parser.XBProcessingException;
@@ -45,29 +47,27 @@ import org.exbin.xbup.core.ubnumber.type.UBNat32;
  */
 public class XBTCompactingEventFilter implements XBTEventFilter {
 
+    @Nonnull
     private XBTEventListener eventListener;
 
     private boolean unknownMode = false;
     private boolean emptyDataMode = true;
     private int zeroAttributes = 0;
     private final List<XBBlockTerminationMode> emptyNodes = new ArrayList<>();
-    private XBBlockTerminationMode blockMode;
+    @Nullable
+    private XBBlockTerminationMode blockMode = null;
 
-    public XBTCompactingEventFilter(XBTEventListener eventListener) {
-        attachListener(eventListener);
-    }
-
-    @Override
-    public void attachXBTEventListener(XBTEventListener eventListener) {
-        attachListener(eventListener);
-    }
-
-    private void attachListener(XBTEventListener eventListener) {
+    public XBTCompactingEventFilter(@Nonnull XBTEventListener eventListener) {
         this.eventListener = eventListener;
     }
 
     @Override
-    public void putXBTToken(XBTToken token) throws XBProcessingException, IOException {
+    public void attachXBTEventListener(@Nonnull XBTEventListener eventListener) {
+        this.eventListener = eventListener;
+    }
+
+    @Override
+    public void putXBTToken(@Nonnull XBTToken token) throws XBProcessingException, IOException {
         switch (token.getTokenType()) {
             case BEGIN: {
                 blockMode = ((XBTBeginToken) token).getTerminationMode();

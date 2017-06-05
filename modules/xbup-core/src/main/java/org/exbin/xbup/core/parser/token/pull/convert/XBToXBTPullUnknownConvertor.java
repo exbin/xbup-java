@@ -17,6 +17,7 @@
 package org.exbin.xbup.core.parser.token.pull.convert;
 
 import java.io.IOException;
+import javax.annotation.Nonnull;
 import org.exbin.xbup.core.block.XBFixedBlockType;
 import org.exbin.xbup.core.parser.XBProcessingException;
 import org.exbin.xbup.core.parser.XBProcessingExceptionType;
@@ -38,24 +39,27 @@ import org.exbin.xbup.core.parser.token.pull.XBTPullProvider;
 /**
  * XBUP level 0 to level 1 pull convertor which introduces unknown type.
  *
- * @version 0.2.1 2017/05/19
+ * @version 0.2.1 2017/06/05
  * @author ExBin Project (http://exbin.org)
  */
 public class XBToXBTPullUnknownConvertor implements XBPullProvider, XBTPullConsumer {
 
+    @Nonnull
     private XBTPullProvider pullProvider;
+    @Nonnull
     private final XBFixedBlockType unknownBlockType = new XBFixedBlockType();
 
-    public XBToXBTPullUnknownConvertor(XBTPullProvider pullProvider) {
+    public XBToXBTPullUnknownConvertor(@Nonnull XBTPullProvider pullProvider) {
         this.pullProvider = pullProvider;
     }
 
     @Override
-    public void attachXBTPullProvider(XBTPullProvider pullProvider) {
+    public void attachXBTPullProvider(@Nonnull XBTPullProvider pullProvider) {
         this.pullProvider = pullProvider;
     }
 
     @Override
+    @Nonnull
     public XBToken pullXBToken() throws XBProcessingException, IOException {
         XBTToken token = pullProvider.pullXBTToken();
         if (token.getTokenType() == XBTTokenType.TYPE) {
@@ -79,8 +83,8 @@ public class XBToXBTPullUnknownConvertor implements XBPullProvider, XBTPullConsu
             case END: {
                 return XBEndToken.create();
             }
+            default:
+                throw new XBProcessingException("Unexpected token type", XBProcessingExceptionType.UNKNOWN);
         }
-
-        throw new IllegalStateException();
     }
 }

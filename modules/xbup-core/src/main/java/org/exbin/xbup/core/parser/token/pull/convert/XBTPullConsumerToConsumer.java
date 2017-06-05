@@ -16,6 +16,7 @@
  */
 package org.exbin.xbup.core.parser.token.pull.convert;
 
+import javax.annotation.Nonnull;
 import org.exbin.xbup.core.parser.basic.XBTConsumer;
 import org.exbin.xbup.core.parser.basic.XBTProvider;
 import org.exbin.xbup.core.parser.token.pull.XBTPullConsumer;
@@ -23,19 +24,20 @@ import org.exbin.xbup.core.parser.token.pull.XBTPullConsumer;
 /**
  * Pull consumer to consumer convertor for XBUP protocol level 1.
  *
- * @version 0.1.23 2014/02/06
+ * @version 0.2.1 2017/06/05
  * @author ExBin Project (http://exbin.org)
  */
 public class XBTPullConsumerToConsumer implements XBTConsumer {
 
-    private XBTProvider provider;
+    @Nonnull
+    private final XBTPullConsumer pullConsumer;
 
-    public XBTPullConsumerToConsumer(XBTPullConsumer pullConsumer) {
-        pullConsumer.attachXBTPullProvider(new XBTProviderToPullProvider(provider));
+    public XBTPullConsumerToConsumer(@Nonnull XBTPullConsumer pullConsumer) {
+        this.pullConsumer = pullConsumer;
     }
 
     @Override
-    public void attachXBTProvider(XBTProvider provider) {
-        this.provider = provider;
+    public void attachXBTProvider(@Nonnull XBTProvider provider) {
+        pullConsumer.attachXBTPullProvider(new XBTProviderToPullProvider(provider));
     }
 }

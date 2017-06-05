@@ -91,12 +91,12 @@ public class XBPCatalog implements XBCatalog {
     }
 
     @Override
-    public XBCService<? extends XBCBase> getCatalogService(Class type) {
+    public <T extends XBCService> T getCatalogService(Class<T> type) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
-    public XBCManager<? extends XBCBase> getCatalogManager(Class type) {
+    public <T extends XBCManager> T getCatalogManager(Class<T> type) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 

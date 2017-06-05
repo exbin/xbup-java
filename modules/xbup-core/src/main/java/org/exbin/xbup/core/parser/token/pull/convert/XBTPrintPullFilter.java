@@ -17,9 +17,11 @@
 package org.exbin.xbup.core.parser.token.pull.convert;
 
 import java.io.IOException;
+import javax.annotation.Nonnull;
 import org.exbin.xbup.core.block.XBBlockType;
 import org.exbin.xbup.core.block.XBFixedBlockType;
 import org.exbin.xbup.core.parser.XBProcessingException;
+import org.exbin.xbup.core.parser.XBProcessingExceptionType;
 import org.exbin.xbup.core.parser.token.XBTAttributeToken;
 import org.exbin.xbup.core.parser.token.XBTBeginToken;
 import org.exbin.xbup.core.parser.token.XBTDataToken;
@@ -31,24 +33,27 @@ import org.exbin.xbup.core.parser.token.pull.XBTPullProvider;
 /**
  * XBUP level 1 pull filter printing out informations about tokens.
  *
- * @version 0.1.25 2015/03/03
+ * @version 0.2.1 2017/06/05
  * @author ExBin Project (http://exbin.org)
  */
 public class XBTPrintPullFilter implements XBTPullFilter {
 
+    @Nonnull
     private XBTPullProvider pullProvider;
+    @Nonnull
     private String prefix = "";
 
-    public XBTPrintPullFilter(String prefix, XBTPullProvider pullProvider) {
+    public XBTPrintPullFilter(@Nonnull String prefix, @Nonnull XBTPullProvider pullProvider) {
         this(pullProvider);
         this.prefix = prefix;
     }
 
-    public XBTPrintPullFilter(XBTPullProvider pullProvider) {
+    public XBTPrintPullFilter(@Nonnull XBTPullProvider pullProvider) {
         this.pullProvider = pullProvider;
     }
 
     @Override
+    @Nonnull
     public XBTToken pullXBTToken() throws XBProcessingException, IOException {
         XBTToken token = pullProvider.pullXBTToken();
         switch (token.getTokenType()) {
@@ -73,13 +78,15 @@ public class XBTPrintPullFilter implements XBTPullFilter {
                 System.out.println(prefix + "< End.");
                 break;
             }
+            default:
+                throw new XBProcessingException("Unexpected token type", XBProcessingExceptionType.UNKNOWN);
         }
 
         return token;
     }
 
     @Override
-    public void attachXBTPullProvider(XBTPullProvider pullProvider) {
+    public void attachXBTPullProvider(@Nonnull XBTPullProvider pullProvider) {
         this.pullProvider = pullProvider;
     }
 }

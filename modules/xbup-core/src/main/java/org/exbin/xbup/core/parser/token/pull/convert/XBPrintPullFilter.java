@@ -17,39 +17,40 @@
 package org.exbin.xbup.core.parser.token.pull.convert;
 
 import java.io.IOException;
+import javax.annotation.Nonnull;
 import org.exbin.xbup.core.parser.XBProcessingException;
+import org.exbin.xbup.core.parser.XBProcessingExceptionType;
 import org.exbin.xbup.core.parser.token.XBAttributeToken;
 import org.exbin.xbup.core.parser.token.XBBeginToken;
 import org.exbin.xbup.core.parser.token.XBDataToken;
 import org.exbin.xbup.core.parser.token.XBToken;
-import static org.exbin.xbup.core.parser.token.XBTokenType.ATTRIBUTE;
-import static org.exbin.xbup.core.parser.token.XBTokenType.BEGIN;
-import static org.exbin.xbup.core.parser.token.XBTokenType.DATA;
-import static org.exbin.xbup.core.parser.token.XBTokenType.END;
 import org.exbin.xbup.core.parser.token.pull.XBPullFilter;
 import org.exbin.xbup.core.parser.token.pull.XBPullProvider;
 
 /**
  * XBUP level 1 pull filter printing out informations about tokens.
  *
- * @version 0.1.25 2015/07/13
+ * @version 0.2.1 2017/06/05
  * @author ExBin Project (http://exbin.org)
  */
 public class XBPrintPullFilter implements XBPullFilter {
 
+    @Nonnull
     private XBPullProvider pullProvider;
+    @Nonnull
     private String prefix = "";
 
-    public XBPrintPullFilter(String prefix, XBPullProvider pullProvider) {
+    public XBPrintPullFilter(String prefix, @Nonnull XBPullProvider pullProvider) {
         this(pullProvider);
         this.prefix = prefix;
     }
 
-    public XBPrintPullFilter(XBPullProvider pullProvider) {
+    public XBPrintPullFilter(@Nonnull XBPullProvider pullProvider) {
         this.pullProvider = pullProvider;
     }
 
     @Override
+    @Nonnull
     public XBToken pullXBToken() throws XBProcessingException, IOException {
         XBToken token = pullProvider.pullXBToken();
         switch (token.getTokenType()) {
@@ -69,13 +70,15 @@ public class XBPrintPullFilter implements XBPullFilter {
                 System.out.println(prefix + "< End.");
                 break;
             }
+            default:
+                throw new XBProcessingException("Unexpected token type", XBProcessingExceptionType.UNKNOWN);
         }
 
         return token;
     }
 
     @Override
-    public void attachXBPullProvider(XBPullProvider pullProvider) {
+    public void attachXBPullProvider(@Nonnull XBPullProvider pullProvider) {
         this.pullProvider = pullProvider;
     }
 }

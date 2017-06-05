@@ -17,6 +17,7 @@
 package org.exbin.xbup.core.parser.token.event.convert;
 
 import java.io.IOException;
+import javax.annotation.Nonnull;
 import org.exbin.xbup.core.parser.XBProcessingException;
 import org.exbin.xbup.core.parser.basic.XBTListener;
 import org.exbin.xbup.core.parser.token.XBTToken;
@@ -26,19 +27,20 @@ import org.exbin.xbup.core.parser.token.event.XBTEventListener;
 /**
  * Listener to event listener convertor for XBUP protocol level 1.
  *
- * @version 0.1.23 2014/02/07
+ * @version 0.2.1 2017/06/05
  * @author ExBin Project (http://exbin.org)
  */
 public class XBTListenerToEventListener implements XBTEventListener {
 
+    @Nonnull
     private final XBTListener listener;
 
-    public XBTListenerToEventListener(XBTListener listener) {
+    public XBTListenerToEventListener(@Nonnull XBTListener listener) {
         this.listener = listener;
     }
 
     @Override
-    public void putXBTToken(XBTToken token) throws XBProcessingException, IOException {
+    public void putXBTToken(@Nonnull XBTToken token) throws XBProcessingException, IOException {
         XBTListenerToToken.tokenToListener(token, listener);
     }
 }

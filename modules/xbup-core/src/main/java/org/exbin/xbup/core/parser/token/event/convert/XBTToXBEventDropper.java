@@ -17,6 +17,7 @@
 package org.exbin.xbup.core.parser.token.event.convert;
 
 import java.io.IOException;
+import javax.annotation.Nonnull;
 import org.exbin.xbup.core.parser.XBProcessingException;
 import org.exbin.xbup.core.parser.token.XBAttributeToken;
 import org.exbin.xbup.core.parser.token.XBBeginToken;
@@ -34,26 +35,27 @@ import org.exbin.xbup.core.parser.token.event.XBTEventListener;
 /**
  * XBUP level 1 to level 0 event convertor which drops node types.
  *
- * @version 0.2.1 2017/05/22
+ * @version 0.2.1 2017/06/05
  * @author ExBin Project (http://exbin.org)
  */
 public class XBTToXBEventDropper implements XBTEventListener, XBEventProducer {
 
+    @Nonnull
     private XBEventListener target;
     private boolean typeProcessed;
 
-    public XBTToXBEventDropper(XBEventListener target) {
+    public XBTToXBEventDropper(@Nonnull XBEventListener target) {
         this.target = target;
     }
 
     @Override
-    public void attachXBEventListener(XBEventListener eventListener) {
+    public void attachXBEventListener(@Nonnull XBEventListener eventListener) {
         target = eventListener;
         typeProcessed = false;
     }
 
     @Override
-    public void putXBTToken(XBTToken token) throws XBProcessingException, IOException {
+    public void putXBTToken(@Nonnull XBTToken token) throws XBProcessingException, IOException {
         if (typeProcessed && (token.getTokenType() != XBTTokenType.ATTRIBUTE)) {
             target.putXBToken(XBAttributeToken.createZeroToken());
             typeProcessed = false;
@@ -84,6 +86,9 @@ public class XBTToXBEventDropper implements XBTEventListener, XBEventProducer {
                 target.putXBToken(XBEndToken.create());
                 break;
             }
+
+            default:
+                throw new IllegalStateException("Unexpected token type " + token.getTokenType().toString());
         }
     }
 }

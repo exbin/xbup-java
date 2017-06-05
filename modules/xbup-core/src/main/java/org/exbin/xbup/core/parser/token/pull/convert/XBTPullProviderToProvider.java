@@ -17,6 +17,7 @@
 package org.exbin.xbup.core.parser.token.pull.convert;
 
 import java.io.IOException;
+import javax.annotation.Nonnull;
 import org.exbin.xbup.core.parser.XBProcessingException;
 import org.exbin.xbup.core.parser.basic.XBTListener;
 import org.exbin.xbup.core.parser.basic.XBTProvider;
@@ -27,19 +28,20 @@ import org.exbin.xbup.core.parser.token.pull.XBTPullProvider;
 /**
  * Pull provider to provider convertor for XBUP protocol level 1.
  *
- * @version 0.1.25 2015/02/06
+ * @version 0.2.1 2017/06/05
  * @author ExBin Project (http://exbin.org)
  */
 public class XBTPullProviderToProvider implements XBTProvider {
 
+    @Nonnull
     private final XBTPullProvider pullProvider;
 
-    public XBTPullProviderToProvider(XBTPullProvider pullProvider) {
+    public XBTPullProviderToProvider(@Nonnull XBTPullProvider pullProvider) {
         this.pullProvider = pullProvider;
     }
 
     @Override
-    public void produceXBT(XBTListener listener) throws XBProcessingException, IOException {
+    public void produceXBT(@Nonnull XBTListener listener) throws XBProcessingException, IOException {
         XBTToken token = pullProvider.pullXBTToken();
         XBTListenerToToken.tokenToListener(token, listener);
     }

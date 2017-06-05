@@ -18,6 +18,7 @@ package org.exbin.xbup.core.parser.token.event.convert;
 
 import java.io.IOException;
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import org.exbin.xbup.core.block.XBFixedBlockType;
 import org.exbin.xbup.core.parser.XBProcessingException;
 import org.exbin.xbup.core.parser.token.XBAttributeToken;
@@ -37,22 +38,24 @@ import org.exbin.xbup.core.ubnumber.UBNatural;
 /**
  * XBUP level 0 to level 1 event convertor.
  *
- * @version 0.1.21 2011/08/21
+ * @version 0.2.1 2017/06/05
  * @author ExBin Project (http://exbin.org)
  */
 public class XBToXBTEventConvertor implements XBEventListener, XBTEventProducer {
 
+    @Nonnull
     private XBTEventListener target;
     private boolean expectType;
+    @Nullable
     private UBNatural group;
 
-    public XBToXBTEventConvertor(XBTEventListener target) {
+    public XBToXBTEventConvertor(@Nonnull XBTEventListener target) {
         this.target = target;
         expectType = true;
     }
 
     @Override
-    public void attachXBTEventListener(XBTEventListener eventListener) {
+    public void attachXBTEventListener(@Nonnull XBTEventListener eventListener) {
         target = eventListener;
     }
 
@@ -101,6 +104,9 @@ public class XBToXBTEventConvertor implements XBEventListener, XBTEventProducer 
                 target.putXBTToken(XBTEndToken.create());
                 break;
             }
+
+            default:
+                throw new IllegalStateException("Unexpected token type " + token.getTokenType().toString());
         }
     }
 }

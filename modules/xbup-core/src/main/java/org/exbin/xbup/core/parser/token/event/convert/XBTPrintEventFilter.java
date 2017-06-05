@@ -17,6 +17,7 @@
 package org.exbin.xbup.core.parser.token.event.convert;
 
 import java.io.IOException;
+import javax.annotation.Nonnull;
 import org.exbin.xbup.core.block.XBBlockType;
 import org.exbin.xbup.core.block.XBFixedBlockType;
 import org.exbin.xbup.core.parser.XBProcessingException;
@@ -31,25 +32,27 @@ import org.exbin.xbup.core.parser.token.event.XBTEventListener;
 /**
  * XBUP level 1 event filter printing out informations about tokens.
  *
- * @version 0.1.25 2015/03/03
+ * @version 0.2.1 2017/06/05
  * @author ExBin Project (http://exbin.org)
  */
 public class XBTPrintEventFilter implements XBTEventFilter {
 
+    @Nonnull
     private XBTEventListener eventListener;
+    @Nonnull
     private String prefix = "";
 
-    public XBTPrintEventFilter(String prefix, XBTEventListener eventListener) {
+    public XBTPrintEventFilter(@Nonnull String prefix, @Nonnull XBTEventListener eventListener) {
         this(eventListener);
         this.prefix = prefix;
     }
 
-    public XBTPrintEventFilter(XBTEventListener eventListener) {
+    public XBTPrintEventFilter(@Nonnull XBTEventListener eventListener) {
         this.eventListener = eventListener;
     }
 
     @Override
-    public void putXBTToken(XBTToken token) throws XBProcessingException, IOException {
+    public void putXBTToken(@Nonnull XBTToken token) throws XBProcessingException, IOException {
         switch (token.getTokenType()) {
             case BEGIN: {
                 System.out.println(prefix + "> Begin (" + ((XBTBeginToken) token).getTerminationMode().toString() + "):");
@@ -72,6 +75,8 @@ public class XBTPrintEventFilter implements XBTEventFilter {
                 System.out.println(prefix + "< End.");
                 break;
             }
+            default:
+                throw new IllegalStateException("Unexpected token type " + token.getTokenType().toString());
         }
 
         if (eventListener != null) {
@@ -80,7 +85,7 @@ public class XBTPrintEventFilter implements XBTEventFilter {
     }
 
     @Override
-    public void attachXBTEventListener(XBTEventListener eventListener) {
+    public void attachXBTEventListener(@Nonnull XBTEventListener eventListener) {
         this.eventListener = eventListener;
     }
 }

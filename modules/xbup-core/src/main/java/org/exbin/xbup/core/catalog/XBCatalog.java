@@ -36,7 +36,7 @@ import org.exbin.xbup.core.parser.token.pull.XBTPullProvider;
 /**
  * Interface for XBUP level 1 catalog.
  *
- * @version 0.2.1 2017/05/27
+ * @version 0.2.1 2017/06/05
  * @author ExBin Project (http://exbin.org)
  */
 public interface XBCatalog {
@@ -106,7 +106,7 @@ public interface XBCatalog {
      * @return service
      */
     @Nonnull
-    <T extends XBCService<? extends XBCBase>> T getCatalogService(@Nonnull Class<T> serviceClass);
+    <T extends XBCService> T getCatalogService(@Nonnull Class<T> serviceClass);
 
     /**
      * Returns catalog manager of given type.
@@ -116,7 +116,7 @@ public interface XBCatalog {
      * @return manager
      */
     @Nonnull
-    <T extends XBCManager<? extends XBCBase>> T getCatalogManager(@Nonnull Class<T> managerClass);
+    <T extends XBCManager> T getCatalogManager(@Nonnull Class<T> managerClass);
 
     /**
      * Returns list of catalog services.

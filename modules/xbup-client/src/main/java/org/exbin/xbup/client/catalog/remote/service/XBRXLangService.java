@@ -34,7 +34,7 @@ public class XBRXLangService extends XBRDefaultService<XBRXLanguage> implements 
     public XBRXLangService(XBRCatalog catalog) {
         super(catalog);
         itemManager = new XBRXLangManager(catalog);
-        catalog.addCatalogManager(XBCXLangManager.class, itemManager);
+        catalog.addCatalogManager(XBCXLangManager.class, (XBCXLangManager) itemManager);
     }
 
     @Override

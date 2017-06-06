@@ -51,7 +51,7 @@ public class XBEXNameService extends XBEDefaultService<XBEXName> implements XBCX
     public XBEXNameService(XBECatalog catalog) {
         super(catalog);
         itemManager = new XBEXNameManager(catalog);
-        catalog.addCatalogManager(XBCXNameManager.class, itemManager);
+        catalog.addCatalogManager(XBCXNameManager.class, (XBCXNameManager) itemManager);
     }
 
     @PostConstruct

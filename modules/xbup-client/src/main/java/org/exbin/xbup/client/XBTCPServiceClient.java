@@ -22,6 +22,7 @@ import java.io.OutputStream;
 import java.net.Socket;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.annotation.Nullable;
 import org.exbin.xbup.client.stub.XBPServiceStub;
 import org.exbin.xbup.core.catalog.XBCatalog;
 import org.exbin.xbup.core.parser.XBParserMode;
@@ -31,7 +32,6 @@ import org.exbin.xbup.core.parser.basic.XBHead;
 import org.exbin.xbup.core.parser.token.XBTToken;
 import org.exbin.xbup.core.parser.token.XBTTokenType;
 import org.exbin.xbup.core.parser.token.event.XBEventWriter;
-import org.exbin.xbup.core.parser.token.event.convert.XBTEventTypeUndeclaringFilter;
 import org.exbin.xbup.core.parser.token.event.convert.XBTEventTypeUndeclaringFilterNoDeclaration;
 import org.exbin.xbup.core.parser.token.event.convert.XBTPrintEventFilter;
 import org.exbin.xbup.core.parser.token.event.convert.XBTToXBEventConvertor;
@@ -48,7 +48,7 @@ import org.exbin.xbup.core.stream.XBOutput;
 /**
  * XBService client connection handler using TCP/IP protocol.
  *
- * @version 0.2.0 2016/02/20
+ * @version 0.2.1 2017/06/06
  * @author ExBin Project (http://exbin.org)
  */
 public class XBTCPServiceClient implements XBServiceClient {
@@ -77,6 +77,7 @@ public class XBTCPServiceClient implements XBServiceClient {
     }
 
     @Override
+    @Nullable
     public XBCallHandler procedureCall() {
         try {
             if (socket == null) {

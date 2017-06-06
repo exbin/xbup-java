@@ -40,7 +40,7 @@ public class XBRXLineService extends XBRDefaultService<XBRXBlockLine> implements
     public XBRXLineService(XBRCatalog catalog) {
         super(catalog);
         itemManager = new XBRXLineManager(catalog);
-        catalog.addCatalogManager(XBCXLineManager.class, itemManager);
+        catalog.addCatalogManager(XBCXLineManager.class, (XBCXLineManager) itemManager);
     }
 
     @Override

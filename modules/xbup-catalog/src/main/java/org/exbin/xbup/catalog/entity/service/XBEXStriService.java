@@ -49,7 +49,7 @@ public class XBEXStriService extends XBEDefaultService<XBEXStri> implements XBCX
     public XBEXStriService(XBECatalog catalog) {
         super(catalog);
         itemManager = new XBEXStriManager(catalog);
-        catalog.addCatalogManager(XBCXStriManager.class, itemManager);
+        catalog.addCatalogManager(XBCXStriManager.class, (XBCXStriManager) itemManager);
     }
 
     @PostConstruct

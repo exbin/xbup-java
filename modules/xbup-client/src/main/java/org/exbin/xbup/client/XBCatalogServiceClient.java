@@ -38,7 +38,7 @@ public interface XBCatalogServiceClient extends XBServiceClient {
      * @return TODO: 1 if successful, 0 if fails
      * @throws IOException if input/output error
      */
-    int login(@Nonnull String user, char[] password) throws IOException;
+    int login(@Nonnull String user, @Nonnull char[] password) throws IOException;
 
     /**
      * Returns version of service.

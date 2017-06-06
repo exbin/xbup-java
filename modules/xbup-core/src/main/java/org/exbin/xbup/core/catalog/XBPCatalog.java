@@ -19,6 +19,7 @@ package org.exbin.xbup.core.catalog;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import javax.annotation.Nonnull;
 import org.exbin.xbup.core.block.XBBasicBlockType;
 import org.exbin.xbup.core.block.XBBlockType;
 import org.exbin.xbup.core.block.XBFixedBlockType;
@@ -40,7 +41,7 @@ import org.exbin.xbup.core.parser.token.pull.XBTPullProvider;
 /**
  * XBUP level 1 limited path supporting catalog.
  *
- * @version 0.1.25 2015/02/25
+ * @version 0.2.1 2017/06/06
  * @author ExBin Project (http://exbin.org)
  */
 public class XBPCatalog implements XBCatalog {
@@ -91,12 +92,12 @@ public class XBPCatalog implements XBCatalog {
     }
 
     @Override
-    public <T extends XBCService> T getCatalogService(Class<T> type) {
+    public <T extends XBCManager<? extends XBCBase>> T getCatalogManager(@Nonnull Class<T> managerClass) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
-    public <T extends XBCManager> T getCatalogManager(Class<T> type) {
+    public <T extends XBCService<? extends XBCBase>> T getCatalogService(@Nonnull Class<T> serviceClass) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
@@ -111,12 +112,12 @@ public class XBPCatalog implements XBCatalog {
     }
 
     @Override
-    public void addCatalogManager(Class type, XBCManager<? extends XBCBase> ext) {
+    public <T extends XBCManager<? extends XBCBase>> void addCatalogManager(Class<T> type, T manager) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
-    public void addCatalogService(Class type, XBCService<? extends XBCBase> ext) {
+    public <T extends XBCService<? extends XBCBase>> void addCatalogService(Class<T> type, T service) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 

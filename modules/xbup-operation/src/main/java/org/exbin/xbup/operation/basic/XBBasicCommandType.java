@@ -16,10 +16,12 @@
  */
 package org.exbin.xbup.operation.basic;
 
+import javax.annotation.Nonnull;
+
 /**
  * Document command type enumeration.
  *
- * @version 0.2.0 2016/02/28
+ * @version 0.2.1 2017/06/06
  * @author ExBin Project (http://exbin.org)
  */
 public enum XBBasicCommandType {
@@ -43,10 +45,11 @@ public enum XBBasicCommandType {
 
     private final String caption;
 
-    private XBBasicCommandType(String caption) {
+    private XBBasicCommandType(@Nonnull String caption) {
         this.caption = caption;
     }
 
+    @Nonnull
     public String getCaption() {
         return caption;
     }

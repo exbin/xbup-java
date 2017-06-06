@@ -49,7 +49,7 @@ public class XBEXPlugService extends XBEDefaultService<XBEXPlugin> implements XB
     public XBEXPlugService(XBECatalog catalog) {
         super(catalog);
         itemManager = new XBEXPlugManager(catalog);
-        catalog.addCatalogManager(XBCXPlugManager.class, itemManager);
+        catalog.addCatalogManager(XBCXPlugManager.class, (XBCXPlugManager) itemManager);
     }
 
     @PostConstruct

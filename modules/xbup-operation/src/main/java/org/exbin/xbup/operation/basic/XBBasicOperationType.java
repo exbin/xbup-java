@@ -16,10 +16,12 @@
  */
 package org.exbin.xbup.operation.basic;
 
+import javax.annotation.Nonnull;
+
 /**
  * Document operation type enumeration.
  *
- * @version 0.2.0 2016/02/28
+ * @version 0.2.1 2017/06/06
  * @author ExBin Project (http://exbin.org)
  */
 public enum XBBasicOperationType {
@@ -41,12 +43,14 @@ public enum XBBasicOperationType {
      */
     MOVE_BLOCK("Move block");
 
+    @Nonnull
     private final String caption;
 
-    private XBBasicOperationType(String caption) {
+    private XBBasicOperationType(@Nonnull String caption) {
         this.caption = caption;
     }
 
+    @Nonnull
     public String getCaption() {
         return caption;
     }

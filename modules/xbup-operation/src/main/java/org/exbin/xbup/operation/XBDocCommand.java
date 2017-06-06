@@ -16,17 +16,19 @@
  */
 package org.exbin.xbup.operation;
 
+import javax.annotation.Nonnull;
 import org.exbin.xbup.core.block.XBEditableDocument;
 import org.exbin.xbup.operation.basic.XBBasicCommandType;
 
 /**
  * Abstract class for operation using XBUP level 0 document.
  *
- * @version 0.1.25 2015/04/25
+ * @version 0.2.1 2017/06/06
  * @author ExBin Project (http://exbin.org)
  */
 public abstract class XBDocCommand extends AbstractCommand {
 
+    @Nonnull
     protected XBEditableDocument document;
 
     /**
@@ -34,13 +36,15 @@ public abstract class XBDocCommand extends AbstractCommand {
      *
      * @return command type
      */
+    @Nonnull
     public abstract XBBasicCommandType getBasicType();
 
+    @Nonnull
     public XBEditableDocument getDocument() {
         return document;
     }
 
-    public void setDocument(XBEditableDocument document) {
+    public void setDocument(@Nonnull XBEditableDocument document) {
         this.document = document;
     }
 
@@ -54,6 +58,7 @@ public abstract class XBDocCommand extends AbstractCommand {
     }
 
     @Override
+    @Nonnull
     public String getCaption() {
         return getBasicType().getCaption();
     }

@@ -16,16 +16,17 @@
  */
 package org.exbin.xbup.client;
 
+import javax.annotation.Nonnull;
 import org.exbin.utils.binary_data.BinaryData;
 
 /**
  * Remote procedure call logging listener.
  *
- * @version 0.2.0 2016/05/24
+ * @version 0.2.1 2017/06/06
  * @author ExBin Project (http://exbin.org)
  */
 public interface XBCallLogListener {
 
-    void callPerformed(BinaryData requestData, BinaryData responseData);
+    void callPerformed(@Nonnull BinaryData requestData, @Nonnull BinaryData responseData);
 
 }

@@ -84,7 +84,7 @@ public class XBESpecService extends XBEDefaultService<XBESpec> implements XBCSpe
     public XBESpecService(XBECatalog catalog) {
         super(catalog);
         itemManager = new XBESpecManager(catalog);
-        catalog.addCatalogManager(XBCSpecManager.class, itemManager);
+        catalog.addCatalogManager(XBCSpecManager.class, (XBCSpecManager) itemManager);
     }
 
     @PostConstruct

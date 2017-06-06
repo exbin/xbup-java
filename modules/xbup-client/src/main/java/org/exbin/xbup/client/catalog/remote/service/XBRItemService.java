@@ -33,6 +33,6 @@ public class XBRItemService extends XBRDefaultService<XBRItem> implements XBCIte
     public XBRItemService(XBRCatalog catalog) {
         super(catalog);
         itemManager = new XBRItemManager(catalog);
-        catalog.addCatalogManager(XBCItemManager.class, itemManager);
+        catalog.addCatalogManager(XBCItemManager.class, (XBCItemManager) itemManager);
     }
 }

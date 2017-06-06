@@ -47,7 +47,7 @@ public class XBEItemService extends XBEDefaultService<XBEItem> implements XBCIte
     public XBEItemService(XBECatalog catalog) {
         super(catalog);
         itemManager = new XBEItemManager(catalog);
-        catalog.addCatalogManager(XBCItemManager.class, itemManager);
+        catalog.addCatalogManager(XBCItemManager.class, (XBCItemManager) itemManager);
     }
 
     @PostConstruct

@@ -37,7 +37,7 @@ public class XBRXStriService extends XBRDefaultService<XBRXStri> implements XBCX
     public XBRXStriService(XBRCatalog catalog) {
         super(catalog);
         itemManager = new XBRXStriManager(catalog);
-        catalog.addCatalogManager(XBCXStriManager.class, itemManager);
+        catalog.addCatalogManager(XBCXStriManager.class, (XBCXStriManager) itemManager);
     }
 
     @Override

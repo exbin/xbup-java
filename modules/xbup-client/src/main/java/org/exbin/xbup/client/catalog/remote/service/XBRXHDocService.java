@@ -37,7 +37,7 @@ public class XBRXHDocService extends XBRDefaultService<XBRXHDoc> implements XBCX
     public XBRXHDocService(XBRCatalog catalog) {
         super(catalog);
         itemManager = new XBRXHDocManager(catalog);
-        catalog.addCatalogManager(XBCXHDocManager.class, itemManager);
+        catalog.addCatalogManager(XBCXHDocManager.class, (XBCXHDocManager) itemManager);
     }
 
     public XBRXHDoc findById(Long id) {

@@ -6,12 +6,14 @@
 package org.exbin.xbup.operation.undo;
 
 import java.util.List;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import org.exbin.xbup.operation.Command;
 
 /**
  * Undo support handler.
  *
- * @version 0.2.0 2016/01/24
+ * @version 0.2.1 2017/06/06
  * @author ExBin Project (http://exbin.org)
  */
 public interface XBUndoHandler {
@@ -35,15 +37,16 @@ public interface XBUndoHandler {
      * @param command command
      * @throws java.lang.Exception exception
      */
-    void execute(Command command) throws Exception;
+    void execute(@Nonnull Command command) throws Exception;
 
     /**
      * Adds new step into command list without executing it.
      *
      * @param command command
      */
-    void addCommand(Command command);
+    void addCommand(@Nonnull Command command);
 
+    @Nullable
     List<Command> getCommandList();
 
     long getCommandPosition();
@@ -98,7 +101,7 @@ public interface XBUndoHandler {
 
     void setSyncPoint();
 
-    void addUndoUpdateListener(XBUndoUpdateListener listener);
+    void addUndoUpdateListener(@Nonnull XBUndoUpdateListener listener);
 
-    void removeUndoUpdateListener(XBUndoUpdateListener listener);
+    void removeUndoUpdateListener(@Nonnull XBUndoUpdateListener listener);
 }

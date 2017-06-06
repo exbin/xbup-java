@@ -45,7 +45,7 @@ public class XBEXUserService extends XBEDefaultService<XBEXUser> implements XBCX
     public XBEXUserService(XBECatalog catalog) {
         super(catalog);
         itemManager = new XBEXUserManager(catalog);
-        catalog.addCatalogManager(XBCXUserManager.class, itemManager);
+        catalog.addCatalogManager(XBCXUserManager.class, (XBCXUserManager) itemManager);
     }
 
     @PostConstruct

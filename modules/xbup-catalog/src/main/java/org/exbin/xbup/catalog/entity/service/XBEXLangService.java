@@ -46,7 +46,7 @@ public class XBEXLangService extends XBEDefaultService<XBEXLanguage> implements 
     public XBEXLangService(XBECatalog catalog) {
         super(catalog);
         itemManager = new XBEXLangManager(catalog);
-        catalog.addCatalogManager(XBCXLangManager.class, itemManager);
+        catalog.addCatalogManager(XBCXLangManager.class, (XBCXLangManager) itemManager);
     }
 
     @PostConstruct

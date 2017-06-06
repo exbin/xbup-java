@@ -18,20 +18,23 @@ package org.exbin.xbup.client;
 
 import java.io.IOException;
 import java.io.InputStream;
+import javax.annotation.Nonnull;
 import org.exbin.xbup.core.type.XBData;
 
 /**
  * Input stream copying data to data logging blob.
  *
- * @version 0.2.0 2016/02/20
+ * @version 0.2.1 2017/06/06
  * @author ExBin Project (http://exbin.org)
  */
 public class XBLoggingInputStream extends InputStream {
 
+    @Nonnull
     private final XBData data = new XBData();
+    @Nonnull
     private final InputStream sourceInputStream;
 
-    public XBLoggingInputStream(InputStream sourceInputStream) {
+    public XBLoggingInputStream(@Nonnull InputStream sourceInputStream) {
         this.sourceInputStream = sourceInputStream;
     }
 
@@ -45,23 +48,24 @@ public class XBLoggingInputStream extends InputStream {
     }
 
     @Override
-    public int read(byte[] b, int off, int len) throws IOException {
-        int read = sourceInputStream.read(b, off, len);
+    public int read(@Nonnull byte[] bufferData, int offset, int length) throws IOException {
+        int read = sourceInputStream.read(bufferData, offset, length);
         if (read >= 0) {
-            data.insert(data.getDataSize(), b, off, len);
+            data.insert(data.getDataSize(), bufferData, offset, length);
         }
         return read;
     }
 
     @Override
-    public int read(byte[] b) throws IOException {
-        int read = sourceInputStream.read(b);
+    public int read(@Nonnull byte[] bufferData) throws IOException {
+        int read = sourceInputStream.read(bufferData);
         if (read >= 0) {
-            data.insert(data.getDataSize(), b);
+            data.insert(data.getDataSize(), bufferData);
         }
         return read;
     }
 
+    @Nonnull
     public XBData getData() {
         return data;
     }

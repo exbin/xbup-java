@@ -224,7 +224,7 @@ public class XBRCatalog implements XBCatalog {
     }
 
     @Override
-    public void addCatalogManager(Class type, XBCManager<? extends XBCBase> manager) {
+    public <T extends XBCManager<? extends XBCBase>> void addCatalogManager(Class<T> type, T manager) {
         catalogManagers.put(type, manager);
         if (manager instanceof XBCExtension) {
             ((XBCExtension) manager).initializeExtension();
@@ -232,7 +232,7 @@ public class XBRCatalog implements XBCatalog {
     }
 
     @Override
-    public void addCatalogService(Class type, XBCService<? extends XBCBase> service) {
+    public <T extends XBCService<? extends XBCBase>> void addCatalogService(Class<T> type, T service) {
         catalogServices.put(type, service);
         if (service instanceof XBCExtension) {
             ((XBCExtension) service).initializeExtension();

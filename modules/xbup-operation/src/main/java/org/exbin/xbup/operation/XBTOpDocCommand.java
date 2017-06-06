@@ -16,6 +16,8 @@
  */
 package org.exbin.xbup.operation;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import org.exbin.xbup.core.block.XBTEditableDocument;
 
 /**
@@ -26,18 +28,20 @@ import org.exbin.xbup.core.block.XBTEditableDocument;
  */
 public abstract class XBTOpDocCommand extends XBTDocCommand {
 
+    @Nullable
     private XBTDocOperation operation;
     private boolean isUndoMode = false;
 
-    public XBTOpDocCommand(XBTEditableDocument document) {
+    public XBTOpDocCommand(@Nonnull XBTEditableDocument document) {
         super(document);
     }
 
+    @Nullable
     public XBTDocOperation getOperation() {
         return operation;
     }
 
-    public void setOperation(XBTDocOperation operation) {
+    public void setOperation(@Nullable XBTDocOperation operation) {
         this.operation = operation;
     }
 
@@ -46,6 +50,7 @@ public abstract class XBTOpDocCommand extends XBTDocCommand {
      *
      * @return document operation
      */
+    @Nullable
     public XBTDocOperation getCurrentOperation() {
         return operation;
     }

@@ -38,7 +38,7 @@ public class XBRXFileService extends XBRDefaultService<XBRXFile> implements XBCX
     public XBRXFileService(XBRCatalog catalog) {
         super(catalog);
         itemManager = new XBRXFileManager(catalog);
-        catalog.addCatalogManager(XBCXFileManager.class, itemManager);
+        catalog.addCatalogManager(XBCXFileManager.class, (XBCXFileManager) itemManager);
     }
 
     @Override

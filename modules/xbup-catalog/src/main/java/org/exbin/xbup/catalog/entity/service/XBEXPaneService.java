@@ -52,7 +52,7 @@ public class XBEXPaneService extends XBEDefaultService<XBEXBlockPane> implements
     public XBEXPaneService(XBECatalog catalog) {
         super(catalog);
         itemManager = new XBEXPaneManager(catalog);
-        catalog.addCatalogManager(XBCXPaneManager.class, itemManager);
+        catalog.addCatalogManager(XBCXPaneManager.class, (XBCXPaneManager) itemManager);
     }
 
     @PostConstruct

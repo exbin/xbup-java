@@ -52,7 +52,7 @@ public class XBEXIconService extends XBEDefaultService<XBEXIcon> implements XBCX
     public XBEXIconService(XBECatalog catalog) {
         super(catalog);
         itemManager = new XBEXIconManager(catalog);
-        catalog.addCatalogManager(XBCXIconManager.class, itemManager);
+        catalog.addCatalogManager(XBCXIconManager.class, (XBCXIconManager) itemManager);
     }
 
     @PostConstruct

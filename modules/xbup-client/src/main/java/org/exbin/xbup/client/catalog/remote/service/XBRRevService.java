@@ -51,7 +51,7 @@ public class XBRRevService extends XBRDefaultService<XBRRev> implements XBCRevSe
     public XBRRevService(XBRCatalog catalog) {
         super(catalog);
         itemManager = new XBRRevManager(catalog);
-        catalog.addCatalogManager(XBCRevManager.class, itemManager);
+        catalog.addCatalogManager(XBCRevManager.class, (XBCRevManager) itemManager);
     }
 
     @Override

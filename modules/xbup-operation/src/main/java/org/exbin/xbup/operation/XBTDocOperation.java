@@ -16,6 +16,7 @@
  */
 package org.exbin.xbup.operation;
 
+import javax.annotation.Nonnull;
 import org.exbin.xbup.core.block.XBTEditableDocument;
 import org.exbin.xbup.core.type.XBData;
 import org.exbin.xbup.operation.basic.XBBasicOperationType;
@@ -23,15 +24,17 @@ import org.exbin.xbup.operation.basic.XBBasicOperationType;
 /**
  * Abstract class for operation using XBUP level 1 document.
  *
- * @version 0.2.0 2016/02/27
+ * @version 0.2.1 2017/06/06
  * @author ExBin Project (http://exbin.org)
  */
 public abstract class XBTDocOperation implements Operation {
 
+    @Nonnull
     protected final XBTEditableDocument document;
+    @Nonnull
     protected XBData data;
 
-    public XBTDocOperation(XBTEditableDocument document) {
+    public XBTDocOperation(@Nonnull XBTEditableDocument document) {
         this.document = document;
         data = new XBData();
     }
@@ -41,17 +44,20 @@ public abstract class XBTDocOperation implements Operation {
      *
      * @return basic type
      */
+    @Nonnull
     public abstract XBBasicOperationType getBasicType();
 
+    @Nonnull
     public XBTEditableDocument getDocument() {
         return document;
     }
 
+    @Nonnull
     public XBData getData() {
         return data;
     }
 
-    public void setData(XBData data) {
+    public void setData(@Nonnull XBData data) {
         this.data = data;
     }
 
@@ -67,6 +73,7 @@ public abstract class XBTDocOperation implements Operation {
     }
 
     @Override
+    @Nonnull
     public String getCaption() {
         return getBasicType().getCaption();
     }

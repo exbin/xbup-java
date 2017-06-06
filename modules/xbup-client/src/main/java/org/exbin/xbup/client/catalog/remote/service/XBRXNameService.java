@@ -40,7 +40,7 @@ public class XBRXNameService extends XBRDefaultService<XBRXName> implements XBCX
     public XBRXNameService(XBRCatalog catalog) {
         super(catalog);
         itemManager = new XBRXNameManager(catalog);
-        catalog.addCatalogManager(XBCXNameManager.class, itemManager);
+        catalog.addCatalogManager(XBCXNameManager.class, (XBCXNameManager) itemManager);
     }
 
     @Override

@@ -37,7 +37,7 @@ public class XBRNodeService extends XBRDefaultService<XBRNode> implements XBCNod
     public XBRNodeService(XBRCatalog catalog) {
         super(catalog);
         itemManager = new XBRNodeManager(catalog);
-        catalog.addCatalogManager(XBCNodeManager.class, itemManager);
+        catalog.addCatalogManager(XBCNodeManager.class, (XBCNodeManager) itemManager);
     }
 
     @Override

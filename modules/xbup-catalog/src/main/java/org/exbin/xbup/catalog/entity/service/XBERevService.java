@@ -62,7 +62,7 @@ public class XBERevService extends XBEDefaultService<XBERev> implements XBCRevSe
     public XBERevService(XBECatalog catalog) {
         super(catalog);
         itemManager = new XBERevManager(catalog);
-        catalog.addCatalogManager(XBCRevManager.class, itemManager);
+        catalog.addCatalogManager(XBCRevManager.class, (XBCRevManager) itemManager);
     }
 
     @PostConstruct

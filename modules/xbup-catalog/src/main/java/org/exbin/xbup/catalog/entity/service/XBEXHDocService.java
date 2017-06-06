@@ -49,7 +49,7 @@ public class XBEXHDocService extends XBEDefaultService<XBEXHDoc> implements XBCX
     public XBEXHDocService(XBECatalog catalog) {
         super(catalog);
         itemManager = new XBEXHDocManager(catalog);
-        catalog.addCatalogManager(XBCXHDocManager.class, itemManager);
+        catalog.addCatalogManager(XBCXHDocManager.class, (XBCXHDocManager) itemManager);
     }
 
     @PostConstruct

@@ -37,7 +37,7 @@ public class XBRXPlugService extends XBRDefaultService<XBRXPlugin> implements XB
     public XBRXPlugService(XBRCatalog catalog) {
         super(catalog);
         itemManager = new XBRXPlugManager(catalog);
-        catalog.addCatalogManager(XBCXPlugManager.class, itemManager);
+        catalog.addCatalogManager(XBCXPlugManager.class, (XBCXPlugManager) itemManager);
     }
 
     @Override

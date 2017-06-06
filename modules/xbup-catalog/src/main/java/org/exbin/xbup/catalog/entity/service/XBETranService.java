@@ -45,7 +45,7 @@ public class XBETranService extends XBEDefaultService<XBETran> implements XBCTra
     public XBETranService(XBECatalog catalog) {
         super(catalog);
         itemManager = new XBETranManager(catalog);
-        catalog.addCatalogManager(XBCTranManager.class, itemManager);
+        catalog.addCatalogManager(XBCTranManager.class, (XBCTranManager) itemManager);
     }
 
     @PostConstruct

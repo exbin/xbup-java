@@ -40,22 +40,22 @@ public class XBRXDescService extends XBRDefaultService<XBRXDesc> implements XBCX
     public XBRXDescService(XBRCatalog catalog) {
         super(catalog);
         itemManager = new XBRXDescManager(catalog);
-        catalog.addCatalogManager(XBCXDescManager.class, itemManager);
+        catalog.addCatalogManager(XBCXDescManager.class, (XBCXDescManager) itemManager);
     }
 
     @Override
     public XBRXDesc getDefaultItemDesc(XBCItem item) {
-        return ((XBRXDescManager)itemManager).getDefaultItemDesc(item);
+        return ((XBRXDescManager) itemManager).getDefaultItemDesc(item);
     }
 
     @Override
     public XBRXDesc getItemDesc(XBCItem item, XBCXLanguage language) {
-        return ((XBRXDescManager)itemManager).getItemDesc(item, language);
+        return ((XBRXDescManager) itemManager).getItemDesc(item, language);
     }
 
     @Override
     public List<XBCXDesc> getItemDescs(XBCItem item) {
-        return ((XBRXDescManager)itemManager).getItemDescs(item);
+        return ((XBRXDescManager) itemManager).getItemDescs(item);
     }
 
     @Override

@@ -51,7 +51,7 @@ public class XBENodeService extends XBEDefaultService<XBENode> implements XBCNod
     public XBENodeService(XBECatalog catalog) {
         super(catalog);
         itemManager = new XBENodeManager(catalog);
-        catalog.addCatalogManager(XBCNodeManager.class, itemManager);
+        catalog.addCatalogManager(XBCNodeManager.class, (XBCNodeManager) itemManager);
     }
 
     @PostConstruct

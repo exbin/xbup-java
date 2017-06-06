@@ -40,7 +40,7 @@ public class XBRXIconService extends XBRDefaultService<XBRXIcon> implements XBCX
     public XBRXIconService(XBRCatalog catalog) {
         super(catalog);
         itemManager = new XBRXIconManager(catalog);
-        catalog.addCatalogManager(XBCXIconManager.class, itemManager);
+        catalog.addCatalogManager(XBCXIconManager.class, (XBCXIconManager) itemManager);
     }
 
     @Override

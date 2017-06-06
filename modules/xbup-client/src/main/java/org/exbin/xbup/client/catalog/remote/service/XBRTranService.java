@@ -33,6 +33,6 @@ public class XBRTranService extends XBRDefaultService<XBRTran> implements XBCTra
     public XBRTranService(XBRCatalog catalog) {
         super(catalog);
         itemManager = new XBRTranManager(catalog);
-        catalog.addCatalogManager(XBCTranManager.class, itemManager);
+        catalog.addCatalogManager(XBCTranManager.class, (XBCTranManager) itemManager);
     }
 }

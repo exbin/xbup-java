@@ -40,7 +40,7 @@ public class XBRXPaneService extends XBRDefaultService<XBRXBlockPane> implements
     public XBRXPaneService(XBRCatalog catalog) {
         super(catalog);
         itemManager = new XBRXPaneManager(catalog);
-        catalog.addCatalogManager(XBCXPaneManager.class, itemManager);
+        catalog.addCatalogManager(XBCXPaneManager.class, (XBCXPaneManager) itemManager);
     }
 
     @Override

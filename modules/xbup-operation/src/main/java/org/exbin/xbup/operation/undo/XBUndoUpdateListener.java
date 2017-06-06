@@ -16,12 +16,13 @@
  */
 package org.exbin.xbup.operation.undo;
 
+import javax.annotation.Nonnull;
 import org.exbin.xbup.operation.Command;
 
 /**
  * Undo update listener.
  *
- * @version 0.2.0 2016/05/30
+ * @version 0.2.1 2017/06/06
  * @author ExBin Project (http://exbin.org)
  */
 public interface XBUndoUpdateListener {
@@ -36,5 +37,5 @@ public interface XBUndoUpdateListener {
      *
      * @param command command
      */
-    void undoCommandAdded(Command command);
+    void undoCommandAdded(@Nonnull Command command);
 }

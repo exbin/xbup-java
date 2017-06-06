@@ -52,7 +52,7 @@ public class XBEXFileService extends XBEDefaultService<XBEXFile> implements XBCX
     public XBEXFileService(XBECatalog catalog) {
         super(catalog);
         itemManager = new XBEXFileManager(catalog);
-        catalog.addCatalogManager(XBCXFileManager.class, itemManager);
+        catalog.addCatalogManager(XBCXFileManager.class, (XBCXFileManager) itemManager);
     }
 
     @PostConstruct

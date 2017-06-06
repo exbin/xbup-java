@@ -33,6 +33,6 @@ public class XBRLimiService extends XBRDefaultService<XBRItemLimi> implements XB
     public XBRLimiService(XBRCatalog catalog) {
         super(catalog);
         itemManager = new XBRLimiManager(catalog);
-        catalog.addCatalogManager(XBCLimiManager.class, itemManager);
+        catalog.addCatalogManager(XBCLimiManager.class, (XBCLimiManager) itemManager);
     }
 }

@@ -59,7 +59,7 @@ public class XBRSpecService extends XBRDefaultService<XBRSpec> implements XBCSpe
     public XBRSpecService(XBRCatalog catalog) {
         super(catalog);
         itemManager = new XBRSpecManager(catalog);
-        catalog.addCatalogManager(XBCSpecManager.class, itemManager);
+        catalog.addCatalogManager(XBCSpecManager.class, (XBCSpecManager) itemManager);
     }
 
     @Override

@@ -27,7 +27,6 @@ import java.util.logging.Logger;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.PostConstruct;
-import javax.annotation.concurrent.Immutable;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.PersistenceContext;
@@ -81,7 +80,7 @@ import org.exbin.xbup.core.serial.XBPSerialReader;
 /**
  * Basic level 1 catalog class using Java persistence.
  *
- * @version 0.2.1 2017/05/27
+ * @version 0.2.1 2017/06/06
  * @author ExBin Project (http://exbin.org)
  */
 public class XBECatalog implements XBCatalog {
@@ -280,7 +279,7 @@ public class XBECatalog implements XBCatalog {
     }
 
     @Override
-    public void addCatalogManager(Class type, XBCManager<? extends XBCBase> manager) {
+    public <T extends XBCManager<? extends XBCBase>> void addCatalogManager(Class<T> type, T manager) {
         catalogManagers.put(type, manager);
         if (isShallInit() && (manager instanceof XBCExtension)) {
             ((XBCExtension) manager).initializeExtension();
@@ -288,7 +287,7 @@ public class XBECatalog implements XBCatalog {
     }
 
     @Override
-    public void addCatalogService(Class type, XBCService<? extends XBCBase> service) {
+    public <T extends XBCService<? extends XBCBase>> void addCatalogService(Class<T> type, T service) {
         catalogServices.put(type, service);
         if (isShallInit() && (service instanceof XBCExtension)) {
             ((XBCExtension) service).initializeExtension();

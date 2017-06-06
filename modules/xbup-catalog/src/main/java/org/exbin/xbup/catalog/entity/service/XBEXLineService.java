@@ -52,7 +52,7 @@ public class XBEXLineService extends XBEDefaultService<XBEXBlockLine> implements
     public XBEXLineService(XBECatalog catalog) {
         super(catalog);
         itemManager = new XBEXLineManager(catalog);
-        catalog.addCatalogManager(XBCXLineManager.class, itemManager);
+        catalog.addCatalogManager(XBCXLineManager.class, (XBCXLineManager) itemManager);
     }
 
     @PostConstruct

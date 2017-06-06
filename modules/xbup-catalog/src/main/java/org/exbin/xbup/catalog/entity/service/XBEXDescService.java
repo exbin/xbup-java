@@ -51,7 +51,7 @@ public class XBEXDescService extends XBEDefaultService<XBEXDesc> implements XBCX
     public XBEXDescService(XBECatalog catalog) {
         super(catalog);
         itemManager = new XBEXDescManager(catalog);
-        catalog.addCatalogManager(XBCXDescManager.class, itemManager);
+        catalog.addCatalogManager(XBCXDescManager.class, (XBCXDescManager) itemManager);
     }
 
     @PostConstruct

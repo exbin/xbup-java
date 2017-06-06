@@ -17,6 +17,7 @@
 package org.exbin.xbup.client;
 
 import java.io.IOException;
+import javax.annotation.Nullable;
 import org.exbin.xbup.core.block.declaration.local.XBLFormatDecl;
 import org.exbin.xbup.core.catalog.XBPCatalog;
 import org.exbin.xbup.core.parser.XBProcessingException;
@@ -25,7 +26,7 @@ import org.exbin.xbup.core.serial.XBPSerialReader;
 /**
  * XBService catalog client using IP networking.
  *
- * @version 0.2.0 2015/10/30
+ * @version 0.2.1 2017/06/06
  * @author ExBin Project (http://exbin.org)
  */
 public class XBCatalogNetServiceClient extends XBTCPServiceClient implements XBCatalogServiceClient {
@@ -48,6 +49,7 @@ public class XBCatalogNetServiceClient extends XBTCPServiceClient implements XBC
      *
      * @return local format declaration
      */
+    @Nullable
     private XBLFormatDecl getContextFormatDecl() {
         XBPSerialReader reader = new XBPSerialReader(ClassLoader.class.getResourceAsStream("/org/exbin/xbup/client/resources/catalog_service_format.xb"));
         XBLFormatDecl formatDecl = new XBLFormatDecl();

@@ -34,7 +34,7 @@ public class XBRInfoService extends XBRDefaultService<XBRXItemInfo> implements X
     public XBRInfoService(XBRCatalog catalog) {
         super(catalog);
         itemManager = new XBRInfoManager(catalog);
-        catalog.addCatalogManager(XBCXInfoManager.class, itemManager);
+        catalog.addCatalogManager(XBCXInfoManager.class, (XBCXInfoManager) itemManager);
     }
 
     @Override

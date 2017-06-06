@@ -36,7 +36,7 @@ import org.exbin.xbup.core.parser.token.pull.XBTPullProvider;
 /**
  * Interface for XBUP level 1 catalog.
  *
- * @version 0.2.1 2017/06/05
+ * @version 0.2.1 2017/06/06
  * @author ExBin Project (http://exbin.org)
  */
 public interface XBCatalog {
@@ -99,16 +99,6 @@ public interface XBCatalog {
     List<XBBlockDecl> getBlocks(@Nonnull XBCGroupSpec spec);
 
     /**
-     * Returns catalog service of given type.
-     *
-     * @param <T> base param
-     * @param serviceClass a class for desired instance of catalog service
-     * @return service
-     */
-    @Nonnull
-    <T extends XBCService> T getCatalogService(@Nonnull Class<T> serviceClass);
-
-    /**
      * Returns catalog manager of given type.
      *
      * @param <T> base param
@@ -116,7 +106,17 @@ public interface XBCatalog {
      * @return manager
      */
     @Nonnull
-    <T extends XBCManager> T getCatalogManager(@Nonnull Class<T> managerClass);
+    <T extends XBCManager<? extends XBCBase>> T getCatalogManager(@Nonnull Class<T> managerClass);
+
+    /**
+     * Returns catalog service of given type.
+     *
+     * @param <T> base param
+     * @param serviceClass a class for desired instance of catalog service
+     * @return service
+     */
+    @Nonnull
+    <T extends XBCService<? extends XBCBase>> T getCatalogService(@Nonnull Class<T> serviceClass);
 
     /**
      * Returns list of catalog services.
@@ -139,18 +139,20 @@ public interface XBCatalog {
      *
      * Should be used only for internal purposes.
      *
+     * @param <T> manager class
      * @param type type of extension
-     * @param ext instance of extension, must implement XBCExtension
+     * @param manager instance of extension, must implement XBCExtension
      */
-    void addCatalogManager(Class type, XBCManager<? extends XBCBase> ext);
+    <T extends XBCManager<? extends XBCBase>> void addCatalogManager(Class<T> type, T manager);
 
     /**
      * Adds catalog service to catalog repository.
      *
+     * @param <T> service class
      * @param type type of extension
-     * @param ext instance of extension, must implement XBCExtension
+     * @param service instance of extension, must implement XBCExtension
      */
-    void addCatalogService(Class type, XBCService<? extends XBCBase> ext);
+    <T extends XBCService<? extends XBCBase>> void addCatalogService(Class<T> type, T service);
 
     /**
      * Processes declaration block and it's children and construct new context.

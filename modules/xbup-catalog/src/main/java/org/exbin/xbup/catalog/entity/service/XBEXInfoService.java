@@ -46,7 +46,7 @@ public class XBEXInfoService extends XBEDefaultService<XBEXItemInfo> implements 
     public XBEXInfoService(XBECatalog catalog) {
         super(catalog);
         itemManager = new XBEXInfoManager(catalog);
-        catalog.addCatalogManager(XBCXInfoManager.class, itemManager);
+        catalog.addCatalogManager(XBCXInfoManager.class, (XBCXInfoManager) itemManager);
     }
 
     @PostConstruct

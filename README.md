@@ -21,9 +21,9 @@ As the project is currently in alpha stage, repository contains complete resourc
 Compiling
 ---------
 
-Java Development Kit (JDK) version 7 or later is required to build this project.
+Java Development Kit (JDK) version 8 or later is required to build this project.
 
-For project compiling Gradle 2.0 build system is used. You can either download and install gradle and run "gradle build" command in project folder or gradlew or gradlew.bat scripts to download separate copy of gradle to perform the project build.
+For project compiling Gradle 4.0 build system is used. You can either download and install gradle and run "gradle build" command in project folder or gradlew or gradlew.bat scripts to download separate copy of gradle to perform the project build.
 
 Build system website: http://gradle.org
 

@@ -23,6 +23,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.annotation.Nonnull;
 import org.exbin.xbup.core.parser.XBProcessingException;
 import org.exbin.xbup.core.parser.token.XBAttributeToken;
 import org.exbin.xbup.core.parser.token.XBBeginToken;
@@ -92,8 +93,12 @@ public class XBModuleInfo implements XBPSequenceSerializable, XBModuleRecord {
         return moduleId;
     }
 
+    @Nonnull
     @Override
     public XBModule getModule() {
+        if (module == null) {
+            throw new IllegalStateException("Attempt to use uninitialized module");
+        }
         return module;
     }
 

@@ -17,7 +17,6 @@
 package org.exbin.xbup.plugin;
 
 import java.io.File;
-import java.io.FileFilter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Constructor;
@@ -36,6 +35,9 @@ import java.util.jar.Attributes;
 import java.util.jar.Manifest;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
 import org.exbin.xbup.core.parser.token.pull.XBPullReader;
 import org.exbin.xbup.core.parser.token.pull.convert.XBToXBTPullConvertor;
 import org.exbin.xbup.core.serial.param.XBPProviderSerialHandler;
@@ -43,9 +45,10 @@ import org.exbin.xbup.core.serial.param.XBPProviderSerialHandler;
 /**
  * XBUP default implementation of the modules repository.
  *
- * @version 0.2.0 2016/11/30
+ * @version 0.2.1 2019/06/09
  * @author ExBin Project (http://exbin.org)
  */
+@ParametersAreNonnullByDefault
 public class XBDefaultModuleRepository implements XBModuleRepository {
 
     private static final String MODULE_FILE = "module.xb";
@@ -75,12 +78,7 @@ public class XBDefaultModuleRepository implements XBModuleRepository {
     public void loadModulesFromPath(URI pathUri) {
         File directory = new File(pathUri);
         if (directory.exists() && directory.isDirectory()) {
-            File[] jarFiles = directory.listFiles(new FileFilter() {
-                @Override
-                public boolean accept(File pathname) {
-                    return pathname.isFile() && pathname.getName().endsWith(".jar");
-                }
-            });
+            File[] jarFiles = directory.listFiles((File pathname) -> pathname.isFile() && pathname.getName().endsWith(".jar"));
             for (File jarFile : jarFiles) {
                 addModulePlugin(jarFile.toURI(), true);
             }
@@ -231,9 +229,7 @@ public class XBDefaultModuleRepository implements XBModuleRepository {
 
                 if (dependecySatisfied) {
                     XBModule module = moduleRecord.getModule();
-                    if (module != null) {
-                        module.init(moduleHandler);
-                    }
+                    module.init(moduleHandler);
                     unprocessedModules.remove(moduleIndex);
                 } else {
                     moduleIndex++;
@@ -254,19 +250,14 @@ public class XBDefaultModuleRepository implements XBModuleRepository {
      * @param moduleId module identifier
      * @return application module record
      */
+    @Nullable
     @Override
     public XBModuleRecord getModuleRecordById(String moduleId) {
         return modules.get(moduleId);
     }
 
     private boolean findModule(List<XBModuleRecord> modules, String moduleId) {
-        for (XBModuleRecord module : modules) {
-            if (moduleId.equals(module.getModuleId())) {
-                return true;
-            }
-        }
-
-        return false;
+        return modules.stream().anyMatch((module) -> (moduleId.equals(module.getModuleId())));
     }
 
     /**
@@ -274,11 +265,16 @@ public class XBDefaultModuleRepository implements XBModuleRepository {
      *
      * @param moduleId module identifier
      * @return application module record
+     * @throws IllegalArgumentException when module not found
      */
+    @Nonnull
     @Override
     public XBModule getModuleById(String moduleId) {
         XBModuleRecord moduleRecord = getModuleRecordById(moduleId);
-        return moduleRecord == null ? null : moduleRecord.getModule();
+        if (moduleRecord == null) {
+            throw new IllegalArgumentException("Module for id " + moduleId + " was not found.");
+        }
+        return moduleRecord.getModule();
     }
 
     /**
@@ -286,11 +282,13 @@ public class XBDefaultModuleRepository implements XBModuleRepository {
      *
      * @return list of modules
      */
+    @Nonnull
     @Override
     public List<XBModuleRecord> getModulesList() {
         return new ArrayList<>(modules.values());
     }
 
+    @Nonnull
     @Override
     public <T extends XBModule> T getModuleByInterface(Class<T> interfaceClass) {
         try {
@@ -298,7 +296,9 @@ public class XBDefaultModuleRepository implements XBModuleRepository {
             if (declaredField != null) {
                 Object moduleId = declaredField.get(null);
                 if (moduleId instanceof String) {
-                    return (T) getModuleById((String) moduleId);
+                    @SuppressWarnings("unchecked")
+                    T module = (T) getModuleById((String) moduleId);
+                    return module;
                 }
             }
         } catch (NoSuchFieldException | SecurityException | IllegalArgumentException | IllegalAccessException ex) {
@@ -306,6 +306,6 @@ public class XBDefaultModuleRepository implements XBModuleRepository {
                     .getName()).log(Level.SEVERE, null, ex);
         }
 
-        return null;
+        throw new IllegalArgumentException("Module for class " + interfaceClass.getCanonicalName() + " was not found.");
     }
 }

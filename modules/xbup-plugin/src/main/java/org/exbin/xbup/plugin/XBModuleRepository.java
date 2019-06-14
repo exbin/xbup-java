@@ -21,13 +21,15 @@ import java.net.URL;
 import java.util.List;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
 
 /**
  * XBUP framework modules repository interface.
  *
- * @version 0.2.1 2017/05/28
+ * @version 0.2.1 2019/06/09
  * @author ExBin Project (http://exbin.org)
  */
+@ParametersAreNonnullByDefault
 public interface XBModuleRepository {
 
     /**
@@ -35,14 +37,14 @@ public interface XBModuleRepository {
      *
      * @param moduleJarFileUri jar file URI
      */
-    void addModulesFrom(@Nonnull URI moduleJarFileUri);
+    void addModulesFrom(URI moduleJarFileUri);
 
     /**
      * Scans for all valid modules in give directory or specified jar file.
      *
      * @param moduleJarFileUrl jar file URL
      */
-    void addModulesFrom(@Nonnull URL moduleJarFileUrl);
+    void addModulesFrom(URL moduleJarFileUrl);
 
     /**
      * Scans for all valid modules in jar libraries included using class path
@@ -57,21 +59,21 @@ public interface XBModuleRepository {
      *
      * @param manifestClass manifest class
      */
-    void addModulesFromManifest(@Nonnull Class manifestClass);
+    void addModulesFromManifest(Class manifestClass);
 
     /**
      * Process all jar files in given directory.
      *
      * @param pathUri path
      */
-    void loadModulesFromPath(@Nonnull URI pathUri);
+    void loadModulesFromPath(URI pathUri);
 
     /**
      * Process all jar files in given directory.
      *
      * @param pathUrl path
      */
-    void addModulesFromPath(@Nonnull URL pathUrl);
+    void addModulesFromPath(URL pathUrl);
 
     /**
      * Gets info about module.
@@ -80,16 +82,17 @@ public interface XBModuleRepository {
      * @return application module record
      */
     @Nullable
-    XBModuleRecord getModuleRecordById(@Nonnull String moduleId);
+    XBModuleRecord getModuleRecordById(String moduleId);
 
     /**
      * Gets module for specified identified.
      *
      * @param moduleId module identifier
      * @return application module
+     * @throws IllegalArgumentException when module not found
      */
-    @Nullable
-    XBModule getModuleById(@Nonnull String moduleId);
+    @Nonnull
+    XBModule getModuleById(String moduleId);
 
     /**
      * Gets module instance by module interface.
@@ -97,16 +100,17 @@ public interface XBModuleRepository {
      * @param <T> interface class
      * @param interfaceClass interface class
      * @return application module record
+     * @throws IllegalArgumentException when module not found
      */
-    @Nullable
-    <T extends XBModule> T getModuleByInterface(@Nonnull Class<T> interfaceClass);
+    @Nonnull
+    <T extends XBModule> T getModuleByInterface(Class<T> interfaceClass);
 
     /**
      * Gets list of modules.
      *
      * @return list of modules
      */
-    @Nullable
+    @Nonnull
     List<XBModuleRecord> getModulesList();
 
     /**

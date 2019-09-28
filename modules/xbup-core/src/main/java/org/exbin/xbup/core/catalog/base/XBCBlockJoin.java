@@ -30,7 +30,7 @@ public interface XBCBlockJoin extends XBCJoinDef {
      * @return block specification
      */
     @Override
-    public XBCBlockSpec getSpec();
+    XBCBlockSpec getSpec();
 
     /**
      * Gets target specification.
@@ -38,5 +38,5 @@ public interface XBCBlockJoin extends XBCJoinDef {
      * @return block revision
      */
     @Override
-    public XBCBlockRev getTarget();
+    XBCBlockRev getTarget();
 }

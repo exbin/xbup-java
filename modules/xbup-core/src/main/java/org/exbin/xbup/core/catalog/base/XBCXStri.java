@@ -29,40 +29,40 @@ public interface XBCXStri extends XBCBase {
      *
      * @return item
      */
-    public XBCItem getItem();
+    XBCItem getItem();
 
     /**
      * Gets relevant text.
      *
      * @return text
      */
-    public String getText();
+    String getText();
 
     /**
      * Sets relevant item.
      *
      * @param item item
      */
-    public void setItem(XBCItem item);
+    void setItem(XBCItem item);
 
     /**
      * Sets item text.
      *
      * @param text text
      */
-    public void setText(String text);
+    void setText(String text);
 
     /**
      * Gets node path.
      *
      * @return the nodePath
      */
-    public String getNodePath();
+    String getNodePath();
 
     /**
      * Sets node path.
      *
      * @param nodePath the nodePath to set
      */
-    public void setNodePath(String nodePath);
+    void setNodePath(String nodePath);
 }

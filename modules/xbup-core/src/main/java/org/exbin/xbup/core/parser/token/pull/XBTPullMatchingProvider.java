@@ -18,6 +18,7 @@ package org.exbin.xbup.core.parser.token.pull;
 
 import java.io.IOException;
 import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
 import org.exbin.xbup.core.parser.XBProcessingException;
 import org.exbin.xbup.core.parser.token.XBTToken;
 import org.exbin.xbup.core.parser.token.XBTTokenType;
@@ -29,6 +30,7 @@ import org.exbin.xbup.core.stream.XBOutput;
  * @version 0.2.1 2017/05/15
  * @author ExBin Project (http://exbin.org)
  */
+@ParametersAreNonnullByDefault
 public interface XBTPullMatchingProvider extends XBOutput {
 
     /**
@@ -40,5 +42,5 @@ public interface XBTPullMatchingProvider extends XBOutput {
      * @throws java.io.IOException if input/output error
      */
     @Nonnull
-    XBTToken pullXBTToken(@Nonnull XBTTokenType tokenType) throws XBProcessingException, IOException;
+    XBTToken pullXBTToken(XBTTokenType tokenType) throws XBProcessingException, IOException;
 }

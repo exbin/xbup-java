@@ -30,7 +30,7 @@ public interface XBCFormatJoin extends XBCJoinDef {
      * @return format specification
      */
     @Override
-    public XBCFormatSpec getSpec();
+    XBCFormatSpec getSpec();
 
     /**
      * Gets target specification.
@@ -38,5 +38,5 @@ public interface XBCFormatJoin extends XBCJoinDef {
      * @return format revision
      */
     @Override
-    public XBCFormatRev getTarget();
+    XBCFormatRev getTarget();
 }

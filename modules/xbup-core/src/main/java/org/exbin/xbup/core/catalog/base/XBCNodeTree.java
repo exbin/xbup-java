@@ -29,33 +29,33 @@ public interface XBCNodeTree {
      *
      * @return the index
      */
-    public Long getId();
+    Long getId();
 
     /**
      * Gets node.
      *
      * @return the node
      */
-    public XBCNode getOwner();
+    XBCNode getOwner();
 
     /**
      * Gets node child.
      *
      * @return the node
      */
-    public XBCNode getNode();
+    XBCNode getNode();
 
     /**
      * Gets depth level.
      *
      * @return the depth
      */
-    public Integer getDepthLevel();
+    Integer getDepthLevel();
 
     /**
      * Gets root record for this node.
      *
      * @return root record
      */
-    public XBCRoot getRoot();
+    XBCRoot getRoot();
 }

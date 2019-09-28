@@ -20,6 +20,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.annotation.ParametersAreNonnullByDefault;
 import org.exbin.xbup.core.parser.XBProcessingException;
 import org.exbin.xbup.core.parser.token.event.XBEventWriter;
 import org.exbin.xbup.core.parser.token.event.XBTEventListener;
@@ -34,6 +35,7 @@ import org.exbin.xbup.core.serial.param.XBPSerializable;
  * @version 0.1.24 2015/01/23
  * @author ExBin Project (http://exbin.org)
  */
+@ParametersAreNonnullByDefault
 public class XBPSerialWriter implements XBPWriteSerialHandler {
 
     protected final XBTEventListener eventListener;

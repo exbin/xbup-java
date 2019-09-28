@@ -29,19 +29,19 @@ public interface XBCXLanguage extends XBCBase {
      *
      * @return language code
      */
-    public String getLangCode();
+    String getLangCode();
 
     /**
      * Sets language code.
      *
      * @param langCode language code
      */
-    public void setLangCode(String langCode);
+    void setLangCode(String langCode);
 
     /**
      * Gets language name.
      *
      * @return language name
      */
-    public String getName();
+    String getName();
 }

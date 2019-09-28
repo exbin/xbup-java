@@ -17,7 +17,7 @@
 package org.exbin.xbup.core.parser.token.event;
 
 import java.io.IOException;
-import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
 import org.exbin.xbup.core.parser.XBProcessingException;
 import org.exbin.xbup.core.parser.token.XBTToken;
 import org.exbin.xbup.core.stream.XBInput;
@@ -28,6 +28,7 @@ import org.exbin.xbup.core.stream.XBInput;
  * @version 0.2.1 2017/05/15
  * @author ExBin Project (http://exbin.org)
  */
+@ParametersAreNonnullByDefault
 public interface XBTEventListener extends XBInput {
 
     /**
@@ -37,6 +38,5 @@ public interface XBTEventListener extends XBInput {
      * @throws XBProcessingException if processing error
      * @throws java.io.IOException if input/output error
      */
-    void putXBTToken(@Nonnull XBTToken token) throws XBProcessingException, IOException;
-
+    void putXBTToken(XBTToken token) throws XBProcessingException, IOException;
 }

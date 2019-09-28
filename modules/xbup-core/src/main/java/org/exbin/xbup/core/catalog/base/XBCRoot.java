@@ -31,19 +31,19 @@ public interface XBCRoot extends XBCBase {
      *
      * @return the node
      */
-    public XBCNode getNode();
+    XBCNode getNode();
 
     /**
      * Gets URL for this catalog root.
      *
      * @return the URL string
      */
-    public String getUrl();
+    String getUrl();
 
     /**
      * Gets last update for this catalog root.
      *
      * @return date
      */
-    public Date getLastUpdate();
+    Date getLastUpdate();
 }

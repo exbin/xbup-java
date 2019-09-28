@@ -16,7 +16,7 @@
  */
 package org.exbin.xbup.core.remote;
 
-import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
 import org.exbin.xbup.core.block.XBBlockType;
 
 /**
@@ -25,6 +25,7 @@ import org.exbin.xbup.core.block.XBBlockType;
  * @version 0.2.1 2017/05/29
  * @author ExBin Project (http://exbin.org)
  */
+@ParametersAreNonnullByDefault
 public interface XBServiceServer {
 
     /**
@@ -33,12 +34,12 @@ public interface XBServiceServer {
      * @param procedureType procedure type
      * @param procedure procedure handler to add
      */
-    void addXBProcedure(@Nonnull XBBlockType procedureType, @Nonnull XBExecutable procedure);
+    void addXBProcedure(XBBlockType procedureType, XBExecutable procedure);
 
     /**
      * Unregisters procedure handling.
      *
      * @param procedureType procedure type
      */
-    void removeXBProcedure(@Nonnull XBBlockType procedureType);
+    void removeXBProcedure(XBBlockType procedureType);
 }

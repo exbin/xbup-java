@@ -29,12 +29,12 @@ public interface XBCXUser extends XBCBase {
      *
      * @return the login
      */
-    public String getLogin();
+    String getLogin();
 
     /**
      * Gets password string.
      *
      * @return the passwd
      */
-    public String getPasswd();
+    String getPasswd();
 }

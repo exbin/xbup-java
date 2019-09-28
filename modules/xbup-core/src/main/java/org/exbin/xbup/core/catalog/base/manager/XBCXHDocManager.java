@@ -35,7 +35,7 @@ public interface XBCXHDocManager<T extends XBCXHDoc> extends XBCManager<T>, XBCE
      * @param item item
      * @return documentation
      */
-    public XBCXHDoc getDocumentation(XBCItem item);
+    XBCXHDoc getDocumentation(XBCItem item);
 
     /**
      * Gets documentation by unique index.
@@ -43,12 +43,12 @@ public interface XBCXHDocManager<T extends XBCXHDoc> extends XBCManager<T>, XBCE
      * @param id unique index
      * @return documentation
      */
-    public XBCXHDoc findById(Long id);
+    XBCXHDoc findById(Long id);
 
     /**
      * Gets count of all HTML documentations.
      *
      * @return count of documentations
      */
-    public Long getAllHDocsCount();
+    Long getAllHDocsCount();
 }

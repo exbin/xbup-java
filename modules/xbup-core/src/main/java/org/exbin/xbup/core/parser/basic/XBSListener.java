@@ -17,8 +17,8 @@
 package org.exbin.xbup.core.parser.basic;
 
 import java.io.IOException;
-import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
 import org.exbin.xbup.core.block.XBBlockTerminationMode;
 import org.exbin.xbup.core.parser.XBProcessingException;
 import org.exbin.xbup.core.ubnumber.UBNatural;
@@ -31,6 +31,7 @@ import org.exbin.xbup.core.ubnumber.UBNatural;
  * @version 0.2.1 2017/05/12
  * @author ExBin Project (http://exbin.org)
  */
+@ParametersAreNonnullByDefault
 public interface XBSListener extends XBListener {
 
     /**
@@ -42,5 +43,5 @@ public interface XBSListener extends XBListener {
      * @throws XBProcessingException if processing error
      * @throws java.io.IOException if input/output error
      */
-    void beginXB(@Nonnull XBBlockTerminationMode terminationMode, @Nullable UBNatural blockSize) throws XBProcessingException, IOException;
+    void beginXB(XBBlockTerminationMode terminationMode, @Nullable UBNatural blockSize) throws XBProcessingException, IOException;
 }

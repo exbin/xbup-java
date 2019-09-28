@@ -17,7 +17,7 @@
 package org.exbin.xbup.core.serial;
 
 import java.io.IOException;
-import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
 import org.exbin.xbup.core.parser.XBProcessingException;
 
 /**
@@ -26,6 +26,7 @@ import org.exbin.xbup.core.parser.XBProcessingException;
  * @version 0.2.1 2017/05/17
  * @author ExBin Project (http://exbin.org)
  */
+@ParametersAreNonnullByDefault
 public interface XBPReadSerialHandler {
 
     /**
@@ -34,5 +35,5 @@ public interface XBPReadSerialHandler {
      * @param serial serializable object to process
      * @throws java.io.IOException if input/output error
      */
-    void read(@Nonnull XBSerializable serial) throws XBProcessingException, IOException;
+    void read(XBSerializable serial) throws XBProcessingException, IOException;
 }

@@ -35,7 +35,7 @@ public interface XBCNodeService<T extends XBCNode> extends XBCService<T> {
      *
      * @return root node
      */
-    public XBCNode getRootNode();
+    XBCNode getRootNode();
 
     /**
      * Gets list of subnodes.
@@ -43,7 +43,7 @@ public interface XBCNodeService<T extends XBCNode> extends XBCService<T> {
      * @param parentNode parent node
      * @return list of child nodes
      */
-    public List<XBCNode> getSubNodes(XBCNode parentNode);
+    List<XBCNode> getSubNodes(XBCNode parentNode);
 
     /**
      * Returns subnode of given index.
@@ -52,7 +52,7 @@ public interface XBCNodeService<T extends XBCNode> extends XBCService<T> {
      * @param index sub node index
      * @return node or null
      */
-    public XBCNode getSubNode(XBCNode parentNode, long index);
+    XBCNode getSubNode(XBCNode parentNode, long index);
 
     /**
      * Returns count of direct subnodes.
@@ -60,7 +60,7 @@ public interface XBCNodeService<T extends XBCNode> extends XBCService<T> {
      * @param parentNode parent node
      * @return count of child nodes
      */
-    public long getSubNodesCount(XBCNode parentNode);
+    long getSubNodesCount(XBCNode parentNode);
 
     /**
      * Returns n-th node from all subnodes sequence.
@@ -69,7 +69,7 @@ public interface XBCNodeService<T extends XBCNode> extends XBCService<T> {
      * @param sequenceIndex sequence index
      * @return node or null
      */
-    public XBCNode getSubNodeSeq(XBCNode parentNode, long sequenceIndex);
+    XBCNode getSubNodeSeq(XBCNode parentNode, long sequenceIndex);
 
     /**
      * Returns size of all subnodes sequence.
@@ -77,7 +77,7 @@ public interface XBCNodeService<T extends XBCNode> extends XBCService<T> {
      * @param parentNode parent node
      * @return size of all subnodes
      */
-    public long getSubNodesSeq(XBCNode parentNode);
+    long getSubNodesSeq(XBCNode parentNode);
 
     /**
      * Traverses array of XB indexes and return node if exists.
@@ -85,7 +85,7 @@ public interface XBCNodeService<T extends XBCNode> extends XBCService<T> {
      * @param xbCatalogPath catalog path
      * @return node or null
      */
-    public XBCNode findNodeByXBPath(Long[] xbCatalogPath);
+    XBCNode findNodeByXBPath(Long[] xbCatalogPath);
 
     /**
      * Traverses array of XB indexes except last one and returns node if exists.
@@ -93,7 +93,7 @@ public interface XBCNodeService<T extends XBCNode> extends XBCService<T> {
      * @param xbCatalogPath catalog path
      * @return node or null
      */
-    public XBCNode findParentByXBPath(Long[] xbCatalogPath);
+    XBCNode findParentByXBPath(Long[] xbCatalogPath);
 
     /**
      * Returns path of XBIndexes for given node.
@@ -101,7 +101,7 @@ public interface XBCNodeService<T extends XBCNode> extends XBCService<T> {
      * @param node node
      * @return catalog path
      */
-    public Long[] getNodeXBPath(XBCNode node);
+    Long[] getNodeXBPath(XBCNode node);
 
     /**
      * Ignores last member of path and returns parent node.
@@ -109,7 +109,7 @@ public interface XBCNodeService<T extends XBCNode> extends XBCService<T> {
      * @param xbCatalogPath catalog path
      * @return node or null
      */
-    public XBCNode findOwnerByXBPath(Long[] xbCatalogPath);
+    XBCNode findOwnerByXBPath(Long[] xbCatalogPath);
 
     /**
      * Finds maximum subnode XB index.
@@ -117,14 +117,14 @@ public interface XBCNodeService<T extends XBCNode> extends XBCService<T> {
      * @param node parent node
      * @return XB index or null
      */
-    public Long findMaxSubNodeXB(XBCNode node);
+    Long findMaxSubNodeXB(XBCNode node);
 
     /**
      * Gets catalog root record.
      *
      * @return root record
      */
-    public XBCRoot getRoot();
+    XBCRoot getRoot();
 
     /**
      * Gets root record.
@@ -132,14 +132,14 @@ public interface XBCNodeService<T extends XBCNode> extends XBCService<T> {
      * @param rootId root index
      * @return root record
      */
-    public XBCRoot getRoot(long rootId);
+    XBCRoot getRoot(long rootId);
 
     /**
      * Gets time of the last update.
      *
      * @return time of last update
      */
-    public Date getLastUpdate();
+    Date getLastUpdate();
 
     /**
      * Persist root node item.
@@ -148,5 +148,5 @@ public interface XBCNodeService<T extends XBCNode> extends XBCService<T> {
      *
      * @param root root node item
      */
-    public void persistRoot(XBCRoot root);
+    void persistRoot(XBCRoot root);
 }

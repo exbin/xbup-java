@@ -35,7 +35,7 @@ public interface XBCXHDocService<T extends XBCXHDoc> extends XBCService<T>, XBCE
      * @param item catalog item
      * @return hypertext documentation structure
      */
-    public XBCXHDoc getDocumentation(XBCItem item);
+    XBCXHDoc getDocumentation(XBCItem item);
 
     /**
      * Gets text for documentation in default language for given item.
@@ -43,7 +43,7 @@ public interface XBCXHDocService<T extends XBCXHDoc> extends XBCService<T>, XBCE
      * @param item catalog item
      * @return hypertext documentation
      */
-    public String getDocumentationText(XBCItem item);
+    String getDocumentationText(XBCItem item);
 
     /**
      * Gets text body part of documentation in default language for given item.
@@ -51,5 +51,5 @@ public interface XBCXHDocService<T extends XBCXHDoc> extends XBCService<T>, XBCE
      * @param item catalog item
      * @return hypertext documentation
      */
-    public String getDocumentationBodyText(XBCItem item);
+    String getDocumentationBodyText(XBCItem item);
 }

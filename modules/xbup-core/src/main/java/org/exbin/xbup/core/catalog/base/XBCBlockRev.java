@@ -30,5 +30,5 @@ public interface XBCBlockRev extends XBCRev {
      * @return block specification
      */
     @Override
-    public XBCBlockSpec getParent();
+    XBCBlockSpec getParent();
 }

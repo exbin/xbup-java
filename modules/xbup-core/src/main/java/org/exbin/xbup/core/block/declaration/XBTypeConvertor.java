@@ -16,6 +16,8 @@
  */
 package org.exbin.xbup.core.block.declaration;
 
+import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
 import org.exbin.xbup.core.block.XBDBlockType;
 import org.exbin.xbup.core.block.XBFBlockType;
 import org.exbin.xbup.core.block.XBFixedBlockType;
@@ -26,6 +28,7 @@ import org.exbin.xbup.core.block.XBFixedBlockType;
  * @version 0.1.25 2015/02/04
  * @author ExBin Project (http://exbin.org)
  */
+@ParametersAreNonnullByDefault
 public interface XBTypeConvertor {
 
     /**
@@ -34,7 +37,8 @@ public interface XBTypeConvertor {
      * @param groupId group identification
      * @return group representation
      */
-    public XBGroup getGroupForId(int groupId);
+    @Nullable
+    XBGroup getGroupForId(int groupId);
 
     /**
      * Converts fixed block type to declared type.
@@ -42,7 +46,8 @@ public interface XBTypeConvertor {
      * @param fixedType fixed block type
      * @return declared block type of null if no match found
      */
-    public XBDeclBlockType getDeclBlockType(XBFBlockType fixedType);
+    @Nullable
+    XBDeclBlockType getDeclBlockType(XBFBlockType fixedType);
 
     /**
      * Converts declared type to fixed block type.
@@ -50,7 +55,8 @@ public interface XBTypeConvertor {
      * @param declType declared block type
      * @return fixed block type or null if no match found
      */
-    public XBFixedBlockType getFixedBlockType(XBDBlockType declType);
+    @Nullable
+    XBFixedBlockType getFixedBlockType(XBDBlockType declType);
     
     /**
      * Converts declared type to fixed block type.
@@ -59,5 +65,6 @@ public interface XBTypeConvertor {
      * @param groupIdLimit maximum group ID to limit group search
      * @return fixed block type or null if no match found
      */
-    public XBFixedBlockType getFixedBlockType(XBBlockDecl blockDecl, int groupIdLimit);
+    @Nullable
+    XBFixedBlockType getFixedBlockType(XBBlockDecl blockDecl, int groupIdLimit);
 }

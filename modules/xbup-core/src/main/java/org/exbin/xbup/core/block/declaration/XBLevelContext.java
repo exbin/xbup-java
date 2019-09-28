@@ -20,6 +20,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
 import org.exbin.xbup.core.block.XBBlockTerminationMode;
 import org.exbin.xbup.core.block.XBBlockType;
 import org.exbin.xbup.core.catalog.XBCatalog;
@@ -39,6 +41,7 @@ import org.exbin.xbup.core.serial.basic.XBTBasicInputReceivingSerialHandler;
  * @version 0.2.0 2017/01/20
  * @author ExBin Project (http://exbin.org)
  */
+@ParametersAreNonnullByDefault
 public class XBLevelContext implements XBTListener, XBTEventListener {
 
     private int depthLevel = 0;
@@ -52,11 +55,11 @@ public class XBLevelContext implements XBTListener, XBTEventListener {
         this(catalog, null, depthLevel, true);
     }
 
-    public XBLevelContext(XBCatalog catalog, XBTypeConvertor context, int depthLevel) {
+    public XBLevelContext(XBCatalog catalog, @Nullable XBTypeConvertor context, int depthLevel) {
         this(catalog, context, depthLevel, true);
     }
 
-    public XBLevelContext(XBCatalog catalog, XBTypeConvertor context, int depthLevel, boolean useDeclaration) {
+    public XBLevelContext(XBCatalog catalog, @Nullable XBTypeConvertor context, int depthLevel, boolean useDeclaration) {
         this.catalog = catalog;
         this.depthLevel = depthLevel;
         if (context != null) {
@@ -90,11 +93,12 @@ public class XBLevelContext implements XBTListener, XBTEventListener {
         this.depthLevel = depthLevel;
     }
 
+    @Nullable
     public XBTypeConvertor getContext() {
         return typeConvertor;
     }
 
-    public void setContext(XBContext context) {
+    public void setContext(@Nullable XBContext context) {
         this.typeConvertor = context;
     }
 
@@ -102,11 +106,12 @@ public class XBLevelContext implements XBTListener, XBTEventListener {
         return declarationBuilderListener == null;
     }
 
+    @Nullable
     public XBTypeConvertor getParentContext() {
         return parentContext;
     }
 
-    public void setParentContext(XBContext parentContext) {
+    public void setParentContext(@Nullable XBContext parentContext) {
         this.parentContext = parentContext;
     }
 

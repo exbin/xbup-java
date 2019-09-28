@@ -18,8 +18,8 @@ package org.exbin.xbup.core.block;
 
 import java.io.IOException;
 import java.io.InputStream;
-import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
 import org.exbin.utils.binary_data.BinaryData;
 import org.exbin.xbup.core.parser.token.XBAttribute;
 
@@ -29,6 +29,7 @@ import org.exbin.xbup.core.parser.token.XBAttribute;
  * @version 0.2.1 2017/05/10
  * @author ExBin Project (http://exbin.org)
  */
+@ParametersAreNonnullByDefault
 public interface XBEditableBlock extends XBBlock {
 
     /**
@@ -43,7 +44,7 @@ public interface XBEditableBlock extends XBBlock {
      *
      * @param terminationMode terminated mode flag
      */
-    void setTerminationMode(@Nonnull XBBlockTerminationMode terminationMode);
+    void setTerminationMode(XBBlockTerminationMode terminationMode);
 
     /**
      * Sets data block mode.
@@ -68,7 +69,7 @@ public interface XBEditableBlock extends XBBlock {
      * @param attribute attribute value
      * @param attributeIndex attribute index
      */
-    void setAttributeAt(@Nonnull XBAttribute attribute, int attributeIndex);
+    void setAttributeAt(XBAttribute attribute, int attributeIndex);
 
     /**
      * Sets count of attributes.
@@ -102,7 +103,7 @@ public interface XBEditableBlock extends XBBlock {
      * @param block child block
      * @param childIndex index of child block
      */
-    void setChildAt(@Nonnull XBBlock block, int childIndex);
+    void setChildAt(XBBlock block, int childIndex);
 
     /**
      * Gets count of children blocks.

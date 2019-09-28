@@ -16,6 +16,8 @@
  */
 package org.exbin.xbup.core.serial.sequence;
 
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
 import org.exbin.xbup.core.serial.XBSerializable;
 
 /**
@@ -24,6 +26,7 @@ import org.exbin.xbup.core.serial.XBSerializable;
  * @version 0.1.24 2015/01/22
  * @author ExBin Project (http://exbin.org)
  */
+@ParametersAreNonnullByDefault
 public class XBSerialSequenceItem {
 
     private XBSerialSequenceOp sequenceOp;
@@ -34,6 +37,7 @@ public class XBSerialSequenceItem {
         this.item = item;
     }
 
+    @Nonnull
     public XBSerialSequenceOp getSequenceOp() {
         return sequenceOp;
     }
@@ -42,6 +46,7 @@ public class XBSerialSequenceItem {
         this.sequenceOp = sequenceOp;
     }
 
+    @Nonnull
     public XBSerializable getItem() {
         return item;
     }

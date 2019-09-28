@@ -30,5 +30,5 @@ public interface XBCSpec extends XBCItem {
      * @return the node
      */
     @Override
-    public XBCNode getParent();
+    XBCNode getParent();
 }

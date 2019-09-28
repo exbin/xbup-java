@@ -29,12 +29,12 @@ public interface XBCXPlugPane extends XBCBase {
      *
      * @return plugin
      */
-    public XBCXPlugin getPlugin();
+    XBCXPlugin getPlugin();
 
     /**
      * Gets index of the panel editor.
      *
      * @return panel editor index
      */
-    public Long getPaneIndex();
+    Long getPaneIndex();
 }

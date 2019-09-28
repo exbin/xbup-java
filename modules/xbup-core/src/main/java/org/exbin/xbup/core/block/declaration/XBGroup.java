@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
 
 /**
  * Group structure as a list of block declarations.
@@ -27,6 +28,7 @@ import javax.annotation.Nullable;
  * @version 0.2.1 2017/05/10
  * @author ExBin Project (http://exbin.org)
  */
+@ParametersAreNonnullByDefault
 public class XBGroup {
 
     @Nonnull
@@ -36,7 +38,7 @@ public class XBGroup {
         blockDecls = new ArrayList<>();
     }
 
-    public XBGroup(@Nonnull List<XBBlockDecl> blockDecls) {
+    public XBGroup(List<XBBlockDecl> blockDecls) {
         this.blockDecls = blockDecls;
     }
 
@@ -55,7 +57,7 @@ public class XBGroup {
      *
      * @param blockDecls list of block declarations
      */
-    public void setBlocks(@Nonnull List<XBBlockDecl> blockDecls) {
+    public void setBlocks(List<XBBlockDecl> blockDecls) {
         this.blockDecls = blockDecls;
     }
 
@@ -76,7 +78,7 @@ public class XBGroup {
      * @param blockDecl block declaration
      * @param blockId block Id
      */
-    public void setBlockForId(@Nonnull XBBlockDecl blockDecl, int blockId) {
+    public void setBlockForId(XBBlockDecl blockDecl, int blockId) {
         if (blockId > blockDecls.size()) {
             for (int i = 0; i < blockId - blockDecls.size(); i++) {
                 blockDecls.add(null);

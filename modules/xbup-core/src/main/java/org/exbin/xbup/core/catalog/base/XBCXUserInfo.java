@@ -31,33 +31,33 @@ public interface XBCXUserInfo extends XBCBase {
      *
      * @return the user
      */
-    public XBCXUser getUser();
+    XBCXUser getUser();
 
     /**
      * Gets date of creation.
      *
      * @return the created
      */
-    public Date getCreated();
+    Date getCreated();
 
     /**
      * Gets date of current login.
      *
      * @return the currLogin
      */
-    public Date getCurrLogin();
+    Date getCurrLogin();
 
     /**
      * Gets date of last login.
      *
      * @return the lastLogin
      */
-    public Date getLastLogin();
+    Date getLastLogin();
 
     /**
      * Gets date of last change.
      *
      * @return the updated
      */
-    public Date getUpdated();
+    Date getUpdated();
 }

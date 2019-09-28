@@ -18,6 +18,9 @@ package org.exbin.xbup.core.block.declaration;
 
 import java.util.ArrayList;
 import java.util.List;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
 import org.exbin.xbup.core.block.XBDBlockType;
 import org.exbin.xbup.core.block.XBFBlockType;
 import org.exbin.xbup.core.block.XBFixedBlockType;
@@ -28,6 +31,7 @@ import org.exbin.xbup.core.block.XBFixedBlockType;
  * @version 0.1.25 2015/02/05
  * @author ExBin Project (http://exbin.org)
  */
+@ParametersAreNonnullByDefault
 public class XBContext implements XBTypeConvertor {
 
     private XBTypeConvertor parent = null;
@@ -37,6 +41,7 @@ public class XBContext implements XBTypeConvertor {
     public XBContext() {
     }
 
+    @Nullable
     @Override
     public XBGroup getGroupForId(int groupId) {
         if (groupId < startFrom) {
@@ -50,6 +55,7 @@ public class XBContext implements XBTypeConvertor {
         return null;
     }
 
+    @Nullable
     @Override
     public XBDeclBlockType getDeclBlockType(XBFBlockType blockType) {
         XBGroup group = getGroupForId(blockType.getGroupID().getInt());
@@ -63,11 +69,13 @@ public class XBContext implements XBTypeConvertor {
      * @param declType block declaration
      * @return fixed block type or null if no match
      */
+    @Nullable
     @Override
     public XBFixedBlockType getFixedBlockType(XBDBlockType declType) {
         return getFixedBlockType(declType.getBlockDecl(), startFrom + groups.size() - 1);
     }
 
+    @Nullable
     @Override
     public XBFixedBlockType getFixedBlockType(XBBlockDecl blockDecl, int groupIdLimit) {
         for (int groupIndex = 0; groupIndex <= groupIdLimit - startFrom; groupIndex++) {
@@ -84,11 +92,12 @@ public class XBContext implements XBTypeConvertor {
         return startFrom > 0 && parent != null ? parent.getFixedBlockType(blockDecl, startFrom - 1) : null;
     }
 
+    @Nullable
     public XBTypeConvertor getParent() {
         return parent;
     }
 
-    public void setParent(XBTypeConvertor parent) {
+    public void setParent(@Nullable XBTypeConvertor parent) {
         this.parent = parent;
     }
 
@@ -100,6 +109,7 @@ public class XBContext implements XBTypeConvertor {
         this.startFrom = startFrom;
     }
 
+    @Nonnull
     public List<XBGroup> getGroups() {
         return groups;
     }

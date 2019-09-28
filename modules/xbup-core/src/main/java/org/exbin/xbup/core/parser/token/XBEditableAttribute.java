@@ -16,7 +16,7 @@
  */
 package org.exbin.xbup.core.parser.token;
 
-import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
 import org.exbin.xbup.core.ubnumber.UBNatural;
 import org.exbin.xbup.core.ubnumber.exception.UBOverFlowException;
 
@@ -26,6 +26,7 @@ import org.exbin.xbup.core.ubnumber.exception.UBOverFlowException;
  * @version 0.2.1 2017/05/10
  * @author ExBin Project (http://exbin.org)
  */
+@ParametersAreNonnullByDefault
 public interface XBEditableAttribute extends XBAttribute {
 
     /**
@@ -54,5 +55,5 @@ public interface XBEditableAttribute extends XBAttribute {
      *
      * @param natural natural value
      */
-    void convertFromNatural(@Nonnull UBNatural natural);
+    void convertFromNatural(UBNatural natural);
 }

@@ -19,6 +19,7 @@ package org.exbin.xbup.core.serial;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.annotation.ParametersAreNonnullByDefault;
 import org.exbin.xbup.core.parser.XBProcessingException;
 import org.exbin.xbup.core.parser.token.pull.XBTPullProvider;
 import org.exbin.xbup.core.parser.token.pull.convert.XBTPullProviderToProvider;
@@ -36,6 +37,7 @@ import org.exbin.xbup.core.serial.token.XBTTokenSerializable;
  * @version 0.1.24 2015/01/26
  * @author ExBin Project (http://exbin.org)
  */
+@ParametersAreNonnullByDefault
 public class XBTSerialReader implements XBTReadSerialHandler {
 
     protected final XBTPullProvider pullProvider;

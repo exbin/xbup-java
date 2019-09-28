@@ -16,7 +16,7 @@
  */
 package org.exbin.xbup.core.parser.basic;
 
-import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
 import org.exbin.xbup.core.stream.XBOutput;
 
 /**
@@ -27,6 +27,7 @@ import org.exbin.xbup.core.stream.XBOutput;
  * @version 0.2.1 2017/05/12
  * @author ExBin Project (http://exbin.org)
  */
+@ParametersAreNonnullByDefault
 public interface XBProducer extends XBOutput {
 
     /**
@@ -34,5 +35,5 @@ public interface XBProducer extends XBOutput {
      *
      * @param listener data listener to attach
      */
-    void attachXBListener(@Nonnull XBListener listener);
+    void attachXBListener(XBListener listener);
 }

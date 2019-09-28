@@ -18,7 +18,7 @@ package org.exbin.xbup.core.parser.basic;
 
 import java.io.IOException;
 import java.io.InputStream;
-import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
 import org.exbin.xbup.core.block.XBBlockTerminationMode;
 import org.exbin.xbup.core.parser.XBProcessingException;
 import org.exbin.xbup.core.parser.token.XBAttribute;
@@ -32,6 +32,7 @@ import org.exbin.xbup.core.stream.XBInput;
  * @version 0.2.1 2017/05/12
  * @author ExBin Project (http://exbin.org)
  */
+@ParametersAreNonnullByDefault
 public interface XBListener extends XBInput {
 
     /**
@@ -41,7 +42,7 @@ public interface XBListener extends XBInput {
      * @throws XBProcessingException if processing error
      * @throws IOException if input/output error
      */
-    void beginXB(@Nonnull XBBlockTerminationMode terminationMode) throws XBProcessingException, IOException;
+    void beginXB(XBBlockTerminationMode terminationMode) throws XBProcessingException, IOException;
 
     /**
      * Reports block attribute.
@@ -50,7 +51,7 @@ public interface XBListener extends XBInput {
      * @throws XBProcessingException if processing error
      * @throws IOException if input/output error
      */
-    void attribXB(@Nonnull XBAttribute attribute) throws XBProcessingException, IOException;
+    void attribXB(XBAttribute attribute) throws XBProcessingException, IOException;
 
     /**
      * Reports block data.
@@ -61,7 +62,7 @@ public interface XBListener extends XBInput {
      * @throws XBProcessingException if processing error
      * @throws IOException if input/output error
      */
-    void dataXB(@Nonnull InputStream data) throws XBProcessingException, IOException;
+    void dataXB(InputStream data) throws XBProcessingException, IOException;
 
     /**
      * Reports block end.

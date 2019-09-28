@@ -20,6 +20,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
 import org.exbin.utils.binary_data.BinaryData;
 import org.exbin.xbup.core.parser.token.XBAttribute;
 
@@ -29,6 +30,7 @@ import org.exbin.xbup.core.parser.token.XBAttribute;
  * @version 0.2.1 2017/05/13
  * @author ExBin Project (http://exbin.org)
  */
+@ParametersAreNonnullByDefault
 public interface XBTEditableBlock extends XBTBlock {
 
     /**
@@ -43,14 +45,14 @@ public interface XBTEditableBlock extends XBTBlock {
      *
      * @param terminationMode terminated mode flag
      */
-    void setTerminationMode(@Nonnull XBBlockTerminationMode terminationMode);
+    void setTerminationMode(XBBlockTerminationMode terminationMode);
 
     /**
      * Sets data mode.
      *
      * @param dataMode data mode
      */
-    void setDataMode(@Nonnull XBBlockDataMode dataMode);
+    void setDataMode(XBBlockDataMode dataMode);
 
     /**
      * Sets array of attributes in order of appearance.
@@ -68,7 +70,7 @@ public interface XBTEditableBlock extends XBTBlock {
      * @param attribute attribute value
      * @param attributeIndex attribute index
      */
-    void setAttributeAt(@Nonnull XBAttribute attribute, int attributeIndex);
+    void setAttributeAt(XBAttribute attribute, int attributeIndex);
 
     /**
      * Sets count of attributes.
@@ -91,7 +93,7 @@ public interface XBTEditableBlock extends XBTBlock {
      *
      * @param blockType block type
      */
-    void setBlockType(@Nonnull XBBlockType blockType);
+    void setBlockType(XBBlockType blockType);
 
     /**
      * Sets array of all children.
@@ -106,6 +108,7 @@ public interface XBTEditableBlock extends XBTBlock {
      * @param childIndex child index
      * @return new instance of block
      */
+    @Nonnull
     XBTBlock createNewChild(int childIndex);
 
     /**
@@ -117,7 +120,7 @@ public interface XBTEditableBlock extends XBTBlock {
      * @param block child block
      * @param childIndex child index
      */
-    void setChildAt(@Nonnull XBTBlock block, int childIndex);
+    void setChildAt(XBTBlock block, int childIndex);
 
     /**
      * Gets count of children.

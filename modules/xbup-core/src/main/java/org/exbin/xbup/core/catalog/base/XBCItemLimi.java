@@ -29,19 +29,19 @@ public interface XBCItemLimi extends XBCBase {
      *
      * @return block specification
      */
-    public XBCBlockSpec getOwner();
+    XBCBlockSpec getOwner();
 
     /**
      * Gets owner which is directory.
      *
      * @return limit specification
      */
-    public XBCLimitSpec getTarget();
+    XBCLimitSpec getTarget();
 
     /**
      * Gets basic indexing value.
      *
      * @return XB Index
      */
-    public Long getXBIndex();
+    Long getXBIndex();
 }

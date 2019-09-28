@@ -19,6 +19,7 @@ package org.exbin.xbup.core.parser.basic;
 import java.io.IOException;
 import java.io.InputStream;
 import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
 import org.exbin.xbup.core.block.XBBlockTerminationMode;
 import org.exbin.xbup.core.parser.XBProcessingException;
 import org.exbin.xbup.core.parser.token.XBAttribute;
@@ -32,6 +33,7 @@ import org.exbin.xbup.core.stream.XBOutput;
  * @version 0.2.1 2017/05/12
  * @author ExBin Project (http://exbin.org)
  */
+@ParametersAreNonnullByDefault
 public interface XBMatchingProvider extends XBOutput {
 
     /**
@@ -51,7 +53,7 @@ public interface XBMatchingProvider extends XBOutput {
      * @throws XBProcessingException if processing error
      * @throws IOException if input/output error
      */
-    void matchBeginXB(@Nonnull XBBlockTerminationMode terminationMode) throws XBProcessingException, IOException;
+    void matchBeginXB(XBBlockTerminationMode terminationMode) throws XBProcessingException, IOException;
 
     /**
      * Matches block attribute.
@@ -71,7 +73,7 @@ public interface XBMatchingProvider extends XBOutput {
      * attribute value
      * @throws IOException if input/output error
      */
-    void matchAttribXB(@Nonnull XBAttribute value) throws XBProcessingException, IOException;
+    void matchAttribXB(XBAttribute value) throws XBProcessingException, IOException;
 
     /**
      * Matches block data.
@@ -92,7 +94,7 @@ public interface XBMatchingProvider extends XBOutput {
      * @throws XBProcessingException if processing error
      * @throws IOException if input/output error
      */
-    void matchDataXB(@Nonnull InputStream data) throws XBProcessingException, IOException;
+    void matchDataXB(InputStream data) throws XBProcessingException, IOException;
 
     /**
      * Matches block end.

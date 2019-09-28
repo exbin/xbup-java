@@ -34,5 +34,4 @@ public interface XBDBlockType extends XBBlockType {
      */
     @Nonnull
     XBBlockDecl getBlockDecl();
-
 }

@@ -31,26 +31,26 @@ public interface XBCXItemInfo extends XBCBase {
      *
      * @return item
      */
-    public XBCItem getItem();
+    XBCItem getItem();
 
     /**
      * Gets item owner.
      *
      * @return user
      */
-    public XBCXUser getOwner();
+    XBCXUser getOwner();
 
     /**
      * Gets created by user.
      *
      * @return user
      */
-    public XBCXUser getCreatedByUser();
+    XBCXUser getCreatedByUser();
 
     /**
      * Gets creation date.
      *
      * @return creation date
      */
-    public Time getCreationDate();
+    Time getCreationDate();
 }

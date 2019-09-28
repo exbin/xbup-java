@@ -36,7 +36,7 @@ public interface XBCXStriService<T extends XBCXStri> extends XBCService<T>, XBCE
      * @param item item
      * @return stringId
      */
-    public XBCXStri getItemStringId(XBCItem item);
+    XBCXStri getItemStringId(XBCItem item);
 
     /**
      * Gets string id text for given item.
@@ -44,7 +44,7 @@ public interface XBCXStriService<T extends XBCXStri> extends XBCService<T>, XBCE
      * @param item item to get Stri of
      * @return text or null if Stri is not set
      */
-    public String getItemStringIdText(XBCItem item);
+    String getItemStringIdText(XBCItem item);
 
     /**
      * Returns full stringId path including leading slash symbol.
@@ -52,7 +52,7 @@ public interface XBCXStriService<T extends XBCXStri> extends XBCService<T>, XBCE
      * @param itemString stringId item
      * @return String representation of the path
      */
-    public String getFullPath(XBCXStri itemString);
+    String getFullPath(XBCXStri itemString);
 
     /**
      * Returns full stringId path including leading slash symbol.
@@ -60,7 +60,7 @@ public interface XBCXStriService<T extends XBCXStri> extends XBCService<T>, XBCE
      * @param item item to get stri of
      * @return string representation of the path
      */
-    public String getItemFullPath(XBCItem item);
+    String getItemFullPath(XBCItem item);
 
     /**
      * Gets specification for give full path.
@@ -68,5 +68,5 @@ public interface XBCXStriService<T extends XBCXStri> extends XBCService<T>, XBCE
      * @param fullPath fullPath to specification
      * @return specification
      */
-    public XBCSpec getSpecByFullPath(String fullPath);
+    XBCSpec getSpecByFullPath(String fullPath);
 }

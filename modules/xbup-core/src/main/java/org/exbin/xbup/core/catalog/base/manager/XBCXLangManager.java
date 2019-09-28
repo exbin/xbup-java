@@ -33,5 +33,5 @@ public interface XBCXLangManager<T extends XBCXLanguage> extends XBCManager<T>, 
      *
      * @return language
      */
-    public XBCXLanguage getDefaultLang();
+    XBCXLanguage getDefaultLang();
 }

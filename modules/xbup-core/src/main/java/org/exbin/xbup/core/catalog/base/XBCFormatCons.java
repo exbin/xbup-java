@@ -30,7 +30,7 @@ public interface XBCFormatCons extends XBCConsDef {
      * @return format specification
      */
     @Override
-    public XBCFormatSpec getSpec();
+    XBCFormatSpec getSpec();
 
     /**
      * Gets target specification.
@@ -38,5 +38,5 @@ public interface XBCFormatCons extends XBCConsDef {
      * @return group revision
      */
     @Override
-    public XBCGroupRev getTarget();
+    XBCGroupRev getTarget();
 }

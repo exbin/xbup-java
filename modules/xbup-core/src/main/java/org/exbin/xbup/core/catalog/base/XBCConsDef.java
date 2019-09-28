@@ -30,7 +30,7 @@ public interface XBCConsDef extends XBCSpecDef {
      * @return specification
      */
     @Override
-    public XBCSpec getSpec();
+    XBCSpec getSpec();
 
     /**
      * Gets target specification.
@@ -38,5 +38,5 @@ public interface XBCConsDef extends XBCSpecDef {
      * @return revision
      */
     @Override
-    public XBCRev getTarget();
+    XBCRev getTarget();
 }

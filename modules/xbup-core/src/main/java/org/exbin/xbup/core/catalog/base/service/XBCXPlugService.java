@@ -35,7 +35,7 @@ public interface XBCXPlugService<T extends XBCXPlugin> extends XBCService<T>, XB
      *
      * @return count of plugins
      */
-    public Long getAllPluginCount();
+    Long getAllPluginCount();
 
     /**
      * Returns path of XBIndexes for given plugin.
@@ -43,7 +43,7 @@ public interface XBCXPlugService<T extends XBCXPlugin> extends XBCService<T>, XB
      * @param plugin plugin
      * @return catalog path
      */
-    public Long[] getPluginXBPath(XBCXPlugin plugin);
+    Long[] getPluginXBPath(XBCXPlugin plugin);
 
     /**
      * Finds plugin by ID.
@@ -51,7 +51,7 @@ public interface XBCXPlugService<T extends XBCXPlugin> extends XBCService<T>, XB
      * @param id id
      * @return plugin
      */
-    public XBCXPlugin findById(long id);
+    XBCXPlugin findById(long id);
 
     /**
      * Finds plugin for given node and order index.
@@ -60,7 +60,7 @@ public interface XBCXPlugService<T extends XBCXPlugin> extends XBCService<T>, XB
      * @param index order index
      * @return plugin
      */
-    public XBCXPlugin findPlugin(XBCNode node, Long index);
+    XBCXPlugin findPlugin(XBCNode node, Long index);
 
     /**
      * Gets data content for given plugin.
@@ -68,5 +68,5 @@ public interface XBCXPlugService<T extends XBCXPlugin> extends XBCService<T>, XB
      * @param plugin plugin
      * @return data
      */
-    public InputStream getPlugin(XBCXPlugin plugin);
+    InputStream getPlugin(XBCXPlugin plugin);
 }

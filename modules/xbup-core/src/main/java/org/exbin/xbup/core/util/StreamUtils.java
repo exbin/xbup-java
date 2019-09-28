@@ -19,7 +19,7 @@ package org.exbin.xbup.core.util;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
 
 /**
  * Utilities for stream data manipulations.
@@ -27,9 +27,13 @@ import javax.annotation.Nonnull;
  * @version 0.2.1 2017/05/15
  * @author ExBin Project (http://exbin.org)
  */
-public abstract class StreamUtils {
+@ParametersAreNonnullByDefault
+public final class StreamUtils {
 
     private static final int BUFFER_SIZE = 1024;
+
+    private StreamUtils() {
+    }
 
     /**
      * Copies all data from input stream to output stream using 1k buffer.
@@ -38,7 +42,7 @@ public abstract class StreamUtils {
      * @param target output stream
      * @throws IOException if read or write fails
      */
-    public static void copyInputStreamToOutputStream(@Nonnull InputStream source, @Nonnull OutputStream target) throws IOException {
+    public static void copyInputStreamToOutputStream(InputStream source, OutputStream target) throws IOException {
         byte[] buffer = new byte[BUFFER_SIZE];
         int bufferUsed = 0;
 
@@ -65,7 +69,7 @@ public abstract class StreamUtils {
      * @param size data size limitation
      * @throws IOException if read or write fails
      */
-    public static void copyInputStreamToOutputStream(@Nonnull InputStream source, @Nonnull OutputStream target, long size) throws IOException {
+    public static void copyInputStreamToOutputStream(InputStream source, OutputStream target, long size) throws IOException {
         long remain = size;
         int bufferSize = size < BUFFER_SIZE ? (int) size : BUFFER_SIZE;
         byte[] buffer = new byte[bufferSize];
@@ -104,7 +108,7 @@ public abstract class StreamUtils {
      * @param size data size limitation
      * @throws IOException if read or write fails
      */
-    public static void copyFixedSizeInputStreamToOutputStream(@Nonnull InputStream source, @Nonnull OutputStream target, long size) throws IOException {
+    public static void copyFixedSizeInputStreamToOutputStream(InputStream source, OutputStream target, long size) throws IOException {
         long remain = size;
         int bufferSize = size < BUFFER_SIZE ? (int) size : BUFFER_SIZE;
         byte[] buffer = new byte[bufferSize];
@@ -138,7 +142,7 @@ public abstract class StreamUtils {
      * @param source input stream
      * @throws IOException if read fails
      */
-    public static void skipInputStreamData(@Nonnull InputStream source) throws IOException {
+    public static void skipInputStreamData(InputStream source) throws IOException {
         while (source.available() > 0) {
             if (source.skip(BUFFER_SIZE) == -1) {
                 break;
@@ -153,7 +157,7 @@ public abstract class StreamUtils {
      * @param skipBytes number of bytes to skip
      * @throws IOException if skip fails
      */
-    public static void skipInputStreamData(@Nonnull InputStream source, long skipBytes) throws IOException {
+    public static void skipInputStreamData(InputStream source, long skipBytes) throws IOException {
         while (skipBytes > 0) {
             long skipped = source.skip(skipBytes > BUFFER_SIZE ? BUFFER_SIZE : skipBytes);
             if (skipped == -1) {
@@ -172,7 +176,7 @@ public abstract class StreamUtils {
      * @param secondTarget second output stream
      * @throws IOException if read or write fails
      */
-    public static void copyInputStreamToTwoOutputStreams(@Nonnull InputStream source, @Nonnull OutputStream target, @Nonnull OutputStream secondTarget) throws IOException {
+    public static void copyInputStreamToTwoOutputStreams(InputStream source, OutputStream target, OutputStream secondTarget) throws IOException {
         byte[] buffer = new byte[BUFFER_SIZE];
         int bufferUsed = 0;
 
@@ -200,7 +204,7 @@ public abstract class StreamUtils {
      * @return true if both streams have same data and length
      * @throws IOException if read or write fails
      */
-    public static boolean compareStreams(@Nonnull InputStream stream, @Nonnull InputStream compStream) throws IOException {
+    public static boolean compareStreams(InputStream stream, InputStream compStream) throws IOException {
         byte[] dataBlob = new byte[1];
         byte[] compDataBlob = new byte[1];
         while (stream.available() > 0) {

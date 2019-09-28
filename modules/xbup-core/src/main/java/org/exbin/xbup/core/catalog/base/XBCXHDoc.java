@@ -29,19 +29,19 @@ public interface XBCXHDoc extends XBCBase {
      *
      * @return the language
      */
-    public XBCXLanguage getLang();
+    XBCXLanguage getLang();
 
     /**
      * Gets relevant item.
      *
      * @return the item
      */
-    public XBCItem getItem();
+    XBCItem getItem();
 
     /**
      * Gets documentation file.
      *
      * @return the file
      */
-    public XBCXFile getDocFile();
+    XBCXFile getDocFile();
 }

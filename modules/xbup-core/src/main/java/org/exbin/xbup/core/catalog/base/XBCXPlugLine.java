@@ -29,12 +29,12 @@ public interface XBCXPlugLine extends XBCBase {
      *
      * @return plugin
      */
-    public XBCXPlugin getPlugin();
+    XBCXPlugin getPlugin();
 
     /**
      * Gets index of the line editor.
      *
      * @return line editor index
      */
-    public Long getLineIndex();
+    Long getLineIndex();
 }

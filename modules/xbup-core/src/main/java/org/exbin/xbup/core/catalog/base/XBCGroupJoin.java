@@ -30,7 +30,7 @@ public interface XBCGroupJoin extends XBCJoinDef {
      * @return group specification
      */
     @Override
-    public XBCGroupSpec getSpec();
+    XBCGroupSpec getSpec();
 
     /**
      * Gets target specification.
@@ -38,5 +38,5 @@ public interface XBCGroupJoin extends XBCJoinDef {
      * @return group revision
      */
     @Override
-    public XBCGroupRev getTarget();
+    XBCGroupRev getTarget();
 }

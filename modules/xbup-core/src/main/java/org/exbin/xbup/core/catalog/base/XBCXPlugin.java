@@ -29,19 +29,19 @@ public interface XBCXPlugin extends XBCBase {
      *
      * @return owner node
      */
-    public XBCNode getOwner();
+    XBCNode getOwner();
 
     /**
      * Gets plugin index.
      *
      * @return plugin index
      */
-    public Long getPluginIndex();
+    Long getPluginIndex();
 
     /**
      * Gets plugin file.
      *
      * @return file
      */
-    public XBCXFile getPluginFile();
+    XBCXFile getPluginFile();
 }

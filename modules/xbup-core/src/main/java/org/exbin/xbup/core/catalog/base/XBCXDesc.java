@@ -29,40 +29,40 @@ public interface XBCXDesc extends XBCBase {
      *
      * @return the item
      */
-    public XBCItem getItem();
+    XBCItem getItem();
 
     /**
      * Gets description text.
      *
      * @return the description text
      */
-    public String getText();
+    String getText();
 
     /**
      * Gets description language.
      *
      * @return the language
      */
-    public XBCXLanguage getLang();
+    XBCXLanguage getLang();
 
     /**
      * Sets relevant item.
      *
      * @param item item
      */
-    public void setItem(XBCItem item);
+    void setItem(XBCItem item);
 
     /**
      * Sets description text.
      *
      * @param text text
      */
-    public void setText(String text);
+    void setText(String text);
 
     /**
      * Sets description language.
      *
      * @param language language
      */
-    public void setLang(XBCXLanguage language);
+    void setLang(XBCXLanguage language);
 }

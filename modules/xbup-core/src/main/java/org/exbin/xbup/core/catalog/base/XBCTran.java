@@ -29,26 +29,26 @@ public interface XBCTran extends XBCBase {
      *
      * @return block specification
      */
-    public XBCBlockSpec getOwner();
+    XBCBlockSpec getOwner();
 
     /**
      * Gets target of the procedure.
      *
      * @return block revision
      */
-    public XBCBlockRev getTarget();
+    XBCBlockRev getTarget();
 
     /**
      * Gets limitation of the procedure.
      *
      * @return specification's limitation
      */
-    public XBCLimitSpec getLimit();
+    XBCLimitSpec getLimit();
 
     /**
      * Gets exception of the procedure.
      *
      * @return block revision
      */
-    public XBCBlockRev getExcept();
+    XBCBlockRev getExcept();
 }

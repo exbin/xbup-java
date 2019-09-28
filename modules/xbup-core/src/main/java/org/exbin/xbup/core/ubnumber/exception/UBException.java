@@ -44,4 +44,9 @@ public class UBException extends RuntimeException {
     public UBException(@Nullable String comment) {
         this.comment = comment;
     }
+
+    @Nullable
+    public String getComment() {
+        return comment;
+    }
 }

@@ -18,6 +18,9 @@ package org.exbin.xbup.core.serial.sequence;
 
 import java.util.ArrayList;
 import java.util.List;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
 import org.exbin.xbup.core.block.XBBlockTerminationMode;
 import org.exbin.xbup.core.block.XBBlockType;
 import org.exbin.xbup.core.serial.XBSerializable;
@@ -28,9 +31,12 @@ import org.exbin.xbup.core.serial.XBSerializable;
  * @version 0.1.24 2015/01/22
  * @author ExBin Project (http://exbin.org)
  */
+@ParametersAreNonnullByDefault
 public class XBSerialSequence {
 
+    @Nullable
     private XBBlockType type;
+    @Nonnull
     private XBBlockTerminationMode terminationMode = XBBlockTerminationMode.SIZE_SPECIFIED;
     private List<XBSerialSequenceItem> items = new ArrayList<>();
 
@@ -42,12 +48,12 @@ public class XBSerialSequence {
         this.terminationMode = terminationMode;
     }
 
-    public XBSerialSequence(XBBlockType type, XBBlockTerminationMode terminationMode) {
+    public XBSerialSequence(@Nullable XBBlockType type, XBBlockTerminationMode terminationMode) {
         this(terminationMode);
         this.type = type;
     }
 
-    public XBSerialSequence(XBBlockType type) {
+    public XBSerialSequence(@Nullable XBBlockType type) {
         this(type, XBBlockTerminationMode.SIZE_SPECIFIED);
     }
 
@@ -75,14 +81,16 @@ public class XBSerialSequence {
         items.add(new XBSerialSequenceItem(XBSerialSequenceOp.LIST_CONSIST, item));
     }
 
+    @Nullable
     public XBBlockType getBlockType() {
         return type;
     }
 
-    public void setBlockType(XBBlockType type) {
+    public void setBlockType(@Nullable XBBlockType type) {
         this.type = type;
     }
 
+    @Nonnull
     public XBBlockTerminationMode getTerminationMode() {
         return terminationMode;
     }
@@ -91,12 +99,14 @@ public class XBSerialSequence {
         this.terminationMode = terminationMode;
     }
 
+    @Nonnull
     public List<XBSerialSequenceItem> getItems() {
         return items;
     }
 
     public void setItems(List<XBSerialSequenceItem> items) {
-        this.items = items;
+        this.items.clear();
+        this.items.addAll(items);
     }
 
     public void append(XBSerialSequence seq) {

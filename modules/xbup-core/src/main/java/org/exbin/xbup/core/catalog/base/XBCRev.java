@@ -30,7 +30,7 @@ public interface XBCRev extends XBCItem {
      * @return the specification
      */
     @Override
-    public XBCSpec getParent();
+    XBCSpec getParent();
 
     /**
      * Gets basic indexing value.
@@ -38,12 +38,12 @@ public interface XBCRev extends XBCItem {
      * @return the XB Index
      */
     @Override
-    public Long getXBIndex();
+    Long getXBIndex();
 
     /**
      * Returns maximum XBIndex of specification bind
      *
      * @return the maximum XB Index
      */
-    public Long getXBLimit();
+    Long getXBLimit();
 }

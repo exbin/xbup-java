@@ -39,7 +39,7 @@ public interface XBCXIconManager<T extends XBCXIcon> extends XBCManager<T>, XBCE
      * @param iconModeId icon mode id
      * @return icon mode
      */
-    public XBCXIconMode getIconMode(Long iconModeId);
+    XBCXIconMode getIconMode(Long iconModeId);
 
     /**
      * Gets list of icons for block specification.
@@ -47,7 +47,7 @@ public interface XBCXIconManager<T extends XBCXIcon> extends XBCManager<T>, XBCE
      * @param blockSpec block specification
      * @return list of icons
      */
-    public List<XBCXIcon> getBlockSpecIcons(XBCBlockSpec blockSpec);
+    List<XBCXIcon> getBlockSpecIcons(XBCBlockSpec blockSpec);
 
     /**
      * Gets default icon for item.
@@ -55,7 +55,7 @@ public interface XBCXIconManager<T extends XBCXIcon> extends XBCManager<T>, XBCE
      * @param item item
      * @return icon
      */
-    public XBCXIcon getDefaultIcon(XBCItem item);
+    XBCXIcon getDefaultIcon(XBCItem item);
 
     /**
      * Gets default icon for given item.
@@ -63,7 +63,7 @@ public interface XBCXIconManager<T extends XBCXIcon> extends XBCManager<T>, XBCE
      * @param item item we want to get icon of
      * @return icon instance or null
      */
-    public ImageIcon getDefaultImageIcon(XBCItem item);
+    ImageIcon getDefaultImageIcon(XBCItem item);
 
     /**
      * Gets default big icon.
@@ -71,7 +71,7 @@ public interface XBCXIconManager<T extends XBCXIcon> extends XBCManager<T>, XBCE
      * @param item catalog item
      * @return icon data or null
      */
-    public XBCXIcon getDefaultBigIcon(XBCItem item);
+    XBCXIcon getDefaultBigIcon(XBCItem item);
 
     /**
      * Gets default small icon.
@@ -79,7 +79,7 @@ public interface XBCXIconManager<T extends XBCXIcon> extends XBCManager<T>, XBCE
      * @param item catalog item
      * @return icon data or null
      */
-    public XBCXIcon getDefaultSmallIcon(XBCItem item);
+    XBCXIcon getDefaultSmallIcon(XBCItem item);
 
     /**
      * Gets default big icon.
@@ -87,7 +87,7 @@ public interface XBCXIconManager<T extends XBCXIcon> extends XBCManager<T>, XBCE
      * @param item catalog item
      * @return icon data or null
      */
-    public byte[] getDefaultBigIconData(XBCItem item);
+    byte[] getDefaultBigIconData(XBCItem item);
 
     /**
      * Gets default small icon.
@@ -95,5 +95,5 @@ public interface XBCXIconManager<T extends XBCXIcon> extends XBCManager<T>, XBCE
      * @param item catalog item
      * @return icon data or null
      */
-    public byte[] getDefaultSmallIconData(XBCItem item);
+    byte[] getDefaultSmallIconData(XBCItem item);
 }

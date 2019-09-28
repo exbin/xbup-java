@@ -29,19 +29,19 @@ public interface XBCXFile extends XBCBase {
      *
      * @return the node
      */
-    public XBCNode getNode();
+    XBCNode getNode();
 
     /**
      * Gets name of the file.
      *
      * @return filename string
      */
-    public String getFilename();
+    String getFilename();
 
     /**
      * Gets content of the file.
      *
      * @return byte array
      */
-    public byte[] getContent();
+    byte[] getContent();
 }

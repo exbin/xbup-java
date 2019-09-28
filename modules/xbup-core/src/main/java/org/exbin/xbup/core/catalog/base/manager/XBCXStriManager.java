@@ -35,7 +35,7 @@ public interface XBCXStriManager<T extends XBCXStri> extends XBCManager<T>, XBCE
      * @param item item
      * @return string index
      */
-    public XBCXStri getItemStringId(XBCItem item);
+    XBCXStri getItemStringId(XBCItem item);
 
     /**
      * Gets stri text for given item.
@@ -43,7 +43,7 @@ public interface XBCXStriManager<T extends XBCXStri> extends XBCManager<T>, XBCE
      * @param item item to get caption of
      * @return string caption
      */
-    public String getItemStringIdText(XBCItem item);
+    String getItemStringIdText(XBCItem item);
 
     /**
      * Returns full stringId path including leading slash symbol.
@@ -51,5 +51,5 @@ public interface XBCXStriManager<T extends XBCXStri> extends XBCManager<T>, XBCE
      * @param itemString stringId item
      * @return string representation of the path
      */
-    public String getFullPath(XBCXStri itemString);
+    String getFullPath(XBCXStri itemString);
 }

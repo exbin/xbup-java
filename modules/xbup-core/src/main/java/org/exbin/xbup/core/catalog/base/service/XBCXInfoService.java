@@ -34,5 +34,5 @@ public interface XBCXInfoService<T extends XBCXItemInfo> extends XBCService<T> {
      * @param node parent node
      * @return information
      */
-    public XBCXItemInfo getNodeInfo(XBCNode node);
+    XBCXItemInfo getNodeInfo(XBCNode node);
 }

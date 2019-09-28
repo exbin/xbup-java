@@ -34,5 +34,5 @@ public interface XBCXInfoManager<T extends XBCXItemInfo> extends XBCManager<T> {
      * @param node node node
      * @return item info
      */
-    public XBCXItemInfo getNodeInfo(XBCNode node);
+    XBCXItemInfo getNodeInfo(XBCNode node);
 }

@@ -16,7 +16,7 @@
  */
 package org.exbin.xbup.core.parser.basic;
 
-import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
 import org.exbin.xbup.core.stream.XBInput;
 
 /**
@@ -27,6 +27,7 @@ import org.exbin.xbup.core.stream.XBInput;
  * @version 0.2.1 2017/05/12
  * @author ExBin Project (http://exbin.org)
  */
+@ParametersAreNonnullByDefault
 public interface XBConsumer extends XBInput {
 
     /**
@@ -34,5 +35,5 @@ public interface XBConsumer extends XBInput {
      *
      * @param provider provider to attach
      */
-    void attachXBProvider(@Nonnull XBProvider provider);
+    void attachXBProvider(XBProvider provider);
 }

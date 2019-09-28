@@ -34,5 +34,8 @@ public interface TypedToken {
      * @return the token type class.
      */
     @Nonnull
-    Enum getTokenType();
+    TokenType getTokenType();
+    
+    public interface TokenType {
+    }
 }

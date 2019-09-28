@@ -19,6 +19,9 @@ package org.exbin.xbup.core.block.declaration;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
 import org.exbin.xbup.core.block.XBBasicBlockType;
 import org.exbin.xbup.core.block.XBBlockTerminationMode;
 import org.exbin.xbup.core.block.XBBlockType;
@@ -49,6 +52,7 @@ import org.exbin.xbup.core.ubnumber.type.UBNat32;
  * @version 0.2.0 2015/09/19
  * @author ExBin Project (http://exbin.org)
  */
+@ParametersAreNonnullByDefault
 public class XBDeclaration implements XBPSequenceSerializable, XBTBasicReceivingSerializable, XBTypeConvertor {
 
     private XBDeclaration parent = null;
@@ -73,7 +77,7 @@ public class XBDeclaration implements XBPSequenceSerializable, XBTBasicReceiving
      * @param formatDecl format declaration
      * @param rootBlock root block
      */
-    public XBDeclaration(XBFormatDecl formatDecl, XBSerializable rootBlock) {
+    public XBDeclaration(XBFormatDecl formatDecl, @Nullable XBSerializable rootBlock) {
         this.formatDecl = formatDecl;
         this.rootBlock = rootBlock;
     }
@@ -89,7 +93,7 @@ public class XBDeclaration implements XBPSequenceSerializable, XBTBasicReceiving
      * @param groupDecl group declaration
      * @param rootBlock root block
      */
-    public XBDeclaration(XBGroupDecl groupDecl, XBSerializable rootBlock) {
+    public XBDeclaration(XBGroupDecl groupDecl, @Nullable XBSerializable rootBlock) {
         this(new XBLFormatDecl(groupDecl), rootBlock);
     }
 
@@ -104,7 +108,7 @@ public class XBDeclaration implements XBPSequenceSerializable, XBTBasicReceiving
      * @param blockDecl block declaration
      * @param rootBlock root block
      */
-    public XBDeclaration(XBBlockDecl blockDecl, XBSerializable rootBlock) {
+    public XBDeclaration(XBBlockDecl blockDecl, @Nullable XBSerializable rootBlock) {
         this(new XBLGroupDecl(blockDecl), rootBlock);
     }
 
@@ -116,15 +120,15 @@ public class XBDeclaration implements XBPSequenceSerializable, XBTBasicReceiving
         return generateContext((XBTypeConvertor) null);
     }
 
-    public XBContext generateContext(XBCatalog catalog) {
+    public XBContext generateContext(@Nullable XBCatalog catalog) {
         return generateContext(null, catalog);
     }
 
-    public XBContext generateContext(XBTypeConvertor parentContext) {
+    public XBContext generateContext(@Nullable XBTypeConvertor parentContext) {
         return generateContext(parentContext, null);
     }
 
-    public XBContext generateContext(XBTypeConvertor parentContext, XBCatalog catalog) {
+    public XBContext generateContext(@Nullable XBTypeConvertor parentContext, @Nullable XBCatalog catalog) {
         XBContext context = new XBContext();
         context.setParent(parentContext);
         context.setStartFrom(preserveCount.getInt() + 1);
@@ -150,11 +154,13 @@ public class XBDeclaration implements XBPSequenceSerializable, XBTBasicReceiving
         return context;
     }
 
+    @Nullable
     public static XBGroup convertCatalogGroup(XBGroupDecl groupDecl) {
         return convertCatalogGroup(groupDecl, null);
     }
 
-    public static XBGroup convertCatalogGroup(XBGroupDecl groupDecl, XBCatalog catalog) {
+    @Nullable
+    public static XBGroup convertCatalogGroup(@Nullable XBGroupDecl groupDecl, @Nullable XBCatalog catalog) {
         if (groupDecl == null) {
             return null;
         }
@@ -173,6 +179,7 @@ public class XBDeclaration implements XBPSequenceSerializable, XBTBasicReceiving
         return preserveCount.getLong() + groupsReserved.getLong() + 1;
     }
 
+    @Nullable
     @Override
     public XBDeclBlockType getDeclBlockType(XBFBlockType fixedType) {
         XBGroup group = getGroupForId(0);
@@ -184,11 +191,13 @@ public class XBDeclaration implements XBPSequenceSerializable, XBTBasicReceiving
         return null;
     }
 
+    @Nullable
     @Override
     public XBFixedBlockType getFixedBlockType(XBDBlockType declType) {
         return getFixedBlockType(declType.getBlockDecl(), -1);
     }
 
+    @Nullable
     @Override
     public XBFixedBlockType getFixedBlockType(XBBlockDecl blockDecl, int groupIdLimit) {
         // Simple search for first match
@@ -209,6 +218,7 @@ public class XBDeclaration implements XBPSequenceSerializable, XBTBasicReceiving
         return null;
     }
 
+    @Nullable
     @Override
     public XBGroup getGroupForId(int groupId) {
         XBFormatDecl decl = formatDecl;
@@ -272,6 +282,7 @@ public class XBDeclaration implements XBPSequenceSerializable, XBTBasicReceiving
         }
     }
 
+    @Nonnull
     public XBFormatDecl getFormat() {
         return formatDecl;
     }
@@ -296,23 +307,25 @@ public class XBDeclaration implements XBPSequenceSerializable, XBTBasicReceiving
         this.preserveCount = new UBNat32(preserveCount);
     }
 
+    @Nullable
     public XBSerializable getRootBlock() {
         return rootBlock;
     }
 
-    public void setRootBlock(XBSerializable rootNode) {
+    public void setRootBlock(@Nullable XBSerializable rootNode) {
         this.rootBlock = rootNode;
     }
 
+    @Nullable
     public XBDeclaration getParent() {
         return parent;
     }
 
-    public void setParent(XBDeclaration parent) {
+    public void setParent(@Nullable XBDeclaration parent) {
         this.parent = parent;
     }
 
-    public void realignReservation(XBCatalog catalog) {
+    public void realignReservation(@Nullable XBCatalog catalog) {
         XBFormatDecl decl = formatDecl;
         if (formatDecl.getFormatDef() == null && catalog != null && formatDecl instanceof XBLFormatDecl) {
             XBFormatDecl catalogFormatDecl = catalog.findFormatTypeByPath(((XBLFormatDecl) formatDecl).getCatalogPathAsClassArray(), (int) formatDecl.getRevision());
@@ -345,6 +358,7 @@ public class XBDeclaration implements XBPSequenceSerializable, XBTBasicReceiving
         serializationHandler.process(new RecvSerialization());
     }
 
+    @ParametersAreNonnullByDefault
     private class RecvSerialization implements XBTListener, XBReceivingFinished {
 
         private RecvProcessingState processingState = RecvProcessingState.START;
@@ -402,17 +416,19 @@ public class XBDeclaration implements XBPSequenceSerializable, XBTBasicReceiving
                 return;
             }
 
-            if (null != processingState) switch (processingState) {
-                case TYPE:
-                    groupsReserved.setValue(value.getNaturalLong());
-                    processingState = RecvProcessingState.GROUPS_RESERVED;
-                    break;
-                case GROUPS_RESERVED:
-                    preserveCount.setValue(value.getNaturalLong());
-                    processingState = RecvProcessingState.PRESERVE_COUNT;
-                    break;
-                default:
-                    throw new XBProcessingException("Unexpected token: attribute", XBProcessingExceptionType.UNEXPECTED_ORDER);
+            if (null != processingState) {
+                switch (processingState) {
+                    case TYPE:
+                        groupsReserved.setValue(value.getNaturalLong());
+                        processingState = RecvProcessingState.GROUPS_RESERVED;
+                        break;
+                    case GROUPS_RESERVED:
+                        preserveCount.setValue(value.getNaturalLong());
+                        processingState = RecvProcessingState.PRESERVE_COUNT;
+                        break;
+                    default:
+                        throw new XBProcessingException("Unexpected token: attribute", XBProcessingExceptionType.UNEXPECTED_ORDER);
+                }
             }
         }
 

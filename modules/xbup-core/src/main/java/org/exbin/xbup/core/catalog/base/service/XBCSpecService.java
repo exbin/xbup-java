@@ -46,7 +46,7 @@ public interface XBCSpecService<T extends XBCSpec> extends XBCService<T> {
      * @param spec specifications
      * @return catalog path
      */
-    public Long[] getSpecXBPath(XBCSpec spec);
+    Long[] getSpecXBPath(XBCSpec spec);
 
     /**
      * Gets list of specifications.
@@ -54,7 +54,7 @@ public interface XBCSpecService<T extends XBCSpec> extends XBCService<T> {
      * @param node parent node
      * @return list of specifications
      */
-    public List<XBCSpec> getSpecs(XBCNode node);
+    List<XBCSpec> getSpecs(XBCNode node);
 
     /**
      * Gets list of specifications.
@@ -63,7 +63,7 @@ public interface XBCSpecService<T extends XBCSpec> extends XBCService<T> {
      * @param index order index
      * @return specification
      */
-    public XBCSpec getSpecByOrder(XBCNode node, long index);
+    XBCSpec getSpecByOrder(XBCNode node, long index);
 
     /**
      * Returns format specification of given order index.
@@ -72,7 +72,7 @@ public interface XBCSpecService<T extends XBCSpec> extends XBCService<T> {
      * @param index order index
      * @return specification
      */
-    public XBCFormatSpec getFormatSpec(XBCNode node, long index);
+    XBCFormatSpec getFormatSpec(XBCNode node, long index);
 
     /**
      * Gets list of format specifications.
@@ -80,7 +80,7 @@ public interface XBCSpecService<T extends XBCSpec> extends XBCService<T> {
      * @param node parent node
      * @return list of specifications
      */
-    public List<XBCFormatSpec> getFormatSpecs(XBCNode node);
+    List<XBCFormatSpec> getFormatSpecs(XBCNode node);
 
     /**
      * Returns block specification of given order index.
@@ -89,7 +89,7 @@ public interface XBCSpecService<T extends XBCSpec> extends XBCService<T> {
      * @param index order index
      * @return specification
      */
-    public XBCBlockSpec getBlockSpec(XBCNode node, long index);
+    XBCBlockSpec getBlockSpec(XBCNode node, long index);
 
     /**
      * Gets list of block specifications.
@@ -97,7 +97,7 @@ public interface XBCSpecService<T extends XBCSpec> extends XBCService<T> {
      * @param node parent node
      * @return list of specifications
      */
-    public List<XBCBlockSpec> getBlockSpecs(XBCNode node);
+    List<XBCBlockSpec> getBlockSpecs(XBCNode node);
 
     /**
      * Returns group specification of given order index.
@@ -106,7 +106,7 @@ public interface XBCSpecService<T extends XBCSpec> extends XBCService<T> {
      * @param index order index
      * @return specification
      */
-    public XBCGroupSpec getGroupSpec(XBCNode node, long index);
+    XBCGroupSpec getGroupSpec(XBCNode node, long index);
 
     /**
      * Gets list of group specifications.
@@ -114,7 +114,7 @@ public interface XBCSpecService<T extends XBCSpec> extends XBCService<T> {
      * @param node parent node
      * @return list of specifications
      */
-    public List<XBCGroupSpec> getGroupSpecs(XBCNode node);
+    List<XBCGroupSpec> getGroupSpecs(XBCNode node);
 
     /**
      * Finds block specification by XB index.
@@ -123,7 +123,7 @@ public interface XBCSpecService<T extends XBCSpec> extends XBCService<T> {
      * @param xbIndex XB index
      * @return specification
      */
-    public XBCBlockSpec findBlockSpecByXB(XBCNode node, long xbIndex);
+    XBCBlockSpec findBlockSpecByXB(XBCNode node, long xbIndex);
 
     /**
      * Finds maximum XB index of block specifications for given node.
@@ -131,7 +131,7 @@ public interface XBCSpecService<T extends XBCSpec> extends XBCService<T> {
      * @param node parent node
      * @return maximum XB index
      */
-    public Long findMaxBlockSpecXB(XBCNode node);
+    Long findMaxBlockSpecXB(XBCNode node);
 
     /**
      * Finds group specification by XB index.
@@ -140,7 +140,7 @@ public interface XBCSpecService<T extends XBCSpec> extends XBCService<T> {
      * @param xbIndex XB index
      * @return specification
      */
-    public XBCGroupSpec findGroupSpecByXB(XBCNode node, long xbIndex);
+    XBCGroupSpec findGroupSpecByXB(XBCNode node, long xbIndex);
 
     /**
      * Finds maximum XB index of group specifications for given node.
@@ -148,7 +148,7 @@ public interface XBCSpecService<T extends XBCSpec> extends XBCService<T> {
      * @param node parent node
      * @return maximum XB index
      */
-    public Long findMaxGroupSpecXB(XBCNode node);
+    Long findMaxGroupSpecXB(XBCNode node);
 
     /**
      * Finds format specification by XB index.
@@ -157,7 +157,7 @@ public interface XBCSpecService<T extends XBCSpec> extends XBCService<T> {
      * @param xbIndex XB index
      * @return specification
      */
-    public XBCFormatSpec findFormatSpecByXB(XBCNode node, long xbIndex);
+    XBCFormatSpec findFormatSpecByXB(XBCNode node, long xbIndex);
 
     /**
      * Finds maximum XB index of format specifications for given node.
@@ -165,14 +165,14 @@ public interface XBCSpecService<T extends XBCSpec> extends XBCService<T> {
      * @param node parent node
      * @return maximum XB index
      */
-    public Long findMaxFormatSpecXB(XBCNode node);
+    Long findMaxFormatSpecXB(XBCNode node);
 
     /**
      * Gets count of specification definitions.
      *
      * @return count of definition rows.
      */
-    public long getDefsCount();
+    long getDefsCount();
 
     /**
      * Gets specification's definition of given order index.
@@ -181,7 +181,7 @@ public interface XBCSpecService<T extends XBCSpec> extends XBCService<T> {
      * @param index order index
      * @return specification's definition
      */
-    public XBCSpecDef getSpecDefByOrder(XBCSpec spec, long index);
+    XBCSpecDef getSpecDefByOrder(XBCSpec spec, long index);
 
     /**
      * Gets specification's definition of given XB index.
@@ -190,7 +190,7 @@ public interface XBCSpecService<T extends XBCSpec> extends XBCService<T> {
      * @param xbIndex XBIndex of given bind
      * @return specification's definition
      */
-    public XBCSpecDef findSpecDefByXB(XBCSpec spec, long xbIndex);
+    XBCSpecDef findSpecDefByXB(XBCSpec spec, long xbIndex);
 
     /**
      * Gets maximum XB index of specification's definitions.
@@ -198,7 +198,7 @@ public interface XBCSpecService<T extends XBCSpec> extends XBCService<T> {
      * @param spec specification
      * @return maximum XB index
      */
-    public Long findMaxSpecDefXB(XBCSpec spec);
+    Long findMaxSpecDefXB(XBCSpec spec);
 
     /**
      * Gets list of all specification's definitions.
@@ -206,7 +206,7 @@ public interface XBCSpecService<T extends XBCSpec> extends XBCService<T> {
      * @param spec specification
      * @return list of specification's definitions
      */
-    public List<XBCSpecDef> getSpecDefs(XBCSpec spec);
+    List<XBCSpecDef> getSpecDefs(XBCSpec spec);
 
     /**
      * Returns count of specification's definitions.
@@ -214,7 +214,7 @@ public interface XBCSpecService<T extends XBCSpec> extends XBCService<T> {
      * @param spec specification
      * @return count of specification's definitions
      */
-    public long getSpecDefsCount(XBCSpec spec);
+    long getSpecDefsCount(XBCSpec spec);
 
     /**
      * Gets specification's definition.
@@ -222,7 +222,7 @@ public interface XBCSpecService<T extends XBCSpec> extends XBCService<T> {
      * @param itemId item id
      * @return specification's definition
      */
-    public XBCSpecDef getSpecDef(long itemId);
+    XBCSpecDef getSpecDef(long itemId);
 
     /**
      * Creates new instance of block specification definition.
@@ -231,28 +231,28 @@ public interface XBCSpecService<T extends XBCSpec> extends XBCService<T> {
      * @param type specification definition's type
      * @return specification definition
      */
-    public XBCSpecDef createSpecDef(XBCSpec spec, XBParamType type);
+    XBCSpecDef createSpecDef(XBCSpec spec, XBParamType type);
 
     /**
      * Creates new instance of block specification.
      *
      * @return specification
      */
-    public XBCBlockSpec createBlockSpec();
+    XBCBlockSpec createBlockSpec();
 
     /**
      * Creates new instance of group specification.
      *
      * @return specification
      */
-    public XBCGroupSpec createGroupSpec();
+    XBCGroupSpec createGroupSpec();
 
     /**
      * Creates new instance of format specification.
      *
      * @return specification
      */
-    public XBCFormatSpec createFormatSpec();
+    XBCFormatSpec createFormatSpec();
 
     /**
      * Gets count of format specifications for given node.
@@ -260,7 +260,7 @@ public interface XBCSpecService<T extends XBCSpec> extends XBCService<T> {
      * @param node parent node
      * @return count of specifications
      */
-    public long getFormatSpecsCount(XBCNode node);
+    long getFormatSpecsCount(XBCNode node);
 
     /**
      * Gets count of group specifications for given node.
@@ -268,7 +268,7 @@ public interface XBCSpecService<T extends XBCSpec> extends XBCService<T> {
      * @param node parent node
      * @return count of specifications
      */
-    public long getGroupSpecsCount(XBCNode node);
+    long getGroupSpecsCount(XBCNode node);
 
     /**
      * Gets count of block specifications for given node.
@@ -276,7 +276,7 @@ public interface XBCSpecService<T extends XBCSpec> extends XBCService<T> {
      * @param node parent node
      * @return count of specifications
      */
-    public long getBlockSpecsCount(XBCNode node);
+    long getBlockSpecsCount(XBCNode node);
 
     /**
      * Gets count of specifications for given node.
@@ -284,42 +284,42 @@ public interface XBCSpecService<T extends XBCSpec> extends XBCService<T> {
      * @param node parent node
      * @return count of specifications
      */
-    public long getSpecsCount(XBCNode node);
+    long getSpecsCount(XBCNode node);
 
     /**
      * Gets count of all specifications in catalog.
      *
      * @return count of specifications
      */
-    public Long getAllSpecsCount();
+    Long getAllSpecsCount();
 
     /**
      * Gets count of all format specifications in catalog.
      *
      * @return count of specifications
      */
-    public Long getAllFormatSpecsCount();
+    Long getAllFormatSpecsCount();
 
     /**
      * Gets count of all group specifications in catalog.
      *
      * @return count of specifications
      */
-    public Long getAllGroupSpecsCount();
+    Long getAllGroupSpecsCount();
 
     /**
      * Gets count of all block specifications in catalog.
      *
      * @return count of specifications
      */
-    public Long getAllBlockSpecsCount();
+    Long getAllBlockSpecsCount();
 
     /**
      * Removes specification definition with all dependencies.
      *
      * @param specDef definition to remove
      */
-    public void removeItemDepth(XBCSpecDef specDef);
+    void removeItemDepth(XBCSpecDef specDef);
 
     /**
      * Converts catalog format declaration to local declaration with definition.
@@ -327,7 +327,7 @@ public interface XBCSpecService<T extends XBCSpec> extends XBCService<T> {
      * @param formatDecl format specification
      * @return local format declaration
      */
-    public XBLFormatDecl getFormatDeclAsLocal(XBCFormatDecl formatDecl);
+    XBLFormatDecl getFormatDeclAsLocal(XBCFormatDecl formatDecl);
 
     /**
      * Converts catalog group declaration to local declaration with definition.
@@ -335,7 +335,7 @@ public interface XBCSpecService<T extends XBCSpec> extends XBCService<T> {
      * @param groupDecl group specification
      * @return local group declaration
      */
-    public XBLGroupDecl getGroupDeclAsLocal(XBCGroupDecl groupDecl);
+    XBLGroupDecl getGroupDeclAsLocal(XBCGroupDecl groupDecl);
 
     /**
      * Converts catalog block declaration to local declaration with definition.
@@ -343,5 +343,5 @@ public interface XBCSpecService<T extends XBCSpec> extends XBCService<T> {
      * @param blockDecl block specification
      * @return local block declaration
      */
-    public XBLBlockDecl getBlockDeclAsLocal(XBCBlockDecl blockDecl);
+    XBLBlockDecl getBlockDeclAsLocal(XBCBlockDecl blockDecl);
 }

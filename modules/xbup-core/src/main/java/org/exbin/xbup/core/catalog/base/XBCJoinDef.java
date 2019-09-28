@@ -30,7 +30,7 @@ public interface XBCJoinDef extends XBCSpecDef {
      * @return specification
      */
     @Override
-    public XBCSpec getSpec();
+    XBCSpec getSpec();
 
     /**
      * Gets target specification revision.
@@ -38,5 +38,5 @@ public interface XBCJoinDef extends XBCSpecDef {
      * @return revision
      */
     @Override
-    public XBCRev getTarget();
+    XBCRev getTarget();
 }

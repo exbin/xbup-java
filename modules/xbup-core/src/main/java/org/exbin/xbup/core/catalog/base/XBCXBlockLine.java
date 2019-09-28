@@ -29,19 +29,19 @@ public interface XBCXBlockLine extends XBCBase {
      *
      * @return block revision
      */
-    public XBCBlockRev getBlockRev();
+    XBCBlockRev getBlockRev();
 
     /**
      * Gets line editor.
      *
      * @return line editor
      */
-    public XBCXPlugLine getLine();
+    XBCXPlugLine getLine();
 
     /**
      * Gets priority.
      *
      * @return priority
      */
-    public Long getPriority();
+    Long getPriority();
 }

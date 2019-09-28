@@ -36,7 +36,7 @@ public interface XBCRevManager<T extends XBCRev> extends XBCCatalogManager<T> {
      * @param xbIndex XBIndex of given revision
      * @return revision
      */
-    public XBCRev findRevByXB(XBCSpec spec, long xbIndex);
+    XBCRev findRevByXB(XBCSpec spec, long xbIndex);
 
     /**
      * Gets maximum revision XB index for given specification.
@@ -44,7 +44,7 @@ public interface XBCRevManager<T extends XBCRev> extends XBCCatalogManager<T> {
      * @param spec specification
      * @return XB index
      */
-    public Long findMaxRevXB(XBCSpec spec);
+    Long findMaxRevXB(XBCSpec spec);
 
     /**
      * Gets revision of given index.
@@ -53,7 +53,7 @@ public interface XBCRevManager<T extends XBCRev> extends XBCCatalogManager<T> {
      * @param index order index
      * @return revision
      */
-    public XBCRev getRev(XBCSpec spec, long index);
+    XBCRev getRev(XBCSpec spec, long index);
 
     /**
      * Gets list of all revisions.
@@ -61,7 +61,7 @@ public interface XBCRevManager<T extends XBCRev> extends XBCCatalogManager<T> {
      * @param spec parent specification
      * @return list of revisions
      */
-    public List<XBCRev> getRevs(XBCSpec spec);
+    List<XBCRev> getRevs(XBCSpec spec);
 
     /**
      * Returns count of revisions.
@@ -69,7 +69,7 @@ public interface XBCRevManager<T extends XBCRev> extends XBCCatalogManager<T> {
      * @param spec parent specification
      * @return count of revisions
      */
-    public long getRevsCount(XBCSpec spec);
+    long getRevsCount(XBCSpec spec);
 
     /**
      * Gets sum of all up to defined revisions in catalog.
@@ -78,5 +78,5 @@ public interface XBCRevManager<T extends XBCRev> extends XBCCatalogManager<T> {
      * @param revision maximum revision xb index to sum up to
      * @return sum of revision's limits
      */
-    public long getRevsLimitSum(XBCSpec spec, long revision);
+    long getRevsLimitSum(XBCSpec spec, long revision);
 }

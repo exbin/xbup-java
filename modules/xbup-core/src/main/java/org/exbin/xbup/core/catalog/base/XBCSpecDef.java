@@ -31,19 +31,19 @@ public interface XBCSpecDef extends XBCItem {
      *
      * @return specification
      */
-    public XBCSpec getSpec();
+    XBCSpec getSpec();
 
     /**
      * Gets target specification.
      *
      * @return revision
      */
-    public XBCRev getTarget();
+    XBCRev getTarget();
 
     /**
      * Gets specification definition's type.
      *
      * @return specification definition's type
      */
-    public XBParamType getType();
+    XBParamType getType();
 }

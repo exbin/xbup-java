@@ -16,7 +16,7 @@
  */
 package org.exbin.xbup.core.serial;
 
-import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
 
 /**
  * Interface for XBUP level 0 serialization reading processor.
@@ -24,6 +24,7 @@ import javax.annotation.Nonnull;
  * @version 0.2.1 2017/05/17
  * @author ExBin Project (http://exbin.org)
  */
+@ParametersAreNonnullByDefault
 public interface XBReadSerialHandler {
 
     /**
@@ -31,5 +32,5 @@ public interface XBReadSerialHandler {
      *
      * @param serial serializable object to process
      */
-    void read(@Nonnull XBSerializable serial);
+    void read(XBSerializable serial);
 }

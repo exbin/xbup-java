@@ -29,19 +29,19 @@ public interface XBCXIconMode extends XBCBase {
      *
      * @return icon type index
      */
-    public Long getType();
+    Long getType();
 
     /**
      * Gets MIME string.
      *
      * @return MIME string
      */
-    public String getMIME();
+    String getMIME();
 
     /**
      * Gets icon mode text caption.
      *
      * @return caption string
      */
-    public String getCaption();
+    String getCaption();
 }

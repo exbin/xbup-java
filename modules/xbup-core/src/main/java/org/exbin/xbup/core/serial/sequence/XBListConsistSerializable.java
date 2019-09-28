@@ -18,6 +18,7 @@ package org.exbin.xbup.core.serial.sequence;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
 import org.exbin.xbup.core.serial.XBSerializable;
 import org.exbin.xbup.core.ubnumber.UBENatural;
 
@@ -27,6 +28,7 @@ import org.exbin.xbup.core.ubnumber.UBENatural;
  * @version 0.2.1 2017/06/04
  * @author ExBin Project (http://exbin.org)
  */
+@ParametersAreNonnullByDefault
 public interface XBListConsistSerializable extends XBSerializable {
 
     /**
@@ -42,7 +44,7 @@ public interface XBListConsistSerializable extends XBSerializable {
      *
      * @param size target size
      */
-    void setSize(@Nonnull UBENatural size);
+    void setSize(UBENatural size);
 
     /**
      * Resets position of the list order.

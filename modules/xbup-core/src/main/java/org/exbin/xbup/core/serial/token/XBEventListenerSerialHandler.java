@@ -17,8 +17,8 @@
 package org.exbin.xbup.core.serial.token;
 
 import java.io.IOException;
-import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
 import org.exbin.xbup.core.parser.XBProcessingException;
 import org.exbin.xbup.core.parser.XBProcessingExceptionType;
 import org.exbin.xbup.core.parser.token.XBToken;
@@ -31,6 +31,7 @@ import org.exbin.xbup.core.parser.token.event.XBEventListener;
  * @version 0.2.1 2017/06/04
  * @author ExBin Project (http://exbin.org)
  */
+@ParametersAreNonnullByDefault
 public class XBEventListenerSerialHandler implements XBEventListener, XBTokenOutputSerialHandler {
 
     @Nullable
@@ -40,12 +41,12 @@ public class XBEventListenerSerialHandler implements XBEventListener, XBTokenOut
     }
 
     @Override
-    public void attachXBEventListener(@Nonnull XBEventListener listener) {
+    public void attachXBEventListener(XBEventListener listener) {
         this.listener = listener;
     }
 
     @Override
-    public void putXBToken(@Nonnull XBToken token) throws XBProcessingException, IOException {
+    public void putXBToken(XBToken token) throws XBProcessingException, IOException {
         if (listener == null) {
             throw new XBProcessingException("Receiving tokens before initialization", XBProcessingExceptionType.UNEXPECTED_ORDER);
         }

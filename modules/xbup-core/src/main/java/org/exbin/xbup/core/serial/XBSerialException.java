@@ -16,6 +16,8 @@
  */
 package org.exbin.xbup.core.serial;
 
+import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
 import org.exbin.xbup.core.parser.XBProcessingException;
 import org.exbin.xbup.core.parser.XBProcessingExceptionType;
 
@@ -25,6 +27,7 @@ import org.exbin.xbup.core.parser.XBProcessingExceptionType;
  * @version 0.1.24 2014/11/27
  * @author ExBin Project (http://exbin.org)
  */
+@ParametersAreNonnullByDefault
 public class XBSerialException extends XBProcessingException {
 
     private Object serializedObject = null;
@@ -73,6 +76,7 @@ public class XBSerialException extends XBProcessingException {
         this.serializedObject = serializedObject;
     }
 
+    @Nullable
     public Object getSerializedObject() {
         return serializedObject;
     }

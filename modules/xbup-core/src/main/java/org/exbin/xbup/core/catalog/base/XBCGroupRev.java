@@ -30,5 +30,5 @@ public interface XBCGroupRev extends XBCRev {
      * @return group specification
      */
     @Override
-    public XBCGroupSpec getParent();
+    XBCGroupSpec getParent();
 }

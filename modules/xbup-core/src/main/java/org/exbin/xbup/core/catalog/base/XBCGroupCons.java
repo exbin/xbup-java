@@ -30,7 +30,7 @@ public interface XBCGroupCons extends XBCConsDef {
      * @return group specification
      */
     @Override
-    public XBCGroupSpec getSpec();
+    XBCGroupSpec getSpec();
 
     /**
      * Gets target specification.
@@ -38,5 +38,5 @@ public interface XBCGroupCons extends XBCConsDef {
      * @return block revision
      */
     @Override
-    public XBCBlockRev getTarget();
+    XBCBlockRev getTarget();
 }

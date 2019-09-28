@@ -19,6 +19,7 @@ package org.exbin.xbup.core.serial.token;
 import java.io.IOException;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
 import org.exbin.xbup.core.parser.XBProcessingException;
 import org.exbin.xbup.core.parser.XBProcessingExceptionType;
 import org.exbin.xbup.core.parser.token.XBTToken;
@@ -31,6 +32,7 @@ import org.exbin.xbup.core.parser.token.pull.XBTPullProvider;
  * @version 0.2.1 2017/05/23
  * @author ExBin Project (http://exbin.org)
  */
+@ParametersAreNonnullByDefault
 public class XBTPullProviderSerialHandler implements XBTPullProvider, XBTTokenInputSerialHandler {
 
     @Nullable
@@ -40,7 +42,7 @@ public class XBTPullProviderSerialHandler implements XBTPullProvider, XBTTokenIn
     }
 
     @Override
-    public void attachXBTPullProvider(@Nonnull XBTPullProvider provider) {
+    public void attachXBTPullProvider(XBTPullProvider provider) {
         this.provider = provider;
     }
 

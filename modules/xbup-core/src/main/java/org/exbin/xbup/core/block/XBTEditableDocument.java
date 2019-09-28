@@ -20,6 +20,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
 
 /**
  * Basic interface for editable XBUP level 1 document.
@@ -27,6 +28,7 @@ import javax.annotation.Nullable;
  * @version 0.2.1 2017/05/09
  * @author ExBin Project (http://exbin.org)
  */
+@ParametersAreNonnullByDefault
 public interface XBTEditableDocument extends XBTDocument {
 
     /**
@@ -34,7 +36,7 @@ public interface XBTEditableDocument extends XBTDocument {
      *
      * @param block the block to use as root block for this document
      */
-    void setRootBlock(@Nonnull XBTBlock block);
+    void setRootBlock(XBTBlock block);
 
     /**
      * Sets tail data.
@@ -42,7 +44,7 @@ public interface XBTEditableDocument extends XBTDocument {
      * @param source data stream
      * @throws java.io.IOException if input/output error
      */
-    void setTailData(@Nonnull InputStream source) throws IOException;
+    void setTailData(InputStream source) throws IOException;
 
     /**
      * Clears all data in this document.
@@ -66,5 +68,5 @@ public interface XBTEditableDocument extends XBTDocument {
      * @return newly created instance of this document
      */
     @Nonnull
-    XBTBlock createNewBlock(XBTBlock parent);
+    XBTBlock createNewBlock(@Nullable XBTBlock parent);
 }

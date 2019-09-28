@@ -29,19 +29,19 @@ public interface XBCXIcon extends XBCBase {
      *
      * @return the parent item.
      */
-    public XBCItem getParent();
+    XBCItem getParent();
 
     /**
      * Gets icon mode.
      *
      * @return icon mode
      */
-    public XBCXIconMode getMode();
+    XBCXIconMode getMode();
 
     /**
      * Gets icon file.
      *
      * @return icon file
      */
-    public XBCXFile getIconFile();
+    XBCXFile getIconFile();
 }

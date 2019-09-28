@@ -17,7 +17,7 @@
 package org.exbin.xbup.core.serial.transform;
 
 import java.io.IOException;
-import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
 import org.exbin.xbup.core.block.XBBlockType;
 import org.exbin.xbup.core.parser.XBProcessingException;
 import org.exbin.xbup.core.serial.param.XBPListener;
@@ -28,6 +28,7 @@ import org.exbin.xbup.core.serial.param.XBPListener;
  * @version 0.2.1 2017/06/04
  * @author ExBin Project (http://exbin.org)
  */
+@ParametersAreNonnullByDefault
 public interface XBAListener extends XBPListener {
 
     /**
@@ -38,5 +39,5 @@ public interface XBAListener extends XBPListener {
      * @throws XBProcessingException if processing error
      * @throws java.io.IOException if input/output error
      */
-    void putType(@Nonnull XBBlockType type, @Nonnull XBBlockType targetType) throws XBProcessingException, IOException;
+    void putType(XBBlockType type, XBBlockType targetType) throws XBProcessingException, IOException;
 }

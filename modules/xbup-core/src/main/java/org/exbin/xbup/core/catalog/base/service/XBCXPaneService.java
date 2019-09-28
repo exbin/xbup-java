@@ -38,7 +38,7 @@ public interface XBCXPaneService<T extends XBCXBlockPane> extends XBCService<T>,
      * @param revision revision
      * @return list of block panel editors
      */
-    public List<XBCXBlockPane> getPanes(XBCBlockRev revision);
+    List<XBCXBlockPane> getPanes(XBCBlockRev revision);
 
     /**
      * Gets count of panel editors for given revision.
@@ -46,7 +46,7 @@ public interface XBCXPaneService<T extends XBCXBlockPane> extends XBCService<T>,
      * @param revision revision
      * @return count of panel editors
      */
-    public long getPanesCount(XBCBlockRev revision);
+    long getPanesCount(XBCBlockRev revision);
 
     /**
      * Gets panel editor for given revision and priority.
@@ -55,7 +55,7 @@ public interface XBCXPaneService<T extends XBCXBlockPane> extends XBCService<T>,
      * @param priority priority
      * @return block panel editor
      */
-    public XBCXBlockPane findPaneByPR(XBCBlockRev revision, long priority);
+    XBCXBlockPane findPaneByPR(XBCBlockRev revision, long priority);
 
     /**
      * Finds block panel editor by ID.
@@ -63,7 +63,7 @@ public interface XBCXPaneService<T extends XBCXBlockPane> extends XBCService<T>,
      * @param id id
      * @return block panel editor
      */
-    public XBCXBlockPane findById(long id);
+    XBCXBlockPane findById(long id);
 
     /**
      * Finds panel editor plugin by ID.
@@ -71,7 +71,7 @@ public interface XBCXPaneService<T extends XBCXBlockPane> extends XBCService<T>,
      * @param id id
      * @return panel editor plugin
      */
-    public XBCXPlugPane findPlugPaneById(long id);
+    XBCXPlugPane findPlugPaneById(long id);
 
     /**
      * Gets list of all plugin editor panels for given plugin.
@@ -79,7 +79,7 @@ public interface XBCXPaneService<T extends XBCXBlockPane> extends XBCService<T>,
      * @param plugin plugin
      * @return list of plugin editor panels
      */
-    public List<XBCXPlugPane> getPlugPanes(XBCXPlugin plugin);
+    List<XBCXPlugPane> getPlugPanes(XBCXPlugin plugin);
 
     /**
      * Gets count of panel editors for given plugin.
@@ -87,7 +87,7 @@ public interface XBCXPaneService<T extends XBCXBlockPane> extends XBCService<T>,
      * @param plugin plugin
      * @return count of plugin editor panels
      */
-    public long getPlugPanesCount(XBCXPlugin plugin);
+    long getPlugPanesCount(XBCXPlugin plugin);
 
     /**
      * Gets editor panel plugin for given plugin and order index.
@@ -96,12 +96,12 @@ public interface XBCXPaneService<T extends XBCXBlockPane> extends XBCService<T>,
      * @param pane editor panel order index
      * @return editor panel plugin
      */
-    public XBCXPlugPane getPlugPane(XBCXPlugin plugin, long pane);
+    XBCXPlugPane getPlugPane(XBCXPlugin plugin, long pane);
 
     /**
      * Gets count of editor panel plugins.
      *
      * @return count of editor panel plugins
      */
-    public Long getAllPlugPanesCount();
+    Long getAllPlugPanesCount();
 }

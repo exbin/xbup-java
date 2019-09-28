@@ -16,7 +16,7 @@
  */
 package org.exbin.xbup.core.serial.token;
 
-import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
 import org.exbin.xbup.core.parser.token.event.XBTEventListener;
 import org.exbin.xbup.core.serial.XBOutputSerialHandler;
 
@@ -26,6 +26,7 @@ import org.exbin.xbup.core.serial.XBOutputSerialHandler;
  * @version 0.2.1 2017/05/23
  * @author ExBin Project (http://exbin.org)
  */
+@ParametersAreNonnullByDefault
 public interface XBTTokenOutputSerialHandler extends XBOutputSerialHandler {
 
     /**
@@ -33,5 +34,5 @@ public interface XBTTokenOutputSerialHandler extends XBOutputSerialHandler {
      *
      * @param listener listener
      */
-    void attachXBTEventListener(@Nonnull XBTEventListener listener);
+    void attachXBTEventListener(XBTEventListener listener);
 }

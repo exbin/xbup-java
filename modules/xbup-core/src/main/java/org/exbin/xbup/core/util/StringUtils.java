@@ -17,6 +17,7 @@
 package org.exbin.xbup.core.util;
 
 import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
 
 /**
  * Utilities for stream data manipulations.
@@ -24,7 +25,11 @@ import javax.annotation.Nullable;
  * @version 0.2.1 2017/05/12
  * @author ExBin Project (http://exbin.org)
  */
-public abstract class StringUtils {
+@ParametersAreNonnullByDefault
+public final class StringUtils {
+
+    private StringUtils() {
+    }
 
     /**
      * Compares two strings including nulls.

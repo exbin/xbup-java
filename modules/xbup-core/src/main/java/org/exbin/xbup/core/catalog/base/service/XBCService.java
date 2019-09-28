@@ -33,21 +33,21 @@ public interface XBCService<T extends XBCBase> {
      *
      * @return new item
      */
-    public T createItem();
+    T createItem();
 
     /**
      * Updates item state to persistent repository.
      *
      * @param item item to update
      */
-    public void persistItem(T item);
+    void persistItem(T item);
 
     /**
      * Deletes item from persistent repository.
      *
      * @param item item to remove
      */
-    public void removeItem(T item);
+    void removeItem(T item);
 
     /**
      * Gets item from persistent repository.
@@ -55,19 +55,19 @@ public interface XBCService<T extends XBCBase> {
      * @param itemId item id
      * @return instance of item or null
      */
-    public T getItem(long itemId);
+    T getItem(long itemId);
 
     /**
      * Gets list of all items from persistent repository.
      *
      * @return list of items
      */
-    public List<T> getAllItems();
+    List<T> getAllItems();
 
     /**
      * Returns count of items in persistent repository.
      *
      * @return count of items
      */
-    public long getItemsCount();
+    long getItemsCount();
 }

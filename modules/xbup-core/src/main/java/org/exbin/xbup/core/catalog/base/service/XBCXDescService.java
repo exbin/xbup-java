@@ -37,7 +37,7 @@ public interface XBCXDescService<T extends XBCXDesc> extends XBCService<T>, XBCE
      * @param item item
      * @return description
      */
-    public XBCXDesc getDefaultItemDesc(XBCItem item);
+    XBCXDesc getDefaultItemDesc(XBCItem item);
 
     /**
      * Returns description for given item and language.
@@ -46,7 +46,7 @@ public interface XBCXDescService<T extends XBCXDesc> extends XBCService<T>, XBCE
      * @param language language
      * @return description
      */
-    public XBCXDesc getItemDesc(XBCItem item, XBCXLanguage language);
+    XBCXDesc getItemDesc(XBCItem item, XBCXLanguage language);
 
     /**
      * Returns list of names for given item.
@@ -54,7 +54,7 @@ public interface XBCXDescService<T extends XBCXDesc> extends XBCService<T>, XBCE
      * @param item item
      * @return description
      */
-    public List<XBCXDesc> getItemDescs(XBCItem item);
+    List<XBCXDesc> getItemDescs(XBCItem item);
 
     /**
      * Gets description text for default language and given item.
@@ -62,5 +62,5 @@ public interface XBCXDescService<T extends XBCXDesc> extends XBCService<T>, XBCE
      * @param item item to get name of
      * @return text or null if name is not set
      */
-    public String getDefaultText(XBCItem item);
+    String getDefaultText(XBCItem item);
 }

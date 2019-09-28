@@ -29,19 +29,19 @@ public interface XBCXBlockPane extends XBCBase {
      *
      * @return block revision
      */
-    public XBCBlockRev getBlockRev();
+    XBCBlockRev getBlockRev();
 
     /**
      * Gets panel editor.
      *
      * @return panel editor
      */
-    public XBCXPlugPane getPane();
+    XBCXPlugPane getPane();
 
     /**
      * Gets priority.
      *
      * @return priority
      */
-    public Long getPriority();
+    Long getPriority();
 }

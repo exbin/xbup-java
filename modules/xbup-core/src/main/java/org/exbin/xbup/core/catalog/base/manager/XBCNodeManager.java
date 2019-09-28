@@ -34,7 +34,7 @@ public interface XBCNodeManager<T extends XBCNode> extends XBCCatalogManager<T> 
      *
      * @return specification root
      */
-    public XBCRoot getRoot();
+    XBCRoot getRoot();
 
     /**
      * Gets root record.
@@ -42,14 +42,14 @@ public interface XBCNodeManager<T extends XBCNode> extends XBCCatalogManager<T> 
      * @param rootId root index
      * @return root record
      */
-    public XBCRoot getRoot(long rootId);
+    XBCRoot getRoot(long rootId);
 
     /**
      * Returns specification tree root node.
      *
      * @return root node
      */
-    public XBCNode getRootNode();
+    XBCNode getRootNode();
 
     /**
      * Gets list of subnodes.
@@ -57,7 +57,7 @@ public interface XBCNodeManager<T extends XBCNode> extends XBCCatalogManager<T> 
      * @param node parent node
      * @return list of nodes
      */
-    public List<XBCNode> getSubNodes(XBCNode node);
+    List<XBCNode> getSubNodes(XBCNode node);
 
     /**
      * Returns subnode of given index.
@@ -66,7 +66,7 @@ public interface XBCNodeManager<T extends XBCNode> extends XBCCatalogManager<T> 
      * @param index order
      * @return node
      */
-    public XBCNode getSubNode(XBCNode node, long index);
+    XBCNode getSubNode(XBCNode node, long index);
 
     /**
      * Returns count of direct subnodes.
@@ -74,7 +74,7 @@ public interface XBCNodeManager<T extends XBCNode> extends XBCCatalogManager<T> 
      * @param node parent node
      * @return count of nodes
      */
-    public long getSubNodesCount(XBCNode node);
+    long getSubNodesCount(XBCNode node);
 
     /**
      * Returns n-th node from subnode's sequence.
@@ -83,7 +83,7 @@ public interface XBCNodeManager<T extends XBCNode> extends XBCCatalogManager<T> 
      * @param seq index in depth first order
      * @return node
      */
-    public XBCNode getSubNodeSeq(XBCNode node, long seq);
+    XBCNode getSubNodeSeq(XBCNode node, long seq);
 
     /**
      * Returns size of subnode sequence.
@@ -91,7 +91,7 @@ public interface XBCNodeManager<T extends XBCNode> extends XBCCatalogManager<T> 
      * @param node parent node
      * @return count of all sub nodes
      */
-    public long getSubNodesSeq(XBCNode node);
+    long getSubNodesSeq(XBCNode node);
 
     /**
      * Traverses array of XB indexes and returns node if exists.
@@ -99,7 +99,7 @@ public interface XBCNodeManager<T extends XBCNode> extends XBCCatalogManager<T> 
      * @param xbCatalogPath catalog path
      * @return node
      */
-    public XBCNode findNodeByXBPath(Long[] xbCatalogPath);
+    XBCNode findNodeByXBPath(Long[] xbCatalogPath);
 
     /**
      * Traverses array of XB indexes except last one and returns node if exists.
@@ -107,7 +107,7 @@ public interface XBCNodeManager<T extends XBCNode> extends XBCCatalogManager<T> 
      * @param xbCatalogPath catalog path
      * @return node
      */
-    public XBCNode findParentByXBPath(Long[] xbCatalogPath);
+    XBCNode findParentByXBPath(Long[] xbCatalogPath);
 
     /**
      * Returns Path of XBIndexes for given node.
@@ -115,7 +115,7 @@ public interface XBCNodeManager<T extends XBCNode> extends XBCCatalogManager<T> 
      * @param node node
      * @return catalog path
      */
-    public Long[] getNodeXBPath(XBCNode node);
+    Long[] getNodeXBPath(XBCNode node);
 
     /**
      * Ignores last member of path and returns parent node.
@@ -123,7 +123,7 @@ public interface XBCNodeManager<T extends XBCNode> extends XBCCatalogManager<T> 
      * @param xbCatalogPath catalog path
      * @return parent node for given path
      */
-    public XBCNode findOwnerByXBPath(Long[] xbCatalogPath);
+    XBCNode findOwnerByXBPath(Long[] xbCatalogPath);
 
     /**
      * Gets maximum XB index of all direct child nodes for given node.
@@ -131,5 +131,5 @@ public interface XBCNodeManager<T extends XBCNode> extends XBCCatalogManager<T> 
      * @param node parent node
      * @return maximum XBIndex
      */
-    public Long findMaxSubNodeXB(XBCNode node);
+    Long findMaxSubNodeXB(XBCNode node);
 }

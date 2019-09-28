@@ -19,6 +19,8 @@ package org.exbin.xbup.core.serial.sequence;
 import java.io.IOException;
 import java.security.InvalidParameterException;
 import java.util.List;
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
 import org.exbin.xbup.core.parser.XBProcessingException;
 import org.exbin.xbup.core.serial.XBSerializable;
 import org.exbin.xbup.core.serial.param.XBPSequenceSerialHandler;
@@ -34,6 +36,7 @@ import org.exbin.xbup.core.ubnumber.type.UBENat32;
  * @version 0.2.0 2015/12/03
  * @author ExBin Project (http://exbin.org)
  */
+@ParametersAreNonnullByDefault
 public class XBStringListConsistSerializable implements XBListConsistSerializable {
 
     private int position = 0;
@@ -74,6 +77,7 @@ public class XBStringListConsistSerializable implements XBListConsistSerializabl
         position = 0;
     }
 
+    @Nonnull
     @Override
     public XBSerializable next() {
         return new ItemHandler(position++);

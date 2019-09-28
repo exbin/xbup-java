@@ -29,12 +29,12 @@ public interface XBCItem extends XBCBase {
      *
      * @return parent item
      */
-    public XBCItem getParent();
+    XBCItem getParent();
 
     /**
      * Gets basic indexing value.
      *
      * @return XB Index
      */
-    public Long getXBIndex();
+    Long getXBIndex();
 }

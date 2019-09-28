@@ -22,7 +22,7 @@ package org.exbin.xbup.core.parser.token;
  * @version 0.1.23 2014/02/06
  * @author ExBin Project (http://exbin.org)
  */
-public enum XBTokenType {
+public enum XBTokenType implements TypedToken.TokenType {
 
     /**
      * Begin of block.

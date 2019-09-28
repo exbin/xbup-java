@@ -31,12 +31,12 @@ public interface XBCExtension {
      *
      * It's executed when extension is loaded.
      */
-    public void initializeExtension();
+    void initializeExtension();
 
     /**
      * Gets some name for give extension.
      *
      * @return the name string of this extension
      */
-    public String getExtensionName();
+    String getExtensionName();
 }

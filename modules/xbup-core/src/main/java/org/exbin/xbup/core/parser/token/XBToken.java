@@ -31,7 +31,7 @@ public interface XBToken extends TypedToken {
      *
      * @return current token type
      */
-    @Override
     @Nonnull
+    @Override
     XBTokenType getTokenType();
 }

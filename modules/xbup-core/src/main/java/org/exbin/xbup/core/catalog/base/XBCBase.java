@@ -31,5 +31,5 @@ public interface XBCBase {
      *
      * @return item identification number
      */
-    public Long getId();
+    Long getId();
 }

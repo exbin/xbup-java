@@ -33,7 +33,7 @@ public interface XBTDocument {
      * @return root block if exits or null
      */
     @Nullable
-    public XBTBlock getRootBlock();
+    XBTBlock getRootBlock();
 
     /**
      * Returns size of the whole document if available.

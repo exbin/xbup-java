@@ -29,40 +29,40 @@ public interface XBCXName extends XBCBase {
      *
      * @return item
      */
-    public XBCItem getItem();
+    XBCItem getItem();
 
     /**
      * Gets item text.
      *
      * @return item text
      */
-    public String getText();
+    String getText();
 
     /**
      * Gets name language.
      *
      * @return language
      */
-    public XBCXLanguage getLang();
+    XBCXLanguage getLang();
 
     /**
      * Sets relevant item.
      *
      * @param item item
      */
-    public void setItem(XBCItem item);
+    void setItem(XBCItem item);
 
     /**
      * Sets item text.
      *
      * @param text text
      */
-    public void setText(String text);
+    void setText(String text);
 
     /**
      * Sets language.
      *
      * @param language language
      */
-    public void setLang(XBCXLanguage language);
+    void setLang(XBCXLanguage language);
 }

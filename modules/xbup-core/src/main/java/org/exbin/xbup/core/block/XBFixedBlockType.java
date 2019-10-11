@@ -16,6 +16,7 @@
  */
 package org.exbin.xbup.core.block;
 
+import javax.annotation.Nullable;
 import org.exbin.xbup.core.ubnumber.UBNatural;
 import org.exbin.xbup.core.ubnumber.type.UBNat32;
 
@@ -82,7 +83,7 @@ public class XBFixedBlockType implements XBFBlockType {
     }
 
     @Override
-    public boolean equals(Object obj) {
+    public boolean equals(@Nullable Object obj) {
         if (obj instanceof XBFBlockType) {
             return ((XBFBlockType) obj).getGroupID().getLong() == 0 && groupID.getLong() == 0 && (((XBFBlockType) obj).getBlockID().getLong() == blockID.getLong());
         }

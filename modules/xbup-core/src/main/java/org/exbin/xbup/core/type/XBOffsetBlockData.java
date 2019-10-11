@@ -21,6 +21,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.annotation.ParametersAreNonnullByDefault;
 import org.exbin.utils.binary_data.BinaryData;
 import org.exbin.xbup.core.util.StreamUtils;
 
@@ -30,6 +31,7 @@ import org.exbin.xbup.core.util.StreamUtils;
  * @version 0.2.0 2016/05/24
  * @author ExBin Project (http://exbin.org)
  */
+@ParametersAreNonnullByDefault
 public class XBOffsetBlockData implements BinaryData {
 
     private final BinaryData blockData;

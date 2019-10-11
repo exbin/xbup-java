@@ -19,6 +19,7 @@ package org.exbin.xbup.core.serial.child;
 import java.io.IOException;
 import java.io.InputStream;
 import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
 import org.exbin.xbup.core.block.XBBlockTerminationMode;
 import org.exbin.xbup.core.block.XBBlockType;
 import org.exbin.xbup.core.parser.XBProcessingException;
@@ -31,6 +32,7 @@ import org.exbin.xbup.core.serial.XBSerializable;
  * @version 0.2.1 2017/05/17
  * @author ExBin Project (http://exbin.org)
  */
+@ParametersAreNonnullByDefault
 public interface XBTChildProvider {
 
     /**
@@ -106,7 +108,7 @@ public interface XBTChildProvider {
      * @throws XBProcessingException if not matching
      * @throws IOException if input/output exception occurs
      */
-    void pullChild(@Nonnull XBSerializable child) throws XBProcessingException, IOException;
+    void pullChild(XBSerializable child) throws XBProcessingException, IOException;
 
     /**
      * Pulls serializable object appending all tokens.
@@ -115,7 +117,7 @@ public interface XBTChildProvider {
      * @throws XBProcessingException if not matching
      * @throws IOException if input/output exception occurs
      */
-    void pullAppend(@Nonnull XBSerializable serial) throws XBProcessingException, IOException;
+    void pullAppend(XBSerializable serial) throws XBProcessingException, IOException;
 
     /**
      * Pulls block data.

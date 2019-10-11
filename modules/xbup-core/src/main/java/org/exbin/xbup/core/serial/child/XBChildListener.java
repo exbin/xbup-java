@@ -18,7 +18,7 @@ package org.exbin.xbup.core.serial.child;
 
 import java.io.IOException;
 import java.io.InputStream;
-import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
 import org.exbin.xbup.core.block.XBBlockTerminationMode;
 import org.exbin.xbup.core.parser.XBProcessingException;
 import org.exbin.xbup.core.serial.XBSerializable;
@@ -30,6 +30,7 @@ import org.exbin.xbup.core.ubnumber.UBNatural;
  * @version 0.2.1 2017/05/17
  * @author ExBin Project (http://exbin.org)
  */
+@ParametersAreNonnullByDefault
 public interface XBChildListener {
 
     /**
@@ -39,7 +40,7 @@ public interface XBChildListener {
      * @throws XBProcessingException if processing error
      * @throws java.io.IOException if input/output error
      */
-    void begin(@Nonnull XBBlockTerminationMode terminationMode) throws XBProcessingException, IOException;
+    void begin(XBBlockTerminationMode terminationMode) throws XBProcessingException, IOException;
 
     /**
      * Puts block's attribute.
@@ -48,7 +49,7 @@ public interface XBChildListener {
      * @throws XBProcessingException if processing error
      * @throws java.io.IOException if input/output error
      */
-    void addAttribute(@Nonnull UBNatural attribute) throws XBProcessingException, IOException;
+    void addAttribute(UBNatural attribute) throws XBProcessingException, IOException;
 
     /**
      * Puts block's child.
@@ -57,7 +58,7 @@ public interface XBChildListener {
      * @throws XBProcessingException if processing error
      * @throws java.io.IOException if input/output error
      */
-    void addChild(@Nonnull XBSerializable child) throws XBProcessingException, IOException;
+    void addChild(XBSerializable child) throws XBProcessingException, IOException;
 
     /**
      * Puts block's data.
@@ -66,7 +67,7 @@ public interface XBChildListener {
      * @throws XBProcessingException if processing error
      * @throws java.io.IOException if input/output error
      */
-    void addData(@Nonnull InputStream data) throws XBProcessingException, IOException;
+    void addData(InputStream data) throws XBProcessingException, IOException;
 
     /**
      * Puts end of block.

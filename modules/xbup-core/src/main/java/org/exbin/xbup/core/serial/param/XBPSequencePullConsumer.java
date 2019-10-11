@@ -20,6 +20,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
 import org.exbin.xbup.core.block.XBBlockTerminationMode;
 import org.exbin.xbup.core.parser.XBProcessingException;
 import org.exbin.xbup.core.parser.XBProcessingExceptionType;
@@ -46,6 +48,7 @@ import org.exbin.xbup.core.stream.XBOutput;
  * @version 0.1.25 2015/05/03
  * @author ExBin Project (http://exbin.org)
  */
+@ParametersAreNonnullByDefault
 public class XBPSequencePullConsumer implements XBTPullConsumer {
 
     private XBTPullPreLoader pullProvider;
@@ -79,6 +82,7 @@ public class XBPSequencePullConsumer implements XBTPullConsumer {
         }
     }
 
+    @Nonnull
     public XBTToken pullToken(XBTTokenType tokenType) throws XBProcessingException, IOException {
         switch (tokenType) {
             case BEGIN: {
@@ -178,6 +182,7 @@ public class XBPSequencePullConsumer implements XBTPullConsumer {
      * @throws IOException if input/output exception occurs
      * @return token
      */
+    @Nonnull
     public XBTToken pullToken() throws XBProcessingException, IOException {
         if (emptyNodeMode) {
             return pullToken(processingState == XBParamProcessingState.DATA ? XBTTokenType.END : XBTTokenType.DATA);
@@ -232,6 +237,7 @@ public class XBPSequencePullConsumer implements XBTPullConsumer {
         return pullProvider.getNextTokenType() == XBTTokenType.END;
     }
 
+    @Nonnull
     public List<XBTAttributeToken> getAttributeSequence() {
         return attributeSequence;
     }

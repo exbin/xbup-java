@@ -20,6 +20,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
 import org.exbin.xbup.core.block.declaration.XBDeclBlockType;
 import org.exbin.xbup.core.parser.XBProcessingException;
 import org.exbin.xbup.core.parser.XBProcessingExceptionType;
@@ -34,6 +36,7 @@ import org.exbin.xbup.core.ubnumber.exception.UBOverFlowException;
  * @version 0.2.1 2017/05/09
  * @author ExBin Project (http://exbin.org)
  */
+@ParametersAreNonnullByDefault
 public class UBNat32 implements UBNatural, XBPSequenceSerializable {
 
     public static final long MAX_VALUE = 4294967295l;
@@ -51,7 +54,7 @@ public class UBNat32 implements UBNatural, XBPSequenceSerializable {
         this.value = value;
     }
 
-    public UBNat32(@Nonnull UBNatural nat) {
+    public UBNat32(UBNatural nat) {
         this.value = nat.getLong();
     }
 
@@ -110,7 +113,7 @@ public class UBNat32 implements UBNatural, XBPSequenceSerializable {
     }
 
     @Override
-    public boolean equals(Object obj) {
+    public boolean equals(@Nullable Object obj) {
         if (this == obj) {
             return true;
         }
@@ -126,7 +129,7 @@ public class UBNat32 implements UBNatural, XBPSequenceSerializable {
     }
 
     @Override
-    public int fromStreamUB(@Nonnull InputStream stream) throws IOException, XBProcessingException {
+    public int fromStreamUB(InputStream stream) throws IOException, XBProcessingException {
         byte buf[] = new byte[1];
         readBuf(stream, buf);
         long input = (char) buf[0] & 0xFF;
@@ -170,14 +173,14 @@ public class UBNat32 implements UBNatural, XBPSequenceSerializable {
         throw new XBProcessingException("Value is too big for 32-bit value", XBProcessingExceptionType.UNSUPPORTED);
     }
 
-    private void readBuf(@Nonnull InputStream stream, @Nonnull byte[] buf) throws IOException {
+    private void readBuf(InputStream stream, byte[] buf) throws IOException {
         if (stream.read(buf) < 0) {
             throw new XBProcessingException("End of data reached", XBProcessingExceptionType.UNEXPECTED_END_OF_STREAM);
         }
     }
 
     @Override
-    public int toStreamUB(@Nonnull OutputStream stream) throws IOException {
+    public int toStreamUB(OutputStream stream) throws IOException {
         if (value < 0x80) {
             stream.write((char) value);
             return 1;
@@ -234,7 +237,7 @@ public class UBNat32 implements UBNatural, XBPSequenceSerializable {
     }
 
     @Override
-    public void serializeXB(@Nonnull XBPSequenceSerialHandler serial) throws XBProcessingException, IOException {
+    public void serializeXB(XBPSequenceSerialHandler serial) throws XBProcessingException, IOException {
         serial.begin();
         serial.matchType(new XBDeclBlockType(XBUP_BLOCKREV_CATALOGPATH));
         serial.attribute(this);
@@ -257,7 +260,7 @@ public class UBNat32 implements UBNatural, XBPSequenceSerializable {
     }
 
     @Override
-    public void convertFromNatural(@Nonnull UBNatural natural) {
+    public void convertFromNatural(UBNatural natural) {
         setValue(natural.getLong());
     }
 
@@ -276,8 +279,8 @@ public class UBNat32 implements UBNatural, XBPSequenceSerializable {
         return getLong();
     }
 
-    @Override
     @Nonnull
+    @Override
     public UBNatural convertToNatural() {
         return this;
     }

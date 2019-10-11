@@ -16,8 +16,8 @@
  */
 package org.exbin.xbup.core.serial.basic;
 
-import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
 import org.exbin.xbup.core.parser.basic.XBTConsumer;
 import org.exbin.xbup.core.parser.basic.XBTProvider;
 
@@ -27,6 +27,7 @@ import org.exbin.xbup.core.parser.basic.XBTProvider;
  * @version 0.2.1 2017/05/16
  * @author ExBin Project (http://exbin.org)
  */
+@ParametersAreNonnullByDefault
 public class XBTProviderSerialHandler implements XBTBasicInputSerialHandler {
 
     @Nullable
@@ -35,12 +36,12 @@ public class XBTProviderSerialHandler implements XBTBasicInputSerialHandler {
     public XBTProviderSerialHandler() {
     }
 
-    public void attachXBTProvider(@Nonnull XBTProvider provider) {
+    public void attachXBTProvider(XBTProvider provider) {
         this.provider = provider;
     }
 
     @Override
-    public void process(@Nonnull XBTConsumer consumer) {
+    public void process(XBTConsumer consumer) {
         if (provider == null) {
             throw new UnsupportedOperationException("Not supported yet.");
         }

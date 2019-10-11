@@ -20,6 +20,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
 import org.exbin.xbup.core.block.XBBlockTerminationMode;
 import org.exbin.xbup.core.block.XBBlockType;
 import org.exbin.xbup.core.parser.XBProcessingException;
@@ -43,6 +45,7 @@ import org.exbin.xbup.core.ubnumber.type.UBNat32;
  * @version 0.1.24 2015/01/26
  * @author ExBin Project (http://exbin.org)
  */
+@ParametersAreNonnullByDefault
 public class XBPSequencingListener implements XBPListener {
 
     private final List<XBSerialSequenceItem> serialSequence = new ArrayList<>();
@@ -180,10 +183,12 @@ public class XBPSequencingListener implements XBPListener {
         throw new IllegalStateException("Append is not allowed on sequencing");
     }
 
+    @Nonnull
     public List<XBSerialSequenceItem> getSerialSequence() {
         return serialSequence;
     }
 
+    @Nonnull
     public XBSerializable getSequenceSerial() {
         return new XBPSerialSequenceWrapper(serialSequence);
     }
@@ -192,6 +197,7 @@ public class XBPSequencingListener implements XBPListener {
         return depth;
     }
 
+    @ParametersAreNonnullByDefault
     private static class XBPSerialSequenceWrapper implements XBPSerializable {
 
         private final List<XBSerialSequenceItem> serialSequence;

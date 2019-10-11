@@ -21,6 +21,7 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import javax.annotation.Nullable;
 import org.exbin.xbup.core.block.XBBasicBlockType;
 import org.exbin.xbup.core.block.XBBlockTerminationMode;
 import org.exbin.xbup.core.block.XBBlockType;
@@ -126,7 +127,7 @@ public class XBLGroupDecl implements XBGroupDecl, XBPSequenceSerializable, XBTBa
     }
 
     @Override
-    public boolean equals(Object obj) {
+    public boolean equals(@Nullable Object obj) {
         if (obj instanceof XBLGroupDecl) {
             return Arrays.equals(((XBLGroupDecl) obj).catalogPath, catalogPath) && (((XBLGroupDecl) obj).revision == revision);
         }

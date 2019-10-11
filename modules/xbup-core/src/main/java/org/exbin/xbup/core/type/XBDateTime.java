@@ -19,6 +19,7 @@ package org.exbin.xbup.core.type;
 import java.io.IOException;
 import java.util.Calendar;
 import java.util.Date;
+import javax.annotation.ParametersAreNonnullByDefault;
 import org.exbin.xbup.core.block.XBTEmptyBlock;
 import org.exbin.xbup.core.block.declaration.XBDeclBlockType;
 import org.exbin.xbup.core.parser.XBProcessingException;
@@ -32,6 +33,7 @@ import org.exbin.xbup.core.serial.param.XBPSerializable;
  * @version 0.1.25 2015/03/13
  * @author ExBin Project (http://exbin.org)
  */
+@ParametersAreNonnullByDefault
 public class XBDateTime implements XBPSerializable {
 
     private Date value;

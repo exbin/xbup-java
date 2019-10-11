@@ -19,6 +19,7 @@ package org.exbin.xbup.core.serial.child;
 import java.io.IOException;
 import java.io.InputStream;
 import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
 import org.exbin.xbup.core.block.XBBlockTerminationMode;
 import org.exbin.xbup.core.block.XBBlockType;
 import org.exbin.xbup.core.parser.XBProcessingException;
@@ -31,6 +32,7 @@ import org.exbin.xbup.core.ubnumber.UBNatural;
  * @version 0.2.1 2017/05/17
  * @author ExBin Project (http://exbin.org)
  */
+@ParametersAreNonnullByDefault
 public interface XBTChildListener {
 
     /**
@@ -40,7 +42,7 @@ public interface XBTChildListener {
      * @throws XBProcessingException if processing error
      * @throws java.io.IOException if input/output error
      */
-    void putBegin(@Nonnull XBBlockTerminationMode terminationMode) throws XBProcessingException, IOException;
+    void putBegin(XBBlockTerminationMode terminationMode) throws XBProcessingException, IOException;
 
     /**
      * Puts block type.
@@ -49,7 +51,7 @@ public interface XBTChildListener {
      * @throws XBProcessingException if processing error
      * @throws java.io.IOException if input/output error
      */
-    void putType(@Nonnull XBBlockType type) throws XBProcessingException, IOException;
+    void putType(XBBlockType type) throws XBProcessingException, IOException;
 
     /**
      * Puts block attribute.
@@ -58,7 +60,7 @@ public interface XBTChildListener {
      * @throws XBProcessingException if processing error
      * @throws java.io.IOException if input/output error
      */
-    void putAttribute(@Nonnull UBNatural attribute) throws XBProcessingException, IOException;
+    void putAttribute(UBNatural attribute) throws XBProcessingException, IOException;
 
     /**
      * Puts block attribute.
@@ -106,7 +108,7 @@ public interface XBTChildListener {
      * @throws XBProcessingException if processing error
      * @throws java.io.IOException if input/output error
      */
-    void putChild(@Nonnull XBSerializable child) throws XBProcessingException, IOException;
+    void putChild(XBSerializable child) throws XBProcessingException, IOException;
 
     /**
      * Puts serializable object appending all tokens.
@@ -115,7 +117,7 @@ public interface XBTChildListener {
      * @throws XBProcessingException if processing error
      * @throws java.io.IOException if input/output error
      */
-    void putAppend(@Nonnull XBSerializable serial) throws XBProcessingException, IOException;
+    void putAppend(XBSerializable serial) throws XBProcessingException, IOException;
 
     /**
      * Puts block data.
@@ -124,7 +126,7 @@ public interface XBTChildListener {
      * @throws XBProcessingException if processing error
      * @throws java.io.IOException if input/output error
      */
-    void putData(@Nonnull InputStream data) throws XBProcessingException, IOException;
+    void putData(InputStream data) throws XBProcessingException, IOException;
 
     /**
      * Puts end of block.

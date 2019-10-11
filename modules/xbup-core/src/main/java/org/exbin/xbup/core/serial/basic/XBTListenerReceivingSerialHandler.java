@@ -16,8 +16,8 @@
  */
 package org.exbin.xbup.core.serial.basic;
 
-import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
 import org.exbin.xbup.core.parser.basic.XBTListener;
 import org.exbin.xbup.core.parser.basic.XBTProvider;
 import org.exbin.xbup.core.parser.basic.convert.XBTProviderToProducer;
@@ -28,6 +28,7 @@ import org.exbin.xbup.core.parser.basic.convert.XBTProviderToProducer;
  * @version 0.2.1 2017/05/16
  * @author ExBin Project (http://exbin.org)
  */
+@ParametersAreNonnullByDefault
 public class XBTListenerReceivingSerialHandler implements XBTBasicOutputReceivingSerialHandler {
 
     @Nullable
@@ -36,7 +37,7 @@ public class XBTListenerReceivingSerialHandler implements XBTBasicOutputReceivin
     public XBTListenerReceivingSerialHandler() {
     }
 
-    public void attachXBTConsumer(@Nonnull XBTListener listener) {
+    public void attachXBTConsumer(XBTListener listener) {
         this.listener = listener;
     }
 

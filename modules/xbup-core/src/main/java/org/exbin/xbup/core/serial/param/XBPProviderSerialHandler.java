@@ -20,6 +20,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
 import org.exbin.xbup.core.block.XBBasicBlockType;
 import org.exbin.xbup.core.block.XBBlockTerminationMode;
 import org.exbin.xbup.core.block.XBBlockType;
@@ -61,6 +63,7 @@ import org.exbin.xbup.core.ubnumber.type.UBENat32;
  * @version 0.1.25 2015/06/28
  * @author ExBin Project (http://exbin.org)
  */
+@ParametersAreNonnullByDefault
 public class XBPProviderSerialHandler implements XBPInputSerialHandler, XBPSequenceSerialHandler, XBTTokenInputSerialHandler {
 
     private XBPSequencePullConsumer pullProvider;
@@ -110,6 +113,7 @@ public class XBPProviderSerialHandler implements XBPInputSerialHandler, XBPSeque
         }
     }
 
+    @Nonnull
     @Override
     public XBBlockTerminationMode pullBegin() throws XBProcessingException, IOException {
         if (paramType.isJoin()) {
@@ -127,6 +131,7 @@ public class XBPProviderSerialHandler implements XBPInputSerialHandler, XBPSeque
         return token.getTerminationMode();
     }
 
+    @Nonnull
     @Override
     public XBBlockType pullType() throws XBProcessingException, IOException {
         if (paramType.isJoin()) {
@@ -137,6 +142,7 @@ public class XBPProviderSerialHandler implements XBPInputSerialHandler, XBPSeque
         return token.getBlockType();
     }
 
+    @Nonnull
     @Override
     public XBAttribute pullAttribute() throws XBProcessingException, IOException {
         XBTAttributeToken token = (XBTAttributeToken) pullProvider.pullToken(XBTTokenType.ATTRIBUTE);
@@ -163,6 +169,7 @@ public class XBPProviderSerialHandler implements XBPInputSerialHandler, XBPSeque
         return pullAttribute().getNaturalLong();
     }
 
+    @Nonnull
     @Override
     public InputStream pullData() throws XBProcessingException, IOException {
         XBTDataToken token = (XBTDataToken) pullProvider.pullToken(XBTTokenType.DATA);
@@ -210,6 +217,7 @@ public class XBPProviderSerialHandler implements XBPInputSerialHandler, XBPSeque
         finished = true;
     }
 
+    @Nonnull
     @Override
     public XBTToken pullToken(XBTTokenType tokenType) throws XBProcessingException, IOException {
         switch (tokenType) {
@@ -234,6 +242,7 @@ public class XBPProviderSerialHandler implements XBPInputSerialHandler, XBPSeque
         throw new IllegalStateException();
     }
 
+    @Nonnull
     @Override
     public XBTToken pullToken() throws XBProcessingException, IOException {
         XBTToken token = pullProvider.pullToken();
@@ -324,6 +333,7 @@ public class XBPProviderSerialHandler implements XBPInputSerialHandler, XBPSeque
         process(serial);
     }
 
+    @Nonnull
     @Override
     public XBSerializationMode getSerializationMode() {
         return XBSerializationMode.PULL;
@@ -474,6 +484,7 @@ public class XBPProviderSerialHandler implements XBPInputSerialHandler, XBPSeque
         throw new XBProcessingException(PUSH_NOT_ALLOWED_EXCEPTION, XBProcessingExceptionType.ILLEGAL_OPERATION);
     }
 
+    @ParametersAreNonnullByDefault
     private static class XBTChildInputSerialHandlerImpl implements XBTChildInputSerialHandler {
 
         private final XBPProviderSerialHandler handler;
@@ -482,16 +493,19 @@ public class XBPProviderSerialHandler implements XBPInputSerialHandler, XBPSeque
             this.handler = handler;
         }
 
+        @Nonnull
         @Override
         public XBBlockTerminationMode pullBegin() throws XBProcessingException, IOException {
             return handler.pullBegin();
         }
 
+        @Nonnull
         @Override
         public XBBlockType pullType() throws XBProcessingException, IOException {
             return handler.pullType();
         }
 
+        @Nonnull
         @Override
         public XBAttribute pullAttribute() throws XBProcessingException, IOException {
             return handler.pullAttribute();
@@ -527,6 +541,7 @@ public class XBPProviderSerialHandler implements XBPInputSerialHandler, XBPSeque
             handler.process(serial);
         }
 
+        @Nonnull
         @Override
         public InputStream pullData() throws XBProcessingException, IOException {
             return handler.pullData();
@@ -543,6 +558,7 @@ public class XBPProviderSerialHandler implements XBPInputSerialHandler, XBPSeque
         }
     }
 
+    @ParametersAreNonnullByDefault
     private static class XBTBasicInputSerialHandlerImpl implements XBTBasicInputSerialHandler {
 
         private final XBPProviderSerialHandler handler;

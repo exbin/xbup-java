@@ -20,6 +20,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
 import org.exbin.xbup.core.parser.XBProcessingException;
 import org.exbin.xbup.core.parser.XBProcessingExceptionType;
 import org.exbin.xbup.core.ubnumber.UBENatural;
@@ -32,6 +33,7 @@ import org.exbin.xbup.core.ubnumber.exception.UBOverFlowException;
  * @version 0.1.25 2015/02/09
  * @author ExBin Project (http://exbin.org)
  */
+@ParametersAreNonnullByDefault
 public class UBENat32 implements UBENatural {
 
     private static long MAX_VALUE = 4294967295l;
@@ -56,7 +58,7 @@ public class UBENat32 implements UBENatural {
     /**
      * This is copy constructor.
      */
-    private UBENat32(@Nonnull UBENat32 value) {
+    private UBENat32(UBENat32 value) {
         infinity = value.isInfinity();
         this.value = value.getLong();
     }
@@ -131,7 +133,7 @@ public class UBENat32 implements UBENatural {
     }
 
     @Override
-    public int fromStreamUB(@Nonnull InputStream stream) throws IOException, XBProcessingException {
+    public int fromStreamUB(InputStream stream) throws IOException, XBProcessingException {
         infinity = false;
         byte[] buffer = new byte[1];
         readBuf(stream, buffer);
@@ -181,14 +183,14 @@ public class UBENat32 implements UBENatural {
         throw new XBProcessingException("Value is too big for 32-bit value", XBProcessingExceptionType.UNSUPPORTED);
     }
 
-    private void readBuf(@Nonnull InputStream stream, @Nonnull byte[] buf) throws IOException {
+    private void readBuf(InputStream stream, byte[] buf) throws IOException {
         if (stream.read(buf) < 0) {
             throw new XBProcessingException("End of data reached", XBProcessingExceptionType.UNEXPECTED_END_OF_STREAM);
         }
     }
 
     @Override
-    public int toStreamUB(@Nonnull OutputStream stream) throws IOException {
+    public int toStreamUB(OutputStream stream) throws IOException {
         char output;
         if (infinity) {
             output = 127;
@@ -303,7 +305,7 @@ public class UBENat32 implements UBENatural {
     }
 
     @Override
-    public void convertFromNatural(@Nonnull UBNatural nat) {
+    public void convertFromNatural(UBNatural nat) {
         setNaturalLong(nat.getLong());
     }
 
@@ -312,5 +314,4 @@ public class UBENat32 implements UBENatural {
     public UBNatural convertToNatural() {
         return new UBNat32(getNaturalLong());
     }
-
 }

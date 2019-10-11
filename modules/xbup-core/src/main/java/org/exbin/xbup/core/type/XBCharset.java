@@ -18,6 +18,7 @@ package org.exbin.xbup.core.type;
 
 import java.io.IOException;
 import java.nio.charset.Charset;
+import javax.annotation.ParametersAreNonnullByDefault;
 import org.exbin.xbup.core.block.declaration.XBDeclBlockType;
 import org.exbin.xbup.core.parser.XBProcessingException;
 import org.exbin.xbup.core.serial.param.XBPSequenceSerialHandler;
@@ -30,6 +31,7 @@ import org.exbin.xbup.core.serial.param.XBSerializationMode;
  * @version 0.1.24 2015/01/28
  * @author ExBin Project (http://exbin.org)
  */
+@ParametersAreNonnullByDefault
 public class XBCharset implements XBPSequenceSerializable {
     
     private Charset charset;

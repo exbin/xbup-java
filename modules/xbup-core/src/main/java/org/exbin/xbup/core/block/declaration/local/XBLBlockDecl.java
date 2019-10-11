@@ -19,6 +19,7 @@ package org.exbin.xbup.core.block.declaration.local;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Arrays;
+import javax.annotation.Nullable;
 import org.exbin.xbup.core.block.XBBasicBlockType;
 import org.exbin.xbup.core.block.XBBlockTerminationMode;
 import org.exbin.xbup.core.block.XBBlockType;
@@ -85,7 +86,7 @@ public class XBLBlockDecl implements XBBlockDecl, XBPSequenceSerializable, XBTBa
     }
 
     @Override
-    public boolean equals(Object obj) {
+    public boolean equals(@Nullable Object obj) {
         if (obj instanceof XBLBlockDecl) {
             return Arrays.equals(((XBLBlockDecl) obj).catalogPath, catalogPath) && (((XBLBlockDecl) obj).revision == revision);
         } else if (obj instanceof XBBlockDecl) {

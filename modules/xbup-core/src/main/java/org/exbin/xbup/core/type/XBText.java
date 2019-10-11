@@ -23,6 +23,7 @@ import java.io.InputStream;
 import java.nio.charset.Charset;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.annotation.ParametersAreNonnullByDefault;
 import org.exbin.xbup.core.block.XBBlockTerminationMode;
 import org.exbin.xbup.core.block.declaration.XBDeclBlockType;
 import org.exbin.xbup.core.parser.XBProcessingException;
@@ -42,6 +43,7 @@ import org.exbin.xbup.core.util.StreamUtils;
  * @version 0.1.25 2015/02/06
  * @author ExBin Project (http://exbin.org)
  */
+@ParametersAreNonnullByDefault
 public class XBText implements XBPSequenceSerializable {
 
     private String value;
@@ -71,6 +73,7 @@ public class XBText implements XBPSequenceSerializable {
         serial.end();
     }
 
+    @ParametersAreNonnullByDefault
     public class DataBlockSerializator implements XBChildSerializable, XBTChildSerializable {
 
         @Override

@@ -18,8 +18,8 @@ package org.exbin.xbup.core.serial.param;
 
 import java.io.IOException;
 import java.io.InputStream;
-import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
 import org.exbin.xbup.core.block.XBBlockTerminationMode;
 import org.exbin.xbup.core.block.XBBlockType;
 import org.exbin.xbup.core.parser.XBProcessingException;
@@ -34,6 +34,7 @@ import org.exbin.xbup.core.serial.sequence.XBSerialSequenceItem;
  * @version 0.2.1 2017/05/10
  * @author ExBin Project (http://exbin.org)
  */
+@ParametersAreNonnullByDefault
 public interface XBPListener {
 
     /**
@@ -52,7 +53,7 @@ public interface XBPListener {
      * @throws XBProcessingException if processing error
      * @throws java.io.IOException if input/output error
      */
-    void putType(@Nonnull XBBlockType type) throws XBProcessingException, IOException;
+    void putType(XBBlockType type) throws XBProcessingException, IOException;
 
     /**
      * Puts block attribute.
@@ -61,7 +62,7 @@ public interface XBPListener {
      * @throws XBProcessingException if processing error
      * @throws java.io.IOException if input/output error
      */
-    void putAttribute(@Nonnull XBAttribute attribute) throws XBProcessingException, IOException;
+    void putAttribute(XBAttribute attribute) throws XBProcessingException, IOException;
 
     /**
      * Puts block attribute.
@@ -109,7 +110,7 @@ public interface XBPListener {
      * @throws XBProcessingException if processing error
      * @throws java.io.IOException if input/output error
      */
-    void putData(@Nonnull InputStream data) throws XBProcessingException, IOException;
+    void putData(InputStream data) throws XBProcessingException, IOException;
 
     /**
      * Puts end of block.
@@ -126,7 +127,7 @@ public interface XBPListener {
      * @throws XBProcessingException if processing error
      * @throws java.io.IOException if input/output error
      */
-    void putToken(@Nonnull XBTToken token) throws XBProcessingException, IOException;
+    void putToken(XBTToken token) throws XBProcessingException, IOException;
 
     /**
      * Puts serializable object using consist method.
@@ -135,7 +136,7 @@ public interface XBPListener {
      * @throws XBProcessingException if processing error
      * @throws java.io.IOException if input/output error
      */
-    void putConsist(@Nonnull XBSerializable serial) throws XBProcessingException, IOException;
+    void putConsist(XBSerializable serial) throws XBProcessingException, IOException;
 
     /**
      * Puts serializable object using join method.
@@ -144,7 +145,7 @@ public interface XBPListener {
      * @throws XBProcessingException if processing error
      * @throws java.io.IOException if input/output error
      */
-    void putJoin(@Nonnull XBSerializable serial) throws XBProcessingException, IOException;
+    void putJoin(XBSerializable serial) throws XBProcessingException, IOException;
 
     /**
      * Puts serializable object using list consist method.
@@ -153,7 +154,7 @@ public interface XBPListener {
      * @throws XBProcessingException if processing error
      * @throws java.io.IOException if input/output error
      */
-    void putListConsist(@Nonnull XBSerializable serial) throws XBProcessingException, IOException;
+    void putListConsist(XBSerializable serial) throws XBProcessingException, IOException;
 
     /**
      * Puts serializable object using list join method.
@@ -162,7 +163,7 @@ public interface XBPListener {
      * @throws XBProcessingException if processing error
      * @throws java.io.IOException if input/output error
      */
-    void putListJoin(@Nonnull XBSerializable serial) throws XBProcessingException, IOException;
+    void putListJoin(XBSerializable serial) throws XBProcessingException, IOException;
 
     /**
      * Puts sequence item.
@@ -171,7 +172,7 @@ public interface XBPListener {
      * @throws XBProcessingException if processing error
      * @throws java.io.IOException if input/output error
      */
-    void putItem(@Nonnull XBSerialSequenceItem item) throws XBProcessingException, IOException;
+    void putItem(XBSerialSequenceItem item) throws XBProcessingException, IOException;
 
     /**
      * Puts serializable object appending all tokens.
@@ -180,5 +181,5 @@ public interface XBPListener {
      * @throws XBProcessingException if processing error
      * @throws java.io.IOException if input/output error
      */
-    void putAppend(@Nonnull XBSerializable serial) throws XBProcessingException, IOException;
+    void putAppend(XBSerializable serial) throws XBProcessingException, IOException;
 }

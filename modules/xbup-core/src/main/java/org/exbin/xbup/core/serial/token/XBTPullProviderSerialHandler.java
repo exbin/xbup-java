@@ -46,8 +46,8 @@ public class XBTPullProviderSerialHandler implements XBTPullProvider, XBTTokenIn
         this.provider = provider;
     }
 
-    @Override
     @Nonnull
+    @Override
     public XBTToken pullXBTToken() throws XBProcessingException, IOException {
         if (provider == null) {
             throw new XBProcessingException("Requested tokens before initialization", XBProcessingExceptionType.UNEXPECTED_ORDER);

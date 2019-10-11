@@ -18,8 +18,8 @@ package org.exbin.xbup.core.serial.transform;
 
 import java.io.IOException;
 import java.util.List;
-import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
 import org.exbin.xbup.core.block.XBBlockType;
 import org.exbin.xbup.core.parser.XBProcessingException;
 import org.exbin.xbup.core.serial.param.XBPProvider;
@@ -30,6 +30,7 @@ import org.exbin.xbup.core.serial.param.XBPProvider;
  * @version 0.2.1 2017/06/04
  * @author ExBin Project (http://exbin.org)
  */
+@ParametersAreNonnullByDefault
 public interface XBAProvider extends XBPProvider {
 
     /**
@@ -41,7 +42,7 @@ public interface XBAProvider extends XBPProvider {
      * @throws IOException if input/output exception occurs
      */
     @Nullable
-    XBBlockType pullMatchingType(@Nonnull XBBlockType blockType) throws XBProcessingException, IOException;
+    XBBlockType pullMatchingType(XBBlockType blockType) throws XBProcessingException, IOException;
 
     /**
      * Pulls and matches one of block types.

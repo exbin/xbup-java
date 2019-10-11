@@ -83,6 +83,7 @@ public class XBStringListConsistSerializable implements XBListConsistSerializabl
         return new ItemHandler(position++);
     }
 
+    @ParametersAreNonnullByDefault
     private class ItemHandler implements XBPSequenceSerializable {
 
         private final int itemIndex;

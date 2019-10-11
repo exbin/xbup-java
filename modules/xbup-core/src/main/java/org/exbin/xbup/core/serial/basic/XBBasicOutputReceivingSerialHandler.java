@@ -16,7 +16,7 @@
  */
 package org.exbin.xbup.core.serial.basic;
 
-import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
 import org.exbin.xbup.core.parser.basic.XBProvider;
 import org.exbin.xbup.core.serial.XBOutputSerialHandler;
 
@@ -26,6 +26,7 @@ import org.exbin.xbup.core.serial.XBOutputSerialHandler;
  * @version 0.2.1 2017/05/16
  * @author ExBin Project (http://exbin.org)
  */
+@ParametersAreNonnullByDefault
 public interface XBBasicOutputReceivingSerialHandler extends XBOutputSerialHandler {
 
     /**
@@ -33,5 +34,5 @@ public interface XBBasicOutputReceivingSerialHandler extends XBOutputSerialHandl
      *
      * @param provider provider
      */
-    void process(@Nonnull XBProvider provider);
+    void process(XBProvider provider);
 }

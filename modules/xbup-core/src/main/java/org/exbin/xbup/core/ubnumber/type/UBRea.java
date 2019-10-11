@@ -17,7 +17,8 @@
 package org.exbin.xbup.core.ubnumber.type;
 
 import java.io.IOException;
-import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
 import org.exbin.xbup.core.block.declaration.XBDeclBlockType;
 import org.exbin.xbup.core.parser.XBProcessingException;
 import org.exbin.xbup.core.serial.param.XBPSequenceSerialHandler;
@@ -32,6 +33,7 @@ import org.exbin.xbup.core.ubnumber.exception.UBOverFlowException;
  * @version 0.2.0 2015/12/02
  * @author ExBin Project (http://exbin.org)
  */
+@ParametersAreNonnullByDefault
 public class UBRea implements UBReal, XBPSequenceSerializable {
 
     private UBInteger value;
@@ -195,7 +197,7 @@ public class UBRea implements UBReal, XBPSequenceSerializable {
     }
 
     @Override
-    public boolean equals(Object obj) {
+    public boolean equals(@Nullable Object obj) {
         if (this == obj) {
             return true;
         }
@@ -211,7 +213,7 @@ public class UBRea implements UBReal, XBPSequenceSerializable {
     }
 
     @Override
-    public void serializeXB(@Nonnull XBPSequenceSerialHandler serial) throws XBProcessingException, IOException {
+    public void serializeXB(XBPSequenceSerialHandler serial) throws XBProcessingException, IOException {
         serial.begin();
         serial.matchType(new XBDeclBlockType(XBUP_BLOCKREV_CATALOGPATH));
         serial.attribute(value);

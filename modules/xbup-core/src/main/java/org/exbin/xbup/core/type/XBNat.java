@@ -21,6 +21,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.annotation.ParametersAreNonnullByDefault;
 import org.exbin.xbup.core.block.XBBlockTerminationMode;
 import org.exbin.xbup.core.parser.XBProcessingException;
 import org.exbin.xbup.core.serial.child.XBTChildInputSerialHandler;
@@ -36,6 +37,7 @@ import org.exbin.xbup.core.util.StreamUtils;
  * @version 0.1.24 2014/08/23
  * @author ExBin Project (http://exbin.org)
  */
+@ParametersAreNonnullByDefault
 public class XBNat implements XBTChildSerializable {
 
     private UBNatural value;
@@ -74,6 +76,7 @@ public class XBNat implements XBTChildSerializable {
         serial.putEnd();
     }
 
+    @ParametersAreNonnullByDefault
     private static class DataBlockSerializator implements XBTChildSerializable {
 
         @Override

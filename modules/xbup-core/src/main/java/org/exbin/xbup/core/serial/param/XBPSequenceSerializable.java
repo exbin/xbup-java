@@ -17,7 +17,7 @@
 package org.exbin.xbup.core.serial.param;
 
 import java.io.IOException;
-import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
 import org.exbin.xbup.core.parser.XBProcessingException;
 import org.exbin.xbup.core.serial.XBSerializable;
 
@@ -28,6 +28,7 @@ import org.exbin.xbup.core.serial.XBSerializable;
  * @version 0.2.1 2017/06/04
  * @author ExBin Project (http://exbin.org)
  */
+@ParametersAreNonnullByDefault
 public interface XBPSequenceSerializable extends XBSerializable {
 
     /**
@@ -37,5 +38,5 @@ public interface XBPSequenceSerializable extends XBSerializable {
      * @throws XBProcessingException if proccesing problem encountered
      * @throws IOException if input/output problem encountered
      */
-    void serializeXB(@Nonnull XBPSequenceSerialHandler serializationHandler) throws XBProcessingException, IOException;
+    void serializeXB(XBPSequenceSerialHandler serializationHandler) throws XBProcessingException, IOException;
 }

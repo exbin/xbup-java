@@ -19,6 +19,7 @@ package org.exbin.xbup.core.serial.param;
 import java.io.IOException;
 import java.io.InputStream;
 import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
 import org.exbin.xbup.core.block.XBBlockTerminationMode;
 import org.exbin.xbup.core.block.XBBlockType;
 import org.exbin.xbup.core.parser.XBProcessingException;
@@ -34,6 +35,7 @@ import org.exbin.xbup.core.serial.sequence.XBSerialSequenceItem;
  * @version 0.2.1 2017/05/10
  * @author ExBin Project (http://exbin.org)
  */
+@ParametersAreNonnullByDefault
 public interface XBPProvider {
 
     /**
@@ -145,7 +147,7 @@ public interface XBPProvider {
      * @return token
      */
     @Nonnull
-    XBTToken pullToken(@Nonnull XBTTokenType tokenType) throws XBProcessingException, IOException;
+    XBTToken pullToken(XBTTokenType tokenType) throws XBProcessingException, IOException;
 
     /**
      * Pulls single token for preserving minimal form.
@@ -164,7 +166,7 @@ public interface XBPProvider {
      * @throws XBProcessingException if not matching
      * @throws IOException if input/output exception occurs
      */
-    void pullConsist(@Nonnull XBSerializable child) throws XBProcessingException, IOException;
+    void pullConsist(XBSerializable child) throws XBProcessingException, IOException;
 
     /**
      * Pulls serializable object using join method.
@@ -173,7 +175,7 @@ public interface XBPProvider {
      * @throws XBProcessingException if not matching
      * @throws IOException if input/output exception occurs
      */
-    void pullJoin(@Nonnull XBSerializable serial) throws XBProcessingException, IOException;
+    void pullJoin(XBSerializable serial) throws XBProcessingException, IOException;
 
     /**
      * Pulls serializable object using list consist method.
@@ -182,7 +184,7 @@ public interface XBPProvider {
      * @throws XBProcessingException if not matching
      * @throws IOException if input/output exception occurs
      */
-    void pullListConsist(@Nonnull XBSerializable child) throws XBProcessingException, IOException;
+    void pullListConsist(XBSerializable child) throws XBProcessingException, IOException;
 
     /**
      * Pulls serializable object using list join method.
@@ -191,7 +193,7 @@ public interface XBPProvider {
      * @throws XBProcessingException if not matching
      * @throws IOException if input/output exception occurs
      */
-    void pullListJoin(@Nonnull XBSerializable serial) throws XBProcessingException, IOException;
+    void pullListJoin(XBSerializable serial) throws XBProcessingException, IOException;
 
     /**
      * Pulls given sequence item.
@@ -200,7 +202,7 @@ public interface XBPProvider {
      * @throws XBProcessingException if not matching
      * @throws java.io.IOException if input/output error
      */
-    void pullItem(@Nonnull XBSerialSequenceItem item) throws XBProcessingException, IOException;
+    void pullItem(XBSerialSequenceItem item) throws XBProcessingException, IOException;
 
     /**
      * Pulls serializable object appending all tokens.
@@ -209,5 +211,5 @@ public interface XBPProvider {
      * @throws XBProcessingException if not matching
      * @throws IOException if input/output exception occurs
      */
-    void pullAppend(@Nonnull XBSerializable serial) throws XBProcessingException, IOException;
+    void pullAppend(XBSerializable serial) throws XBProcessingException, IOException;
 }

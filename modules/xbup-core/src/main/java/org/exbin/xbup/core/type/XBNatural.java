@@ -18,6 +18,7 @@ package org.exbin.xbup.core.type;
 
 import java.io.IOException;
 import java.util.List;
+import javax.annotation.ParametersAreNonnullByDefault;
 import org.exbin.xbup.core.block.XBBlockTerminationMode;
 import org.exbin.xbup.core.block.XBBlockType;
 import org.exbin.xbup.core.block.declaration.XBDeclBlockType;
@@ -34,6 +35,7 @@ import org.exbin.xbup.core.ubnumber.type.UBNat32;
  * @version 0.1.24 2014/08/23
  * @author ExBin Project (http://exbin.org)
  */
+@ParametersAreNonnullByDefault
 public class XBNatural implements XBTChildSerializable {
 
     private UBNatural value;

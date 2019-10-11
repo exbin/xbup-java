@@ -21,6 +21,7 @@ import java.lang.reflect.ParameterizedType;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.annotation.Nullable;
 import javax.persistence.Entity;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
@@ -92,6 +93,7 @@ public class XBEDefaultManager<T extends XBCBase> implements XBCManager<T> {
         }
     }
 
+    @Nullable
     @SuppressWarnings("unchecked")
     @Override
     public T getItem(long itemId) {

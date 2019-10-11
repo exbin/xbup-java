@@ -20,6 +20,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
 import org.exbin.xbup.core.block.XBBlockTerminationMode;
 import org.exbin.xbup.core.block.XBBlockType;
 import org.exbin.xbup.core.block.XBFixedBlockType;
@@ -61,6 +63,7 @@ import org.exbin.xbup.core.ubnumber.type.UBNat32;
  * @version 0.1.25 2015/05/03
  * @author ExBin Project (http://exbin.org)
  */
+@ParametersAreNonnullByDefault
 public class XBPListenerSerialHandler implements XBPOutputSerialHandler, XBPSequenceSerialHandler, XBTTokenOutputSerialHandler {
 
     private XBPSequenceEventProducer eventListener;
@@ -388,6 +391,7 @@ public class XBPListenerSerialHandler implements XBPOutputSerialHandler, XBPSequ
         process(serial);
     }
 
+    @Nonnull
     @Override
     public XBSerializationMode getSerializationMode() {
         return XBSerializationMode.PUSH;
@@ -443,16 +447,19 @@ public class XBPListenerSerialHandler implements XBPOutputSerialHandler, XBPSequ
         putAppend(serial);
     }
 
+    @Nonnull
     @Override
     public XBBlockTerminationMode pullBegin() throws XBProcessingException, IOException {
         throw new XBProcessingException(PULL_NOT_ALLOWED_EXCEPTION, XBProcessingExceptionType.ILLEGAL_OPERATION);
     }
 
+    @Nonnull
     @Override
     public XBBlockType pullType() throws XBProcessingException, IOException {
         throw new XBProcessingException(PULL_NOT_ALLOWED_EXCEPTION, XBProcessingExceptionType.ILLEGAL_OPERATION);
     }
 
+    @Nonnull
     @Override
     public UBNatural pullAttribute() throws XBProcessingException, IOException {
         throw new XBProcessingException(PULL_NOT_ALLOWED_EXCEPTION, XBProcessingExceptionType.ILLEGAL_OPERATION);
@@ -478,6 +485,7 @@ public class XBPListenerSerialHandler implements XBPOutputSerialHandler, XBPSequ
         throw new XBProcessingException(PULL_NOT_ALLOWED_EXCEPTION, XBProcessingExceptionType.ILLEGAL_OPERATION);
     }
 
+    @Nonnull
     @Override
     public InputStream pullData() throws XBProcessingException, IOException {
         throw new XBProcessingException(PULL_NOT_ALLOWED_EXCEPTION, XBProcessingExceptionType.ILLEGAL_OPERATION);
@@ -498,11 +506,13 @@ public class XBPListenerSerialHandler implements XBPOutputSerialHandler, XBPSequ
         throw new XBProcessingException(PULL_NOT_ALLOWED_EXCEPTION, XBProcessingExceptionType.ILLEGAL_OPERATION);
     }
 
+    @Nonnull
     @Override
     public XBTToken pullToken(XBTTokenType tokenType) throws XBProcessingException, IOException {
         throw new XBProcessingException(PULL_NOT_ALLOWED_EXCEPTION, XBProcessingExceptionType.ILLEGAL_OPERATION);
     }
 
+    @Nonnull
     @Override
     public XBTToken pullToken() throws XBProcessingException, IOException {
         throw new XBProcessingException(PULL_NOT_ALLOWED_EXCEPTION, XBProcessingExceptionType.ILLEGAL_OPERATION);
@@ -546,6 +556,7 @@ public class XBPListenerSerialHandler implements XBPOutputSerialHandler, XBPSequ
         }
     }
 
+    @ParametersAreNonnullByDefault
     private static class XBTChildOutputSerialHandlerImpl implements XBTChildOutputSerialHandler {
 
         private final XBPListenerSerialHandler handler;
@@ -615,6 +626,7 @@ public class XBPListenerSerialHandler implements XBPOutputSerialHandler, XBPSequ
         }
     }
 
+    @ParametersAreNonnullByDefault
     private static class XBTBasicOutputSerialHandlerImpl implements XBTBasicOutputSerialHandler {
 
         private final XBPListenerSerialHandler handler;
@@ -628,22 +640,22 @@ public class XBPListenerSerialHandler implements XBPOutputSerialHandler, XBPSequ
             producer.attachXBTListener(new XBTListener() {
 
                 @Override
-                public void beginXBT(XBBlockTerminationMode terminationMode) throws XBProcessingException, IOException {
+                public void beginXBT(@Nonnull XBBlockTerminationMode terminationMode) throws XBProcessingException, IOException {
                     handler.putBegin(terminationMode);
                 }
 
                 @Override
-                public void typeXBT(XBBlockType blockType) throws XBProcessingException, IOException {
+                public void typeXBT(@Nonnull XBBlockType blockType) throws XBProcessingException, IOException {
                     handler.putType(blockType);
                 }
 
                 @Override
-                public void attribXBT(XBAttribute attribute) throws XBProcessingException, IOException {
+                public void attribXBT(@Nonnull XBAttribute attribute) throws XBProcessingException, IOException {
                     handler.putAttribute(attribute);
                 }
 
                 @Override
-                public void dataXBT(InputStream data) throws XBProcessingException, IOException {
+                public void dataXBT(@Nonnull InputStream data) throws XBProcessingException, IOException {
                     handler.putData(data);
                 }
 

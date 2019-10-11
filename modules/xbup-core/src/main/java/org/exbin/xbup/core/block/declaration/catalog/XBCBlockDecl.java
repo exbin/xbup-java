@@ -17,6 +17,7 @@
 package org.exbin.xbup.core.block.declaration.catalog;
 
 import java.io.IOException;
+import javax.annotation.Nullable;
 import org.exbin.xbup.core.block.XBBasicBlockType;
 import org.exbin.xbup.core.block.XBFixedBlockType;
 import org.exbin.xbup.core.block.declaration.XBBlockDecl;
@@ -48,7 +49,7 @@ public class XBCBlockDecl implements XBBlockDecl, XBPSequenceSerializable {
     }
 
     @Override
-    public boolean equals(Object obj) {
+    public boolean equals(@Nullable Object obj) {
         if (obj == null) {
             return false;
         }

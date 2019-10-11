@@ -19,6 +19,9 @@ package org.exbin.xbup.core.serial.param;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
 import org.exbin.xbup.core.parser.XBProcessingException;
 import org.exbin.xbup.core.parser.XBProcessingExceptionType;
 import org.exbin.xbup.core.parser.basic.XBTListener;
@@ -41,6 +44,7 @@ import org.exbin.xbup.core.stream.XBInput;
  * @version 0.1.25 2015/03/05
  * @author ExBin Project (http://exbin.org)
  */
+@ParametersAreNonnullByDefault
 public class XBPSequenceEventProducer implements XBTEventProducer {
 
     private XBTCompactingEventFilter eventListener;
@@ -176,10 +180,12 @@ public class XBPSequenceEventProducer implements XBTEventProducer {
         return processingState == XBParamProcessingState.END;
     }
 
+    @Nonnull
     public List<XBSerializable> getChildSequence() {
         return childSequence;
     }
 
+    @Nullable
     public XBSerializable getNextChild() {
         return nextChild;
     }

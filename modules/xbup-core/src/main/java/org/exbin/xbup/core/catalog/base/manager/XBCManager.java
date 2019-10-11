@@ -17,6 +17,7 @@
 package org.exbin.xbup.core.catalog.base.manager;
 
 import java.util.List;
+import javax.annotation.Nullable;
 import org.exbin.xbup.core.catalog.base.XBCBase;
 
 /**
@@ -55,6 +56,7 @@ public interface XBCManager<T extends XBCBase> {
      * @param itemId item id
      * @return instance of item or null
      */
+    @Nullable
     T getItem(long itemId);
 
     /**

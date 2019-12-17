@@ -1,28 +1,12 @@
 // Shared modules build
 
-version = '0.2.1-SNAPSHOT'
-def repositoryName = "xbup-java"
-def libraryUrl = 'http://xbup.exbin.org'
+version = '0.2.0-SNAPSHOT'
+def repositoryName = "exbin-auxiliary-java"
+def libraryUrl = 'https://exbin.org'
 
-ext.depsExbinAuxiliaryJava = [
-    githubProfile: 'exbin',
-    githubRepo: 'exbin-auxiliary-java',
-    version: '0.2.0-SNAPSHOT'
-]
+ext.depsThis = 'ExbinAuxiliaryJava'
 
-ext.depsThis = 'XbupJava'
-
-buildscript {
-    repositories {
-        mavenLocal()
-        jcenter()
-    }
-    dependencies {
-        classpath("at.bxm.gradleplugins:gradle-svntools-plugin:latest.integration")
-    }
-}
-
-['java', 'maven-publish', 'at.bxm.svntools', 'signing'].each {
+['java', 'maven', 'maven-publish', 'signing'].each {
     apply plugin: it
 }
 import org.gradle.util.VersionNumber
@@ -81,19 +65,12 @@ task javadocJar (type: Jar, dependsOn: javadoc) {
     from javadoc.destinationDir
 }
 
-def createSvnDownloadTask(def moduleName, def svnUrlValue, def targetDirValue) {
-    return tasks.create("svnDownload${moduleName}", at.bxm.gradleplugins.svntools.tasks.SvnExport) {
-        svnUrl = svnUrlValue
-        targetDir = targetDirValue
-    }
-}
-
 // Module dependency processing
 // - local maven repository module will be used if available
 // - otherwise module will be download to deps folder
 project.dependencies.ext.moduleDep = { depsName, packageName, moduleName ->
     if (depsName == ext.depsThis) {
-        return project(':modules:' + moduleName)
+        return project(":modules:" + moduleName)
     }
 
     def mavenModuleDir = repositories.mavenLocal().url.path + packageName.replace('.', '/') + '/' + moduleName + '/' + ext['deps' + depsName].version
@@ -162,8 +139,8 @@ publishing {
                     }
                     licenses {
                         license {
-                            name 'LGPL license, Version 3.0'
-                            url 'https://www.gnu.org/licenses/lgpl.txt'
+                            name 'Apache License, Version 2.0'
+                            url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
                             distribution 'repo'
                         }
                     }
@@ -213,6 +190,7 @@ if (gradle.startParameter.taskNames.contains("uploadArchives") && !version.endsW
                     packaging 'jar'
                     description libraryDescription
                     url libraryUrl
+                    organization 'ExBin Project'
 
                     scm {
                         url "https://github.com/exbin/${repositoryName}"

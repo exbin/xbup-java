@@ -19,7 +19,7 @@ package org.exbin.xbup.core.block;
 import java.io.InputStream;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import org.exbin.utils.binary_data.BinaryData;
+import org.exbin.auxiliary.paged_data.BinaryData;
 import org.exbin.xbup.core.parser.token.XBAttribute;
 import org.exbin.xbup.core.type.XBData;
 

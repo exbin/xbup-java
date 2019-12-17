@@ -20,7 +20,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
-import org.exbin.utils.binary_data.BinaryData;
+import org.exbin.auxiliary.paged_data.BinaryData;
 import org.exbin.xbup.core.parser.token.XBAttribute;
 
 /**

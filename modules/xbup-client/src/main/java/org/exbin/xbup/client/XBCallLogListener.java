@@ -17,7 +17,7 @@
 package org.exbin.xbup.client;
 
 import javax.annotation.Nonnull;
-import org.exbin.utils.binary_data.BinaryData;
+import org.exbin.auxiliary.paged_data.BinaryData;
 
 /**
  * Remote procedure call logging listener.

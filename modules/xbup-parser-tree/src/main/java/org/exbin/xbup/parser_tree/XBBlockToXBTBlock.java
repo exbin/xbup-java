@@ -18,7 +18,7 @@ package org.exbin.xbup.parser_tree;
 
 import java.io.IOException;
 import java.io.InputStream;
-import org.exbin.utils.binary_data.BinaryData;
+import org.exbin.auxiliary.paged_data.BinaryData;
 import org.exbin.xbup.core.block.XBBlock;
 import org.exbin.xbup.core.block.XBBlockDataMode;
 import org.exbin.xbup.core.block.XBBlockTerminationMode;

@@ -1,9 +1,9 @@
 rootProject.name = 'xbup-service'
 
 if (rootProject.path == ':') {
-    include ':modules:xbup-core'
     include ':modules:xbup-catalog'
     include ':modules:xbup-client'
+    include ':modules:xbup-core'
 }
 
 apply from: '../xbup-java-modules-settings.gradle'

@@ -1,3 +1,6 @@
 rootProject.name = 'xbup-core'
 
+if (rootProject.path == ':') {
+}
+
 apply from: '../xbup-java-modules-settings.gradle'

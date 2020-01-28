@@ -1,42 +1,32 @@
-XBUP Support Libraries
-======================
+eXtensible Binary Universal Protocol - Libraries
+================================================
 
 This repository contains Java implementation of the protocol parsers, catalog and service handling for eXtensible Binary Universal Protocol.
+
+XBUP is binary data protocol and file format for communication, data storage and application interfaces. 
 
 Homepage: http://xbup.exbin.org  
 
 Structure
 ---------
 
-As the project is currently in alpha stage, repository contains complete resources for distribution package with following folders:
+As the project is currently in alpha stage, repository contains comp	lete resources for distribution package with following folders:
 
- * doc - Documentation + related presentations
- * gradle - Gradle wrapper
- * src - Sources related to building distribution packages
- * modules - Libraries and other
- * plugins - Catalog plugins
- * resources - Related resource files, like sample files, images, etc.
- * tools - Distributable subprojects encapsulating modules to runnable applications
+  * modules - Libraries and other
+  * doc - Documentation + related presentations
+  * src - Sources related to building distribution packages
+  * resources - Related resource files, like sample files, images, etc.
+  * deps - Folder for downloading libraries for dependency resolution
+  * gradle - Gradle wrapper
 
 Compiling
 ---------
 
-Java Development Kit (JDK) version 8 or later is required to build this project.
+For project compiling Gradle 6.0 build system is used: http://gradle.org
 
-For project compiling Gradle 4.0 build system is used. You can either download and install gradle and run "gradle build" command in project folder or gradlew or gradlew.bat scripts to download separate copy of gradle to perform the project build.
+You can either download and install gradle or use gradlew or gradlew.bat scripts to download separate copy of gradle to perform the project build.
 
-Build system website: http://gradle.org
-
-Development
------------
-
-The Gradle build system provides support for various IDEs. See gradle website for more information.
-
- * NetBeans 8.0 or later
-
-There is gradle support plugin, which can be used to some degree, but some projects need other way of handling as described in their readme files.
-
-Gradle support plugin website: http://plugins.netbeans.org/plugin/44510/gradle-support
+Build commands: "gradle build" and "gradle distZip"
 
 License
 -------

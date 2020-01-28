@@ -51,7 +51,7 @@ public class XBCatalogNetServiceClient extends XBTCPServiceClient implements XBC
      */
     @Nullable
     private XBLFormatDecl getContextFormatDecl() {
-        XBPSerialReader reader = new XBPSerialReader(ClassLoader.class.getResourceAsStream("/org/exbin/xbup/client/resources/catalog_service_format.xb"));
+        XBPSerialReader reader = new XBPSerialReader(getClass().getResourceAsStream("/org/exbin/xbup/client/resources/catalog_service_format.xb"));
         XBLFormatDecl formatDecl = new XBLFormatDecl();
         try {
             reader.read(formatDecl);

@@ -16,7 +16,10 @@
  */
 package org.exbin.xbup.core.catalog.base.manager;
 
+import java.util.List;
+import javax.annotation.Nonnull;
 import org.exbin.xbup.core.catalog.base.XBCItem;
+import org.exbin.xbup.core.catalog.base.service.XBItemWithDetail;
 
 /**
  * Interface for XBCItem catalog manager.
@@ -26,4 +29,9 @@ import org.exbin.xbup.core.catalog.base.XBCItem;
  * @param <T> item entity
  */
 public interface XBCItemManager<T extends XBCItem> extends XBCCatalogManager<T> {
+
+    @Nonnull
+    List<XBItemWithDetail> findAllPaged(int startFrom, int maxResults, String filterCondition, String orderCondition, String specType);
+
+    int findAllPagedCount(String filterCondition, String specType);
 }

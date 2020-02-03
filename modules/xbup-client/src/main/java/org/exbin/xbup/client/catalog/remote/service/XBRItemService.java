@@ -16,23 +16,39 @@
  */
 package org.exbin.xbup.client.catalog.remote.service;
 
+import java.util.List;
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
 import org.exbin.xbup.client.catalog.XBRCatalog;
 import org.exbin.xbup.client.catalog.remote.XBRItem;
 import org.exbin.xbup.client.catalog.remote.manager.XBRItemManager;
 import org.exbin.xbup.core.catalog.base.manager.XBCItemManager;
 import org.exbin.xbup.core.catalog.base.service.XBCItemService;
+import org.exbin.xbup.core.catalog.base.service.XBItemWithDetail;
 
 /**
  * Remote service for XBRItem items.
  *
- * @version 0.1.25 2015/03/19
+ * @version 0.2.1 2020/02/03
  * @author ExBin Project (http://exbin.org)
  */
+@ParametersAreNonnullByDefault
 public class XBRItemService extends XBRDefaultService<XBRItem> implements XBCItemService<XBRItem> {
 
     public XBRItemService(XBRCatalog catalog) {
         super(catalog);
         itemManager = new XBRItemManager(catalog);
         catalog.addCatalogManager(XBCItemManager.class, (XBCItemManager) itemManager);
+    }
+
+    @Nonnull
+    @Override
+    public List<XBItemWithDetail> findAllPaged(int startFrom, int maxResults, String filterCondition, String orderCondition, String specType) {
+        return ((XBRItemManager) itemManager).findAllPaged(startFrom, maxResults, filterCondition, orderCondition, specType);
+    }
+
+    @Override
+    public int findAllPagedCount(String filterCondition, String specType) {
+        return ((XBRItemManager) itemManager).findAllPagedCount(filterCondition, specType);
     }
 }

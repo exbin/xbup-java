@@ -14,9 +14,10 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along this application.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.exbin.xbup.catalog.entity.manager;
+package org.exbin.xbup.core.catalog.base.service;
 
 import java.util.Objects;
+import javax.annotation.Nullable;
 import org.exbin.xbup.core.catalog.base.XBCBlockCons;
 import org.exbin.xbup.core.catalog.base.XBCBlockJoin;
 import org.exbin.xbup.core.catalog.base.XBCBlockListCons;
@@ -37,7 +38,7 @@ import org.exbin.xbup.core.catalog.base.XBCNode;
 /**
  * Table model for catalog specifications.
  *
- * @version 0.1.24 2014/12/11
+ * @version 0.2.1 2020/02/03
  * @author ExBin Project (http://exbin.org)
  */
 public class XBItemWithDetail {
@@ -89,6 +90,7 @@ public class XBItemWithDetail {
 
     public void setItem(XBCItem item) {
         this.item = item;
+        setTypeFromItem();
     }
 
     @Override
@@ -99,7 +101,7 @@ public class XBItemWithDetail {
     }
 
     @Override
-    public boolean equals(Object obj) {
+    public boolean equals(@Nullable Object obj) {
         if (obj == null) {
             return false;
         }
@@ -110,7 +112,7 @@ public class XBItemWithDetail {
         return Objects.equals(this.item.getId(), other.item.getId());
     }
 
-    void setTypeFromItem() {
+    private void setTypeFromItem() {
         if (item instanceof XBCNode) {
             type = "Node";
         } else if (item instanceof XBCFormatSpec) {
@@ -144,7 +146,5 @@ public class XBItemWithDetail {
         } else {
             type = "TODO:" + item.getClass().getName();
         }
-
     }
-
 }

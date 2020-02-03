@@ -16,10 +16,12 @@
  */
 package org.exbin.xbup.client.catalog.remote.manager;
 
+import java.util.List;
 import org.exbin.xbup.client.catalog.XBRCatalog;
 import org.exbin.xbup.client.catalog.remote.XBRItem;
 import org.exbin.xbup.client.stub.XBPItemStub;
 import org.exbin.xbup.core.catalog.base.manager.XBCItemManager;
+import org.exbin.xbup.core.catalog.base.service.XBItemWithDetail;
 
 /**
  * Remote manager class for XBRItem catalog items.
@@ -39,5 +41,15 @@ public class XBRItemManager extends XBRDefaultManager<XBRItem> implements XBCIte
     @Override
     public long getItemsCount() {
         return itemStub.getItemsCount();
+    }
+
+    @Override
+    public List<XBItemWithDetail> findAllPaged(int startFrom, int maxResults, String filterCondition, String orderCondition, String specType) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public int findAllPagedCount(String filterCondition, String specType) {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 }

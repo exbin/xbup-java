@@ -16,9 +16,11 @@
  */
 package org.exbin.xbup.catalog.entity.manager;
 
+import org.exbin.xbup.core.catalog.base.service.XBItemWithDetail;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import javax.annotation.Nonnull;
 import javax.persistence.Query;
 import org.exbin.xbup.catalog.XBECatalog;
 import org.exbin.xbup.catalog.entity.XBEItem;
@@ -46,6 +48,7 @@ public class XBEItemManager extends XBEDefaultCatalogManager<XBEItem> implements
         super(catalog);
     }
 
+    @Nonnull
     public List<XBItemWithDetail> findAllPaged(int startFrom, int maxResults, String filterCondition, String orderCondition, String specType) {
         XBCXLangManager langManager = catalog.getCatalogManager(XBCXLangManager.class);
         long languageId = langManager.getDefaultLang().getId();
@@ -76,7 +79,6 @@ public class XBEItemManager extends XBEDefaultCatalogManager<XBEItem> implements
             itemRecord.setDescription(desc == null ? null : desc.getText());
             XBEXStri stri = (XBEXStri) ((Object[]) row)[3];
             itemRecord.setStringId(stri == null ? null : stri.getText());
-            itemRecord.setTypeFromItem();
             results.add(itemRecord);
         }
 

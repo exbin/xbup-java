@@ -16,14 +16,23 @@
  */
 package org.exbin.xbup.core.catalog.base.service;
 
+import java.util.List;
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
 import org.exbin.xbup.core.catalog.base.XBCItem;
 
 /**
  * Interface for XBCItem items service.
  *
- * @version 0.1.21 2011/12/30
+ * @version 0.2.1 2020/02/03
  * @author ExBin Project (http://exbin.org)
  * @param <T> item class
  */
+@ParametersAreNonnullByDefault
 public interface XBCItemService<T extends XBCItem> extends XBCService<T> {
+
+    @Nonnull
+    List<XBItemWithDetail> findAllPaged(int startFrom, int maxResults, String filterCondition, String orderCondition, String specType);
+
+    int findAllPagedCount(String filterCondition, String specType);
 }

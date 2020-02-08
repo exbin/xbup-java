@@ -21,6 +21,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
 import org.exbin.xbup.core.parser.XBProcessingException;
 import org.exbin.xbup.core.ubnumber.UBStreamable;
 
@@ -30,6 +31,7 @@ import org.exbin.xbup.core.ubnumber.UBStreamable;
  * @version 0.2.1 2017/05/24
  * @author ExBin Project (http://exbin.org)
  */
+@ParametersAreNonnullByDefault
 public class XBTree implements UBStreamable {
 
     @Nullable
@@ -44,7 +46,7 @@ public class XBTree implements UBStreamable {
     }
 
     @Override
-    public int toStreamUB(@Nonnull OutputStream stream) throws IOException {
+    public int toStreamUB(OutputStream stream) throws IOException {
         if (rootNode != null) {
             return rootNode.toStreamUB(stream);
         } else {
@@ -53,7 +55,7 @@ public class XBTree implements UBStreamable {
     }
 
     @Override
-    public int fromStreamUB(@Nonnull InputStream stream) throws IOException, XBProcessingException {
+    public int fromStreamUB(InputStream stream) throws IOException, XBProcessingException {
         clear();
         rootNode = new XBTreeNode();
         return rootNode.fromStreamUB(stream);

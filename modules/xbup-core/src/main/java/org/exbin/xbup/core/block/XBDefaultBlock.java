@@ -181,7 +181,7 @@ public class XBDefaultBlock implements XBBlock {
         return children.length;
     }
 
-    @Nonnull
+    @Nullable
     @Override
     public InputStream getData() {
         return data == null ? null : data.getDataInputStream();

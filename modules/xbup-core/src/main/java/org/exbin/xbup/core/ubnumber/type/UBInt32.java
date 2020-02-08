@@ -96,7 +96,7 @@ public class UBInt32 implements UBInteger, XBPSequenceSerializable {
 
     @Override
     public int hashCode() {
-        return new Long(value).hashCode();
+        return Long.valueOf(value).hashCode();
     }
 
     @Override

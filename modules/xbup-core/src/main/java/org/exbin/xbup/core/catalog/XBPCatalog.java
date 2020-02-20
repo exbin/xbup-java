@@ -30,7 +30,6 @@ import org.exbin.xbup.core.block.declaration.XBFormatDecl;
 import org.exbin.xbup.core.block.declaration.XBGroup;
 import org.exbin.xbup.core.block.declaration.XBGroupDecl;
 import org.exbin.xbup.core.block.declaration.local.XBLFormatDecl;
-import org.exbin.xbup.core.catalog.base.XBCBase;
 import org.exbin.xbup.core.catalog.base.XBCFormatSpec;
 import org.exbin.xbup.core.catalog.base.XBCGroupSpec;
 import org.exbin.xbup.core.catalog.base.XBCSpec;
@@ -92,32 +91,32 @@ public class XBPCatalog implements XBCatalog {
     }
 
     @Override
-    public <T extends XBCManager<? extends XBCBase>> T getCatalogManager(@Nonnull Class<T> managerClass) {
+    public <T extends XBCManager<?>> T getCatalogManager(@Nonnull Class<T> managerClass) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
-    public <T extends XBCService<? extends XBCBase>> T getCatalogService(@Nonnull Class<T> serviceClass) {
+    public <T extends XBCService<?>> T getCatalogService(@Nonnull Class<T> serviceClass) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
-    public List<XBCService<? extends XBCBase>> getCatalogServices() {
+    public List<XBCService<?>> getCatalogServices() {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
-    public List<XBCManager<? extends XBCBase>> getCatalogManagers() {
+    public List<XBCManager<?>> getCatalogManagers() {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
-    public <T extends XBCManager<? extends XBCBase>> void addCatalogManager(Class<T> type, T manager) {
+    public <T extends XBCManager<?>> void addCatalogManager(Class<T> type, T manager) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
-    public <T extends XBCService<? extends XBCBase>> void addCatalogService(Class<T> type, T service) {
+    public <T extends XBCService<?>> void addCatalogService(Class<T> type, T service) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 

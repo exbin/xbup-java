@@ -26,7 +26,6 @@ import org.exbin.xbup.core.block.declaration.XBBlockDecl;
 import org.exbin.xbup.core.block.declaration.XBContext;
 import org.exbin.xbup.core.block.declaration.XBFormatDecl;
 import org.exbin.xbup.core.block.declaration.XBGroupDecl;
-import org.exbin.xbup.core.catalog.base.XBCBase;
 import org.exbin.xbup.core.catalog.base.XBCFormatSpec;
 import org.exbin.xbup.core.catalog.base.XBCGroupSpec;
 import org.exbin.xbup.core.catalog.base.XBCSpec;
@@ -110,7 +109,7 @@ public interface XBCatalog {
      * @return manager
      */
     @Nonnull
-    <T extends XBCManager<? extends XBCBase>> T getCatalogManager(Class<T> managerClass);
+    <T extends XBCManager<?>> T getCatalogManager(Class<T> managerClass);
 
     /**
      * Returns catalog service of given type.
@@ -120,7 +119,7 @@ public interface XBCatalog {
      * @return service
      */
     @Nonnull
-    <T extends XBCService<? extends XBCBase>> T getCatalogService(Class<T> serviceClass);
+    <T extends XBCService<?>> T getCatalogService(Class<T> serviceClass);
 
     /**
      * Returns list of catalog services.
@@ -128,7 +127,7 @@ public interface XBCatalog {
      * @return list of all catalog extensions
      */
     @Nonnull
-    List<XBCService<? extends XBCBase>> getCatalogServices();
+    List<XBCService<?>> getCatalogServices();
 
     /**
      * Returns list of catalog managers.
@@ -136,7 +135,7 @@ public interface XBCatalog {
      * @return list of all catalog extensions
      */
     @Nonnull
-    List<XBCManager<? extends XBCBase>> getCatalogManagers();
+    List<XBCManager<?>> getCatalogManagers();
 
     /**
      * Adds catalog manager to catalog repository.
@@ -147,7 +146,7 @@ public interface XBCatalog {
      * @param type type of extension
      * @param manager instance of extension, must implement XBCExtension
      */
-    <T extends XBCManager<? extends XBCBase>> void addCatalogManager(Class<T> type, T manager);
+    <T extends XBCManager<?>> void addCatalogManager(Class<T> type, T manager);
 
     /**
      * Adds catalog service to catalog repository.
@@ -156,7 +155,7 @@ public interface XBCatalog {
      * @param type type of extension
      * @param service instance of extension, must implement XBCExtension
      */
-    <T extends XBCService<? extends XBCBase>> void addCatalogService(Class<T> type, T service);
+    <T extends XBCService<?>> void addCatalogService(Class<T> type, T service);
 
     /**
      * Processes declaration block and it's children and construct new context.

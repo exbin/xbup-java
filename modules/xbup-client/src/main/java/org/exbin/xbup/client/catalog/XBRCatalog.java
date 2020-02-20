@@ -21,6 +21,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import javax.annotation.Nonnull;
 import org.exbin.xbup.client.XBCatalogServiceClient;
 import org.exbin.xbup.client.catalog.remote.XBRBlockSpec;
 import org.exbin.xbup.client.catalog.remote.XBRFormatSpec;
@@ -44,7 +45,6 @@ import org.exbin.xbup.core.block.declaration.catalog.XBCFormatDecl;
 import org.exbin.xbup.core.block.declaration.catalog.XBCGroupDecl;
 import org.exbin.xbup.core.block.declaration.local.XBLGroupDecl;
 import org.exbin.xbup.core.catalog.XBCatalog;
-import org.exbin.xbup.core.catalog.base.XBCBase;
 import org.exbin.xbup.core.catalog.base.XBCBlockRev;
 import org.exbin.xbup.core.catalog.base.XBCExtension;
 import org.exbin.xbup.core.catalog.base.XBCFormatRev;
@@ -214,17 +214,17 @@ public class XBRCatalog implements XBCatalog {
     }
 
     @Override
-    public List<XBCService<? extends XBCBase>> getCatalogServices() {
+    public List<XBCService<?>> getCatalogServices() {
         return new ArrayList<>(catalogServices.values());
     }
 
     @Override
-    public List<XBCManager<? extends XBCBase>> getCatalogManagers() {
+    public List<XBCManager<?>> getCatalogManagers() {
         return new ArrayList<>(catalogManagers.values());
     }
 
     @Override
-    public <T extends XBCManager<? extends XBCBase>> void addCatalogManager(Class<T> type, T manager) {
+    public <T extends XBCManager<?>> void addCatalogManager(Class<T> type, T manager) {
         catalogManagers.put(type, manager);
         if (manager instanceof XBCExtension) {
             ((XBCExtension) manager).initializeExtension();
@@ -232,7 +232,7 @@ public class XBRCatalog implements XBCatalog {
     }
 
     @Override
-    public <T extends XBCService<? extends XBCBase>> void addCatalogService(Class<T> type, T service) {
+    public <T extends XBCService<?>> void addCatalogService(Class<T> type, T service) {
         catalogServices.put(type, service);
         if (service instanceof XBCExtension) {
             ((XBCExtension) service).initializeExtension();
@@ -247,14 +247,16 @@ public class XBRCatalog implements XBCatalog {
         this.client = client;
     }
 
+    @Nonnull
     @Override
-    public XBCManager<? extends XBCBase> getCatalogManager(Class type) {
-        return (XBCManager<? extends XBCBase>) catalogManagers.get(type);
+    public <T extends XBCManager<?>> T getCatalogManager(@Nonnull Class<T> managerClass) {
+        return (T) catalogManagers.get(managerClass);
     }
 
+    @Nonnull
     @Override
-    public XBCService<? extends XBCBase> getCatalogService(Class type) {
-        return (XBCService<? extends XBCBase>) catalogServices.get(type);
+    public <T extends XBCService<?>> T getCatalogService(@Nonnull Class<T> serviceClass) {
+        return (T) catalogServices.get(serviceClass);
     }
 
     public Long findBlockIdForGroup(XBGroup group, XBBlockDecl decl) {

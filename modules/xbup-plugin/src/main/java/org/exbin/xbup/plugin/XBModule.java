@@ -16,7 +16,7 @@
  */
 package org.exbin.xbup.plugin;
 
-import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
 
 /**
  * Interface for XBUP defined module.
@@ -24,6 +24,7 @@ import javax.annotation.Nonnull;
  * @version 0.2.1 2017/05/25
  * @author ExBin Project (http://exbin.org)
  */
+@ParametersAreNonnullByDefault
 public interface XBModule {
 
     /**
@@ -31,12 +32,12 @@ public interface XBModule {
      *
      * @param application framework application
      */
-    void init(@Nonnull XBModuleHandler application);
+    void init(XBModuleHandler application);
 
     /**
      * Unregisters all functionality registered by given module.
      *
      * @param moduleId plugin identification code
      */
-    void unregisterModule(@Nonnull String moduleId);
+    void unregisterModule(String moduleId);
 }

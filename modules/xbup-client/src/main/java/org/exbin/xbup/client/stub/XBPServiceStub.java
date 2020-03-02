@@ -52,6 +52,9 @@ public class XBPServiceStub {
     public int login(final String user, final char[] password) {
         try {
             XBCallHandler procedureCall = client.procedureCall();
+            if (procedureCall == null) {
+                return -1;
+            }
 
             XBPListenerSerialHandler serialInput = new XBPListenerSerialHandler(procedureCall.getParametersInput());
             serialInput.begin();

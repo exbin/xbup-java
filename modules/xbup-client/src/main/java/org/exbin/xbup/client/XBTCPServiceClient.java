@@ -19,6 +19,7 @@ package org.exbin.xbup.client;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.ConnectException;
 import java.net.Socket;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -138,6 +139,10 @@ public class XBTCPServiceClient implements XBServiceClient {
                     }
                 }
             };
+        } catch (ConnectException ex) {
+            Logger.getLogger(XBTCPServiceClient.class.getName()).log(Level.SEVERE, null, ex);
+
+            return null;
         } catch (XBProcessingException | IOException ex) {
             Logger.getLogger(XBTCPServiceClient.class.getName()).log(Level.SEVERE, null, ex);
         }

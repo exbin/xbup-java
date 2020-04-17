@@ -23,6 +23,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
 
 /**
  * XBUP protocol level 0 data token.
@@ -52,8 +53,8 @@ public abstract class XBDataToken implements XBToken {
      */
     public abstract boolean isEmpty();
 
-    @Override
     @Nonnull
+    @Override
     public XBTokenType getTokenType() {
         return XBTokenType.DATA;
     }
@@ -63,6 +64,7 @@ public abstract class XBDataToken implements XBToken {
         return new XBDataTokenImpl(data);
     }
 
+    @ParametersAreNonnullByDefault
     private static class XBDataTokenImpl extends XBDataToken {
 
         @Nonnull
@@ -72,11 +74,13 @@ public abstract class XBDataToken implements XBToken {
             this.data = data;
         }
 
+        @Nonnull
         @Override
         public XBTokenType getTokenType() {
             return super.getTokenType();
         }
 
+        @Nonnull
         @Override
         public InputStream getData() {
             return data;
@@ -116,6 +120,7 @@ public abstract class XBDataToken implements XBToken {
             return true;
         }
 
+        @Nonnull
         @Override
         public InputStream getData() {
             return new ByteArrayInputStream(new byte[0]);

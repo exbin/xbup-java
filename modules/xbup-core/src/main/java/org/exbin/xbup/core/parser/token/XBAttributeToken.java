@@ -18,6 +18,7 @@ package org.exbin.xbup.core.parser.token;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
 import org.exbin.xbup.core.ubnumber.type.UBNat32;
 
 /**
@@ -28,6 +29,7 @@ import org.exbin.xbup.core.ubnumber.type.UBNat32;
  * @version 0.2.1 2017/05/22
  * @author ExBin Project (http://exbin.org)
  */
+@ParametersAreNonnullByDefault
 public abstract class XBAttributeToken implements XBToken {
 
     /**
@@ -45,23 +47,24 @@ public abstract class XBAttributeToken implements XBToken {
      */
     public abstract boolean isZero();
 
-    @Override
     @Nonnull
+    @Override
     public XBTokenType getTokenType() {
         return XBTokenType.ATTRIBUTE;
     }
 
     @Nonnull
-    public static XBAttributeToken create(@Nonnull XBAttribute attribute) {
+    public static XBAttributeToken create(XBAttribute attribute) {
         return new XBAttributeTokenImpl(attribute);
     }
 
+    @ParametersAreNonnullByDefault
     private static class XBAttributeTokenImpl extends XBAttributeToken {
 
         @Nonnull
         private final XBAttribute attribute;
 
-        private XBAttributeTokenImpl(@Nonnull XBAttribute attribute) {
+        private XBAttributeTokenImpl(XBAttribute attribute) {
             this.attribute = attribute;
         }
 
@@ -99,6 +102,7 @@ public abstract class XBAttributeToken implements XBToken {
         XBZeroAttributeToken() {
         }
 
+        @Nonnull
         @Override
         public XBAttribute getAttribute() {
             return new UBNat32();

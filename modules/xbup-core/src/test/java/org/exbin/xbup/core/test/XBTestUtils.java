@@ -86,7 +86,7 @@ public class XBTestUtils {
     public static void assertEqualsXBDocuments(XBDocument expectedDocument, XBDocument document) {
         long tailDataSize = expectedDocument.getTailDataSize();
         assertEquals(tailDataSize, document.getTailDataSize());
-        assertEqualsXBBlock(expectedDocument.getRootBlock(), document.getRootBlock());
+        assertEqualsXBBlock(expectedDocument.getRootBlock().orElse(null), document.getRootBlock().orElse(null));
     }
 
     /**

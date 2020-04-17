@@ -16,7 +16,6 @@
  */
 package org.exbin.xbup.core.parser.token.event;
 
-import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 import org.exbin.xbup.core.stream.XBOutput;
 

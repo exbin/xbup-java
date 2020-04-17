@@ -23,6 +23,8 @@ import java.io.OutputStream;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
+import javax.annotation.Nonnull;
 import org.exbin.auxiliary.paged_data.BinaryData;
 import org.exbin.xbup.core.block.XBBlock;
 import org.exbin.xbup.core.block.XBBlockDataMode;
@@ -100,7 +102,7 @@ public class XBWriter implements XBCommandWriter, XBPullProvider, Closeable {
             if (treeWriter == null) {
                 XBWriterBlock activeBlock = getActiveBlock();
                 if (activeBlock == null) {
-                    treeWriter = new XBTreeWriter(new XBDefaultDocument(getRootBlock(), getTailData()));
+                    treeWriter = new XBTreeWriter(new XBDefaultDocument(getRootBlock().get(), getTailData().orElse(null)));
                 } else {
                     treeWriter = new XBTreeWriter(activeBlock);
                 }
@@ -116,17 +118,19 @@ public class XBWriter implements XBCommandWriter, XBPullProvider, Closeable {
         inputStream.close();
     }
 
+    @Nonnull
     @Override
-    public XBWriterBlock getRootBlock() {
+    public Optional<XBBlock> getRootBlock() {
         return getBlock(new long[0]);
     }
 
+    @Nonnull
     @Override
-    public XBWriterBlock getBlock(long[] blockPath) {
+    public Optional<XBBlock> getBlock(long[] blockPath) {
         // Search for existing cache record first 
         BlockTreeCache cacheNode = this.blockTreeCache;
         if (cacheNode != null && blockPath.length == 0) {
-            return cacheNode.block;
+            return Optional.of(cacheNode.block);
         }
 
         int depth = 0;
@@ -135,7 +139,7 @@ public class XBWriter implements XBCommandWriter, XBPullProvider, Closeable {
                 cacheNode = cacheNode.childBlocks.get((int) blockPath[depth]);
                 depth++;
                 if (cacheNode != null && depth == blockPath.length && cacheNode.block != null) {
-                    return cacheNode.block;
+                    return Optional.of(cacheNode.block);
                 }
             } else {
                 break;
@@ -144,7 +148,7 @@ public class XBWriter implements XBCommandWriter, XBPullProvider, Closeable {
 
         // TODO fail if it doesn't exist
         // Create new block
-        return createNewBlock(blockPath);
+        return Optional.of(createNewBlock(blockPath));
     }
 
     public XBEditableBlock getBlockChild(XBWriterBlock parentBlock, int childIndex) {
@@ -154,6 +158,7 @@ public class XBWriter implements XBCommandWriter, XBPullProvider, Closeable {
         return createNewBlock(childPath);
     }
 
+    @Nonnull
     private XBWriterBlock createNewBlock(long[] blockPath) {
         blockStoreIndex++;
         XBWriterBlock block = new XBWriterBlock(this, blockPath, blockStoreIndex);
@@ -215,7 +220,7 @@ public class XBWriter implements XBCommandWriter, XBPullProvider, Closeable {
     public XBToken pullXBToken() throws XBProcessingException, IOException {
         XBWriterBlock block;
         if (activeBlockId == 0) {
-            block = (XBWriterBlock) getRootBlock();
+            block = (XBWriterBlock) getRootBlock().orElse(null);
             setActiveBlockId(block);
         } else {
             block = getActiveBlock();
@@ -258,13 +263,13 @@ public class XBWriter implements XBCommandWriter, XBPullProvider, Closeable {
                 } else {
                     XBWriterBlock nextBlock = (XBWriterBlock) reader.getActiveBlock();
                     if (nextBlock == null) {
-                        nextBlock = getBlock(reader.getCurrentBlockPath());
+                        nextBlock = (XBWriterBlock) getBlock(reader.getCurrentBlockPath()).orElse(null);
                         reader.setActiveBlock(nextBlock);
                     }
                     setActiveBlockId(nextBlock);
                 }
             } else if (token.getTokenType() == XBTokenType.END) {
-                XBWriterBlock nextBlock = (XBWriterBlock) getActiveBlock().getParent();
+                XBWriterBlock nextBlock = (XBWriterBlock) getActiveBlock().getParentBlock().orElse(null);
                 reader.setActiveBlock(nextBlock);
                 setActiveBlockId(nextBlock);
             }
@@ -292,6 +297,7 @@ public class XBWriter implements XBCommandWriter, XBPullProvider, Closeable {
         return reader.getBlockAttributesCount();
     }
 
+    @Nonnull
     public InputStream getBlockData() throws XBProcessingException, IOException {
         return reader.getBlockData();
     }
@@ -308,11 +314,14 @@ public class XBWriter implements XBCommandWriter, XBPullProvider, Closeable {
         return reader.getCurrentBlockPath();
     }
 
+    @Nonnull
     @Override
-    public InputStream getTailData() {
-        XBWriterBlock rootBlock = getRootBlock();
-        if (rootBlock != null && rootBlock.isFixedBlock()) {
-            return tailData == null ? new XBData().getDataInputStream() : tailData.getDataInputStream();
+    public Optional<InputStream> getTailData() {
+        Optional<XBBlock> rootBlock = getRootBlock();
+        if (rootBlock.isPresent()) {
+            if (((XBWriterBlock) rootBlock.get()).isFixedBlock()) {
+                return tailData == null ? Optional.of(new XBData().getDataInputStream()) : Optional.of(tailData.getDataInputStream());
+            }
         }
 
         return reader.getTailData();
@@ -320,9 +329,11 @@ public class XBWriter implements XBCommandWriter, XBPullProvider, Closeable {
 
     @Override
     public long getTailDataSize() {
-        XBWriterBlock rootBlock = getRootBlock();
-        if (rootBlock != null && rootBlock.isFixedBlock()) {
-            return tailData == null ? -1 : tailData.getDataSize();
+        Optional<XBBlock> rootBlock = getRootBlock();
+        if (rootBlock.isPresent()) {
+            if (((XBWriterBlock) rootBlock.get()).isFixedBlock()) {
+                return tailData == null ? -1 : tailData.getDataSize();
+            }
         }
 
         return reader.getTailDataSize();
@@ -336,8 +347,11 @@ public class XBWriter implements XBCommandWriter, XBPullProvider, Closeable {
     @Override
     public void setRootBlock(XBBlock block) {
         long[] blockPath = new long[0];
-        XBWriterBlock rootBlock = getBlock(blockPath);
-        if (rootBlock == null) {
+        Optional<XBBlock> optRootBlock = getBlock(blockPath);
+        XBWriterBlock rootBlock = null;
+        if (optRootBlock.isPresent()) {
+            rootBlock = (XBWriterBlock) optRootBlock.get();
+        } else {
             rootBlock = createNewBlock(blockPath);
         }
         rootBlock.setFixedBlock(block);

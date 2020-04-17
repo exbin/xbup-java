@@ -19,6 +19,7 @@ package org.exbin.xbup.operation.basic;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.exbin.xbup.core.block.XBTBlock;
@@ -86,10 +87,11 @@ public class XBTModifyBlockOperation extends XBTDocOperation {
         }
 
         XBTEditableBlock node = (XBTEditableBlock) document.findBlockByIndex(serial.position);
-        XBTEditableBlock parentNode = (XBTEditableBlock) node.getParent();
-        if (parentNode == null) {
+        Optional<XBTBlock> optParentNode = node.getParentBlock();
+        if (!optParentNode.isPresent()) {
             document.setRootBlock(serial.newNode);
         } else {
+            XBTEditableBlock parentNode = (XBTEditableBlock) optParentNode.get();
             // Find child index of node
             int childPosition = 0;
             do {

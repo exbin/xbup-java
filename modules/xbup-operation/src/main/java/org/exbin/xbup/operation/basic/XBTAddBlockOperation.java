@@ -109,7 +109,7 @@ public class XBTAddBlockOperation extends XBTDocOperation {
                 XBTBlock node = parentNode.getChildAt(serial.childIndex);
                 undoOperation = new XBTDeleteBlockOperation(document, node);
             } else {
-                undoOperation = new XBTDeleteBlockOperation(document, document.getRootBlock());
+                undoOperation = new XBTDeleteBlockOperation(document, document.getRootBlock().get());
             }
             return undoOperation;
         }

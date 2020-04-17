@@ -25,8 +25,11 @@ import java.util.Collections;
 import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import javax.swing.tree.TreeNode;
 import org.exbin.auxiliary.paged_data.BinaryData;
 import org.exbin.auxiliary.paged_data.EditableBinaryData;
@@ -501,9 +504,16 @@ public class XBTreeNode implements XBEditableBlock, TreeNode, UBStreamable {
         return getSizeUB();
     }
 
+    @Nullable
     @Override
     public XBTreeNode getParent() {
         return parent;
+    }
+
+    @Nonnull
+    @Override
+    public Optional<XBBlock> getParentBlock() {
+        return Optional.ofNullable(parent);
     }
 
     @Override

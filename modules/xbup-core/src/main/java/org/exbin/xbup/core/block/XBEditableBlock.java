@@ -51,7 +51,7 @@ public interface XBEditableBlock extends XBBlock {
      *
      * @param dataMode data block mode
      */
-    void setDataMode(@Nullable XBBlockDataMode dataMode);
+    void setDataMode(XBBlockDataMode dataMode);
 
     /**
      * Sets array of attributes in order of appearance.

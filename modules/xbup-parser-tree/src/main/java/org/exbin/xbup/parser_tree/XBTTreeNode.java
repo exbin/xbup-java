@@ -25,8 +25,13 @@ import java.util.Collections;
 import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
 import javax.swing.tree.TreeNode;
 import org.exbin.auxiliary.paged_data.BinaryData;
 import org.exbin.auxiliary.paged_data.EditableBinaryData;
@@ -444,18 +449,24 @@ public class XBTTreeNode implements TreeNode, XBTEditableBlock, UBStreamable {
         blockDecl = null;
     }
 
+    @Nonnull
     @Override
     public InputStream getData() {
-        if (data == null) {
-            return null;
+        if (dataMode != XBBlockDataMode.DATA_BLOCK) {
+            throw new IllegalStateException("Cannot read data of node block");
         }
 
         return data.getDataInputStream();
     }
 
+    @Nonnull
     @Override
     public BinaryData getBlockData() {
-        return data;
+        if (dataMode != XBBlockDataMode.DATA_BLOCK) {
+            throw new IllegalStateException("Cannot read data of node block");
+        }
+
+        return Objects.requireNonNull(data);
     }
 
     public long getDataSize() {
@@ -567,9 +578,16 @@ public class XBTTreeNode implements TreeNode, XBTEditableBlock, UBStreamable {
         return singleAttributeType ? blockType.getGroupID().getSizeUB() : blockType.getSizeUB();
     }
 
+    @Nullable
     @Override
     public XBTTreeNode getParent() {
         return parent;
+    }
+
+    @Nonnull
+    @Override
+    public Optional<XBTBlock> getParentBlock() {
+        return Optional.ofNullable(parent);
     }
 
     @Override
@@ -890,6 +908,7 @@ public class XBTTreeNode implements TreeNode, XBTEditableBlock, UBStreamable {
         return size;
     }
 
+    @ParametersAreNonnullByDefault
     private static class XBTBlockFixedSource implements XBTBlock {
 
         private final XBTTreeNode block;
@@ -898,21 +917,25 @@ public class XBTTreeNode implements TreeNode, XBTEditableBlock, UBStreamable {
             this.block = block;
         }
 
+        @Nonnull
         @Override
-        public XBTBlock getParent() {
-            return block.getParent();
+        public Optional<XBTBlock> getParentBlock() {
+            return block.getParentBlock();
         }
 
+        @Nonnull
         @Override
         public XBBlockTerminationMode getTerminationMode() {
             return block.getTerminationMode();
         }
 
+        @Nonnull
         @Override
         public XBBlockDataMode getDataMode() {
             return block.getDataMode();
         }
 
+        @Nonnull
         @Override
         public XBBlockType getBlockType() {
             return block.getFixedBlockType();
@@ -954,11 +977,13 @@ public class XBTTreeNode implements TreeNode, XBTEditableBlock, UBStreamable {
             return block.getChildrenCount();
         }
 
+        @Nonnull
         @Override
         public InputStream getData() {
             return block.getData();
         }
 
+        @Nonnull
         @Override
         public BinaryData getBlockData() {
             return block.getBlockData();
@@ -983,6 +1008,7 @@ public class XBTTreeNode implements TreeNode, XBTEditableBlock, UBStreamable {
      * @param block source block
      * @return node
      */
+    @Nonnull
     public static XBTTreeNode createTreeCopy(XBTBlock block) {
         return createTreeCopy(block, null);
     }
@@ -994,6 +1020,7 @@ public class XBTTreeNode implements TreeNode, XBTEditableBlock, UBStreamable {
      * @param parent parent node
      * @return node
      */
+    @Nonnull
     public static XBTTreeNode createTreeCopy(XBTBlock block, XBTTreeNode parent) {
         XBTTreeNode node = new XBTTreeNode();
         node.setParent(parent);

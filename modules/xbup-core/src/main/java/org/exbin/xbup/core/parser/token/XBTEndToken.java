@@ -17,6 +17,8 @@
 package org.exbin.xbup.core.parser.token;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
 
 /**
  * XBUP protocol level 1 end token.
@@ -24,14 +26,16 @@ import javax.annotation.Nonnull;
  * @version 0.2.1 2017/05/22
  * @author ExBin Project (http://exbin.org)
  */
+@ParametersAreNonnullByDefault
 public abstract class XBTEndToken implements XBTToken {
 
-    @Override
     @Nonnull
+    @Override
     public XBTTokenType getTokenType() {
         return XBTTokenType.END;
     }
 
+    @Nullable
     private static XBTEndToken instance = null;
 
     @Nonnull

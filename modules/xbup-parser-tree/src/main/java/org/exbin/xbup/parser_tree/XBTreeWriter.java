@@ -50,7 +50,7 @@ public class XBTreeWriter implements XBProvider, XBProducer {
 
     public XBTreeWriter(XBDocument source) {
         this.source = source;
-        this.block = source.getRootBlock();
+        this.block = source.getRootBlock().orElse(null);
     }
 
     public XBTreeWriter(XBBlock sourceBlock) {
@@ -100,13 +100,13 @@ public class XBTreeWriter implements XBProvider, XBProducer {
             case BLOCK_END: {
                 if (!childPositions.isEmpty()) {
                     childPosition = childPositions.remove(childPositions.size() - 1);
-                    block = block.getParent();
+                    block = block.getParentBlock().orElse(null);
                     state = XBParserState.CHILDREN_PART;
                     listener.endXB();
                     break;
                 } else {
                     if (source.getTailDataSize() > 0) {
-                        listener.dataXB(source.getTailData());
+                        listener.dataXB(source.getTailData().get());
                         state = XBParserState.TAIL_DATA;
                         break;
                     }

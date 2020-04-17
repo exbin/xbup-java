@@ -57,7 +57,7 @@ public class XBTTreeReader implements XBTListener {
 
     public XBTTreeReader(XBTDocument target, boolean recursive, boolean allowTailData) {
         this.target = target;
-        block = (XBTEditableBlock) target.getRootBlock();
+        block = (XBTEditableBlock) target.getRootBlock().orElse(null);
         this.recursive = recursive;
         this.allowTailData = allowTailData;
         finished = false;
@@ -188,7 +188,7 @@ public class XBTTreeReader implements XBTListener {
             parserState = XBParserState.BLOCK_END;
             if (level > 0) {
                 level--;
-                block = (XBTEditableBlock) block.getParent();
+                block = (XBTEditableBlock) block.getParentBlock().orElse(null);
                 return;
             } else {
                 finished = true;

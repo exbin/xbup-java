@@ -18,8 +18,8 @@ package org.exbin.xbup.core.parser.token.convert;
 
 import java.io.IOException;
 import java.io.InputStream;
-import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
 import org.exbin.xbup.core.block.XBBlockTerminationMode;
 import org.exbin.xbup.core.block.XBBlockType;
 import org.exbin.xbup.core.parser.XBProcessingException;
@@ -42,6 +42,7 @@ import org.exbin.xbup.core.ubnumber.UBNatural;
  * @version 0.2.1 2017/06/05
  * @author ExBin Project (http://exbin.org)
  */
+@ParametersAreNonnullByDefault
 public class XBTListenerToToken implements XBTListener, XBTSListener {
 
     @Nullable
@@ -61,27 +62,27 @@ public class XBTListenerToToken implements XBTListener, XBTSListener {
     }
 
     @Override
-    public void beginXBT(@Nonnull XBBlockTerminationMode terminationMode) throws XBProcessingException, IOException {
+    public void beginXBT(XBBlockTerminationMode terminationMode) throws XBProcessingException, IOException {
         token = XBTBeginToken.create(terminationMode);
     }
 
     @Override
-    public void beginXBT(@Nonnull XBBlockTerminationMode terminationMode, @Nullable UBNatural blockSize) throws XBProcessingException, IOException {
+    public void beginXBT(XBBlockTerminationMode terminationMode, @Nullable UBNatural blockSize) throws XBProcessingException, IOException {
         token = XBTSBeginToken.create(terminationMode, blockSize);
     }
 
     @Override
-    public void typeXBT(@Nonnull XBBlockType blockType) throws XBProcessingException, IOException {
+    public void typeXBT(XBBlockType blockType) throws XBProcessingException, IOException {
         token = XBTTypeToken.create(blockType);
     }
 
     @Override
-    public void attribXBT(@Nonnull XBAttribute value) throws XBProcessingException, IOException {
+    public void attribXBT(XBAttribute value) throws XBProcessingException, IOException {
         token = XBTAttributeToken.create(value);
     }
 
     @Override
-    public void dataXBT(@Nonnull InputStream data) throws XBProcessingException, IOException {
+    public void dataXBT(InputStream data) throws XBProcessingException, IOException {
         token = XBTDataToken.create(data);
     }
 
@@ -98,7 +99,7 @@ public class XBTListenerToToken implements XBTListener, XBTSListener {
      * @throws XBProcessingException if processing error
      * @throws java.io.IOException if input/output error
      */
-    public static void tokenToListener(@Nonnull XBTToken token, @Nonnull XBTListener listener) throws XBProcessingException, IOException {
+    public static void tokenToListener(XBTToken token, XBTListener listener) throws XBProcessingException, IOException {
         switch (token.getTokenType()) {
             case BEGIN: {
                 if ((token instanceof XBTSBeginToken) && (listener instanceof XBTSListener)) {

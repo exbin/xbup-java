@@ -17,6 +17,8 @@
 package org.exbin.xbup.core.block;
 
 import java.io.InputStream;
+import java.util.Objects;
+import java.util.Optional;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import org.exbin.auxiliary.paged_data.BinaryData;
@@ -128,10 +130,10 @@ public class XBTDefaultBlock implements XBTBlock {
         }
     }
 
-    @Nullable
+    @Nonnull
     @Override
-    public XBTBlock getParent() {
-        return parent;
+    public Optional<XBTBlock> getParentBlock() {
+        return Optional.ofNullable(parent);
     }
 
     /**
@@ -196,16 +198,22 @@ public class XBTDefaultBlock implements XBTBlock {
         return children.length;
     }
 
-    @Nullable
+    @Nonnull
     @Override
     public InputStream getData() {
+        if (dataMode != XBBlockDataMode.DATA_BLOCK) {
+            throw new IllegalStateException("Cannot read data of node block");
+        }
         return data.getDataInputStream();
     }
 
-    @Nullable
+    @Nonnull
     @Override
     public BinaryData getBlockData() {
-        return data;
+        if (dataMode != XBBlockDataMode.DATA_BLOCK) {
+            throw new IllegalStateException("Cannot read data of node block");
+        }
+        return Objects.requireNonNull(data);
     }
 
     /**
@@ -221,12 +229,13 @@ public class XBTDefaultBlock implements XBTBlock {
             return -1;
         }
 
-        if (block.getParent() != null) {
-            int result = getBlockIndex(block.getParent()) + 1;
+        Optional<XBTBlock> blockParent = block.getParentBlock();
+        if (blockParent.isPresent()) {
+            int result = getBlockIndex(blockParent.get()) + 1;
             int childIndex = 0;
             XBTBlock child;
             do {
-                child = block.getParent().getChildAt(childIndex);
+                child = blockParent.get().getChildAt(childIndex);
                 if (block.equals(child)) {
                     return result + childIndex;
                 }
@@ -252,9 +261,10 @@ public class XBTDefaultBlock implements XBTBlock {
         }
 
         int childIndex = 0;
+        XBTBlock blockParent = block.getParentBlock().get();
         XBTBlock child;
         do {
-            child = block.getParent().getChildAt(childIndex);
+            child = blockParent.getChildAt(childIndex);
             if (block.equals(child)) {
                 return childIndex;
             }

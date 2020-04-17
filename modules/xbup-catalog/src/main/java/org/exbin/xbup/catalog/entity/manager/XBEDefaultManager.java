@@ -17,6 +17,7 @@
 package org.exbin.xbup.catalog.entity.manager;
 
 import java.lang.annotation.Annotation;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.ParameterizedType;
 import java.util.List;
 import java.util.logging.Level;
@@ -54,8 +55,9 @@ public class XBEDefaultManager<T extends XBCBase> implements XBCManager<T> {
     @Override
     public T createItem() {
         try {
-            return (T) getGenericClass().newInstance();
-        } catch (InstantiationException | IllegalAccessException ex) {
+            return (T) getGenericClass().getDeclaredConstructor().newInstance();
+        } catch (InstantiationException | IllegalAccessException | NoSuchMethodException
+                | SecurityException | IllegalArgumentException | InvocationTargetException ex) {
             Logger.getLogger(XBEDefaultManager.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;

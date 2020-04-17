@@ -18,6 +18,7 @@ package org.exbin.xbup.core.parser.token;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
 import org.exbin.xbup.core.ubnumber.type.UBNat32;
 
 /**
@@ -28,6 +29,7 @@ import org.exbin.xbup.core.ubnumber.type.UBNat32;
  * @version 0.2.1 2017/05/22
  * @author ExBin Project (http://exbin.org)
  */
+@ParametersAreNonnullByDefault
 public abstract class XBTAttributeToken implements XBTToken {
 
     @Nonnull
@@ -40,24 +42,24 @@ public abstract class XBTAttributeToken implements XBTToken {
      */
     public abstract boolean isZero();
 
-    @Override
     @Nonnull
+    @Override
     public XBTTokenType getTokenType() {
         return XBTTokenType.ATTRIBUTE;
     }
 
     @Nonnull
-    public static XBTAttributeToken create(@Nonnull XBAttribute attribute) {
+    public static XBTAttributeToken create(XBAttribute attribute) {
         return new XBTAttributeTokenImpl(attribute);
-
     }
 
+    @ParametersAreNonnullByDefault
     private static class XBTAttributeTokenImpl extends XBTAttributeToken {
 
         @Nonnull
         private final XBAttribute attribute;
 
-        private XBTAttributeTokenImpl(@Nonnull XBAttribute attribute) {
+        private XBTAttributeTokenImpl(XBAttribute attribute) {
             this.attribute = attribute;
         }
 
@@ -72,8 +74,8 @@ public abstract class XBTAttributeToken implements XBTToken {
             return attribute.isNaturalZero();
         }
 
-        @Override
         @Nonnull
+        @Override
         public XBTTokenType getTokenType() {
             return XBTTokenType.ATTRIBUTE;
         }
@@ -91,11 +93,13 @@ public abstract class XBTAttributeToken implements XBTToken {
         return instance;
     }
 
+    @ParametersAreNonnullByDefault
     private static class XBTZeroAttributeToken extends XBTAttributeToken {
 
         private XBTZeroAttributeToken() {
         }
 
+        @Nonnull
         @Override
         public XBAttribute getAttribute() {
             return new UBNat32();

@@ -18,17 +18,20 @@ package org.exbin.xbup.core.block;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Optional;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
 import org.exbin.auxiliary.paged_data.BinaryData;
 import org.exbin.xbup.core.type.XBData;
 
 /**
  * Basic plain implementation of XBDocument interface.
  *
- * @version 0.2.1 2017/05/10
+ * @version 0.2.1 2020/04/16
  * @author ExBin Project (http://exbin.org)
  */
+@ParametersAreNonnullByDefault
 public class XBDefaultDocument implements XBDocument {
 
     @Nonnull
@@ -36,16 +39,16 @@ public class XBDefaultDocument implements XBDocument {
     @Nullable
     private final BinaryData tailData;
 
-    public XBDefaultDocument(@Nonnull XBBlock rootBlock) {
+    public XBDefaultDocument(XBBlock rootBlock) {
         this(rootBlock, (BinaryData) null);
     }
 
-    public XBDefaultDocument(@Nonnull XBBlock rootBlock, @Nullable BinaryData tailData) {
+    public XBDefaultDocument(XBBlock rootBlock, @Nullable BinaryData tailData) {
         this.rootBlock = rootBlock;
         this.tailData = tailData;
     }
 
-    public XBDefaultDocument(@Nonnull XBBlock rootBlock, @Nonnull InputStream tailDataStream) throws IOException {
+    public XBDefaultDocument(XBBlock rootBlock, InputStream tailDataStream) throws IOException {
         this.rootBlock = rootBlock;
         XBData data = new XBData();
         data.loadFromStream(tailDataStream);
@@ -54,14 +57,14 @@ public class XBDefaultDocument implements XBDocument {
 
     @Nonnull
     @Override
-    public XBBlock getRootBlock() {
-        return rootBlock;
+    public Optional<XBBlock> getRootBlock() {
+        return Optional.of(rootBlock);
     }
 
     @Nonnull
     @Override
-    public InputStream getTailData() {
-        return tailData.getDataInputStream();
+    public Optional<InputStream> getTailData() {
+        return tailData == null ? Optional.empty() : Optional.of(tailData.getDataInputStream());
     }
 
     @Override

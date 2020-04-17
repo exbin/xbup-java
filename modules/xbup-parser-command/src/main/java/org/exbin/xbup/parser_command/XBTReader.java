@@ -19,8 +19,10 @@ package org.exbin.xbup.parser_command;
 import java.io.Closeable;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Optional;
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
+import org.exbin.xbup.core.block.XBBlock;
 import org.exbin.xbup.core.block.XBTBlock;
 import org.exbin.xbup.core.parser.XBParserMode;
 import org.exbin.xbup.parser_tree.XBBlockToXBTBlock;
@@ -34,6 +36,7 @@ import org.exbin.xbup.parser_tree.XBBlockToXBTBlock;
  * @version 0.2.1 2017/05/24
  * @author ExBin Project (http://exbin.org)
  */
+@ParametersAreNonnullByDefault
 public class XBTReader implements XBTCommandReader, Closeable {
 
     @Nonnull
@@ -66,21 +69,23 @@ public class XBTReader implements XBTCommandReader, Closeable {
         reader.resetXB();
     }
 
-    @Override
     @Nonnull
-    public XBTBlock getRootBlock() {
-        return new XBBlockToXBTBlock(reader.getRootBlock());
+    @Override
+    public Optional<XBTBlock> getRootBlock() {
+        Optional<XBBlock> rootBlock = reader.getRootBlock();
+        return rootBlock.isPresent() ? Optional.of(new XBBlockToXBTBlock(rootBlock.get())) : Optional.empty();
     }
 
-    @Override
     @Nonnull
-    public XBTBlock getBlock(long[] blockPath) {
-        return new XBBlockToXBTBlock(reader.getBlock(blockPath));
+    @Override
+    public Optional<XBTBlock> getBlock(long[] blockPath) {
+        Optional<XBBlock> block = reader.getBlock(blockPath);
+        return block.isPresent() ? Optional.of(new XBBlockToXBTBlock(block.get())) : Optional.empty();
     }
 
+    @Nonnull
     @Override
-    @Nullable
-    public InputStream getTailData() {
+    public Optional<InputStream> getTailData() {
         return reader.getTailData();
     }
 

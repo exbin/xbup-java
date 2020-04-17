@@ -22,8 +22,11 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import org.exbin.auxiliary.paged_data.BinaryData;
 import org.exbin.xbup.core.block.XBBlock;
 import org.exbin.xbup.core.block.XBBlockDataMode;
@@ -48,17 +51,18 @@ public class XBReaderBlock implements XBCommandBlock, XBBlock, Closeable {
         this.reader = reader;
     }
 
+    @Nonnull
     @Override
-    public XBBlock getParent() {
+    public Optional<XBBlock> getParentBlock() {
         if (blockPath.length == 0) {
-            return null;
+            return Optional.empty();
         } else {
             return reader.getBlock(Arrays.copyOf(blockPath, blockPath.length - 1));
         }
     }
 
     @Override
-    public boolean equals(Object obj) {
+    public boolean equals(@Nullable Object obj) {
         if (obj instanceof XBReaderBlock) {
             Arrays.equals(((XBReaderBlock) obj).blockPath, blockPath);
         }
@@ -73,11 +77,13 @@ public class XBReaderBlock implements XBCommandBlock, XBBlock, Closeable {
         return hash;
     }
 
+    @Nonnull
     @Override
     public long[] getBlockPath() {
         return blockPath;
     }
 
+    @Nonnull
     @Override
     public XBBlockDataMode getDataMode() {
         try {
@@ -88,6 +94,7 @@ public class XBReaderBlock implements XBCommandBlock, XBBlock, Closeable {
         }
     }
 
+    @Nonnull
     @Override
     public XBBlockTerminationMode getTerminationMode() {
         try {
@@ -193,7 +200,7 @@ public class XBReaderBlock implements XBCommandBlock, XBBlock, Closeable {
             reader.seekBlock(this);
             return reader.getBlockData();
         } catch (XBProcessingException | IOException ex) {
-            return null;
+            throw new IllegalStateException("Unable to acquire data", ex);
         }
     }
 
@@ -202,6 +209,7 @@ public class XBReaderBlock implements XBCommandBlock, XBBlock, Closeable {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
+    @Nonnull
     @Override
     public BinaryData getBlockData() {
         throw new UnsupportedOperationException("Not supported yet.");

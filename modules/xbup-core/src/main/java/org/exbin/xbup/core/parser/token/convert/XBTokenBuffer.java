@@ -24,6 +24,7 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import javax.annotation.ParametersAreNonnullByDefault;
 import org.exbin.xbup.core.block.XBBlockDataMode;
 import org.exbin.xbup.core.block.XBBlockTerminationMode;
 import org.exbin.xbup.core.parser.basic.wrapper.TerminatedDataOutputStreamWrapper;
@@ -42,6 +43,7 @@ import org.exbin.xbup.core.util.StreamUtils;
  * @version 0.2.1 2017/05/21
  * @author ExBin Project (http://exbin.org)
  */
+@ParametersAreNonnullByDefault
 public class XBTokenBuffer implements XBEventListener {
 
     private static final int BUFFER_SIZE = 1024;

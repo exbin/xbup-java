@@ -18,6 +18,8 @@ package org.exbin.xbup.core.block;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Optional;
+import javax.annotation.Nonnull;
 import org.exbin.auxiliary.paged_data.BinaryData;
 import org.exbin.xbup.core.parser.XBProcessingException;
 import org.exbin.xbup.core.parser.XBProcessingExceptionType;
@@ -42,9 +44,10 @@ public class XBTEmptyBlock implements XBTBlock, XBPSequenceSerializable {
     public XBTEmptyBlock() {
     }
 
+    @Nonnull
     @Override
-    public XBTBlock getParent() {
-        return null;
+    public Optional<XBTBlock> getParentBlock() {
+        return Optional.empty();
     }
 
     @Override
@@ -92,11 +95,13 @@ public class XBTEmptyBlock implements XBTBlock, XBPSequenceSerializable {
         return 0;
     }
 
+    @Nonnull
     @Override
     public InputStream getData() {
         return XBTDataToken.createEmptyToken().getData();
     }
 
+    @Nonnull
     @Override
     public BinaryData getBlockData() {
         return new XBData();

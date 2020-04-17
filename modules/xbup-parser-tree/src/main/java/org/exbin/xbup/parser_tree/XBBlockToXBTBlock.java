@@ -18,6 +18,8 @@ package org.exbin.xbup.parser_tree;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Optional;
+import javax.annotation.Nonnull;
 import org.exbin.auxiliary.paged_data.BinaryData;
 import org.exbin.xbup.core.block.XBBlock;
 import org.exbin.xbup.core.block.XBBlockDataMode;
@@ -48,13 +50,20 @@ public class XBBlockToXBTBlock implements XBTEditableBlock {
         return block;
     }
 
+    @Nonnull
     @Override
-    public XBTBlock getParent() {
-        if (block.getParent() instanceof XBTBlockToXBBlock) {
-            return ((XBTBlockToXBBlock) block.getParent()).getBlock();
+    public Optional<XBTBlock> getParentBlock() {
+        Optional<XBBlock> optParent = block.getParentBlock();
+        if (!optParent.isPresent()) {
+            return Optional.empty();
+        }
+        
+        XBBlock parent = optParent.get();
+        if (parent instanceof XBTBlockToXBBlock) {
+            return Optional.of(((XBTBlockToXBBlock) parent).getBlock());
         }
 
-        return new XBBlockToXBTBlock(block.getParent());
+        return Optional.of(new XBBlockToXBTBlock(parent));
     }
 
     @Override
@@ -133,11 +142,13 @@ public class XBBlockToXBTBlock implements XBTEditableBlock {
         return block.getChildrenCount();
     }
 
+    @Nonnull
     @Override
     public InputStream getData() {
         return block.getData();
     }
 
+    @Nonnull
     @Override
     public BinaryData getBlockData() {
         return block.getBlockData();

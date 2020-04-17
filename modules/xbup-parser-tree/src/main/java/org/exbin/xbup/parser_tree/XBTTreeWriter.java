@@ -45,7 +45,7 @@ public class XBTTreeWriter implements XBTProvider {
 
     public XBTTreeWriter(XBTDocument source) {
         this.source = source;
-        this.block = source.getRootBlock();
+        this.block = source.getRootBlock().orElse(null);
     }
 
     public XBTTreeWriter(XBTBlock sourceBlock) {

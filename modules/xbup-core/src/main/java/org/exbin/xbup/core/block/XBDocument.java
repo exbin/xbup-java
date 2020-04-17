@@ -17,7 +17,8 @@
 package org.exbin.xbup.core.block;
 
 import java.io.InputStream;
-import javax.annotation.Nullable;
+import java.util.Optional;
+import javax.annotation.Nonnull;
 
 /**
  * Interface for read access to XBUP level 0 document.
@@ -32,8 +33,8 @@ public interface XBDocument {
      *
      * @return root block if exits or null.
      */
-    @Nullable
-    XBBlock getRootBlock();
+    @Nonnull
+    Optional<XBBlock> getRootBlock();
 
     /**
      * Returns size of the whole document if available.
@@ -48,8 +49,8 @@ public interface XBDocument {
      *
      * @return InputStream of providing read access to data area
      */
-    @Nullable
-    InputStream getTailData();
+    @Nonnull
+    Optional<InputStream> getTailData();
 
     /**
      * Returns size of the tail data if available.

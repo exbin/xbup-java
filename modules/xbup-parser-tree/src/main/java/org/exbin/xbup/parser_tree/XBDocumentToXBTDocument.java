@@ -18,6 +18,10 @@ package org.exbin.xbup.parser_tree;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Optional;
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
+import org.exbin.xbup.core.block.XBBlock;
 import org.exbin.xbup.core.block.XBDocument;
 import org.exbin.xbup.core.block.XBEditableDocument;
 import org.exbin.xbup.core.block.XBTBlock;
@@ -29,6 +33,7 @@ import org.exbin.xbup.core.block.XBTEditableDocument;
  * @version 0.2.0 2015/09/20
  * @author ExBin Project (http://exbin.org)
  */
+@ParametersAreNonnullByDefault
 public class XBDocumentToXBTDocument implements XBTEditableDocument {
 
     private final XBDocument document;
@@ -37,17 +42,20 @@ public class XBDocumentToXBTDocument implements XBTEditableDocument {
         this.document = document;
     }
 
+    @Nonnull
     @Override
-    public XBTBlock getRootBlock() {
-        if (document.getRootBlock() instanceof XBTBlockToXBBlock) {
-            return ((XBTBlockToXBBlock) document.getRootBlock()).getBlock();
+    public Optional<XBTBlock> getRootBlock() {
+        XBBlock rootBlock = document.getRootBlock().get();
+        if (rootBlock instanceof XBTBlockToXBBlock) {
+            return Optional.of(((XBTBlockToXBBlock) rootBlock).getBlock());
         }
 
-        return new XBBlockToXBTBlock(document.getRootBlock());
+        return Optional.of(new XBBlockToXBTBlock(rootBlock));
     }
 
+    @Nonnull
     @Override
-    public InputStream getTailData() {
+    public Optional<InputStream> getTailData() {
         return document.getTailData();
     }
 

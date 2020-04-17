@@ -19,8 +19,10 @@ package org.exbin.xbup.parser_tree;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.Optional;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
 import org.exbin.xbup.core.block.XBTBlock;
 import org.exbin.xbup.core.block.declaration.XBContext;
 import org.exbin.xbup.core.catalog.XBCatalog;
@@ -33,6 +35,7 @@ import org.exbin.xbup.core.ubnumber.UBStreamable;
  * @version 0.2.1 2017/05/24
  * @author ExBin Project (http://exbin.org)
  */
+@ParametersAreNonnullByDefault
 public class XBTTree implements UBStreamable {
 
     @Nullable
@@ -53,7 +56,7 @@ public class XBTTree implements UBStreamable {
     }
 
     @Override
-    public int fromStreamUB(@Nonnull InputStream stream) throws IOException, XBProcessingException {
+    public int fromStreamUB(InputStream stream) throws IOException, XBProcessingException {
         clear();
         XBTTreeNode newRoot = new XBTTreeNode();
         setRootBlock(newRoot);
@@ -85,8 +88,8 @@ public class XBTTree implements UBStreamable {
     }
 
     @Override
-    public int toStreamUB(@Nonnull OutputStream stream) throws IOException {
-        if (getRootBlock() != null) {
+    public int toStreamUB(OutputStream stream) throws IOException {
+        if (rootNode != null) {
             return rootNode.toStreamUB(stream);
         } else {
             return 0;
@@ -108,7 +111,7 @@ public class XBTTree implements UBStreamable {
     }
 
     @Nullable
-    public XBTTreeNode getRootBlock() {
+    public XBTTreeNode getRoot() {
         return rootNode;
     }
 

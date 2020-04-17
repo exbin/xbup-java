@@ -17,8 +17,11 @@
 package org.exbin.xbup.core.block;
 
 import java.io.InputStream;
+import java.util.Objects;
+import java.util.Optional;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
 import org.exbin.auxiliary.paged_data.BinaryData;
 import org.exbin.xbup.core.parser.token.XBAttribute;
 import org.exbin.xbup.core.type.XBData;
@@ -29,6 +32,7 @@ import org.exbin.xbup.core.type.XBData;
  * @version 0.2.1 2017/05/10
  * @author ExBin Project (http://exbin.org)
  */
+@ParametersAreNonnullByDefault
 public class XBDefaultBlock implements XBBlock {
 
     @Nullable
@@ -120,10 +124,10 @@ public class XBDefaultBlock implements XBBlock {
         }
     }
 
-    @Nullable
+    @Nonnull
     @Override
-    public XBBlock getParent() {
-        return parent;
+    public Optional<XBBlock> getParentBlock() {
+        return Optional.ofNullable(parent);
     }
 
     /**
@@ -181,16 +185,16 @@ public class XBDefaultBlock implements XBBlock {
         return children.length;
     }
 
-    @Nullable
+    @Nonnull
     @Override
     public InputStream getData() {
-        return data == null ? null : data.getDataInputStream();
+        return data.getDataInputStream();
     }
 
-    @Nullable
+    @Nonnull
     @Override
     public BinaryData getBlockData() {
-        return data;
+        return Objects.requireNonNull(data);
     }
 
     public long getDataSize() {
@@ -205,18 +209,18 @@ public class XBDefaultBlock implements XBBlock {
      * @param block target block
      * @return position index
      */
-    public static int getBlockIndex(XBBlock block) {
+    public static int getBlockIndex(@Nullable XBBlock block) {
         if (block == null) {
             return -1;
         }
 
-        XBBlock blockParent = block.getParent();
-        if (blockParent != null) {
-            int result = getBlockIndex(block.getParent()) + 1;
+        Optional<XBBlock> blockParent = block.getParentBlock();
+        if (blockParent.isPresent()) {
+            int result = getBlockIndex(blockParent.get()) + 1;
             int childIndex = 0;
             XBBlock child;
             do {
-                child = blockParent.getChildAt(childIndex);
+                child = blockParent.get().getChildAt(childIndex);
                 if (block.equals(child)) {
                     return result + childIndex;
                 }
@@ -241,15 +245,15 @@ public class XBDefaultBlock implements XBBlock {
             return -1;
         }
 
-        XBBlock blockParent = block.getParent();
-        if (blockParent == null) {
+        Optional<XBBlock> blockParent = block.getParentBlock();
+        if (!blockParent.isPresent()) {
             return -1;
         }
 
         int childIndex = 0;
         XBBlock child;
         do {
-            child = blockParent.getChildAt(childIndex);
+            child = blockParent.get().getChildAt(childIndex);
             if (block.equals(child)) {
                 return childIndex;
             }

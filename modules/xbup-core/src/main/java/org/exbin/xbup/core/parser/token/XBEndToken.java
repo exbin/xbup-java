@@ -30,8 +30,8 @@ public abstract class XBEndToken implements XBToken {
     private XBEndToken() {
     }
 
-    @Override
     @Nonnull
+    @Override
     public XBTokenType getTokenType() {
         return XBTokenType.END;
     }
@@ -50,7 +50,7 @@ public abstract class XBEndToken implements XBToken {
 
     private static class XBEndTokenImpl extends XBEndToken {
 
-        public XBEndTokenImpl() {
+        XBEndTokenImpl() {
         }
     }
 }

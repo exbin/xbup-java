@@ -22,8 +22,10 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.annotation.Nonnull;
 import org.exbin.auxiliary.paged_data.BinaryData;
 import org.exbin.xbup.core.block.XBBlock;
 import org.exbin.xbup.core.block.XBBlockDataMode;
@@ -67,10 +69,11 @@ public class XBWriterBlock implements XBCommandBlock, XBEditableBlock, Closeable
         return fixedBlock != null;
     }
 
+    @Nonnull
     @Override
-    public XBBlock getParent() {
+    public Optional<XBBlock> getParentBlock() {
         if (blockPath.length == 0) {
-            return null;
+            return Optional.empty();
         } else {
             return writer.getBlock(Arrays.copyOf(blockPath, blockPath.length - 1));
         }
@@ -201,7 +204,7 @@ public class XBWriterBlock implements XBCommandBlock, XBEditableBlock, Closeable
         for (int i = 0; i < result.length; i++) {
             long[] childPath = Arrays.copyOf(blockPath, blockPath.length + 1);
             childPath[childPath.length - 1] = i;
-            result[i] = writer.getBlock(childPath);
+            result[i] = writer.getBlock(childPath).get();
         }
         return result;
     }
@@ -236,6 +239,7 @@ public class XBWriterBlock implements XBCommandBlock, XBEditableBlock, Closeable
         }
     }
 
+    @Nonnull
     @Override
     public InputStream getData() {
         if (fixedBlock != null) {
@@ -246,7 +250,7 @@ public class XBWriterBlock implements XBCommandBlock, XBEditableBlock, Closeable
             writer.seekBlock(this);
             return writer.getBlockData();
         } catch (XBProcessingException | IOException ex) {
-            return null;
+            throw new IllegalStateException("Unable to process data");
         }
     }
 
@@ -255,6 +259,7 @@ public class XBWriterBlock implements XBCommandBlock, XBEditableBlock, Closeable
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
+    @Nonnull
     @Override
     public BinaryData getBlockData() {
         if (fixedBlock != null) {

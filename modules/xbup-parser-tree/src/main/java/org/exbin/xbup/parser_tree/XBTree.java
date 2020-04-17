@@ -19,6 +19,7 @@ package org.exbin.xbup.parser_tree;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.Optional;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
@@ -81,7 +82,7 @@ public class XBTree implements UBStreamable {
     }
 
     @Nullable
-    public XBTreeNode getRootBlock() {
+    public XBTreeNode getRoot() {
         return rootNode;
     }
 

@@ -58,9 +58,9 @@ public class XBTTreeDocumentWriterTest extends TestCase {
             ByteArrayOutputStream target = new ByteArrayOutputStream();
             XBTTreeDocument document = new XBTTreeDocument();
             XBDocument sampleDocument = XBCoreTestSampleData.getSampleEmptyTree();
-            document.setRootBlock(XBTTreeNode.createTreeCopy(new XBBlockToXBTBlock(sampleDocument.getRootBlock())));
+            document.setRootBlock(XBTTreeNode.createTreeCopy(new XBBlockToXBTBlock(sampleDocument.getRootBlock().get())));
             if (sampleDocument.getTailDataSize() > 0) {
-                document.setTailData(sampleDocument.getTailData());
+                document.setTailData(sampleDocument.getTailData().orElse(null));
             }
 
             document.toStreamUB(target);
@@ -79,9 +79,9 @@ public class XBTTreeDocumentWriterTest extends TestCase {
             ByteArrayOutputStream target = new ByteArrayOutputStream();
             XBTTreeDocument document = new XBTTreeDocument();
             XBDocument sampleDocument = XBCoreTestSampleData.getSampleBlockTree();
-            document.setRootBlock(XBTTreeNode.createTreeCopy(new XBBlockToXBTBlock(sampleDocument.getRootBlock())));
+            document.setRootBlock(XBTTreeNode.createTreeCopy(new XBBlockToXBTBlock(sampleDocument.getRootBlock().get())));
             if (sampleDocument.getTailDataSize() > 0) {
-                document.setTailData(sampleDocument.getTailData());
+                document.setTailData(sampleDocument.getTailData().orElse(null));
             }
 
             document.toStreamUB(target);
@@ -100,9 +100,9 @@ public class XBTTreeDocumentWriterTest extends TestCase {
             ByteArrayOutputStream target = new ByteArrayOutputStream();
             XBTTreeDocument document = new XBTTreeDocument();
             XBDocument sampleDocument = XBCoreTestSampleData.getSampleBlockWithTailTree();
-            document.setRootBlock(XBTTreeNode.createTreeCopy(new XBBlockToXBTBlock(sampleDocument.getRootBlock())));
+            document.setRootBlock(XBTTreeNode.createTreeCopy(new XBBlockToXBTBlock(sampleDocument.getRootBlock().get())));
             if (sampleDocument.getTailDataSize() > 0) {
-                document.setTailData(sampleDocument.getTailData());
+                document.setTailData(sampleDocument.getTailData().orElse(null));
             }
 
             document.toStreamUB(target);
@@ -121,9 +121,9 @@ public class XBTTreeDocumentWriterTest extends TestCase {
             ByteArrayOutputStream target = new ByteArrayOutputStream();
             XBTTreeDocument document = new XBTTreeDocument();
             XBDocument sampleDocument = XBCoreTestSampleData.getSampleBlockTerminatedTree();
-            document.setRootBlock(XBTTreeNode.createTreeCopy(new XBBlockToXBTBlock(sampleDocument.getRootBlock())));
+            document.setRootBlock(XBTTreeNode.createTreeCopy(new XBBlockToXBTBlock(sampleDocument.getRootBlock().get())));
             if (sampleDocument.getTailDataSize() > 0) {
-                document.setTailData(sampleDocument.getTailData());
+                document.setTailData(sampleDocument.getTailData().orElse(null));
             }
 
             document.toStreamUB(target);
@@ -142,9 +142,9 @@ public class XBTTreeDocumentWriterTest extends TestCase {
             ByteArrayOutputStream target = new ByteArrayOutputStream();
             XBTTreeDocument document = new XBTTreeDocument();
             XBDocument sampleDocument = XBCoreTestSampleData.getSampleBlockTerminatedWithTailTree();
-            document.setRootBlock(XBTTreeNode.createTreeCopy(new XBBlockToXBTBlock(sampleDocument.getRootBlock())));
+            document.setRootBlock(XBTTreeNode.createTreeCopy(new XBBlockToXBTBlock(sampleDocument.getRootBlock().get())));
             if (sampleDocument.getTailDataSize() > 0) {
-                document.setTailData(sampleDocument.getTailData());
+                document.setTailData(sampleDocument.getTailData().orElse(null));
             }
 
             document.toStreamUB(target);
@@ -163,9 +163,9 @@ public class XBTTreeDocumentWriterTest extends TestCase {
             ByteArrayOutputStream target = new ByteArrayOutputStream();
             XBTTreeDocument document = new XBTTreeDocument();
             XBDocument sampleDocument = XBCoreTestSampleData.getSampleDataTree();
-            document.setRootBlock(XBTTreeNode.createTreeCopy(new XBBlockToXBTBlock(sampleDocument.getRootBlock())));
+            document.setRootBlock(XBTTreeNode.createTreeCopy(new XBBlockToXBTBlock(sampleDocument.getRootBlock().get())));
             if (sampleDocument.getTailDataSize() > 0) {
-                document.setTailData(sampleDocument.getTailData());
+                document.setTailData(sampleDocument.getTailData().orElse(null));
             }
 
             document.toStreamUB(target);
@@ -184,9 +184,9 @@ public class XBTTreeDocumentWriterTest extends TestCase {
             ByteArrayOutputStream target = new ByteArrayOutputStream();
             XBTTreeDocument document = new XBTTreeDocument();
             XBDocument sampleDocument = XBCoreTestSampleData.getSampleDataWithTailTree();
-            document.setRootBlock(XBTTreeNode.createTreeCopy(new XBBlockToXBTBlock(sampleDocument.getRootBlock())));
+            document.setRootBlock(XBTTreeNode.createTreeCopy(new XBBlockToXBTBlock(sampleDocument.getRootBlock().get())));
             if (sampleDocument.getTailDataSize() > 0) {
-                document.setTailData(sampleDocument.getTailData());
+                document.setTailData(sampleDocument.getTailData().orElse(null));
             }
 
             document.toStreamUB(target);
@@ -205,9 +205,9 @@ public class XBTTreeDocumentWriterTest extends TestCase {
             ByteArrayOutputStream target = new ByteArrayOutputStream();
             XBTTreeDocument document = new XBTTreeDocument();
             XBDocument sampleDocument = XBCoreTestSampleData.getSampleDataTerminatedTree();
-            document.setRootBlock(XBTTreeNode.createTreeCopy(new XBBlockToXBTBlock(sampleDocument.getRootBlock())));
+            document.setRootBlock(XBTTreeNode.createTreeCopy(new XBBlockToXBTBlock(sampleDocument.getRootBlock().get())));
             if (sampleDocument.getTailDataSize() > 0) {
-                document.setTailData(sampleDocument.getTailData());
+                document.setTailData(sampleDocument.getTailData().orElse(null));
             }
 
             document.toStreamUB(target);
@@ -226,9 +226,9 @@ public class XBTTreeDocumentWriterTest extends TestCase {
             ByteArrayOutputStream target = new ByteArrayOutputStream();
             XBTTreeDocument document = new XBTTreeDocument();
             XBDocument sampleDocument = XBCoreTestSampleData.getSampleDataTerminatedWithTailTree();
-            document.setRootBlock(XBTTreeNode.createTreeCopy(new XBBlockToXBTBlock(sampleDocument.getRootBlock())));
+            document.setRootBlock(XBTTreeNode.createTreeCopy(new XBBlockToXBTBlock(sampleDocument.getRootBlock().get())));
             if (sampleDocument.getTailDataSize() > 0) {
-                document.setTailData(sampleDocument.getTailData());
+                document.setTailData(sampleDocument.getTailData().orElse(null));
             }
 
             document.toStreamUB(target);
@@ -247,9 +247,9 @@ public class XBTTreeDocumentWriterTest extends TestCase {
             ByteArrayOutputStream target = new ByteArrayOutputStream();
             XBTTreeDocument document = new XBTTreeDocument();
             XBDocument sampleDocument = XBCoreTestSampleData.getSampleBlockDataTree();
-            document.setRootBlock(XBTTreeNode.createTreeCopy(new XBBlockToXBTBlock(sampleDocument.getRootBlock())));
+            document.setRootBlock(XBTTreeNode.createTreeCopy(new XBBlockToXBTBlock(sampleDocument.getRootBlock().get())));
             if (sampleDocument.getTailDataSize() > 0) {
-                document.setTailData(sampleDocument.getTailData());
+                document.setTailData(sampleDocument.getTailData().orElse(null));
             }
 
             document.toStreamUB(target);
@@ -268,9 +268,9 @@ public class XBTTreeDocumentWriterTest extends TestCase {
             ByteArrayOutputStream target = new ByteArrayOutputStream();
             XBTTreeDocument document = new XBTTreeDocument();
             XBDocument sampleDocument = XBCoreTestSampleData.getSampleBlockDataWithTailTree();
-            document.setRootBlock(XBTTreeNode.createTreeCopy(new XBBlockToXBTBlock(sampleDocument.getRootBlock())));
+            document.setRootBlock(XBTTreeNode.createTreeCopy(new XBBlockToXBTBlock(sampleDocument.getRootBlock().get())));
             if (sampleDocument.getTailDataSize() > 0) {
-                document.setTailData(sampleDocument.getTailData());
+                document.setTailData(sampleDocument.getTailData().orElse(null));
             }
 
             document.toStreamUB(target);
@@ -289,9 +289,9 @@ public class XBTTreeDocumentWriterTest extends TestCase {
             ByteArrayOutputStream target = new ByteArrayOutputStream();
             XBTTreeDocument document = new XBTTreeDocument();
             XBDocument sampleDocument = XBCoreTestSampleData.getSampleBlockDataTerminatedTree();
-            document.setRootBlock(XBTTreeNode.createTreeCopy(new XBBlockToXBTBlock(sampleDocument.getRootBlock())));
+            document.setRootBlock(XBTTreeNode.createTreeCopy(new XBBlockToXBTBlock(sampleDocument.getRootBlock().get())));
             if (sampleDocument.getTailDataSize() > 0) {
-                document.setTailData(sampleDocument.getTailData());
+                document.setTailData(sampleDocument.getTailData().orElse(null));
             }
 
             document.toStreamUB(target);
@@ -310,9 +310,9 @@ public class XBTTreeDocumentWriterTest extends TestCase {
             ByteArrayOutputStream target = new ByteArrayOutputStream();
             XBTTreeDocument document = new XBTTreeDocument();
             XBDocument sampleDocument = XBCoreTestSampleData.getSampleBlockDataTerminatedWithTailTree();
-            document.setRootBlock(XBTTreeNode.createTreeCopy(new XBBlockToXBTBlock(sampleDocument.getRootBlock())));
+            document.setRootBlock(XBTTreeNode.createTreeCopy(new XBBlockToXBTBlock(sampleDocument.getRootBlock().get())));
             if (sampleDocument.getTailDataSize() > 0) {
-                document.setTailData(sampleDocument.getTailData());
+                document.setTailData(sampleDocument.getTailData().orElse(null));
             }
 
             document.toStreamUB(target);
@@ -331,9 +331,9 @@ public class XBTTreeDocumentWriterTest extends TestCase {
             ByteArrayOutputStream target = new ByteArrayOutputStream();
             XBTTreeDocument document = new XBTTreeDocument();
             XBDocument sampleDocument = XBCoreTestSampleData.getSampleBlockDataHybridTree();
-            document.setRootBlock(XBTTreeNode.createTreeCopy(new XBBlockToXBTBlock(sampleDocument.getRootBlock())));
+            document.setRootBlock(XBTTreeNode.createTreeCopy(new XBBlockToXBTBlock(sampleDocument.getRootBlock().get())));
             if (sampleDocument.getTailDataSize() > 0) {
-                document.setTailData(sampleDocument.getTailData());
+                document.setTailData(sampleDocument.getTailData().orElse(null));
             }
 
             document.toStreamUB(target);
@@ -352,9 +352,9 @@ public class XBTTreeDocumentWriterTest extends TestCase {
             ByteArrayOutputStream target = new ByteArrayOutputStream();
             XBTTreeDocument document = new XBTTreeDocument();
             XBDocument sampleDocument = XBCoreTestSampleData.getSampleBlockDataHybrid2Tree();
-            document.setRootBlock(XBTTreeNode.createTreeCopy(new XBBlockToXBTBlock(sampleDocument.getRootBlock())));
+            document.setRootBlock(XBTTreeNode.createTreeCopy(new XBBlockToXBTBlock(sampleDocument.getRootBlock().get())));
             if (sampleDocument.getTailDataSize() > 0) {
-                document.setTailData(sampleDocument.getTailData());
+                document.setTailData(sampleDocument.getTailData().orElse(null));
             }
 
             document.toStreamUB(target);
@@ -373,9 +373,9 @@ public class XBTTreeDocumentWriterTest extends TestCase {
             ByteArrayOutputStream target = new ByteArrayOutputStream();
             XBTTreeDocument document = new XBTTreeDocument();
             XBDocument sampleDocument = XBCoreTestSampleData.getSampleTwoBlocksTree();
-            document.setRootBlock(XBTTreeNode.createTreeCopy(new XBBlockToXBTBlock(sampleDocument.getRootBlock())));
+            document.setRootBlock(XBTTreeNode.createTreeCopy(new XBBlockToXBTBlock(sampleDocument.getRootBlock().get())));
             if (sampleDocument.getTailDataSize() > 0) {
-                document.setTailData(sampleDocument.getTailData());
+                document.setTailData(sampleDocument.getTailData().orElse(null));
             }
 
             document.toStreamUB(target);
@@ -394,9 +394,9 @@ public class XBTTreeDocumentWriterTest extends TestCase {
             ByteArrayOutputStream target = new ByteArrayOutputStream();
             XBTTreeDocument document = new XBTTreeDocument();
             XBDocument sampleDocument = XBCoreTestSampleData.getSampleTwoBlocksWithTailTree();
-            document.setRootBlock(XBTTreeNode.createTreeCopy(new XBBlockToXBTBlock(sampleDocument.getRootBlock())));
+            document.setRootBlock(XBTTreeNode.createTreeCopy(new XBBlockToXBTBlock(sampleDocument.getRootBlock().get())));
             if (sampleDocument.getTailDataSize() > 0) {
-                document.setTailData(sampleDocument.getTailData());
+                document.setTailData(sampleDocument.getTailData().orElse(null));
             }
 
             document.toStreamUB(target);
@@ -415,9 +415,9 @@ public class XBTTreeDocumentWriterTest extends TestCase {
             ByteArrayOutputStream target = new ByteArrayOutputStream();
             XBTTreeDocument document = new XBTTreeDocument();
             XBDocument sampleDocument = XBCoreTestSampleData.getSampleTwoBlocksTerminatedTree();
-            document.setRootBlock(XBTTreeNode.createTreeCopy(new XBBlockToXBTBlock(sampleDocument.getRootBlock())));
+            document.setRootBlock(XBTTreeNode.createTreeCopy(new XBBlockToXBTBlock(sampleDocument.getRootBlock().get())));
             if (sampleDocument.getTailDataSize() > 0) {
-                document.setTailData(sampleDocument.getTailData());
+                document.setTailData(sampleDocument.getTailData().orElse(null));
             }
 
             document.toStreamUB(target);
@@ -436,9 +436,9 @@ public class XBTTreeDocumentWriterTest extends TestCase {
             ByteArrayOutputStream target = new ByteArrayOutputStream();
             XBTTreeDocument document = new XBTTreeDocument();
             XBDocument sampleDocument = XBCoreTestSampleData.getSampleTwoBlocksTerminatedWithTailTree();
-            document.setRootBlock(XBTTreeNode.createTreeCopy(new XBBlockToXBTBlock(sampleDocument.getRootBlock())));
+            document.setRootBlock(XBTTreeNode.createTreeCopy(new XBBlockToXBTBlock(sampleDocument.getRootBlock().get())));
             if (sampleDocument.getTailDataSize() > 0) {
-                document.setTailData(sampleDocument.getTailData());
+                document.setTailData(sampleDocument.getTailData().orElse(null));
             }
 
             document.toStreamUB(target);
@@ -457,9 +457,9 @@ public class XBTTreeDocumentWriterTest extends TestCase {
             ByteArrayOutputStream target = new ByteArrayOutputStream();
             XBTTreeDocument document = new XBTTreeDocument();
             XBDocument sampleDocument = XBCoreTestSampleData.getSampleTwoBlocksHybridTree();
-            document.setRootBlock(XBTTreeNode.createTreeCopy(new XBBlockToXBTBlock(sampleDocument.getRootBlock())));
+            document.setRootBlock(XBTTreeNode.createTreeCopy(new XBBlockToXBTBlock(sampleDocument.getRootBlock().get())));
             if (sampleDocument.getTailDataSize() > 0) {
-                document.setTailData(sampleDocument.getTailData());
+                document.setTailData(sampleDocument.getTailData().orElse(null));
             }
 
             document.toStreamUB(target);
@@ -478,9 +478,9 @@ public class XBTTreeDocumentWriterTest extends TestCase {
             ByteArrayOutputStream target = new ByteArrayOutputStream();
             XBTTreeDocument document = new XBTTreeDocument();
             XBDocument sampleDocument = XBCoreTestSampleData.getSampleTwoBlocksHybrid2Tree();
-            document.setRootBlock(XBTTreeNode.createTreeCopy(new XBBlockToXBTBlock(sampleDocument.getRootBlock())));
+            document.setRootBlock(XBTTreeNode.createTreeCopy(new XBBlockToXBTBlock(sampleDocument.getRootBlock().get())));
             if (sampleDocument.getTailDataSize() > 0) {
-                document.setTailData(sampleDocument.getTailData());
+                document.setTailData(sampleDocument.getTailData().orElse(null));
             }
 
             document.toStreamUB(target);
@@ -499,9 +499,9 @@ public class XBTTreeDocumentWriterTest extends TestCase {
             ByteArrayOutputStream target = new ByteArrayOutputStream();
             XBTTreeDocument document = new XBTTreeDocument();
             XBDocument sampleDocument = XBCoreTestSampleData.getSampleSixBlocksTree();
-            document.setRootBlock(XBTTreeNode.createTreeCopy(new XBBlockToXBTBlock(sampleDocument.getRootBlock())));
+            document.setRootBlock(XBTTreeNode.createTreeCopy(new XBBlockToXBTBlock(sampleDocument.getRootBlock().get())));
             if (sampleDocument.getTailDataSize() > 0) {
-                document.setTailData(sampleDocument.getTailData());
+                document.setTailData(sampleDocument.getTailData().orElse(null));
             }
 
             document.toStreamUB(target);

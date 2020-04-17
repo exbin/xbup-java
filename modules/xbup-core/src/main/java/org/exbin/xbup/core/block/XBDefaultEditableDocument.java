@@ -18,8 +18,10 @@ package org.exbin.xbup.core.block;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Optional;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
 import org.exbin.auxiliary.paged_data.BinaryData;
 import org.exbin.xbup.core.type.XBData;
 
@@ -29,6 +31,7 @@ import org.exbin.xbup.core.type.XBData;
  * @version 0.2.1 2017/05/10
  * @author ExBin Project (http://exbin.org)
  */
+@ParametersAreNonnullByDefault
 public class XBDefaultEditableDocument implements XBEditableDocument {
 
     @Nonnull
@@ -36,25 +39,25 @@ public class XBDefaultEditableDocument implements XBEditableDocument {
     @Nullable
     private BinaryData tailData;
 
-    public XBDefaultEditableDocument(@Nonnull XBBlock rootBlock) {
+    public XBDefaultEditableDocument(XBBlock rootBlock) {
         this(rootBlock, null);
     }
 
-    public XBDefaultEditableDocument(@Nonnull XBBlock rootBlock, @Nullable BinaryData tailData) {
+    public XBDefaultEditableDocument(XBBlock rootBlock, @Nullable BinaryData tailData) {
         this.rootBlock = rootBlock;
         this.tailData = tailData;
     }
 
     @Nonnull
     @Override
-    public XBBlock getRootBlock() {
-        return rootBlock;
+    public Optional<XBBlock> getRootBlock() {
+        return Optional.ofNullable(rootBlock);
     }
 
-    @Nullable
+    @Nonnull
     @Override
-    public InputStream getTailData() {
-        return tailData.getDataInputStream();
+    public Optional<InputStream> getTailData() {
+        return tailData == null ? Optional.empty() : Optional.of(tailData.getDataInputStream());
     }
 
     @Override
@@ -68,7 +71,7 @@ public class XBDefaultEditableDocument implements XBEditableDocument {
     }
 
     @Override
-    public void setRootBlock(@Nonnull XBBlock block) {
+    public void setRootBlock(XBBlock block) {
         rootBlock = block;
     }
 

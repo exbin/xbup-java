@@ -19,8 +19,9 @@ package org.exbin.xbup.parser_command;
 import java.io.Closeable;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Optional;
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
 import org.exbin.xbup.core.block.XBTBlock;
 import org.exbin.xbup.core.block.XBTDocument;
 
@@ -30,6 +31,7 @@ import org.exbin.xbup.core.block.XBTDocument;
  * @version 0.2.1 2017/05/24
  * @author ExBin Project (http://exbin.org)
  */
+@ParametersAreNonnullByDefault
 public interface XBTCommandReader extends XBTDocument, Closeable {
 
     /**
@@ -38,7 +40,7 @@ public interface XBTCommandReader extends XBTDocument, Closeable {
      * @param stream input stream
      * @throws java.io.IOException exception on input/output error
      */
-    void open(@Nonnull InputStream stream) throws IOException;
+    void open(InputStream stream) throws IOException;
 
     /**
      * Closes input stream.
@@ -61,6 +63,6 @@ public interface XBTCommandReader extends XBTDocument, Closeable {
      * @param blockPath path to block in document
      * @return block handler
      */
-    @Nullable
-    XBTBlock getBlock(long[] blockPath);
+    @Nonnull
+    Optional<XBTBlock> getBlock(long[] blockPath);
 }

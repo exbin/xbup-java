@@ -17,6 +17,7 @@
 package org.exbin.xbup.core.parser.token;
 
 import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
 import org.exbin.xbup.core.block.XBBlockTerminationMode;
 
 /**
@@ -28,6 +29,7 @@ import org.exbin.xbup.core.block.XBBlockTerminationMode;
  * @version 0.2.1 2017/05/22
  * @author ExBin Project (http://exbin.org)
  */
+@ParametersAreNonnullByDefault
 public abstract class XBBeginToken implements XBToken {
 
     /**
@@ -38,8 +40,8 @@ public abstract class XBBeginToken implements XBToken {
     @Nonnull
     public abstract XBBlockTerminationMode getTerminationMode();
 
-    @Override
     @Nonnull
+    @Override
     public XBTokenType getTokenType() {
         return XBTokenType.BEGIN;
     }
@@ -48,7 +50,7 @@ public abstract class XBBeginToken implements XBToken {
     private static XBBeginTokenImpl terminatedByZeroBeginToken = null;
 
     @Nonnull
-    public static XBBeginToken create(@Nonnull XBBlockTerminationMode terminationMode) {
+    public static XBBeginToken create(XBBlockTerminationMode terminationMode) {
         switch (terminationMode) {
             case SIZE_SPECIFIED:
                 return getSizeSpecifiedInstance();
@@ -77,12 +79,13 @@ public abstract class XBBeginToken implements XBToken {
         return terminatedByZeroBeginToken;
     }
 
+    @ParametersAreNonnullByDefault
     public static class XBBeginTokenImpl extends XBBeginToken {
 
         @Nonnull
         private final XBBlockTerminationMode terminationMode;
 
-        private XBBeginTokenImpl(@Nonnull XBBlockTerminationMode terminationMode) {
+        private XBBeginTokenImpl(XBBlockTerminationMode terminationMode) {
             this.terminationMode = terminationMode;
         }
 

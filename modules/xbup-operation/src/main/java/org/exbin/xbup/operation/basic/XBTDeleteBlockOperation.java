@@ -85,10 +85,10 @@ public class XBTDeleteBlockOperation extends XBTDocOperation {
             Long parentPosition = null;
             XBTEditableBlock deletedNode;
             if (serial.position < 1) {
-                deletedNode = (XBTEditableBlock) document.getRootBlock();
+                deletedNode = (XBTEditableBlock) document.getRootBlock().get();
             } else {
                 deletedNode = (XBTEditableBlock) document.findBlockByIndex(serial.position);
-                XBTEditableBlock parentNode = (XBTEditableBlock) deletedNode.getParent();
+                XBTEditableBlock parentNode = (XBTEditableBlock) deletedNode.getParentBlock().get();
                 parentPosition = (long) XBTDefaultBlock.getBlockIndex(parentNode);
                 childIndex = Arrays.asList(parentNode.getChildren()).indexOf(deletedNode);
             }
@@ -99,7 +99,7 @@ public class XBTDeleteBlockOperation extends XBTDocOperation {
             document.clear();
         } else {
             XBTEditableBlock node = (XBTEditableBlock) document.findBlockByIndex(serial.position);
-            XBTEditableBlock parentNode = (XBTEditableBlock) node.getParent();
+            XBTEditableBlock parentNode = (XBTEditableBlock) node.getParentBlock().get();
             int childIndex = Arrays.asList(parentNode.getChildren()).indexOf(node);
             parentNode.removeChild(childIndex);
         }

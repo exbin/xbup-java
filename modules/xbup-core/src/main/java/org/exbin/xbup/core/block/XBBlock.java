@@ -17,6 +17,7 @@
 package org.exbin.xbup.core.block;
 
 import java.io.InputStream;
+import java.util.Optional;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import org.exbin.auxiliary.paged_data.BinaryData;
@@ -25,18 +26,18 @@ import org.exbin.xbup.core.parser.token.XBAttribute;
 /**
  * Interface for read access to XBUP level 0 block.
  *
- * @version 0.2.1 2017/05/10
+ * @version 0.2.1 2020/04/17
  * @author ExBin Project (http://exbin.org)
  */
 public interface XBBlock {
 
     /**
-     * Gets parent block or null if block has no parent.
+     * Gets parent block or empty if block has no parent.
      *
      * @return Parent block.
      */
-    @Nullable
-    XBBlock getParent();
+    @Nonnull
+    Optional<XBBlock> getParentBlock();
 
     /**
      * Returns mode whether this block is data block.
@@ -106,16 +107,16 @@ public interface XBBlock {
     /**
      * Gets block data.
      *
-     * @return block data or null
+     * @return block data or throws invalid operation on non-data block
      */
-    @Nullable
+    @Nonnull
     InputStream getData();
 
     /**
      * Gets block data.
      *
-     * @return block data or null
+     * @return block data or throws invalid operation on non-data block
      */
-    @Nullable
+    @Nonnull
     BinaryData getBlockData();
 }

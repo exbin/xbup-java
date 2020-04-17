@@ -19,8 +19,7 @@ package org.exbin.xbup.operation.basic;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.Optional;
 import org.exbin.xbup.core.block.XBTEditableDocument;
 import org.exbin.xbup.core.parser.XBProcessingException;
 import org.exbin.xbup.core.serial.XBPSerialReader;
@@ -68,9 +67,9 @@ public class XBTTailDataOperation extends XBTDocOperation {
         try {
             if (withUndo) {
                 XBData oldData = new XBData();
-                InputStream tailDataStream = document.getTailData();
-                if (tailDataStream != null) {
-                    oldData.loadFromStream(tailDataStream);
+                Optional<InputStream> tailDataStream = document.getTailData();
+                if (tailDataStream.isPresent()) {
+                    oldData.loadFromStream(tailDataStream.get());
                 }
                 undoOperation = new XBTTailDataOperation(document, oldData);
             }
@@ -82,8 +81,7 @@ public class XBTTailDataOperation extends XBTDocOperation {
             reader.read(serial);
             document.setTailData(tailData.getDataInputStream());
         } catch (XBProcessingException | IOException ex) {
-            Logger.getLogger(XBTDeleteBlockOperation.class.getName()).log(Level.SEVERE, null, ex);
-            throw new IllegalStateException("Unable to process data");
+            throw new IllegalStateException("Unable to process data", ex);
         }
 
         return undoOperation;

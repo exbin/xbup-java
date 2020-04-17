@@ -57,7 +57,7 @@ public class XBTreeReader implements XBListener {
 
     public XBTreeReader(XBDocument target, boolean recursive, boolean allowTailData) {
         this.target = target;
-        block = (XBEditableBlock) target.getRootBlock();
+        block = (XBEditableBlock) target.getRootBlock().orElse(null);
         this.recursive = recursive;
         this.allowTailData = allowTailData;
         finished = false;
@@ -180,7 +180,7 @@ public class XBTreeReader implements XBListener {
             parserState = XBParserState.BLOCK_END;
             if (level > 0) {
                 level--;
-                block = (XBEditableBlock) block.getParent();
+                block = (XBEditableBlock) block.getParentBlock().orElse(null);
                 return;
             } else {
                 finished = true;

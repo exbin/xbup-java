@@ -21,6 +21,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
+import javax.annotation.ParametersAreNonnullByDefault;
 import org.exbin.xbup.core.block.XBBlockDataMode;
 import org.exbin.xbup.core.block.XBBlockTerminationMode;
 import org.exbin.xbup.core.parser.XBParseException;
@@ -49,6 +50,7 @@ import org.exbin.xbup.core.util.StreamUtils;
  * @version 0.1.25 2015/08/08
  * @author ExBin Project (http://exbin.org)
  */
+@ParametersAreNonnullByDefault
 public class XBSEventWriter implements Closeable, XBEventListener {
 
     private OutputStream stream;

@@ -36,7 +36,7 @@ public interface XBTEditableDocument extends XBTDocument {
      *
      * @param block the block to use as root block for this document
      */
-    void setRootBlock(XBTBlock block);
+    void setRootBlock(@Nullable XBTBlock block);
 
     /**
      * Sets tail data.
@@ -44,7 +44,7 @@ public interface XBTEditableDocument extends XBTDocument {
      * @param source data stream
      * @throws java.io.IOException if input/output error
      */
-    void setTailData(InputStream source) throws IOException;
+    void setTailData(@Nullable InputStream source) throws IOException;
 
     /**
      * Clears all data in this document.

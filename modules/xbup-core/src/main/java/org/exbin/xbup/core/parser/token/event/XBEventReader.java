@@ -20,6 +20,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
 import org.exbin.xbup.core.block.XBBlockTerminationMode;
 import org.exbin.xbup.core.parser.XBParseException;
 import org.exbin.xbup.core.parser.XBParserMode;
@@ -43,6 +45,7 @@ import org.exbin.xbup.core.ubnumber.type.UBNat32;
  * @version 0.2.1 2017/05/19
  * @author ExBin Project (http://exbin.org)
  */
+@ParametersAreNonnullByDefault
 public class XBEventReader implements XBEventProducer {
 
     private XBParserMode parserMode = XBParserMode.FULL;
@@ -221,6 +224,7 @@ public class XBEventReader implements XBEventProducer {
         this.listener = eventListener;
     }
 
+    @Nonnull
     @Override
     public String toString() {
         String retValue;

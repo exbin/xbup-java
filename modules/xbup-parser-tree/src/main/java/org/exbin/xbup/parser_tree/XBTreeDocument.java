@@ -21,6 +21,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.Optional;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import org.exbin.auxiliary.paged_data.BinaryData;
@@ -88,13 +89,13 @@ public class XBTreeDocument extends XBTree implements XBEditableDocument, UBStre
         return size;
     }
 
+    @Nonnull
     @Override
-    @Nullable
-    public InputStream getTailData() {
+    public Optional<InputStream> getTailData() {
         if (tailData == null) {
-            return null;
+            return Optional.empty();
         }
-        return tailData.getDataInputStream();
+        return Optional.of(tailData.getDataInputStream());
     }
 
     @Nullable
@@ -126,6 +127,11 @@ public class XBTreeDocument extends XBTree implements XBEditableDocument, UBStre
         if (tailData != null) {
             tailData = null;
         }
+    }
+
+    @Override
+    public Optional<XBBlock> getRootBlock() {
+        return Optional.ofNullable(getRoot());
     }
 
     @Override
@@ -174,7 +180,7 @@ public class XBTreeDocument extends XBTree implements XBEditableDocument, UBStre
     @Override
     public long getDocumentSize() {
         long documentSize = getTailDataSize();
-        XBTreeNode rootBlock = getRootBlock();
+        XBTreeNode rootBlock = getRoot();
         if (rootBlock != null) {
             documentSize += rootBlock.getBlockSize();
         }

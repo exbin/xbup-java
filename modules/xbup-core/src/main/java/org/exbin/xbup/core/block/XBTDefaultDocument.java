@@ -17,6 +17,7 @@
 package org.exbin.xbup.core.block;
 
 import java.io.InputStream;
+import java.util.Optional;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import org.exbin.auxiliary.paged_data.BinaryData;
@@ -45,18 +46,14 @@ public class XBTDefaultDocument implements XBTDocument {
 
     @Nonnull
     @Override
-    public XBTBlock getRootBlock() {
-        return rootBlock;
+    public Optional<XBTBlock> getRootBlock() {
+        return Optional.of(rootBlock);
     }
 
-    @Nullable
+    @Nonnull
     @Override
-    public InputStream getTailData() {
-        if (tailData == null) {
-            return null;
-        }
-
-        return tailData.getDataInputStream();
+    public Optional<InputStream> getTailData() {
+        return tailData == null ? Optional.empty() : Optional.of(tailData.getDataInputStream());
     }
 
     @Override

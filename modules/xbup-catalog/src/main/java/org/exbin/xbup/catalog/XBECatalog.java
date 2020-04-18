@@ -26,6 +26,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
 import javax.annotation.PostConstruct;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
@@ -82,6 +83,7 @@ import org.exbin.xbup.core.serial.XBPSerialReader;
  * @version 0.2.1 2017/06/06
  * @author ExBin Project (http://exbin.org)
  */
+@ParametersAreNonnullByDefault
 public class XBECatalog implements XBCatalog {
 
     private XBContext rootContext = null;
@@ -123,7 +125,7 @@ public class XBECatalog implements XBCatalog {
     }
 
     @Nullable
-    public XBEFormatSpec findFormatSpecByPath(@Nonnull Long[] xbCatalogPath) {
+    public XBEFormatSpec findFormatSpecByPath(Long[] xbCatalogPath) {
         XBENodeService nodeService = (XBENodeService) getCatalogService(XBCNodeService.class);
         XBESpecService specService = (XBESpecService) getCatalogService(XBCSpecService.class);
         XBENode node = nodeService.findOwnerByXBPath(xbCatalogPath);
@@ -134,7 +136,7 @@ public class XBECatalog implements XBCatalog {
     }
 
     @Nullable
-    public XBEGroupSpec findGroupSpecByPath(@Nonnull Long[] xbCatalogPath) {
+    public XBEGroupSpec findGroupSpecByPath(Long[] xbCatalogPath) {
         XBENodeService nodeService = (XBENodeService) getCatalogService(XBCNodeService.class);
         XBESpecService specService = (XBESpecService) getCatalogService(XBCSpecService.class);
         XBENode node = nodeService.findOwnerByXBPath(xbCatalogPath);
@@ -145,7 +147,7 @@ public class XBECatalog implements XBCatalog {
     }
 
     @Nullable
-    public XBEBlockSpec findBlockSpecByPath(@Nonnull Long[] xbCatalogPath) {
+    public XBEBlockSpec findBlockSpecByPath(Long[] xbCatalogPath) {
         XBENodeService nodeService = (XBENodeService) getCatalogService(XBCNodeService.class);
         XBESpecService specService = (XBESpecService) getCatalogService(XBCSpecService.class);
         XBENode node = nodeService.findOwnerByXBPath(xbCatalogPath);
@@ -155,9 +157,9 @@ public class XBECatalog implements XBCatalog {
         return specService.findBlockSpecByXB(node, xbCatalogPath[xbCatalogPath.length - 1]);
     }
 
-    @Override
     @Nullable
-    public XBFormatDecl findFormatTypeByPath(@Nonnull Long[] xbCatalogPath, int revision) {
+    @Override
+    public XBFormatDecl findFormatTypeByPath(Long[] xbCatalogPath, int revision) {
         XBERevService revService = (XBERevService) getCatalogService(XBCRevService.class);
         XBEFormatSpec spec = findFormatSpecByPath(xbCatalogPath);
         if (spec == null) {
@@ -175,7 +177,7 @@ public class XBECatalog implements XBCatalog {
 
     @Override
     @Nullable
-    public XBGroupDecl findGroupTypeByPath(@Nonnull Long[] xbCatalogPath, int revision) {
+    public XBGroupDecl findGroupTypeByPath(Long[] xbCatalogPath, int revision) {
         XBERevService revService = (XBERevService) getCatalogService(XBCRevService.class);
         XBEGroupSpec spec = findGroupSpecByPath(xbCatalogPath);
         if (spec == null) {
@@ -193,7 +195,7 @@ public class XBECatalog implements XBCatalog {
 
     @Override
     @Nullable
-    public XBBlockDecl findBlockTypeByPath(@Nonnull Long[] blockSpecCatalogPath, int revision) {
+    public XBBlockDecl findBlockTypeByPath(Long[] blockSpecCatalogPath, int revision) {
         XBERevService revService = (XBERevService) getCatalogService(XBCRevService.class);
         XBEBlockSpec spec = findBlockSpecByPath(blockSpecCatalogPath);
         if (spec == null) {
@@ -209,8 +211,8 @@ public class XBECatalog implements XBCatalog {
         return new XBCBlockDecl((XBCBlockRev) rev, this);
     }
 
-    @Override
     @Nonnull
+    @Override
     public XBContext getRootContext() {
         if (rootContext == null) {
             // Generate root context
@@ -293,18 +295,19 @@ public class XBECatalog implements XBCatalog {
         }
     }
 
+    @Nonnull
     public EntityManager getEntityManager() {
         return em;
     }
 
-    @Override
     @Nonnull
+    @Override
     public List<XBCService<?>> getCatalogServices() {
         return new ArrayList<>(catalogServices.values());
     }
 
-    @Override
     @Nonnull
+    @Override
     public List<XBCManager<?>> getCatalogManagers() {
         return new ArrayList<>(catalogManagers.values());
     }
@@ -323,13 +326,13 @@ public class XBECatalog implements XBCatalog {
 
     @Nonnull
     @Override
-    public <T extends XBCManager<?>> T getCatalogManager(@Nonnull Class<T> managerClass) {
+    public <T extends XBCManager<?>> T getCatalogManager(Class<T> managerClass) {
         return (T) catalogManagers.get(managerClass);
     }
 
     @Nonnull
     @Override
-    public <T extends XBCService<?>> T getCatalogService(@Nonnull Class<T> serviceClass) {
+    public <T extends XBCService<?>> T getCatalogService(Class<T> serviceClass) {
         return (T) catalogServices.get(serviceClass);
     }
 

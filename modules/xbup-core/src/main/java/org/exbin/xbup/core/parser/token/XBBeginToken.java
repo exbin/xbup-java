@@ -18,6 +18,7 @@ package org.exbin.xbup.core.parser.token;
 
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
+import javax.annotation.concurrent.Immutable;
 import org.exbin.xbup.core.block.XBBlockTerminationMode;
 
 /**
@@ -29,6 +30,7 @@ import org.exbin.xbup.core.block.XBBlockTerminationMode;
  * @version 0.2.1 2017/05/22
  * @author ExBin Project (http://exbin.org)
  */
+@Immutable
 @ParametersAreNonnullByDefault
 public abstract class XBBeginToken implements XBToken {
 

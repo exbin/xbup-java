@@ -29,7 +29,7 @@ import org.exbin.xbup.core.catalog.base.XBCXPlugin;
 /**
  * RPC stub class for XBRXBlockPane catalog items.
  *
- * @version 0.1.25 2015/03/20
+ * @version 0.2.1 2020/04/18
  * @author ExBin Project (http://exbin.org)
  */
 public class XBPXPaneStub extends XBPBaseStub<XBRXBlockPane> {
@@ -65,18 +65,22 @@ public class XBPXPaneStub extends XBPBaseStub<XBRXBlockPane> {
         return XBPStubUtils.longToLongMethod(client.procedureCall(), new XBDeclBlockType(PANEINDEX_PLUGIN_PROCEDURE), lineId);
     }
 
-    public XBCBlockRev getBlockRev(long blockPaneId) {
-        Long index = XBPStubUtils.longToLongMethod(client.procedureCall(), new XBDeclBlockType(REV_PANE_PROCEDURE), blockPaneId);
+    public XBCBlockRev getBlockRev(long blockRevId) {
+        Long index = XBPStubUtils.longToLongMethod(client.procedureCall(), new XBDeclBlockType(REV_PANE_PROCEDURE), blockRevId);
         return index == null ? null : new XBRBlockRev(client, index);
     }
 
-    public XBCXPlugPane getPane(long blockPaneId) {
-        Long index = XBPStubUtils.longToLongMethod(client.procedureCall(), new XBDeclBlockType(PLUGIN_PANE_PROCEDURE), blockPaneId);
+    public XBCXPlugPane getPane(long pluginPaneId) {
+        Long index = XBPStubUtils.longToLongMethod(client.procedureCall(), new XBDeclBlockType(PLUGIN_PANE_PROCEDURE), pluginPaneId);
         return index == null ? null : new XBRXPlugPane(client, index);
     }
 
     public Long getPriority(long blockPaneId) {
         return XBPStubUtils.longToLongMethod(client.procedureCall(), new XBDeclBlockType(PRIORITY_PANE_PROCEDURE), blockPaneId);
+    }
+
+    public Long getBlockPanesCount(XBCBlockRev rev) {
+        return XBPStubUtils.longToLongMethod(client.procedureCall(), new XBDeclBlockType(PANESCOUNT_PANE_PROCEDURE), rev.getId());
     }
 
     public XBRXBlockPane findPaneByPR(XBCBlockRev rev, long priority) {

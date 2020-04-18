@@ -18,6 +18,7 @@ package org.exbin.xbup.catalog;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.annotation.ParametersAreNonnullByDefault;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import org.exbin.xbup.catalog.entity.service.XBELimiService;
@@ -33,6 +34,7 @@ import org.exbin.xbup.core.catalog.base.service.XBCTranService;
  * @version 0.1.25 2015/08/08
  * @author ExBin Project (http://exbin.org)
  */
+@ParametersAreNonnullByDefault
 public class XBAECatalog extends XBECatalog implements XBACatalog {
 
     public XBAECatalog() {

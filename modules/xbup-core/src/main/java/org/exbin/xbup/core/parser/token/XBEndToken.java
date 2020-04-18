@@ -18,6 +18,7 @@ package org.exbin.xbup.core.parser.token;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import javax.annotation.concurrent.Immutable;
 
 /**
  * XBUP protocol level 0 end token.
@@ -25,6 +26,7 @@ import javax.annotation.Nullable;
  * @version 0.2.1 2017/05/22
  * @author ExBin Project (http://exbin.org)
  */
+@Immutable
 public abstract class XBEndToken implements XBToken {
 
     private XBEndToken() {
@@ -48,6 +50,7 @@ public abstract class XBEndToken implements XBToken {
         return instance;
     }
 
+    @Immutable
     private static class XBEndTokenImpl extends XBEndToken {
 
         XBEndTokenImpl() {

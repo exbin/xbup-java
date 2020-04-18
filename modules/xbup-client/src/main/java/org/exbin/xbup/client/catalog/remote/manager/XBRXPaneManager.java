@@ -16,6 +16,7 @@
  */
 package org.exbin.xbup.client.catalog.remote.manager;
 
+import java.util.ArrayList;
 import java.util.List;
 import org.exbin.xbup.client.catalog.XBRCatalog;
 import org.exbin.xbup.client.catalog.remote.XBRXBlockPane;
@@ -49,17 +50,22 @@ public class XBRXPaneManager extends XBRDefaultManager<XBRXBlockPane> implements
 
     @Override
     public String getExtensionName() {
-        return "Panel Extension";
+        return "Block Panel Extension";
     }
 
     @Override
     public List<XBCXBlockPane> getPanes(XBCBlockRev rev) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        List<XBCXBlockPane> result = new ArrayList<>();
+        long count = getPanesCount(rev);
+        for (int i = 0; i < count; i++) {
+            result.add(findPaneByPR(rev, i));
+        }
+        return result;
     }
 
     @Override
     public long getPanesCount(XBCBlockRev rev) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return paneStub.getBlockPanesCount(rev);
     }
 
     @Override
@@ -79,7 +85,7 @@ public class XBRXPaneManager extends XBRDefaultManager<XBRXBlockPane> implements
 
     @Override
     public XBRXPlugPane getPlugPane(XBCXPlugin plugin, long paneIndex) {
-        return getPlugPane(plugin, paneIndex);
+        return paneStub.getPlugPane(plugin, paneIndex);
     }
 
     @Override

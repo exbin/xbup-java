@@ -35,37 +35,36 @@ public interface XBCUpdateHandler {
     /**
      * Initialize Updater.
      */
-    public void init();
+    void init();
 
-    public XBContext updateTypeSpecFromWS(Long[] path, long specId);
+    XBContext updateTypeSpecFromWS(Long[] path, long specId);
 
-    public XBCFormatSpec updateFormatSpec(Long[] path, Long specId);
+    XBCFormatSpec updateFormatSpec(Long[] path, Long specId);
 
-    public XBCGroupSpec updateGroupSpec(Long[] path, Long specId);
+    XBCGroupSpec updateGroupSpec(Long[] path, Long specId);
 
-    public XBCBlockSpec updateBlockSpec(Long[] path, Long specId);
+    XBCBlockSpec updateBlockSpec(Long[] path, Long specId);
 
-    public XBCFormatSpec addFormatSpecFromWS(XBCNode node, Long specId);
+    XBCFormatSpec addFormatSpecFromWS(XBCNode node, Long specId);
 
-    public XBCGroupSpec addGroupSpecFromWS(XBCNode node, Long specId);
+    XBCGroupSpec addGroupSpecFromWS(XBCNode node, Long specId);
 
-    public XBCBlockSpec addBlockSpecFromWS(XBCNode node, Long specId);
+    XBCBlockSpec addBlockSpecFromWS(XBCNode node, Long specId);
 
-    public XBCNode addNodeFromWS(XBCNode node, Long nodeId);
+    XBCNode addNodeFromWS(XBCNode node, Long nodeId);
 
     /**
      * Process all catalog data in given path and subnodes.
      *
      * @param path path
      */
-    public void processAllData(Long[] path);
+    void processAllData(Long[] path);
 
-    public boolean processNodePath(Long[] path);
+    boolean processNodePath(Long[] path);
 
-    public void addWSListener(XBCUpdateListener wsl);
+    void addWSListener(XBCUpdateListener wsl);
 
-    public void removeWSListener(XBCUpdateListener wsl);
+    void removeWSListener(XBCUpdateListener wsl);
 
-    public void fireUsageEvent(boolean usage);
-
+    void fireUsageEvent(boolean usage);
 }

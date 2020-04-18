@@ -16,6 +16,7 @@
  */
 package org.exbin.xbup.client.catalog.remote.manager;
 
+import java.util.ArrayList;
 import java.util.List;
 import org.exbin.xbup.client.catalog.XBRCatalog;
 import org.exbin.xbup.client.catalog.remote.XBRXBlockLine;
@@ -30,7 +31,7 @@ import org.exbin.xbup.core.catalog.base.manager.XBCXLineManager;
 /**
  * Remote manager class for XBRXBlockLine catalog items.
  *
- * @version 0.1.25 2015/02/21
+ * @version 0.2.1 2020/04/18
  * @author ExBin Project (http://exbin.org)
  */
 public class XBRXLineManager extends XBRDefaultManager<XBRXBlockLine> implements XBCXLineManager<XBRXBlockLine> {
@@ -49,17 +50,22 @@ public class XBRXLineManager extends XBRDefaultManager<XBRXBlockLine> implements
 
     @Override
     public String getExtensionName() {
-        return "Line Extension";
+        return "Block Line Extension";
     }
 
     @Override
     public List<XBCXBlockLine> getLines(XBCBlockRev rev) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        List<XBCXBlockLine> result = new ArrayList<>();
+        long count = getLinesCount(rev);
+        for (int i = 0; i < count; i++) {
+            result.add(findLineByPR(rev, i));
+        }
+        return result;
     }
 
     @Override
     public long getLinesCount(XBCBlockRev rev) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return lineStub.getBlockLineCount(rev);
     }
 
     @Override

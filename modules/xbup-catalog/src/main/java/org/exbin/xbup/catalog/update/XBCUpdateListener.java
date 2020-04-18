@@ -32,5 +32,5 @@ public interface XBCUpdateListener extends EventListener {
      *
      * @param status status flag
      */
-    public void webServiceUsage(boolean status);
+    void webServiceUsage(boolean status);
 }

@@ -17,7 +17,6 @@
 package org.exbin.xbup.core.parser.token;
 
 import javax.annotation.Nonnull;
-import javax.annotation.concurrent.Immutable;
 
 /**
  * XBUP protocol level 1 token interface.
@@ -25,7 +24,6 @@ import javax.annotation.concurrent.Immutable;
  * @version 0.2.1 2017/05/22
  * @author ExBin Project (http://exbin.org)
  */
-@Immutable
 public interface XBTToken extends TypedToken {
 
     /**

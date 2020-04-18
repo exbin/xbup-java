@@ -29,7 +29,7 @@ import org.exbin.xbup.core.catalog.base.XBCXPlugin;
 /**
  * RPC stub class for XBRXBlockLine catalog items.
  *
- * @version 0.1.25 2015/03/20
+ * @version 0.2.1 2020/04/18
  * @author ExBin Project (http://exbin.org)
  */
 public class XBPXLineStub extends XBPBaseStub<XBRXBlockLine> {
@@ -64,7 +64,7 @@ public class XBPXLineStub extends XBPBaseStub<XBRXBlockLine> {
     public Long getLineIndex(long lineId) {
         return XBPStubUtils.longToLongMethod(client.procedureCall(), new XBDeclBlockType(LINEINDEX_PLUGIN_PROCEDURE), lineId);
     }
-
+    
     public XBCBlockRev getBlockRev(long blockLineId) {
         Long index = XBPStubUtils.longToLongMethod(client.procedureCall(), new XBDeclBlockType(REV_LINE_PROCEDURE), blockLineId);
         return index == null ? null : new XBRBlockRev(client, index);
@@ -79,11 +79,15 @@ public class XBPXLineStub extends XBPBaseStub<XBRXBlockLine> {
         return XBPStubUtils.longToLongMethod(client.procedureCall(), new XBDeclBlockType(PRIORITY_LINE_PROCEDURE), blockLineId);
     }
 
+    public Long getBlockLineCount(XBCBlockRev rev) {
+        return XBPStubUtils.longToLongMethod(client.procedureCall(), new XBDeclBlockType(LINESCOUNT_LINE_PROCEDURE), rev.getId());
+    }
+
     public XBRXBlockLine findLineByPR(XBCBlockRev rev, long priority) {
         Long index = XBPStubUtils.twoLongsToLongMethod(client.procedureCall(), new XBDeclBlockType(PLUGIN_LINE_PROCEDURE), rev.getId(), priority);
         return index == null ? null : new XBRXBlockLine(client, index);
     }
-
+    
     public XBRXPlugLine getPlugLine(XBCXPlugin plugin, long lineIndex) {
         Long index = XBPStubUtils.twoLongsToLongMethod(client.procedureCall(), new XBDeclBlockType(PLUGLINE_LINE_PROCEDURE), plugin.getId(), lineIndex);
         return index == null ? null : new XBRXPlugLine(client, index);

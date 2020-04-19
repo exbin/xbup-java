@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 import org.exbin.xbup.core.block.XBBlock;
 import org.exbin.xbup.core.block.XBBlockDataMode;
@@ -170,6 +171,7 @@ public class XBReader implements XBCommandReader, XBPullProvider, Closeable {
         return Optional.of(new XBReaderBlock(this, blockPath));
     }
 
+    @Nullable
     public XBCommandBlock getActiveBlock() {
         return activeBlock;
     }
@@ -663,7 +665,7 @@ public class XBReader implements XBCommandReader, XBPullProvider, Closeable {
         int blockIndex;
         Integer sizeLimit;
 
-        public BlockPosition(long streamPosition, int blockIndex, Integer sizeLimit) {
+        BlockPosition(long streamPosition, int blockIndex, Integer sizeLimit) {
             this.streamPosition = streamPosition;
             this.blockIndex = blockIndex;
             this.sizeLimit = sizeLimit;

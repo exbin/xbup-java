@@ -66,7 +66,7 @@ public class XBRXStriManager extends XBRDefaultManager<XBRXStri> implements XBCX
     @Override
     public String getFullPath(XBCXStri itemString) {
         if ("/".equals(itemString.getNodePath())) {
-            XBCNodeManager nodeManager = (XBCNodeManager) catalog.getCatalogManager(XBCNodeManager.class);
+            XBCNodeManager nodeManager = catalog.getCatalogManager(XBCNodeManager.class);
             if (itemString.getItem().getId().equals(nodeManager.getRootNode().getId())) {
                 return "";
             }

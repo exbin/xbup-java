@@ -71,7 +71,7 @@ public class XBCRevisionDef implements XBRevisionDef, XBPSequenceSerializable {
 
     @Override
     public int getRevisionLimit(long revision) {
-        XBCRevService revService = (XBCRevService) catalog.getCatalogService(XBCRevService.class);
+        XBCRevService revService = catalog.getCatalogService(XBCRevService.class);
         return (int) revService.getRevsLimitSum(spec, revision);
     }
 

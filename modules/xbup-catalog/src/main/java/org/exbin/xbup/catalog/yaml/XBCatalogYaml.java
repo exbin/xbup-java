@@ -94,8 +94,8 @@ public class XBCatalogYaml {
     }
 
     public void exportItem(XBCItem item, Map<String, Object> targetData) {
-        XBCXStriService striService = (XBCXStriService) catalog.getCatalogService(XBCXStriService.class);
-        XBCXHDocService hdocService = (XBCXHDocService) catalog.getCatalogService(XBCXHDocService.class);
+        XBCXStriService striService = catalog.getCatalogService(XBCXStriService.class);
+        XBCXHDocService hdocService = catalog.getCatalogService(XBCXHDocService.class);
 
         String stringId = striService.getItemStringIdText(item);
         targetData.put("id", stringId);
@@ -401,7 +401,7 @@ public class XBCatalogYaml {
     public void setCatalog(XBACatalog catalog) {
         this.catalog = catalog;
 
-        nameService = catalog == null ? null : (XBCXNameService) catalog.getCatalogService(XBCXNameService.class);
-        descService = catalog == null ? null : (XBCXDescService) catalog.getCatalogService(XBCXDescService.class);
+        nameService = catalog == null ? null : catalog.getCatalogService(XBCXNameService.class);
+        descService = catalog == null ? null : catalog.getCatalogService(XBCXDescService.class);
     }
 }

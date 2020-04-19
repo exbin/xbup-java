@@ -60,7 +60,7 @@ public class XBPXHDocSkeleton {
                 XBAttribute index = provider.pullAttribute();
                 provider.end();
 
-                XBCXHDocService hdocService = (XBCXHDocService) catalog.getCatalogService(XBCXHDocService.class);
+                XBCXHDocService hdocService = catalog.getCatalogService(XBCXHDocService.class);
                 XBCXHDoc hdoc = (XBCXHDoc) hdocService.getItem(index.getNaturalLong());
 
                 XBPListenerSerialHandler listener = new XBPListenerSerialHandler(resultInput);
@@ -77,8 +77,8 @@ public class XBPXHDocSkeleton {
                 XBAttribute index = provider.pullAttribute();
                 provider.end();
 
-                XBCItemService itemService = (XBCItemService) catalog.getCatalogService(XBCItemService.class);
-                XBCXHDocService hdocService = (XBCXHDocService) catalog.getCatalogService(XBCXHDocService.class);
+                XBCItemService itemService = catalog.getCatalogService(XBCItemService.class);
+                XBCXHDocService hdocService = catalog.getCatalogService(XBCXHDocService.class);
                 XBCItem item = (XBCItem) itemService.getItem(index.getNaturalLong());
                 XBCXHDoc hdoc = item == null ? null : (XBCXHDoc) hdocService.getDocumentation(item);
 
@@ -96,7 +96,7 @@ public class XBPXHDocSkeleton {
                 XBAttribute index = provider.pullAttribute();
                 provider.end();
 
-                XBCXHDocService hdocService = (XBCXHDocService) catalog.getCatalogService(XBCXHDocService.class);
+                XBCXHDocService hdocService = catalog.getCatalogService(XBCXHDocService.class);
                 XBCXHDoc hdoc = (XBCXHDoc) hdocService.getItem(index.getNaturalLong());
 
                 XBPListenerSerialHandler listener = new XBPListenerSerialHandler(resultInput);

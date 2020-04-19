@@ -61,11 +61,11 @@ public class XBPluginRepository {
         if (plugFile == null) {
             return null;
         }
-        XBCXStriService striService = (XBCXStriService) catalog.getCatalogService(XBCXStriService.class);
+        XBCXStriService striService = catalog.getCatalogService(XBCXStriService.class);
         if (plugins.containsKey(plugFile.getId())) {
             return (XBCatalogPlugin) plugins.get(plugFile.getId());
         }
-        XBCXFileService fileService = (XBCXFileService) catalog.getCatalogService(XBCXFileService.class);
+        XBCXFileService fileService = catalog.getCatalogService(XBCXFileService.class);
         XBCXStri stri = striService.getItemStringId(plugFile.getNode());
         String filePath = striService.getFullPath(stri);
         filePath += "/" + plugFile.getFilename();

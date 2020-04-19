@@ -73,7 +73,7 @@ public class XBRXHDocService extends XBRDefaultService<XBRXHDoc> implements XBCX
         if (file == null) {
             return null;
         }
-        XBCXFileService fileService = (XBCXFileService) catalog.getCatalogService(XBCXFileService.class);
+        XBCXFileService fileService = catalog.getCatalogService(XBCXFileService.class);
         return new java.util.Scanner(fileService.getFile(file)).useDelimiter("\\A").next();
     }
 

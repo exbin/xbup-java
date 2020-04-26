@@ -53,7 +53,7 @@ public class XBTTreeDocument extends XBTTree implements XBTEditableDocument {
 
     public XBTTreeDocument(@Nullable XBTTreeNode rootNode) {
         this();
-        super.setRootBlock(rootNode);
+        super.setRoot(rootNode);
     }
 
     public XBTTreeDocument(@Nullable XBCatalog catalog) {
@@ -146,7 +146,7 @@ public class XBTTreeDocument extends XBTTree implements XBTEditableDocument {
             throw new IllegalArgumentException("Unsupported type of root block");
         }
 
-        super.setRootBlock((XBTTreeNode) block);
+        super.setRoot((XBTTreeNode) block);
     }
 
     public boolean wasModified() {

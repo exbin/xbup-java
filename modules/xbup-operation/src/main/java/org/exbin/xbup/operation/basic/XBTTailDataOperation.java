@@ -20,6 +20,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Optional;
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
 import org.exbin.xbup.core.block.XBTEditableDocument;
 import org.exbin.xbup.core.parser.XBProcessingException;
 import org.exbin.xbup.core.serial.XBPSerialReader;
@@ -37,6 +39,7 @@ import org.exbin.xbup.operation.XBTDocOperation;
  * @version 0.2.0 2016/09/25
  * @author ExBin Project (http://exbin.org)
  */
+@ParametersAreNonnullByDefault
 public class XBTTailDataOperation extends XBTDocOperation {
 
     public XBTTailDataOperation(XBTEditableDocument document, XBData data) {
@@ -47,6 +50,7 @@ public class XBTTailDataOperation extends XBTDocOperation {
         writer.write(serializator);
     }
 
+    @Nonnull
     @Override
     public XBBasicOperationType getBasicType() {
         return XBBasicOperationType.MODIFY_BLOCK;
@@ -57,12 +61,14 @@ public class XBTTailDataOperation extends XBTDocOperation {
         execute(false);
     }
 
+    @Nonnull
     @Override
-    public Operation executeWithUndo() throws Exception {
+    public Optional<Operation> executeWithUndo() throws Exception {
         return execute(true);
     }
 
-    private Operation execute(boolean withUndo) {
+    @Nonnull
+    private Optional<Operation> execute(boolean withUndo) {
         XBTTailDataOperation undoOperation = null;
         try {
             if (withUndo) {
@@ -84,9 +90,10 @@ public class XBTTailDataOperation extends XBTDocOperation {
             throw new IllegalStateException("Unable to process data", ex);
         }
 
-        return undoOperation;
+        return Optional.ofNullable(undoOperation);
     }
 
+    @ParametersAreNonnullByDefault
     private class Serializator implements XBPSequenceSerializable {
 
         private final XBData data;

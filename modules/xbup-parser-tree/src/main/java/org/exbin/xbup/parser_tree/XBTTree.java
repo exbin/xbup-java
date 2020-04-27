@@ -19,6 +19,7 @@ package org.exbin.xbup.parser_tree;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.Optional;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
@@ -104,14 +105,19 @@ public class XBTTree implements UBStreamable {
         }
     }
 
-    @Nullable
-    public XBTBlock findNodeByIndex(long index) {
-        return rootNode.findNodeByIndex(index);
+    @Nonnull
+    public Optional<XBTBlock> findNodeByIndex(long index) {
+        return Optional.ofNullable(rootNode.findNodeByIndex(index).orElse(null));
     }
 
     @Nullable
     public XBTTreeNode getRoot() {
         return rootNode;
+    }
+
+    @Nonnull
+    public Optional<XBTBlock> getRootBlock() {
+        return Optional.ofNullable(rootNode);
     }
 
     public void setRoot(@Nullable XBTTreeNode rootNode) {

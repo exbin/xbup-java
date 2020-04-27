@@ -111,7 +111,7 @@ public class XBCUpdatePHPHandler implements XBCUpdateHandler {
         this.catalog = catalog;
         em = catalog.getEntityManager();
         port = null;
-        lang = new Long(0);
+        lang = 0l;
         localLang = null;
         usage = false;
     }
@@ -132,7 +132,7 @@ public class XBCUpdatePHPHandler implements XBCUpdateHandler {
         try {
             lang = port.getLanguageId("en");
         } catch (Exception ex) {
-            lang = new Long(0);
+            lang = 0l;
         }
         XBEXLangService langService = new XBEXLangService(catalog);
         localLang = (XBEXLanguage) langService.getDefaultLang();
@@ -152,17 +152,17 @@ public class XBCUpdatePHPHandler implements XBCUpdateHandler {
             if (iconService.getIconMode(1l) == null) {
                 XBEXIconMode iconMode = new XBEXIconMode();
                 iconMode.setCaption("PNG 16x16");
-                iconMode.setId(new Long(1));
+                iconMode.setId(1l);
                 iconMode.setMIME("image/png");
-                iconMode.setType(new Long(1));
+                iconMode.setType(1l);
                 EntityTransaction tx = em.getTransaction();
                 tx.begin();
                 em.persist(iconMode);
                 iconMode = new XBEXIconMode();
                 iconMode.setCaption("PNG 32x32");
-                iconMode.setId(new Long(2));
+                iconMode.setId(2l);
                 iconMode.setMIME("image/png");
-                iconMode.setType(new Long(1));
+                iconMode.setType(1l);
                 em.persist(iconMode);
                 tx.commit();
             }
@@ -529,7 +529,7 @@ public class XBCUpdatePHPHandler implements XBCUpdateHandler {
             Long max = port.getSubNodeCatalogMaxIndex(path);
             if (max != null) {
                 for (int i = 0; i <= max; i++) {
-                    XBENode sub = addNodeFromWS(node, new Long(i));
+                    XBENode sub = addNodeFromWS(node, Long.valueOf(i));
                     processAllNodes(sub);
                 }
             }
@@ -589,7 +589,7 @@ public class XBCUpdatePHPHandler implements XBCUpdateHandler {
             Long maxIndex = port.getBlockCatalogSpecMaxIndex(path);
             if (maxIndex != null) {
                 for (int i = 0; i <= maxIndex; i++) {
-                    XBEBlockSpec spec = addBlockSpecFromWS(node, new Long(i));
+                    XBEBlockSpec spec = addBlockSpecFromWS(node, Long.valueOf(i));
                     processBlockSpecIcons(spec);
                 }
             }
@@ -603,13 +603,13 @@ public class XBCUpdatePHPHandler implements XBCUpdateHandler {
             Long maxIndex = port.getGroupCatalogSpecMaxIndex(path);
             if (maxIndex != null) {
                 for (int index = 0; index <= maxIndex; index++) {
-                    XBEGroupSpec spec = addGroupSpecFromWS(node, new Long(index));
+                    XBEGroupSpec spec = addGroupSpecFromWS(node, Long.valueOf(index));
                     /*                Long[] path = catalog.getNodeService().getNodeXBPath(node);
-                     Long max = port.getGroupCatalogSpecMaxBindId(path, new Long(index));
+                     Long max = port.getGroupCatalogSpecMaxBindId(path, Long.valueOf(index));
                      XBEBind bind;
                      XBESpec toTarget;
-                     if (max!=null) for (Long i = new Long(0); i.intValue() < max; i = new Long(i.longValue()+1)) {
-                     RevisionPath specPath = port.getGroupCatalogBindTargetPath(path,new Long(index), i);
+                     if (max!=null) for (Long i = 0l; i.intValue() < max; i = Long.valueOf(i.longValue()+1)) {
+                     RevisionPath specPath = port.getGroupCatalogBindTargetPath(path,Long.valueOf(index), i);
                      if (specPath!=null) {
                      toTarget = updateBlockSpec(specPath.getPath(), specPath.getSpecId());
                      if (toTarget!=null) {
@@ -637,12 +637,12 @@ public class XBCUpdatePHPHandler implements XBCUpdateHandler {
             Long maxIndex = port.getFormatCatalogSpecMaxIndex(path);
             if (maxIndex != null) {
                 for (int index = 0; index <= maxIndex; index++) {
-                    XBEFormatSpec spec = addFormatSpecFromWS(node, new Long(index));
-                    /*                Long max = port.getFormatCatalogSpecMaxBindId(path, new Long(index));
+                    XBEFormatSpec spec = addFormatSpecFromWS(node, Long.valueOf(index));
+                    /*                Long max = port.getFormatCatalogSpecMaxBindId(path, Long.valueOf(index));
                      XBEBind bind;
                      XBESpec toTarget;
-                     if (max!=null) for (Long i = new Long(0); i.intValue() < max; i = new Long(i.longValue()+1)) {
-                     RevisionPath specPath = port.getFormatCatalogBindTargetPath(path,new Long(index), i);
+                     if (max!=null) for (Long i = 0l; i.intValue() < max; i = Long.valueOf(i.longValue()+1)) {
+                     RevisionPath specPath = port.getFormatCatalogBindTargetPath(path,Long.valueOf(index), i);
                      if (specPath!=null) {
                      toTarget = updateGroupSpec(specPath.getPath(), specPath.getSpecId());
                      if (toTarget!=null) {

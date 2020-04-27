@@ -17,6 +17,7 @@
 package org.exbin.xbup.operation;
 
 import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
 import org.exbin.xbup.core.block.XBTEditableDocument;
 import org.exbin.xbup.core.type.XBData;
 import org.exbin.xbup.operation.basic.XBBasicOperationType;
@@ -27,6 +28,7 @@ import org.exbin.xbup.operation.basic.XBBasicOperationType;
  * @version 0.2.1 2017/06/06
  * @author ExBin Project (http://exbin.org)
  */
+@ParametersAreNonnullByDefault
 public abstract class XBTDocOperation implements Operation {
 
     @Nonnull
@@ -34,7 +36,7 @@ public abstract class XBTDocOperation implements Operation {
     @Nonnull
     protected XBData data;
 
-    public XBTDocOperation(@Nonnull XBTEditableDocument document) {
+    public XBTDocOperation(XBTEditableDocument document) {
         this.document = document;
         data = new XBData();
     }
@@ -57,7 +59,7 @@ public abstract class XBTDocOperation implements Operation {
         return data;
     }
 
-    public void setData(@Nonnull XBData data) {
+    public void setData(XBData data) {
         this.data = data;
     }
 
@@ -72,8 +74,8 @@ public abstract class XBTDocOperation implements Operation {
     public void dispose() throws Exception {
     }
 
-    @Override
     @Nonnull
+    @Override
     public String getCaption() {
         return getBasicType().getCaption();
     }

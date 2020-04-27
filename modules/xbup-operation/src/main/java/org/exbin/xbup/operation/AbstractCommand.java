@@ -17,6 +17,9 @@
 package org.exbin.xbup.operation;
 
 import java.util.Date;
+import java.util.Optional;
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
 
 /**
  * Abstract command class.
@@ -24,6 +27,7 @@ import java.util.Date;
  * @version 0.2.0 2016/05/17
  * @author ExBin Project (http://exbin.org)
  */
+@ParametersAreNonnullByDefault
 public abstract class AbstractCommand implements Command {
 
     private Date executionTime = null;
@@ -56,8 +60,9 @@ public abstract class AbstractCommand implements Command {
     public void dispose() throws Exception {
     }
 
+    @Nonnull
     @Override
-    public Date getExecutionTime() {
-        return executionTime;
+    public Optional<Date> getExecutionTime() {
+        return Optional.ofNullable(executionTime);
     }
 }

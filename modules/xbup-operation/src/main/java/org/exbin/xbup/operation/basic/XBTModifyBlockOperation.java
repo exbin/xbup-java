@@ -22,6 +22,8 @@ import java.io.OutputStream;
 import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
 import org.exbin.xbup.core.block.XBTBlock;
 import org.exbin.xbup.core.block.XBTEditableBlock;
 import org.exbin.xbup.core.block.XBTEditableDocument;
@@ -50,6 +52,7 @@ import org.exbin.xbup.parser_tree.XBTreeWriter;
  * @version 0.2.0 2016/02/27
  * @author ExBin Project (http://exbin.org)
  */
+@ParametersAreNonnullByDefault
 public class XBTModifyBlockOperation extends XBTDocOperation {
 
     public XBTModifyBlockOperation(XBTEditableDocument document, long position, XBTEditableBlock newNode) {
@@ -70,12 +73,14 @@ public class XBTModifyBlockOperation extends XBTDocOperation {
         execute(false);
     }
 
+    @Nonnull
     @Override
-    public Operation executeWithUndo() throws Exception {
+    public Optional<Operation> executeWithUndo() throws Exception {
         return execute(true);
     }
 
-    private Operation execute(boolean withUndo) {
+    @Nonnull
+    private Optional<Operation> execute(boolean withUndo) {
         InputStream dataInputStream = getData().getDataInputStream();
         XBPSerialReader reader = new XBPSerialReader(dataInputStream);
         Serializator serial = new Serializator();
@@ -86,7 +91,7 @@ public class XBTModifyBlockOperation extends XBTDocOperation {
             throw new IllegalStateException("Unable to process data");
         }
 
-        XBTEditableBlock node = (XBTEditableBlock) document.findBlockByIndex(serial.position);
+        XBTEditableBlock node = (XBTEditableBlock) document.findBlockByIndex(serial.position).get();
         Optional<XBTBlock> optParentNode = node.getParentBlock();
         if (!optParentNode.isPresent()) {
             document.setRootBlock(serial.newNode);
@@ -114,12 +119,13 @@ public class XBTModifyBlockOperation extends XBTDocOperation {
         if (withUndo) {
             XBTModifyBlockOperation undoOperation;
             undoOperation = new XBTModifyBlockOperation(document, serial.position, node);
-            return undoOperation;
+            return Optional.of(undoOperation);
         }
 
-        return null;
+        return Optional.empty();
     }
 
+    @ParametersAreNonnullByDefault
     private class Serializator implements XBPSequenceSerializable {
 
         private long position;

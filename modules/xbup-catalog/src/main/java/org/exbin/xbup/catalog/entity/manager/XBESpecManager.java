@@ -17,10 +17,12 @@
 package org.exbin.xbup.catalog.entity.manager;
 
 import java.io.Serializable;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.annotation.Nullable;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
 import org.exbin.xbup.catalog.XBECatalog;
@@ -490,73 +492,65 @@ public class XBESpecManager extends XBEDefaultCatalogManager<XBESpec> implements
 
     @Override
     public XBESpecDef createSpecDef(XBCSpec spec, XBParamType type) {
-        try {
-            if (spec instanceof XBCBlockSpec) {
-                switch (type) {
-                    case CONSIST:
-                        return XBEBlockCons.class.newInstance();
-                    case JOIN:
-                        return XBEBlockJoin.class.newInstance();
-                    case LIST_CONSIST:
-                        return XBEBlockListCons.class.newInstance();
-                    case LIST_JOIN:
-                        return XBEBlockListJoin.class.newInstance();
-                    default:
-                        return null; // TODO: Or throw?
+        if (spec instanceof XBCBlockSpec) {
+            switch (type) {
+                case CONSIST:
+                    return newInstance(XBEBlockCons.class);
+                case JOIN:
+                    return newInstance(XBEBlockJoin.class);
+                case LIST_CONSIST:
+                    return newInstance(XBEBlockListCons.class);
+                case LIST_JOIN:
+                    return newInstance(XBEBlockListJoin.class);
+                default:
+                    return null; // TODO: Or throw?
                 }
-            } else if (spec instanceof XBCGroupSpec) {
-                switch (type) {
-                    case CONSIST:
-                        return XBEGroupCons.class.newInstance();
-                    case JOIN:
-                        return XBEGroupJoin.class.newInstance();
-                    default:
-                        return null; // TODO: Or throw?
+        } else if (spec instanceof XBCGroupSpec) {
+            switch (type) {
+                case CONSIST:
+                    return newInstance(XBEGroupCons.class);
+                case JOIN:
+                    return newInstance(XBEGroupJoin.class);
+                default:
+                    return null; // TODO: Or throw?
                 }
-            } else if (spec instanceof XBCFormatSpec) {
-                switch (type) {
-                    case CONSIST:
-                        return XBEFormatCons.class.newInstance();
-                    case JOIN:
-                        return XBEFormatJoin.class.newInstance();
-                    default:
-                        return null; // TODO: Or throw?
+        } else if (spec instanceof XBCFormatSpec) {
+            switch (type) {
+                case CONSIST:
+                    return newInstance(XBEFormatCons.class);
+                case JOIN:
+                    return newInstance(XBEFormatJoin.class);
+                default:
+                    return null; // TODO: Or throw?
                 }
-            }
-            return null;
-        } catch (InstantiationException | IllegalAccessException ex) {
-            Logger.getLogger(XBESpecManager.class.getName()).log(Level.SEVERE, null, ex);
         }
+
         return null;
     }
 
     @Override
     public XBEBlockSpec createBlockSpec() {
-        try {
-            return XBEBlockSpec.class.newInstance();
-        } catch (InstantiationException | IllegalAccessException ex) {
-            Logger.getLogger(XBESpecManager.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return null;
+        return newInstance(XBEBlockSpec.class);
     }
 
     @Override
     public XBCGroupSpec createGroupSpec() {
-        try {
-            return XBEGroupSpec.class.newInstance();
-        } catch (InstantiationException | IllegalAccessException ex) {
-            Logger.getLogger(XBESpecManager.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return null;
+        return newInstance(XBEGroupSpec.class);
     }
 
     @Override
     public XBCFormatSpec createFormatSpec() {
+        return newInstance(XBEFormatSpec.class);
+    }
+
+    @Nullable
+    private static <T> T newInstance(Class<T> tClass) {
         try {
-            return XBEFormatSpec.class.newInstance();
-        } catch (InstantiationException | IllegalAccessException ex) {
+            return tClass.getDeclaredConstructor().newInstance();
+        } catch (NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) {
             Logger.getLogger(XBESpecManager.class.getName()).log(Level.SEVERE, null, ex);
         }
+
         return null;
     }
 }

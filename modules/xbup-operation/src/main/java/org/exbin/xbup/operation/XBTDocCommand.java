@@ -17,6 +17,7 @@
 package org.exbin.xbup.operation;
 
 import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
 import org.exbin.xbup.core.block.XBTEditableDocument;
 import org.exbin.xbup.operation.basic.XBBasicCommandType;
 
@@ -26,12 +27,13 @@ import org.exbin.xbup.operation.basic.XBBasicCommandType;
  * @version 0.2.1 2017/06/06
  * @author ExBin Project (http://exbin.org)
  */
+@ParametersAreNonnullByDefault
 public abstract class XBTDocCommand extends AbstractCommand {
 
     @Nonnull
     protected final XBTEditableDocument document;
 
-    public XBTDocCommand(@Nonnull XBTEditableDocument document) {
+    public XBTDocCommand(XBTEditableDocument document) {
         this.document = document;
     }
 
@@ -57,8 +59,8 @@ public abstract class XBTDocCommand extends AbstractCommand {
     public void dispose() throws Exception {
     }
 
-    @Override
     @Nonnull
+    @Override
     public String getCaption() {
         return getBasicType().getCaption();
     }

@@ -20,6 +20,9 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Optional;
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
 import org.exbin.xbup.core.block.XBTEditableDocument;
 import org.exbin.xbup.core.type.XBData;
 import org.exbin.xbup.operation.CompoundOperation;
@@ -32,6 +35,7 @@ import org.exbin.xbup.operation.XBTDocOperation;
  * @version 0.2.0 2016/02/27
  * @author ExBin Project (http://exbin.org)
  */
+@ParametersAreNonnullByDefault
 public class XBTCompoundBlockOperation extends XBTDocOperation implements CompoundOperation {
 
     private final List<Operation> operations = new ArrayList<>();
@@ -45,6 +49,7 @@ public class XBTCompoundBlockOperation extends XBTDocOperation implements Compou
         operations.addAll(initialOperations);
     }
 
+    @Nonnull
     @Override
     public XBBasicOperationType getBasicType() {
         return XBBasicOperationType.MODIFY_BLOCK;
@@ -57,14 +62,18 @@ public class XBTCompoundBlockOperation extends XBTDocOperation implements Compou
         }
     }
 
+    @Nonnull
     @Override
-    public Operation executeWithUndo() throws Exception {
+    public Optional<Operation> executeWithUndo() throws Exception {
         LinkedList<Operation> undoOperations = new LinkedList<>();
         for (Operation operation : operations) {
-            undoOperations.add(0, operation.executeWithUndo());
+            Optional<Operation> childOperation = operation.executeWithUndo();
+            if (childOperation.isPresent()) {
+                undoOperations.add(0, childOperation.get());
+            }
         }
 
-        return new XBTCompoundBlockOperation(document, undoOperations);
+        return Optional.of(new XBTCompoundBlockOperation(document, undoOperations));
     }
 
     @Override
@@ -77,6 +86,7 @@ public class XBTCompoundBlockOperation extends XBTDocOperation implements Compou
         operations.addAll(appendedOperations);
     }
 
+    @Nonnull
     @Override
     public List<Operation> getOperations() {
         return operations;
@@ -92,6 +102,7 @@ public class XBTCompoundBlockOperation extends XBTDocOperation implements Compou
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
+    @Nonnull
     @Override
     public XBData getData() {
         XBData newData = new XBData();

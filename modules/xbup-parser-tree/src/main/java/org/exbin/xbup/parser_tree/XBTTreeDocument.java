@@ -24,6 +24,7 @@ import java.io.OutputStream;
 import java.util.Optional;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
 import org.exbin.auxiliary.paged_data.BinaryData;
 import org.exbin.xbup.core.block.XBTBlock;
 import org.exbin.xbup.core.block.XBTEditableDocument;
@@ -38,6 +39,7 @@ import org.exbin.xbup.core.type.XBData;
  * @version 0.2.1 2017/05/24
  * @author ExBin Project (http://exbin.org)
  */
+@ParametersAreNonnullByDefault
 public class XBTTreeDocument extends XBTTree implements XBTEditableDocument {
 
     private boolean modified;
@@ -61,7 +63,7 @@ public class XBTTreeDocument extends XBTTree implements XBTEditableDocument {
     }
 
     @Override
-    public int toStreamUB(@Nonnull OutputStream stream) throws IOException {
+    public int toStreamUB(OutputStream stream) throws IOException {
         int size = XBHead.writeXBUPHead(stream);
         size += super.toStreamUB(stream);
         if (tailData != null) {
@@ -74,7 +76,7 @@ public class XBTTreeDocument extends XBTTree implements XBTEditableDocument {
     }
 
     @Override
-    public int fromStreamUB(@Nonnull InputStream stream) throws IOException, XBProcessingException {
+    public int fromStreamUB(InputStream stream) throws IOException, XBProcessingException {
         int size = XBHead.checkXBUPHead(stream);
         clear();
         if (stream.available() > 0) {
@@ -189,14 +191,14 @@ public class XBTTreeDocument extends XBTTree implements XBTEditableDocument {
         super.processSpec();
     }
 
+    @Nonnull
     @Override
-    @Nullable
-    public XBTBlock findBlockByIndex(long index) {
-        return (XBTBlock) super.findNodeByIndex(index);
+    public Optional<XBTBlock> findBlockByIndex(long index) {
+        return super.findNodeByIndex(index);
     }
 
-    @Override
     @Nonnull
+    @Override
     public XBTBlock createNewBlock(@Nullable XBTBlock parent) {
         return newNodeInstance((XBTTreeNode) parent);
     }

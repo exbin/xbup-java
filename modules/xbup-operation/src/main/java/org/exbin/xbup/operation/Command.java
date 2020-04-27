@@ -17,7 +17,8 @@
 package org.exbin.xbup.operation;
 
 import java.util.Date;
-import javax.annotation.Nullable;
+import java.util.Optional;
+import javax.annotation.Nonnull;
 
 /**
  * Interface for XBUP editor command.
@@ -32,7 +33,7 @@ public interface Command {
      *
      * @return text caption
      */
-    @Nullable
+    @Nonnull
     String getCaption();
 
     /**
@@ -80,6 +81,6 @@ public interface Command {
      *
      * @return time
      */
-    @Nullable
-    Date getExecutionTime();
+    @Nonnull
+    Optional<Date> getExecutionTime();
 }

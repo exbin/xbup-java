@@ -17,6 +17,7 @@
 package org.exbin.xbup.operation.basic;
 
 import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
 
 /**
  * Document command type enumeration.
@@ -24,6 +25,7 @@ import javax.annotation.Nonnull;
  * @version 0.2.1 2017/06/06
  * @author ExBin Project (http://exbin.org)
  */
+@ParametersAreNonnullByDefault
 public enum XBBasicCommandType {
 
     /**
@@ -45,7 +47,7 @@ public enum XBBasicCommandType {
 
     private final String caption;
 
-    private XBBasicCommandType(@Nonnull String caption) {
+    private XBBasicCommandType(String caption) {
         this.caption = caption;
     }
 

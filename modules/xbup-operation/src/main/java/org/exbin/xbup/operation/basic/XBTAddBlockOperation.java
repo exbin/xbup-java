@@ -19,8 +19,12 @@ package org.exbin.xbup.operation.basic;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
 import org.exbin.xbup.core.block.XBTBlock;
 import org.exbin.xbup.core.block.XBTEditableBlock;
 import org.exbin.xbup.core.block.XBTEditableDocument;
@@ -49,9 +53,10 @@ import org.exbin.xbup.parser_tree.XBTreeWriter;
  * @version 0.2.0 2015/09/19
  * @author ExBin Project (http://exbin.org)
  */
+@ParametersAreNonnullByDefault
 public class XBTAddBlockOperation extends XBTDocOperation {
 
-    public XBTAddBlockOperation(XBTEditableDocument document, Long parentPosition, int childIndex, XBTEditableBlock newNode) {
+    public XBTAddBlockOperation(XBTEditableDocument document, @Nullable Long parentPosition, int childIndex, XBTEditableBlock newNode) {
         super(document);
         OutputStream dataOutputStream = data.getDataOutputStream();
         XBPSerialWriter writer = new XBPSerialWriter(dataOutputStream);
@@ -59,6 +64,7 @@ public class XBTAddBlockOperation extends XBTDocOperation {
         writer.write(serializator);
     }
 
+    @Nonnull
     @Override
     public XBBasicOperationType getBasicType() {
         return XBBasicOperationType.ADD_BLOCK;
@@ -69,54 +75,59 @@ public class XBTAddBlockOperation extends XBTDocOperation {
         execute(false);
     }
 
+    @Nonnull
     @Override
-    public Operation executeWithUndo() throws Exception {
+    public Optional<Operation> executeWithUndo() throws Exception {
         return execute(true);
     }
 
-    private Operation execute(boolean withUndo) {
+    @Nonnull
+    private Optional<Operation> execute(boolean withUndo) {
         InputStream dataInputStream = getData().getDataInputStream();
         XBPSerialReader reader = new XBPSerialReader(dataInputStream);
         Serializator serial = new Serializator();
         try {
             reader.read(serial);
         } catch (XBProcessingException | IOException ex) {
-            Logger.getLogger(XBTDeleteBlockOperation.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(XBTAddBlockOperation.class.getName()).log(Level.SEVERE, null, ex);
             throw new IllegalStateException("Unable to process data");
         }
 
         if (serial.parentPosition == 0) {
-            if (document.getRootBlock() == null) {
+            if (!document.getRootBlock().isPresent()) {
                 document.setRootBlock(serial.newNode);
             }
         } else {
-            XBTEditableBlock parentNode = (XBTEditableBlock) document.findBlockByIndex(serial.parentPosition - 1);
-            // If inserted in the middle, shift children blocks (add method to interface for this?)
-            if (serial.childIndex < parentNode.getChildrenCount()) {
-                parentNode.setChildrenCount(parentNode.getChildrenCount() + 1);
-                for (int i = parentNode.getChildrenCount() - 1; i > serial.childIndex; i--) {
-                    parentNode.setChildAt(parentNode.getChildAt(i-1), i);
+            XBTEditableBlock parentNode = (XBTEditableBlock) document.findBlockByIndex(serial.parentPosition - 1).orElse(null);
+            if (parentNode != null) {
+                // If inserted in the middle, shift children blocks (add method to interface for this?)
+                if (serial.childIndex < parentNode.getChildrenCount()) {
+                    parentNode.setChildrenCount(parentNode.getChildrenCount() + 1);
+                    for (int i = parentNode.getChildrenCount() - 1; i > serial.childIndex; i--) {
+                        parentNode.setChildAt(parentNode.getChildAt(i-1), i);
+                    }
                 }
+                parentNode.setChildAt(serial.newNode, serial.childIndex);
             }
-            parentNode.setChildAt(serial.newNode, serial.childIndex);
             serial.newNode.setParent(parentNode);
         }
 
         if (withUndo) {
             XBTDeleteBlockOperation undoOperation;
             if (serial.parentPosition > 0) {
-                XBTEditableBlock parentNode = (XBTEditableBlock) document.findBlockByIndex(serial.parentPosition - 1);
+                XBTEditableBlock parentNode = (XBTEditableBlock) document.findBlockByIndex(serial.parentPosition - 1).get();
                 XBTBlock node = parentNode.getChildAt(serial.childIndex);
                 undoOperation = new XBTDeleteBlockOperation(document, node);
             } else {
                 undoOperation = new XBTDeleteBlockOperation(document, document.getRootBlock().get());
             }
-            return undoOperation;
+            return Optional.of(undoOperation);
         }
 
-        return null;
+        return Optional.empty();
     }
 
+    @ParametersAreNonnullByDefault
     private class Serializator implements XBPSequenceSerializable {
 
         // Position is shifted: 0 mean no parent (for root blocks), others are shifted by 1

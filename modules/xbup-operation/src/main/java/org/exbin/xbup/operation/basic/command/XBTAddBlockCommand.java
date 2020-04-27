@@ -16,6 +16,8 @@
  */
 package org.exbin.xbup.operation.basic.command;
 
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
 import org.exbin.xbup.core.block.XBTEditableBlock;
 import org.exbin.xbup.core.block.XBTEditableDocument;
 import org.exbin.xbup.operation.XBTOpDocCommand;
@@ -28,6 +30,7 @@ import org.exbin.xbup.operation.basic.XBTAddBlockOperation;
  * @version 0.2.0 2015/09/19
  * @author ExBin Project (http://exbin.org)
  */
+@ParametersAreNonnullByDefault
 public class XBTAddBlockCommand extends XBTOpDocCommand {
 
     public XBTAddBlockCommand(XBTEditableDocument document, long parentPosition, int childIndex, XBTEditableBlock newNode) {
@@ -43,6 +46,7 @@ public class XBTAddBlockCommand extends XBTOpDocCommand {
         super.setOperation(new XBTAddBlockOperation(document, parentPosition, childIndex, newNode));
     }
 
+    @Nonnull
     @Override
     public XBBasicCommandType getBasicType() {
         return XBBasicCommandType.BLOCK_ADDED;

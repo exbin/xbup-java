@@ -20,8 +20,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Arrays;
+import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
 import org.exbin.xbup.core.block.XBTBlock;
 import org.exbin.xbup.core.block.XBTDefaultBlock;
 import org.exbin.xbup.core.block.XBTEditableBlock;
@@ -41,6 +44,7 @@ import org.exbin.xbup.operation.XBTDocOperation;
  * @version 0.2.0 2016/02/27
  * @author ExBin Project (http://exbin.org)
  */
+@ParametersAreNonnullByDefault
 public class XBTDeleteBlockOperation extends XBTDocOperation {
 
     public XBTDeleteBlockOperation(XBTEditableDocument document, XBTBlock block) {
@@ -52,6 +56,7 @@ public class XBTDeleteBlockOperation extends XBTDocOperation {
         writer.write(serializator);
     }
 
+    @Nonnull
     @Override
     public XBBasicOperationType getBasicType() {
         return XBBasicOperationType.DELETE_BLOCK;
@@ -62,12 +67,14 @@ public class XBTDeleteBlockOperation extends XBTDocOperation {
         execute(false);
     }
 
+    @Nonnull
     @Override
-    public Operation executeWithUndo() throws Exception {
+    public Optional<Operation> executeWithUndo() throws Exception {
         return execute(true);
     }
 
-    private Operation execute(boolean withUndo) {
+    @Nonnull
+    private Optional<Operation> execute(boolean withUndo) {
         InputStream dataInputStream = getData().getDataInputStream();
         XBPSerialReader reader = new XBPSerialReader(dataInputStream);
         Serializator serial = new Serializator();
@@ -87,7 +94,7 @@ public class XBTDeleteBlockOperation extends XBTDocOperation {
             if (serial.position < 1) {
                 deletedNode = (XBTEditableBlock) document.getRootBlock().get();
             } else {
-                deletedNode = (XBTEditableBlock) document.findBlockByIndex(serial.position);
+                deletedNode = (XBTEditableBlock) document.findBlockByIndex(serial.position).get();
                 XBTEditableBlock parentNode = (XBTEditableBlock) deletedNode.getParentBlock().get();
                 parentPosition = (long) XBTDefaultBlock.getBlockIndex(parentNode);
                 childIndex = Arrays.asList(parentNode.getChildren()).indexOf(deletedNode);
@@ -98,15 +105,16 @@ public class XBTDeleteBlockOperation extends XBTDocOperation {
         if (serial.position < 1) {
             document.clear();
         } else {
-            XBTEditableBlock node = (XBTEditableBlock) document.findBlockByIndex(serial.position);
+            XBTEditableBlock node = (XBTEditableBlock) document.findBlockByIndex(serial.position).get();
             XBTEditableBlock parentNode = (XBTEditableBlock) node.getParentBlock().get();
             int childIndex = Arrays.asList(parentNode.getChildren()).indexOf(node);
             parentNode.removeChild(childIndex);
         }
 
-        return undoOperation;
+        return Optional.ofNullable(undoOperation);
     }
 
+    @ParametersAreNonnullByDefault
     private class Serializator implements XBPSequenceSerializable {
 
         private long position;

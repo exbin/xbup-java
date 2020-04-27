@@ -175,9 +175,10 @@ public class XBTTreeNode implements TreeNode, XBTEditableBlock, UBStreamable {
      * @param index depth-first order index
      * @return node if found
      */
-    public XBTTreeNode findNodeByIndex(long index) {
+    @Nonnull
+    public Optional<XBTTreeNode> findNodeByIndex(long index) {
         if (index == 0) {
-            return this;
+            return Optional.of(this);
         }
 
         index--;
@@ -188,7 +189,7 @@ public class XBTTreeNode implements TreeNode, XBTEditableBlock, UBStreamable {
             XBTTreeNode node = (XBTTreeNode) iterators.get(level).next();
             while (node != null) {
                 if (index == 0) {
-                    return node;
+                    return Optional.of(node);
                 }
 
                 if (node.getChildrenCount() > 0) {
@@ -198,7 +199,7 @@ public class XBTTreeNode implements TreeNode, XBTEditableBlock, UBStreamable {
 
                 while (!iterators.get(level).hasNext()) {
                     if (level == 0) {
-                        return null;
+                        return Optional.empty();
                     }
 
                     iterators.remove(level);
@@ -209,7 +210,7 @@ public class XBTTreeNode implements TreeNode, XBTEditableBlock, UBStreamable {
                 index--;
             }
         }
-        return null;
+        return Optional.empty();
     }
 
     @Override

@@ -16,7 +16,8 @@
  */
 package org.exbin.xbup.operation;
 
-import javax.annotation.Nullable;
+import java.util.Optional;
+import javax.annotation.Nonnull;
 
 /**
  * Interface for XBUP editor operation.
@@ -31,7 +32,7 @@ public interface Operation {
      *
      * @return text caption
      */
-    @Nullable
+    @Nonnull
     String getCaption();
 
     /**
@@ -47,8 +48,8 @@ public interface Operation {
      * @return undo operation or null if not available
      * @throws java.lang.Exception exception
      */
-    @Nullable
-    Operation executeWithUndo() throws Exception;
+    @Nonnull
+    Optional<Operation> executeWithUndo() throws Exception;
 
     /**
      * Disposes command.

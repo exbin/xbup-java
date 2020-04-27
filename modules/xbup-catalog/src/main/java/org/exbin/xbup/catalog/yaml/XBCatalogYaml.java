@@ -244,7 +244,7 @@ public class XBCatalogYaml {
             importItem(def, specDef);
 
             specDef.setCatalogItem(blockSpec);
-            specDef.setXBIndex(new Long(defId));
+            specDef.setXBIndex(Long.valueOf(defId));
 
             String type = (String) def.get("type");
             XBCSpec targetSpec = striService.getSpecByFullPath(type);

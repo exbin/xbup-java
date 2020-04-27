@@ -87,8 +87,9 @@ public class XBDocumentToXBTDocument implements XBTEditableDocument {
         ((XBEditableDocument) document).setTailData(source);
     }
 
+    @Nonnull
     @Override
-    public XBTBlock findBlockByIndex(long index) {
+    public Optional<XBTBlock> findBlockByIndex(long index) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 

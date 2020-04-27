@@ -16,12 +16,16 @@
  */
 package org.exbin.xbup.operation;
 
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
+
 /**
  * Operation execution event.
  *
  * @version 0.2.0 2016/02/29
  * @author ExBin Project (http://exbin.org)
  */
+@ParametersAreNonnullByDefault
 public class OperationEvent {
 
     private Operation operation;
@@ -30,6 +34,7 @@ public class OperationEvent {
         this.operation = operation;
     }
 
+    @Nonnull
     public Operation getOperation() {
         return operation;
     }

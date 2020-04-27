@@ -16,8 +16,10 @@
  */
 package org.exbin.xbup.operation;
 
+import java.util.Optional;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
 import org.exbin.xbup.core.block.XBTEditableDocument;
 
 /**
@@ -26,19 +28,20 @@ import org.exbin.xbup.core.block.XBTEditableDocument;
  * @version 0.2.0 2016/02/27
  * @author ExBin Project (http://exbin.org)
  */
+@ParametersAreNonnullByDefault
 public abstract class XBTOpDocCommand extends XBTDocCommand {
 
     @Nullable
     private XBTDocOperation operation;
     private boolean isUndoMode = false;
 
-    public XBTOpDocCommand(@Nonnull XBTEditableDocument document) {
+    public XBTOpDocCommand(XBTEditableDocument document) {
         super(document);
     }
 
-    @Nullable
-    public XBTDocOperation getOperation() {
-        return operation;
+    @Nonnull
+    public Optional<XBTDocOperation> getOperation() {
+        return Optional.ofNullable(operation);
     }
 
     public void setOperation(@Nullable XBTDocOperation operation) {
@@ -50,9 +53,9 @@ public abstract class XBTOpDocCommand extends XBTDocCommand {
      *
      * @return document operation
      */
-    @Nullable
-    public XBTDocOperation getCurrentOperation() {
-        return operation;
+    @Nonnull
+    public Optional<XBTDocOperation> getCurrentOperation() {
+        return Optional.ofNullable(operation);
     }
 
     @Override
@@ -63,11 +66,11 @@ public abstract class XBTOpDocCommand extends XBTDocCommand {
     @Override
     public void undo() throws Exception {
         if (isUndoMode) {
-            XBTDocOperation redoOperation = (XBTDocOperation) operation.executeWithUndo();
+            XBTDocOperation redoOperation = (XBTDocOperation) operation.executeWithUndo().orElse(null);
             if (document instanceof OperationListener) {
                 ((OperationListener) document).notifyChange(new OperationEvent(operation));
             }
-            
+
             operation = redoOperation;
             isUndoMode = false;
         } else {
@@ -78,7 +81,7 @@ public abstract class XBTOpDocCommand extends XBTDocCommand {
     @Override
     public void redo() throws Exception {
         if (!isUndoMode) {
-            XBTDocOperation undoOperation = (XBTDocOperation) operation.executeWithUndo();
+            XBTDocOperation undoOperation = (XBTDocOperation) operation.executeWithUndo().orElse(null);
             if (document instanceof OperationListener) {
                 ((OperationListener) document).notifyChange(new OperationEvent(operation));
             }

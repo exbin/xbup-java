@@ -198,7 +198,7 @@ public class XBCUpdatePHPPort {
             line = br.readLine();
             tail();
             if ("id".equals(line)) {
-                return new Long(br.readLine());
+                return Long.valueOf(br.readLine());
             } else {
                 return null;
             }
@@ -230,7 +230,7 @@ public class XBCUpdatePHPPort {
                 if ("id".equals(line)) {
                     itemId = br.readLine();
                 } else if ("xbindex".equals(line)) {
-                    info.setXbIndex(new Long(br.readLine()));
+                    info.setXbIndex(Long.valueOf(br.readLine()));
                 } else {
                     br.readLine();
                 }
@@ -293,7 +293,7 @@ public class XBCUpdatePHPPort {
                     br.readLine();
                 }
             }
-            return itemId.isEmpty() ? null : new Long(itemId);
+            return itemId.isEmpty() ? null : Long.valueOf(itemId);
         } catch (IOException ex) {
             Logger.getLogger(XBCUpdatePHPPort.class.getName()).log(Level.SEVERE, null, ex);
             return null;
@@ -312,7 +312,7 @@ public class XBCUpdatePHPPort {
                     br.readLine();
                 }
             }
-            return new Long(itemId);
+            return Long.valueOf(itemId);
         } catch (IOException ex) {
             Logger.getLogger(XBCUpdatePHPPort.class.getName()).log(Level.SEVERE, null, ex);
             return null;
@@ -331,7 +331,7 @@ public class XBCUpdatePHPPort {
                     br.readLine();
                 }
             }
-            return new Long(itemId);
+            return Long.valueOf(itemId);
         } catch (IOException ex) {
             Logger.getLogger(XBCUpdatePHPPort.class.getName()).log(Level.SEVERE, null, ex);
             return null;
@@ -350,7 +350,7 @@ public class XBCUpdatePHPPort {
                     br.readLine();
                 }
             }
-            return new Long(itemId);
+            return Long.valueOf(itemId);
         } catch (IOException ex) {
             Logger.getLogger(XBCUpdatePHPPort.class.getName()).log(Level.SEVERE, null, ex);
             return null;
@@ -369,7 +369,7 @@ public class XBCUpdatePHPPort {
                     br.readLine();
                 }
             }
-            return new Long(itemId);
+            return Long.valueOf(itemId);
         } catch (IOException ex) {
             Logger.getLogger(XBCUpdatePHPPort.class.getName()).log(Level.SEVERE, null, ex);
             return null;
@@ -386,7 +386,7 @@ public class XBCUpdatePHPPort {
                 if ("id".equals(line)) {
                     itemId = br.readLine();
                 } else if ("xbindex".equals(line)) {
-                    info.setXbIndex(new Long(br.readLine()));
+                    info.setXbIndex(Long.valueOf(br.readLine()));
                 } else {
                     br.readLine();
                 }
@@ -412,7 +412,7 @@ public class XBCUpdatePHPPort {
                 if ("id".equals(line)) {
                     itemId = br.readLine();
                 } else if ("xbindex".equals(line)) {
-                    info.setXbIndex(new Long(br.readLine()));
+                    info.setXbIndex(Long.valueOf(br.readLine()));
                 } else {
                     br.readLine();
                 }
@@ -438,7 +438,7 @@ public class XBCUpdatePHPPort {
                 if ("id".equals(line)) {
                     itemId = br.readLine();
                 } else if ("xbindex".equals(line)) {
-                    info.setXbIndex(new Long(br.readLine()));
+                    info.setXbIndex(Long.valueOf(br.readLine()));
                 } else {
                     br.readLine();
                 }
@@ -466,7 +466,7 @@ public class XBCUpdatePHPPort {
                 if ("max".equals(line)) {
                     line = br.readLine();
                     if (!line.isEmpty()) {
-                        result = new Long(line);
+                        result = Long.valueOf(line);
                     }
                 } else {
                     br.readLine();
@@ -488,7 +488,7 @@ public class XBCUpdatePHPPort {
                 if ("max".equals(line)) {
                     line = br.readLine();
                     if (!line.isEmpty()) {
-                        result = new Long(line);
+                        result = Long.valueOf(line);
                     }
                 } else {
                     br.readLine();
@@ -510,7 +510,7 @@ public class XBCUpdatePHPPort {
                 if ("max".equals(line)) {
                     line = br.readLine();
                     if (!line.isEmpty()) {
-                        result = new Long(line);
+                        result = Long.valueOf(line);
                     }
                 } else {
                     br.readLine();
@@ -532,7 +532,7 @@ public class XBCUpdatePHPPort {
                 if ("max".equals(line)) {
                     line = br.readLine();
                     if (!line.isEmpty()) {
-                        result = new Long(line);
+                        result = Long.valueOf(line);
                     }
                 } else {
                     br.readLine();
@@ -554,7 +554,7 @@ public class XBCUpdatePHPPort {
          while (!("".equals(line = br.readLine()))&&(line!=null)) {
          if ("max".equals(line)) {
          line = br.readLine();
-         if (!line.equals("")) result = new Long(line);
+         if (!line.equals("")) result = Long.valueOf(line);
          } else br.readLine();
          }
          return result;
@@ -573,7 +573,7 @@ public class XBCUpdatePHPPort {
          while (!("".equals(line = br.readLine()))&&(line!=null)) {
          if ("xblimit".equals(line)) {
          line = br.readLine();
-         if (!line.equals("")) result = new Long(line);
+         if (!line.equals("")) result = Long.valueOf(line);
          } else br.readLine();
          }
          return result;
@@ -592,7 +592,7 @@ public class XBCUpdatePHPPort {
          while (!("".equals(line = br.readLine()))&&(line!=null)) {
          if ("xblimit".equals(line)) {
          line = br.readLine();
-         if (!line.equals("")) result = new Long(line);
+         if (!line.equals("")) result = Long.valueOf(line);
          } else br.readLine();
          }
          return result;
@@ -611,7 +611,7 @@ public class XBCUpdatePHPPort {
          while (!("".equals(line = br.readLine()))&&(line!=null)) {
          if ("xblimit".equals(line)) {
          line = br.readLine();
-         if (!line.equals("")) result = new Long(line);
+         if (!line.equals("")) result = Long.valueOf(line);
          } else br.readLine();
          }
          return result;
@@ -629,7 +629,7 @@ public class XBCUpdatePHPPort {
      while (!("".equals(line = br.readLine()))&&(line!=null)) {
      if ("xblimit".equals(line)) {
      line = br.readLine();
-     if (!line.equals("")) result = new Long(line);
+     if (!line.equals("")) result = Long.valueOf(line);
      } else br.readLine();
      }
      return result;
@@ -650,7 +650,7 @@ public class XBCUpdatePHPPort {
                 if ("id".equals(line)) {
                     line = br.readLine();
                     if (!line.isEmpty()) {
-                        itemId = new Long(line);
+                        itemId = Long.valueOf(line);
                     }
                 } else {
                     br.readLine();
@@ -662,7 +662,7 @@ public class XBCUpdatePHPPort {
                     if ("max".equals(line)) {
                         line = br.readLine();
                         if (!line.isEmpty()) {
-                            result = new Long(line);
+                            result = Long.valueOf(line);
                         }
                     } else {
                         br.readLine();
@@ -686,7 +686,7 @@ public class XBCUpdatePHPPort {
                 if ("id".equals(line)) {
                     line = br.readLine();
                     if (!line.isEmpty()) {
-                        itemId = new Long(line);
+                        itemId = Long.valueOf(line);
                     }
                 } else {
                     br.readLine();
@@ -698,7 +698,7 @@ public class XBCUpdatePHPPort {
                     if ("max".equals(line)) {
                         line = br.readLine();
                         if (!line.isEmpty()) {
-                            result = new Long(line);
+                            result = Long.valueOf(line);
                         }
                     } else {
                         br.readLine();
@@ -722,7 +722,7 @@ public class XBCUpdatePHPPort {
                 if ("id".equals(line)) {
                     line = br.readLine();
                     if (!line.isEmpty()) {
-                        itemId = new Long(line);
+                        itemId = Long.valueOf(line);
                     }
                 } else {
                     br.readLine();
@@ -734,7 +734,7 @@ public class XBCUpdatePHPPort {
                     if ("max".equals(line)) {
                         line = br.readLine();
                         if (!line.isEmpty()) {
-                            result = new Long(line);
+                            result = Long.valueOf(line);
                         }
                     } else {
                         br.readLine();
@@ -758,7 +758,7 @@ public class XBCUpdatePHPPort {
                 if ("id".equals(line)) {
                     line = br.readLine();
                     if (!line.isEmpty()) {
-                        itemId = new Long(line);
+                        itemId = Long.valueOf(line);
                     }
                 } else {
                     br.readLine();
@@ -770,7 +770,7 @@ public class XBCUpdatePHPPort {
                     if ("max".equals(line)) {
                         line = br.readLine();
                         if (!line.isEmpty()) {
-                            result = new Long(line);
+                            result = Long.valueOf(line);
                         }
                     } else {
                         br.readLine();
@@ -794,7 +794,7 @@ public class XBCUpdatePHPPort {
                 if ("id".equals(line)) {
                     line = br.readLine();
                     if (!line.isEmpty()) {
-                        itemId = new Long(line);
+                        itemId = Long.valueOf(line);
                     }
                 } else {
                     br.readLine();
@@ -806,7 +806,7 @@ public class XBCUpdatePHPPort {
                     if ("max".equals(line)) {
                         line = br.readLine();
                         if (!line.isEmpty()) {
-                            result = new Long(line);
+                            result = Long.valueOf(line);
                         }
                     } else {
                         br.readLine();
@@ -830,7 +830,7 @@ public class XBCUpdatePHPPort {
                 if ("id".equals(line)) {
                     line = br.readLine();
                     if (!line.isEmpty()) {
-                        itemId = new Long(line);
+                        itemId = Long.valueOf(line);
                     }
                 } else {
                     br.readLine();
@@ -842,7 +842,7 @@ public class XBCUpdatePHPPort {
                     if ("max".equals(line)) {
                         line = br.readLine();
                         if (!line.isEmpty()) {
-                            result = new Long(line);
+                            result = Long.valueOf(line);
                         }
                     } else {
                         br.readLine();
@@ -866,7 +866,7 @@ public class XBCUpdatePHPPort {
                 if ("id".equals(line)) {
                     line = br.readLine();
                     if (!line.isEmpty()) {
-                        itemId = new Long(line);
+                        itemId = Long.valueOf(line);
                     }
                 } else {
                     br.readLine();
@@ -878,13 +878,13 @@ public class XBCUpdatePHPPort {
                 while (!("".equals(line = br.readLine())) && (line != null)) {
                     if ("id".equals(line)) {
                         line = br.readLine();
-                        result.setId(new Long(line));
+                        result.setId(Long.valueOf(line));
                     } else if ("xbindex".equals(line)) {
                         line = br.readLine();
-                        result.setXBIndex(new Long(line));
+                        result.setXBIndex(Long.valueOf(line));
                     } else if ("xblimit".equals(line)) {
                         line = br.readLine();
-                        result.setXBLimit(new Long(line));
+                        result.setXBLimit(Long.valueOf(line));
                     } else {
                         br.readLine();
                     }
@@ -909,7 +909,7 @@ public class XBCUpdatePHPPort {
                 if ("id".equals(line)) {
                     line = br.readLine();
                     if (!line.isEmpty()) {
-                        itemId = new Long(line);
+                        itemId = Long.valueOf(line);
                     }
                 } else {
                     br.readLine();
@@ -921,10 +921,10 @@ public class XBCUpdatePHPPort {
                 while (!("".equals(line = br.readLine())) && (line != null)) {
                     if ("xbindex".equals(line)) {
                         line = br.readLine();
-                        result.setXBIndex(new Long(line));
+                        result.setXBIndex(Long.valueOf(line));
                     } else if ("xblimit".equals(line)) {
                         line = br.readLine();
-                        result.setXBLimit(new Long(line));
+                        result.setXBLimit(Long.valueOf(line));
                     } else {
                         br.readLine();
                     }
@@ -949,7 +949,7 @@ public class XBCUpdatePHPPort {
                 if ("id".equals(line)) {
                     line = br.readLine();
                     if (!line.isEmpty()) {
-                        itemId = new Long(line);
+                        itemId = Long.valueOf(line);
                     }
                 } else {
                     br.readLine();
@@ -961,13 +961,13 @@ public class XBCUpdatePHPPort {
                 while (!("".equals(line = br.readLine())) && (line != null)) {
                     if ("id".equals(line)) {
                         line = br.readLine();
-                        result.setId(new Long(line));
+                        result.setId(Long.valueOf(line));
                     } else if ("xbindex".equals(line)) {
                         line = br.readLine();
-                        result.setXBIndex(new Long(line));
+                        result.setXBIndex(Long.valueOf(line));
                     } else if ("xblimit".equals(line)) {
                         line = br.readLine();
-                        result.setXBLimit(new Long(line));
+                        result.setXBLimit(Long.valueOf(line));
                     } else {
                         br.readLine();
                     }
@@ -1006,10 +1006,10 @@ public class XBCUpdatePHPPort {
                     targetSpec = br.readLine();
                 } else if ("revxb".equals(line)) {
                     line = br.readLine();
-                    revXB = line.isEmpty() ? null : new Long(line);
+                    revXB = line.isEmpty() ? null : Long.valueOf(line);
                 } else if ("btype".equals(line)) {
                     line = br.readLine();
-                    bindType = line.isEmpty() ? null : new Long(line);
+                    bindType = line.isEmpty() ? null : Long.valueOf(line);
                 } else {
                     br.readLine();
                 }
@@ -1038,11 +1038,11 @@ public class XBCUpdatePHPPort {
                 int prev = 0;
                 for (int i = 0; i < nodePath.length(); i++) {
                     if (nodePath.charAt(i) == '/') {
-                        myPath.add(new Long(nodePath.substring(prev, i)));
+                        myPath.add(Long.valueOf(nodePath.substring(prev, i)));
                         prev = i + 1;
                     }
                 }
-                Long xbIndex = new Long(nodePath.substring(prev));
+                Long xbIndex = Long.valueOf(nodePath.substring(prev));
                 result.setPath((Long[]) myPath.toArray(new Long[myPath.size()]));
                 result.setSpecId(xbIndex);
                 result.setRevXBId(revXB);
@@ -1078,10 +1078,10 @@ public class XBCUpdatePHPPort {
                     targetSpec = br.readLine();
                 } else if ("revxb".equals(line)) {
                     line = br.readLine();
-                    revXB = line.isEmpty() ? null : new Long(line);
+                    revXB = line.isEmpty() ? null : Long.valueOf(line);
                 } else if ("btype".equals(line)) {
                     line = br.readLine();
-                    bindType = line.isEmpty() ? null : new Long(line);
+                    bindType = line.isEmpty() ? null : Long.valueOf(line);
                 } else {
                     br.readLine();
                 }
@@ -1110,11 +1110,11 @@ public class XBCUpdatePHPPort {
                 int prev = 0;
                 for (int i = 0; i < nodePath.length(); i++) {
                     if (nodePath.charAt(i) == '/') {
-                        myPath.add(new Long(nodePath.substring(prev, i)));
+                        myPath.add(Long.valueOf(nodePath.substring(prev, i)));
                         prev = i + 1;
                     }
                 }
-                Long xbIndex = new Long(nodePath.substring(prev));
+                Long xbIndex = Long.valueOf(nodePath.substring(prev));
                 result.setPath((Long[]) myPath.toArray(new Long[myPath.size()]));
                 result.setSpecId(xbIndex);
                 result.setRevXBId(revXB);
@@ -1150,10 +1150,10 @@ public class XBCUpdatePHPPort {
                     targetSpec = br.readLine();
                 } else if ("revxb".equals(line)) {
                     line = br.readLine();
-                    revXB = line.isEmpty() ? null : new Long(line);
+                    revXB = line.isEmpty() ? null : Long.valueOf(line);
                 } else if ("btype".equals(line)) {
                     line = br.readLine();
-                    bindType = line.isEmpty() ? null : new Long(line);
+                    bindType = line.isEmpty() ? null : Long.valueOf(line);
                 } else {
                     br.readLine();
                 }
@@ -1182,11 +1182,11 @@ public class XBCUpdatePHPPort {
                 int prev = 0;
                 for (int i = 0; i < nodePath.length(); i++) {
                     if (nodePath.charAt(i) == '/') {
-                        myPath.add(new Long(nodePath.substring(prev, i)));
+                        myPath.add(Long.valueOf(nodePath.substring(prev, i)));
                         prev = i + 1;
                     }
                 }
-                Long xbIndex = new Long(nodePath.substring(prev));
+                Long xbIndex = Long.valueOf(nodePath.substring(prev));
                 result.setPath((Long[]) myPath.toArray(new Long[myPath.size()]));
                 result.setSpecId(xbIndex);
                 result.setRevXBId(revXB);
@@ -1219,7 +1219,7 @@ public class XBCUpdatePHPPort {
             while (!("".equals(line = br.readLine())) && (line != null)) {
                 if ("id".equals(line)) {
                     itemId = br.readLine();
-                    itemFile.setId(new Long(itemId));
+                    itemFile.setId(Long.valueOf(itemId));
                 } else if ("filename".equals(line)) {
                     itemFile.setFileName(br.readLine());
                 } else if ("size".equals(line)) {
@@ -1250,7 +1250,7 @@ public class XBCUpdatePHPPort {
                 if ("max".equals(line)) {
                     line = br.readLine();
                     if (!line.isEmpty()) {
-                        result = new Long(line);
+                        result = Long.valueOf(line);
                     }
                 } else {
                     br.readLine();
@@ -1273,13 +1273,13 @@ public class XBCUpdatePHPPort {
             ItemFile result = new ItemFile();
             while (!("".equals(line = br.readLine())) && (line != null)) {
                 if ("id".equals(line)) {
-                    result.setId(new Long(br.readLine()));
+                    result.setId(Long.valueOf(br.readLine()));
                 } else if ("mode".equals(line)) {
-                    result.setMode(new Long(br.readLine()));
+                    result.setMode(Long.valueOf(br.readLine()));
 //                } else if ("xbindex".equals(line)) {
-//                    result.setXBIndex(new Long(br.readLine()));
+//                    result.setXBIndex(Long.valueOf(br.readLine()));
                 } else if ("node".equals(line)) { // TODO: This is ugly
-                    result.setXBIndex(new Long(br.readLine()));
+                    result.setXBIndex(Long.valueOf(br.readLine()));
                 } else if ("filename".equals(line)) {
                     result.setFileName(br.readLine());
                 } else {
@@ -1306,9 +1306,9 @@ public class XBCUpdatePHPPort {
             ItemFile result = new ItemFile();
             while (!("".equals(line = br.readLine())) && (line != null)) {
                 if ("id".equals(line)) {
-                    result.setId(new Long(br.readLine()));
+                    result.setId(Long.valueOf(br.readLine()));
                 } else if ("node".equals(line)) {
-                    result.setXBIndex(new Long(br.readLine()));
+                    result.setXBIndex(Long.valueOf(br.readLine()));
                 } else if ("filename".equals(line)) {
                     result.setFileName(br.readLine());
                 } else {
@@ -1345,12 +1345,12 @@ public class XBCUpdatePHPPort {
             int prev = 0;
             for (int i = 0; i < nodePath.length(); i++) {
                 if (nodePath.charAt(i) == '/') {
-                    myPath.add(new Long(nodePath.substring(prev, i)));
+                    myPath.add(Long.valueOf(nodePath.substring(prev, i)));
                     prev = i + 1;
                 }
             }
             if (!nodePath.isEmpty()) {
-                myPath.add(new Long(nodePath.substring(prev)));
+                myPath.add(Long.valueOf(nodePath.substring(prev)));
             }
         } catch (IOException ex) {
             Logger.getLogger(XBCUpdatePHPPort.class.getName()).log(Level.SEVERE, null, ex);
@@ -1377,7 +1377,7 @@ public class XBCUpdatePHPPort {
                 if ("max".equals(line)) {
                     line = br.readLine();
                     if (!line.isEmpty()) {
-                        result = new Long(line);
+                        result = Long.valueOf(line);
                     }
                 } else {
                     br.readLine();
@@ -1402,7 +1402,7 @@ public class XBCUpdatePHPPort {
                 if ("max".equals(line)) {
                     line = br.readLine();
                     if (!line.isEmpty()) {
-                        result = new Long(line);
+                        result = Long.valueOf(line);
                     }
                 } else {
                     br.readLine();
@@ -1427,27 +1427,27 @@ public class XBCUpdatePHPPort {
                 if ("id".equals(line)) {
                     line = br.readLine();
                     if (!line.isEmpty()) {
-                        result.setId(new Long(line));
+                        result.setId(Long.valueOf(line));
                     }
                 } else if ("line".equals(line)) {
                     line = br.readLine();
                     if (!line.isEmpty()) {
-                        result.setItemId(new Long(line));
+                        result.setItemId(Long.valueOf(line));
                     }
                 } else if ("plug".equals(line)) {
                     line = br.readLine();
                     if (!line.isEmpty()) {
-                        result.setPlugId(new Long(line));
+                        result.setPlugId(Long.valueOf(line));
                     }
                 } else if ("plugnode".equals(line)) {
                     line = br.readLine();
                     if (!line.isEmpty()) {
-                        result.setPlugNode(new Long(line));
+                        result.setPlugNode(Long.valueOf(line));
                     }
                 } else if ("plugin".equals(line)) {
                     line = br.readLine();
                     if (!line.isEmpty()) {
-                        result.setPlugin(new Long(line));
+                        result.setPlugin(Long.valueOf(line));
                     }
                 } else {
                     br.readLine();
@@ -1472,27 +1472,27 @@ public class XBCUpdatePHPPort {
                 if ("id".equals(line)) {
                     line = br.readLine();
                     if (!line.isEmpty()) {
-                        result.setId(new Long(line));
+                        result.setId(Long.valueOf(line));
                     }
                 } else if ("pane".equals(line)) {
                     line = br.readLine();
                     if (!line.isEmpty()) {
-                        result.setItemId(new Long(line));
+                        result.setItemId(Long.valueOf(line));
                     }
                 } else if ("plug".equals(line)) {
                     line = br.readLine();
                     if (!line.isEmpty()) {
-                        result.setPlugId(new Long(line));
+                        result.setPlugId(Long.valueOf(line));
                     }
                 } else if ("plugnode".equals(line)) {
                     line = br.readLine();
                     if (!line.isEmpty()) {
-                        result.setPlugNode(new Long(line));
+                        result.setPlugNode(Long.valueOf(line));
                     }
                 } else if ("plugin".equals(line)) {
                     line = br.readLine();
                     if (!line.isEmpty()) {
-                        result.setPlugin(new Long(line));
+                        result.setPlugin(Long.valueOf(line));
                     }
                 } else {
                     br.readLine();
@@ -1517,7 +1517,7 @@ public class XBCUpdatePHPPort {
                 if ("max".equals(line)) {
                     line = br.readLine();
                     if (!line.isEmpty()) {
-                        result = new Long(line);
+                        result = Long.valueOf(line);
                     }
                 } else {
                     br.readLine();
@@ -1546,22 +1546,22 @@ public class XBCUpdatePHPPort {
                 if ("id".equals(line)) {
                     line = br.readLine();
                     if (!line.isEmpty()) {
-                        result.setId(new Long(line));
+                        result.setId(Long.valueOf(line));
                     }
                 } else if ("file".equals(line)) {
                     line = br.readLine();
                     if (!line.isEmpty()) {
-                        result.setFileId(new Long(line));
+                        result.setFileId(Long.valueOf(line));
                     }
                 } else if ("plugin".equals(line)) {
                     line = br.readLine();
                     if (!line.isEmpty()) {
-                        result.setPlugin(new Long(line));
+                        result.setPlugin(Long.valueOf(line));
                     }
                 } else if ("filenode".equals(line)) {
                     line = br.readLine();
                     if (!line.isEmpty()) {
-                        result.setFileNode(new Long(line));
+                        result.setFileNode(Long.valueOf(line));
                     }
                 } else if ("filename".equals(line)) {
                     line = br.readLine();
@@ -1591,7 +1591,7 @@ public class XBCUpdatePHPPort {
                 if ("max".equals(line)) {
                     line = br.readLine();
                     if (!line.isEmpty()) {
-                        result = new Long(line);
+                        result = Long.valueOf(line);
                     }
                 } else {
                     br.readLine();
@@ -1616,7 +1616,7 @@ public class XBCUpdatePHPPort {
                 if ("id".equals(line)) {
                     line = br.readLine();
                     if (!line.isEmpty()) {
-                        result = new Long(line);
+                        result = Long.valueOf(line);
                     }
                 } else {
                     br.readLine();
@@ -1641,7 +1641,7 @@ public class XBCUpdatePHPPort {
                 if ("max".equals(line)) {
                     line = br.readLine();
                     if (!line.isEmpty()) {
-                        result = new Long(line);
+                        result = Long.valueOf(line);
                     }
                 } else {
                     br.readLine();
@@ -1666,7 +1666,7 @@ public class XBCUpdatePHPPort {
                 if ("id".equals(line)) {
                     line = br.readLine();
                     if (!line.isEmpty()) {
-                        result = new Long(line);
+                        result = Long.valueOf(line);
                     }
                 } else {
                     br.readLine();

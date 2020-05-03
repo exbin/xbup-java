@@ -9,5 +9,5 @@ This is library for core XBUP support. It covers following areas:
  * Basic data types
 
 Homepage: http://xbup.exbin.org
-License: GNU/LGPL (see lgpl-3.0.txt)
+License: Apache V2 (see LICENSE-2.0.txt)
 

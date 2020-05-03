@@ -77,7 +77,7 @@ if (!project.gradle.startParameter.projectProperties.containsKey("moduleDep")) {
                 duplicatesStrategy = 'exclude'
 
                 from project.rootDir
-                include 'lgpl-3.0.txt', 'gpl-3.0.txt'
+                include 'LICENSE-2.0.txt'
                 from 'src/dist'
                 include 'readme.txt'
 

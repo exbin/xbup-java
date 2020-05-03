@@ -162,8 +162,8 @@ publishing {
                     }
                     licenses {
                         license {
-                            name 'LGPL license, Version 3.0'
-                            url 'https://www.gnu.org/licenses/lgpl.txt'
+                            name 'Apache License, Version 2.0'
+                            url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
                             distribution 'repo'
                         }
                     }

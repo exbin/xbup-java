@@ -87,9 +87,7 @@ if (!project.gradle.startParameter.projectProperties.containsKey("moduleDep")) {
                 project(':modules').subprojects.each { p ->
                     p.plugins.withType(JavaPlugin) {
                         into('lib') {
-                            from p.jar.archivePath
-                            include '*'
-                            from p.configurations.runtime
+                            from p.configurations.runtimeClasspath.findAll { !it.name.startsWith('xbup') }
                             include '*'
                         }
                         into('') {

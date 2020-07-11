@@ -24,18 +24,19 @@ repositories {
 }
 
 dependencies {
-    compile moduleDep('XbupJava', 'org.exbin.xbup', 'xbup-core')
-    compile moduleDep('XbupJava', 'org.exbin.xbup', 'xbup-parser-tree')
-    compile group: 'org.springframework', name: 'spring-core', version: '4.0.5.RELEASE'
-    compile 'org.springframework:spring-core:4.0.5.RELEASE', 'org.springframework:spring-context:4.0.5.RELEASE', 'org.springframework:spring-beans:4.0.5.RELEASE'
-    compile(
+    implementation moduleDep('XbupJava', 'org.exbin.xbup', 'xbup-core')
+    implementation moduleDep('XbupJava', 'org.exbin.xbup', 'xbup-parser-tree')
+    implementation group: 'org.springframework', name: 'spring-core', version: '4.0.5.RELEASE'
+    implementation 'org.springframework:spring-core:4.0.5.RELEASE', 'org.springframework:spring-context:4.0.5.RELEASE', 'org.springframework:spring-beans:4.0.5.RELEASE'
+    implementation(
         [group: 'org.springframework', name: 'spring-core', version: '4.0.5.RELEASE'],
         [group: 'org.springframework', name: 'spring-context', version: '4.0.5.RELEASE'],
         [group: 'org.springframework', name: 'spring-beans', version: '4.0.5.RELEASE'],
     )
-    compile 'javax.persistence:persistence-api:1.0.2'
-    compile 'org.yaml:snakeyaml:1.13'
-    compile moduleDep('ExbinAuxiliaryJava', 'org.exbin.auxiliary', 'paged_data')
-    testCompile group: 'junit', name: 'junit', version: '4.10'    
-    testCompile project(path: moduleDepPath('XbupJava', 'xbup-core'), configuration: 'tests')
+    implementation 'org.yaml:snakeyaml:1.13'
+    implementation moduleDep('ExbinAuxiliaryJava', 'org.exbin.auxiliary', 'paged_data')
+    compileOnly 'javax.persistence:persistence-api:1.0.2'
+    compileOnly group: 'com.google.code.findbugs', name: 'jsr305', version: '3.0.2'
+    testImplementation group: 'junit', name: 'junit', version: '4.10'    
+    testImplementation project(path: moduleDepPath('XbupJava', 'xbup-core'), configuration: 'tests')
 }

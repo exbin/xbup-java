@@ -65,13 +65,13 @@ public class XBAECatalog extends XBECatalog implements XBACatalog {
             tx.begin();
 
             /*            XBEType node = new XBEType();
-             node.setXBIndex(new Long(0));
+             node.setXBIndex(0l);
              node.setOwner(null);
              em.persist(node);
 
              XBEAttrib attrib = new XBEAttrib();
              attrib.setOwner(node);
-             attrib.setXBIndex(new Long(0));
+             attrib.setXBIndex(0l);
              em.persist(attrib);
              */
             tx.commit();

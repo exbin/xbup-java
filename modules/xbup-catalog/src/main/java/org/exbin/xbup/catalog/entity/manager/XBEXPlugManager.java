@@ -18,8 +18,10 @@ package org.exbin.xbup.catalog.entity.manager;
 import java.io.InputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.annotation.Nonnull;
 import javax.persistence.NoResultException;
 import org.exbin.xbup.catalog.XBECatalog;
 import org.exbin.xbup.catalog.entity.XBEXFile;
@@ -33,7 +35,7 @@ import org.springframework.stereotype.Repository;
 /**
  * XBUP catalog plugin manager.
  *
- * @version 0.1.25 2015/09/06
+ * @version 0.2.0 2020/07/22
  * @author ExBin Project (http://exbin.org)
  */
 @Repository
@@ -117,6 +119,19 @@ public class XBEXPlugManager extends XBEDefaultCatalogManager<XBEXPlugin> implem
     public XBEXPlugin findPlugin(XBCNode node, Long index) {
         try {
             return (XBEXPlugin) catalog.getEntityManager().createQuery("SELECT object(o) FROM XBXPlugin as o WHERE o.owner.id = " + node.getId() + " AND o.pluginIndex = " + index).getSingleResult();
+        } catch (NoResultException ex) {
+            return null;
+        } catch (Exception ex) {
+            Logger.getLogger(XBEXPlugManager.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        }
+    }
+
+    @Nonnull
+    @Override
+    public List<XBCXPlugin> findPluginsForNode(XBCNode node) {
+        try {
+            return (List<XBCXPlugin>) catalog.getEntityManager().createQuery("SELECT object(o) FROM XBXPlugin as o WHERE o.owner.id = " + node.getId() + " ORDER BY o.pluginIndex").getResultList();
         } catch (NoResultException ex) {
             return null;
         } catch (Exception ex) {

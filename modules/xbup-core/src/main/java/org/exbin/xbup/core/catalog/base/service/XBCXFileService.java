@@ -65,7 +65,7 @@ public interface XBCXFileService<T extends XBCXFile> extends XBCService<T>, XBCE
     InputStream getFile(XBCXFile file);
 
     /**
-     * Finds all file for given node.
+     * Finds all files for given node.
      *
      * @param node parent node of the file
      * @return list of files or null if no such file exist

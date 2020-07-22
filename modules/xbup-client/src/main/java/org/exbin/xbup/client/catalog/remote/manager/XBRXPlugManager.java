@@ -17,6 +17,7 @@ package org.exbin.xbup.client.catalog.remote.manager;
 
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.List;
 import org.exbin.xbup.client.catalog.XBRCatalog;
 import org.exbin.xbup.client.catalog.remote.XBRXPlugin;
 import org.exbin.xbup.client.stub.XBPXPlugStub;
@@ -89,6 +90,11 @@ public class XBRXPlugManager extends XBRDefaultManager<XBRXPlugin> implements XB
 
     @Override
     public XBRXPlugin findPlugin(XBCNode node, Long index) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public List<XBCXPlugin> findPluginsForNode(XBCNode node) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 

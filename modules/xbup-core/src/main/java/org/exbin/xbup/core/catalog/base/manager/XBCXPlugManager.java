@@ -16,6 +16,8 @@
 package org.exbin.xbup.core.catalog.base.manager;
 
 import java.io.InputStream;
+import java.util.List;
+import javax.annotation.Nonnull;
 import org.exbin.xbup.core.catalog.base.XBCExtension;
 import org.exbin.xbup.core.catalog.base.XBCNode;
 import org.exbin.xbup.core.catalog.base.XBCXPlugin;
@@ -23,7 +25,7 @@ import org.exbin.xbup.core.catalog.base.XBCXPlugin;
 /**
  * Interface for XBCXPlugin catalog manager.
  *
- * @version 0.1.21 2011/12/31
+ * @version 0.2.1 2020/07/22
  * @author ExBin Project (http://exbin.org)
  * @param <T> plugin entity
  */
@@ -68,4 +70,13 @@ public interface XBCXPlugManager<T extends XBCXPlugin> extends XBCManager<T>, XB
      * @return input stream
      */
     InputStream getPlugin(XBCXPlugin plugin);
+
+    /**
+     * Finds all plugins for given node.
+     *
+     * @param node parent node of the plugin
+     * @return list of plugins or empty list if no such file exist
+     */
+    @Nonnull
+    List<XBCXPlugin> findPluginsForNode(XBCNode node);
 }

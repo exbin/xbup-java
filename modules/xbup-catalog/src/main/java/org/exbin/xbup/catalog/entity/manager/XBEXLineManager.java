@@ -35,7 +35,7 @@ import org.springframework.stereotype.Repository;
 /**
  * XBUP catalog line editors manager.
  *
- * @version 0.1.25 2015/09/06
+ * @version 0.2.1 2020/07/21
  * @author ExBin Project (http://exbin.org)
  */
 @Repository
@@ -61,7 +61,7 @@ public class XBEXLineManager extends XBEDefaultCatalogManager<XBEXBlockLine> imp
     @Override
     public XBEXBlockLine findById(long id) {
         try {
-            return (XBEXBlockLine) catalog.getEntityManager().createQuery("SELECT object(o) FROM XBXBlockLine as o WHERE o.id = "+ id).getSingleResult();
+            return (XBEXBlockLine) catalog.getEntityManager().createQuery("SELECT object(o) FROM XBXBlockLine as o WHERE o.id = " + id).getSingleResult();
         } catch (NoResultException ex) {
             return null;
         } catch (Exception ex) {
@@ -72,7 +72,14 @@ public class XBEXLineManager extends XBEDefaultCatalogManager<XBEXBlockLine> imp
 
     @Override
     public List<XBCXBlockLine> getLines(XBCBlockRev rev) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        try {
+            return (List<XBCXBlockLine>) catalog.getEntityManager().createQuery("SELECT object(o) FROM XBXBlockLine as o WHERE o.blockRev.id = " + ((XBEBlockRev) rev).getId()).getResultList();
+        } catch (NoResultException e) {
+            return null;
+        } catch (Exception ex) {
+            Logger.getLogger(XBEXLineManager.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        }
     }
 
     @Override
@@ -81,7 +88,7 @@ public class XBEXLineManager extends XBEDefaultCatalogManager<XBEXBlockLine> imp
             return 0;
         }
         try {
-            return (Long) catalog.getEntityManager().createQuery("SELECT count(o) FROM XBXBlockLine as o WHERE o.blockRev.id = "+((XBEBlockRev) rev).getId()).getSingleResult();
+            return (Long) catalog.getEntityManager().createQuery("SELECT count(o) FROM XBXBlockLine as o WHERE o.blockRev.id = " + ((XBEBlockRev) rev).getId()).getSingleResult();
         } catch (NoResultException ex) {
             return 0;
         } catch (Exception ex) {
@@ -96,7 +103,7 @@ public class XBEXLineManager extends XBEDefaultCatalogManager<XBEXBlockLine> imp
             return null;
         }
         try {
-            return (XBEXBlockLine) catalog.getEntityManager().createQuery("SELECT object(o) FROM XBXBlockLine as o WHERE o.blockRev.id = "+((XBEBlockRev) rev).getId()+" AND o.priority = "+Long.toString(priority)).getSingleResult();
+            return (XBEXBlockLine) catalog.getEntityManager().createQuery("SELECT object(o) FROM XBXBlockLine as o WHERE o.blockRev.id = " + ((XBEBlockRev) rev).getId() + " AND o.priority = " + Long.toString(priority)).getSingleResult();
         } catch (NoResultException ex) {
             return null;
         } catch (Exception ex) {
@@ -107,7 +114,14 @@ public class XBEXLineManager extends XBEDefaultCatalogManager<XBEXBlockLine> imp
 
     @Override
     public List<XBCXPlugLine> getPlugLines(XBCXPlugin plugin) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        try {
+            return (List<XBCXPlugLine>) catalog.getEntityManager().createQuery("SELECT object(o) FROM XBXPlugLine as o WHERE o.plugin.id = " + ((XBEXPlugin) plugin).getId()).getResultList();
+        } catch (NoResultException e) {
+            return null;
+        } catch (Exception ex) {
+            Logger.getLogger(XBEXLineManager.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        }
     }
 
     @Override
@@ -116,7 +130,7 @@ public class XBEXLineManager extends XBEDefaultCatalogManager<XBEXBlockLine> imp
             return 0;
         }
         try {
-            return (Long) catalog.getEntityManager().createQuery("SELECT count(o) FROM XBXPlugLine as o WHERE o.plugin.id = "+((XBEXPlugin) plugin).getId()).getSingleResult();
+            return (Long) catalog.getEntityManager().createQuery("SELECT count(o) FROM XBXPlugLine as o WHERE o.plugin.id = " + ((XBEXPlugin) plugin).getId()).getSingleResult();
         } catch (NoResultException ex) {
             return 0;
         } catch (Exception ex) {
@@ -131,7 +145,7 @@ public class XBEXLineManager extends XBEDefaultCatalogManager<XBEXBlockLine> imp
             return null;
         }
         try {
-            return (XBEXPlugLine) catalog.getEntityManager().createQuery("SELECT object(o) FROM XBXPlugLine as o WHERE o.plugin.id = "+((XBEXPlugin) plugin).getId()+" AND o.lineIndex = "+Long.toString(lineIndex)).getSingleResult();
+            return (XBEXPlugLine) catalog.getEntityManager().createQuery("SELECT object(o) FROM XBXPlugLine as o WHERE o.plugin.id = " + ((XBEXPlugin) plugin).getId() + " AND o.lineIndex = " + Long.toString(lineIndex)).getSingleResult();
         } catch (NoResultException ex) {
             return null;
         } catch (Exception ex) {
@@ -155,7 +169,7 @@ public class XBEXLineManager extends XBEDefaultCatalogManager<XBEXBlockLine> imp
     @Override
     public XBEXPlugLine findPlugLineById(long id) {
         try {
-            return (XBEXPlugLine) catalog.getEntityManager().createQuery("SELECT object(o) FROM XBXPlugLine as o WHERE o.id = "+ id).getSingleResult();
+            return (XBEXPlugLine) catalog.getEntityManager().createQuery("SELECT object(o) FROM XBXPlugLine as o WHERE o.id = " + id).getSingleResult();
         } catch (NoResultException ex) {
             return null;
         } catch (Exception ex) {

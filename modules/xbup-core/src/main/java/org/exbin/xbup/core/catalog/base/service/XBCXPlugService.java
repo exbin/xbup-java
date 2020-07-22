@@ -16,6 +16,8 @@
 package org.exbin.xbup.core.catalog.base.service;
 
 import java.io.InputStream;
+import java.util.List;
+import javax.annotation.Nonnull;
 import org.exbin.xbup.core.catalog.base.XBCExtension;
 import org.exbin.xbup.core.catalog.base.XBCNode;
 import org.exbin.xbup.core.catalog.base.XBCXPlugin;
@@ -68,4 +70,13 @@ public interface XBCXPlugService<T extends XBCXPlugin> extends XBCService<T>, XB
      * @return data
      */
     InputStream getPlugin(XBCXPlugin plugin);
+
+    /**
+     * Finds all plugins for given node.
+     *
+     * @param node parent node of the plugin
+     * @return list of plugins or empty list if no such file exist
+     */
+    @Nonnull
+    List<XBCXPlugin> findPluginsForNode(XBCNode node);
 }

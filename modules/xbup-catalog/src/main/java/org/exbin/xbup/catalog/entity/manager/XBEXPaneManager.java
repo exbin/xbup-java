@@ -35,7 +35,7 @@ import org.springframework.stereotype.Repository;
 /**
  * XBUP catalog item panel editors manager.
  *
- * @version 0.1.25 2015/09/06
+ * @version 0.2.1 2020/07/21
  * @author ExBin Project (http://exbin.org)
  */
 @Repository
@@ -72,7 +72,14 @@ public class XBEXPaneManager extends XBEDefaultCatalogManager<XBEXBlockPane> imp
 
     @Override
     public List<XBCXBlockPane> getPanes(XBCBlockRev rev) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        try {
+            return (List<XBCXBlockPane>) catalog.getEntityManager().createQuery("SELECT object(o) FROM XBXBlockPane as o WHERE o.blockRev.id = " + ((XBEBlockRev) rev).getId()).getResultList();
+        } catch (NoResultException e) {
+            return null;
+        } catch (Exception ex) {
+            Logger.getLogger(XBEXPaneManager.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        }
     }
 
     @Override
@@ -107,7 +114,14 @@ public class XBEXPaneManager extends XBEDefaultCatalogManager<XBEXBlockPane> imp
 
     @Override
     public List<XBCXPlugPane> getPlugPanes(XBCXPlugin plugin) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        try {
+            return (List<XBCXPlugPane>) catalog.getEntityManager().createQuery("SELECT object(o) FROM XBXBlockPane as o WHERE o.plugin.id = " + ((XBEXPlugin) plugin).getId()).getResultList();
+        } catch (NoResultException e) {
+            return null;
+        } catch (Exception ex) {
+            Logger.getLogger(XBEXPaneManager.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        }
     }
 
     @Override

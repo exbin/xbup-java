@@ -35,8 +35,8 @@ dependencies {
     implementation 'javax.persistence:persistence-api:1.0.2'
     implementation 'org.yaml:snakeyaml:1.13'
     compileOnly group: 'javax.annotation', name: 'javax.annotation-api', version: '1.3.2'
-    compileOnly group: 'javax.activation', name: 'activation', version: '1.1.1'
-    compileOnly group: 'javax.jws', name: 'javax.jws-api', version: '1.1'
+    implementation group: 'javax.activation', name: 'activation', version: '1.1.1'
+    implementation group: 'javax.jws', name: 'javax.jws-api', version: '1.1'
     compileOnly group: 'com.google.code.findbugs', name: 'jsr305', version: '3.0.2'
     implementation moduleDep('ExbinAuxiliaryJava', 'org.exbin.auxiliary', 'paged_data')
     testImplementation group: 'junit', name: 'junit', version: '4.10'    

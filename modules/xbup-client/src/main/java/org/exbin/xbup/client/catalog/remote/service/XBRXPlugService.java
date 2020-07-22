@@ -16,6 +16,7 @@
 package org.exbin.xbup.client.catalog.remote.service;
 
 import java.io.InputStream;
+import java.util.List;
 import org.exbin.xbup.client.catalog.XBRCatalog;
 import org.exbin.xbup.client.catalog.remote.XBRXPlugin;
 import org.exbin.xbup.client.catalog.remote.manager.XBRXPlugManager;
@@ -65,6 +66,11 @@ public class XBRXPlugService extends XBRDefaultService<XBRXPlugin> implements XB
     }
 
     @Override
+    public List<XBCXPlugin> findPluginsForNode(XBCNode node) {
+        return ((XBRXPlugManager) itemManager).findPluginsForNode(node);
+    }
+
+    @Override
     public String getExtensionName() {
         return ((XBCExtension) itemManager).getExtensionName();
     }
@@ -73,5 +79,4 @@ public class XBRXPlugService extends XBRDefaultService<XBRXPlugin> implements XB
     public void initializeExtension() {
         ((XBCExtension) itemManager).initializeExtension();
     }
-
 }

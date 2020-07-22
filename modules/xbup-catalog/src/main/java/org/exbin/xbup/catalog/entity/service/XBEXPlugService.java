@@ -17,6 +17,8 @@ package org.exbin.xbup.catalog.entity.service;
 
 import java.io.InputStream;
 import java.io.Serializable;
+import java.util.List;
+import javax.annotation.Nonnull;
 import javax.annotation.PostConstruct;
 import org.exbin.xbup.catalog.XBECatalog;
 import org.exbin.xbup.catalog.entity.XBEXPlugin;
@@ -79,6 +81,12 @@ public class XBEXPlugService extends XBEDefaultService<XBEXPlugin> implements XB
     @Override
     public Long[] getPluginXBPath(XBCXPlugin plugin) {
         return ((XBEXPlugManager) itemManager).getPluginXBPath(plugin);
+    }
+
+    @Nonnull
+    @Override
+    public List<XBCXPlugin> findPluginsForNode(XBCNode node) {
+        return ((XBEXPlugManager) itemManager).findPluginsForNode(node);
     }
 
     @Override

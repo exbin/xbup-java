@@ -18,10 +18,17 @@ package org.exbin.xbup.plugin;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URL;
+import java.net.URLClassLoader;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.annotation.ParametersAreNonnullByDefault;
 import org.exbin.xbup.core.catalog.XBACatalog;
 import org.exbin.xbup.core.catalog.base.XBCXFile;
 import org.exbin.xbup.core.catalog.base.XBCXPlugin;
@@ -36,13 +43,14 @@ import org.exbin.xbup.core.util.StreamUtils;
  * @version 0.2.0 2015/03/27
  * @author ExBin Project (http://exbin.org)
  */
+@ParametersAreNonnullByDefault
 public class XBPluginRepository {
 
-    private final Map<Long, XBCatalogPlugin> plugins;
+    private final Map<Long, XBCatalogPlugin> pluginsCache;
     private XBACatalog catalog;
 
     public XBPluginRepository() {
-        plugins = new HashMap<>();
+        pluginsCache = new HashMap<>();
     }
 
     public XBACatalog getCatalog() {
@@ -61,8 +69,8 @@ public class XBPluginRepository {
             return null;
         }
         XBCXStriService striService = catalog.getCatalogService(XBCXStriService.class);
-        if (plugins.containsKey(plugFile.getId())) {
-            return (XBCatalogPlugin) plugins.get(plugFile.getId());
+        if (pluginsCache.containsKey(plugFile.getId())) {
+            return (XBCatalogPlugin) pluginsCache.get(plugFile.getId());
         }
         XBCXFileService fileService = catalog.getCatalogService(XBCXFileService.class);
         XBCXStri stri = striService.getItemStringId(plugFile.getNode());
@@ -83,12 +91,47 @@ public class XBPluginRepository {
         if (tmpFile == null) {
             return null;
         }
+
 //        pluginManager.addPluginsFrom(tmpFile.getAbsoluteFile().toURI());
 //        GetPluginOption plugOpt = new OptionPluginSelector<>(new XBPluginSelector(filePath));
 //        XBCatalogPlugin processedPlugin = (XBCatalogPlugin) pluginManager.getPlugin(XBCatalogPlugin.class, plugOpt);
 //        if (processedPlugin != null) {
 //            plugins.put(plugFile.getId(), processedPlugin);
 //        }
-        return null; //processedPlugin;
+//        return null; //processedPlugin;
+        return loadXBPlugin(tmpFile.getAbsoluteFile().toURI());
+    }
+
+    public XBCatalogPlugin loadXBPlugin(URI libraryUri) {
+        ClassLoader loader;
+        try {
+            loader = URLClassLoader.newInstance(new URL[]{libraryUri.toURL()}, getClass().getClassLoader());
+
+            URL pluginRecordUrl;
+            InputStream pluginRecordStream = null;
+            try {
+                pluginRecordUrl = new URL("jar:" + libraryUri.toURL().toExternalForm() + "!/META-INF/" + "plugin.txt");
+                pluginRecordStream = pluginRecordUrl.openStream();
+            } catch (IOException ex) {
+                // ignore
+            }
+            if (pluginRecordStream != null) {
+                try {
+                    String className = new String(pluginRecordStream.readAllBytes(), "UTF-8");
+                    Class<?> clazz = Class.forName(className, true, loader);
+                    Constructor<?> ctor = clazz.getConstructor();
+                    return (XBCatalogPlugin) ctor.newInstance();
+                } catch (IOException ex) {
+                    // ignore
+                } catch (ClassNotFoundException | NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) {
+                    Logger.getLogger(XBPluginRepository.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            } else {
+                throw new IllegalStateException("Unable to read plugin.txt");
+            }
+        } catch (MalformedURLException ex) {
+            Logger.getLogger(XBDefaultModuleRepository.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        throw new IllegalStateException("Unable to load catalog plugin");
     }
 }

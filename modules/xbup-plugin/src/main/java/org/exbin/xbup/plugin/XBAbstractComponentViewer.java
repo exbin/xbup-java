@@ -18,12 +18,12 @@ package org.exbin.xbup.plugin;
 import javax.annotation.Nullable;
 
 /**
- * XBUP Line Editor Plugin Base Abstract Class.
+ * Abstract component viewer plugin.
  *
- * @version 0.2.1 2017/05/28
+ * @version 0.2.1 2020/07/23
  * @author ExBin Project (http://exbin.org)
  */
-public abstract class XBAbstractLineEditor implements XBLineEditor {
+public abstract class XBAbstractComponentViewer implements XBComponentViewer {
 
     @Nullable
     private ChangeListener changeListener = null;

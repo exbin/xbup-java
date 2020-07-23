@@ -16,15 +16,18 @@
 package org.exbin.xbup.plugin;
 
 import javax.annotation.Nonnull;
-import javax.swing.JPanel;
+import javax.annotation.ParametersAreNonnullByDefault;
+import javax.swing.JComponent;
+import org.exbin.xbup.core.block.XBTBlock;
 
 /**
- * XBUP Panel Editor Plugin Base Interface.
+ * Component viewer plugin interface.
  *
- * @version 0.2.1 2017/05/25
+ * @version 0.2.1 2020/07/23
  * @author ExBin Project (http://exbin.org)
  */
-public interface XBPanelEditor {
+@ParametersAreNonnullByDefault
+public interface XBComponentViewer {
 
     /**
      * Returns instance of value representation panel component.
@@ -32,14 +35,21 @@ public interface XBPanelEditor {
      * @return component
      */
     @Nonnull
-    JPanel getPanel();
+    JComponent getViewer();
 
     /**
      * Attaches change listener.
      *
      * @param listener change listener
      */
-    void attachChangeListener(@Nonnull ChangeListener listener);
+    void attachChangeListener(ChangeListener listener);
+
+    /**
+     * Sets data to component editor.
+     *
+     * @param block block
+     */
+    void setData(XBTBlock block);
 
     /**
      * Change listener interface.

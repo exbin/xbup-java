@@ -16,16 +16,19 @@
 package org.exbin.xbup.plugin;
 
 import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
 import javax.swing.JComponent;
+import org.exbin.xbup.core.block.XBTBlock;
 import org.exbin.xbup.core.serial.XBSerializable;
 
 /**
- * XBUP Line Editor Plugin Base Interface.
+ * Row editor plugin interface.
  *
  * @version 0.2.1 2017/05/25
  * @author ExBin Project (http://exbin.org)
  */
-public interface XBLineEditor extends XBSerializable {
+@ParametersAreNonnullByDefault
+public interface XBRowEditor extends XBSerializable {
 
     /**
      * Returns instance of value representation component.
@@ -33,7 +36,7 @@ public interface XBLineEditor extends XBSerializable {
      * @return component
      */
     @Nonnull
-    JComponent getComponent();
+    JComponent getViewer();
 
     /**
      * Returns instance of value editing component.
@@ -44,19 +47,33 @@ public interface XBLineEditor extends XBSerializable {
     public JComponent getEditor();
 
     /**
+     * Sets data to component editor.
+     *
+     * @param block block
+     */
+    void setData(XBTBlock block);
+
+    /**
+     * Reads data from component editor.
+     *
+     * @return block
+     */
+    @Nonnull
+    XBTBlock getData();
+
+    /**
      * Loads data from given editor.
      *
-     * @param editor editor component
      * @return true, if value was changed or cannot compare values
      */
-    public boolean finishEditor(@Nonnull JComponent editor);
+    boolean finishEditor();
 
     /**
      * Attaches change listener.
      *
      * @param listener change listener
      */
-    public void attachChangeListener(@Nonnull ChangeListener listener);
+    void attachChangeListener(ChangeListener listener);
 
     /**
      * Change listener interface.

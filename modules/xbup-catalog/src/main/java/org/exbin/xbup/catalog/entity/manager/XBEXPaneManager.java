@@ -115,7 +115,7 @@ public class XBEXPaneManager extends XBEDefaultCatalogManager<XBEXBlockPane> imp
     @Override
     public List<XBCXPlugPane> getPlugPanes(XBCXPlugin plugin) {
         try {
-            return (List<XBCXPlugPane>) catalog.getEntityManager().createQuery("SELECT object(o) FROM XBXBlockPane as o WHERE o.plugin.id = " + ((XBEXPlugin) plugin).getId()).getResultList();
+            return (List<XBCXPlugPane>) catalog.getEntityManager().createQuery("SELECT object(o) FROM XBXPlugPane as o WHERE o.plugin.id = " + ((XBEXPlugin) plugin).getId()).getResultList();
         } catch (NoResultException e) {
             return null;
         } catch (Exception ex) {

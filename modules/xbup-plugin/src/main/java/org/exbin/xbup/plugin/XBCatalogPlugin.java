@@ -16,12 +16,11 @@
 package org.exbin.xbup.plugin;
 
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 
 /**
  * XBUP Editor plugin - provides editing panel for XBUP data.
  *
- * @version 0.2.1 2017/05/25
+ * @version 0.2.1 2020/07/23
  * @author ExBin Project (http://exbin.org)
  */
 public interface XBCatalogPlugin {
@@ -35,36 +34,36 @@ public interface XBCatalogPlugin {
     String getPluginPath();
 
     /**
-     * Gets count of line editors.
+     * Gets count of row editors.
      *
      * @return count of line editor
      */
-    long getLineEditorsCount();
+    long getRowEditorsCount();
 
     /**
-     * Gets specific line editor.
+     * Gets specific row editor.
      *
      * @param index line editor index
      * @return line editor
      */
-    @Nullable
-    XBLineEditor getLineEditor(long index);
+    @Nonnull
+    XBRowEditor getRowEditor(long index);
 
     /**
-     * Gets count of panel editors.
+     * Gets count of component editors.
      *
      * @return count of panel editors
      */
-    long getPanelEditorsCount();
+    long getComponentEditorsCount();
 
     /**
-     * Gets specific panel editor.
+     * Gets specific component editor.
      *
      * @param index panel editor index
      * @return panel editor
      */
-    @Nullable
-    XBPanelEditor getPanelEditor(long index);
+    @Nonnull
+    XBComponentEditor getComponentEditor(long index);
 
     /**
      * Gets count of transformations.
@@ -79,6 +78,6 @@ public interface XBCatalogPlugin {
      * @param index transformation index
      * @return transformation
      */
-    @Nullable
+    @Nonnull
     XBTransformation getTransformation(long index);
 }

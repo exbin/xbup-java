@@ -18,18 +18,26 @@ package org.exbin.xbup.plugin;
 import javax.annotation.Nonnull;
 
 /**
- * Catalog editor plugin interface.
+ * Transformations catalog plugin interface.
  *
  * @version 0.2.1 2020/07/27
  * @author ExBin Project (http://exbin.org)
  */
-public interface XBCatalogPlugin {
+public interface XBTransformationCatalogPlugin {
 
     /**
-     * Gets catalog path of this plugin.
+     * Gets count of transformations.
      *
-     * @return Identification catalog path of this plugin file
+     * @return transformation
+     */
+    long getTransformationCount();
+
+    /**
+     * Gets specific transformation.
+     *
+     * @param index transformation index
+     * @return transformation
      */
     @Nonnull
-    String getPluginPath();
+    XBTransformation getTransformation(long index);
 }

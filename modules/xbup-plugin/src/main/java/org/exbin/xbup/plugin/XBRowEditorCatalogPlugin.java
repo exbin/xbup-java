@@ -18,18 +18,26 @@ package org.exbin.xbup.plugin;
 import javax.annotation.Nonnull;
 
 /**
- * Catalog editor plugin interface.
+ * Row editors catalog plugin interface.
  *
  * @version 0.2.1 2020/07/27
  * @author ExBin Project (http://exbin.org)
  */
-public interface XBCatalogPlugin {
+public interface XBRowEditorCatalogPlugin {
 
     /**
-     * Gets catalog path of this plugin.
+     * Gets count of row editors.
      *
-     * @return Identification catalog path of this plugin file
+     * @return count of line editor
+     */
+    long getRowEditorsCount();
+
+    /**
+     * Gets specific row editor.
+     *
+     * @param index line editor index
+     * @return line editor
      */
     @Nonnull
-    String getPluginPath();
+    XBRowEditor getRowEditor(long index);
 }

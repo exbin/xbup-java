@@ -18,18 +18,26 @@ package org.exbin.xbup.plugin;
 import javax.annotation.Nonnull;
 
 /**
- * Catalog editor plugin interface.
+ * Component viewers catalog plugin interface.
  *
  * @version 0.2.1 2020/07/27
  * @author ExBin Project (http://exbin.org)
  */
-public interface XBCatalogPlugin {
+public interface XBComponentViewerCatalogPlugin {
 
     /**
-     * Gets catalog path of this plugin.
+     * Gets count of component viewers.
      *
-     * @return Identification catalog path of this plugin file
+     * @return count of panel editors
+     */
+    long getComponentViewersCount();
+
+    /**
+     * Gets specific component viewer.
+     *
+     * @param index panel editor index
+     * @return panel editor
      */
     @Nonnull
-    String getPluginPath();
+    XBComponentViewer getComponentViewer(long index);
 }

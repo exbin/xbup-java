@@ -44,12 +44,12 @@ public class XBRXPlugLine implements XBCXPlugLine {
     }
 
     @Override
-    public Long getLineIndex() {
+    public long getLineIndex() {
         return lineStub.getLineIndex(id);
     }
 
     @Override
-    public Long getId() {
+    public long getId() {
         return id;
     }
 }

@@ -16,6 +16,7 @@
 package org.exbin.xbup.catalog.entity;
 
 import java.io.Serializable;
+import javax.annotation.Nonnull;
 import javax.persistence.Entity;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
@@ -36,11 +37,13 @@ public class XBEJoinDef extends XBESpecDef implements Serializable, XBCJoinDef {
     public XBEJoinDef() {
     }
 
+    @Nonnull
     @Override
     public XBCSpec getSpec() {
         return (XBCSpec) super.getSpec();
     }
 
+    @Nonnull
     @Override
     public XBParamType getType() {
         return XBParamType.JOIN;

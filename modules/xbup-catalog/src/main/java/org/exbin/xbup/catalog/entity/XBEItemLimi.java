@@ -16,23 +16,26 @@
 package org.exbin.xbup.catalog.entity;
 
 import java.io.Serializable;
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import org.exbin.xbup.catalog.modifiable.XBMItemLimi;
 import org.exbin.xbup.core.catalog.base.XBCBlockSpec;
-import org.exbin.xbup.core.catalog.base.XBCItemLimi;
 import org.exbin.xbup.core.catalog.base.XBCLimitSpec;
 
 /**
  * Item limitations database entity.
  *
- * @version 0.1.21 2011/08/21
+ * @version 0.2.1 2020/08/14
  * @author ExBin Project (http://exbin.org)
  */
+@ParametersAreNonnullByDefault
 @Entity(name = "XBItemLimi")
-public class XBEItemLimi implements XBCItemLimi, Serializable {
+public class XBEItemLimi implements XBMItemLimi, Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -48,38 +51,44 @@ public class XBEItemLimi implements XBCItemLimi, Serializable {
     }
 
     @Override
-    public Long getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    @Override
+    public void setId(long id) {
         this.id = id;
     }
 
+    @Nonnull
     @Override
     public XBCBlockSpec getOwner() {
         return (XBCBlockSpec) owner;
     }
 
     @Override
+    public void setOwner(XBCBlockSpec owner) {
+        this.owner = (XBEBlockSpec) owner;
+    }
+
+    @Nonnull
+    @Override
     public XBCLimitSpec getTarget() {
         return target;
     }
 
     @Override
-    public Long getXBIndex() {
+    public void setTarget(XBCLimitSpec target) {
+        this.target = (XBELimitSpec) target;
+    }
+
+    @Override
+    public long getXBIndex() {
         return xbIndex;
     }
 
-    public void setOwner(XBEBlockSpec owner) {
-        this.owner = owner;
-    }
-
-    public void setTarget(XBELimitSpec target) {
-        this.target = target;
-    }
-
-    public void setXbIndex(Long xbIndex) {
+    @Override
+    public void setXBIndex(long xbIndex) {
         this.xbIndex = xbIndex;
     }
 }

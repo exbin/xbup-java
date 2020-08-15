@@ -15,20 +15,23 @@
  */
 package org.exbin.xbup.catalog.entity;
 
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import org.exbin.xbup.core.catalog.base.XBCXLanguage;
+import org.exbin.xbup.catalog.modifiable.XBMXLanguage;
 
 /**
  * Language database entity.
  *
- * @version 0.1.21 2012/04/15
+ * @version 0.2.1 2020/08/15
  * @author ExBin Project (http://exbin.org)
  */
+@ParametersAreNonnullByDefault
 @Entity(name = "XBXLanguage")
-public class XBEXLanguage implements XBCXLanguage, java.io.Serializable {
+public class XBEXLanguage implements XBMXLanguage, java.io.Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -41,14 +44,16 @@ public class XBEXLanguage implements XBCXLanguage, java.io.Serializable {
     }
 
     @Override
-    public Long getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    @Override
+    public void setId(long id) {
         this.id = id;
     }
 
+    @Nonnull
     @Override
     public String getLangCode() {
         return langCode;
@@ -59,11 +64,13 @@ public class XBEXLanguage implements XBCXLanguage, java.io.Serializable {
         this.langCode = langCode;
     }
 
+    @Nonnull
     @Override
     public String getName() {
         return name;
     }
 
+    @Override
     public void setName(String name) {
         this.name = name;
     }

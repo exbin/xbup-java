@@ -77,13 +77,10 @@ public class XBEXPlugManager extends XBEDefaultCatalogManager<XBEXPlugin> implem
         ArrayList<Long> list = new ArrayList<>();
         XBCNode parent = file.getNode();
         while (parent != null) {
-            if (parent.getParent() != null) {
-                if (parent.getXBIndex() == null) {
-                    return null;
-                }
+            if (parent.getParent().isPresent()) {
                 list.add(0, parent.getXBIndex());
             }
-            parent = (XBCNode) parent.getParent();
+            parent = (XBCNode) parent.getParent().orElse(null);
         }
         list.add(file.getId());
         return (Long[]) list.toArray(new Long[list.size()]);

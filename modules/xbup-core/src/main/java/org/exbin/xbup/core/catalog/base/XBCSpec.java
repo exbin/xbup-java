@@ -15,6 +15,9 @@
  */
 package org.exbin.xbup.core.catalog.base;
 
+import java.util.Optional;
+import javax.annotation.Nonnull;
+
 /**
  * Interface for catalog specification entity.
  *
@@ -28,6 +31,6 @@ public interface XBCSpec extends XBCItem {
      *
      * @return the node
      */
-    @Override
-    XBCNode getParent();
+    @Nonnull
+    Optional<XBCNode> getParent();
 }

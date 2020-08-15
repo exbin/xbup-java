@@ -15,10 +15,13 @@
  */
 package org.exbin.xbup.core.catalog.base;
 
+import java.util.Optional;
+import javax.annotation.Nonnull;
+
 /**
  * Interface for consist of binding entity.
  *
- * @version 0.1.21 2012/03/26
+ * @version 0.2.1 2020/08/13
  * @author ExBin Project (http://exbin.org)
  */
 public interface XBCConsDef extends XBCSpecDef {
@@ -28,6 +31,7 @@ public interface XBCConsDef extends XBCSpecDef {
      *
      * @return specification
      */
+    @Nonnull
     @Override
     XBCSpec getSpec();
 
@@ -36,6 +40,7 @@ public interface XBCConsDef extends XBCSpecDef {
      *
      * @return revision
      */
+    @Nonnull
     @Override
-    XBCRev getTarget();
+    Optional<XBCRev> getTargetRev();
 }

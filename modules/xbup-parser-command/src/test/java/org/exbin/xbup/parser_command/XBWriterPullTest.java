@@ -18,7 +18,7 @@ package org.exbin.xbup.parser_command;
 import java.io.IOException;
 import java.io.InputStream;
 import junit.framework.TestCase;
-import org.exbin.xbup.core.parser.XBParseException;
+import org.exbin.xbup.core.parser.XBParsingException;
 import org.exbin.xbup.core.parser.XBProcessingException;
 import org.exbin.xbup.core.parser.XBProcessingExceptionType;
 import org.exbin.xbup.core.parser.basic.XBProducer;
@@ -527,7 +527,7 @@ public class XBWriterPullTest extends TestCase {
                 ex = e;
             }
 
-            assertEquals(new XBParseException("Unsupported header: 0xfe0059420002", XBProcessingExceptionType.CORRUPTED_HEADER), ex);
+            assertEquals(new XBParsingException("Unsupported header: 0xfe0059420002", XBProcessingExceptionType.CORRUPTED_HEADER), ex);
         }
     }
 
@@ -550,7 +550,7 @@ public class XBWriterPullTest extends TestCase {
                 ex = e;
             }
 
-            assertEquals(new XBParseException("End of data reached", XBProcessingExceptionType.UNEXPECTED_END_OF_STREAM), ex);
+            assertEquals(new XBParsingException("End of data reached", XBProcessingExceptionType.UNEXPECTED_END_OF_STREAM), ex);
         }
     }
 
@@ -573,7 +573,7 @@ public class XBWriterPullTest extends TestCase {
                 ex = e;
             }
 
-            assertEquals(new XBParseException("End of data reached", XBProcessingExceptionType.UNEXPECTED_END_OF_STREAM), ex);
+            assertEquals(new XBParsingException("End of data reached", XBProcessingExceptionType.UNEXPECTED_END_OF_STREAM), ex);
         }
     }
 
@@ -596,7 +596,7 @@ public class XBWriterPullTest extends TestCase {
                 ex = e;
             }
 
-            assertEquals(new XBParseException("End of data reached", XBProcessingExceptionType.UNEXPECTED_END_OF_STREAM), ex);
+            assertEquals(new XBParsingException("End of data reached", XBProcessingExceptionType.UNEXPECTED_END_OF_STREAM), ex);
         }
     }
 
@@ -619,7 +619,7 @@ public class XBWriterPullTest extends TestCase {
                 ex = e;
             }
 
-            assertEquals(new XBParseException("Unexpected end of stream", XBProcessingExceptionType.UNEXPECTED_END_OF_STREAM), ex);
+            assertEquals(new XBParsingException("Unexpected end of stream", XBProcessingExceptionType.UNEXPECTED_END_OF_STREAM), ex);
         }
     }
 
@@ -642,7 +642,7 @@ public class XBWriterPullTest extends TestCase {
                 ex = e;
             }
 
-            assertEquals(new XBParseException("Missing data block terminator", XBProcessingExceptionType.UNEXPECTED_END_OF_STREAM), ex);
+            assertEquals(new XBParsingException("Missing data block terminator", XBProcessingExceptionType.UNEXPECTED_END_OF_STREAM), ex);
         }
     }
 
@@ -665,7 +665,7 @@ public class XBWriterPullTest extends TestCase {
                 ex = e;
             }
 
-            assertEquals(new XBParseException("Unexpected terminator", XBProcessingExceptionType.UNEXPECTED_TERMINATOR), ex);
+            assertEquals(new XBParsingException("Unexpected terminator", XBProcessingExceptionType.UNEXPECTED_TERMINATOR), ex);
         }
     }
 
@@ -688,7 +688,7 @@ public class XBWriterPullTest extends TestCase {
                 ex = e;
             }
 
-            assertEquals(new XBParseException("Unexpected terminator", XBProcessingExceptionType.UNEXPECTED_TERMINATOR), ex);
+            assertEquals(new XBParsingException("Unexpected terminator", XBProcessingExceptionType.UNEXPECTED_TERMINATOR), ex);
         }
     }
 
@@ -711,7 +711,7 @@ public class XBWriterPullTest extends TestCase {
                 ex = e;
             }
 
-            assertEquals(new XBParseException("Block overflow", XBProcessingExceptionType.BLOCK_OVERFLOW), ex);
+            assertEquals(new XBParsingException("Block overflow", XBProcessingExceptionType.BLOCK_OVERFLOW), ex);
         }
     }
 
@@ -734,7 +734,7 @@ public class XBWriterPullTest extends TestCase {
                 ex = e;
             }
 
-            assertEquals(new XBParseException("Attribute overflow", XBProcessingExceptionType.ATTRIBUTE_OVERFLOW), ex);
+            assertEquals(new XBParsingException("Attribute overflow", XBProcessingExceptionType.ATTRIBUTE_OVERFLOW), ex);
         }
     }
 
@@ -757,7 +757,7 @@ public class XBWriterPullTest extends TestCase {
                 ex = e;
             }
 
-            assertEquals(new XBParseException("Block overflow", XBProcessingExceptionType.BLOCK_OVERFLOW), ex);
+            assertEquals(new XBParsingException("Block overflow", XBProcessingExceptionType.BLOCK_OVERFLOW), ex);
         }
     }
 }

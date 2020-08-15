@@ -15,10 +15,12 @@
  */
 package org.exbin.xbup.core.catalog.base;
 
+import javax.annotation.Nonnull;
+
 /**
  * Interface for catalog item name entity.
  *
- * @version 0.1.21 2011/12/16
+ * @version 0.2.1 2020/08/10
  * @author ExBin Project (http://exbin.org)
  */
 public interface XBCXName extends XBCBase {
@@ -28,6 +30,7 @@ public interface XBCXName extends XBCBase {
      *
      * @return item
      */
+    @Nonnull
     XBCItem getItem();
 
     /**
@@ -35,6 +38,7 @@ public interface XBCXName extends XBCBase {
      *
      * @return item text
      */
+    @Nonnull
     String getText();
 
     /**
@@ -42,26 +46,6 @@ public interface XBCXName extends XBCBase {
      *
      * @return language
      */
+    @Nonnull
     XBCXLanguage getLang();
-
-    /**
-     * Sets relevant item.
-     *
-     * @param item item
-     */
-    void setItem(XBCItem item);
-
-    /**
-     * Sets item text.
-     *
-     * @param text text
-     */
-    void setText(String text);
-
-    /**
-     * Sets language.
-     *
-     * @param language language
-     */
-    void setLang(XBCXLanguage language);
 }

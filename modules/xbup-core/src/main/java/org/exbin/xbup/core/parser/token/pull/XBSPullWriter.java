@@ -22,7 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 import org.exbin.xbup.core.block.XBBlockDataMode;
 import org.exbin.xbup.core.block.XBBlockTerminationMode;
-import org.exbin.xbup.core.parser.XBParseException;
+import org.exbin.xbup.core.parser.XBParsingException;
 import org.exbin.xbup.core.parser.XBParserMode;
 import org.exbin.xbup.core.parser.XBProcessingException;
 import org.exbin.xbup.core.parser.XBProcessingExceptionType;
@@ -160,15 +160,15 @@ public class XBSPullWriter implements Closeable, XBPullConsumer {
                                     StreamUtils.copyInputStreamToOutputStream(((XBDataToken) token).getData(), stream);
                                     token = pullProvider.pullXBToken();
                                     if (token.getTokenType() != XBTokenType.END) {
-                                        throw new XBParseException("End token was expected after tail data", XBProcessingExceptionType.UNEXPECTED_ORDER);
+                                        throw new XBParsingException("End token was expected after tail data", XBProcessingExceptionType.UNEXPECTED_ORDER);
                                     }
                                 } else {
-                                    throw new XBParseException("Tail data present when not expected", XBProcessingExceptionType.UNEXPECTED_ORDER);
+                                    throw new XBParsingException("Tail data present when not expected", XBProcessingExceptionType.UNEXPECTED_ORDER);
                                 }
                             }
 
                             if (token.getTokenType() != XBTokenType.END) {
-                                throw new XBParseException("Data block must be followed by block end", XBProcessingExceptionType.UNEXPECTED_ORDER);
+                                throw new XBParsingException("Data block must be followed by block end", XBProcessingExceptionType.UNEXPECTED_ORDER);
                             }
 
                             break;
@@ -228,17 +228,17 @@ public class XBSPullWriter implements Closeable, XBPullConsumer {
                                     StreamUtils.copyInputStreamToOutputStream(((XBDataToken) token).getData(), stream);
                                     token = pullProvider.pullXBToken();
                                     if (token.getTokenType() != XBTokenType.END) {
-                                        throw new XBParseException("End token was expected after tail data", XBProcessingExceptionType.UNEXPECTED_ORDER);
+                                        throw new XBParsingException("End token was expected after tail data", XBProcessingExceptionType.UNEXPECTED_ORDER);
                                     }
                                 } else {
-                                    throw new XBParseException("Tail data present when not expected", XBProcessingExceptionType.UNEXPECTED_ORDER);
+                                    throw new XBParsingException("Tail data present when not expected", XBProcessingExceptionType.UNEXPECTED_ORDER);
                                 }
                             }
 
                             break;
                         }
                         default:
-                            throw new XBParseException("Missing at least one attribute", XBProcessingExceptionType.UNEXPECTED_ORDER);
+                            throw new XBParsingException("Missing at least one attribute", XBProcessingExceptionType.UNEXPECTED_ORDER);
                     }
 
                     break;
@@ -283,10 +283,10 @@ public class XBSPullWriter implements Closeable, XBPullConsumer {
                             StreamUtils.copyInputStreamToOutputStream(((XBDataToken) token).getData(), stream);
                             token = pullProvider.pullXBToken();
                             if (token.getTokenType() != XBTokenType.END) {
-                                throw new XBParseException("End token was expected after tail data", XBProcessingExceptionType.UNEXPECTED_ORDER);
+                                throw new XBParsingException("End token was expected after tail data", XBProcessingExceptionType.UNEXPECTED_ORDER);
                             }
                         } else {
-                            throw new XBParseException("Tail data present when not expected", XBProcessingExceptionType.UNEXPECTED_ORDER);
+                            throw new XBParsingException("Tail data present when not expected", XBProcessingExceptionType.UNEXPECTED_ORDER);
                         }
                     }
 
@@ -294,7 +294,7 @@ public class XBSPullWriter implements Closeable, XBPullConsumer {
                 }
 
                 default:
-                    throw new XBParseException("Must begin with NodeBegin", XBProcessingExceptionType.UNEXPECTED_ORDER);
+                    throw new XBParsingException("Must begin with NodeBegin", XBProcessingExceptionType.UNEXPECTED_ORDER);
             }
         } while (depthLevel > 0);
     }
@@ -308,14 +308,14 @@ public class XBSPullWriter implements Closeable, XBPullConsumer {
      * Shrinks limits accross all depths.
      *
      * @param value Value to shrink all limits off
-     * @throws XBParseException If limits are breached
+     * @throws XBParsingException If limits are breached
      */
-    private static void shrinkStatus(List<Integer> sizeLimits, int value) throws XBParseException {
+    private static void shrinkStatus(List<Integer> sizeLimits, int value) throws XBParsingException {
         for (int depth = 0; depth < sizeLimits.size(); depth++) {
             Integer limit = sizeLimits.get(depth);
             if (limit != null) {
                 if (limit < value) {
-                    throw new XBParseException("Block overflow", XBProcessingExceptionType.BLOCK_OVERFLOW);
+                    throw new XBParsingException("Block overflow", XBProcessingExceptionType.BLOCK_OVERFLOW);
                 }
 
                 sizeLimits.set(depth, limit - value);
@@ -331,7 +331,7 @@ public class XBSPullWriter implements Closeable, XBPullConsumer {
     private static void decreaseStatus(List<Integer> sizeLimits) {
         Integer levelValue = sizeLimits.remove(sizeLimits.size() - 1);
         if (levelValue != null && levelValue != 0) {
-            throw new XBParseException("Block overflow", XBProcessingExceptionType.BLOCK_OVERFLOW);
+            throw new XBParsingException("Block overflow", XBProcessingExceptionType.BLOCK_OVERFLOW);
         }
     }
 

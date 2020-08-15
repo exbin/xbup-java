@@ -43,17 +43,12 @@ public class XBRXLanguage implements XBCXLanguage {
     }
 
     @Override
-    public void setLangCode(String langCode) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
     public String getName() {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
-    public Long getId() {
+    public long getId() {
         return id;
     }
 }

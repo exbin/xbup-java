@@ -15,22 +15,25 @@
  */
 package org.exbin.xbup.catalog.entity;
 
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
 import javax.persistence.Entity;
-import org.exbin.xbup.core.catalog.base.XBCFormatRev;
+import org.exbin.xbup.catalog.modifiable.XBMFormatRev;
 import org.exbin.xbup.core.catalog.base.XBCFormatSpec;
 
 /**
  * Format revision database entity.
  *
- * @version 0.1.21 2011/08/21
+ * @version 0.2.1 2020/08/14
  * @author ExBin Project (http://exbin.org)
  */
+@ParametersAreNonnullByDefault
 @Entity(name = "XBFormatRev")
-public class XBEFormatRev extends XBERev implements XBCFormatRev {
+public class XBEFormatRev extends XBERev implements XBMFormatRev {
 
+    @Nonnull
     @Override
     public XBCFormatSpec getParent() {
         return (XBCFormatSpec) super.getParent();
     }
-
 }

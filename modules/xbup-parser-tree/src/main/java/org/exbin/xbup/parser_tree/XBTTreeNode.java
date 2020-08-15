@@ -47,7 +47,7 @@ import org.exbin.xbup.core.block.declaration.XBBlockDecl;
 import org.exbin.xbup.core.block.declaration.XBContext;
 import org.exbin.xbup.core.block.declaration.XBDeclBlockType;
 import org.exbin.xbup.core.catalog.XBCatalog;
-import org.exbin.xbup.core.parser.XBParseException;
+import org.exbin.xbup.core.parser.XBParsingException;
 import org.exbin.xbup.core.parser.XBProcessingException;
 import org.exbin.xbup.core.parser.XBProcessingExceptionType;
 import org.exbin.xbup.core.parser.basic.wrapper.FixedDataInputStreamWrapper;
@@ -233,7 +233,7 @@ public class XBTTreeNode implements TreeNode, XBTEditableBlock, UBStreamable {
             if (terminable) {
                 return UBENat32.INFINITY_SIZE_UB;
             } else {
-                throw new XBParseException("Unexpected terminator", XBProcessingExceptionType.UNEXPECTED_TERMINATOR);
+                throw new XBParsingException("Unexpected terminator", XBProcessingExceptionType.UNEXPECTED_TERMINATOR);
             }
         } else {
             UBENat32 dataPartSize = new UBENat32();
@@ -251,7 +251,7 @@ public class XBTTreeNode implements TreeNode, XBTEditableBlock, UBStreamable {
                 data.loadFromStream((InputStream) dataWrapper);
                 size += data.getDataSize() + (dataPartSizeValue == null ? 2 : 0);
             } else if (attributePartSize.getInt() < dataPartSize.getSizeUB()) {
-                throw new XBParseException("Attribute overreached", XBProcessingExceptionType.ATTRIBUTE_OVERFLOW);
+                throw new XBParsingException("Attribute overreached", XBProcessingExceptionType.ATTRIBUTE_OVERFLOW);
             } else {
                 // Node Block
                 dataMode = XBBlockDataMode.NODE_BLOCK;
@@ -264,7 +264,7 @@ public class XBTTreeNode implements TreeNode, XBTEditableBlock, UBStreamable {
                 itemSize += groupIdSize;
                 size += groupIdSize;
                 if (itemSize > attributePartSize.getInt()) {
-                    throw new XBParseException("Attribute overreached", XBProcessingExceptionType.ATTRIBUTE_OVERFLOW);
+                    throw new XBParsingException("Attribute overreached", XBProcessingExceptionType.ATTRIBUTE_OVERFLOW);
                 }
 
                 UBNat32 blockId = new UBNat32();
@@ -273,7 +273,7 @@ public class XBTTreeNode implements TreeNode, XBTEditableBlock, UBStreamable {
                     itemSize += blockIdSize;
                     size += blockIdSize;
                     if (itemSize > attributePartSize.getInt()) {
-                        throw new XBParseException("Attribute overreached", XBProcessingExceptionType.ATTRIBUTE_OVERFLOW);
+                        throw new XBParsingException("Attribute overreached", XBProcessingExceptionType.ATTRIBUTE_OVERFLOW);
                     }
 
                     setFixedBlockType(new XBFixedBlockType(groupId, blockId));
@@ -291,7 +291,7 @@ public class XBTTreeNode implements TreeNode, XBTEditableBlock, UBStreamable {
                         attributes.add(attribute);
                         size += attributeSize;
                         if (itemSize > attributePartSize.getInt()) {
-                            throw new XBParseException("Attribute overreached", XBProcessingExceptionType.ATTRIBUTE_OVERFLOW);
+                            throw new XBParsingException("Attribute overreached", XBProcessingExceptionType.ATTRIBUTE_OVERFLOW);
                         }
                     } while (itemSize < attributePartSize.getInt());
                 }
@@ -898,7 +898,7 @@ public class XBTTreeNode implements TreeNode, XBTEditableBlock, UBStreamable {
             size += childSize;
             if (childSize > 1) {
                 if (maxSize != null && size > maxSize) {
-                    throw new XBParseException("Block overreached", XBProcessingExceptionType.BLOCK_OVERFLOW);
+                    throw new XBParsingException("Block overreached", XBProcessingExceptionType.BLOCK_OVERFLOW);
                 }
 
                 children.add(child);

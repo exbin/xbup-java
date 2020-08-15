@@ -58,7 +58,7 @@ public class XBRXItemInfo implements XBCXItemInfo {
     }
 
     @Override
-    public Long getId() {
+    public long getId() {
         return id;
     }
 }

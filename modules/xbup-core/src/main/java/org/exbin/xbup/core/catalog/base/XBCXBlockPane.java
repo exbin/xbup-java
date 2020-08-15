@@ -15,10 +15,12 @@
  */
 package org.exbin.xbup.core.catalog.base;
 
+import javax.annotation.Nonnull;
+
 /**
  * Interface for block panel editor catalog entity.
  *
- * @version 0.1.21 2011/12/29
+ * @version 0.2.1 2020/08/14
  * @author ExBin Project (http://exbin.org)
  */
 public interface XBCXBlockPane extends XBCBase {
@@ -28,6 +30,7 @@ public interface XBCXBlockPane extends XBCBase {
      *
      * @return block revision
      */
+    @Nonnull
     XBCBlockRev getBlockRev();
 
     /**
@@ -35,6 +38,7 @@ public interface XBCXBlockPane extends XBCBase {
      *
      * @return panel editor
      */
+    @Nonnull
     XBCXPlugPane getPane();
 
     /**
@@ -42,5 +46,5 @@ public interface XBCXBlockPane extends XBCBase {
      *
      * @return priority
      */
-    Long getPriority();
+    long getPriority();
 }

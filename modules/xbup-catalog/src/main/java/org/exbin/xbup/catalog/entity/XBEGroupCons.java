@@ -15,41 +15,65 @@
  */
 package org.exbin.xbup.catalog.entity;
 
+import java.util.Optional;
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
 import javax.persistence.Entity;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import org.exbin.xbup.catalog.modifiable.XBMGroupCons;
+import org.exbin.xbup.core.block.definition.XBParamType;
 import org.exbin.xbup.core.catalog.base.XBCBlockRev;
-import org.exbin.xbup.core.catalog.base.XBCGroupCons;
 import org.exbin.xbup.core.catalog.base.XBCGroupSpec;
+import org.exbin.xbup.core.catalog.base.XBCRev;
+import org.exbin.xbup.core.catalog.base.XBCSpec;
 
 /**
  * Group consist database entity.
  *
- * @version 0.1.22 2012/12/31
+ * @version 0.2.1 2020/08/14
  * @author ExBin Project (http://exbin.org)
  */
+@ParametersAreNonnullByDefault
 @Entity(name = "XBGroupCons")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-public class XBEGroupCons extends XBEConsDef implements XBCGroupCons {
+public class XBEGroupCons extends XBEConsDef implements XBMGroupCons {
 
     public XBEGroupCons() {
     }
 
+    @Nonnull
     @Override
     public XBCGroupSpec getSpec() {
         return (XBCGroupSpec) super.getSpec();
     }
 
     @Override
+    public void setSpec(XBCSpec spec) {
+        if (!(spec instanceof XBEGroupSpec)) {
+            throw new IllegalArgumentException("Invalid argument type");
+        }
+        super.setSpec(spec);
+    }
+
+    @Nonnull
+    @Override
     public XBCBlockRev getTarget() {
-        return (XBCBlockRev) super.getTarget();
+        Optional<XBCRev> targetRev = super.getTargetRev();
+        if (!targetRev.isPresent()) {
+            throw new IllegalStateException();
+        }
+        return (XBCBlockRev) targetRev.get();
     }
 
-    public void setSpec(XBEGroupSpec spec) {
-        super.setCatalogItem(spec);
+    @Override
+    public void setTarget(XBCBlockRev target) {
+        super.setTargetRev(target);
     }
 
-    public void setTarget(XBEBlockRev target) {
-        super.setTarget(target);
+    @Nonnull
+    @Override
+    public XBParamType getType() {
+        return XBParamType.CONSIST;
     }
 }

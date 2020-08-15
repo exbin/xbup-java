@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import org.exbin.xbup.catalog.entity.XBEBlockSpec;
 import org.exbin.xbup.catalog.entity.XBEFormatSpec;
 import org.exbin.xbup.catalog.entity.XBEGroupSpec;
@@ -56,7 +57,7 @@ import org.yaml.snakeyaml.Yaml;
 /**
  * XB Catalog import and export to yaml.
  *
- * @version 0.2.0 2017/01/07
+ * @version 0.2.0 2020/08/10
  * @author ExBin Project (http://exbin.org)
  */
 public class XBCatalogYaml {
@@ -133,11 +134,12 @@ public class XBCatalogYaml {
             def.put("id", name);
             def.put("bind", getBindString(specDef.getType()));
 
-            XBCRev targetSpec = specDef.getTarget();
-            if (targetSpec != null) {
-                String type = striService.getItemFullPath(targetSpec.getParent());
+            Optional<XBCRev> optionalTargetRev = specDef.getTargetRev();
+            if (optionalTargetRev.isPresent()) {
+                XBCRev targetRev = optionalTargetRev.get();
+                String type = striService.getItemFullPath(targetRev.getParent());
                 def.put("type", type);
-                Long rev = targetSpec.getXBIndex();
+                Long rev = targetRev.getXBIndex();
                 def.put("rev", rev);
             }
 
@@ -242,7 +244,7 @@ public class XBCatalogYaml {
             ((XBCSpecService) specService).persistItem(specDef);
             importItem(def, specDef);
 
-            specDef.setCatalogItem(blockSpec);
+            specDef.setSpec(blockSpec);
             specDef.setXBIndex(Long.valueOf(defId));
 
             String type = (String) def.get("type");
@@ -250,7 +252,7 @@ public class XBCatalogYaml {
             if (targetSpec != null) {
                 Integer targetRevIndex = (Integer) def.get("rev");
                 XBERev targetRev = (XBERev) revService.findRevByXB(targetSpec, targetRevIndex);
-                specDef.setTarget(targetRev);
+                specDef.setTargetRev(targetRev);
             }
 
             ((XBCSpecService) specService).persistItem(specDef);
@@ -268,7 +270,7 @@ public class XBCatalogYaml {
             for (Object node : nodes) {
                 Map<String, Object> subNodeData = (Map<String, Object>) node;
                 XBENode subNode = (XBENode) nodeService.createItem();
-                subNode.setOwner(target);
+                subNode.setParent(target);
                 ((XBCNodeService) nodeService).persistItem(subNode);
                 importItem(subNodeData, subNode);
                 // TODO: Replace recursion with iteration
@@ -281,7 +283,7 @@ public class XBCatalogYaml {
             for (int blockId = 0; blockId < blocks.size(); blockId++) {
                 Map<String, Object> blockData = (Map<String, Object>) nodes.get(blockId);
                 XBEBlockSpec blockSpec = (XBEBlockSpec) specService.createBlockSpec();
-                blockSpec.setParent(target);
+                blockSpec.setParentItem(target);
                 long blockSpecIndex = specService.findMaxBlockSpecXB(target);
                 blockSpecIndex++;
                 blockSpec.setXBIndex(blockSpecIndex);
@@ -298,7 +300,7 @@ public class XBCatalogYaml {
             for (int groupId = 0; groupId < groups.size(); groupId++) {
                 Map<String, Object> groupData = (Map<String, Object>) nodes.get(groupId);
                 XBEGroupSpec groupSpec = (XBEGroupSpec) specService.createGroupSpec();
-                groupSpec.setParent(target);
+                groupSpec.setParentItem(target);
                 long groupSpecIndex = specService.findMaxGroupSpecXB(target);
                 groupSpecIndex++;
                 groupSpec.setXBIndex(groupSpecIndex);
@@ -315,7 +317,7 @@ public class XBCatalogYaml {
             for (int formatId = 0; formatId < formats.size(); formatId++) {
                 Map<String, Object> formatData = (Map<String, Object>) nodes.get(formatId);
                 XBEFormatSpec formatSpec = (XBEFormatSpec) specService.createFormatSpec();
-                formatSpec.setParent(target);
+                formatSpec.setParentItem(target);
                 long formatSpecIndex = specService.findMaxFormatSpecXB(target);
                 formatSpecIndex++;
                 formatSpec.setXBIndex(formatSpecIndex);

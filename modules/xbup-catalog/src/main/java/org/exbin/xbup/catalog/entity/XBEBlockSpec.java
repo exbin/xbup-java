@@ -15,23 +15,29 @@
  */
 package org.exbin.xbup.catalog.entity;
 
+import java.util.Optional;
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
 import javax.persistence.Entity;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
-import org.exbin.xbup.core.catalog.base.XBCBlockSpec;
+import org.exbin.xbup.catalog.modifiable.XBMBlockSpec;
+import org.exbin.xbup.core.catalog.base.XBCNode;
 
 /**
  * Block specification entity.
  *
- * @version 0.1.24 2014/08/30
+ * @version 0.2.1 2020/08/14
  * @author ExBin Project (http://exbin.org)
  */
+@ParametersAreNonnullByDefault
 @Entity(name = "XBBlockSpec")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-public class XBEBlockSpec extends XBESpec implements XBCBlockSpec {
+public class XBEBlockSpec extends XBESpec implements XBMBlockSpec {
 
+    @Nonnull
     @Override
-    public XBENode getParent() {
-        return (XBENode) super.getParent();
+    public Optional<XBCNode> getParent() {
+        return super.getParent();
     }
 }

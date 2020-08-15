@@ -15,6 +15,8 @@
  */
 package org.exbin.xbup.core.catalog.base;
 
+import javax.annotation.Nonnull;
+
 /**
  * Interface for group consist entity.
  *
@@ -26,16 +28,17 @@ public interface XBCGroupCons extends XBCConsDef {
     /**
      * Gets owner which is also specification.
      *
-     * @return group specification
+     * @return XBCGroupSpec group specification
      */
+    @Nonnull
     @Override
-    XBCGroupSpec getSpec();
+    XBCSpec getSpec();
 
     /**
      * Gets target specification.
      *
-     * @return block revision
+     * @return block revision, never empty
      */
-    @Override
+    @Nonnull
     XBCBlockRev getTarget();
 }

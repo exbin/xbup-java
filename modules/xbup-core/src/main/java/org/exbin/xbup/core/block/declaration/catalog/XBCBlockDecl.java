@@ -34,7 +34,7 @@ import org.exbin.xbup.core.ubnumber.type.UBNat32;
 /**
  * Block type declaration defined by catalog specification.
  *
- * @version 0.1.25 2015/03/13
+ * @version 0.2.1 2020/08/11
  * @author ExBin Project (http://exbin.org)
  */
 public class XBCBlockDecl implements XBBlockDecl, XBPSequenceSerializable {
@@ -59,7 +59,7 @@ public class XBCBlockDecl implements XBBlockDecl, XBPSequenceSerializable {
                 return false;
             }
 
-            return blockSpecRev.getId().equals(other.blockSpecRev.getId());
+            return blockSpecRev.getId() == other.blockSpecRev.getId();
         } else if (obj instanceof XBLBlockDecl) {
             Long[] catalogPath = catalog.getSpecPath(getBlockSpecRev().getParent());
             long[] objCatalogPath = ((XBLBlockDecl) obj).getCatalogPath();
@@ -73,7 +73,7 @@ public class XBCBlockDecl implements XBBlockDecl, XBPSequenceSerializable {
                 }
             }
 
-            return blockSpecRev.getXBIndex().equals(((XBLBlockDecl) obj).getRevision());
+            return blockSpecRev.getXBIndex() == ((XBLBlockDecl) obj).getRevision();
         } else {
             return false;
         }

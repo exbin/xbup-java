@@ -15,10 +15,13 @@
  */
 package org.exbin.xbup.core.catalog.base;
 
+import java.util.Optional;
+import javax.annotation.Nonnull;
+
 /**
  * Interface for potentionally infinite type list of block consist entity.
  *
- * @version 0.1.21 2012/03/26
+ * @version 0.2.1 2020/08/13
  * @author ExBin Project (http://exbin.org)
  */
 public interface XBCBlockListCons extends XBCConsDef {
@@ -26,16 +29,17 @@ public interface XBCBlockListCons extends XBCConsDef {
     /**
      * Gets specification which is also owner.
      *
-     * @return block specification
+     * @return XBCBlockSpec block specification
      */
+    @Nonnull
     @Override
-    XBCBlockSpec getSpec();
+    XBCSpec getSpec();
 
     /**
      * Gets target specification.
      *
      * @return block revision
      */
-    @Override
-    XBCBlockRev getTarget();
+    @Nonnull
+    Optional<XBCBlockRev> getTarget();
 }

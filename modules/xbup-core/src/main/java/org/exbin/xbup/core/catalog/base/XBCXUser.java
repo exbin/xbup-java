@@ -15,10 +15,12 @@
  */
 package org.exbin.xbup.core.catalog.base;
 
+import javax.annotation.Nonnull;
+
 /**
  * Interface for catalog user entity.
  *
- * @version 0.1.22 2012/09/09
+ * @version 0.2.1 2020/08/11
  * @author ExBin Project (http://exbin.org)
  */
 public interface XBCXUser extends XBCBase {
@@ -28,6 +30,7 @@ public interface XBCXUser extends XBCBase {
      *
      * @return the login
      */
+    @Nonnull
     String getLogin();
 
     /**
@@ -35,5 +38,6 @@ public interface XBCXUser extends XBCBase {
      *
      * @return the passwd
      */
+    @Nonnull
     String getPasswd();
 }

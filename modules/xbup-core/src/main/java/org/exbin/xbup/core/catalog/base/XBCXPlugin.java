@@ -15,10 +15,12 @@
  */
 package org.exbin.xbup.core.catalog.base;
 
+import javax.annotation.Nonnull;
+
 /**
  * Interface for catalog plugin entity.
  *
- * @version 0.1.21 2011/12/29
+ * @version 0.2.1 2020/08/10
  * @author ExBin Project (http://exbin.org)
  */
 public interface XBCXPlugin extends XBCBase {
@@ -28,6 +30,7 @@ public interface XBCXPlugin extends XBCBase {
      *
      * @return owner node
      */
+    @Nonnull
     XBCNode getOwner();
 
     /**
@@ -35,12 +38,13 @@ public interface XBCXPlugin extends XBCBase {
      *
      * @return plugin index
      */
-    Long getPluginIndex();
+    long getPluginIndex();
 
     /**
      * Gets plugin file.
      *
      * @return file
      */
+    @Nonnull
     XBCXFile getPluginFile();
 }

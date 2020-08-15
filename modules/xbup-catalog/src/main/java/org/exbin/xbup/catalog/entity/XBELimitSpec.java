@@ -19,7 +19,7 @@ import java.io.Serializable;
 import javax.persistence.Entity;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
-import org.exbin.xbup.core.catalog.base.XBCLimitSpec;
+import org.exbin.xbup.catalog.modifiable.XBMLimitSpec;
 
 /**
  * Limitation database entity.
@@ -29,7 +29,7 @@ import org.exbin.xbup.core.catalog.base.XBCLimitSpec;
  */
 @Entity(name = "XBLimitSpec")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-public class XBELimitSpec extends XBESpec implements XBCLimitSpec, Serializable {
+public class XBELimitSpec extends XBESpec implements XBMLimitSpec, Serializable {
 
     public XBELimitSpec() {
     }

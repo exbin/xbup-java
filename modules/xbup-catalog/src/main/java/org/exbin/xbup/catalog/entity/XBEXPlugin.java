@@ -16,23 +16,26 @@
 package org.exbin.xbup.catalog.entity;
 
 import java.io.Serializable;
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import org.exbin.xbup.catalog.modifiable.XBMXPlugin;
 import org.exbin.xbup.core.catalog.base.XBCNode;
 import org.exbin.xbup.core.catalog.base.XBCXFile;
-import org.exbin.xbup.core.catalog.base.XBCXPlugin;
 
 /**
  * Plugin database entity.
  *
- * @version 0.1.21 2011/08/21
+ * @version 0.2.1 2020/08/14
  * @author ExBin Project (http://exbin.org)
  */
+@ParametersAreNonnullByDefault
 @Entity(name = "XBXPlugin")
-public class XBEXPlugin implements XBCXPlugin, Serializable {
+public class XBEXPlugin implements XBMXPlugin, Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -47,38 +50,44 @@ public class XBEXPlugin implements XBCXPlugin, Serializable {
     }
 
     @Override
-    public Long getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    @Override
+    public void setId(long id) {
         this.id = id;
     }
 
+    @Nonnull
     @Override
     public XBCNode getOwner() {
         return (XBCNode) owner;
     }
 
-    public void setOwner(XBENode owner) {
-        this.owner = owner;
+    @Override
+    public void setOwner(XBCNode owner) {
+        this.owner = (XBENode) owner;
     }
 
+    @Nonnull
     @Override
     public XBCXFile getPluginFile() {
         return pluginFile;
     }
 
-    public void setPluginFile(XBEXFile pluginFile) {
-        this.pluginFile = pluginFile;
+    @Override
+    public void setPluginFile(XBCXFile pluginFile) {
+        this.pluginFile = (XBEXFile) pluginFile;
     }
 
     @Override
-    public Long getPluginIndex() {
+    public long getPluginIndex() {
         return pluginIndex;
     }
 
-    public void setPluginIndex(Long pluginIndex) {
+    @Override
+    public void setPluginIndex(long pluginIndex) {
         this.pluginIndex = pluginIndex;
     }
 }

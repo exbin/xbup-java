@@ -15,15 +15,18 @@
  */
 package org.exbin.xbup.client.catalog.remote;
 
+import java.util.Optional;
 import org.exbin.xbup.client.XBCatalogServiceClient;
 import org.exbin.xbup.client.stub.XBPSpecStub;
 import org.exbin.xbup.core.block.definition.XBParamType;
+import org.exbin.xbup.core.catalog.base.XBCItem;
+import org.exbin.xbup.core.catalog.base.XBCRev;
 import org.exbin.xbup.core.catalog.base.XBCSpecDef;
 
 /**
  * Catalog remote specification definition entity.
  *
- * @version 0.1.25 2015/02/21
+ * @version 0.2.1 2020/08/14
  * @author ExBin Project (http://exbin.org)
  */
 public class XBRSpecDef extends XBRItem implements XBCSpecDef {
@@ -37,13 +40,16 @@ public class XBRSpecDef extends XBRItem implements XBCSpecDef {
 
     @Override
     public XBRSpec getSpec() {
-        XBRItem parent = super.getParent();
-        return parent == null ? null : new XBRSpec(client, parent.getId());
+        Optional<XBCItem> parent = super.getParentItem();
+        if (parent.isPresent()) {
+            throw new IllegalStateException();
+        }
+        return new XBRSpec(client, parent.get().getId());
     }
 
     @Override
-    public XBRRev getTarget() {
-        return specStub.getTarget(getId());
+    public Optional<XBCRev> getTargetRev() {
+        return Optional.ofNullable(specStub.getTarget(getId()));
     }
 
     @Override

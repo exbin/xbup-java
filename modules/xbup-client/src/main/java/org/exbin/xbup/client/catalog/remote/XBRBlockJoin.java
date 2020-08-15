@@ -15,14 +15,17 @@
  */
 package org.exbin.xbup.client.catalog.remote;
 
+import java.util.Optional;
 import org.exbin.xbup.client.XBCatalogServiceClient;
 import org.exbin.xbup.core.block.definition.XBParamType;
 import org.exbin.xbup.core.catalog.base.XBCBlockJoin;
+import org.exbin.xbup.core.catalog.base.XBCBlockRev;
+import org.exbin.xbup.core.catalog.base.XBCRev;
 
 /**
  * Catalog remote group join specification definition entity.
  *
- * @version 0.1.25 2015/02/21
+ * @version 0.2.1 2020/08/14
  * @author ExBin Project (http://exbin.org)
  */
 public class XBRBlockJoin extends XBRJoinDef implements XBCBlockJoin {
@@ -32,13 +35,9 @@ public class XBRBlockJoin extends XBRJoinDef implements XBCBlockJoin {
     }
 
     @Override
-    public XBRBlockRev getTarget() {
-        XBRRev item = super.getTarget();
-        if (item == null) {
-            return null;
-        }
-
-        return new XBRBlockRev(item.client, item.getId());
+    public Optional<XBCBlockRev> getTarget() {
+        Optional<XBCRev> item = super.getTargetRev();
+        return item.isPresent() ? Optional.of(new XBRBlockRev(((XBRRev) item.get()).client, item.get().getId())) : Optional.empty();
     }
 
     @Override

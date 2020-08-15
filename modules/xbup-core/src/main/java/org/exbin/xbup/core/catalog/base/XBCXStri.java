@@ -15,10 +15,12 @@
  */
 package org.exbin.xbup.core.catalog.base;
 
+import javax.annotation.Nonnull;
+
 /**
  * Interface for catalog item string identification entity.
  *
- * @version 0.1.21 2012/04/18
+ * @version 0.2.1 2020/08/10
  * @author ExBin Project (http://exbin.org)
  */
 public interface XBCXStri extends XBCBase {
@@ -28,6 +30,7 @@ public interface XBCXStri extends XBCBase {
      *
      * @return item
      */
+    @Nonnull
     XBCItem getItem();
 
     /**
@@ -35,33 +38,14 @@ public interface XBCXStri extends XBCBase {
      *
      * @return text
      */
+    @Nonnull
     String getText();
-
-    /**
-     * Sets relevant item.
-     *
-     * @param item item
-     */
-    void setItem(XBCItem item);
-
-    /**
-     * Sets item text.
-     *
-     * @param text text
-     */
-    void setText(String text);
 
     /**
      * Gets node path.
      *
      * @return the nodePath
      */
+    @Nonnull
     String getNodePath();
-
-    /**
-     * Sets node path.
-     *
-     * @param nodePath the nodePath to set
-     */
-    void setNodePath(String nodePath);
 }

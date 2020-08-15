@@ -17,6 +17,9 @@ package org.exbin.xbup.catalog.entity;
 
 import java.io.Serializable;
 import java.util.Objects;
+import java.util.Optional;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -25,17 +28,18 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import org.exbin.xbup.catalog.modifiable.XBMItem;
 import org.exbin.xbup.core.catalog.base.XBCItem;
 
 /**
  * Shared entity for various catalog items.
  *
- * @version 0.1.23 2014/05/12
+ * @version 0.2.1 2020/08/13
  * @author ExBin Project (http://exbin.org)
  */
 @Entity(name = "XBItem")
 @Inheritance(strategy = InheritanceType.JOINED)
-public class XBEItem implements XBCItem, Serializable {
+public class XBEItem implements XBMItem, Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -43,6 +47,7 @@ public class XBEItem implements XBCItem, Serializable {
 
     private Long xbIndex;
 
+    @Nullable
     @ManyToOne
     @JoinColumn(name = "OWNER_ID")
     private XBEItem parent;
@@ -51,11 +56,12 @@ public class XBEItem implements XBCItem, Serializable {
     }
 
     @Override
-    public Long getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    @Override
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -82,7 +88,7 @@ public class XBEItem implements XBCItem, Serializable {
      * <code>false</code> otherwise.
      */
     @Override
-    public boolean equals(Object object) {
+    public boolean equals(@Nullable Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
         if (!(object instanceof XBEItem)) {
             return false;
@@ -97,26 +103,30 @@ public class XBEItem implements XBCItem, Serializable {
      *
      * @return a string representation of the object
      */
+    @Nonnull
     @Override
     public String toString() {
         return "org.exbin.xbup.catalog.entity.Item[id=" + id + "]";
     }
 
     @Override
-    public Long getXBIndex() {
+    public long getXBIndex() {
         return xbIndex;
     }
 
-    public void setXBIndex(Long xbIndex) {
+    @Override
+    public void setXBIndex(long xbIndex) {
         this.xbIndex = xbIndex;
     }
 
+    @Nonnull
     @Override
-    public XBCItem getParent() {
-        return parent;
+    public Optional<XBCItem> getParentItem() {
+        return Optional.ofNullable(parent);
     }
 
-    public void setParent(XBEItem owner) {
-        this.parent = owner;
+    @Override
+    public void setParentItem(@Nullable XBCItem parent) {
+        this.parent = (XBEItem) parent;
     }
 }

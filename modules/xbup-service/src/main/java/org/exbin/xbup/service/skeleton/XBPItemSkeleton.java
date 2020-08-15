@@ -62,7 +62,7 @@ public class XBPItemSkeleton {
 
                 XBPListenerSerialHandler listener = new XBPListenerSerialHandler(resultInput);
                 XBEItem item = itemService.getItem(index.getNaturalLong());
-                listener.process(item == null || item.getParent() == null ? XBTEmptyBlock.getEmptyBlock() : new UBNat32(item.getParent().getId()));
+                listener.process(item == null || !item.getParentItem().isPresent() ? XBTEmptyBlock.getEmptyBlock() : new UBNat32(item.getParentItem().get().getId()));
             }
         });
 

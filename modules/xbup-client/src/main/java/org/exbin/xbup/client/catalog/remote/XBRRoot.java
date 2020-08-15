@@ -16,6 +16,7 @@
 package org.exbin.xbup.client.catalog.remote;
 
 import java.util.Date;
+import java.util.Optional;
 import org.exbin.xbup.client.XBCatalogServiceClient;
 import org.exbin.xbup.client.stub.XBPNodeStub;
 import org.exbin.xbup.core.catalog.base.XBCNode;
@@ -50,12 +51,12 @@ public class XBRRoot implements XBCRoot {
     }
 
     @Override
-    public Date getLastUpdate() {
-        return nodeStub.getRootLastUpdate(id);
+    public Optional<Date> getLastUpdate() {
+        return Optional.ofNullable(nodeStub.getRootLastUpdate(id));
     }
 
     @Override
-    public Long getId() {
+    public long getId() {
         return id;
     }
 }

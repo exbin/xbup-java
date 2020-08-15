@@ -15,10 +15,12 @@
  */
 package org.exbin.xbup.core.catalog.base;
 
+import javax.annotation.Nonnull;
+
 /**
  * Interface for catalog item HTML documentation entity.
  *
- * @version 0.1.21 2012/01/27
+ * @version 0.2.1 2020/08/14
  * @author ExBin Project (http://exbin.org)
  */
 public interface XBCXHDoc extends XBCBase {
@@ -28,6 +30,7 @@ public interface XBCXHDoc extends XBCBase {
      *
      * @return the language
      */
+    @Nonnull
     XBCXLanguage getLang();
 
     /**
@@ -35,6 +38,7 @@ public interface XBCXHDoc extends XBCBase {
      *
      * @return the item
      */
+    @Nonnull
     XBCItem getItem();
 
     /**
@@ -42,5 +46,6 @@ public interface XBCXHDoc extends XBCBase {
      *
      * @return the file
      */
+    @Nonnull
     XBCXFile getDocFile();
 }

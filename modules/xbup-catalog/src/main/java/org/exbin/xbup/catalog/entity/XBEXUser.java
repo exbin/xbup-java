@@ -16,21 +16,24 @@
 package org.exbin.xbup.catalog.entity;
 
 import java.io.Serializable;
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import org.exbin.xbup.core.catalog.base.XBCXUser;
+import org.exbin.xbup.catalog.modifiable.XBMXUser;
 
 /**
  * User database entity.
  *
- * @version 0.1.23 2014/05/29
+ * @version 0.2.1 2020/08/13
  * @author ExBin Project (http://exbin.org)
  */
+@ParametersAreNonnullByDefault
 @Entity(name = "XBXUser")
-public class XBEXUser implements Serializable, XBCXUser {
+public class XBEXUser implements Serializable, XBMXUser {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -48,32 +51,38 @@ public class XBEXUser implements Serializable, XBCXUser {
     }
 
     @Override
-    public Long getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    @Override
+    public void setId(long id) {
         this.id = id;
     }
 
+    @Nonnull
     @Override
     public String getLogin() {
         return login;
     }
 
+    @Override
     public void setLogin(String login) {
         this.login = login;
     }
 
+    @Nonnull
     @Override
     public String getPasswd() {
         return passwd;
     }
 
+    @Override
     public void setPasswd(String passwd) {
         this.passwd = passwd;
     }
 
+    @Nonnull
     public String getEmail() {
         return email;
     }
@@ -82,6 +91,7 @@ public class XBEXUser implements Serializable, XBCXUser {
         this.email = email;
     }
 
+    @Nonnull
     public String getFullName() {
         return fullName;
     }

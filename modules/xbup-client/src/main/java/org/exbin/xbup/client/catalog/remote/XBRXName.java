@@ -18,7 +18,6 @@ package org.exbin.xbup.client.catalog.remote;
 import org.exbin.xbup.client.XBCatalogServiceClient;
 import org.exbin.xbup.client.stub.XBPXNameStub;
 import org.exbin.xbup.core.catalog.base.XBCItem;
-import org.exbin.xbup.core.catalog.base.XBCXLanguage;
 import org.exbin.xbup.core.catalog.base.XBCXName;
 
 /**
@@ -55,22 +54,7 @@ public class XBRXName implements XBCXName {
     }
 
     @Override
-    public void setItem(XBCItem item) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public void setLang(XBCXLanguage language) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public void setText(String text) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public Long getId() {
+    public long getId() {
         return id;
     }
 }

@@ -15,10 +15,12 @@
  */
 package org.exbin.xbup.core.catalog.base;
 
+import javax.annotation.Nonnull;
+
 /**
  * Interface for catalog language entity.
  *
- * @version 0.1.21 2012/04/15
+ * @version 0.2.1 2020/08/10
  * @author ExBin Project (http://exbin.org)
  */
 public interface XBCXLanguage extends XBCBase {
@@ -28,19 +30,14 @@ public interface XBCXLanguage extends XBCBase {
      *
      * @return language code
      */
+    @Nonnull
     String getLangCode();
-
-    /**
-     * Sets language code.
-     *
-     * @param langCode language code
-     */
-    void setLangCode(String langCode);
 
     /**
      * Gets language name.
      *
      * @return language name
      */
+    @Nonnull
     String getName();
 }

@@ -67,7 +67,7 @@ public class XBCFormatDecl implements XBFormatDecl, XBPSequenceSerializable {
                 return false;
             }
 
-            return formatSpecRev.getId().equals(other.formatSpecRev.getId());
+            return formatSpecRev.getId() == other.formatSpecRev.getId();
         } else if (obj instanceof XBLFormatDecl) {
             Long[] catalogPath = catalog.getSpecPath(formatSpecRev.getParent());
             long[] objCatalogPath = ((XBLFormatDecl) obj).getCatalogPath();
@@ -81,7 +81,7 @@ public class XBCFormatDecl implements XBFormatDecl, XBPSequenceSerializable {
                 }
             }
 
-            return formatSpecRev.getXBIndex().equals(((XBLFormatDecl) obj).getRevision());
+            return formatSpecRev.getXBIndex() == ((XBLFormatDecl) obj).getRevision();
         } else {
             return false;
         }

@@ -21,7 +21,7 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import org.exbin.xbup.core.block.XBBlockTerminationMode;
-import org.exbin.xbup.core.parser.XBParseException;
+import org.exbin.xbup.core.parser.XBParsingException;
 import org.exbin.xbup.core.parser.XBParserMode;
 import org.exbin.xbup.core.parser.XBParserState;
 import org.exbin.xbup.core.parser.XBProcessingException;
@@ -111,14 +111,14 @@ public class XBPullReader implements XBPullProvider, XBResetableStream, XBSkipab
      * Shrinks limits accross all depths.
      *
      * @param length Value to shrink all limits off
-     * @throws XBParseException If limits are breached
+     * @throws XBParsingException If limits are breached
      */
-    private static void shrinkStatus(List<Integer> sizeLimits, int value) throws XBParseException {
+    private static void shrinkStatus(List<Integer> sizeLimits, int value) throws XBParsingException {
         for (int depthLevel = 0; depthLevel < sizeLimits.size(); depthLevel++) {
             Integer limit = sizeLimits.get(depthLevel);
             if (limit != null) {
                 if (limit < value) {
-                    throw new XBParseException("Block overflow", XBProcessingExceptionType.BLOCK_OVERFLOW);
+                    throw new XBParsingException("Block overflow", XBProcessingExceptionType.BLOCK_OVERFLOW);
                 }
 
                 sizeLimits.set(depthLevel, limit - value);
@@ -193,7 +193,7 @@ public class XBPullReader implements XBPullProvider, XBResetableStream, XBSkipab
                 if (attrPartSize.getLong() == 0) {
                     // Process terminator
                     if (sizeLimits.isEmpty() || sizeLimits.get(sizeLimits.size() - 1) != null) {
-                        throw new XBParseException("Unexpected terminator", XBProcessingExceptionType.UNEXPECTED_TERMINATOR);
+                        throw new XBParsingException("Unexpected terminator", XBProcessingExceptionType.UNEXPECTED_TERMINATOR);
                     }
 
                     sizeLimits.remove(sizeLimits.size() - 1);
@@ -257,7 +257,7 @@ public class XBPullReader implements XBPullProvider, XBResetableStream, XBSkipab
                 UBNat32 attribute = new UBNat32();
                 int attributeLength = attribute.fromStreamUB(source);
                 if (attributeLength > attributePartSizeValue) {
-                    throw new XBParseException("Attribute overflow", XBProcessingExceptionType.ATTRIBUTE_OVERFLOW);
+                    throw new XBParsingException("Attribute overflow", XBProcessingExceptionType.ATTRIBUTE_OVERFLOW);
                 }
 
                 attributePartSizeValue -= attributeLength;
@@ -283,10 +283,10 @@ public class XBPullReader implements XBPullProvider, XBResetableStream, XBSkipab
             }
 
             case EOF:
-                throw new XBParseException("Reading After End", XBProcessingExceptionType.READING_AFTER_END);
+                throw new XBParsingException("Reading After End", XBProcessingExceptionType.READING_AFTER_END);
 
             default:
-                throw new XBParseException("Unexpected pull item type", XBProcessingExceptionType.UNKNOWN);
+                throw new XBParsingException("Unexpected pull item type", XBProcessingExceptionType.UNKNOWN);
         }
     }
 

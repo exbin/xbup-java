@@ -27,7 +27,7 @@ import javax.annotation.ParametersAreNonnullByDefault;
 import org.exbin.xbup.core.block.XBBlock;
 import org.exbin.xbup.core.block.XBBlockDataMode;
 import org.exbin.xbup.core.block.XBBlockTerminationMode;
-import org.exbin.xbup.core.parser.XBParseException;
+import org.exbin.xbup.core.parser.XBParsingException;
 import org.exbin.xbup.core.parser.XBParserMode;
 import org.exbin.xbup.core.parser.XBParserState;
 import org.exbin.xbup.core.parser.XBProcessingException;
@@ -391,7 +391,7 @@ public class XBReader implements XBCommandReader, XBPullProvider, Closeable {
                 if (attributePartSize.getLong() == 0) {
                     // Process terminator
                     if (pathPositions.isEmpty() || pathPositions.get(pathPositions.size() - 1).sizeLimit != null) {
-                        throw new XBParseException("Unexpected terminator", XBProcessingExceptionType.UNEXPECTED_TERMINATOR);
+                        throw new XBParsingException("Unexpected terminator", XBProcessingExceptionType.UNEXPECTED_TERMINATOR);
                     }
 
                     addProcessedSize(headSize);
@@ -457,7 +457,7 @@ public class XBReader implements XBCommandReader, XBPullProvider, Closeable {
                 UBNat32 attribute = new UBNat32();
                 int attributeLength = attribute.fromStreamUB(inputStream);
                 if (attributeLength > attributePartSizeValue) {
-                    throw new XBParseException("Attribute overflow", XBProcessingExceptionType.ATTRIBUTE_OVERFLOW);
+                    throw new XBParsingException("Attribute overflow", XBProcessingExceptionType.ATTRIBUTE_OVERFLOW);
                 }
 
                 addProcessedSize(attributeLength);
@@ -485,10 +485,10 @@ public class XBReader implements XBCommandReader, XBPullProvider, Closeable {
             }
 
             case EOF:
-                throw new XBParseException("Reading After End", XBProcessingExceptionType.READING_AFTER_END);
+                throw new XBParsingException("Reading After End", XBProcessingExceptionType.READING_AFTER_END);
 
             default:
-                throw new XBParseException("Unexpected pull item type", XBProcessingExceptionType.UNKNOWN);
+                throw new XBParsingException("Unexpected pull item type", XBProcessingExceptionType.UNKNOWN);
         }
     }
 
@@ -609,15 +609,15 @@ public class XBReader implements XBCommandReader, XBPullProvider, Closeable {
      * Shrinks limits accross all depths.
      *
      * @param value Value to shrink all limits off
-     * @throws XBParseException If limits are breached
+     * @throws XBParsingException If limits are breached
      */
-    private void shrinkStatus(int value) throws XBParseException {
+    private void shrinkStatus(int value) throws XBParsingException {
         for (int index = 0; index < pathPositions.size() - 1; index++) {
             BlockPosition blockPosition = pathPositions.get(index);
             Integer limit = blockPosition.sizeLimit;
             if (limit != null) {
                 if (limit < value) {
-                    throw new XBParseException("Block overflow", XBProcessingExceptionType.BLOCK_OVERFLOW);
+                    throw new XBParsingException("Block overflow", XBProcessingExceptionType.BLOCK_OVERFLOW);
                 }
 
                 blockPosition.sizeLimit = limit - value;

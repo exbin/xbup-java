@@ -16,7 +16,8 @@
 package org.exbin.xbup.catalog.entity;
 
 import java.io.Serializable;
-import java.util.Objects;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -24,16 +25,18 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import org.exbin.xbup.core.catalog.base.XBCNodeTree;
+import org.exbin.xbup.catalog.modifiable.XBMNodeTree;
+import org.exbin.xbup.core.catalog.base.XBCNode;
+import org.exbin.xbup.core.catalog.base.XBCRoot;
 
 /**
  * Node tree database entity.
  *
- * @version 0.1.24 2014/12/10
+ * @version 0.2.1 2020/08/14
  * @author ExBin Project (http://exbin.org)
  */
 @Entity(name = "XBNodeTree")
-public class XBENodeTree implements XBCNodeTree, Serializable {
+public class XBENodeTree implements XBMNodeTree, Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -55,11 +58,12 @@ public class XBENodeTree implements XBCNodeTree, Serializable {
     }
 
     @Override
-    public Long getId() {
-        return id;
+    public long getId() {
+        return id == 0 ? 0 : id;
     }
 
-    public void setId(Long id) {
+    @Override
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -71,9 +75,7 @@ public class XBENodeTree implements XBCNodeTree, Serializable {
      */
     @Override
     public int hashCode() {
-        int hash = 0;
-        hash += (this.getId() != null ? this.getId().hashCode() : 0);
-        return hash;
+        return Long.hashCode(this.getId());
     }
 
     /**
@@ -86,52 +88,60 @@ public class XBENodeTree implements XBCNodeTree, Serializable {
      * <code>false</code> otherwise.
      */
     @Override
-    public boolean equals(Object object) {
+    public boolean equals(@Nullable Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
         if (!(object instanceof XBENodeTree)) {
             return false;
         }
 
         XBENodeTree other = (XBENodeTree) object;
-        return Objects.equals(this.getId(), other.getId()) || (this.getId() != null && this.id.equals(other.id));
+        return this.getId() == other.getId();
     }
 
+    @Nonnull
     @Override
     public XBENode getNode() {
         return node;
     }
 
-    public void setNode(XBENode node) {
-        this.node = node;
+    @Override
+    public void setNode(XBCNode node) {
+        this.node = (XBENode) node;
     }
 
+    @Nonnull
     @Override
     public XBENode getOwner() {
         return owner;
     }
 
-    public void setOwner(XBENode owner) {
-        this.owner = owner;
+    @Override
+    public void setOwner(XBCNode owner) {
+        this.owner = (XBENode) owner;
     }
 
+    @Nonnull
     @Override
     public XBERoot getRoot() {
         return root;
     }
 
-    public void setRoot(XBERoot root) {
-        this.root = root;
+    @Override
+    public void setRoot(XBCRoot root) {
+        this.root = (XBERoot) root;
     }
 
     @Override
-    public Integer getDepthLevel() {
+    public int getDepthLevel() {
         return depthLevel;
     }
 
-    public void setDepthLevel(Integer depthLevel) {
+    @Override
+    public void setDepthLevel(int depthLevel) {
         this.depthLevel = depthLevel;
     }
 
+    @Nonnull
     public static GenerationType getGenerationType() {
         return GenerationType.AUTO;
     }

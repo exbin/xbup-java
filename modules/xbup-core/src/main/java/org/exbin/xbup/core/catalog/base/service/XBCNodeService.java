@@ -17,6 +17,8 @@ package org.exbin.xbup.core.catalog.base.service;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
+import javax.annotation.Nonnull;
 import org.exbin.xbup.core.catalog.base.XBCNode;
 import org.exbin.xbup.core.catalog.base.XBCRoot;
 
@@ -138,7 +140,8 @@ public interface XBCNodeService<T extends XBCNode> extends XBCService<T> {
      *
      * @return time of last update
      */
-    Date getLastUpdate();
+    @Nonnull
+    Optional<Date> getLastUpdate();
 
     /**
      * Persist root node item.

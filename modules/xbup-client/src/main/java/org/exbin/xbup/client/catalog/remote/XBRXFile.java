@@ -64,7 +64,7 @@ public class XBRXFile implements XBCXFile {
     }
 
     @Override
-    public Long getId() {
+    public long getId() {
         return id;
     }
 }

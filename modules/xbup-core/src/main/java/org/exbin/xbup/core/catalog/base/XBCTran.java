@@ -15,6 +15,8 @@
  */
 package org.exbin.xbup.core.catalog.base;
 
+import javax.annotation.Nonnull;
+
 /**
  * Interface for catalog item transformation entity.
  *
@@ -28,6 +30,7 @@ public interface XBCTran extends XBCBase {
      *
      * @return block specification
      */
+    @Nonnull
     XBCBlockSpec getOwner();
 
     /**
@@ -35,6 +38,7 @@ public interface XBCTran extends XBCBase {
      *
      * @return block revision
      */
+    @Nonnull
     XBCBlockRev getTarget();
 
     /**
@@ -42,6 +46,7 @@ public interface XBCTran extends XBCBase {
      *
      * @return specification's limitation
      */
+    @Nonnull
     XBCLimitSpec getLimit();
 
     /**
@@ -49,5 +54,6 @@ public interface XBCTran extends XBCBase {
      *
      * @return block revision
      */
+    @Nonnull
     XBCBlockRev getExcept();
 }

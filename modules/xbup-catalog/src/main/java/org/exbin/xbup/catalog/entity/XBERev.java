@@ -15,23 +15,37 @@
  */
 package org.exbin.xbup.catalog.entity;
 
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
 import javax.persistence.Entity;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
-import org.exbin.xbup.core.catalog.base.XBCRev;
+import org.exbin.xbup.catalog.modifiable.XBMRev;
 import org.exbin.xbup.core.catalog.base.XBCSpec;
 
 /**
  * Revision database entity.
  *
- * @version 0.1.21 2011/08/21
+ * @version 0.2.1 2020/08/14
  * @author ExBin Project (http://exbin.org)
  */
+@ParametersAreNonnullByDefault
 @Entity(name = "XBRev")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-public class XBERev extends XBEItem implements XBCRev {
+public class XBERev extends XBEItem implements XBMRev {
 
     private Long xbLimit;
+
+    @Nonnull
+    @Override
+    public XBCSpec getParent() {
+        return (XBCSpec) super.getParentItem().get();
+    }
+
+    @Override
+    public void setParent(XBCSpec spec) {
+        super.setParentItem(spec);
+    }
 
     /**
      * Returns maximum XBIndex of specification bind
@@ -39,16 +53,12 @@ public class XBERev extends XBEItem implements XBCRev {
      * @return the XBLimit
      */
     @Override
-    public Long getXBLimit() {
+    public long getXBLimit() {
         return xbLimit;
     }
 
     @Override
-    public XBCSpec getParent() {
-        return (XBCSpec) super.getParent();
-    }
-
-    public void setXBLimit(Long xbLimit) {
+    public void setXBLimit(long xbLimit) {
         this.xbLimit = xbLimit;
     }
 }

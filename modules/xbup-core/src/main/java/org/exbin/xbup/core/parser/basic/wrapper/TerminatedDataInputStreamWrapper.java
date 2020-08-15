@@ -17,7 +17,7 @@ package org.exbin.xbup.core.parser.basic.wrapper;
 
 import java.io.IOException;
 import java.io.InputStream;
-import org.exbin.xbup.core.parser.XBParseException;
+import org.exbin.xbup.core.parser.XBParsingException;
 import org.exbin.xbup.core.parser.XBProcessingExceptionType;
 import org.exbin.xbup.core.stream.FinishableStream;
 
@@ -82,7 +82,7 @@ public class TerminatedDataInputStreamWrapper extends InputStream implements Fin
     }
 
     @Override
-    public long finish() throws IOException, XBParseException {
+    public long finish() throws IOException, XBParsingException {
         int blockLength;
         while (nextValue >= 0) {
             blockLength = read();
@@ -92,7 +92,7 @@ public class TerminatedDataInputStreamWrapper extends InputStream implements Fin
         }
 
         if (zeroCount < 0) {
-            throw new XBParseException("Missing data block terminator", XBProcessingExceptionType.UNEXPECTED_END_OF_STREAM);
+            throw new XBParsingException("Missing data block terminator", XBProcessingExceptionType.UNEXPECTED_END_OF_STREAM);
         }
 
         return length;

@@ -16,26 +16,29 @@
 package org.exbin.xbup.catalog.entity;
 
 import java.io.Serializable;
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import org.exbin.xbup.catalog.modifiable.XBMXStri;
 import org.exbin.xbup.core.catalog.base.XBCItem;
-import org.exbin.xbup.core.catalog.base.XBCXStri;
 
 /**
  * Item string identification keys database entity.
  *
- * @version 0.1.21 2012/04/18
+ * @version 0.2.1 2020/08/10
  * @author ExBin Project (http://exbin.org)
  */
 @Entity(name = "XBXStri")
-public class XBEXStri implements XBCXStri, Serializable {
+@ParametersAreNonnullByDefault
+public class XBEXStri implements XBMXStri, Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private long id;
 
     @ManyToOne
     private XBEItem item;
@@ -49,14 +52,16 @@ public class XBEXStri implements XBCXStri, Serializable {
     }
 
     @Override
-    public Long getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    @Override
+    public void setId(long id) {
         this.id = id;
     }
 
+    @Nonnull
     @Override
     public XBCItem getItem() {
         return item;
@@ -67,6 +72,7 @@ public class XBEXStri implements XBCXStri, Serializable {
         this.item = (XBEItem) item;
     }
 
+    @Nonnull
     @Override
     public String getText() {
         return text;
@@ -77,6 +83,7 @@ public class XBEXStri implements XBCXStri, Serializable {
         this.text = text;
     }
 
+    @Nonnull
     @Override
     public String getNodePath() {
         return nodePath;
@@ -86,5 +93,4 @@ public class XBEXStri implements XBCXStri, Serializable {
     public void setNodePath(String nodePath) {
         this.nodePath = nodePath;
     }
-
 }

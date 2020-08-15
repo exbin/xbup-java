@@ -598,7 +598,7 @@ public class XBPSpecSkeleton {
                 XBESpecDef specDef = (XBESpecDef) specService.getSpecDef(index);
 
                 XBPListenerSerialHandler listener = new XBPListenerSerialHandler(resultInput);
-                listener.process(specDef == null || specDef.getTarget() == null ? XBTEmptyBlock.getEmptyBlock() : new UBNat32(specDef.getTarget().getId()));
+                listener.process(specDef == null || !specDef.getTargetRev().isPresent() ? XBTEmptyBlock.getEmptyBlock() : new UBNat32(specDef.getTargetRev().get().getId()));
             }
         });
 

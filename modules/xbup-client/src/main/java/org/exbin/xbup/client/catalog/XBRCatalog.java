@@ -194,7 +194,7 @@ public class XBRCatalog implements XBCatalog {
         List<XBCSpecDef> binds = specService.getSpecDefs(spec);
         ArrayList<XBGroupDecl> result = new ArrayList<>();
         for (Iterator it = binds.iterator(); it.hasNext();) {
-            result.add(new XBCGroupDecl((XBCGroupRev) ((XBRSpecDef) it.next()).getTarget(), this));
+            result.add(new XBCGroupDecl((XBCGroupRev) ((XBRSpecDef) it.next()).getTargetRev().get(), this));
         }
 
         return result;
@@ -206,7 +206,7 @@ public class XBRCatalog implements XBCatalog {
         List<XBCSpecDef> binds = specService.getSpecDefs(spec);
         ArrayList<XBBlockDecl> result = new ArrayList<>();
         for (Iterator it = binds.iterator(); it.hasNext();) {
-            result.add(new XBCBlockDecl((XBCBlockRev) ((XBRSpecDef) it.next()).getTarget(), this));
+            result.add(new XBCBlockDecl((XBCBlockRev) ((XBRSpecDef) it.next()).getTargetRev().get(), this));
         }
 
         return result;

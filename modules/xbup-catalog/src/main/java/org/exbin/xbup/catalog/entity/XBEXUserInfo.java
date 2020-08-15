@@ -17,13 +17,18 @@ package org.exbin.xbup.catalog.entity;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.Optional;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
-import org.exbin.xbup.core.catalog.base.XBCXUserInfo;
+import org.exbin.xbup.catalog.modifiable.XBMXUserInfo;
+import org.exbin.xbup.core.catalog.base.XBCXUser;
 
 /**
  * User information database entity.
@@ -31,8 +36,9 @@ import org.exbin.xbup.core.catalog.base.XBCXUserInfo;
  * @version 0.1.21 2011/08/30
  * @author ExBin Project (http://exbin.org)
  */
+@ParametersAreNonnullByDefault
 @Entity(name = "XBXUserInfo")
-public class XBEXUserInfo implements Serializable, XBCXUserInfo {
+public class XBEXUserInfo implements Serializable, XBMXUserInfo {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -52,56 +58,67 @@ public class XBEXUserInfo implements Serializable, XBCXUserInfo {
     }
 
     @Override
-    public Long getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    @Override
+    public void setId(long id) {
         this.id = id;
     }
 
+    @Nonnull
     @Override
     public XBEXUser getUser() {
         return user;
     }
 
-    public void setUser(XBEXUser user) {
-        this.user = user;
+    @Override
+    public void setUser(XBCXUser user) {
+        this.user = (XBEXUser) user;
     }
 
+    @Nonnull
     @Override
     public Date getCreated() {
         return created;
     }
 
+    @Override
     public void setCreated(Date created) {
         this.created = created;
     }
 
+    @Nonnull
     @Override
-    public Date getUpdated() {
-        return updated;
+    public Optional<Date> getUpdated() {
+        return Optional.ofNullable(updated);
     }
 
-    public void setUpdated(Date updated) {
+    @Override
+    public void setUpdated(@Nullable Date updated) {
         this.updated = updated;
     }
 
+    @Nonnull
     @Override
-    public Date getLastLogin() {
-        return lastLogin;
+    public Optional<Date> getLastLogin() {
+        return Optional.ofNullable(lastLogin);
     }
 
-    public void setLastLogin(Date lastLogin) {
+    @Override
+    public void setLastLogin(@Nullable Date lastLogin) {
         this.lastLogin = lastLogin;
     }
 
+    @Nonnull
     @Override
-    public Date getCurrLogin() {
-        return currLogin;
+    public Optional<Date> getCurrLogin() {
+        return Optional.ofNullable(currLogin);
     }
 
-    public void setCurrLogin(Date currLogin) {
+    @Override
+    public void setCurrLogin(@Nullable Date currLogin) {
         this.currLogin = currLogin;
     }
 }

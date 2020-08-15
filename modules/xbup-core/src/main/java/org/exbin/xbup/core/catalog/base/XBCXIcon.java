@@ -15,10 +15,12 @@
  */
 package org.exbin.xbup.core.catalog.base;
 
+import javax.annotation.Nonnull;
+
 /**
  * Interface for catalog item icon entity.
  *
- * @version 0.1.24 2014/11/26
+ * @version 0.2.1 2020/08/13
  * @author ExBin Project (http://exbin.org)
  */
 public interface XBCXIcon extends XBCBase {
@@ -35,6 +37,7 @@ public interface XBCXIcon extends XBCBase {
      *
      * @return icon mode
      */
+    @Nonnull
     XBCXIconMode getMode();
 
     /**
@@ -42,5 +45,6 @@ public interface XBCXIcon extends XBCBase {
      *
      * @return icon file
      */
+    @Nonnull
     XBCXFile getIconFile();
 }

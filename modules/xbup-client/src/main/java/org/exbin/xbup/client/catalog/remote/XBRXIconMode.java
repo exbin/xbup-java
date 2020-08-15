@@ -34,12 +34,12 @@ public class XBRXIconMode implements XBCXIconMode {
     }
 
     @Override
-    public Long getId() {
+    public long getId() {
         return id;
     }
 
     @Override
-    public Long getType() {
+    public long getType() {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 

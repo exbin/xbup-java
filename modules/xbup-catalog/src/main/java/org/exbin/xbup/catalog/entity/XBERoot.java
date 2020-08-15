@@ -17,6 +17,10 @@ package org.exbin.xbup.catalog.entity;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.Optional;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -25,17 +29,19 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
-import org.exbin.xbup.core.catalog.base.XBCRoot;
+import org.exbin.xbup.catalog.modifiable.XBMRoot;
+import org.exbin.xbup.core.catalog.base.XBCNode;
 
 /**
  * Root node database entity.
  *
- * @version 0.1.24 2015/01/04
+ * @version 0.2.1 2020/08/14
  * @author ExBin Project (http://exbin.org)
  */
+@ParametersAreNonnullByDefault
 @Entity(name = "XBRoot")
 @Inheritance(strategy = InheritanceType.JOINED)
-public class XBERoot implements XBCRoot, Serializable {
+public class XBERoot implements XBMRoot, Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -53,11 +59,12 @@ public class XBERoot implements XBCRoot, Serializable {
     }
 
     @Override
-    public Long getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    @Override
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -87,7 +94,7 @@ public class XBERoot implements XBCRoot, Serializable {
      * <code>false</code> otherwise.
      */
     @Override
-    public boolean equals(Object object) {
+    public boolean equals(@Nullable Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
         if (!(object instanceof XBERoot)) {
             return false;
@@ -110,30 +117,36 @@ public class XBERoot implements XBCRoot, Serializable {
         return "org.exbin.xbup.catalog.entity.Item[id=" + id + "]";
     }
 
+    @Nonnull
     @Override
     public XBENode getNode() {
         return node;
     }
 
-    public void setNode(XBENode node) {
-        this.node = node;
+    @Override
+    public void setNode(XBCNode node) {
+        this.node = (XBENode) node;
     }
 
+    @Nonnull
     @Override
     public String getUrl() {
         return url;
     }
 
+    @Override
     public void setUrl(String url) {
         this.url = url;
     }
 
+    @Nonnull
     @Override
-    public Date getLastUpdate() {
-        return lastUpdate;
+    public Optional<Date> getLastUpdate() {
+        return Optional.ofNullable(lastUpdate);
     }
 
-    public void setLastUpdate(Date lastUpdate) {
+    @Override
+    public void setLastUpdate(@Nullable Date lastUpdate) {
         this.lastUpdate = lastUpdate;
     }
 }

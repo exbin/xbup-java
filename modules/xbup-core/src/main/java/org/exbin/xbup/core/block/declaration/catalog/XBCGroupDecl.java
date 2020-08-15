@@ -61,7 +61,7 @@ public class XBCGroupDecl implements XBGroupDecl, XBPSequenceSerializable {
                 return false;
             }
 
-            return groupSpecRev.getId().equals(other.groupSpecRev.getId());
+            return groupSpecRev.getId() == other.groupSpecRev.getId();
         } else if (obj instanceof XBLGroupDecl) {
             Long[] catalogPath = catalog.getSpecPath(groupSpecRev.getParent());
             long[] objCatalogPath = ((XBLGroupDecl) obj).getCatalogPath();
@@ -75,7 +75,7 @@ public class XBCGroupDecl implements XBGroupDecl, XBPSequenceSerializable {
                 }
             }
 
-            return groupSpecRev.getXBIndex().equals(((XBLGroupDecl) obj).getRevision());
+            return groupSpecRev.getXBIndex() == ((XBLGroupDecl) obj).getRevision();
         } else {
             return false;
         }

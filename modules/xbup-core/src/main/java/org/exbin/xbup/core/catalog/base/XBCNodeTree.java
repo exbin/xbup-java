@@ -15,10 +15,12 @@
  */
 package org.exbin.xbup.core.catalog.base;
 
+import javax.annotation.Nonnull;
+
 /**
  * Interface for catalog node tree entity.
  *
- * @version 0.1.24 2014/09/07
+ * @version 0.2.1 2020/08/14
  * @author ExBin Project (http://exbin.org)
  */
 public interface XBCNodeTree {
@@ -28,13 +30,14 @@ public interface XBCNodeTree {
      *
      * @return the index
      */
-    Long getId();
+    long getId();
 
     /**
      * Gets node.
      *
      * @return the node
      */
+    @Nonnull
     XBCNode getOwner();
 
     /**
@@ -42,6 +45,7 @@ public interface XBCNodeTree {
      *
      * @return the node
      */
+    @Nonnull
     XBCNode getNode();
 
     /**
@@ -49,12 +53,13 @@ public interface XBCNodeTree {
      *
      * @return the depth
      */
-    Integer getDepthLevel();
+    int getDepthLevel();
 
     /**
      * Gets root record for this node.
      *
      * @return root record
      */
+    @Nonnull
     XBCRoot getRoot();
 }

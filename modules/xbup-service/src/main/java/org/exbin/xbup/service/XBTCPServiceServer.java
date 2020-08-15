@@ -38,7 +38,7 @@ import org.exbin.xbup.core.block.declaration.catalog.XBCBlockDecl;
 import org.exbin.xbup.core.block.declaration.local.XBLBlockDecl;
 import org.exbin.xbup.core.catalog.XBACatalog;
 import org.exbin.xbup.core.catalog.base.service.XBCSpecService;
-import org.exbin.xbup.core.parser.XBParseException;
+import org.exbin.xbup.core.parser.XBParsingException;
 import org.exbin.xbup.core.parser.XBParserMode;
 import org.exbin.xbup.core.parser.XBProcessingException;
 import org.exbin.xbup.core.parser.basic.XBHead;
@@ -154,7 +154,7 @@ public class XBTCPServiceServer implements XBServiceServer {
                 outputStream.close();
             }
 
-        } catch (XBParseException ex) {
+        } catch (XBParsingException ex) {
             Logger.getLogger(XBTCPServiceServer.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException e) {
             System.err.println(e);
@@ -176,7 +176,7 @@ public class XBTCPServiceServer implements XBServiceServer {
         XBDeclBlockType blockType = (XBDeclBlockType) preloading.getBlockType();
         XBCBlockDecl blockDecl = (XBCBlockDecl) blockType.getBlockDecl();
         XBCSpecService specService = catalog.getCatalogService(XBCSpecService.class);
-        blockType.setBlockDecl(new XBLBlockDecl(specService.getSpecXBPath(blockDecl.getBlockSpecRev().getParent()), blockDecl.getBlockSpecRev().getXBIndex().intValue()));
+        blockType.setBlockDecl(new XBLBlockDecl(specService.getSpecXBPath(blockDecl.getBlockSpecRev().getParent()), (int) blockDecl.getBlockSpecRev().getXBIndex()));
         XBExecutable executable = procMap.get(blockType);
 
         XBTEventListener eventListener = new ExecutionEventListener(output);

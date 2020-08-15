@@ -7,7 +7,6 @@ package org.exbin.xbup.plugin;
 
 import java.util.List;
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 
 /**
  * Interface for record about single module.
@@ -38,7 +37,7 @@ public interface XBModuleRecord {
      *
      * @return description text
      */
-    @Nullable
+    @Nonnull
     String getDescription();
 
     /**
@@ -46,7 +45,7 @@ public interface XBModuleRecord {
      *
      * @return list of dependecy module identifiers
      */
-    @Nullable
+    @Nonnull
     List<String> getDependencyModuleIds();
 
     /**
@@ -54,7 +53,7 @@ public interface XBModuleRecord {
      *
      * @return list of module identifiers
      */
-    @Nullable
+    @Nonnull
     List<String> getOptionalModuleIds();
 
     /**

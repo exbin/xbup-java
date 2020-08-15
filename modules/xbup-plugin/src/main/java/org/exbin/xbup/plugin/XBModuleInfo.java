@@ -23,6 +23,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
 import org.exbin.xbup.core.parser.XBProcessingException;
 import org.exbin.xbup.core.parser.token.XBAttributeToken;
 import org.exbin.xbup.core.parser.token.XBBeginToken;
@@ -50,6 +51,7 @@ import org.exbin.xbup.core.ubnumber.type.UBNat32;
  * @version 0.2.1 2017/05/19
  * @author ExBin Project (http://exbin.org)
  */
+@ParametersAreNonnullByDefault
 public class XBModuleInfo implements XBPSequenceSerializable, XBModuleRecord {
 
     static long[] XBUP_BLOCKREV_CATALOGPATH = {1, 3, 1, 2, 0, 0};
@@ -87,6 +89,7 @@ public class XBModuleInfo implements XBPSequenceSerializable, XBModuleRecord {
 
     }
 
+    @Nonnull
     @Override
     public String getModuleId() {
         return moduleId;
@@ -105,24 +108,27 @@ public class XBModuleInfo implements XBPSequenceSerializable, XBModuleRecord {
         this.module = module;
     }
 
+    @Nonnull
     @Override
     public String getName() {
-        return name;
+        return name == null ? "" : name;
     }
 
     public void setName(String name) {
         this.name = name;
     }
 
+    @Nonnull
     @Override
     public String getDescription() {
-        return description;
+        return description == null ? "" : description;
     }
 
     public void setDescription(String description) {
         this.description = description;
     }
 
+    @Nonnull
     @Override
     public List<String> getOptionalModuleIds() {
         return optionalModuleIds;
@@ -132,6 +138,7 @@ public class XBModuleInfo implements XBPSequenceSerializable, XBModuleRecord {
         this.optionalModuleIds.addAll(optionalModuleIds);
     }
 
+    @Nonnull
     @Override
     public List<String> getDependencyModuleIds() {
         return dependencyModuleIds;
@@ -181,6 +188,7 @@ public class XBModuleInfo implements XBPSequenceSerializable, XBModuleRecord {
         serial.end();
     }
 
+    @ParametersAreNonnullByDefault
     private static class XBTToXBEventTypeRemover implements XBTEventListener, XBEventProducer {
 
         private XBEventListener eventListener;

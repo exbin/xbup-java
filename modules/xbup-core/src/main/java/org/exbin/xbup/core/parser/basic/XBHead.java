@@ -23,7 +23,7 @@ import java.util.logging.Handler;
 import java.util.logging.Level;
 import java.util.logging.LogRecord;
 import javax.annotation.Nonnull;
-import org.exbin.xbup.core.parser.XBParseException;
+import org.exbin.xbup.core.parser.XBParsingException;
 import org.exbin.xbup.core.parser.XBProcessingException;
 import org.exbin.xbup.core.parser.XBProcessingExceptionType;
 
@@ -95,7 +95,7 @@ public class XBHead {
         while (redByte < length) {
             redByte = stream.read(head, offset, length);
             if (redByte < 0) {
-                throw new XBParseException("Corrupted or missing header", XBProcessingExceptionType.CORRUPTED_HEADER);
+                throw new XBParsingException("Corrupted or missing header", XBProcessingExceptionType.CORRUPTED_HEADER);
             }
 
             offset += redByte;
@@ -108,7 +108,7 @@ public class XBHead {
                 header += Integer.toString((head[i] & 0xff) + 0x100, 16).substring(1);
             }
 
-            throw new XBParseException("Unsupported header: 0x" + header, XBProcessingExceptionType.CORRUPTED_HEADER);
+            throw new XBParsingException("Unsupported header: 0x" + header, XBProcessingExceptionType.CORRUPTED_HEADER);
         }
 
         return XB_HEADER_DEVELOPMENT_VERSION.length;

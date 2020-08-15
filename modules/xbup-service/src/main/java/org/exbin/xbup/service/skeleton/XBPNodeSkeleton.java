@@ -98,7 +98,7 @@ public class XBPNodeSkeleton {
 
                 XBPListenerSerialHandler listener = new XBPListenerSerialHandler(resultInput);
                 XBCRoot root = nodeService.getRoot(rootId);
-                Date lastUpdate = root == null ? null : root.getLastUpdate();
+                Date lastUpdate = root == null ? null : root.getLastUpdate().orElse(null);
                 listener.process(lastUpdate == null ? XBTEmptyBlock.getEmptyBlock() : new XBDateTime(lastUpdate));
             }
         });
@@ -194,7 +194,7 @@ public class XBPNodeSkeleton {
                 provider.end();
 
                 XBCNodeService nodeService = catalog.getCatalogService(XBCNodeService.class);
-                XBENode owner = (XBENode) (nodeService.findOwnerByXBPath(nodePath)).getParent();
+                XBENode owner = (XBENode) (nodeService.findOwnerByXBPath(nodePath)).getParent().orElse(null);
 
                 XBPListenerSerialHandler listener = new XBPListenerSerialHandler(resultInput);
                 listener.process(owner == null ? XBTEmptyBlock.getEmptyBlock() : new UBNat32(owner.getId()));

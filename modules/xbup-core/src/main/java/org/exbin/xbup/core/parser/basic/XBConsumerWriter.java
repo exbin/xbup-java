@@ -24,7 +24,7 @@ import java.util.List;
 import javax.annotation.Nonnull;
 import org.exbin.xbup.core.block.XBBlockDataMode;
 import org.exbin.xbup.core.block.XBBlockTerminationMode;
-import org.exbin.xbup.core.parser.XBParseException;
+import org.exbin.xbup.core.parser.XBParsingException;
 import org.exbin.xbup.core.parser.XBParserMode;
 import org.exbin.xbup.core.parser.XBProcessingException;
 import org.exbin.xbup.core.parser.XBProcessingExceptionType;
@@ -152,15 +152,15 @@ public class XBConsumerWriter implements Closeable, XBConsumer {
                                     StreamUtils.copyInputStreamToOutputStream(((XBDataToken) token).getData(), stream);
                                     token = pullToken();
                                     if (token.getTokenType() != XBTokenType.END) {
-                                        throw new XBParseException("End token was expected after tail data", XBProcessingExceptionType.UNEXPECTED_ORDER);
+                                        throw new XBParsingException("End token was expected after tail data", XBProcessingExceptionType.UNEXPECTED_ORDER);
                                     }
                                 } else {
-                                    throw new XBParseException("Tail data present when not expected", XBProcessingExceptionType.UNEXPECTED_ORDER);
+                                    throw new XBParsingException("Tail data present when not expected", XBProcessingExceptionType.UNEXPECTED_ORDER);
                                 }
                             }
 
                             if (token.getTokenType() != XBTokenType.END) {
-                                throw new XBParseException("Data block must be followed by block end", XBProcessingExceptionType.UNEXPECTED_ORDER);
+                                throw new XBParsingException("Data block must be followed by block end", XBProcessingExceptionType.UNEXPECTED_ORDER);
                             }
 
                             break;
@@ -216,10 +216,10 @@ public class XBConsumerWriter implements Closeable, XBConsumer {
                                     StreamUtils.copyInputStreamToOutputStream(((XBDataToken) token).getData(), stream);
                                     token = pullToken();
                                     if (token.getTokenType() != XBTokenType.END) {
-                                        throw new XBParseException("End token was expected after tail data", XBProcessingExceptionType.UNEXPECTED_ORDER);
+                                        throw new XBParsingException("End token was expected after tail data", XBProcessingExceptionType.UNEXPECTED_ORDER);
                                     }
                                 } else {
-                                    throw new XBParseException("Tail data present when not expected", XBProcessingExceptionType.UNEXPECTED_ORDER);
+                                    throw new XBParsingException("Tail data present when not expected", XBProcessingExceptionType.UNEXPECTED_ORDER);
                                 }
                             }
 
@@ -227,7 +227,7 @@ public class XBConsumerWriter implements Closeable, XBConsumer {
                         }
 
                         default:
-                            throw new XBParseException("Missing at least one attribute", XBProcessingExceptionType.UNEXPECTED_ORDER);
+                            throw new XBParsingException("Missing at least one attribute", XBProcessingExceptionType.UNEXPECTED_ORDER);
                     }
 
                     break;
@@ -268,10 +268,10 @@ public class XBConsumerWriter implements Closeable, XBConsumer {
                             StreamUtils.copyInputStreamToOutputStream(((XBDataToken) token).getData(), stream);
                             token = pullToken();
                             if (token.getTokenType() != XBTokenType.END) {
-                                throw new XBParseException("End token was expected after tail data", XBProcessingExceptionType.UNEXPECTED_ORDER);
+                                throw new XBParsingException("End token was expected after tail data", XBProcessingExceptionType.UNEXPECTED_ORDER);
                             }
                         } else {
-                            throw new XBParseException("Tail data present when not expected", XBProcessingExceptionType.UNEXPECTED_ORDER);
+                            throw new XBParsingException("Tail data present when not expected", XBProcessingExceptionType.UNEXPECTED_ORDER);
                         }
                     }
 
@@ -279,7 +279,7 @@ public class XBConsumerWriter implements Closeable, XBConsumer {
                 }
 
                 default:
-                    throw new XBParseException("Unexpected token order", XBProcessingExceptionType.UNEXPECTED_ORDER);
+                    throw new XBParsingException("Unexpected token order", XBProcessingExceptionType.UNEXPECTED_ORDER);
             }
         } while (depthLevel > 0);
     }
@@ -288,7 +288,7 @@ public class XBConsumerWriter implements Closeable, XBConsumer {
         tokenListener.setToken(null);
         provider.produceXB(tokenListener);
         if (tokenListener.getToken() == null) {
-            throw new XBParseException("Unexpected end of stream", XBProcessingExceptionType.UNEXPECTED_END_OF_STREAM);
+            throw new XBParsingException("Unexpected end of stream", XBProcessingExceptionType.UNEXPECTED_END_OF_STREAM);
         }
 
         return tokenListener.getToken();

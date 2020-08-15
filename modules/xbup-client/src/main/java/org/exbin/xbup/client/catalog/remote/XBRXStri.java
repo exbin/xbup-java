@@ -49,27 +49,12 @@ public class XBRXStri implements XBCXStri {
     }
 
     @Override
-    public void setItem(XBCItem item) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public void setText(String text) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
     public String getNodePath() {
         return striStub.getNodePath(id);
     }
 
     @Override
-    public void setNodePath(String nodePath) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public Long getId() {
+    public long getId() {
         return id;
     }
 }

@@ -15,10 +15,12 @@
  */
 package org.exbin.xbup.core.catalog.base;
 
+import javax.annotation.Nonnull;
+
 /**
  * Interface for catalog plugin line editor entity.
  *
- * @version 0.1.21 2012/05/01
+ * @version 0.2.1 2020/08/14
  * @author ExBin Project (http://exbin.org)
  */
 public interface XBCXPlugLine extends XBCBase {
@@ -28,6 +30,7 @@ public interface XBCXPlugLine extends XBCBase {
      *
      * @return plugin
      */
+    @Nonnull
     XBCXPlugin getPlugin();
 
     /**
@@ -35,5 +38,5 @@ public interface XBCXPlugLine extends XBCBase {
      *
      * @return line editor index
      */
-    Long getLineIndex();
+    long getLineIndex();
 }

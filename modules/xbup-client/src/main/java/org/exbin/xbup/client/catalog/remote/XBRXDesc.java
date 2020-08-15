@@ -19,7 +19,6 @@ import org.exbin.xbup.client.XBCatalogServiceClient;
 import org.exbin.xbup.client.stub.XBPXDescStub;
 import org.exbin.xbup.core.catalog.base.XBCItem;
 import org.exbin.xbup.core.catalog.base.XBCXDesc;
-import org.exbin.xbup.core.catalog.base.XBCXLanguage;
 
 /**
  * Catalog remote item description entity.
@@ -55,22 +54,7 @@ public class XBRXDesc implements XBCXDesc {
     }
 
     @Override
-    public void setItem(XBCItem item) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public void setLang(XBCXLanguage language) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public void setText(String text) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public Long getId() {
+    public long getId() {
         return id;
     }
 }

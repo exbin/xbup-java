@@ -287,7 +287,7 @@ public class XBCUpdatePHPHandler implements XBCUpdateHandler {
             return null;
         }
         XBESpec spec = new XBEFormatSpec();
-        spec.setParent((XBENode) node);
+        spec.setParentItem((XBENode) node);
         updateItem(spec, info);
         XBERev rev;
         Long max = port.getFormatCatalogSpecMaxRevIndex(path, specId);
@@ -297,7 +297,7 @@ public class XBCUpdatePHPHandler implements XBCUpdateHandler {
                 tx.begin();
                 ItemRevision itemRev = port.getFormatSpecRevision(path, specId, i, lang);
                 rev = new XBEFormatRev();
-                rev.setParent(spec);
+                rev.setParentItem(spec);
                 rev.setXBIndex(itemRev.getXBIndex());
                 rev.setXBLimit(itemRev.getXBLimit());
                 em.persist(rev);
@@ -317,7 +317,7 @@ public class XBCUpdatePHPHandler implements XBCUpdateHandler {
             return null;
         }
         XBESpec spec = new XBEGroupSpec();
-        spec.setParent((XBENode) node);
+        spec.setParentItem((XBENode) node);
         updateItem(spec, info);
         XBERev rev;
         Long max = port.getGroupCatalogSpecMaxRevIndex(path, specId);
@@ -327,7 +327,7 @@ public class XBCUpdatePHPHandler implements XBCUpdateHandler {
                 tx.begin();
                 ItemRevision itemRev = port.getGroupSpecRevision(path, specId, i, lang);
                 rev = new XBEGroupRev();
-                rev.setParent(spec);
+                rev.setParentItem(spec);
                 rev.setXBIndex(itemRev.getXBIndex());
                 rev.setXBLimit(itemRev.getXBLimit());
                 em.persist(rev);
@@ -347,7 +347,7 @@ public class XBCUpdatePHPHandler implements XBCUpdateHandler {
             return null;
         }
         XBESpec spec = new XBEBlockSpec();
-        spec.setParent((XBENode) node);
+        spec.setParentItem((XBENode) node);
         updateItem(spec, info);
         XBERev rev;
         Long max = port.getBlockCatalogSpecMaxRevIndex(path, specId);
@@ -357,7 +357,7 @@ public class XBCUpdatePHPHandler implements XBCUpdateHandler {
                 tx.begin();
                 ItemRevision itemRev = port.getBlockSpecRevision(path, specId, i, lang);
                 rev = new XBEBlockRev();
-                rev.setParent(spec);
+                rev.setParentItem(spec);
                 rev.setXBIndex(itemRev.getXBIndex());
                 rev.setXBLimit(itemRev.getXBLimit());
                 em.persist(rev);
@@ -391,7 +391,7 @@ public class XBCUpdatePHPHandler implements XBCUpdateHandler {
             return null;
         }
         XBENode newNode = new XBENode();
-        newNode.setOwner((XBENode) node);
+        newNode.setParent((XBENode) node);
         updateItem(newNode, info);
         return newNode;
     }
@@ -669,7 +669,7 @@ public class XBCUpdatePHPHandler implements XBCUpdateHandler {
         XBENodeService nodeService = (XBENodeService) catalog.getCatalogService(XBCNodeService.class);
         XBESpecService specService = (XBESpecService) catalog.getCatalogService(XBCSpecService.class);
         XBERevService revService = (XBERevService) catalog.getCatalogService(XBCRevService.class);
-        Long[] path = nodeService.getNodeXBPath(spec.getParent());
+        Long[] path = nodeService.getNodeXBPath(spec.getParent().get());
         Long maxIndex = port.getFormatCatalogSpecMaxBindId(path, spec.getXBIndex());
         if (maxIndex != null) {
             for (long index = 0; index <= maxIndex; index++) {
@@ -715,7 +715,7 @@ public class XBCUpdatePHPHandler implements XBCUpdateHandler {
         XBENodeService nodeService = (XBENodeService) catalog.getCatalogService(XBCNodeService.class);
         XBESpecService specService = (XBESpecService) catalog.getCatalogService(XBCSpecService.class);
         XBERevService revService = (XBERevService) catalog.getCatalogService(XBCRevService.class);
-        Long[] path = nodeService.getNodeXBPath(spec.getParent());
+        Long[] path = nodeService.getNodeXBPath(spec.getParent().get());
         Long maxIndex = port.getGroupCatalogSpecMaxBindId(path, spec.getXBIndex());
         if (maxIndex != null) {
             for (long index = 0; index <= maxIndex; index++) {
@@ -761,7 +761,7 @@ public class XBCUpdatePHPHandler implements XBCUpdateHandler {
         XBENodeService nodeService = (XBENodeService) catalog.getCatalogService(XBCNodeService.class);
         XBESpecService specService = (XBESpecService) catalog.getCatalogService(XBCSpecService.class);
         XBERevService revService = (XBERevService) catalog.getCatalogService(XBCRevService.class);
-        Long[] path = nodeService.getNodeXBPath(spec.getParent());
+        Long[] path = nodeService.getNodeXBPath(spec.getParent().get());
         Long maxIndex = port.getBlockCatalogSpecMaxBindId(path, spec.getXBIndex());
         if (maxIndex != null) {
             for (long index = 0; index <= maxIndex; index++) {
@@ -866,7 +866,7 @@ public class XBCUpdatePHPHandler implements XBCUpdateHandler {
             XBEXStri stri = striService.createItem();
             String parentPath = "";
             XBEXFileService fileService = (XBEXFileService) catalog.getCatalogService(XBCXFileService.class);
-            XBEXStri parentStringId = (XBEXStri) striService.getItemStringId(node.getParent());
+            XBEXStri parentStringId = (XBEXStri) striService.getItemStringId(node.getParent().get());
             if (node.getParent() != null) {
                 parentPath = striService.getFullPath(parentStringId);
                 parentPath += "/" + itemFile.getFileName();
@@ -877,7 +877,7 @@ public class XBCUpdatePHPHandler implements XBCUpdateHandler {
                 nodePath = "/";
             } else {
                 nodePath = parentStringId.getNodePath();
-                if (parentStringId.getItem().getParent() == null) {
+                if (!parentStringId.getItem().getParentItem().isPresent()) {
                     nodePath = "/";
                 } else {
                     if (!"/".equals(nodePath)) {
@@ -923,7 +923,7 @@ public class XBCUpdatePHPHandler implements XBCUpdateHandler {
             return;
         }
         XBENodeService nodeService = (XBENodeService) catalog.getCatalogService(XBCNodeService.class);
-        Long[] path = nodeService.getNodeXBPath(spec.getParent());
+        Long[] path = nodeService.getNodeXBPath(spec.getParent().get());
         processItem(spec, port.getCatalogFormatSpecId(path, spec.getXBIndex()));
     }
 
@@ -932,7 +932,7 @@ public class XBCUpdatePHPHandler implements XBCUpdateHandler {
             return;
         }
         XBENodeService nodeService = (XBENodeService) catalog.getCatalogService(XBCNodeService.class);
-        Long[] path = nodeService.getNodeXBPath(spec.getParent());
+        Long[] path = nodeService.getNodeXBPath(spec.getParent().get());
         processItem(spec, port.getCatalogGroupSpecId(path, spec.getXBIndex()));
     }
 
@@ -941,7 +941,7 @@ public class XBCUpdatePHPHandler implements XBCUpdateHandler {
             return;
         }
         XBENodeService nodeService = (XBENodeService) catalog.getCatalogService(XBCNodeService.class);
-        Long[] path = nodeService.getNodeXBPath(spec.getParent());
+        Long[] path = nodeService.getNodeXBPath(spec.getParent().get());
         processItem(spec, port.getCatalogBlockSpecId(path, spec.getXBIndex()));
     }
 

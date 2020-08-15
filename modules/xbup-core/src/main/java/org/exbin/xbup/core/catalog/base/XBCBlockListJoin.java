@@ -15,6 +15,9 @@
  */
 package org.exbin.xbup.core.catalog.base;
 
+import java.util.Optional;
+import javax.annotation.Nonnull;
+
 /**
  * Interface for finite type list of block join entity.
  *
@@ -26,16 +29,17 @@ public interface XBCBlockListJoin extends XBCJoinDef {
     /**
      * Gets specification which is also owner.
      *
-     * @return block specification
+     * @return XBCBlockSpec block specification
      */
+    @Nonnull
     @Override
-    XBCBlockSpec getSpec();
+    XBCSpec getSpec();
 
     /**
      * Gets target specification.
      *
      * @return block revision
      */
-    @Override
-    XBCBlockRev getTarget();
+    @Nonnull
+    Optional<XBCBlockRev> getTarget();
 }

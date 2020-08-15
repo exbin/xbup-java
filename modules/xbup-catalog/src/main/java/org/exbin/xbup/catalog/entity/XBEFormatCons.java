@@ -15,41 +15,65 @@
  */
 package org.exbin.xbup.catalog.entity;
 
+import java.util.Optional;
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
 import javax.persistence.Entity;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
-import org.exbin.xbup.core.catalog.base.XBCFormatCons;
+import org.exbin.xbup.catalog.modifiable.XBMFormatCons;
+import org.exbin.xbup.core.block.definition.XBParamType;
 import org.exbin.xbup.core.catalog.base.XBCFormatSpec;
 import org.exbin.xbup.core.catalog.base.XBCGroupRev;
+import org.exbin.xbup.core.catalog.base.XBCRev;
+import org.exbin.xbup.core.catalog.base.XBCSpec;
 
 /**
  * Format consist database entity.
  *
- * @version 0.1.22 2012/12/31
+ * @version 0.2.1 2020/08/14
  * @author ExBin Project (http://exbin.org)
  */
+@ParametersAreNonnullByDefault
 @Entity(name = "XBFormatCons")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-public class XBEFormatCons extends XBEConsDef implements XBCFormatCons {
+public class XBEFormatCons extends XBEConsDef implements XBMFormatCons {
 
     public XBEFormatCons() {
     }
 
+    @Nonnull
     @Override
     public XBCFormatSpec getSpec() {
         return (XBCFormatSpec) super.getSpec();
     }
 
     @Override
+    public void setSpec(XBCSpec spec) {
+        if (!(spec instanceof XBEFormatSpec)) {
+            throw new IllegalArgumentException();
+        }
+        super.setSpec(spec);
+    }
+
+    @Nonnull
+    @Override
     public XBCGroupRev getTarget() {
-        return (XBCGroupRev) super.getTarget();
+        Optional<XBCRev> targetRev = super.getTargetRev();
+        if (!targetRev.isPresent()) {
+            throw new IllegalStateException();
+        }
+        return (XBCGroupRev) targetRev.get();
     }
 
-    public void setSpec(XBEFormatSpec spec) {
-        super.setCatalogItem(spec);
+    @Override
+    public void setTarget(XBCGroupRev target) {
+        super.setTargetRev(target);
     }
 
-    public void setTarget(XBEGroupRev target) {
-        super.setTarget(target);
+    @Nonnull
+    @Override
+    public XBParamType getType() {
+        return XBParamType.CONSIST;
     }
 }

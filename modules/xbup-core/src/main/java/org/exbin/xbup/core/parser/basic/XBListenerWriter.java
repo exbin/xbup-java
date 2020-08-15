@@ -23,7 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 import org.exbin.xbup.core.block.XBBlockDataMode;
 import org.exbin.xbup.core.block.XBBlockTerminationMode;
-import org.exbin.xbup.core.parser.XBParseException;
+import org.exbin.xbup.core.parser.XBParsingException;
 import org.exbin.xbup.core.parser.XBParserMode;
 import org.exbin.xbup.core.parser.XBParserState;
 import org.exbin.xbup.core.parser.XBProcessingException;
@@ -97,7 +97,7 @@ public class XBListenerWriter implements Closeable, XBListener {
 
     public void closeXB() throws XBProcessingException, IOException {
         if (parserState != XBParserState.EOF && parserState != XBParserState.TAIL_DATA) {
-            throw new XBParseException("Unexpected end of stream", XBProcessingExceptionType.UNEXPECTED_END_OF_STREAM);
+            throw new XBParsingException("Unexpected end of stream", XBProcessingExceptionType.UNEXPECTED_END_OF_STREAM);
         }
 
         close();
@@ -135,7 +135,7 @@ public class XBListenerWriter implements Closeable, XBListener {
 
             attributeList.clear();
         } else {
-            throw new XBParseException("Unexpected begin of block", XBProcessingExceptionType.UNEXPECTED_ORDER);
+            throw new XBParsingException("Unexpected begin of block", XBProcessingExceptionType.UNEXPECTED_ORDER);
         }
     }
 
@@ -154,7 +154,7 @@ public class XBListenerWriter implements Closeable, XBListener {
                 attributeList.add(attribute);
             }
         } else {
-            throw new XBParseException("Unexpected attribute", XBProcessingExceptionType.UNEXPECTED_ORDER);
+            throw new XBParsingException("Unexpected attribute", XBProcessingExceptionType.UNEXPECTED_ORDER);
         }
     }
 
@@ -162,14 +162,14 @@ public class XBListenerWriter implements Closeable, XBListener {
     public void dataXB(InputStream data) throws XBProcessingException, IOException {
         if (depthLevel == 1 && (parserState == XBParserState.ATTRIBUTE_PART || parserState == XBParserState.DATA_PART || parserState == XBParserState.BLOCK_END)) {
             if (parserMode == XBParserMode.SINGLE_BLOCK || parserMode == XBParserMode.SKIP_TAIL) {
-                throw new XBParseException("Tail data present when not expected", XBProcessingExceptionType.UNEXPECTED_ORDER);
+                throw new XBParsingException("Tail data present when not expected", XBProcessingExceptionType.UNEXPECTED_ORDER);
             }
             endXB();
             parserState = XBParserState.TAIL_DATA;
             StreamUtils.copyInputStreamToOutputStream(data, stream);
         } else {
             if (parserState != XBParserState.BLOCK_BEGIN) {
-                throw new XBParseException("Unexpected data token", XBProcessingExceptionType.UNEXPECTED_ORDER);
+                throw new XBParsingException("Unexpected data token", XBProcessingExceptionType.UNEXPECTED_ORDER);
             }
 
             dataMode = XBBlockDataMode.DATA_BLOCK;
@@ -230,7 +230,7 @@ public class XBListenerWriter implements Closeable, XBListener {
             }
 
             default:
-                throw new XBParseException("Unexpected end token", XBProcessingExceptionType.UNEXPECTED_ORDER);
+                throw new XBParsingException("Unexpected end token", XBProcessingExceptionType.UNEXPECTED_ORDER);
         }
     }
 

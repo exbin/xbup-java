@@ -44,12 +44,12 @@ public class XBRXPlugPane implements XBCXPlugPane {
     }
 
     @Override
-    public Long getPaneIndex() {
+    public long getPaneIndex() {
         return paneStub.getPaneIndex(id);
     }
 
     @Override
-    public Long getId() {
+    public long getId() {
         return id;
     }
 }

@@ -15,6 +15,9 @@
  */
 package org.exbin.xbup.core.catalog.base;
 
+import java.util.Optional;
+import javax.annotation.Nonnull;
+
 /**
  * Interface for join definition entity.
  *
@@ -28,6 +31,7 @@ public interface XBCJoinDef extends XBCSpecDef {
      *
      * @return specification
      */
+    @Nonnull
     @Override
     XBCSpec getSpec();
 
@@ -36,6 +40,7 @@ public interface XBCJoinDef extends XBCSpecDef {
      *
      * @return revision
      */
+    @Nonnull
     @Override
-    XBCRev getTarget();
+    Optional<XBCRev> getTargetRev();
 }

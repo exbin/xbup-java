@@ -18,7 +18,7 @@ package org.exbin.xbup.core.catalog.base;
 /**
  * Base interface for catalog entities.
  *
- * @version 0.1.23 2014/02/07
+ * @version 0.2.1 2020/08/10
  * @author ExBin Project (http://exbin.org)
  */
 public interface XBCBase {
@@ -30,5 +30,5 @@ public interface XBCBase {
      *
      * @return item identification number
      */
-    Long getId();
+    long getId();
 }

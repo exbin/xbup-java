@@ -15,14 +15,16 @@
  */
 package org.exbin.xbup.client.catalog.remote;
 
+import java.util.Optional;
 import org.exbin.xbup.client.XBCatalogServiceClient;
 import org.exbin.xbup.client.stub.XBPRevStub;
+import org.exbin.xbup.core.catalog.base.XBCItem;
 import org.exbin.xbup.core.catalog.base.XBCRev;
 
 /**
  * Catalog remote revision entity.
  *
- * @version 0.1.25 2015/02/21
+ * @version 0.2.1 2020/08/14
  * @author ExBin Project (http://exbin.org)
  */
 public class XBRRev extends XBRItem implements XBCRev {
@@ -35,16 +37,17 @@ public class XBRRev extends XBRItem implements XBCRev {
     }
 
     @Override
-    public Long getXBLimit() {
+    public long getXBLimit() {
         return revStub.getXBLimit(getId());
     }
 
     @Override
     public XBRSpec getParent() {
-        XBRItem item = super.getParent();
-        if (item == null) {
-            return null;
+        Optional<XBCItem> item = super.getParentItem();
+        if (item.isPresent()) {
+            return new XBRSpec(client, item.get().getId());
         }
-        return new XBRSpec(client, item.getId());
+        
+        throw new IllegalStateException("Missing parent item");
     }
 }

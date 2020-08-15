@@ -16,21 +16,27 @@
 package org.exbin.xbup.catalog.entity;
 
 import java.io.Serializable;
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import org.exbin.xbup.core.catalog.base.XBCTran;
+import org.exbin.xbup.catalog.modifiable.XBMTran;
+import org.exbin.xbup.core.catalog.base.XBCBlockRev;
+import org.exbin.xbup.core.catalog.base.XBCBlockSpec;
+import org.exbin.xbup.core.catalog.base.XBCLimitSpec;
 
 /**
  * Transformations database entity.
  *
- * @version 0.1.21 2011/08/21
+ * @version 0.2.1 2020/08/14
  * @author ExBin Project (http://exbin.org)
  */
+@ParametersAreNonnullByDefault
 @Entity(name = "XBTran")
-public class XBETran implements XBCTran, Serializable {
+public class XBETran implements XBMTran, Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -48,47 +54,56 @@ public class XBETran implements XBCTran, Serializable {
     }
 
     @Override
-    public Long getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    @Override
+    public void setId(long id) {
         this.id = id;
     }
 
+    @Nonnull
     @Override
     public XBEBlockSpec getOwner() {
         return owner;
     }
 
-    public void setOwner(XBEBlockSpec owner) {
-        this.owner = owner;
+    @Override
+    public void setOwner(XBCBlockSpec owner) {
+        this.owner = (XBEBlockSpec) owner;
     }
 
+    @Nonnull
     @Override
     public XBEBlockRev getTarget() {
         return target;
     }
 
-    public void setTarget(XBEBlockRev target) {
-        this.target = target;
+    @Override
+    public void setTarget(XBCBlockRev target) {
+        this.target = (XBEBlockRev) target;
     }
 
+    @Nonnull
     @Override
     public XBELimitSpec getLimit() {
         return limit;
     }
 
-    public void setLimit(XBELimitSpec limit) {
-        this.limit = limit;
+    @Override
+    public void setLimit(XBCLimitSpec limit) {
+        this.limit = (XBELimitSpec) limit;
     }
 
+    @Nonnull
     @Override
     public XBEBlockRev getExcept() {
         return except;
     }
 
-    public void setExcept(XBEBlockRev except) {
-        this.except = except;
+    @Override
+    public void setExcept(XBCBlockRev except) {
+        this.except = (XBEBlockRev) except;
     }
 }

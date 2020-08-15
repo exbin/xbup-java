@@ -16,24 +16,30 @@
 package org.exbin.xbup.catalog.entity;
 
 import java.io.Serializable;
+import java.util.Optional;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
 import javax.persistence.Entity;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.ManyToOne;
+import org.exbin.xbup.catalog.modifiable.XBMSpecDef;
 import org.exbin.xbup.core.block.definition.XBParamType;
+import org.exbin.xbup.core.catalog.base.XBCItem;
 import org.exbin.xbup.core.catalog.base.XBCRev;
 import org.exbin.xbup.core.catalog.base.XBCSpec;
-import org.exbin.xbup.core.catalog.base.XBCSpecDef;
 
 /**
  * Specification definition database entity.
  *
- * @version 0.1.22 2013/01/11
+ * @version 0.2.1 2020/08/14
  * @author ExBin Project (http://exbin.org)
  */
+@ParametersAreNonnullByDefault
 @Entity(name = "XBSpecDef")
 @Inheritance(strategy = InheritanceType.JOINED)
-public class XBESpecDef extends XBEItem implements Serializable, XBCSpecDef {
+public class XBESpecDef extends XBEItem implements Serializable, XBMSpecDef {
 
     @ManyToOne
     private XBERev target;
@@ -41,26 +47,41 @@ public class XBESpecDef extends XBEItem implements Serializable, XBCSpecDef {
     public XBESpecDef() {
     }
 
+    @Nonnull
     @Override
-    public XBCRev getTarget() {
-        return target;
+    public Optional<XBCRev> getTargetRev() {
+        return Optional.ofNullable(target);
     }
 
-    public void setTarget(XBERev target) {
-        this.target = target;
+    @Override
+    public void setTargetRev(@Nullable XBCRev target) {
+        this.target = (XBERev) target;
     }
 
+    @Nonnull
     @Override
     public XBCSpec getSpec() {
-        return (XBCSpec) getParent();
-    }
+        Optional<XBCItem> parentItem = getParentItem();
+        if (!parentItem.isPresent()) {
+            throw new IllegalStateException();
+        }
 
-    public void setCatalogItem(XBESpec spec) {
-        setParent(spec);
+        return (XBCSpec) parentItem.get();
     }
 
     @Override
+    public void setSpec(XBCSpec spec) {
+        super.setParentItem(spec);
+    }
+
+    @Nonnull
+    @Override
     public XBParamType getType() {
-        return null;
+        throw new IllegalStateException();
+    }
+
+    @Override
+    public void setType(XBParamType type) {
+        throw new IllegalStateException();
     }
 }

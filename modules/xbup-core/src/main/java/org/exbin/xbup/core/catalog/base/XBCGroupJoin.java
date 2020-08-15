@@ -15,6 +15,8 @@
  */
 package org.exbin.xbup.core.catalog.base;
 
+import javax.annotation.Nonnull;
+
 /**
  * Interface for group join entity.
  *
@@ -26,16 +28,17 @@ public interface XBCGroupJoin extends XBCJoinDef {
     /**
      * Gets specification which is also owner.
      *
-     * @return group specification
+     * @return XBCGroupSpec group specification
      */
+    @Nonnull
     @Override
-    XBCGroupSpec getSpec();
+    XBCSpec getSpec();
 
     /**
      * Gets target specification.
      *
-     * @return group revision
+     * @return group revision, never empty
      */
-    @Override
+    @Nonnull
     XBCGroupRev getTarget();
 }

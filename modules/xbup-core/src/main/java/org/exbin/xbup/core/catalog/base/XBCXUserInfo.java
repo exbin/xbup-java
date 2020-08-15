@@ -16,11 +16,13 @@
 package org.exbin.xbup.core.catalog.base;
 
 import java.util.Date;
+import java.util.Optional;
+import javax.annotation.Nonnull;
 
 /**
  * Interface for catalog user information entity.
  *
- * @version 0.1.22 2012/09/09
+ * @version 0.2.1 2020/08/10
  * @author ExBin Project (http://exbin.org)
  */
 public interface XBCXUserInfo extends XBCBase {
@@ -30,6 +32,7 @@ public interface XBCXUserInfo extends XBCBase {
      *
      * @return the user
      */
+    @Nonnull
     XBCXUser getUser();
 
     /**
@@ -37,6 +40,7 @@ public interface XBCXUserInfo extends XBCBase {
      *
      * @return the created
      */
+    @Nonnull
     Date getCreated();
 
     /**
@@ -44,19 +48,22 @@ public interface XBCXUserInfo extends XBCBase {
      *
      * @return the currLogin
      */
-    Date getCurrLogin();
+    @Nonnull
+    Optional<Date> getCurrLogin();
 
     /**
      * Gets date of last login.
      *
      * @return the lastLogin
      */
-    Date getLastLogin();
+    @Nonnull
+    Optional<Date> getLastLogin();
 
     /**
      * Gets date of last change.
      *
      * @return the updated
      */
-    Date getUpdated();
+    @Nonnull
+    Optional<Date> getUpdated();
 }

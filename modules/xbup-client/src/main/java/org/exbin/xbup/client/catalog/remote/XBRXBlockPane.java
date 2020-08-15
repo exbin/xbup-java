@@ -50,12 +50,12 @@ public class XBRXBlockPane implements XBCXBlockPane {
     }
 
     @Override
-    public Long getPriority() {
+    public long getPriority() {
         return paneStub.getPriority(id);
     }
 
     @Override
-    public Long getId() {
+    public long getId() {
         return id;
     }
 }

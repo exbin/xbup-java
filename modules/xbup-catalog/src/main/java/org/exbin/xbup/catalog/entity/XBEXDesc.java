@@ -16,23 +16,24 @@
 package org.exbin.xbup.catalog.entity;
 
 import java.io.Serializable;
+import javax.annotation.Nonnull;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import org.exbin.xbup.catalog.modifiable.XBMXDesc;
 import org.exbin.xbup.core.catalog.base.XBCItem;
-import org.exbin.xbup.core.catalog.base.XBCXDesc;
 import org.exbin.xbup.core.catalog.base.XBCXLanguage;
 
 /**
  * Item description database entity.
  *
- * @version 0.1.21 2011/11/16
+ * @version 0.2.1 2020/08/14
  * @author ExBin Project (http://exbin.org)
  */
 @Entity(name = "XBXDesc")
-public class XBEXDesc implements XBCXDesc, Serializable {
+public class XBEXDesc implements XBMXDesc, Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -50,24 +51,28 @@ public class XBEXDesc implements XBCXDesc, Serializable {
     }
 
     @Override
-    public Long getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    @Override
+    public void setId(long id) {
         this.id = id;
     }
 
+    @Nonnull
     @Override
     public XBCItem getItem() {
         return item;
     }
 
+    @Nonnull
     @Override
     public String getText() {
         return text;
     }
 
+    @Nonnull
     @Override
     public XBCXLanguage getLang() {
         return lang;

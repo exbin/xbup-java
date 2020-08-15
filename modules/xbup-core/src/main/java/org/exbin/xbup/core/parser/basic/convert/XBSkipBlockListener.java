@@ -18,7 +18,7 @@ package org.exbin.xbup.core.parser.basic.convert;
 import java.io.IOException;
 import java.io.InputStream;
 import org.exbin.xbup.core.block.XBBlockTerminationMode;
-import org.exbin.xbup.core.parser.XBParseException;
+import org.exbin.xbup.core.parser.XBParsingException;
 import org.exbin.xbup.core.parser.XBProcessingExceptionType;
 import org.exbin.xbup.core.parser.basic.XBListener;
 import org.exbin.xbup.core.parser.token.XBAttribute;
@@ -39,32 +39,32 @@ public class XBSkipBlockListener implements XBListener {
     }
 
     @Override
-    public void beginXB(XBBlockTerminationMode terminationMode) throws XBParseException, IOException {
+    public void beginXB(XBBlockTerminationMode terminationMode) throws XBParsingException, IOException {
         if (isSkipped) {
-            throw new XBParseException("Unexpected token after block skip", XBProcessingExceptionType.WRITING_AFTER_END);
+            throw new XBParsingException("Unexpected token after block skip", XBProcessingExceptionType.WRITING_AFTER_END);
         }
 
         level++;
     }
 
     @Override
-    public void attribXB(XBAttribute value) throws XBParseException, IOException {
+    public void attribXB(XBAttribute value) throws XBParsingException, IOException {
         if (isSkipped) {
-            throw new XBParseException("Unexpected token after block skip", XBProcessingExceptionType.WRITING_AFTER_END);
+            throw new XBParsingException("Unexpected token after block skip", XBProcessingExceptionType.WRITING_AFTER_END);
         }
     }
 
     @Override
-    public void dataXB(InputStream data) throws XBParseException, IOException {
+    public void dataXB(InputStream data) throws XBParsingException, IOException {
         if (isSkipped) {
-            throw new XBParseException("Unexpected token after block skip", XBProcessingExceptionType.WRITING_AFTER_END);
+            throw new XBParsingException("Unexpected token after block skip", XBProcessingExceptionType.WRITING_AFTER_END);
         }
     }
 
     @Override
-    public void endXB() throws XBParseException, IOException {
+    public void endXB() throws XBParsingException, IOException {
         if (isSkipped) {
-            throw new XBParseException("Unexpected token after block skip", XBProcessingExceptionType.WRITING_AFTER_END);
+            throw new XBParsingException("Unexpected token after block skip", XBProcessingExceptionType.WRITING_AFTER_END);
         }
 
         if (level == 0) {

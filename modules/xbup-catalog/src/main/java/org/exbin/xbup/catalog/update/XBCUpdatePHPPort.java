@@ -63,20 +63,20 @@ public class XBCUpdatePHPPort {
         compoundCall = null;
     }
 
-    public void setItemName(ItemInfo info, List<XBCXName> list, Long langId) {
+    public void setItemName(ItemInfo info, List<XBCXName> list, long langId) {
         String name = null;
         for (XBCXName itemName : list) {
-            if (((XBCXLanguage) itemName.getLang()).getId().equals(langId)) {
+            if (((XBCXLanguage) itemName.getLang()).getId() == langId) {
                 name = itemName.getText();
             }
         }
         info.setName(name);
     }
 
-    public void setItemDesc(ItemInfo info, List<XBCXDesc> list, Long langId) {
+    public void setItemDesc(ItemInfo info, List<XBCXDesc> list, long langId) {
         String desc = null;
         for (XBCXDesc itemDesc : list) {
-            if (((XBCXLanguage) itemDesc.getLang()).getId().equals(langId)) {
+            if (((XBCXLanguage) itemDesc.getLang()).getId() == langId) {
                 desc = itemDesc.getText();
             }
         }

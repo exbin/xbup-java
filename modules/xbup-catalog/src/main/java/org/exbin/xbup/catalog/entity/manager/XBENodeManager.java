@@ -131,12 +131,9 @@ public class XBENodeManager extends XBEDefaultCatalogManager<XBENode> implements
         XBENode parent = (XBENode) node;
         while (parent != null) {
             if (parent.getParent() != null) {
-                if (parent.getXBIndex() == null) {
-                    return null;
-                }
                 list.add(0, parent.getXBIndex());
             }
-            parent = (XBENode) parent.getParent();
+            parent = (XBENode) parent.getParent().orElse(null);
         }
         return (Long[]) list.toArray(new Long[list.size()]);
     }

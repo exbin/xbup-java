@@ -16,20 +16,23 @@
 package org.exbin.xbup.catalog.entity;
 
 import java.io.Serializable;
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import org.exbin.xbup.core.catalog.base.XBCXIconMode;
+import org.exbin.xbup.catalog.modifiable.XBMXIconMode;
 
 /**
  * Item Icon mode database entity.
  *
- * @version 0.1.21 2011/08/21
+ * @version 0.2.1 2020/08/14
  * @author ExBin Project (http://exbin.org)
  */
+@ParametersAreNonnullByDefault
 @Entity(name = "XBXIconMode")
-public class XBEXIconMode implements XBCXIconMode, Serializable {
+public class XBEXIconMode implements XBMXIconMode, Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -42,37 +45,43 @@ public class XBEXIconMode implements XBCXIconMode, Serializable {
     }
 
     @Override
-    public Long getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    @Override
+    public void setId(long id) {
         this.id = id;
     }
 
     @Override
-    public Long getType() {
+    public long getType() {
         return type;
     }
 
-    public void setType(Long type) {
+    @Override
+    public void setType(long type) {
         this.type = type;
     }
 
+    @Nonnull
     @Override
     public String getMIME() {
         return mIME;
     }
 
+    @Override
     public void setMIME(String mIME) {
         this.mIME = mIME;
     }
 
+    @Nonnull
     @Override
     public String getCaption() {
         return caption;
     }
 
+    @Override
     public void setCaption(String caption) {
         this.caption = caption;
     }

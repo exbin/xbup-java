@@ -22,7 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 import org.exbin.xbup.core.block.XBBlockDataMode;
 import org.exbin.xbup.core.block.XBBlockTerminationMode;
-import org.exbin.xbup.core.parser.XBParseException;
+import org.exbin.xbup.core.parser.XBParsingException;
 import org.exbin.xbup.core.parser.XBParserMode;
 import org.exbin.xbup.core.parser.XBProcessingException;
 import org.exbin.xbup.core.parser.XBProcessingExceptionType;
@@ -153,15 +153,15 @@ public class XBPullWriter implements Closeable, XBPullConsumer {
                                     StreamUtils.copyInputStreamToOutputStream(((XBDataToken) token).getData(), stream);
                                     token = pullProvider.pullXBToken();
                                     if (token.getTokenType() != XBTokenType.END) {
-                                        throw new XBParseException("End token was expected after tail data", XBProcessingExceptionType.UNEXPECTED_ORDER);
+                                        throw new XBParsingException("End token was expected after tail data", XBProcessingExceptionType.UNEXPECTED_ORDER);
                                     }
                                 } else {
-                                    throw new XBParseException("Tail data present when not expected", XBProcessingExceptionType.UNEXPECTED_ORDER);
+                                    throw new XBParsingException("Tail data present when not expected", XBProcessingExceptionType.UNEXPECTED_ORDER);
                                 }
                             }
 
                             if (token.getTokenType() != XBTokenType.END) {
-                                throw new XBParseException("Data block must be followed by block end", XBProcessingExceptionType.UNEXPECTED_ORDER);
+                                throw new XBParsingException("Data block must be followed by block end", XBProcessingExceptionType.UNEXPECTED_ORDER);
                             }
 
                             break;
@@ -219,17 +219,17 @@ public class XBPullWriter implements Closeable, XBPullConsumer {
                                     StreamUtils.copyInputStreamToOutputStream(((XBDataToken) token).getData(), stream);
                                     token = pullProvider.pullXBToken();
                                     if (token.getTokenType() != XBTokenType.END) {
-                                        throw new XBParseException("End token was expected after tail data", XBProcessingExceptionType.UNEXPECTED_ORDER);
+                                        throw new XBParsingException("End token was expected after tail data", XBProcessingExceptionType.UNEXPECTED_ORDER);
                                     }
                                 } else {
-                                    throw new XBParseException("Tail data present when not expected", XBProcessingExceptionType.UNEXPECTED_ORDER);
+                                    throw new XBParsingException("Tail data present when not expected", XBProcessingExceptionType.UNEXPECTED_ORDER);
                                 }
                             }
 
                             break;
                         }
                         default:
-                            throw new XBParseException("Missing at least one attribute", XBProcessingExceptionType.UNEXPECTED_ORDER);
+                            throw new XBParsingException("Missing at least one attribute", XBProcessingExceptionType.UNEXPECTED_ORDER);
                     }
 
                     break;
@@ -270,10 +270,10 @@ public class XBPullWriter implements Closeable, XBPullConsumer {
                             StreamUtils.copyInputStreamToOutputStream(((XBDataToken) token).getData(), stream);
                             token = pullProvider.pullXBToken();
                             if (token.getTokenType() != XBTokenType.END) {
-                                throw new XBParseException("End token was expected after tail data", XBProcessingExceptionType.UNEXPECTED_ORDER);
+                                throw new XBParsingException("End token was expected after tail data", XBProcessingExceptionType.UNEXPECTED_ORDER);
                             }
                         } else {
-                            throw new XBParseException("Tail data present when not expected", XBProcessingExceptionType.UNEXPECTED_ORDER);
+                            throw new XBParsingException("Tail data present when not expected", XBProcessingExceptionType.UNEXPECTED_ORDER);
                         }
                     }
 
@@ -281,7 +281,7 @@ public class XBPullWriter implements Closeable, XBPullConsumer {
                 }
 
                 default:
-                    throw new XBParseException("Must begin with NodeBegin", XBProcessingExceptionType.UNEXPECTED_ORDER);
+                    throw new XBParsingException("Must begin with NodeBegin", XBProcessingExceptionType.UNEXPECTED_ORDER);
             }
         } while (depthLevel > 0);
     }

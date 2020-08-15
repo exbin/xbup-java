@@ -15,44 +15,64 @@
  */
 package org.exbin.xbup.catalog.entity;
 
+import java.util.Optional;
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
 import javax.persistence.Entity;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import org.exbin.xbup.core.block.definition.XBParamType;
 import org.exbin.xbup.core.catalog.base.XBCFormatJoin;
 import org.exbin.xbup.core.catalog.base.XBCFormatRev;
 import org.exbin.xbup.core.catalog.base.XBCFormatSpec;
+import org.exbin.xbup.core.catalog.base.XBCRev;
+import org.exbin.xbup.core.catalog.base.XBCSpec;
 
 /**
  * Format join database entity.
  *
- * @version 0.1.22 2012/12/31
+ * @version 0.2.1 2020/08/14
  * @author ExBin Project (http://exbin.org)
  */
+@ParametersAreNonnullByDefault
 @Entity(name = "XBFormatJoin")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public class XBEFormatJoin extends XBEJoinDef implements XBCFormatJoin {
 
-    /**
-     * Creates a new instance of XBEBindBlock
-     */
     public XBEFormatJoin() {
     }
 
+    @Nonnull
     @Override
     public XBCFormatSpec getSpec() {
         return (XBCFormatSpec) super.getSpec();
     }
 
     @Override
+    public void setSpec(XBCSpec spec) {
+        if (!(spec instanceof XBEFormatSpec)) {
+            throw new IllegalArgumentException();
+        }
+        super.setSpec(spec);
+    }
+
+    @Nonnull
+    @Override
     public XBCFormatRev getTarget() {
-        return (XBCFormatRev) super.getTarget();
+        Optional<XBCRev> targetRev = super.getTargetRev();
+        if (!targetRev.isPresent()) {
+            throw new IllegalStateException();
+        }
+        return (XBCFormatRev) targetRev.get();
     }
 
-    public void setSpec(XBEFormatSpec spec) {
-        super.setCatalogItem(spec);
+    public void setTarget(XBCFormatRev target) {
+        super.setTargetRev(target);
     }
 
-    public void setTarget(XBEFormatRev target) {
-        super.setTarget(target);
+    @Nonnull
+    @Override
+    public XBParamType getType() {
+        return XBParamType.JOIN;
     }
 }

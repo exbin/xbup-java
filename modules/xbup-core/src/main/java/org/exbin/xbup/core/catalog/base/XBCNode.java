@@ -15,10 +15,13 @@
  */
 package org.exbin.xbup.core.catalog.base;
 
+import java.util.Optional;
+import javax.annotation.Nonnull;
+
 /**
  * Interface for catalog node entity.
  *
- * @version 0.1.21 2011/12/11
+ * @version 0.2.1 2020/08/10
  * @author ExBin Project (http://exbin.org)
  */
 public interface XBCNode extends XBCItem {
@@ -28,6 +31,6 @@ public interface XBCNode extends XBCItem {
      *
      * @return node
      */
-    @Override
-    XBCNode getParent();
+    @Nonnull
+    Optional<XBCNode> getParent();
 }

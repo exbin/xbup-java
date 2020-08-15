@@ -15,13 +15,16 @@
  */
 package org.exbin.xbup.client.catalog.remote;
 
+import java.util.Optional;
 import org.exbin.xbup.client.XBCatalogServiceClient;
+import org.exbin.xbup.core.catalog.base.XBCItem;
+import org.exbin.xbup.core.catalog.base.XBCNode;
 import org.exbin.xbup.core.catalog.base.XBCSpec;
 
 /**
  * Catalog remote specification entity.
  *
- * @version 0.1.25 2015/02/21
+ * @version 0.2.1 2020/08/14
  * @author ExBin Project (http://exbin.org)
  */
 public class XBRSpec extends XBRItem implements XBCSpec {
@@ -31,12 +34,13 @@ public class XBRSpec extends XBRItem implements XBCSpec {
     }
 
     @Override
-    public XBRNode getParent() {
-        XBRItem item = super.getParent();
-        if (item == null) {
-            return null;
+    public Optional<XBCNode> getParent() {
+        Optional<XBCItem> optionalItem = super.getParentItem();
+        if (optionalItem.isPresent()) {
+            XBRItem item = (XBRItem) optionalItem.get();
+            return Optional.of(new XBRNode(item.client, item.getId()));
         }
 
-        return new XBRNode(item.client, item.getId());
+        return Optional.empty();
     }
 }

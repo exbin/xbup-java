@@ -15,6 +15,8 @@
  */
 package org.exbin.xbup.core.catalog.base;
 
+import javax.annotation.Nonnull;
+
 /**
  * Interface for extensions - used for catalog extensions.
  *
@@ -37,5 +39,6 @@ public interface XBCExtension {
      *
      * @return the name string of this extension
      */
+    @Nonnull
     String getExtensionName();
 }

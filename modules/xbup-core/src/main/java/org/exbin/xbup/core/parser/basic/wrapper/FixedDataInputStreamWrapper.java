@@ -17,7 +17,7 @@ package org.exbin.xbup.core.parser.basic.wrapper;
 
 import java.io.IOException;
 import java.io.InputStream;
-import org.exbin.xbup.core.parser.XBParseException;
+import org.exbin.xbup.core.parser.XBParsingException;
 import org.exbin.xbup.core.parser.XBProcessingExceptionType;
 import org.exbin.xbup.core.stream.FinishableStream;
 
@@ -89,7 +89,7 @@ public class FixedDataInputStreamWrapper extends InputStream implements Finishab
     }
 
     @Override
-    public long finish() throws IOException, XBParseException {
+    public long finish() throws IOException, XBParsingException {
         // Read up remaining data
         if (remaining > 0) {
             byte[] buf = new byte[1024];
@@ -105,7 +105,7 @@ public class FixedDataInputStreamWrapper extends InputStream implements Finishab
             }
 
             if (remaining > 0) {
-                throw new XBParseException("Unexpected end of stream", XBProcessingExceptionType.UNEXPECTED_END_OF_STREAM);
+                throw new XBParsingException("Unexpected end of stream", XBProcessingExceptionType.UNEXPECTED_END_OF_STREAM);
             }
         }
 

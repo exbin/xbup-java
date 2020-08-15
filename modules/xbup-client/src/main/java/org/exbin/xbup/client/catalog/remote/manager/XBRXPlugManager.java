@@ -66,13 +66,10 @@ public class XBRXPlugManager extends XBRDefaultManager<XBRXPlugin> implements XB
         ArrayList<Long> list = new ArrayList<>();
         XBCNode parent = plugin.getOwner();
         while (parent != null) {
-            if (parent.getParent() != null) {
-                if (parent.getXBIndex() == null) {
-                    return null;
-                }
+            if (parent.getParent().isPresent()) {
                 list.add(0, parent.getXBIndex());
             }
-            parent = (XBCNode) parent.getParent();
+            parent = (XBCNode) parent.getParent().orElse(null);
         }
         list.add(plugin.getId());
         return (Long[]) list.toArray(new Long[list.size()]);

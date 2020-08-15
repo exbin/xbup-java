@@ -98,10 +98,10 @@ public class XBCGroupDef implements XBGroupDef, XBPSequenceSerializable {
     public XBGroupParam convertParam(XBCSpecDef specDef) {
         switch (specDef.getType()) {
             case CONSIST: {
-                return new XBGroupParamConsist(new XBCBlockDecl((XBCBlockRev) specDef.getTarget(), catalog));
+                return new XBGroupParamConsist(new XBCBlockDecl((XBCBlockRev) specDef.getTargetRev().get(), catalog));
             }
             case JOIN: {
-                return new XBGroupParamJoin(new XBCGroupDecl((XBCGroupRev) specDef.getTarget(), catalog));
+                return new XBGroupParamJoin(new XBCGroupDecl((XBCGroupRev) specDef.getTargetRev().get(), catalog));
             }
         }
 

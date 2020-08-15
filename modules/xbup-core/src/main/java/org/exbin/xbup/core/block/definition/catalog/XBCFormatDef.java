@@ -97,10 +97,10 @@ public class XBCFormatDef implements XBFormatDef, XBPSequenceSerializable {
     public XBFormatParam convertParam(XBCSpecDef specDef) {
         switch (specDef.getType()) {
             case CONSIST: {
-                return new XBFormatParamConsist(new XBCGroupDecl((XBCGroupRev) specDef.getTarget(), catalog));
+                return new XBFormatParamConsist(new XBCGroupDecl((XBCGroupRev) specDef.getTargetRev().get(), catalog));
             }
             case JOIN: {
-                return new XBFormatParamJoin(new XBCFormatDecl((XBCFormatRev) specDef.getTarget(), catalog));
+                return new XBFormatParamJoin(new XBCFormatDecl((XBCFormatRev) specDef.getTargetRev().get(), catalog));
             }
         }
 

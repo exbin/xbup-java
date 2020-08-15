@@ -16,11 +16,12 @@
 package org.exbin.xbup.core.catalog.base;
 
 import java.sql.Time;
+import javax.annotation.Nonnull;
 
 /**
  * Interface for item information entity.
  *
- * @version 0.1.21 2012/01/28
+ * @version 0.2.1 2020/08/14
  * @author ExBin Project (http://exbin.org)
  */
 public interface XBCXItemInfo extends XBCBase {
@@ -30,6 +31,7 @@ public interface XBCXItemInfo extends XBCBase {
      *
      * @return item
      */
+    @Nonnull
     XBCItem getItem();
 
     /**
@@ -37,6 +39,7 @@ public interface XBCXItemInfo extends XBCBase {
      *
      * @return user
      */
+    @Nonnull
     XBCXUser getOwner();
 
     /**
@@ -44,6 +47,7 @@ public interface XBCXItemInfo extends XBCBase {
      *
      * @return user
      */
+    @Nonnull
     XBCXUser getCreatedByUser();
 
     /**
@@ -51,5 +55,6 @@ public interface XBCXItemInfo extends XBCBase {
      *
      * @return creation date
      */
+    @Nonnull
     Time getCreationDate();
 }

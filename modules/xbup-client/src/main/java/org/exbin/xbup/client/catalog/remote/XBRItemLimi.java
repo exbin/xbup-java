@@ -45,12 +45,12 @@ public class XBRItemLimi implements XBCItemLimi {
     }
 
     @Override
-    public Long getXBIndex() {
+    public long getXBIndex() {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
-    public Long getId() {
+    public long getId() {
         return id;
     }
 }

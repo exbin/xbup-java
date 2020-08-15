@@ -16,14 +16,16 @@
 package org.exbin.xbup.catalog.entity;
 
 import java.io.Serializable;
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
+import org.exbin.xbup.catalog.modifiable.XBMXFile;
 import org.exbin.xbup.core.catalog.base.XBCNode;
-import org.exbin.xbup.core.catalog.base.XBCXFile;
 
 /**
  * Item assesory file database entity.
@@ -31,8 +33,9 @@ import org.exbin.xbup.core.catalog.base.XBCXFile;
  * @version 0.1.22 2013/07/28
  * @author ExBin Project (http://exbin.org)
  */
+@ParametersAreNonnullByDefault
 @Entity(name = "XBXFile")
-public class XBEXFile implements XBCXFile, Serializable {
+public class XBEXFile implements XBMXFile, Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -48,37 +51,44 @@ public class XBEXFile implements XBCXFile, Serializable {
     }
 
     @Override
-    public Long getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    @Override
+    public void setId(long id) {
         this.id = id;
     }
 
+    @Nonnull
     @Override
     public XBCNode getNode() {
         return (XBCNode) node;
     }
 
     @Override
+    public void setNode(XBCNode node) {
+        this.node = (XBENode) node;
+    }
+
+    @Nonnull
+    @Override
     public String getFilename() {
         return filename;
     }
 
-    public void setNode(XBENode node) {
-        this.node = node;
-    }
-
+    @Override
     public void setFilename(String filename) {
         this.filename = filename;
     }
 
+    @Nonnull
     @Override
     public byte[] getContent() {
         return content;
     }
 
+    @Override
     public void setContent(byte[] content) {
         this.content = content;
     }

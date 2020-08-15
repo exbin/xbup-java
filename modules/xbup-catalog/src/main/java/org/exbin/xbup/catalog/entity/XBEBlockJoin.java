@@ -15,41 +15,64 @@
  */
 package org.exbin.xbup.catalog.entity;
 
+import java.util.Optional;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
 import javax.persistence.Entity;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
-import org.exbin.xbup.core.catalog.base.XBCBlockJoin;
+import org.exbin.xbup.catalog.modifiable.XBMBlockJoin;
+import org.exbin.xbup.core.block.definition.XBParamType;
 import org.exbin.xbup.core.catalog.base.XBCBlockRev;
 import org.exbin.xbup.core.catalog.base.XBCBlockSpec;
+import org.exbin.xbup.core.catalog.base.XBCSpec;
 
 /**
  * Block join database entity.
  *
- * @version 0.1.22 2012/12/31
+ * @version 0.2.1 2020/08/14
  * @author ExBin Project (http://exbin.org)
  */
+@ParametersAreNonnullByDefault
 @Entity(name = "XBBlockJoin")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-public class XBEBlockJoin extends XBEJoinDef implements XBCBlockJoin {
+public class XBEBlockJoin extends XBEJoinDef implements XBMBlockJoin {
 
     public XBEBlockJoin() {
     }
 
+    @Nonnull
     @Override
     public XBCBlockSpec getSpec() {
         return (XBCBlockSpec) super.getSpec();
     }
 
     @Override
-    public XBCBlockRev getTarget() {
-        return (XBCBlockRev) super.getTarget();
+    public void setSpec(XBCSpec spec) {
+        if (!(spec instanceof XBEBlockSpec)) {
+            throw new IllegalArgumentException();
+        }
+        super.setSpec(spec);
     }
 
-    public void setSpec(XBEBlockSpec spec) {
-        super.setCatalogItem(spec);
+    @Nonnull
+    @Override
+    public Optional<XBCBlockRev> getTarget() {
+        return super.getTargetRev().map(t -> (XBCBlockRev) t);
     }
 
-    public void setTarget(XBEBlockRev target) {
-        super.setTarget(target);
+    @Override
+    public void setTarget(@Nullable XBCBlockRev blockRev) {
+        if (blockRev != null && !(blockRev instanceof XBEBlockRev)) {
+            throw new IllegalArgumentException();
+        }
+        super.setTargetRev(blockRev);
+    }
+
+    @Nonnull
+    @Override
+    public XBParamType getType() {
+        return XBParamType.JOIN;
     }
 }

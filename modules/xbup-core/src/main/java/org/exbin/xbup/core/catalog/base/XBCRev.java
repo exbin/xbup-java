@@ -15,10 +15,12 @@
  */
 package org.exbin.xbup.core.catalog.base;
 
+import javax.annotation.Nonnull;
+
 /**
  * Interface for catalog revision entity.
  *
- * @version 0.1.21 2012/01/28
+ * @version 0.2.1 2020/08/15
  * @author ExBin Project (http://exbin.org)
  */
 public interface XBCRev extends XBCItem {
@@ -26,9 +28,9 @@ public interface XBCRev extends XBCItem {
     /**
      * Returns relevant specification.
      *
-     * @return the specification
+     * @return specification
      */
-    @Override
+    @Nonnull
     XBCSpec getParent();
 
     /**
@@ -37,12 +39,12 @@ public interface XBCRev extends XBCItem {
      * @return the XB Index
      */
     @Override
-    Long getXBIndex();
+    long getXBIndex();
 
     /**
      * Returns maximum XBIndex of specification bind
      *
      * @return the maximum XB Index
      */
-    Long getXBLimit();
+    long getXBLimit();
 }

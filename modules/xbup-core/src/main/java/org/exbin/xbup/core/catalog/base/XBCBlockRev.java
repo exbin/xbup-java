@@ -15,6 +15,8 @@
  */
 package org.exbin.xbup.core.catalog.base;
 
+import javax.annotation.Nonnull;
+
 /**
  * Interface for revision of block specification entity.
  *
@@ -28,6 +30,7 @@ public interface XBCBlockRev extends XBCRev {
      *
      * @return block specification
      */
+    @Nonnull
     @Override
     XBCBlockSpec getParent();
 }

@@ -16,6 +16,8 @@
 package org.exbin.xbup.catalog.entity;
 
 import java.io.Serializable;
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -23,17 +25,19 @@ import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.ManyToOne;
-import org.exbin.xbup.core.catalog.base.XBCXPlugPane;
+import org.exbin.xbup.catalog.modifiable.XBMXPlugPane;
+import org.exbin.xbup.core.catalog.base.XBCXPlugin;
 
 /**
  * Plugin panel editor database entity.
  *
- * @version 0.1.21 2011/08/21
+ * @version 0.2.1 2020/08/14
  * @author ExBin Project (http://exbin.org)
  */
+@ParametersAreNonnullByDefault
 @Entity(name = "XBXPlugPane")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-public class XBEXPlugPane implements XBCXPlugPane, Serializable {
+public class XBEXPlugPane implements XBMXPlugPane, Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -46,29 +50,33 @@ public class XBEXPlugPane implements XBCXPlugPane, Serializable {
     }
 
     @Override
-    public Long getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    @Override
+    public void setId(long id) {
         this.id = id;
     }
 
+    @Nonnull
     @Override
-    public XBEXPlugin getPlugin() {
+    public XBCXPlugin getPlugin() {
         return plugin;
     }
 
-    public void setPlugin(XBEXPlugin plugin) {
-        this.plugin = plugin;
+    @Override
+    public void setPlugin(XBCXPlugin plugin) {
+        this.plugin = (XBEXPlugin) plugin;
     }
 
     @Override
-    public Long getPaneIndex() {
+    public long getPaneIndex() {
         return paneIndex;
     }
 
-    public void setPaneIndex(Long paneIndex) {
+    @Override
+    public void setPaneIndex(long paneIndex) {
         this.paneIndex = paneIndex;
     }
 }

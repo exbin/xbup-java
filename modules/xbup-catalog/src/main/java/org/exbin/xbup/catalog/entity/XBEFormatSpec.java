@@ -15,28 +15,33 @@
  */
 package org.exbin.xbup.catalog.entity;
 
+import java.util.Optional;
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
 import javax.persistence.Entity;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
-import org.exbin.xbup.core.catalog.base.XBCFormatSpec;
+import org.exbin.xbup.catalog.modifiable.XBMFormatSpec;
 import org.exbin.xbup.core.catalog.base.XBCNode;
 
 /**
  * Format specification database entity.
  *
- * @version 0.1.22 2012/12/31
+ * @version 0.2.1 2020/08/14
  * @author ExBin Project (http://exbin.org)
  */
+@ParametersAreNonnullByDefault
 @Entity(name = "XBFormatSpec")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-public class XBEFormatSpec extends XBESpec implements XBCFormatSpec {
+public class XBEFormatSpec extends XBESpec implements XBMFormatSpec {
 
     public long getBindsCount() {
         return 0;
     }
 
+    @Nonnull
     @Override
-    public XBCNode getParent() {
-        return (XBCNode) super.getParent();
+    public Optional<XBCNode> getParent() {
+        return super.getParent();
     }
 }

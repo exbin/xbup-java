@@ -15,6 +15,8 @@
  */
 package org.exbin.xbup.core.catalog.base;
 
+import javax.annotation.Nonnull;
+
 /**
  * Interface for item limitation entity.
  *
@@ -28,6 +30,7 @@ public interface XBCItemLimi extends XBCBase {
      *
      * @return block specification
      */
+    @Nonnull
     XBCBlockSpec getOwner();
 
     /**
@@ -35,6 +38,7 @@ public interface XBCItemLimi extends XBCBase {
      *
      * @return limit specification
      */
+    @Nonnull
     XBCLimitSpec getTarget();
 
     /**
@@ -42,5 +46,5 @@ public interface XBCItemLimi extends XBCBase {
      *
      * @return XB Index
      */
-    Long getXBIndex();
+    long getXBIndex();
 }

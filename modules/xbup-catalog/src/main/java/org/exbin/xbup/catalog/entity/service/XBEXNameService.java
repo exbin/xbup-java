@@ -17,6 +17,8 @@ package org.exbin.xbup.catalog.entity.service;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Optional;
+import javax.annotation.Nullable;
 import javax.annotation.PostConstruct;
 import org.exbin.xbup.catalog.XBECatalog;
 import org.exbin.xbup.catalog.entity.XBEXName;
@@ -34,7 +36,7 @@ import org.springframework.stereotype.Service;
 /**
  * Interface for XBEXName items service.
  *
- * @version 0.1.24 2014/12/03
+ * @version 0.2.1 2020/08/11
  * @author ExBin Project (http://exbin.org)
  */
 @Service
@@ -108,7 +110,7 @@ public class XBEXNameService extends XBEDefaultService<XBEXName> implements XBCX
     }
 
     @Override
-    public String getItemNamePath(XBCItem item) {
+    public String getItemNamePath(@Nullable XBCItem item) {
         if (item == null) {
             return "";
         }
@@ -116,10 +118,11 @@ public class XBEXNameService extends XBEDefaultService<XBEXName> implements XBCX
         StringBuilder builder = new StringBuilder();
         builder.append(getDefaultText(item));
 
-        XBCItem parentItem = item.getParent();
-        while (parentItem != null && parentItem.getParent() != null) {
+        Optional<XBCItem> optionalParent = item.getParentItem();
+        while (optionalParent.isPresent() && optionalParent.get().getParentItem().isPresent()) {
+            XBCItem parentItem = optionalParent.get();
             builder.insert(0, getDefaultText(parentItem) + ".");
-            parentItem = parentItem.getParent();
+            optionalParent = parentItem.getParentItem();
         }
 
         return builder.toString();

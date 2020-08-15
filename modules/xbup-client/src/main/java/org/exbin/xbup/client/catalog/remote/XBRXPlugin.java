@@ -49,12 +49,12 @@ public class XBRXPlugin implements XBCXPlugin {
     }
 
     @Override
-    public Long getPluginIndex() {
+    public long getPluginIndex() {
         return plugStub.getPluginIndex(id);
     }
 
     @Override
-    public Long getId() {
+    public long getId() {
         return id;
     }
 }

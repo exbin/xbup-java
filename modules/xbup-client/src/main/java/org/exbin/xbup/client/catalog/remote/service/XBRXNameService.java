@@ -16,6 +16,7 @@
 package org.exbin.xbup.client.catalog.remote.service;
 
 import java.util.List;
+import java.util.Optional;
 import org.exbin.xbup.client.catalog.XBRCatalog;
 import org.exbin.xbup.client.catalog.remote.XBRXName;
 import org.exbin.xbup.client.catalog.remote.manager.XBRXLangManager;
@@ -79,15 +80,16 @@ public class XBRXNameService extends XBRDefaultService<XBRXName> implements XBCX
                 removeItem(name);
             }
         } else {
-            if (name == null) {
-                XBRXLangManager langManager = ((XBRXLangManager) catalog.getCatalogManager(XBCXLangManager.class));
-                name = createItem();
-                name.setItem(item);
-                name.setLang(langManager.getDefaultLang());
-            }
-
-            name.setText(text);
-            persistItem(name);
+            throw new UnsupportedOperationException("Not supported yet.");
+//            if (name == null) {
+//                XBRXLangManager langManager = ((XBRXLangManager) catalog.getCatalogManager(XBCXLangManager.class));
+//                name = createItem();
+//                name.setItem(item);
+//                name.setLang(langManager.getDefaultLang());
+//            }
+//
+//            name.setText(text);
+//            persistItem(name);
         }
     }
 
@@ -96,10 +98,10 @@ public class XBRXNameService extends XBRDefaultService<XBRXName> implements XBCX
         StringBuilder builder = new StringBuilder();
         builder.append(getDefaultText(item));
 
-        XBCItem parentItem = item.getParent();
-        while (parentItem != null && parentItem.getParent() != null) {
-            builder.insert(0, getDefaultText(parentItem) + ".");
-            parentItem = parentItem.getParent();
+        Optional<XBCItem> parentItem = item.getParentItem();
+        while (parentItem.isPresent() && parentItem.get().getParentItem().isPresent()) {
+            builder.insert(0, getDefaultText(parentItem.get()) + ".");
+            parentItem = parentItem.get().getParentItem();
         }
 
         return builder.toString();

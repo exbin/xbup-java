@@ -15,6 +15,8 @@
  */
 package org.exbin.xbup.core.catalog.base;
 
+import javax.annotation.Nonnull;
+
 /**
  * Interface for format join entity.
  *
@@ -26,16 +28,17 @@ public interface XBCFormatJoin extends XBCJoinDef {
     /**
      * Gets specification which is also owner.
      *
-     * @return format specification
+     * @return XBCFormatSpec format specification
      */
+    @Nonnull
     @Override
-    XBCFormatSpec getSpec();
+    XBCSpec getSpec();
 
     /**
      * Gets target specification.
      *
-     * @return format revision
+     * @return format revision, never empty
      */
-    @Override
+    @Nonnull
     XBCFormatRev getTarget();
 }

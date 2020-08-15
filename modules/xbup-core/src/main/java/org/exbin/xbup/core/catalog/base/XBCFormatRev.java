@@ -15,6 +15,8 @@
  */
 package org.exbin.xbup.core.catalog.base;
 
+import javax.annotation.Nonnull;
+
 /**
  * Interface for format revision entity.
  *
@@ -28,6 +30,7 @@ public interface XBCFormatRev extends XBCRev {
      *
      * @return format specification
      */
+    @Nonnull
     @Override
     XBCFormatSpec getParent();
 }

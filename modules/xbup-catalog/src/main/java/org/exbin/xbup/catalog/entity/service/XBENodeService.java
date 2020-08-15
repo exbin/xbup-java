@@ -18,6 +18,7 @@ package org.exbin.xbup.catalog.entity.service;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 import javax.annotation.PostConstruct;
 import org.exbin.xbup.catalog.XBECatalog;
 import org.exbin.xbup.catalog.entity.XBENode;
@@ -124,7 +125,7 @@ public class XBENodeService extends XBEDefaultService<XBENode> implements XBCNod
     }
 
     @Override
-    public Date getLastUpdate() {
+    public Optional<Date> getLastUpdate() {
         return getRoot().getLastUpdate();
     }
 

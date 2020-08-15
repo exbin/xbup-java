@@ -19,7 +19,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import org.exbin.xbup.core.block.XBBlockTerminationMode;
 import org.exbin.xbup.core.block.XBBlockType;
-import org.exbin.xbup.core.parser.XBParseException;
+import org.exbin.xbup.core.parser.XBParsingException;
 import org.exbin.xbup.core.parser.XBProcessingException;
 import org.exbin.xbup.core.parser.XBProcessingExceptionType;
 import org.exbin.xbup.core.parser.basic.XBTMatchingProvider;
@@ -54,14 +54,14 @@ public class XBTDefaultMatchingProvider implements XBTMatchingProvider {
         if (token.getTokenType() == XBTTokenType.BEGIN) {
             return ((XBTBeginToken) token).getTerminationMode();
         }
-        throw new XBParseException("Unexpected event order", XBProcessingExceptionType.UNEXPECTED_ORDER);
+        throw new XBParsingException("Unexpected event order", XBProcessingExceptionType.UNEXPECTED_ORDER);
     }
 
     @Override
     public void matchBeginXBT(XBBlockTerminationMode terminationMode) throws XBProcessingException, IOException {
         XBTToken token = pullToken();
         if (token.getTokenType() != XBTTokenType.BEGIN || terminationMode != ((XBTBeginToken) token).getTerminationMode()) {
-            throw new XBParseException("Unexpected event order", XBProcessingExceptionType.UNEXPECTED_ORDER);
+            throw new XBParsingException("Unexpected event order", XBProcessingExceptionType.UNEXPECTED_ORDER);
         }
     }
 
@@ -71,14 +71,14 @@ public class XBTDefaultMatchingProvider implements XBTMatchingProvider {
         if (token.getTokenType() == XBTTokenType.TYPE) {
             return ((XBTTypeToken) token).getBlockType();
         }
-        throw new XBParseException("Unexpected event order", XBProcessingExceptionType.UNEXPECTED_ORDER);
+        throw new XBParsingException("Unexpected event order", XBProcessingExceptionType.UNEXPECTED_ORDER);
     }
 
     @Override
     public void matchTypeXBT(XBBlockType type) throws XBProcessingException, IOException {
         XBTToken token = pullToken();
         if (token.getTokenType() != XBTTokenType.TYPE || !((XBTTypeToken) token).getBlockType().equals(type)) {
-            throw new XBParseException("Unexpected event order", XBProcessingExceptionType.UNEXPECTED_ORDER);
+            throw new XBParsingException("Unexpected event order", XBProcessingExceptionType.UNEXPECTED_ORDER);
         }
     }
 
@@ -88,14 +88,14 @@ public class XBTDefaultMatchingProvider implements XBTMatchingProvider {
         if (token.getTokenType() == XBTTokenType.ATTRIBUTE) {
             return ((XBTAttributeToken) token).getAttribute();
         }
-        throw new XBParseException("Unexpected event order", XBProcessingExceptionType.UNEXPECTED_ORDER);
+        throw new XBParsingException("Unexpected event order", XBProcessingExceptionType.UNEXPECTED_ORDER);
     }
 
     @Override
     public void matchAttribXBT(XBAttribute value) throws XBProcessingException, IOException {
         XBTToken token = pullToken();
         if (token.getTokenType() != XBTTokenType.ATTRIBUTE || ((XBTAttributeToken) token).getAttribute().getNaturalLong() != value.getNaturalLong()) {
-            throw new XBParseException("Unexpected event order", XBProcessingExceptionType.UNEXPECTED_ORDER);
+            throw new XBParsingException("Unexpected event order", XBProcessingExceptionType.UNEXPECTED_ORDER);
         }
     }
 
@@ -105,14 +105,14 @@ public class XBTDefaultMatchingProvider implements XBTMatchingProvider {
         if (token.getTokenType() == XBTTokenType.DATA) {
             return ((XBTDataToken) token).getData();
         }
-        throw new XBParseException("Unexpected event order", XBProcessingExceptionType.UNEXPECTED_ORDER);
+        throw new XBParsingException("Unexpected event order", XBProcessingExceptionType.UNEXPECTED_ORDER);
     }
 
     @Override
     public void matchDataXBT(InputStream data) throws XBProcessingException, IOException {
         XBTToken token = pullToken();
         if (token.getTokenType() != XBTTokenType.DATA || data != ((XBTDataToken) token).getData()) {
-            throw new XBParseException("Unexpected event order", XBProcessingExceptionType.UNEXPECTED_ORDER);
+            throw new XBParsingException("Unexpected event order", XBProcessingExceptionType.UNEXPECTED_ORDER);
         }
     }
 
@@ -122,7 +122,7 @@ public class XBTDefaultMatchingProvider implements XBTMatchingProvider {
         if (token.getTokenType() == XBTTokenType.END) {
             return;
         }
-        throw new XBParseException("Unexpected event order", XBProcessingExceptionType.UNEXPECTED_ORDER);
+        throw new XBParsingException("Unexpected event order", XBProcessingExceptionType.UNEXPECTED_ORDER);
     }
 
     public XBTToken pullToken() throws XBProcessingException, IOException {

@@ -55,7 +55,7 @@ public class XBRXHDoc implements XBCXHDoc {
     }
 
     @Override
-    public Long getId() {
+    public long getId() {
         return id;
     }
 }

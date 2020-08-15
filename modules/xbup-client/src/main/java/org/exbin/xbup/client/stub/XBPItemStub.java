@@ -15,6 +15,8 @@
  */
 package org.exbin.xbup.client.stub;
 
+import java.util.Optional;
+import javax.annotation.Nonnull;
 import org.exbin.xbup.client.XBCatalogServiceClient;
 import org.exbin.xbup.client.catalog.remote.XBRItem;
 import org.exbin.xbup.core.block.declaration.XBDeclBlockType;
@@ -43,9 +45,10 @@ public class XBPItemStub extends XBPBaseStub<XBRItem> {
         this.client = client;
     }
 
-    public XBRItem getParent(Long itemId) {
+    @Nonnull
+    public Optional<XBRItem> getParent(Long itemId) {
         Long index = XBPStubUtils.longToLongMethod(client.procedureCall(), new XBDeclBlockType(OWNER_ITEM_PROCEDURE), itemId);
-        return index == null ? null : constructItem(index);
+        return index == null ? Optional.empty() : Optional.of(constructItem(index));
     }
 
     public Long getXBIndex(Long itemId) {

@@ -21,6 +21,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.Nonnull;
@@ -242,7 +243,7 @@ public class XBECatalog implements XBCatalog {
 
             XBENode node = new XBENode();
             node.setXBIndex(Long.valueOf(0));
-            node.setOwner(null);
+            node.setParent(null);
             em.persist(node);
 
             XBERoot root = new XBERoot();
@@ -262,7 +263,8 @@ public class XBECatalog implements XBCatalog {
         List<XBCSpecDef> binds = specService.getSpecDefs(spec);
         ArrayList<XBGroupDecl> result = new ArrayList<>();
         for (Iterator it = binds.iterator(); it.hasNext();) {
-            result.add(new XBCGroupDecl((XBCGroupRev) ((XBCSpecDef) it.next()).getTarget(), this));
+            XBCRev revision = ((XBCSpecDef) it.next()).getTargetRev().get();
+            result.add(new XBCGroupDecl((XBCGroupRev) revision, this));
         }
         return result;
     }
@@ -273,7 +275,12 @@ public class XBECatalog implements XBCatalog {
         List<XBCSpecDef> binds = specService.getSpecDefs(spec);
         ArrayList<XBBlockDecl> result = new ArrayList<>();
         for (Iterator it = binds.iterator(); it.hasNext();) {
-            result.add(new XBCBlockDecl((XBCBlockRev) ((XBCSpecDef) it.next()).getTarget(), this));
+            Optional<XBCRev> revision = ((XBCSpecDef) it.next()).getTargetRev();
+            if (revision.isPresent()) {
+                result.add(new XBCBlockDecl((XBCBlockRev) revision.get(), this));
+            } else {
+                throw new UnsupportedOperationException("Not supported yet.");
+            }
         }
         return result;
     }

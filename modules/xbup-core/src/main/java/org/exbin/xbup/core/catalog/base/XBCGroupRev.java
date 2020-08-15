@@ -15,6 +15,8 @@
  */
 package org.exbin.xbup.core.catalog.base;
 
+import javax.annotation.Nonnull;
+
 /**
  * Interface for group revision entity.
  *
@@ -28,6 +30,7 @@ public interface XBCGroupRev extends XBCRev {
      *
      * @return group specification
      */
+    @Nonnull
     @Override
     XBCGroupSpec getParent();
 }

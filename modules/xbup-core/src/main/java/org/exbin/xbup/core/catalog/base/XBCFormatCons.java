@@ -15,10 +15,12 @@
  */
 package org.exbin.xbup.core.catalog.base;
 
+import javax.annotation.Nonnull;
+
 /**
  * Interface for format consist entity.
  *
- * @version 0.1.21 2012/03/26
+ * @version 0.2.1 2020/08/13
  * @author ExBin Project (http://exbin.org)
  */
 public interface XBCFormatCons extends XBCConsDef {
@@ -26,16 +28,17 @@ public interface XBCFormatCons extends XBCConsDef {
     /**
      * Gets specification which is also owner.
      *
-     * @return format specification
+     * @return XBCFormatSpec format specification
      */
+    @Nonnull
     @Override
-    XBCFormatSpec getSpec();
+    XBCSpec getSpec();
 
     /**
      * Gets target specification.
      *
-     * @return group revision
+     * @return group revision, never empty
      */
-    @Override
+    @Nonnull
     XBCGroupRev getTarget();
 }

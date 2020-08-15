@@ -15,29 +15,32 @@
  */
 package org.exbin.xbup.catalog.entity;
 
+import java.util.Optional;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
 import javax.persistence.Entity;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
-import org.exbin.xbup.core.catalog.base.XBCBlockCons;
+import org.exbin.xbup.catalog.modifiable.XBMBlockCons;
+import org.exbin.xbup.catalog.modifiable.XBMBlockRev;
+import org.exbin.xbup.core.block.definition.XBParamType;
 import org.exbin.xbup.core.catalog.base.XBCBlockRev;
 import org.exbin.xbup.core.catalog.base.XBCBlockSpec;
+import org.exbin.xbup.core.catalog.base.XBCSpec;
 
 /**
  * Block consist database entity.
  *
- * @version 0.1.24 2014/12/06
+ * @version 0.2.1 2020/08/14
  * @author ExBin Project (http://exbin.org)
  */
+@ParametersAreNonnullByDefault
 @Entity(name = "XBBlockCons")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-public class XBEBlockCons extends XBEConsDef implements XBCBlockCons {
+public class XBEBlockCons extends XBEConsDef implements XBMBlockCons {
 
     public XBEBlockCons() {
-    }
-
-    @Override
-    public XBCBlockRev getTarget() {
-        return (XBCBlockRev) super.getTarget();
     }
 
     @Override
@@ -45,11 +48,31 @@ public class XBEBlockCons extends XBEConsDef implements XBCBlockCons {
         return (XBCBlockSpec) super.getSpec();
     }
 
-    public void setSpec(XBEBlockSpec owner) {
-        super.setCatalogItem(owner);
+    @Override
+    public void setSpec(XBCSpec spec) {
+        if (!(spec instanceof XBCBlockSpec)) {
+            throw new IllegalArgumentException();
+        }
+
+        super.setSpec((XBESpec) spec);
     }
 
-    public void setTarget(XBEBlockRev target) {
-        super.setTarget(target);
+    @Override
+    public Optional<XBCBlockRev> getTarget() {
+        return getTargetRev().map(t -> (XBCBlockRev) t);
+    }
+
+    @Override
+    public void setTarget(@Nullable XBMBlockRev blockRev) {
+        if (blockRev != null && !(blockRev instanceof XBEBlockSpec)) {
+            throw new IllegalArgumentException();
+        }
+        setTargetRev(blockRev);
+    }
+
+    @Nonnull
+    @Override
+    public XBParamType getType() {
+        return XBParamType.CONSIST;
     }
 }

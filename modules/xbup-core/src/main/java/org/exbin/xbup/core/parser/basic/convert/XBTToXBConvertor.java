@@ -20,7 +20,7 @@ import java.io.InputStream;
 import org.exbin.xbup.core.block.XBBlockTerminationMode;
 import org.exbin.xbup.core.block.XBBlockType;
 import org.exbin.xbup.core.block.XBFixedBlockType;
-import org.exbin.xbup.core.parser.XBParseException;
+import org.exbin.xbup.core.parser.XBParsingException;
 import org.exbin.xbup.core.parser.XBProcessingException;
 import org.exbin.xbup.core.parser.XBProcessingExceptionType;
 import org.exbin.xbup.core.parser.basic.XBListener;
@@ -90,7 +90,7 @@ public class XBTToXBConvertor implements XBTListener, XBTSListener, XBProducer {
             listener.attribXB(((XBFixedBlockType) type).getGroupID());
             blockIdAttribute = ((XBFixedBlockType) type).getBlockID();
         } else {
-            throw new XBParseException("Unable to parse non-static block type", XBProcessingExceptionType.UNSUPPORTED);
+            throw new XBParsingException("Unable to parse non-static block type", XBProcessingExceptionType.UNSUPPORTED);
         }
     }
 

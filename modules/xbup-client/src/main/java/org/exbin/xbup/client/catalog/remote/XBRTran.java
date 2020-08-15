@@ -42,7 +42,7 @@ public class XBRTran implements XBCTran {
     }
 
     @Override
-    public Long getId() {
+    public long getId() {
         return id;
     }
 

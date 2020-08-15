@@ -15,6 +15,8 @@
  */
 package org.exbin.xbup.core.catalog.base;
 
+import javax.annotation.Nonnull;
+
 /**
  * Interface for catalog item assesory file entity.
  *
@@ -28,6 +30,7 @@ public interface XBCXFile extends XBCBase {
      *
      * @return the node
      */
+    @Nonnull
     XBCNode getNode();
 
     /**
@@ -35,6 +38,7 @@ public interface XBCXFile extends XBCBase {
      *
      * @return filename string
      */
+    @Nonnull
     String getFilename();
 
     /**
@@ -42,5 +46,6 @@ public interface XBCXFile extends XBCBase {
      *
      * @return byte array
      */
+    @Nonnull
     byte[] getContent();
 }

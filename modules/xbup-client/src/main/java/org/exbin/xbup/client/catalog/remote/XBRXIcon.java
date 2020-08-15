@@ -55,7 +55,7 @@ public class XBRXIcon implements XBCXIcon {
     }
 
     @Override
-    public Long getId() {
+    public long getId() {
         return id;
     }
 }

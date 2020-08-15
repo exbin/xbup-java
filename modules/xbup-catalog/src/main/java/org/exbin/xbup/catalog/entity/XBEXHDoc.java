@@ -16,22 +16,28 @@
 package org.exbin.xbup.catalog.entity;
 
 import java.io.Serializable;
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
-import org.exbin.xbup.core.catalog.base.XBCXHDoc;
+import org.exbin.xbup.catalog.modifiable.XBMXHDoc;
+import org.exbin.xbup.core.catalog.base.XBCItem;
+import org.exbin.xbup.core.catalog.base.XBCXFile;
+import org.exbin.xbup.core.catalog.base.XBCXLanguage;
 
 /**
  * Item HTML documentation database entity.
  *
- * @version 0.1.21 2012/01/27
+ * @version 0.2.1 2020/08/14
  * @author ExBin Project (http://exbin.org)
  */
+@ParametersAreNonnullByDefault
 @Entity(name = "XBXHDoc")
-public class XBEXHDoc implements XBCXHDoc, Serializable {
+public class XBEXHDoc implements XBMXHDoc, Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -50,38 +56,45 @@ public class XBEXHDoc implements XBCXHDoc, Serializable {
     }
 
     @Override
-    public Long getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    @Override
+    public void setId(long id) {
         this.id = id;
     }
 
+    @Nonnull
     @Override
     public XBEXFile getDocFile() {
         return docFile;
     }
 
-    public void setDocFile(XBEXFile docFile) {
-        this.docFile = docFile;
+    @Override
+    public void setDocFile(XBCXFile docFile) {
+        this.docFile = (XBEXFile) docFile;
     }
 
+    @Nonnull
     @Override
     public XBEItem getItem() {
         return item;
     }
 
-    public void setItem(XBEItem item) {
-        this.item = item;
+    @Override
+    public void setItem(XBCItem item) {
+        this.item = (XBEItem) item;
     }
 
+    @Nonnull
     @Override
     public XBEXLanguage getLang() {
         return lang;
     }
 
-    public void setLang(XBEXLanguage lang) {
-        this.lang = lang;
+    @Override
+    public void setLang(XBCXLanguage lang) {
+        this.lang = (XBEXLanguage) lang;
     }
 }

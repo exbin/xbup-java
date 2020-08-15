@@ -15,14 +15,16 @@
  */
 package org.exbin.xbup.client.catalog.remote;
 
+import java.util.Optional;
 import org.exbin.xbup.client.XBCatalogServiceClient;
 import org.exbin.xbup.core.block.definition.XBParamType;
 import org.exbin.xbup.core.catalog.base.XBCFormatCons;
+import org.exbin.xbup.core.catalog.base.XBCRev;
 
 /**
  * Catalog remote format consist specification definition entity.
  *
- * @version 0.1.25 2015/02/21
+ * @version 0.2.1 2020/08/14
  * @author ExBin Project (http://exbin.org)
  */
 public class XBRFormatCons extends XBRConsDef implements XBCFormatCons {
@@ -33,20 +35,16 @@ public class XBRFormatCons extends XBRConsDef implements XBCFormatCons {
 
     @Override
     public XBRGroupRev getTarget() {
-        XBRRev item = super.getTarget();
-        if (item == null) {
-            return null;
+        Optional<XBCRev> item = super.getTargetRev();
+        if (!item.isPresent()) {
+            throw new IllegalStateException();
         }
-        return new XBRGroupRev(item.client, item.getId());
+        return new XBRGroupRev(((XBRRev) item.get()).client, item.get().getId());
     }
 
     @Override
     public XBRFormatSpec getSpec() {
         XBRSpec item = super.getSpec();
-        if (item == null) {
-            return null;
-        }
-
         return new XBRFormatSpec(item.client, item.getId());
     }
 

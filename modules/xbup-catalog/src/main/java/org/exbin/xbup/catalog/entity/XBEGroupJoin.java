@@ -15,44 +15,65 @@
  */
 package org.exbin.xbup.catalog.entity;
 
+import java.util.Optional;
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
 import javax.persistence.Entity;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
-import org.exbin.xbup.core.catalog.base.XBCGroupJoin;
+import org.exbin.xbup.catalog.modifiable.XBMGroupJoin;
+import org.exbin.xbup.core.block.definition.XBParamType;
 import org.exbin.xbup.core.catalog.base.XBCGroupRev;
 import org.exbin.xbup.core.catalog.base.XBCGroupSpec;
+import org.exbin.xbup.core.catalog.base.XBCRev;
+import org.exbin.xbup.core.catalog.base.XBCSpec;
 
 /**
  * Group join database entity.
  *
- * @version 0.1.22 2012/12/31
+ * @version 0.2.1 2020/08/14
  * @author ExBin Project (http://exbin.org)
  */
+@ParametersAreNonnullByDefault
 @Entity(name = "XBGroupJoin")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-public class XBEGroupJoin extends XBEJoinDef implements XBCGroupJoin {
+public class XBEGroupJoin extends XBEJoinDef implements XBMGroupJoin {
 
-    /**
-     * Creates a new instance of XBEBindBlock
-     */
     public XBEGroupJoin() {
     }
 
+    @Nonnull
     @Override
     public XBCGroupSpec getSpec() {
         return (XBCGroupSpec) super.getSpec();
     }
 
     @Override
+    public void setSpec(XBCSpec spec) {
+        if (!(spec instanceof XBEGroupSpec)) {
+            throw new IllegalArgumentException();
+        }
+        super.setSpec(spec);
+    }
+
+    @Nonnull
+    @Override
     public XBCGroupRev getTarget() {
-        return (XBCGroupRev) super.getTarget();
+        Optional<XBCRev> targetRev = super.getTargetRev();
+        if (!targetRev.isPresent()) {
+            throw new IllegalStateException();
+        }
+        return (XBCGroupRev) targetRev.get();
     }
 
-    public void setSpec(XBEGroupSpec spec) {
-        super.setCatalogItem(spec);
+    @Override
+    public void setTarget(XBCGroupRev target) {
+        super.setTargetRev(target);
     }
 
-    public void setTarget(XBEGroupRev target) {
-        super.setTarget(target);
+    @Nonnull
+    @Override
+    public XBParamType getType() {
+        return XBParamType.JOIN;
     }
 }

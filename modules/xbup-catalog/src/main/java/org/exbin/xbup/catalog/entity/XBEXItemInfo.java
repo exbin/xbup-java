@@ -18,22 +18,27 @@ package org.exbin.xbup.catalog.entity;
 import java.io.Serializable;
 import java.sql.Time;
 import java.util.Objects;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import org.exbin.xbup.catalog.modifiable.XBMXItemInfo;
 import org.exbin.xbup.core.catalog.base.XBCItem;
-import org.exbin.xbup.core.catalog.base.XBCXItemInfo;
+import org.exbin.xbup.core.catalog.base.XBCXUser;
 
 /**
  * Item information database entity.
  *
- * @version 0.1.21 2012/01/28
+ * @version 0.2.1 2020/08/14
  * @author ExBin Project (http://exbin.org)
  */
+@ParametersAreNonnullByDefault
 @Entity(name = "XBItemInfo")
-public class XBEXItemInfo implements XBCXItemInfo, Serializable {
+public class XBEXItemInfo implements XBMXItemInfo, Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -50,11 +55,12 @@ public class XBEXItemInfo implements XBCXItemInfo, Serializable {
     }
 
     @Override
-    public Long getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    @Override
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -81,7 +87,7 @@ public class XBEXItemInfo implements XBCXItemInfo, Serializable {
      * <code>false</code> otherwise.
      */
     @Override
-    public boolean equals(Object object) {
+    public boolean equals(@Nullable Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
         if (!(object instanceof XBEXItemInfo)) {
             return false;
@@ -96,47 +102,52 @@ public class XBEXItemInfo implements XBCXItemInfo, Serializable {
      *
      * @return a string representation of the object
      */
+    @Nonnull
     @Override
     public String toString() {
         return "org.exbin.xbup.catalog.entity.Node[id=" + id + "]";
     }
 
+    @Nonnull
     @Override
     public XBCItem getItem() {
         return item;
     }
 
+    @Override
     public void setItem(XBCItem item) {
-        this.setItem((XBEItem) item);
+        this.item = (XBEItem) item;
     }
 
+    @Nonnull
     @Override
     public XBEXUser getOwner() {
         return owner;
     }
 
     @Override
+    public void setOwner(XBCXUser owner) {
+        this.owner = (XBEXUser) owner;
+    }
+
+    @Nonnull
+    @Override
     public XBEXUser getCreatedByUser() {
         return createdByUser;
     }
 
     @Override
+    public void setCreatedByUser(XBCXUser createdByUser) {
+        this.createdByUser = (XBEXUser) createdByUser;
+    }
+
+    @Nonnull
+    @Override
     public Time getCreationDate() {
         return creationDate;
     }
 
-    public void setItem(XBEItem item) {
-        this.item = item;
-    }
-
-    public void setOwner(XBEXUser owner) {
-        this.owner = owner;
-    }
-
-    public void setCreatedByUser(XBEXUser createdByUser) {
-        this.createdByUser = createdByUser;
-    }
-
+    @Override
     public void setCreationDate(Time creationDate) {
         this.creationDate = creationDate;
     }

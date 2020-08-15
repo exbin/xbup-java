@@ -66,13 +66,14 @@ public class XBRXStriService extends XBRDefaultService<XBRXStri> implements XBCX
                 removeItem(stringId);
             }
         } else {
-            if (stringId == null) {
-                stringId = createItem();
-                stringId.setItem(item);
-            }
-
-            stringId.setText(text);
-            persistItem(stringId);
+            throw new UnsupportedOperationException("Not supported yet.");
+//            if (stringId == null) {
+//                stringId = createItem();
+//                stringId.setItem(item);
+//            }
+//
+//            stringId.setText(text);
+//            persistItem(stringId);
         }
     }
 

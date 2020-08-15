@@ -16,20 +16,26 @@
 package org.exbin.xbup.catalog.entity;
 
 import java.io.Serializable;
+import java.util.Optional;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
 import javax.persistence.Entity;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import org.exbin.xbup.catalog.modifiable.XBMNode;
 import org.exbin.xbup.core.catalog.base.XBCNode;
 
 /**
  * Node database entity.
  *
- * @version 0.1.24 2014/09/07
+ * @version 0.2.1 2020/08/14
  * @author ExBin Project (http://exbin.org)
  */
+@ParametersAreNonnullByDefault
 @Entity(name = "XBNode")
 @Inheritance(strategy = InheritanceType.JOINED)
-public class XBENode extends XBEItem implements XBCNode, Serializable {
+public class XBENode extends XBEItem implements XBMNode, Serializable {
 
     private Long cNameOrder;
     private Long cStriOrder;
@@ -60,7 +66,7 @@ public class XBENode extends XBEItem implements XBCNode, Serializable {
      * <code>false</code> otherwise.
      */
     @Override
-    public boolean equals(Object object) {
+    public boolean equals(@Nullable Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
         if (!(object instanceof XBENode)) {
             return false;
@@ -78,18 +84,23 @@ public class XBENode extends XBEItem implements XBCNode, Serializable {
      *
      * @return a string representation of the object
      */
+    @Nonnull
     @Override
     public String toString() {
         return "org.exbin.xbup.catalog.entity.Node[id=" + id + "]";
     }
 
+    @Nonnull
     @Override
-    public XBCNode getParent() {
-        return (XBCNode) super.getParent();
+    public Optional<XBCNode> getParent() {
+        return super.getParentItem().map(t -> {
+            return (XBCNode) t;
+        });
     }
 
-    public void setOwner(XBENode node) {
-        super.setParent(node);
+    @Override
+    public void setParent(XBMNode parent) {
+        super.setParentItem(parent);
     }
 
     public Long getcNameOrder() {

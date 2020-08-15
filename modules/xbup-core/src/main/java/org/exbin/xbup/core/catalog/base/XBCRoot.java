@@ -16,11 +16,13 @@
 package org.exbin.xbup.core.catalog.base;
 
 import java.util.Date;
+import java.util.Optional;
+import javax.annotation.Nonnull;
 
 /**
  * Interface for catalog root node entity.
  *
- * @version 0.1.22 2013/08/18
+ * @version 0.2.1 2020/08/14
  * @author ExBin Project (http://exbin.org)
  */
 public interface XBCRoot extends XBCBase {
@@ -30,13 +32,15 @@ public interface XBCRoot extends XBCBase {
      *
      * @return the node
      */
+    @Nonnull
     XBCNode getNode();
 
     /**
      * Gets URL for this catalog root.
      *
-     * @return the URL string
+     * @return the URL string or empty string for build-in catalog
      */
+    @Nonnull
     String getUrl();
 
     /**
@@ -44,5 +48,6 @@ public interface XBCRoot extends XBCBase {
      *
      * @return date
      */
-    Date getLastUpdate();
+    @Nonnull
+    Optional<Date> getLastUpdate();
 }

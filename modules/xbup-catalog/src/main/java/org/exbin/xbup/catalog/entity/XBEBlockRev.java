@@ -15,19 +15,23 @@
  */
 package org.exbin.xbup.catalog.entity;
 
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
 import javax.persistence.Entity;
-import org.exbin.xbup.core.catalog.base.XBCBlockRev;
+import org.exbin.xbup.catalog.modifiable.XBMBlockRev;
 import org.exbin.xbup.core.catalog.base.XBCBlockSpec;
 
 /**
  * Block revision database entity.
  *
- * @version 0.1.21 2011/08/21
+ * @version 0.2.1 2020/08/14
  * @author ExBin Project (http://exbin.org)
  */
+@ParametersAreNonnullByDefault
 @Entity(name = "XBBlockRev")
-public class XBEBlockRev extends XBERev implements XBCBlockRev {
+public class XBEBlockRev extends XBERev implements XBMBlockRev {
 
+    @Nonnull
     @Override
     public XBCBlockSpec getParent() {
         return (XBCBlockSpec) super.getParent();

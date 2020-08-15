@@ -16,27 +16,37 @@
 package org.exbin.xbup.catalog.entity;
 
 import java.io.Serializable;
+import java.util.Optional;
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
 import javax.persistence.Entity;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import org.exbin.xbup.catalog.modifiable.XBMSpec;
 import org.exbin.xbup.core.catalog.base.XBCNode;
-import org.exbin.xbup.core.catalog.base.XBCSpec;
 
 /**
  * Specification database entity.
  *
- * @version 0.1.22 2012/12/31
+ * @version 0.2.1 2020/08/14
  * @author ExBin Project (http://exbin.org)
  */
+@ParametersAreNonnullByDefault
 @Entity(name = "XBSpec")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-public class XBESpec extends XBEItem implements XBCSpec, Serializable {
+public class XBESpec extends XBEItem implements XBMSpec, Serializable {
 
     public XBESpec() {
     }
 
+    @Nonnull
     @Override
-    public XBCNode getParent() {
-        return (XBCNode) super.getParent();
+    public Optional<XBCNode> getParent() {
+        return super.getParentItem().map(t -> (XBCNode) t);
+    }
+
+    @Override
+    public void setParent(XBCNode node) {
+        super.setParentItem(node);
     }
 }

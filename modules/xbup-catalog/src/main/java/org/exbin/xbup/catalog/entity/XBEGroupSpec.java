@@ -15,24 +15,29 @@
  */
 package org.exbin.xbup.catalog.entity;
 
+import java.util.Optional;
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
 import javax.persistence.Entity;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
-import org.exbin.xbup.core.catalog.base.XBCGroupSpec;
+import org.exbin.xbup.catalog.modifiable.XBMGroupSpec;
 import org.exbin.xbup.core.catalog.base.XBCNode;
 
 /**
  * Group specification database entity.
  *
- * @version 0.1.22 2012/12/31
+ * @version 0.2.1 2020/08/14
  * @author ExBin Project (http://exbin.org)
  */
+@ParametersAreNonnullByDefault
 @Entity(name = "XBGroupSpec")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-public class XBEGroupSpec extends XBESpec implements XBCGroupSpec {
+public class XBEGroupSpec extends XBESpec implements XBMGroupSpec {
 
+    @Nonnull
     @Override
-    public XBCNode getParent() {
-        return (XBCNode) super.getParent();
+    public Optional<XBCNode> getParent() {
+        return super.getParent();
     }
 }

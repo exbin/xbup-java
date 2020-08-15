@@ -16,16 +16,19 @@
 package org.exbin.xbup.core.catalog.base.manager;
 
 import java.util.List;
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
 import org.exbin.xbup.core.catalog.base.XBCBase;
 
 /**
  * Generic interface for persistence item management classes.
  *
- * @version 0.1.21 2011/12/12
+ * @version 0.2.1 2020/08/11
  * @author ExBin Project (http://exbin.org)
  * @param <T> base entity
  */
+@ParametersAreNonnullByDefault
 public interface XBCManager<T extends XBCBase> {
 
     /**
@@ -33,6 +36,7 @@ public interface XBCManager<T extends XBCBase> {
      *
      * @return new item
      */
+    @Nonnull
     T createItem();
 
     /**
@@ -63,6 +67,7 @@ public interface XBCManager<T extends XBCBase> {
      *
      * @return list of items
      */
+    @Nonnull
     List<T> getAllItems();
 
     /**

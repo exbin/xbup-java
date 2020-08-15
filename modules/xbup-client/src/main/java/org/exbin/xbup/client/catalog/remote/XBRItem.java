@@ -15,6 +15,8 @@
  */
 package org.exbin.xbup.client.catalog.remote;
 
+import java.util.Optional;
+import javax.annotation.Nonnull;
 import org.exbin.xbup.client.XBCatalogServiceClient;
 import org.exbin.xbup.client.stub.XBPItemStub;
 import org.exbin.xbup.core.catalog.base.XBCItem;
@@ -22,7 +24,7 @@ import org.exbin.xbup.core.catalog.base.XBCItem;
 /**
  * Catalog remote item entity.
  *
- * @version 0.1.25 2015/02/21
+ * @version 0.2.1 2020/08/14
  * @author ExBin Project (http://exbin.org)
  */
 public class XBRItem implements XBCItem {
@@ -37,18 +39,19 @@ public class XBRItem implements XBCItem {
         itemStub = new XBPItemStub(client);
     }
 
+    @Nonnull
     @Override
-    public XBRItem getParent() {
-        return itemStub.getParent(id);
+    public Optional<XBCItem> getParentItem() {
+        return itemStub.getParent(id).map(t -> (XBCItem) t);
     }
 
     @Override
-    public Long getXBIndex() {
+    public long getXBIndex() {
         return itemStub.getXBIndex(id);
     }
 
     @Override
-    public Long getId() {
+    public long getId() {
         return id;
     }
 }

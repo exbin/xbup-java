@@ -50,12 +50,12 @@ public class XBRXBlockLine implements XBCXBlockLine {
     }
 
     @Override
-    public Long getPriority() {
+    public long getPriority() {
         return lineStub.getPriority(id);
     }
 
     @Override
-    public Long getId() {
+    public long getId() {
         return id;
     }
 }

@@ -16,6 +16,8 @@
 package org.exbin.xbup.catalog.entity;
 
 import java.io.Serializable;
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -23,17 +25,19 @@ import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.ManyToOne;
-import org.exbin.xbup.core.catalog.base.XBCXPlugLine;
+import org.exbin.xbup.catalog.modifiable.XBMXPlugLine;
+import org.exbin.xbup.core.catalog.base.XBCXPlugin;
 
 /**
  * Plugin line editor database entity.
  *
- * @version 0.1.21 2011/08/21
+ * @version 0.2.1 2020/08/14
  * @author ExBin Project (http://exbin.org)
  */
+@ParametersAreNonnullByDefault
 @Entity(name = "XBXPlugLine")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-public class XBEXPlugLine implements XBCXPlugLine, Serializable {
+public class XBEXPlugLine implements XBMXPlugLine, Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -44,29 +48,33 @@ public class XBEXPlugLine implements XBCXPlugLine, Serializable {
     private Long lineIndex;
 
     @Override
-    public Long getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    @Override
+    public void setId(long id) {
         this.id = id;
     }
 
+    @Nonnull
     @Override
     public XBEXPlugin getPlugin() {
         return plugin;
     }
 
-    public void setPlugin(XBEXPlugin plugin) {
-        this.plugin = plugin;
+    @Override
+    public void setPlugin(XBCXPlugin plugin) {
+        this.plugin = (XBEXPlugin) plugin;
     }
 
     @Override
-    public Long getLineIndex() {
+    public long getLineIndex() {
         return lineIndex;
     }
 
-    public void setLineIndex(Long lineIndex) {
+    @Override
+    public void setLineIndex(long lineIndex) {
         this.lineIndex = lineIndex;
     }
 }

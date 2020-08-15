@@ -16,6 +16,8 @@
 package org.exbin.xbup.catalog.entity;
 
 import java.io.Serializable;
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -23,7 +25,9 @@ import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.ManyToOne;
-import org.exbin.xbup.core.catalog.base.XBCXBlockLine;
+import org.exbin.xbup.catalog.modifiable.XBMXBlockLine;
+import org.exbin.xbup.core.catalog.base.XBCBlockRev;
+import org.exbin.xbup.core.catalog.base.XBCXPlugLine;
 
 /**
  * Block line editor database entity.
@@ -31,9 +35,10 @@ import org.exbin.xbup.core.catalog.base.XBCXBlockLine;
  * @version 0.1.21 2011/08/21
  * @author ExBin Project (http://exbin.org)
  */
+@ParametersAreNonnullByDefault
 @Entity(name = "XBXBlockLine")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-public class XBEXBlockLine implements XBCXBlockLine, Serializable {
+public class XBEXBlockLine implements XBMXBlockLine, Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -48,38 +53,44 @@ public class XBEXBlockLine implements XBCXBlockLine, Serializable {
     }
 
     @Override
-    public Long getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    @Override
+    public void setId(long id) {
         this.id = id;
     }
 
+    @Nonnull
     @Override
     public XBEBlockRev getBlockRev() {
         return blockRev;
     }
 
-    public void setBlockRev(XBEBlockRev blockRev) {
-        this.blockRev = blockRev;
+    @Override
+    public void setBlockRev(XBCBlockRev blockRev) {
+        this.blockRev = (XBEBlockRev) blockRev;
     }
 
+    @Nonnull
     @Override
     public XBEXPlugLine getLine() {
         return line;
     }
 
-    public void setLine(XBEXPlugLine line) {
-        this.line = line;
+    @Override
+    public void setLine(XBCXPlugLine line) {
+        this.line = (XBEXPlugLine) line;
     }
 
     @Override
-    public Long getPriority() {
+    public long getPriority() {
         return priority;
     }
 
-    public void setPriority(Long priority) {
+    @Override
+    public void setPriority(long priority) {
         this.priority = priority;
     }
 }

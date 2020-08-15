@@ -13,17 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.exbin.xbup.plugin;
+package org.exbin.xbup.catalog.modifiable;
+
+import org.exbin.xbup.core.catalog.base.XBCGroupSpec;
 
 /**
- * Invalid plugin parameter exception.
+ * Interface for group specification entity.
  *
- * @version 0.2.1 2020/07/27
+ * @version 0.2.1 2020/08/11
  * @author ExBin Project (http://exbin.org)
  */
-public class InvalidPluginParameter extends IllegalArgumentException {
-
-    public InvalidPluginParameter() {
-        super("Invalid plugin parameter");
-    }
+public interface XBMGroupSpec extends XBCGroupSpec, XBMSpec {
 }

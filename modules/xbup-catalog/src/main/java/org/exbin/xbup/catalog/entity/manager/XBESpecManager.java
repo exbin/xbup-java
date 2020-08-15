@@ -19,6 +19,7 @@ import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.Nullable;
@@ -128,15 +129,13 @@ public class XBESpecManager extends XBEDefaultCatalogManager<XBESpec> implements
     @Override
     public Long[] getSpecXBPath(XBCSpec node) {
         ArrayList<Long> list = new ArrayList<>();
-        XBCNode parent = node.getParent();
-        while (parent != null) {
-            if (parent.getParent() != null) {
-                if (parent.getXBIndex() == null) {
-                    return null;
-                }
+        Optional<XBCNode> optionalParent = node.getParent();
+        while (optionalParent.isPresent()) {
+            XBCNode parent = optionalParent.get();
+            if (parent.getParent().isPresent()) {
                 list.add(0, parent.getXBIndex());
             }
-            parent = (XBCNode) parent.getParent();
+            optionalParent = parent.getParent();
         }
         list.add(node.getXBIndex());
         return (Long[]) list.toArray(new Long[list.size()]);

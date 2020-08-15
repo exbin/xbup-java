@@ -18,6 +18,7 @@ package org.exbin.xbup.client.stub;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.exbin.xbup.client.XBCatalogServiceClient;
@@ -140,15 +141,12 @@ public class XBPSpecStub extends XBPBaseStub<XBRSpec> {
 
     public Long[] getSpecXBPath(XBCSpec node) {
         ArrayList<Long> list = new ArrayList<>();
-        XBCNode parent = node.getParent();
-        while (parent != null) {
-            if (parent.getParent() != null) {
-                if (parent.getXBIndex() == null) {
-                    return null;
-                }
-                list.add(0, parent.getXBIndex());
+        Optional<XBCNode> parent = node.getParent();
+        while (parent.isPresent()) {
+            if (parent.get().getParent().isPresent()) {
+                list.add(0, parent.get().getXBIndex());
             }
-            parent = (XBCNode) parent.getParent();
+            parent = parent.get().getParent();
         }
         list.add(node.getXBIndex());
         return (Long[]) list.toArray(new Long[list.size()]);

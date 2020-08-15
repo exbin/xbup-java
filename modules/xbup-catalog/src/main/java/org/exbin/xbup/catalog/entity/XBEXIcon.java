@@ -16,22 +16,28 @@
 package org.exbin.xbup.catalog.entity;
 
 import java.io.Serializable;
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import org.exbin.xbup.core.catalog.base.XBCXIcon;
+import org.exbin.xbup.catalog.modifiable.XBMXIcon;
+import org.exbin.xbup.core.catalog.base.XBCItem;
+import org.exbin.xbup.core.catalog.base.XBCXFile;
+import org.exbin.xbup.core.catalog.base.XBCXIconMode;
 
 /**
  * Item icon database entity.
  *
- * @version 0.1.23 2014/11/26
+ * @version 0.2.1 2020/08/14
  * @author ExBin Project (http://exbin.org)
  */
+@ParametersAreNonnullByDefault
 @Entity(name = "XBXIcon")
-public class XBEXIcon implements XBCXIcon, Serializable {
+public class XBEXIcon implements XBMXIcon, Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -48,38 +54,45 @@ public class XBEXIcon implements XBCXIcon, Serializable {
     }
 
     @Override
-    public Long getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    @Override
+    public void setId(long id) {
         this.id = id;
     }
 
+    @Nonnull
     @Override
     public XBEItem getParent() {
         return parent;
     }
 
-    public void setParent(XBEItem parent) {
-        this.parent = parent;
+    @Override
+    public void setParent(XBCItem parent) {
+        this.parent = (XBEItem) parent;
     }
 
+    @Nonnull
     @Override
     public XBEXIconMode getMode() {
         return mode;
     }
 
-    public void setMode(XBEXIconMode mode) {
-        this.mode = mode;
+    @Override
+    public void setMode(XBCXIconMode mode) {
+        this.mode = (XBEXIconMode) mode;
     }
 
+    @Nonnull
     @Override
     public XBEXFile getIconFile() {
         return iconFile;
     }
 
-    public void setIconFile(XBEXFile iconFile) {
-        this.iconFile = iconFile;
+    @Override
+    public void setIconFile(XBCXFile iconFile) {
+        this.iconFile = (XBEXFile) iconFile;
     }
 }

@@ -17,6 +17,8 @@ package org.exbin.xbup.client.catalog.remote.service;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
+import javax.annotation.Nonnull;
 import org.exbin.xbup.client.catalog.XBRCatalog;
 import org.exbin.xbup.client.catalog.remote.XBRNode;
 import org.exbin.xbup.client.catalog.remote.manager.XBRNodeManager;
@@ -99,8 +101,9 @@ public class XBRNodeService extends XBRDefaultService<XBRNode> implements XBCNod
         return ((XBRNodeManager) itemManager).getRoot();
     }
 
+    @Nonnull
     @Override
-    public Date getLastUpdate() {
+    public Optional<Date> getLastUpdate() {
         return getRoot().getLastUpdate();
     }
 

@@ -22,7 +22,7 @@ import java.util.List;
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 import org.exbin.xbup.core.block.XBBlockTerminationMode;
-import org.exbin.xbup.core.parser.XBParseException;
+import org.exbin.xbup.core.parser.XBParsingException;
 import org.exbin.xbup.core.parser.XBParserMode;
 import org.exbin.xbup.core.parser.XBProcessingException;
 import org.exbin.xbup.core.parser.XBProcessingExceptionType;
@@ -113,7 +113,7 @@ public class XBEventReader implements XBEventProducer {
             if (attributePartSize.getLong() == 0) {
                 // Process terminator
                 if (sizeLimits.isEmpty() || sizeLimits.get(sizeLimits.size() - 1) != null) {
-                    throw new XBParseException("Unexpected terminator", XBProcessingExceptionType.UNEXPECTED_TERMINATOR);
+                    throw new XBParsingException("Unexpected terminator", XBProcessingExceptionType.UNEXPECTED_TERMINATOR);
                 }
 
                 sizeLimits.remove(sizeLimits.size() - 1);
@@ -164,7 +164,7 @@ public class XBEventReader implements XBEventProducer {
                         UBNat32 attribute = new UBNat32();
                         int attributeLength = attribute.fromStreamUB(source);
                         if (attributeLength > attributePartSizeValue) {
-                            throw new XBParseException("Attribute overflow", XBProcessingExceptionType.ATTRIBUTE_OVERFLOW);
+                            throw new XBParsingException("Attribute overflow", XBProcessingExceptionType.ATTRIBUTE_OVERFLOW);
                         }
 
                         attributePartSizeValue -= attributeLength;
@@ -203,14 +203,14 @@ public class XBEventReader implements XBEventProducer {
      * Shrinks limits accross all depths.
      *
      * @param length Value to shrink all limits off
-     * @throws XBParseException If limits are breached
+     * @throws XBParsingException If limits are breached
      */
-    private static void shrinkStatus(List<Integer> sizeLimits, int length) throws XBParseException {
+    private static void shrinkStatus(List<Integer> sizeLimits, int length) throws XBParsingException {
         for (int depthLevel = 0; depthLevel < sizeLimits.size(); depthLevel++) {
             Integer limit = sizeLimits.get(depthLevel);
             if (limit != null) {
                 if (limit < length) {
-                    throw new XBParseException("Block overflow", XBProcessingExceptionType.BLOCK_OVERFLOW);
+                    throw new XBParsingException("Block overflow", XBProcessingExceptionType.BLOCK_OVERFLOW);
                 }
 
                 sizeLimits.set(depthLevel, limit - length);

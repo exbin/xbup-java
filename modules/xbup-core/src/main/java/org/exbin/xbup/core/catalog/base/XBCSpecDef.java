@@ -15,12 +15,14 @@
  */
 package org.exbin.xbup.core.catalog.base;
 
+import java.util.Optional;
+import javax.annotation.Nonnull;
 import org.exbin.xbup.core.block.definition.XBParamType;
 
 /**
  * Interface for catalog specification definition entity.
  *
- * @version 0.1.22 2013/01/11
+ * @version 0.2.1 2020/08/10
  * @author ExBin Project (http://exbin.org)
  */
 public interface XBCSpecDef extends XBCItem {
@@ -30,6 +32,7 @@ public interface XBCSpecDef extends XBCItem {
      *
      * @return specification
      */
+    @Nonnull
     XBCSpec getSpec();
 
     /**
@@ -37,12 +40,14 @@ public interface XBCSpecDef extends XBCItem {
      *
      * @return revision
      */
-    XBCRev getTarget();
+    @Nonnull
+    Optional<XBCRev> getTargetRev();
 
     /**
      * Gets specification definition's type.
      *
      * @return specification definition's type
      */
+    @Nonnull
     XBParamType getType();
 }

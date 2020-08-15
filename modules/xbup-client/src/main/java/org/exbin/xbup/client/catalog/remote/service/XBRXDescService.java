@@ -77,16 +77,17 @@ public class XBRXDescService extends XBRDefaultService<XBRXDesc> implements XBCX
     }
 
     public void setDefaultText(XBCItem item, String text) {
-        XBRXDesc desc = getDefaultItemDesc(item);
-        if (desc == null) {
-            XBRXLangManager langManager = ((XBRXLangManager) catalog.getCatalogManager(XBCXLangManager.class));
-            desc = createItem();
-            desc.setItem(item);
-            desc.setLang(langManager.getDefaultLang());
-        }
-
-        desc.setText(text);
-        persistItem(desc);
+        throw new UnsupportedOperationException("Not supported yet.");
+//        XBRXDesc desc = getDefaultItemDesc(item);
+//        if (desc == null) {
+//            XBRXLangManager langManager = ((XBRXLangManager) catalog.getCatalogManager(XBCXLangManager.class));
+//            desc = createItem();
+//            desc.setItem(item);
+//            desc.setLang(langManager.getDefaultLang());
+//        }
+//
+//        desc.setText(text);
+//        persistItem(desc);
     }
 
 }

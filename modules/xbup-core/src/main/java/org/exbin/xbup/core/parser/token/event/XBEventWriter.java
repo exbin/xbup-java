@@ -23,7 +23,7 @@ import java.util.List;
 import javax.annotation.ParametersAreNonnullByDefault;
 import org.exbin.xbup.core.block.XBBlockDataMode;
 import org.exbin.xbup.core.block.XBBlockTerminationMode;
-import org.exbin.xbup.core.parser.XBParseException;
+import org.exbin.xbup.core.parser.XBParsingException;
 import org.exbin.xbup.core.parser.XBParserMode;
 import org.exbin.xbup.core.parser.XBParserState;
 import org.exbin.xbup.core.parser.XBProcessingException;
@@ -94,7 +94,7 @@ public class XBEventWriter implements Closeable, XBEventListener {
 
     public void closeXB() throws XBProcessingException, IOException {
         if (parserState != XBParserState.EOF && parserState != XBParserState.TAIL_DATA) {
-            throw new XBParseException("Unexpected end of stream", XBProcessingExceptionType.UNEXPECTED_END_OF_STREAM);
+            throw new XBParsingException("Unexpected end of stream", XBProcessingExceptionType.UNEXPECTED_END_OF_STREAM);
         }
 
         close();
@@ -134,7 +134,7 @@ public class XBEventWriter implements Closeable, XBEventListener {
 
                     attributeList.clear();
                 } else {
-                    throw new XBParseException("Unexpected begin of block", XBProcessingExceptionType.UNEXPECTED_ORDER);
+                    throw new XBParsingException("Unexpected begin of block", XBProcessingExceptionType.UNEXPECTED_ORDER);
                 }
 
                 break;
@@ -154,7 +154,7 @@ public class XBEventWriter implements Closeable, XBEventListener {
                         attributeList.add(((XBAttributeToken) token).getAttribute());
                     }
                 } else {
-                    throw new XBParseException("Unexpected attribute", XBProcessingExceptionType.UNEXPECTED_ORDER);
+                    throw new XBParsingException("Unexpected attribute", XBProcessingExceptionType.UNEXPECTED_ORDER);
                 }
 
                 break;
@@ -163,14 +163,14 @@ public class XBEventWriter implements Closeable, XBEventListener {
             case DATA: {
                 if (depthLevel == 1 && (parserState == XBParserState.ATTRIBUTE_PART || parserState == XBParserState.DATA_PART || parserState == XBParserState.BLOCK_END)) {
                     if (parserMode == XBParserMode.SINGLE_BLOCK || parserMode == XBParserMode.SKIP_TAIL) {
-                        throw new XBParseException("Tail data present when not expected", XBProcessingExceptionType.UNEXPECTED_ORDER);
+                        throw new XBParsingException("Tail data present when not expected", XBProcessingExceptionType.UNEXPECTED_ORDER);
                     }
                     putXBToken(XBEndToken.create());
                     parserState = XBParserState.TAIL_DATA;
                     StreamUtils.copyInputStreamToOutputStream(((XBDataToken) token).getData(), stream);
                 } else {
                     if (parserState != XBParserState.BLOCK_BEGIN) {
-                        throw new XBParseException("Unexpected data token", XBProcessingExceptionType.UNEXPECTED_ORDER);
+                        throw new XBParsingException("Unexpected data token", XBProcessingExceptionType.UNEXPECTED_ORDER);
                     }
 
                     dataMode = XBBlockDataMode.DATA_BLOCK;
@@ -232,7 +232,7 @@ public class XBEventWriter implements Closeable, XBEventListener {
                     }
 
                     default:
-                        throw new XBParseException("Unexpected end token", XBProcessingExceptionType.UNEXPECTED_ORDER);
+                        throw new XBParsingException("Unexpected end token", XBProcessingExceptionType.UNEXPECTED_ORDER);
                 }
 
                 break;

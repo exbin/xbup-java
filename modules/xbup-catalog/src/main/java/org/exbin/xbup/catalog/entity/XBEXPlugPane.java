@@ -51,6 +51,9 @@ public class XBEXPlugPane implements XBMXPlugPane, Serializable {
 
     @Override
     public long getId() {
+        if (id == null) {
+            return 0;
+        }
         return id;
     }
 

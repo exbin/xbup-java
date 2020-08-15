@@ -59,6 +59,9 @@ public class XBEXUserInfo implements Serializable, XBMXUserInfo {
 
     @Override
     public long getId() {
+        if (id == null) {
+            return 0;
+        }
         return id;
     }
 

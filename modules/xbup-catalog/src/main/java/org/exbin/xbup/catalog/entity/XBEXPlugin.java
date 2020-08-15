@@ -51,6 +51,9 @@ public class XBEXPlugin implements XBMXPlugin, Serializable {
 
     @Override
     public long getId() {
+        if (id == null) {
+            return 0;
+        }
         return id;
     }
 

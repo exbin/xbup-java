@@ -45,6 +45,9 @@ public class XBEXLanguage implements XBMXLanguage, java.io.Serializable {
 
     @Override
     public long getId() {
+        if (id == null) {
+            return 0;
+        }
         return id;
     }
 

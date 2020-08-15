@@ -20,6 +20,7 @@ import java.util.Objects;
 import java.util.Optional;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -37,6 +38,7 @@ import org.exbin.xbup.core.catalog.base.XBCItem;
  * @version 0.2.1 2020/08/13
  * @author ExBin Project (http://exbin.org)
  */
+@ParametersAreNonnullByDefault
 @Entity(name = "XBItem")
 @Inheritance(strategy = InheritanceType.JOINED)
 public class XBEItem implements XBMItem, Serializable {
@@ -57,6 +59,9 @@ public class XBEItem implements XBMItem, Serializable {
 
     @Override
     public long getId() {
+        if (id == null) {
+            return 0;
+        }
         return id;
     }
 

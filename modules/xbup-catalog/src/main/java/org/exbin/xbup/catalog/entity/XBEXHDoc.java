@@ -57,6 +57,9 @@ public class XBEXHDoc implements XBMXHDoc, Serializable {
 
     @Override
     public long getId() {
+        if (id == null) {
+            return 0;
+        }
         return id;
     }
 

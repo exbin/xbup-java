@@ -15,6 +15,7 @@
  */
 package org.exbin.xbup.catalog.entity;
 
+import java.io.Serializable;
 import java.util.Optional;
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
@@ -33,7 +34,10 @@ import org.exbin.xbup.core.catalog.base.XBCNode;
 @ParametersAreNonnullByDefault
 @Entity(name = "XBGroupSpec")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-public class XBEGroupSpec extends XBESpec implements XBMGroupSpec {
+public class XBEGroupSpec extends XBESpec implements XBMGroupSpec, Serializable {
+
+    public XBEGroupSpec() {
+    }
 
     @Nonnull
     @Override

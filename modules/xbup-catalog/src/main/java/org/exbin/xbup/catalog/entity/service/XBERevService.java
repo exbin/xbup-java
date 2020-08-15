@@ -91,7 +91,8 @@ public class XBERevService extends XBEDefaultService<XBERev> implements XBCRevSe
 
     @Override
     public long findMaxRevXB(XBCSpec spec) {
-        return ((XBERevManager) itemManager).findMaxRevXB(spec);
+        Long findMaxRevXB = ((XBERevManager) itemManager).findMaxRevXB(spec);
+        return findMaxRevXB == null ? -1 : findMaxRevXB;
     }
 
     @Override

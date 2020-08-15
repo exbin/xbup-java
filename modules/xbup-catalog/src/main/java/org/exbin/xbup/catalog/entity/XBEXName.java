@@ -54,6 +54,9 @@ public class XBEXName implements XBMXName, Serializable {
 
     @Override
     public long getId() {
+        if (id == null) {
+            return 0;
+        }
         return id;
     }
 

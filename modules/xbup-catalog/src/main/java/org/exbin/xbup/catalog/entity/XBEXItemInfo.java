@@ -56,6 +56,9 @@ public class XBEXItemInfo implements XBMXItemInfo, Serializable {
 
     @Override
     public long getId() {
+        if (id == null) {
+            return 0;
+        }
         return id;
     }
 

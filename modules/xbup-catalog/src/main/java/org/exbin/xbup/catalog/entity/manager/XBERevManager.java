@@ -56,7 +56,7 @@ public class XBERevManager extends XBEDefaultCatalogManager<XBERev> implements X
         } catch (NoResultException ex) {
             return null;
         } catch (Exception ex) {
-            Logger.getLogger(XBESpecManager.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(XBERevManager.class.getName()).log(Level.SEVERE, null, ex);
             return null;
         }
     }
@@ -71,7 +71,7 @@ public class XBERevManager extends XBEDefaultCatalogManager<XBERev> implements X
         } catch (NoResultException ex) {
             return null;
         } catch (Exception ex) {
-            Logger.getLogger(XBESpecManager.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(XBERevManager.class.getName()).log(Level.SEVERE, null, ex);
             return null;
         }
     }
@@ -83,7 +83,7 @@ public class XBERevManager extends XBEDefaultCatalogManager<XBERev> implements X
         } catch (NoResultException ex) {
             return null;
         } catch (Exception ex) {
-            Logger.getLogger(XBESpecManager.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(XBERevManager.class.getName()).log(Level.SEVERE, null, ex);
             return null;
         }
     }
@@ -95,7 +95,7 @@ public class XBERevManager extends XBEDefaultCatalogManager<XBERev> implements X
         } catch (NoResultException ex) {
             return 0;
         } catch (Exception ex) {
-            Logger.getLogger(XBESpecManager.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(XBERevManager.class.getName()).log(Level.SEVERE, null, ex);
             return 0;
         }
     }
@@ -107,7 +107,7 @@ public class XBERevManager extends XBEDefaultCatalogManager<XBERev> implements X
         } catch (NoResultException ex) {
             return 0;
         } catch (Exception ex) {
-            Logger.getLogger(XBESpecManager.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(XBERevManager.class.getName()).log(Level.SEVERE, null, ex);
             return 0;
         }
     }
@@ -120,7 +120,7 @@ public class XBERevManager extends XBEDefaultCatalogManager<XBERev> implements X
         } catch (NoResultException ex) {
             return null;
         } catch (Exception ex) {
-            Logger.getLogger(XBESpecManager.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(XBERevManager.class.getName()).log(Level.SEVERE, null, ex);
             return null;
         }
     }

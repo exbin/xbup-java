@@ -52,6 +52,9 @@ public class XBEItemLimi implements XBMItemLimi, Serializable {
 
     @Override
     public long getId() {
+        if (id == null) {
+            return 0;
+        }
         return id;
     }
 

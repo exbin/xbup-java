@@ -55,6 +55,9 @@ public class XBEXIcon implements XBMXIcon, Serializable {
 
     @Override
     public long getId() {
+        if (id == null) {
+            return 0;
+        }
         return id;
     }
 

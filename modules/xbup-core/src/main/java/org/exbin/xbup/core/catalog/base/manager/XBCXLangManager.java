@@ -15,6 +15,7 @@
  */
 package org.exbin.xbup.core.catalog.base.manager;
 
+import javax.annotation.Nonnull;
 import org.exbin.xbup.core.catalog.base.XBCExtension;
 import org.exbin.xbup.core.catalog.base.XBCXLanguage;
 
@@ -32,5 +33,6 @@ public interface XBCXLangManager<T extends XBCXLanguage> extends XBCManager<T>, 
      *
      * @return language
      */
+    @Nonnull
     XBCXLanguage getDefaultLang();
 }

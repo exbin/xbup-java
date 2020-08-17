@@ -119,6 +119,40 @@ public class XBPStubUtils {
     }
 
     /**
+     * Performs single RPC method passing three long attributes and receiving
+     * single long result.
+     *
+     * @param procedureCall procedure call
+     * @param type procedure type
+     * @param parameter1 first long parameter
+     * @param parameter2 second long parameter
+     * @param parameter3 third long parameter
+     * @return long result
+     */
+    public static Long threeLongsToLongMethod(XBCallHandler procedureCall, XBBlockType type, Long parameter1, Long parameter2, Long parameter3) {
+        try {
+            XBPListenerSerialHandler serialInput = new XBPListenerSerialHandler(procedureCall.getParametersInput());
+            serialInput.begin();
+            serialInput.putType(type);
+            serialInput.putAttribute(parameter1);
+            serialInput.putAttribute(parameter2);
+            serialInput.putAttribute(parameter3);
+            serialInput.end();
+
+            XBPProviderSerialHandler serialOutput = new XBPProviderSerialHandler(procedureCall.getResultOutput());
+            if (!serialOutput.pullIfEmptyBlock()) {
+                UBNat32 result = new UBNat32();
+                serialOutput.process(result);
+                return result.getLong();
+            }
+            procedureCall.execute();
+        } catch (XBProcessingException | IOException ex) {
+            Logger.getLogger(XBPItemStub.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+
+    /**
      * Performs single RPC method passing no arguments and receiving single long
      * result.
      *

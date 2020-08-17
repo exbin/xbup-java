@@ -15,6 +15,7 @@
  */
 package org.exbin.xbup.client.stub;
 
+import javax.annotation.Nullable;
 import org.exbin.xbup.client.XBCatalogServiceClient;
 import org.exbin.xbup.client.catalog.remote.XBRBlockRev;
 import org.exbin.xbup.client.catalog.remote.XBRXBlockUi;
@@ -35,16 +36,17 @@ import org.exbin.xbup.core.catalog.base.XBCXPlugin;
  */
 public class XBPXUiStub extends XBPBaseStub<XBRXBlockUi> {
 
-    public static long[] REV_UI_PROCEDURE = {0, 2, 15, 0, 0};
-    public static long[] PLUGIN_UI_PROCEDURE = {0, 2, 15, 1, 0};
-    public static long[] PRIORITY_UI_PROCEDURE = {0, 2, 15, 2, 0};
-    public static long[] UISCOUNT_UI_PROCEDURE = {0, 2, 15, 3, 0};
-    public static long[] REVLINE_UI_PROCEDURE = {0, 2, 15, 4, 0};
-    public static long[] PLUGLINESCOUNT_UI_PROCEDURE = {0, 2, 15, 5, 0};
-    public static long[] PLUGLINE_UI_PROCEDURE = {0, 2, 15, 6, 0};
-    public static long[] UIPLUGIN_PLUGIN_PROCEDURE = {0, 2, 14, 3, 0};
-    public static long[] METHODINDEX_PLUGIN_PROCEDURE = {0, 2, 14, 4, 0};
-    public static long[] UITYPE_PLUGIN_PROCEDURE = {0, 2, 14, 5, 0};
+    // Previously line 15, pane 16
+    public static long[] REV_UI_PROCEDURE = {0, 2, 18, 0, 0};
+    public static long[] PLUGIN_UI_PROCEDURE = {0, 2, 18, 1, 0};
+    public static long[] PRIORITY_UI_PROCEDURE = {0, 2, 18, 2, 0};
+    public static long[] UISCOUNT_UI_PROCEDURE = {0, 2, 18, 3, 0};
+    public static long[] REVUI_UI_PROCEDURE = {0, 2, 18, 4, 0};
+    public static long[] PLUGUISCOUNT_UI_PROCEDURE = {0, 2, 18, 5, 0};
+    public static long[] PLUGUI_UI_PROCEDURE = {0, 2, 18, 6, 0};
+    public static long[] UIPLUGIN_PLUGIN_PROCEDURE = {0, 2, 14, 7, 0};
+    public static long[] METHODINDEX_PLUGIN_PROCEDURE = {0, 2, 14, 8, 0};
+    public static long[] UITYPE_PLUGIN_PROCEDURE = {0, 2, 14, 9, 0};
 
     private final XBCatalogServiceClient client;
 
@@ -104,18 +106,19 @@ public class XBPXUiStub extends XBPBaseStub<XBRXBlockUi> {
         return XBPStubUtils.longToLongMethod(client.procedureCall(), new XBDeclBlockType(UISCOUNT_UI_PROCEDURE), rev.getId());
     }
 
-    public XBRXBlockUi findUiByPR(XBCBlockRev rev, long priority) {
-        Long index = XBPStubUtils.twoLongsToLongMethod(client.procedureCall(), new XBDeclBlockType(PLUGIN_UI_PROCEDURE), rev.getId(), priority);
+    public XBRXBlockUi findUiByPR(XBCBlockRev rev, XBPlugUiType type, long priority) {
+        Long index = XBPStubUtils.threeLongsToLongMethod(client.procedureCall(), new XBDeclBlockType(PLUGIN_UI_PROCEDURE), rev.getId(), (long) type.getDbIndex(), priority);
         return index == null ? null : new XBRXBlockUi(client, index);
     }
 
-    public XBRXPlugUi getPlugUi(XBCXPlugin plugin, long methodIndex) {
-        Long index = XBPStubUtils.twoLongsToLongMethod(client.procedureCall(), new XBDeclBlockType(PLUGLINE_UI_PROCEDURE), plugin.getId(), methodIndex);
+    @Nullable
+    public XBCXPlugUi getPlugUi(XBCXPlugin plugin, XBPlugUiType type, long methodIndex) {
+        Long index = XBPStubUtils.threeLongsToLongMethod(client.procedureCall(), new XBDeclBlockType(PLUGUI_UI_PROCEDURE), plugin.getId(), (long) type.getDbIndex(), methodIndex);
         return index == null ? null : new XBRXPlugUi(client, index);
     }
 
     public long getAllPlugUisCount() {
-        return XBPStubUtils.voidToLongMethod(client.procedureCall(), new XBDeclBlockType(PLUGLINESCOUNT_UI_PROCEDURE));
+        return XBPStubUtils.voidToLongMethod(client.procedureCall(), new XBDeclBlockType(PLUGUISCOUNT_UI_PROCEDURE));
     }
 
     public String getName(long id) {

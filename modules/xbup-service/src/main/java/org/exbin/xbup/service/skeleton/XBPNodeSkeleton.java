@@ -289,7 +289,7 @@ public class XBPNodeSkeleton {
                 long orderIndex = provider.pullLongAttribute();
                 provider.end();
 
-                XBCNodeService nodeService = catalog.getCatalogService(XBCNodeService.class);
+                XBCNodeService<XBCNode> nodeService = catalog.getCatalogService(XBCNodeService.class);
                 Optional<XBCNode> node = nodeService.getItem(nodeId);
                 XBENode subNode = node.isPresent() ? (XBENode) nodeService.getSubNodeSeq(node.get(), orderIndex) : null;
 

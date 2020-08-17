@@ -21,11 +21,13 @@ import javax.annotation.ParametersAreNonnullByDefault;
 /**
  * Utilities for stream data manipulations.
  *
- * @version 0.2.1 2017/05/12
+ * @version 0.2.1 2020/08/17
  * @author ExBin Project (http://exbin.org)
  */
 @ParametersAreNonnullByDefault
 public final class StringUtils {
+
+    public static final String ENCODING_UTF8 = "UTF-8";
 
     private StringUtils() {
     }

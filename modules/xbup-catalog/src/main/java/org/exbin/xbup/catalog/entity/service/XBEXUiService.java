@@ -17,16 +17,19 @@ package org.exbin.xbup.catalog.entity.service;
 
 import java.io.Serializable;
 import java.util.List;
+import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 import javax.annotation.PostConstruct;
 import org.exbin.xbup.catalog.XBECatalog;
 import org.exbin.xbup.catalog.entity.XBEXBlockUi;
 import org.exbin.xbup.catalog.entity.XBEXPlugUi;
 import org.exbin.xbup.catalog.entity.manager.XBEXUiManager;
+import org.exbin.xbup.core.catalog.XBPlugUiType;
 import org.exbin.xbup.core.catalog.base.XBCBlockRev;
 import org.exbin.xbup.core.catalog.base.XBCExtension;
 import org.exbin.xbup.core.catalog.base.XBCXBlockUi;
 import org.exbin.xbup.core.catalog.base.XBCXPlugUi;
+import org.exbin.xbup.core.catalog.base.XBCXPlugUiType;
 import org.exbin.xbup.core.catalog.base.XBCXPlugin;
 import org.exbin.xbup.core.catalog.base.manager.XBCXUiManager;
 import org.exbin.xbup.core.catalog.base.service.XBCXUiService;
@@ -36,7 +39,7 @@ import org.springframework.stereotype.Service;
 /**
  * Interface for XBEXBlockLine items service.
  *
- * @version 0.2.1 2020/08/16
+ * @version 0.2.1 2020/08/17
  * @author ExBin Project (http://exbin.org)
  */
 @ParametersAreNonnullByDefault
@@ -67,8 +70,8 @@ public class XBEXUiService extends XBEDefaultService<XBEXBlockUi> implements XBC
     }
 
     @Override
-    public XBEXBlockUi findUiByPR(XBCBlockRev rev, long priority) {
-        return ((XBEXUiManager) itemManager).findUiByPR(rev, priority);
+    public XBEXBlockUi findUiByPR(XBCBlockRev rev, XBPlugUiType type, long priority) {
+        return ((XBEXUiManager) itemManager).findUiByPR(rev, type, priority);
     }
 
     @Override
@@ -77,13 +80,25 @@ public class XBEXUiService extends XBEDefaultService<XBEXBlockUi> implements XBC
     }
 
     @Override
+    public XBCXPlugUiType findTypeById(int id) {
+        return ((XBEXUiManager) itemManager).findTypeById(id);
+    }
+
+    @Override
     public long getAllPlugUisCount() {
         return ((XBEXUiManager) itemManager).getAllPlugUisCount();
     }
 
+    @Nonnull
     @Override
-    public List<XBCXBlockUi> getUis(XBCBlockRev rev) {
-        return ((XBEXUiManager) itemManager).getUis(rev);
+    public List<XBCXBlockUi> getUis(XBCBlockRev revision) {
+        return ((XBEXUiManager) itemManager).getUis(revision);
+    }
+
+    @Nonnull
+    @Override
+    public List<XBCXBlockUi> getUis(XBCBlockRev revision, XBPlugUiType type) {
+        return ((XBEXUiManager) itemManager).getUis(revision, type);
     }
 
     @Override
@@ -92,13 +107,26 @@ public class XBEXUiService extends XBEDefaultService<XBEXBlockUi> implements XBC
     }
 
     @Override
-    public XBEXPlugUi getPlugUi(XBCXPlugin plugin, long methodIndex) {
-        return ((XBEXUiManager) itemManager).getPlugUi(plugin, methodIndex);
+    public long getUisCount(XBCBlockRev revision, XBPlugUiType type) {
+        return ((XBEXUiManager) itemManager).getUisCount(revision, type);
     }
 
+    @Nonnull
+    @Override
+    public XBEXPlugUi getPlugUi(XBCXPlugin plugin, XBPlugUiType type, long methodIndex) {
+        return ((XBEXUiManager) itemManager).getPlugUi(plugin, type, methodIndex);
+    }
+
+    @Nonnull
     @Override
     public List<XBCXPlugUi> getPlugUis(XBCXPlugin plugin) {
         return ((XBEXUiManager) itemManager).getPlugUis(plugin);
+    }
+
+    @Nonnull
+    @Override
+    public List<XBCXPlugUi> getPlugUis(XBCXPlugin plugin, XBPlugUiType type) {
+        return ((XBEXUiManager) itemManager).getPlugUis(plugin, type);
     }
 
     @Override
@@ -106,6 +134,12 @@ public class XBEXUiService extends XBEDefaultService<XBEXBlockUi> implements XBC
         return ((XBEXUiManager) itemManager).getPlugUisCount(plugin);
     }
 
+    @Override
+    public long getPlugUisCount(XBCXPlugin plugin, XBPlugUiType type) {
+        return ((XBEXUiManager) itemManager).getPlugUisCount(plugin, type);
+    }
+
+    @Nonnull
     @Override
     public String getExtensionName() {
         return ((XBCExtension) itemManager).getExtensionName();

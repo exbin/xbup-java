@@ -35,6 +35,7 @@ import org.exbin.xbup.core.serial.child.XBTChildSerializable;
 import org.exbin.xbup.core.serial.param.XBPSequenceSerialHandler;
 import org.exbin.xbup.core.serial.param.XBPSequenceSerializable;
 import org.exbin.xbup.core.util.StreamUtils;
+import org.exbin.xbup.core.util.StringUtils;
 
 /**
  * Encapsulation class for UTF-8 Text.
@@ -86,7 +87,7 @@ public class XBText implements XBPSequenceSerializable {
                 Logger.getLogger(XBText.class.getName()).log(Level.SEVERE, null, ex);
             }
 
-            setValue(new String(stream.toByteArray(), Charset.forName("UTF-8")));
+            setValue(new String(stream.toByteArray(), Charset.forName(StringUtils.ENCODING_UTF8)));
             serial.end();
         }
 
@@ -94,7 +95,7 @@ public class XBText implements XBPSequenceSerializable {
         public void serializeToXB(XBChildOutputSerialHandler serial) throws XBProcessingException, IOException {
             serial.begin(XBBlockTerminationMode.SIZE_SPECIFIED);
             if (getValue() != null) {
-                serial.addData(new ByteArrayInputStream(getValue().getBytes(Charset.forName("UTF-8"))));
+                serial.addData(new ByteArrayInputStream(getValue().getBytes(Charset.forName(StringUtils.ENCODING_UTF8))));
             } else {
                 serial.addData(new ByteArrayInputStream(new byte[0]));
             }
@@ -113,7 +114,7 @@ public class XBText implements XBPSequenceSerializable {
                 Logger.getLogger(XBText.class.getName()).log(Level.SEVERE, null, ex);
             }
 
-            setValue(new String(stream.toByteArray(), Charset.forName("UTF-8")));
+            setValue(new String(stream.toByteArray(), Charset.forName(StringUtils.ENCODING_UTF8)));
             serial.pullEnd();
         }
 
@@ -121,7 +122,7 @@ public class XBText implements XBPSequenceSerializable {
         public void serializeToXB(XBTChildOutputSerialHandler serial) throws XBProcessingException, IOException {
             serial.putBegin(XBBlockTerminationMode.SIZE_SPECIFIED);
             if (getValue() != null) {
-                serial.putData(new ByteArrayInputStream(getValue().getBytes(Charset.forName("UTF-8"))));
+                serial.putData(new ByteArrayInputStream(getValue().getBytes(Charset.forName(StringUtils.ENCODING_UTF8))));
             } else {
                 serial.putData(new ByteArrayInputStream(new byte[0]));
             }

@@ -36,6 +36,7 @@ import org.exbin.xbup.catalog.entity.XBEFormatSpec;
 import org.exbin.xbup.catalog.entity.XBEGroupSpec;
 import org.exbin.xbup.catalog.entity.XBENode;
 import org.exbin.xbup.catalog.entity.XBERoot;
+import org.exbin.xbup.catalog.entity.XBEXPlugUiType;
 import org.exbin.xbup.catalog.entity.service.XBEItemService;
 import org.exbin.xbup.catalog.entity.service.XBENodeService;
 import org.exbin.xbup.catalog.entity.service.XBERevService;
@@ -57,6 +58,7 @@ import org.exbin.xbup.core.block.declaration.catalog.XBCFormatDecl;
 import org.exbin.xbup.core.block.declaration.catalog.XBCGroupDecl;
 import org.exbin.xbup.core.block.declaration.local.XBLGroupDecl;
 import org.exbin.xbup.core.catalog.XBCatalog;
+import org.exbin.xbup.core.catalog.XBPlugUiType;
 import org.exbin.xbup.core.catalog.base.XBCBlockRev;
 import org.exbin.xbup.core.catalog.base.XBCExtension;
 import org.exbin.xbup.core.catalog.base.XBCFormatRev;
@@ -249,6 +251,14 @@ public class XBECatalog implements XBCatalog {
             XBERoot root = new XBERoot();
             root.setNode(node);
             em.persist(root);
+
+            for (XBPlugUiType enumType : XBPlugUiType.values()) {
+                XBEXPlugUiType type = new XBEXPlugUiType();
+                type.setId(enumType.getDbIndex());
+                type.setName(enumType.getName());
+                em.persist(type);
+            }
+
             tx.commit();
 
             shallInit = false;

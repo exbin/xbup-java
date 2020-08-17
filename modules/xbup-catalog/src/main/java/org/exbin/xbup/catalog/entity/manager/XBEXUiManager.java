@@ -26,7 +26,9 @@ import org.exbin.xbup.catalog.XBECatalog;
 import org.exbin.xbup.catalog.entity.XBEBlockRev;
 import org.exbin.xbup.catalog.entity.XBEXBlockUi;
 import org.exbin.xbup.catalog.entity.XBEXPlugUi;
+import org.exbin.xbup.catalog.entity.XBEXPlugUiType;
 import org.exbin.xbup.catalog.entity.XBEXPlugin;
+import org.exbin.xbup.core.catalog.XBPlugUiType;
 import org.exbin.xbup.core.catalog.base.XBCBlockRev;
 import org.exbin.xbup.core.catalog.base.XBCXBlockUi;
 import org.exbin.xbup.core.catalog.base.XBCXPlugUi;
@@ -37,7 +39,7 @@ import org.springframework.stereotype.Repository;
 /**
  * XBUP catalog UI editors manager.
  *
- * @version 0.2.1 2020/08/16
+ * @version 0.2.1 2020/08/17
  * @author ExBin Project (http://exbin.org)
  */
 @ParametersAreNonnullByDefault
@@ -73,11 +75,36 @@ public class XBEXUiManager extends XBEDefaultCatalogManager<XBEXBlockUi> impleme
         }
     }
 
+    @Override
+    public XBEXPlugUiType findTypeById(long id) {
+        try {
+            return (XBEXPlugUiType) catalog.getEntityManager().createQuery("SELECT object(o) FROM XBXPlugUiType as o WHERE o.id = " + id).getSingleResult();
+        } catch (NoResultException ex) {
+            return null;
+        } catch (Exception ex) {
+            Logger.getLogger(XBEXUiManager.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        }
+    }
+
     @Nonnull
     @Override
     public List<XBCXBlockUi> getUis(XBCBlockRev rev) {
         try {
             return (List<XBCXBlockUi>) catalog.getEntityManager().createQuery("SELECT object(o) FROM XBXBlockUi as o WHERE o.blockRev.id = " + ((XBEBlockRev) rev).getId()).getResultList();
+        } catch (NoResultException e) {
+            return List.of();
+        } catch (Exception ex) {
+            Logger.getLogger(XBEXUiManager.class.getName()).log(Level.SEVERE, null, ex);
+            return List.of();
+        }
+    }
+
+    @Nonnull
+    @Override
+    public List<XBCXBlockUi> getUis(XBCBlockRev rev, XBPlugUiType type) {
+        try {
+            return (List<XBCXBlockUi>) catalog.getEntityManager().createQuery("SELECT object(o) FROM XBXBlockUi as o WHERE o.blockRev.id = " + ((XBEBlockRev) rev).getId() + " AND o.plugUi.uiType.id = " + type.getDbIndex()).getResultList();
         } catch (NoResultException e) {
             return List.of();
         } catch (Exception ex) {
@@ -102,12 +129,27 @@ public class XBEXUiManager extends XBEDefaultCatalogManager<XBEXBlockUi> impleme
     }
 
     @Override
-    public XBEXBlockUi findUiByPR(XBCBlockRev rev, long priority) {
+    public long getUisCount(XBCBlockRev rev, XBPlugUiType type) {
+        if (!(rev instanceof XBEBlockRev)) {
+            return 0;
+        }
+        try {
+            return (Long) catalog.getEntityManager().createQuery("SELECT count(o) FROM XBXBlockUi as o WHERE o.blockRev.id = " + ((XBEBlockRev) rev).getId() + " AND o.plugUi.uiType.id = " + type.getDbIndex()).getSingleResult();
+        } catch (NoResultException ex) {
+            return 0;
+        } catch (Exception ex) {
+            Logger.getLogger(XBEXUiManager.class.getName()).log(Level.SEVERE, null, ex);
+            return 0;
+        }
+    }
+
+    @Override
+    public XBEXBlockUi findUiByPR(XBCBlockRev rev, XBPlugUiType type, long priority) {
         if (!(rev instanceof XBEBlockRev)) {
             return null;
         }
         try {
-            return (XBEXBlockUi) catalog.getEntityManager().createQuery("SELECT object(o) FROM XBXBlockUi as o WHERE o.blockRev.id = " + ((XBEBlockRev) rev).getId() + " AND o.priority = " + Long.toString(priority)).getSingleResult();
+            return (XBEXBlockUi) catalog.getEntityManager().createQuery("SELECT object(o) FROM XBXBlockUi as o WHERE o.blockRev.id = " + ((XBEBlockRev) rev).getId() + " AND o.priority = " + Long.toString(priority) + " AND o.plugUi.uiType.id = " + type.getDbIndex()).getSingleResult();
         } catch (NoResultException ex) {
             return null;
         } catch (Exception ex) {
@@ -121,6 +163,19 @@ public class XBEXUiManager extends XBEDefaultCatalogManager<XBEXBlockUi> impleme
     public List<XBCXPlugUi> getPlugUis(XBCXPlugin plugin) {
         try {
             return (List<XBCXPlugUi>) catalog.getEntityManager().createQuery("SELECT object(o) FROM XBXPlugUi as o WHERE o.plugin.id = " + ((XBEXPlugin) plugin).getId()).getResultList();
+        } catch (NoResultException e) {
+            return List.of();
+        } catch (Exception ex) {
+            Logger.getLogger(XBEXUiManager.class.getName()).log(Level.SEVERE, null, ex);
+            return List.of();
+        }
+    }
+
+    @Nonnull
+    @Override
+    public List<XBCXPlugUi> getPlugUis(XBCXPlugin plugin, XBPlugUiType type) {
+        try {
+            return (List<XBCXPlugUi>) catalog.getEntityManager().createQuery("SELECT object(o) FROM XBXPlugUi as o WHERE o.plugin.id = " + ((XBEXPlugin) plugin).getId() + " AND o.uiType.id = " + type.getDbIndex()).getResultList();
         } catch (NoResultException e) {
             return List.of();
         } catch (Exception ex) {
@@ -145,12 +200,27 @@ public class XBEXUiManager extends XBEDefaultCatalogManager<XBEXBlockUi> impleme
     }
 
     @Override
-    public XBEXPlugUi getPlugUi(XBCXPlugin plugin, long methodIndex) {
+    public long getPlugUisCount(XBCXPlugin plugin, XBPlugUiType type) {
+        if (!(plugin instanceof XBEXPlugin)) {
+            return 0;
+        }
+        try {
+            return (Long) catalog.getEntityManager().createQuery("SELECT count(o) FROM XBXPlugUi as o WHERE o.plugin.id = " + ((XBEXPlugin) plugin).getId() + " AND o.uiType.id = " + type.getDbIndex()).getSingleResult();
+        } catch (NoResultException ex) {
+            return 0;
+        } catch (Exception ex) {
+            Logger.getLogger(XBEXUiManager.class.getName()).log(Level.SEVERE, null, ex);
+            return 0;
+        }
+    }
+
+    @Override
+    public XBEXPlugUi getPlugUi(XBCXPlugin plugin, XBPlugUiType type, long methodIndex) {
         if (!(plugin instanceof XBEXPlugin)) {
             return null;
         }
         try {
-            return (XBEXPlugUi) catalog.getEntityManager().createQuery("SELECT object(o) FROM XBXPlugUi as o WHERE o.plugin.id = " + ((XBEXPlugin) plugin).getId() + " AND o.methodIndex = " + Long.toString(methodIndex)).getSingleResult();
+            return (XBEXPlugUi) catalog.getEntityManager().createQuery("SELECT object(o) FROM XBXPlugUi as o WHERE o.plugin.id = " + ((XBEXPlugin) plugin).getId() + " AND o.methodIndex = " + Long.toString(methodIndex) + " AND o.uiType.id = " + type.getDbIndex()).getSingleResult();
         } catch (NoResultException ex) {
             return null;
         } catch (Exception ex) {

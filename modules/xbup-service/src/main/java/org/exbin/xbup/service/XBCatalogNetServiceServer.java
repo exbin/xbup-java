@@ -15,15 +15,15 @@
  */
 package org.exbin.xbup.service;
 
-import java.util.Date;
 import java.util.ResourceBundle;
 import java.util.logging.Handler;
 import java.util.logging.Level;
 import java.util.logging.LogRecord;
 import java.util.logging.Logger;
+import javax.annotation.Nullable;
 import javax.persistence.EntityManager;
 import org.exbin.xbup.catalog.XBAECatalog;
-import org.exbin.xbup.catalog.update.XBCUpdatePHPHandler;
+import org.exbin.xbup.catalog.update.XBCUpdateHandler;
 import org.exbin.xbup.core.catalog.base.service.XBCNodeService;
 import org.exbin.xbup.core.remote.XBServiceServer;
 import org.exbin.xbup.service.skeleton.XBPInfoSkeleton;
@@ -37,16 +37,15 @@ import org.exbin.xbup.service.skeleton.XBPXFileSkeleton;
 import org.exbin.xbup.service.skeleton.XBPXHDocSkeleton;
 import org.exbin.xbup.service.skeleton.XBPXIconSkeleton;
 import org.exbin.xbup.service.skeleton.XBPXLangSkeleton;
-import org.exbin.xbup.service.skeleton.XBPXLineSkeleton;
 import org.exbin.xbup.service.skeleton.XBPXNameSkeleton;
-import org.exbin.xbup.service.skeleton.XBPXPaneSkeleton;
 import org.exbin.xbup.service.skeleton.XBPXPlugSkeleton;
 import org.exbin.xbup.service.skeleton.XBPXStriSkeleton;
+import org.exbin.xbup.service.skeleton.XBPXUiSkeleton;
 
 /**
  * XBUP catalog service server.
  *
- * @version 0.2.0 2016/02/20
+ * @version 0.2.1 2020/08/17
  * @author ExBin Project (http://exbin.org)
  */
 public class XBCatalogNetServiceServer extends XBTCPServiceServer {
@@ -55,17 +54,16 @@ public class XBCatalogNetServiceServer extends XBTCPServiceServer {
     public static final Level XB_SERVICE_STATUS = new XBServiceStatus("XB_SERVICE_STATUS", 758, LOG_BUNDLE);
 
     private final ResourceBundle resourceBundle = ResourceBundle.getBundle("org/exbin/xbup/service/messages");
-    private final XBCUpdatePHPHandler wsHandler;
+    private XBCUpdateHandler wsHandler = null;
 
     public XBCatalogNetServiceServer(EntityManager entityManager, final XBAECatalog catalog) {
         super(entityManager, catalog);
 
-        wsHandler = new XBCUpdatePHPHandler((XBAECatalog) catalog);
-        wsHandler.init();
-        wsHandler.getPort().getLanguageId("en");
-        ((XBAECatalog) catalog).setUpdateHandler(wsHandler);
-        wsHandler.fireUsageEvent(false);
-
+//        wsHandler = XBCUpdatePHPHandler((XBAECatalog) catalog);
+//        wsHandler.init();
+//        wsHandler.getPort().getLanguageId("en");
+//        ((XBAECatalog) catalog).setUpdateHandler(wsHandler);
+//        wsHandler.fireUsageEvent(false);
         XBServiceServer server = this;
         // Register procedures
         new XBPServiceSkeleton(this).registerProcedures(server);
@@ -83,8 +81,7 @@ public class XBCatalogNetServiceServer extends XBTCPServiceServer {
         new XBPXIconSkeleton(catalog).registerProcedures(server);
         new XBPXPlugSkeleton(catalog).registerProcedures(server);
         new XBPXStriSkeleton(catalog).registerProcedures(server);
-        new XBPXLineSkeleton(catalog).registerProcedures(server);
-        new XBPXPaneSkeleton(catalog).registerProcedures(server);
+        new XBPXUiSkeleton(catalog).registerProcedures(server);
         new XBPXHDocSkeleton(catalog).registerProcedures(server);
     }
 
@@ -157,9 +154,10 @@ public class XBCatalogNetServiceServer extends XBTCPServiceServer {
             return true;
         }
 
-        Date localLastUpdate = nodeService.getRoot().getLastUpdate().orElse(null);
-        Date lastUpdate = getWsHandler().getPort().getRootLastUpdate();
-        return (localLastUpdate == null || (lastUpdate != null && localLastUpdate.before(lastUpdate)));
+        return false;
+//        Date localLastUpdate = nodeService.getRoot().getLastUpdate().orElse(null);
+//        Date lastUpdate = getWsHandler().getPort().getRootLastUpdate();
+//        return (localLastUpdate == null || (lastUpdate != null && localLastUpdate.before(lastUpdate)));
     }
 
     public void update() {
@@ -169,7 +167,8 @@ public class XBCatalogNetServiceServer extends XBTCPServiceServer {
         // TODO: Support for sending full image latter...
     }
 
-    public XBCUpdatePHPHandler getWsHandler() {
+    @Nullable
+    public XBCUpdateHandler getWsHandler() {
         return wsHandler;
     }
 }

@@ -36,6 +36,7 @@ import org.exbin.xbup.core.catalog.base.XBCXStri;
 import org.exbin.xbup.core.catalog.base.service.XBCXFileService;
 import org.exbin.xbup.core.catalog.base.service.XBCXStriService;
 import org.exbin.xbup.core.util.StreamUtils;
+import org.exbin.xbup.core.util.StringUtils;
 
 /**
  * XBUP plugin repository.
@@ -117,7 +118,7 @@ public class XBPluginRepository {
             }
             if (pluginRecordStream != null) {
                 try {
-                    String className = new String(pluginRecordStream.readAllBytes(), "UTF-8");
+                    String className = new String(pluginRecordStream.readAllBytes(), StringUtils.ENCODING_UTF8);
                     Class<?> clazz = Class.forName(className, true, loader);
                     Constructor<?> ctor = clazz.getConstructor();
                     return (XBCatalogPlugin) ctor.newInstance();

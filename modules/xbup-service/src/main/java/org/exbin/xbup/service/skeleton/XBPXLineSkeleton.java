@@ -16,6 +16,7 @@
 package org.exbin.xbup.service.skeleton;
 
 import java.io.IOException;
+import java.util.Optional;
 import org.exbin.xbup.catalog.XBAECatalog;
 import org.exbin.xbup.catalog.entity.XBEBlockRev;
 import org.exbin.xbup.catalog.entity.XBEXBlockLine;
@@ -41,7 +42,7 @@ import org.exbin.xbup.core.ubnumber.type.UBNat32;
 /**
  * RPC skeleton class for XBRXBlockLine catalog items.
  *
- * @version 0.2.1 2017/05/27
+ * @version 0.2.1 2020/08/17
  * @author ExBin Project (http://exbin.org)
  */
 public class XBPXLineSkeleton {
@@ -165,8 +166,8 @@ public class XBPXLineSkeleton {
 
                 XBCXLineService lineService = catalog.getCatalogService(XBCXLineService.class);
                 XBCRevService revService = catalog.getCatalogService(XBCRevService.class);
-                XBEBlockRev rev = (XBEBlockRev) revService.getItem(index.getNaturalLong());
-                XBEXBlockLine blockLine = rev == null ? null : (XBEXBlockLine) lineService.findLineByPR(rev, priority.getNaturalLong());
+                Optional<XBEBlockRev> rev = revService.getItem(index.getNaturalLong());
+                XBEXBlockLine blockLine = rev.isPresent() ? (XBEXBlockLine) lineService.findLineByPR(rev.get(), priority.getNaturalLong()) : null;
 
                 XBPListenerSerialHandler listener = new XBPListenerSerialHandler(resultInput);
                 listener.process(blockLine == null ? XBTEmptyBlock.getEmptyBlock() : new UBNat32(blockLine.getId()));

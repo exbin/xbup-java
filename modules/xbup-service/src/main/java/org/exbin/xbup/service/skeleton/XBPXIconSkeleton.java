@@ -16,6 +16,7 @@
 package org.exbin.xbup.service.skeleton;
 
 import java.io.IOException;
+import java.util.Optional;
 import org.exbin.xbup.catalog.XBAECatalog;
 import org.exbin.xbup.client.stub.XBPXIconStub;
 import org.exbin.xbup.core.block.XBBlockType;
@@ -38,7 +39,7 @@ import org.exbin.xbup.core.ubnumber.type.UBNat32;
 /**
  * RPC skeleton class for XBRXIcon catalog items.
  *
- * @version 0.2.1 2017/05/27
+ * @version 0.2.1 2020/08/17
  * @author ExBin Project (http://exbin.org)
  */
 public class XBPXIconSkeleton {
@@ -60,10 +61,10 @@ public class XBPXIconSkeleton {
                 provider.end();
 
                 XBCXIconService iconService = catalog.getCatalogService(XBCXIconService.class);
-                XBCXIcon icon = (XBCXIcon) iconService.getItem(index.getNaturalLong());
+                Optional<XBCXIcon> icon = iconService.getItem(index.getNaturalLong());
 
                 XBPListenerSerialHandler listener = new XBPListenerSerialHandler(resultInput);
-                listener.process(icon == null ? XBTEmptyBlock.getEmptyBlock() : new UBNat32(icon.getParent().getId()));
+                listener.process(icon.isPresent() ? new UBNat32(icon.get().getParent().getId()) : XBTEmptyBlock.getEmptyBlock());
             }
         });
 
@@ -77,10 +78,10 @@ public class XBPXIconSkeleton {
                 provider.end();
 
                 XBCXIconService iconService = catalog.getCatalogService(XBCXIconService.class);
-                XBCXIcon icon = (XBCXIcon) iconService.getItem(index.getNaturalLong());
+                Optional<XBCXIcon> icon = iconService.getItem(index.getNaturalLong());
 
                 XBPListenerSerialHandler listener = new XBPListenerSerialHandler(resultInput);
-                listener.process(icon == null ? XBTEmptyBlock.getEmptyBlock() : new UBNat32(icon.getMode().getId()));
+                listener.process(icon.isPresent() ? new UBNat32(icon.get().getMode().getId()) : XBTEmptyBlock.getEmptyBlock());
             }
         });
 
@@ -102,8 +103,8 @@ public class XBPXIconSkeleton {
 
                 XBCXIconService iconService = catalog.getCatalogService(XBCXIconService.class);
                 XBCItemService itemService = catalog.getCatalogService(XBCItemService.class);
-                XBCItem item = (XBCItem) itemService.getItem(index.getNaturalLong());
-                XBCXIcon icon = item == null ? null : iconService.getDefaultIcon(item);
+                Optional<XBCItem> item = itemService.getItem(index.getNaturalLong());
+                XBCXIcon icon = item.isPresent() ? iconService.getDefaultIcon(item.get()) : null;
 
                 XBPListenerSerialHandler listener = new XBPListenerSerialHandler(resultInput);
                 listener.process(icon == null ? XBTEmptyBlock.getEmptyBlock() : new UBNat32(icon.getId()));
@@ -120,10 +121,10 @@ public class XBPXIconSkeleton {
                 provider.end();
 
                 XBCXIconService iconService = catalog.getCatalogService(XBCXIconService.class);
-                XBCXIcon icon = (XBCXIcon) iconService.getItem(index.getNaturalLong());
+                Optional<XBCXIcon> icon = iconService.getItem(index.getNaturalLong());
 
                 XBPListenerSerialHandler listener = new XBPListenerSerialHandler(resultInput);
-                listener.process(icon == null ? XBTEmptyBlock.getEmptyBlock() : new UBNat32(icon.getIconFile().getId()));
+                listener.process(icon.isPresent() ? new UBNat32(icon.get().getIconFile().getId()) : XBTEmptyBlock.getEmptyBlock());
             }
         });
 
@@ -138,8 +139,8 @@ public class XBPXIconSkeleton {
 
                 XBCXIconService iconService = catalog.getCatalogService(XBCXIconService.class);
                 XBCItemService itemService = catalog.getCatalogService(XBCItemService.class);
-                XBCItem item = (XBCItem) itemService.getItem(index.getNaturalLong());
-                XBCXIcon icon = item == null ? null : iconService.getDefaultBigIcon(item);
+                Optional<XBCItem> item = itemService.getItem(index.getNaturalLong());
+                XBCXIcon icon = item.isPresent() ? iconService.getDefaultBigIcon(item.get()) : null;
 
                 XBPListenerSerialHandler listener = new XBPListenerSerialHandler(resultInput);
                 listener.process(icon == null ? XBTEmptyBlock.getEmptyBlock() : new UBNat32(icon.getId()));
@@ -157,8 +158,8 @@ public class XBPXIconSkeleton {
 
                 XBCXIconService iconService = catalog.getCatalogService(XBCXIconService.class);
                 XBCItemService itemService = catalog.getCatalogService(XBCItemService.class);
-                XBCItem item = (XBCItem) itemService.getItem(index.getNaturalLong());
-                XBCXIcon icon = item == null ? null : iconService.getDefaultSmallIcon(item);
+                Optional<XBCItem> item = itemService.getItem(index.getNaturalLong());
+                XBCXIcon icon = item.isPresent() ? iconService.getDefaultSmallIcon(item.get()) : null;
 
                 XBPListenerSerialHandler listener = new XBPListenerSerialHandler(resultInput);
                 listener.process(icon == null ? XBTEmptyBlock.getEmptyBlock() : new UBNat32(icon.getId()));

@@ -16,6 +16,7 @@
 package org.exbin.xbup.service.skeleton;
 
 import java.io.IOException;
+import java.util.Optional;
 import org.exbin.xbup.catalog.XBAECatalog;
 import org.exbin.xbup.client.stub.XBPXHDocStub;
 import org.exbin.xbup.core.block.XBBlockType;
@@ -38,7 +39,7 @@ import org.exbin.xbup.core.ubnumber.type.UBNat32;
 /**
  * RPC skeleton class for XBRXHDoc catalog items.
  *
- * @version 0.1.25 2015/04/04
+ * @version 0.2.1 2020/08/17
  * @author ExBin Project (http://exbin.org)
  */
 public class XBPXHDocSkeleton {
@@ -60,10 +61,10 @@ public class XBPXHDocSkeleton {
                 provider.end();
 
                 XBCXHDocService hdocService = catalog.getCatalogService(XBCXHDocService.class);
-                XBCXHDoc hdoc = (XBCXHDoc) hdocService.getItem(index.getNaturalLong());
+                Optional<XBCXHDoc> hdoc = hdocService.getItem(index.getNaturalLong());
 
                 XBPListenerSerialHandler listener = new XBPListenerSerialHandler(resultInput);
-                listener.process(hdoc == null ? XBTEmptyBlock.getEmptyBlock() : new UBNat32(hdoc.getItem().getId()));
+                listener.process(hdoc.isPresent() ? new UBNat32(hdoc.get().getItem().getId()) : XBTEmptyBlock.getEmptyBlock());
             }
         });
 
@@ -78,8 +79,8 @@ public class XBPXHDocSkeleton {
 
                 XBCItemService itemService = catalog.getCatalogService(XBCItemService.class);
                 XBCXHDocService hdocService = catalog.getCatalogService(XBCXHDocService.class);
-                XBCItem item = (XBCItem) itemService.getItem(index.getNaturalLong());
-                XBCXHDoc hdoc = item == null ? null : (XBCXHDoc) hdocService.getDocumentation(item);
+                Optional<XBCItem> item = itemService.getItem(index.getNaturalLong());
+                XBCXHDoc hdoc = item.isPresent() ? (XBCXHDoc) hdocService.getDocumentation(item.get()) : null;
 
                 XBPListenerSerialHandler listener = new XBPListenerSerialHandler(resultInput);
                 listener.process(hdoc == null ? XBTEmptyBlock.getEmptyBlock() : new UBNat32(hdoc.getId()));
@@ -96,10 +97,10 @@ public class XBPXHDocSkeleton {
                 provider.end();
 
                 XBCXHDocService hdocService = catalog.getCatalogService(XBCXHDocService.class);
-                XBCXHDoc hdoc = (XBCXHDoc) hdocService.getItem(index.getNaturalLong());
+                Optional<XBCXHDoc> hdoc = hdocService.getItem(index.getNaturalLong());
 
                 XBPListenerSerialHandler listener = new XBPListenerSerialHandler(resultInput);
-                listener.process(hdoc == null ? XBTEmptyBlock.getEmptyBlock() : new UBNat32(hdoc.getDocFile().getId()));
+                listener.process(hdoc.isPresent() ? new UBNat32(hdoc.get().getDocFile().getId()) : XBTEmptyBlock.getEmptyBlock());
             }
         });
     }

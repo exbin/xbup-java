@@ -19,9 +19,11 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.ParameterizedType;
 import java.util.List;
+import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.annotation.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
 import javax.persistence.Entity;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
@@ -34,10 +36,11 @@ import org.exbin.xbup.core.catalog.base.manager.XBCManager;
 /**
  * Default manager for entity items.
  *
- * @version 0.2.0 2016/02/20
+ * @version 0.2.1 2020/08/17
  * @author ExBin Project (http://exbin.org)
  * @param <T> entity class
  */
+@ParametersAreNonnullByDefault
 public class XBEDefaultManager<T extends XBCBase> implements XBCManager<T> {
 
     @PersistenceContext
@@ -50,6 +53,7 @@ public class XBEDefaultManager<T extends XBCBase> implements XBCManager<T> {
         this.em = entityManager;
     }
 
+    @Nonnull
     @SuppressWarnings("unchecked")
     @Override
     public T createItem() {
@@ -57,9 +61,8 @@ public class XBEDefaultManager<T extends XBCBase> implements XBCManager<T> {
             return (T) getGenericClass().getDeclaredConstructor().newInstance();
         } catch (InstantiationException | IllegalAccessException | NoSuchMethodException
                 | SecurityException | IllegalArgumentException | InvocationTargetException ex) {
-            Logger.getLogger(XBEDefaultManager.class.getName()).log(Level.SEVERE, null, ex);
+            throw new IllegalStateException("Unable to create new item", ex);
         }
-        return null;
     }
 
     @Override
@@ -80,6 +83,7 @@ public class XBEDefaultManager<T extends XBCBase> implements XBCManager<T> {
         }
     }
 
+    @Nonnull
     @SuppressWarnings("unchecked")
     @Override
     public List<T> getAllItems() {
@@ -87,19 +91,19 @@ public class XBEDefaultManager<T extends XBCBase> implements XBCManager<T> {
             List result = em.createQuery("SELECT object(o) FROM " + getTableName() + " as o").getResultList();
             return (List<T>) result;
         } catch (NoResultException ex) {
-            return null;
+            return List.of();
         } catch (Exception ex) {
             Logger.getLogger(XBEDefaultManager.class.getName()).log(Level.SEVERE, null, ex);
-            return null;
+            return List.of();
         }
     }
 
-    @Nullable
+    @Nonnull
     @SuppressWarnings("unchecked")
     @Override
-    public T getItem(long itemId) {
+    public Optional<T> getItem(long itemId) {
         Object result = em.find(getGenericClass(), itemId);
-        return (T) result;
+        return Optional.ofNullable((T) result);
         /*        try {
          return (T) em.createQuery("SELECT object(o) FROM XBItem as o WHERE o.id = "+ itemId).getSingleResult();
          } catch (NoResultException ex) {
@@ -144,6 +148,7 @@ public class XBEDefaultManager<T extends XBCBase> implements XBCManager<T> {
      *
      * @return generic class of this class
      */
+    @Nonnull
     public Class getGenericClass() {
         ParameterizedType parameterizedType = (ParameterizedType) getClass().getGenericSuperclass();
         return (Class) parameterizedType.getActualTypeArguments()[0];
@@ -154,6 +159,7 @@ public class XBEDefaultManager<T extends XBCBase> implements XBCManager<T> {
      *
      * @return table name
      */
+    @Nonnull
     @SuppressWarnings("unchecked")
     public String getTableName() {
         Class genClass = getGenericClass();

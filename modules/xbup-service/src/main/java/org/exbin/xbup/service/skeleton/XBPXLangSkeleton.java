@@ -17,6 +17,7 @@ package org.exbin.xbup.service.skeleton;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 import org.exbin.xbup.catalog.XBAECatalog;
 import org.exbin.xbup.catalog.entity.XBEXLanguage;
 import org.exbin.xbup.catalog.entity.service.XBEXLangService;
@@ -38,7 +39,7 @@ import org.exbin.xbup.core.ubnumber.type.UBNat32;
 /**
  * RPC skeleton class for XBRXLanguage catalog items.
  *
- * @version 0.1.25 2015/03/16
+ * @version 0.2.1 2020/08/17
  * @author ExBin Project (http://exbin.org)
  */
 public class XBPXLangSkeleton {
@@ -60,10 +61,10 @@ public class XBPXLangSkeleton {
                 provider.end();
 
                 XBEXLangService langService = (XBEXLangService) catalog.getCatalogService(XBEXLangService.class);
-                XBEXLanguage lang = langService.getItem(index.getNaturalLong());
+                Optional<XBEXLanguage> lang = langService.getItem(index.getNaturalLong());
 
                 XBPListenerSerialHandler listener = new XBPListenerSerialHandler(resultInput);
-                listener.process(lang == null ? XBTEmptyBlock.getEmptyBlock() : new XBString(lang.getLangCode()));
+                listener.process(lang.isPresent() ? new XBString(lang.get().getLangCode()) : XBTEmptyBlock.getEmptyBlock());
             }
         });
 

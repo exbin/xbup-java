@@ -17,9 +17,9 @@ package org.exbin.xbup.service.skeleton;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 import org.exbin.xbup.client.stub.XBPBaseProcedureType;
 import org.exbin.xbup.core.block.XBBlockType;
-import org.exbin.xbup.core.block.XBTEmptyBlock;
 import org.exbin.xbup.core.catalog.base.XBCBase;
 import org.exbin.xbup.core.catalog.base.service.XBCService;
 import org.exbin.xbup.core.parser.XBProcessingException;
@@ -36,7 +36,7 @@ import org.exbin.xbup.core.ubnumber.type.UBNat32;
 /**
  * RPC skeleton base class for catalog items.
  *
- * @version 0.1.25 2015/03/18
+ * @version 0.2.1 2020/08/17
  * @author ExBin Project (http://exbin.org)
  * @param <T> entity class
  */
@@ -62,7 +62,7 @@ public class XBPBaseSkeleton<T extends XBCBase> {
 
                     T item = service.createItem();
                     XBPListenerSerialHandler listener = new XBPListenerSerialHandler(resultInput);
-                    listener.process(item == null ? XBTEmptyBlock.getEmptyBlock() : new UBNat32(item.getId()));
+                    listener.process(new UBNat32(item.getId()));
                 }
             });
         }
@@ -93,9 +93,9 @@ public class XBPBaseSkeleton<T extends XBCBase> {
                     XBAttribute index = provider.pullAttribute();
                     provider.end();
 
-                    T item = service.getItem(index.getNaturalLong());
-                    if (item != null) {
-                        service.removeItem(item);
+                    Optional<T> item = service.getItem(index.getNaturalLong());
+                    if (item.isPresent()) {
+                        service.removeItem(item.get());
                     } else {
                         throw new XBProcessingException("Unable to remove item", XBProcessingExceptionType.UNKNOWN);
                     }

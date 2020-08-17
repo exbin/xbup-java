@@ -16,6 +16,7 @@
 package org.exbin.xbup.service.skeleton;
 
 import java.io.IOException;
+import java.util.Optional;
 import org.exbin.xbup.catalog.XBAECatalog;
 import org.exbin.xbup.catalog.entity.XBEBlockRev;
 import org.exbin.xbup.catalog.entity.XBEXBlockPane;
@@ -41,7 +42,7 @@ import org.exbin.xbup.core.ubnumber.type.UBNat32;
 /**
  * RPC skeleton class for XBRXBlockPane catalog items.
  *
- * @version 0.2.1 2017/05/27
+ * @version 0.2.1 2020/08/17
  * @author ExBin Project (http://exbin.org)
  */
 public class XBPXPaneSkeleton {
@@ -165,8 +166,8 @@ public class XBPXPaneSkeleton {
 
                 XBCXPaneService paneService = catalog.getCatalogService(XBCXPaneService.class);
                 XBCRevService revService = catalog.getCatalogService(XBCRevService.class);
-                XBEBlockRev rev = (XBEBlockRev) revService.getItem(index.getNaturalLong());
-                XBEXBlockPane blockPane = rev == null ? null : (XBEXBlockPane) paneService.findPaneByPR(rev, priority.getNaturalLong());
+                Optional<XBEBlockRev> rev = revService.getItem(index.getNaturalLong());
+                XBEXBlockPane blockPane = rev.isPresent() ? (XBEXBlockPane) paneService.findPaneByPR(rev.get(), priority.getNaturalLong()) : null;
 
                 XBPListenerSerialHandler listener = new XBPListenerSerialHandler(resultInput);
                 listener.process(blockPane == null ? XBTEmptyBlock.getEmptyBlock() : new UBNat32(blockPane.getId()));

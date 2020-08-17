@@ -16,6 +16,9 @@
 package org.exbin.xbup.core.catalog.base.service;
 
 import java.util.List;
+import java.util.Optional;
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
 import org.exbin.xbup.core.catalog.base.XBCBase;
 import org.exbin.xbup.core.catalog.base.manager.XBCManager;
 
@@ -26,10 +29,12 @@ import org.exbin.xbup.core.catalog.base.manager.XBCManager;
  * @author ExBin Project (http://exbin.org)
  * @param <T> entity class
  */
+@ParametersAreNonnullByDefault
 public class XBCDefaultItemService<T extends XBCBase> implements XBCService<T> {
 
     protected XBCManager<T> itemManager;
 
+    @Nonnull
     @Override
     public T createItem() {
         return itemManager.createItem();
@@ -40,13 +45,15 @@ public class XBCDefaultItemService<T extends XBCBase> implements XBCService<T> {
         itemManager.removeItem(item);
     }
 
+    @Nonnull
     @Override
     public List<T> getAllItems() {
         return itemManager.getAllItems();
     }
 
+    @Nonnull
     @Override
-    public T getItem(long itemId) {
+    public Optional<T> getItem(long itemId) {
         return itemManager.getItem(itemId);
     }
 

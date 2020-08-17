@@ -120,7 +120,20 @@ public class XBCBlockDef implements XBBlockDef, XBPSequenceSerializable {
                 }
             }
         } else {
-            throw new UnsupportedOperationException("Not supported yet.");
+            switch (specDef.getType()) {
+                case CONSIST: {
+                    return new XBBlockParamConsist();
+                }
+                case JOIN: {
+                    return new XBBlockParamJoin();
+                }
+                case LIST_CONSIST: {
+                    return new XBBlockParamListConsist();
+                }
+                case LIST_JOIN: {
+                    return new XBBlockParamListJoin();
+                }
+            }
         }
 
         throw new IllegalStateException("Unexpected specification definition type");

@@ -17,6 +17,7 @@ package org.exbin.xbup.service.skeleton;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 import org.exbin.xbup.catalog.XBAECatalog;
 import org.exbin.xbup.catalog.entity.XBERev;
 import org.exbin.xbup.client.stub.XBPRevStub;
@@ -39,7 +40,7 @@ import org.exbin.xbup.core.ubnumber.type.UBNat32;
 /**
  * RPC skeleton class for XBRRev catalog items.
  *
- * @version 0.1.25 2015/03/25
+ * @version 0.2.1 2020/08/17
  * @author ExBin Project (http://exbin.org)
  */
 public class XBPRevSkeleton {
@@ -63,8 +64,8 @@ public class XBPRevSkeleton {
 
                 XBCRevService revService = catalog.getCatalogService(XBCRevService.class);
                 XBCSpecService specService = catalog.getCatalogService(XBCSpecService.class);
-                XBCSpec spec = (XBCSpec) specService.getItem(specId);
-                XBERev rev = spec == null ? null : (XBERev) revService.findRevByXB(spec, xbIndex);
+                Optional<XBCSpec> spec = specService.getItem(specId);
+                XBERev rev = spec.isPresent() ? (XBERev) revService.findRevByXB(spec.get(), xbIndex) : null;
 
                 XBPListenerSerialHandler listener = new XBPListenerSerialHandler(resultInput);
                 listener.process(rev == null ? XBTEmptyBlock.getEmptyBlock() : new UBNat32(rev.getId()));
@@ -82,10 +83,10 @@ public class XBPRevSkeleton {
 
                 XBCRevService revService = catalog.getCatalogService(XBCRevService.class);
                 XBCSpecService specService = catalog.getCatalogService(XBCSpecService.class);
-                XBCSpec spec = (XBCSpec) specService.getItem(specId);
+                Optional<XBCSpec> spec = specService.getItem(specId);
 
                 XBPListenerSerialHandler listener = new XBPListenerSerialHandler(resultInput);
-                listener.process(new UBNat32(revService.getRevsCount(spec)));
+                listener.process(new UBNat32(revService.getRevsCount(spec.get())));
             }
         });
 
@@ -101,8 +102,8 @@ public class XBPRevSkeleton {
 
                 XBCRevService revService = catalog.getCatalogService(XBCRevService.class);
                 XBCSpecService specService = catalog.getCatalogService(XBCSpecService.class);
-                XBCSpec spec = (XBCSpec) specService.getItem(specId);
-                XBERev rev = spec == null ? null : (XBERev) revService.getRev(spec, orderIndex);
+                Optional<XBCSpec> spec = specService.getItem(specId);
+                XBERev rev = spec.isPresent() ? (XBERev) revService.getRev(spec.get(), orderIndex) : null;
 
                 XBPListenerSerialHandler listener = new XBPListenerSerialHandler(resultInput);
                 listener.process(rev == null ? XBTEmptyBlock.getEmptyBlock() : new UBNat32(rev.getId()));
@@ -120,8 +121,8 @@ public class XBPRevSkeleton {
 
                 XBCRevService revService = catalog.getCatalogService(XBCRevService.class);
                 XBCSpecService specService = catalog.getCatalogService(XBCSpecService.class);
-                XBCSpec spec = (XBCSpec) specService.getItem(specId);
-                List<XBCRev> revs = revService.getRevs(spec);
+                Optional<XBCSpec> spec = specService.getItem(specId);
+                List<XBCRev> revs = revService.getRevs(spec.get());
 
                 XBPListenerSerialHandler listener = new XBPListenerSerialHandler(resultInput);
                 listener.begin();
@@ -144,10 +145,10 @@ public class XBPRevSkeleton {
                 provider.end();
 
                 XBCRevService revService = catalog.getCatalogService(XBCRevService.class);
-                XBCRev rev = (XBCRev) revService.getItem(revId);
+                Optional<XBCRev> rev = revService.getItem(revId);
 
                 XBPListenerSerialHandler listener = new XBPListenerSerialHandler(resultInput);
-                listener.process(rev == null ? XBTEmptyBlock.getEmptyBlock() : new UBNat32(rev.getXBLimit()));
+                listener.process(rev.isPresent() ? new UBNat32(rev.get().getXBLimit()) : XBTEmptyBlock.getEmptyBlock());
             }
         });
 

@@ -16,15 +16,19 @@
 package org.exbin.xbup.client.stub;
 
 import java.util.List;
+import java.util.Optional;
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
 import org.exbin.xbup.core.catalog.base.XBCBase;
 
 /**
  * Stub generics interface for catalog manager classes.
  *
- * @version 0.1.25 2015/03/20
+ * @version 0.2.1 2020/08/17
  * @author ExBin Project (http://exbin.org)
  * @param <T> entity class
  */
+@ParametersAreNonnullByDefault
 public interface XBPManagerStub<T extends XBCBase> {
 
     /**
@@ -33,28 +37,30 @@ public interface XBPManagerStub<T extends XBCBase> {
      * @param itemId item index
      * @return new item
      */
-    public T constructItem(long itemId);
+    @Nonnull
+    T constructItem(long itemId);
 
     /**
      * Creates instance of new item and set it to default state.
      *
      * @return new item
      */
-    public T createItem();
+    @Nonnull
+    T createItem();
 
     /**
      * Updates item state to persistent repository.
      *
      * @param item to update
      */
-    public void persistItem(T item);
+    void persistItem(T item);
 
     /**
      * Deletes item from persistent repository.
      *
      * @param item item
      */
-    public void removeItem(T item);
+    void removeItem(T item);
 
     /**
      * Gets item from persistent repository.
@@ -62,19 +68,21 @@ public interface XBPManagerStub<T extends XBCBase> {
      * @param itemId item id
      * @return instance of item or null
      */
-    public T getItem(long itemId);
+    @Nonnull
+    Optional<T> getItem(long itemId);
 
     /**
      * Gets list of all items from persistent repository.
      *
      * @return list of items
      */
-    public List<T> getAllItems();
+    @Nonnull
+    List<T> getAllItems();
 
     /**
      * Returns count of items in persistent repository.
      *
      * @return count of items
      */
-    public long getItemsCount();
+    long getItemsCount();
 }

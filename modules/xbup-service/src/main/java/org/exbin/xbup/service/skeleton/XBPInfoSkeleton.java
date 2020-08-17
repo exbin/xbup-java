@@ -16,14 +16,16 @@
 package org.exbin.xbup.service.skeleton;
 
 import java.io.IOException;
+import java.util.Optional;
 import org.exbin.xbup.catalog.XBAECatalog;
-import org.exbin.xbup.catalog.entity.XBENode;
+import org.exbin.xbup.catalog.entity.XBEItem;
 import org.exbin.xbup.catalog.entity.service.XBEItemService;
 import org.exbin.xbup.catalog.entity.service.XBEXInfoService;
 import org.exbin.xbup.client.stub.XBPInfoStub;
 import org.exbin.xbup.core.block.XBBlockType;
 import org.exbin.xbup.core.block.XBTEmptyBlock;
 import org.exbin.xbup.core.block.declaration.XBDeclBlockType;
+import org.exbin.xbup.core.catalog.base.XBCNode;
 import org.exbin.xbup.core.catalog.base.XBCXItemInfo;
 import org.exbin.xbup.core.catalog.base.service.XBCItemService;
 import org.exbin.xbup.core.catalog.base.service.XBCXInfoService;
@@ -40,7 +42,7 @@ import org.exbin.xbup.core.ubnumber.type.UBNat32;
 /**
  * RPC skeleton class for XBRItemInfo catalog items.
  *
- * @version 0.1.25 2015/03/15
+ * @version 0.2.1 2020/08/17
  * @author ExBin Project (http://exbin.org)
  */
 public class XBPInfoSkeleton {
@@ -63,8 +65,8 @@ public class XBPInfoSkeleton {
 
                 XBEItemService itemService = (XBEItemService) catalog.getCatalogService(XBCItemService.class);
                 XBEXInfoService infoService = (XBEXInfoService) catalog.getCatalogService(XBCXInfoService.class);
-                XBENode node = (XBENode) itemService.getItem(index.getNaturalLong());
-                XBCXItemInfo info = infoService.getNodeInfo(node);
+                Optional<XBEItem> node = itemService.getItem(index.getNaturalLong());
+                XBCXItemInfo info = infoService.getNodeInfo((XBCNode) node.get());
 
                 XBPListenerSerialHandler listener = new XBPListenerSerialHandler(resultInput);
                 listener.process(info == null ? XBTEmptyBlock.getEmptyBlock() : new UBNat32(info.getId()));

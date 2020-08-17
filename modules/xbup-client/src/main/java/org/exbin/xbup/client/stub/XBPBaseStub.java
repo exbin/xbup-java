@@ -18,8 +18,11 @@ package org.exbin.xbup.client.stub;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
 import org.exbin.xbup.client.XBCatalogServiceClient;
 import org.exbin.xbup.core.catalog.base.XBCBase;
 import org.exbin.xbup.core.parser.XBProcessingException;
@@ -34,6 +37,7 @@ import org.exbin.xbup.core.serial.param.XBPProviderSerialHandler;
  * @author ExBin Project (http://exbin.org)
  * @param <T> entity class
  */
+@ParametersAreNonnullByDefault
 public class XBPBaseStub<T extends XBCBase> implements XBPManagerStub<T> {
 
     private final XBCatalogServiceClient client;
@@ -46,11 +50,13 @@ public class XBPBaseStub<T extends XBCBase> implements XBPManagerStub<T> {
         this.baseTypes = baseTypes;
     }
 
+    @Nonnull
     @Override
     public T constructItem(long itemId) {
         return constructorMethod.itemConstructor(client, itemId);
     }
 
+    @Nonnull
     @Override
     public T createItem() {
         final Long itemId = XBPStubUtils.voidToLongMethod(client.procedureCall(), baseTypes.getCreateItemType());
@@ -67,12 +73,14 @@ public class XBPBaseStub<T extends XBCBase> implements XBPManagerStub<T> {
         XBPStubUtils.longToVoidMethod(client.procedureCall(), baseTypes.getRemoveItemType(), item.getId());
     }
 
+    @Nonnull
     @Override
-    public T getItem(long itemId) {
+    public Optional<T> getItem(long itemId) {
         final Long foundItemId = XBPStubUtils.longToLongMethod(client.procedureCall(), baseTypes.getItemByIdType(), itemId);
-        return foundItemId == null ? null : constructorMethod.itemConstructor(client, foundItemId);
+        return foundItemId == null ? Optional.empty() : Optional.of(constructorMethod.itemConstructor(client, foundItemId));
     }
 
+    @Nonnull
     @Override
     public List<T> getAllItems() {
         List<T> result = new ArrayList<>();

@@ -16,6 +16,7 @@
 package org.exbin.xbup.service.skeleton;
 
 import java.io.IOException;
+import java.util.Optional;
 import org.exbin.xbup.catalog.XBAECatalog;
 import org.exbin.xbup.catalog.entity.XBEItem;
 import org.exbin.xbup.catalog.entity.XBEXStri;
@@ -41,7 +42,7 @@ import org.exbin.xbup.core.ubnumber.type.UBNat32;
 /**
  * RPC skeleton class for XBRXStri catalog items.
  *
- * @version 0.1.25 2015/03/16
+ * @version 0.2.1 2020/08/17
  * @author ExBin Project (http://exbin.org)
  */
 public class XBPXStriSkeleton {
@@ -63,10 +64,10 @@ public class XBPXStriSkeleton {
                 provider.end();
 
                 XBEXStriService striService = (XBEXStriService) catalog.getCatalogService(XBCXStriService.class);
-                XBEXStri stri = striService.getItem(index.getNaturalLong());
+                Optional<XBEXStri> stri = striService.getItem(index.getNaturalLong());
 
                 XBPListenerSerialHandler listener = new XBPListenerSerialHandler(resultInput);
-                listener.process(stri == null ? XBTEmptyBlock.getEmptyBlock() : new UBNat32(stri.getItem().getId()));
+                listener.process(stri.isPresent() ? new UBNat32(stri.get().getItem().getId()) : XBTEmptyBlock.getEmptyBlock());
             }
         });
 
@@ -80,10 +81,10 @@ public class XBPXStriSkeleton {
                 provider.end();
 
                 XBEXStriService striService = (XBEXStriService) catalog.getCatalogService(XBCXStriService.class);
-                XBEXStri stri = striService.getItem(index.getNaturalLong());
+                Optional<XBEXStri> stri = striService.getItem(index.getNaturalLong());
 
                 XBPListenerSerialHandler listener = new XBPListenerSerialHandler(resultInput);
-                listener.process(stri == null ? XBTEmptyBlock.getEmptyBlock() : new XBString(stri.getText()));
+                listener.process(stri.isPresent() ? new XBString(stri.get().getText()) : XBTEmptyBlock.getEmptyBlock());
             }
         });
 
@@ -97,10 +98,10 @@ public class XBPXStriSkeleton {
                 provider.end();
 
                 XBEXStriService striService = (XBEXStriService) catalog.getCatalogService(XBCXStriService.class);
-                XBEXStri stri = striService.getItem(index.getNaturalLong());
+                Optional<XBEXStri> stri = striService.getItem(index.getNaturalLong());
 
                 XBPListenerSerialHandler listener = new XBPListenerSerialHandler(resultInput);
-                listener.process(stri == null ? XBTEmptyBlock.getEmptyBlock() : new XBString(stri.getNodePath()));
+                listener.process(stri.isPresent() ? new XBString(stri.get().getNodePath()) : XBTEmptyBlock.getEmptyBlock());
             }
         });
 
@@ -115,8 +116,8 @@ public class XBPXStriSkeleton {
 
                 XBEXStriService striService = (XBEXStriService) catalog.getCatalogService(XBCXStriService.class);
                 XBEItemService itemService = (XBEItemService) catalog.getCatalogService(XBCItemService.class);
-                XBEItem item = itemService.getItem(index.getNaturalLong());
-                XBEXStri stri = item == null ? null : (XBEXStri) striService.getItemStringId(item);
+                Optional<XBEItem> item = itemService.getItem(index.getNaturalLong());
+                XBEXStri stri = item.isPresent() ? (XBEXStri) striService.getItemStringId(item.get()) : null;
 
                 XBPListenerSerialHandler listener = new XBPListenerSerialHandler(resultInput);
                 listener.process(stri == null ? XBTEmptyBlock.getEmptyBlock() : new UBNat32(stri.getId()));

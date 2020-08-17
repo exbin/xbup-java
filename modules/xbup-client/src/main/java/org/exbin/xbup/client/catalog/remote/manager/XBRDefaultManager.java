@@ -16,6 +16,9 @@
 package org.exbin.xbup.client.catalog.remote.manager;
 
 import java.util.List;
+import java.util.Optional;
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
 import org.exbin.xbup.client.XBCatalogServiceClient;
 import org.exbin.xbup.client.catalog.XBRCatalog;
 import org.exbin.xbup.client.stub.XBPManagerStub;
@@ -25,10 +28,11 @@ import org.exbin.xbup.core.catalog.base.manager.XBCManager;
 /**
  * Default remote manager for catalog items.
  *
- * @version 0.1.25 2015/02/21
+ * @version 0.2.1 2020/08/17
  * @author ExBin Project (http://exbin.org)
  * @param <T> entity class
  */
+@ParametersAreNonnullByDefault
 public abstract class XBRDefaultManager<T extends XBCBase> implements XBCManager<T> {
 
     protected XBRCatalog catalog;
@@ -48,6 +52,7 @@ public abstract class XBRDefaultManager<T extends XBCBase> implements XBCManager
         this.managerStub = managerStub;
     }
 
+    @Nonnull
     @Override
     public T createItem() {
         if (managerStub != null) {
@@ -66,6 +71,7 @@ public abstract class XBRDefaultManager<T extends XBCBase> implements XBCManager
         throw new IllegalStateException("Operation not supported");
     }
 
+    @Nonnull
     @Override
     public List<T> getAllItems() {
         if (managerStub != null) {
@@ -75,8 +81,9 @@ public abstract class XBRDefaultManager<T extends XBCBase> implements XBCManager
         throw new IllegalStateException("Operation not supported");
     }
 
+    @Nonnull
     @Override
-    public T getItem(long itemId) {
+    public Optional<T> getItem(long itemId) {
         if (managerStub != null) {
             return managerStub.getItem(itemId);
         }

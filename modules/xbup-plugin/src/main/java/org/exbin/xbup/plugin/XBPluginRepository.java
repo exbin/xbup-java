@@ -130,7 +130,7 @@ public class XBPluginRepository {
                 throw new IllegalStateException("Unable to read plugin.txt");
             }
         } catch (MalformedURLException ex) {
-            Logger.getLogger(XBDefaultModuleRepository.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(XBPluginRepository.class.getName()).log(Level.SEVERE, null, ex);
         }
         throw new IllegalStateException("Unable to load catalog plugin");
     }

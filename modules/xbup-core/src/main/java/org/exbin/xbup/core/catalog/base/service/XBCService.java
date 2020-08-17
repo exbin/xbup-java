@@ -16,15 +16,19 @@
 package org.exbin.xbup.core.catalog.base.service;
 
 import java.util.List;
+import java.util.Optional;
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
 import org.exbin.xbup.core.catalog.base.XBCBase;
 
 /**
  * Generic interface service for item handling.
  *
- * @version 0.1.21 2011/12/27
+ * @version 0.2.1 2020/08/17
  * @author ExBin Project (http://exbin.org)
  * @param <T> entity class
  */
+@ParametersAreNonnullByDefault
 public interface XBCService<T extends XBCBase> {
 
     /**
@@ -32,6 +36,7 @@ public interface XBCService<T extends XBCBase> {
      *
      * @return new item
      */
+    @Nonnull
     T createItem();
 
     /**
@@ -54,13 +59,15 @@ public interface XBCService<T extends XBCBase> {
      * @param itemId item id
      * @return instance of item or null
      */
-    T getItem(long itemId);
+    @Nonnull
+    Optional<T> getItem(long itemId);
 
     /**
      * Gets list of all items from persistent repository.
      *
      * @return list of items
      */
+    @Nonnull
     List<T> getAllItems();
 
     /**

@@ -24,7 +24,6 @@ import javax.persistence.NoResultException;
 import javax.persistence.Query;
 import org.exbin.xbup.catalog.XBECatalog;
 import org.exbin.xbup.catalog.entity.XBENode;
-import org.exbin.xbup.catalog.entity.XBERoot;
 import org.exbin.xbup.core.catalog.base.XBCNode;
 import org.exbin.xbup.core.catalog.base.manager.XBCNodeManager;
 import org.springframework.stereotype.Repository;
@@ -32,7 +31,7 @@ import org.springframework.stereotype.Repository;
 /**
  * XBUP catalog node manager.
  *
- * @version 0.2.0 2015/09/21
+ * @version 0.2.1 2020/08/18
  * @author ExBin Project (http://exbin.org)
  */
 @Repository
@@ -87,7 +86,7 @@ public class XBENodeManager extends XBEDefaultCatalogManager<XBENode> implements
     }
 
     @Override
-    public XBENode getRootNode() {
+    public XBENode getMainRootNode() {
         try {
             return (XBENode) em.createQuery("SELECT object(n) FROM XBRoot AS o, XBNode AS n WHERE o.node = n AND o.url IS NULL").getSingleResult();
         } catch (NoResultException e) {
@@ -100,7 +99,7 @@ public class XBENodeManager extends XBEDefaultCatalogManager<XBENode> implements
 
     @Override
     public XBENode findNodeByXBPath(Long[] catalogPath) {
-        XBENode node = getRootNode();
+        XBENode node = getMainRootNode();
         for (Long pathComponent : catalogPath) {
             node = (XBENode) getSubNode(node, pathComponent);
             if (node == null) {
@@ -115,7 +114,7 @@ public class XBENodeManager extends XBEDefaultCatalogManager<XBENode> implements
         if (catalogPath.length == 0) {
             return null;
         }
-        XBENode node = getRootNode();
+        XBENode node = getMainRootNode();
         for (int i = 0; i < catalogPath.length - 1; i++) {
             node = (XBENode) getSubNode(node, catalogPath[i]);
             if (node == null) {
@@ -130,7 +129,7 @@ public class XBENodeManager extends XBEDefaultCatalogManager<XBENode> implements
         ArrayList<Long> list = new ArrayList<>();
         XBENode parent = (XBENode) node;
         while (parent != null) {
-            if (parent.getParent() != null) {
+            if (parent.getParent().isPresent()) {
                 list.add(0, parent.getXBIndex());
             }
             parent = (XBENode) parent.getParent().orElse(null);
@@ -144,7 +143,7 @@ public class XBENodeManager extends XBEDefaultCatalogManager<XBENode> implements
             return null;
         }
 
-        XBENode node = getRootNode();
+        XBENode node = getMainRootNode();
         for (int i = 0; i < catalogPath.length - 1; i++) {
             node = (XBENode) getSubNode(node, catalogPath[i]);
             if (node == null) {
@@ -193,43 +192,6 @@ public class XBENodeManager extends XBEDefaultCatalogManager<XBENode> implements
         } catch (Exception ex) {
             Logger.getLogger(XBENodeManager.class.getName()).log(Level.SEVERE, null, ex);
             return 0;
-        }
-    }
-
-    @Override
-    public XBERoot getRoot() {
-        try {
-            return (XBERoot) em.createQuery("SELECT object(o) FROM XBRoot AS o WHERE o.url IS NULL").getSingleResult();
-        } catch (NoResultException e) {
-            return null;
-        } catch (Exception ex) {
-            Logger.getLogger(XBENodeManager.class.getName()).log(Level.SEVERE, null, ex);
-            return null;
-        }
-    }
-
-    @Override
-    public XBERoot getRoot(long rootId) {
-        try {
-            return (XBERoot) em.createQuery("SELECT object(o) FROM XBRoot AS o WHERE o.id = " + rootId).getSingleResult();
-        } catch (NoResultException e) {
-            return null;
-        } catch (Exception ex) {
-            Logger.getLogger(XBENodeManager.class.getName()).log(Level.SEVERE, null, ex);
-            return null;
-        }
-    }
-
-    /**
-     * Set last update time mark to current database time.
-     *
-     * UPDATE XBROOT SET LASTUPDATE = CURRENT_TIMESTAMP() WHERE url IS NULL
-     */
-    public void setLastUpdateToNow() {
-        try {
-            em.createQuery("UPDATE XBRoot AS o SET o.lastUpdate = CURRENT_TIMESTAMP WHERE o.url IS NULL").executeUpdate();
-        } catch (Exception ex) {
-            Logger.getLogger(XBENodeManager.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 }

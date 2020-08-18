@@ -16,17 +16,13 @@
 package org.exbin.xbup.catalog.entity.service;
 
 import java.io.Serializable;
-import java.util.Date;
 import java.util.List;
-import java.util.Optional;
+import javax.annotation.ParametersAreNonnullByDefault;
 import javax.annotation.PostConstruct;
 import org.exbin.xbup.catalog.XBECatalog;
 import org.exbin.xbup.catalog.entity.XBENode;
-import org.exbin.xbup.catalog.entity.XBERoot;
 import org.exbin.xbup.catalog.entity.manager.XBENodeManager;
 import org.exbin.xbup.core.catalog.base.XBCNode;
-import org.exbin.xbup.core.catalog.base.XBCRoot;
-import org.exbin.xbup.core.catalog.base.manager.XBCManager;
 import org.exbin.xbup.core.catalog.base.manager.XBCNodeManager;
 import org.exbin.xbup.core.catalog.base.service.XBCNodeService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,9 +31,10 @@ import org.springframework.stereotype.Service;
 /**
  * Interface for XBENode items service.
  *
- * @version 0.1.24 2015/03/11
+ * @version 0.2.1 2020/08/18
  * @author ExBin Project (http://exbin.org)
  */
+@ParametersAreNonnullByDefault
 @Service
 public class XBENodeService extends XBEDefaultService<XBENode> implements XBCNodeService<XBENode>, Serializable {
 
@@ -60,18 +57,8 @@ public class XBENodeService extends XBEDefaultService<XBENode> implements XBCNod
     }
 
     @Override
-    public XBENode getRootNode() {
-        return ((XBENodeManager) itemManager).getRootNode();
-    }
-
-    @Override
-    public XBERoot getRoot() {
-        return ((XBENodeManager) itemManager).getRoot();
-    }
-
-    @Override
-    public XBERoot getRoot(long rootId) {
-        return ((XBENodeManager) itemManager).getRoot(rootId);
+    public XBENode getMainRootNode() {
+        return ((XBENodeManager) itemManager).getMainRootNode();
     }
 
     @Override
@@ -122,19 +109,5 @@ public class XBENodeService extends XBEDefaultService<XBENode> implements XBCNod
     @Override
     public long getSubNodesSeq(XBCNode node) {
         return ((XBENodeManager) itemManager).getSubNodesSeq(node);
-    }
-
-    @Override
-    public Optional<Date> getLastUpdate() {
-        return getRoot().getLastUpdate();
-    }
-
-    public void setLastUpdateToNow() {
-        ((XBENodeManager) itemManager).setLastUpdateToNow();
-    }
-
-    @Override
-    public void persistRoot(XBCRoot root) {
-        ((XBCManager) itemManager).persistItem(root);
     }
 }

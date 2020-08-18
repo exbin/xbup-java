@@ -13,56 +13,58 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.exbin.xbup.client.catalog.remote;
+package org.exbin.xbup.client.catalog.remote.manager;
 
 import java.util.Date;
 import java.util.Optional;
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
-import org.exbin.xbup.client.XBCatalogServiceClient;
+import org.exbin.xbup.client.catalog.XBRCatalog;
+import org.exbin.xbup.client.catalog.remote.XBRRoot;
 import org.exbin.xbup.client.stub.XBPRootStub;
-import org.exbin.xbup.core.catalog.base.XBCNode;
 import org.exbin.xbup.core.catalog.base.XBCRoot;
+import org.exbin.xbup.core.catalog.base.manager.XBCRootManager;
 
 /**
- * Catalog remote root entity.
+ * Remote manager class for XBRRoot catalog items.
  *
  * @version 0.2.1 2020/08/18
  * @author ExBin Project (http://exbin.org)
  */
 @ParametersAreNonnullByDefault
-public class XBRRoot implements XBCRoot {
+public class XBRRootManager extends XBRDefaultManager<XBRRoot> implements XBCRootManager<XBRRoot> {
 
-    private final long id;
-    protected XBCatalogServiceClient client;
     private final XBPRootStub rootStub;
 
-    public XBRRoot(XBCatalogServiceClient client, long id) {
-        this.id = id;
-        this.client = client;
+    public XBRRootManager(XBRCatalog catalog) {
+        super(catalog);
         rootStub = new XBPRootStub(client);
+        setManagerStub(rootStub);
     }
 
     @Nonnull
     @Override
-    public XBCNode getNode() {
-        return rootStub.getRoot(id).getNode();
-    }
-
-    @Nonnull
-    @Override
-    public String getUrl() {
-        return rootStub.getRoot(id).getUrl();
-    }
-
-    @Nonnull
-    @Override
-    public Optional<Date> getLastUpdate() {
-        return rootStub.getRoot(id).getLastUpdate();
+    public XBCRoot getMainRoot() {
+        XBCRoot mainRoot = rootStub.getMainRoot();
+        if (mainRoot == null) {
+            throw new IllegalStateException("Missing main root");
+        }
+        return mainRoot;
     }
 
     @Override
-    public long getId() {
-        return id;
+    public Optional<Date> getMainLastUpdate() {
+        return rootStub.getMainLastUpdate();
+    }
+
+    @Override
+    public boolean isMainPresent() {
+        XBCRoot mainRoot = rootStub.getMainRoot();
+        return mainRoot != null;
+    }
+
+    @Override
+    public void setMainLastUpdateToNow() {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 }

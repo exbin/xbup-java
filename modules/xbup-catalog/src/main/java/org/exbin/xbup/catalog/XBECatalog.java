@@ -40,6 +40,7 @@ import org.exbin.xbup.catalog.entity.XBEXPlugUiType;
 import org.exbin.xbup.catalog.entity.service.XBEItemService;
 import org.exbin.xbup.catalog.entity.service.XBENodeService;
 import org.exbin.xbup.catalog.entity.service.XBERevService;
+import org.exbin.xbup.catalog.entity.service.XBERootService;
 import org.exbin.xbup.catalog.entity.service.XBESpecService;
 import org.exbin.xbup.catalog.entity.service.XBEXInfoService;
 import org.exbin.xbup.catalog.update.XBCUpdateHandler;
@@ -72,6 +73,7 @@ import org.exbin.xbup.core.catalog.base.manager.XBCManager;
 import org.exbin.xbup.core.catalog.base.service.XBCItemService;
 import org.exbin.xbup.core.catalog.base.service.XBCNodeService;
 import org.exbin.xbup.core.catalog.base.service.XBCRevService;
+import org.exbin.xbup.core.catalog.base.service.XBCRootService;
 import org.exbin.xbup.core.catalog.base.service.XBCService;
 import org.exbin.xbup.core.catalog.base.service.XBCSpecService;
 import org.exbin.xbup.core.catalog.base.service.XBCXInfoService;
@@ -118,12 +120,13 @@ public class XBECatalog implements XBCatalog {
 
         // TODO: Or maybe IoC would be better...
         catalogServices.put(XBCItemService.class, new XBEItemService(this));
-        XBENodeService nodeService = new XBENodeService(this);
-        catalogServices.put(XBCNodeService.class, nodeService);
+        XBERootService rootService = new XBERootService(this);
+        catalogServices.put(XBCRootService.class, rootService);
+        catalogServices.put(XBCNodeService.class, new XBENodeService(this));
         catalogServices.put(XBCSpecService.class, new XBESpecService(this));
         catalogServices.put(XBCXInfoService.class, new XBEXInfoService(this));
         catalogServices.put(XBCRevService.class, new XBERevService(this));
-        shallInit = (nodeService.getRootNode() == null);
+        shallInit = (rootService.isMainPresent());
     }
 
     @Nullable
@@ -221,7 +224,7 @@ public class XBECatalog implements XBCatalog {
             XBENodeService nodeService = (XBENodeService) getCatalogService(XBCNodeService.class);
             XBESpecService specService = (XBESpecService) getCatalogService(XBCSpecService.class);
             XBERevService revService = (XBERevService) getCatalogService(XBCRevService.class);
-            XBENode rootNode = nodeService.getRootNode();
+            XBENode rootNode = nodeService.getMainRootNode();
             XBENode basicNode = nodeService.getSubNode(rootNode, 0);
             // XBCFormatDecl formatDecl = new XBCFormatDecl((XBCFormatRev) revService.findRevByXB(specService.findFormatSpecByXB(rootNode, 0),0), this);
             // XBCGroupDecl groupDecl = (XBCGroupDecl) formatDecl.getBlockDecls().get(0);

@@ -89,7 +89,7 @@ public class XBEXStriManager extends XBEDefaultCatalogManager<XBEXStri> implemen
         final String nodePath = itemString.getNodePath();
         if ("/".equals(nodePath)) {
             XBCNodeManager nodeManager = catalog.getCatalogManager(XBCNodeManager.class);
-            if (itemString.getItem().getId() == nodeManager.getRootNode().getId()) {
+            if (itemString.getItem().getId() == nodeManager.getMainRootNode().getId()) {
                 return "";
             }
             return nodePath + itemString.getText();

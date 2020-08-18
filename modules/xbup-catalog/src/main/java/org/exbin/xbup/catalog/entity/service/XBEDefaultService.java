@@ -15,6 +15,7 @@
  */
 package org.exbin.xbup.catalog.entity.service;
 
+import javax.annotation.ParametersAreNonnullByDefault;
 import org.exbin.xbup.catalog.XBECatalog;
 import org.exbin.xbup.core.catalog.base.XBCBase;
 import org.exbin.xbup.core.catalog.base.service.XBCDefaultItemService;
@@ -28,6 +29,7 @@ import org.springframework.beans.factory.annotation.Autowired;
  * @author ExBin Project (http://exbin.org)
  * @param <T> entity class
  */
+@ParametersAreNonnullByDefault
 public class XBEDefaultService<T extends XBCBase> extends XBCDefaultItemService<T> implements XBCService<T> {
 
     @Autowired

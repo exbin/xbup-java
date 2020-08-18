@@ -16,19 +16,20 @@
 package org.exbin.xbup.client.catalog.remote.manager;
 
 import java.util.List;
+import javax.annotation.ParametersAreNonnullByDefault;
 import org.exbin.xbup.client.catalog.XBRCatalog;
 import org.exbin.xbup.client.catalog.remote.XBRNode;
 import org.exbin.xbup.client.stub.XBPNodeStub;
 import org.exbin.xbup.core.catalog.base.XBCNode;
-import org.exbin.xbup.core.catalog.base.XBCRoot;
 import org.exbin.xbup.core.catalog.base.manager.XBCNodeManager;
 
 /**
  * Remote manager class for XBRNode catalog items.
  *
- * @version 0.1.25 2015/03/11
+ * @version 0.2.1 2020/08/18
  * @author ExBin Project (http://exbin.org)
  */
+@ParametersAreNonnullByDefault
 public class XBRNodeManager extends XBRDefaultManager<XBRNode> implements XBCNodeManager<XBRNode> {
 
     private final XBPNodeStub nodeStub;
@@ -40,8 +41,8 @@ public class XBRNodeManager extends XBRDefaultManager<XBRNode> implements XBCNod
     }
 
     @Override
-    public XBRNode getRootNode() {
-        return nodeStub.getRootNode();
+    public XBRNode getMainRootNode() {
+        return nodeStub.getMainRootNode();
     }
 
     @Override
@@ -96,15 +97,5 @@ public class XBRNodeManager extends XBRDefaultManager<XBRNode> implements XBCNod
     @Override
     public long getSubNodesSeq(XBCNode node) {
         return nodeStub.getSubNodesSeq(node);
-    }
-
-    @Override
-    public XBCRoot getRoot() {
-        return nodeStub.getRoot();
-    }
-
-    @Override
-    public XBCRoot getRoot(long rootId) {
-        return nodeStub.getRoot(rootId);
     }
 }

@@ -17,29 +17,27 @@ package org.exbin.xbup.client.stub;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.annotation.ParametersAreNonnullByDefault;
 import org.exbin.xbup.client.XBCatalogServiceClient;
 import org.exbin.xbup.client.catalog.remote.XBRNode;
-import org.exbin.xbup.client.catalog.remote.XBRRoot;
 import org.exbin.xbup.core.block.declaration.XBDeclBlockType;
 import org.exbin.xbup.core.catalog.base.XBCNode;
-import org.exbin.xbup.core.catalog.base.XBCRoot;
 import org.exbin.xbup.core.parser.XBProcessingException;
 import org.exbin.xbup.core.remote.XBCallHandler;
 import org.exbin.xbup.core.serial.param.XBPListenerSerialHandler;
 import org.exbin.xbup.core.serial.param.XBPProviderSerialHandler;
-import org.exbin.xbup.core.type.XBDateTime;
 import org.exbin.xbup.core.ubnumber.type.UBNat32;
 
 /**
  * RPC stub class for XBRNode catalog items.
  *
- * @version 0.1.25 2015/03/20
+ * @version 0.2.1 2020/08/18
  * @author ExBin Project (http://exbin.org)
  */
+@ParametersAreNonnullByDefault
 public class XBPNodeStub extends XBPBaseStub<XBRNode> {
 
     public static long[] ROOT_NODE_PROCEDURE = {0, 2, 4, 0, 0};
@@ -53,9 +51,7 @@ public class XBPNodeStub extends XBPBaseStub<XBRNode> {
     public static long[] NODESCOUNT_NODE_PROCEDURE = {0, 2, 4, 26, 0};
     public static long[] SUBNODESEQ_NODE_PROCEDURE = {0, 2, 4, 27, 0};
     public static long[] SUBNODESEQCNT_NODE_PROCEDURE = {0, 2, 4, 28, 0};
-    public static long[] ROOT_PROCEDURE = {0, 2, 4, 29, 0};
-    public static long[] CATALOG_ROOT_PROCEDURE = {0, 2, 4, 30, 0};
-    public static long[] LASTUPDATE_ROOT_PROCEDURE = {0, 2, 4, 31, 0};
+    public static long[] MAINROOT_NODE_PROCEDURE = {0, 2, 4, 29, 0};
 
     private final XBCatalogServiceClient client;
 
@@ -74,32 +70,9 @@ public class XBPNodeStub extends XBPBaseStub<XBRNode> {
         return index == null ? null : new XBRNode(client, index);
     }
 
-    public Date getRootLastUpdate(long rootId) {
-        try {
-            XBCallHandler procedureCall = client.procedureCall();
-
-            XBPListenerSerialHandler serialInput = new XBPListenerSerialHandler(procedureCall.getParametersInput());
-            serialInput.begin();
-            serialInput.putType(new XBDeclBlockType(LASTUPDATE_ROOT_PROCEDURE));
-            serialInput.putAttribute(rootId);
-            serialInput.end();
-
-            XBPProviderSerialHandler serialOutput = new XBPProviderSerialHandler(procedureCall.getResultOutput());
-            if (!serialOutput.pullIfEmptyBlock()) {
-                XBDateTime dateTime = new XBDateTime();
-                serialOutput.process(dateTime);
-                return dateTime.getValue();
-            }
-            procedureCall.execute();
-        } catch (XBProcessingException | IOException ex) {
-            Logger.getLogger(XBPItemStub.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return null;
-    }
-
-    public XBRNode getRootNode() {
-        XBCRoot root = getRoot();
-        return root == null ? null : getRootNode(root.getId());
+    public XBRNode getMainRootNode() {
+        Long index = XBPStubUtils.voidToLongMethod(client.procedureCall(), new XBDeclBlockType(MAINROOT_NODE_PROCEDURE));
+        return index == null ? null : new XBRNode(client, index);
     }
 
     public List<XBCNode> getSubNodes(XBCNode node) {
@@ -143,7 +116,7 @@ public class XBPNodeStub extends XBPBaseStub<XBRNode> {
     }
 
     public XBRNode findNodeByXBPath(Long[] catalogPath) {
-        XBRNode node = (XBRNode) getRootNode();
+        XBRNode node = (XBRNode) getMainRootNode();
         for (Long catalogPathNode : catalogPath) {
             node = (XBRNode) getSubNode(node, catalogPathNode);
             if (node == null) {
@@ -157,7 +130,7 @@ public class XBPNodeStub extends XBPBaseStub<XBRNode> {
         if (xbCatalogPath.length == 0) {
             return null;
         }
-        XBRNode node = (XBRNode) getRootNode();
+        XBRNode node = (XBRNode) getMainRootNode();
         for (int i = 0; i < xbCatalogPath.length - 1; i++) {
             node = (XBRNode) getSubNode(node, xbCatalogPath[i]);
             if (node == null) {
@@ -239,15 +212,5 @@ public class XBPNodeStub extends XBPBaseStub<XBRNode> {
 
     public long getSubNodesSeq(XBCNode node) {
         return XBPStubUtils.voidToLongMethod(client.procedureCall(), new XBDeclBlockType(SUBNODESEQCNT_NODE_PROCEDURE));
-    }
-
-    public XBCRoot getRoot() {
-        Long index = XBPStubUtils.voidToLongMethod(client.procedureCall(), new XBDeclBlockType(CATALOG_ROOT_PROCEDURE));
-        return index == null ? null : new XBRRoot(client, index);
-    }
-
-    public XBCRoot getRoot(long rootId) {
-        Long index = XBPStubUtils.longToLongMethod(client.procedureCall(), new XBDeclBlockType(ROOT_PROCEDURE), rootId);
-        return index == null ? null : new XBRRoot(client, index);
     }
 }

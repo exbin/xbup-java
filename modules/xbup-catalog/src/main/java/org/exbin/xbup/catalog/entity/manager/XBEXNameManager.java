@@ -102,7 +102,7 @@ public class XBEXNameManager extends XBEDefaultCatalogManager<XBEXName> implemen
         XBESpecManager specManager = (XBESpecManager) catalog.getCatalogManager(XBCSpecManager.class);
         try {
             tx.begin();
-            XBENode node = nodeManager.getRootNode();
+            XBENode node = nodeManager.getMainRootNode();
             XBEXLanguage defaultLang = (XBEXLanguage) ((XBEXLangManager) catalog.getCatalogManager(XBCXLangManager.class)).getDefaultLang();
 
             XBEXName name = new XBEXName();

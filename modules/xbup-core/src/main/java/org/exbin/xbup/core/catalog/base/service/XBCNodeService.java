@@ -15,20 +15,19 @@
  */
 package org.exbin.xbup.core.catalog.base.service;
 
-import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
 import org.exbin.xbup.core.catalog.base.XBCNode;
-import org.exbin.xbup.core.catalog.base.XBCRoot;
 
 /**
  * Interface for XBCNode items service.
  *
- * @version 0.1.24 2015/01/31
+ * @version 0.2.1 2020/08/18
  * @author ExBin Project (http://exbin.org)
  * @param <T> node class
  */
+@ParametersAreNonnullByDefault
 public interface XBCNodeService<T extends XBCNode> extends XBCService<T> {
 
     /**
@@ -36,7 +35,8 @@ public interface XBCNodeService<T extends XBCNode> extends XBCService<T> {
      *
      * @return root node
      */
-    XBCNode getRootNode();
+    @Nonnull
+    XBCNode getMainRootNode();
 
     /**
      * Gets list of subnodes.
@@ -44,6 +44,7 @@ public interface XBCNodeService<T extends XBCNode> extends XBCService<T> {
      * @param parentNode parent node
      * @return list of child nodes
      */
+    @Nonnull
     List<XBCNode> getSubNodes(XBCNode parentNode);
 
     /**
@@ -119,36 +120,4 @@ public interface XBCNodeService<T extends XBCNode> extends XBCService<T> {
      * @return XB index or null
      */
     Long findMaxSubNodeXB(XBCNode node);
-
-    /**
-     * Gets catalog root record.
-     *
-     * @return root record
-     */
-    XBCRoot getRoot();
-
-    /**
-     * Gets root record.
-     *
-     * @param rootId root index
-     * @return root record
-     */
-    XBCRoot getRoot(long rootId);
-
-    /**
-     * Gets time of the last update.
-     *
-     * @return time of last update
-     */
-    @Nonnull
-    Optional<Date> getLastUpdate();
-
-    /**
-     * Persist root node item.
-     *
-     * TODO: Root service?
-     *
-     * @param root root node item
-     */
-    void persistRoot(XBCRoot root);
 }

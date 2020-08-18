@@ -30,6 +30,7 @@ import org.exbin.xbup.service.skeleton.XBPInfoSkeleton;
 import org.exbin.xbup.service.skeleton.XBPItemSkeleton;
 import org.exbin.xbup.service.skeleton.XBPNodeSkeleton;
 import org.exbin.xbup.service.skeleton.XBPRevSkeleton;
+import org.exbin.xbup.service.skeleton.XBPRootSkeleton;
 import org.exbin.xbup.service.skeleton.XBPServiceSkeleton;
 import org.exbin.xbup.service.skeleton.XBPSpecSkeleton;
 import org.exbin.xbup.service.skeleton.XBPXDescSkeleton;
@@ -69,6 +70,7 @@ public class XBCatalogNetServiceServer extends XBTCPServiceServer {
         new XBPServiceSkeleton(this).registerProcedures(server);
 
         new XBPItemSkeleton(catalog).registerProcedures(server);
+        new XBPRootSkeleton(catalog).registerProcedures(server);
         new XBPNodeSkeleton(catalog).registerProcedures(server);
         new XBPSpecSkeleton(catalog).registerProcedures(server);
         new XBPRevSkeleton(catalog).registerProcedures(server);
@@ -150,7 +152,7 @@ public class XBCatalogNetServiceServer extends XBTCPServiceServer {
     public boolean shallUpdate() {
         XBCNodeService nodeService = catalog.getCatalogService(XBCNodeService.class);
 
-        if (nodeService.getRootNode() == null) {
+        if (nodeService.getMainRootNode() == null) {
             return true;
         }
 

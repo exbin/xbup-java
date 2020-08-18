@@ -102,7 +102,7 @@ public class XBEXDescManager extends XBEDefaultCatalogManager<XBEXDesc> implemen
         XBCSpecManager specManager = catalog.getCatalogManager(XBCSpecManager.class);
         try {
             tx.begin();
-            XBCNode node = nodeManager.getRootNode();
+            XBCNode node = nodeManager.getMainRootNode();
             XBCXLangManager langManager = catalog.getCatalogManager(XBCXLangManager.class);
             XBCXLanguage defaultLang = langManager.getDefaultLang();
 

@@ -16,40 +16,40 @@
 package org.exbin.xbup.catalog.entity.service;
 
 import java.io.Serializable;
-import java.util.List;
+import java.util.Date;
+import java.util.Optional;
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 import javax.annotation.PostConstruct;
 import org.exbin.xbup.catalog.XBECatalog;
-import org.exbin.xbup.catalog.entity.XBEItem;
-import org.exbin.xbup.catalog.entity.manager.XBEItemManager;
-import org.exbin.xbup.core.catalog.base.service.XBItemWithDetail;
-import org.exbin.xbup.core.catalog.base.manager.XBCItemManager;
-import org.exbin.xbup.core.catalog.base.service.XBCItemService;
+import org.exbin.xbup.catalog.entity.XBERoot;
+import org.exbin.xbup.catalog.entity.manager.XBERootManager;
+import org.exbin.xbup.core.catalog.base.manager.XBCRootManager;
+import org.exbin.xbup.core.catalog.base.service.XBCRootService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
- * Interface for XBEItem items service.
+ * Interface for XBERoot items service.
  *
  * @version 0.2.1 2020/08/18
  * @author ExBin Project (http://exbin.org)
  */
 @ParametersAreNonnullByDefault
 @Service
-public class XBEItemService extends XBEDefaultService<XBEItem> implements XBCItemService<XBEItem>, Serializable {
+public class XBERootService extends XBEDefaultService<XBERoot> implements XBCRootService<XBERoot>, Serializable {
 
     @Autowired
-    private XBEItemManager manager;
+    private XBERootManager manager;
 
-    public XBEItemService() {
+    public XBERootService() {
         super();
     }
 
-    public XBEItemService(XBECatalog catalog) {
+    public XBERootService(XBECatalog catalog) {
         super(catalog);
-        itemManager = new XBEItemManager(catalog);
-        catalog.addCatalogManager(XBCItemManager.class, (XBCItemManager) itemManager);
+        itemManager = new XBERootManager(catalog);
+        catalog.addCatalogManager(XBCRootManager.class, (XBCRootManager) itemManager);
     }
 
     @PostConstruct
@@ -59,12 +59,23 @@ public class XBEItemService extends XBEDefaultService<XBEItem> implements XBCIte
 
     @Nonnull
     @Override
-    public List<XBItemWithDetail> findAllPaged(int startFrom, int maxResults, String filterCondition, String orderCondition, String specType) {
-        return ((XBEItemManager) itemManager).findAllPaged(startFrom, maxResults, filterCondition, orderCondition, specType);
+    public XBERoot getMainRoot() {
+        return ((XBERootManager) itemManager).getMainRoot();
+    }
+
+    @Nonnull
+    @Override
+    public Optional<Date> getMainLastUpdate() {
+        return ((XBERootManager) itemManager).getMainLastUpdate();
     }
 
     @Override
-    public int findAllPagedCount(String filterCondition, String specType) {
-        return ((XBEItemManager) itemManager).findAllPagedCount(filterCondition, specType);
+    public boolean isMainPresent() {
+        return ((XBERootManager) itemManager).isMainPresent();
+    }
+    
+    @Override
+    public void setMainLastUpdateToNow() {
+        ((XBERootManager) itemManager).setMainLastUpdateToNow();
     }
 }

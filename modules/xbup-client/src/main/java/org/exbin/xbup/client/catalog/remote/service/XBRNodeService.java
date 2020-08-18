@@ -15,22 +15,18 @@
  */
 package org.exbin.xbup.client.catalog.remote.service;
 
-import java.util.Date;
 import java.util.List;
-import java.util.Optional;
-import javax.annotation.Nonnull;
 import org.exbin.xbup.client.catalog.XBRCatalog;
 import org.exbin.xbup.client.catalog.remote.XBRNode;
 import org.exbin.xbup.client.catalog.remote.manager.XBRNodeManager;
 import org.exbin.xbup.core.catalog.base.XBCNode;
-import org.exbin.xbup.core.catalog.base.XBCRoot;
 import org.exbin.xbup.core.catalog.base.manager.XBCNodeManager;
 import org.exbin.xbup.core.catalog.base.service.XBCNodeService;
 
 /**
  * Remote service for XBRNode items.
  *
- * @version 0.1.25 2015/03/19
+ * @version 0.2.1 2020/08/18
  * @author ExBin Project (http://exbin.org)
  */
 public class XBRNodeService extends XBRDefaultService<XBRNode> implements XBCNodeService<XBRNode> {
@@ -42,8 +38,8 @@ public class XBRNodeService extends XBRDefaultService<XBRNode> implements XBCNod
     }
 
     @Override
-    public XBRNode getRootNode() {
-        return ((XBRNodeManager) itemManager).getRootNode();
+    public XBRNode getMainRootNode() {
+        return ((XBRNodeManager) itemManager).getMainRootNode();
     }
 
     @Override
@@ -94,26 +90,5 @@ public class XBRNodeService extends XBRDefaultService<XBRNode> implements XBCNod
     @Override
     public long getSubNodesSeq(XBCNode node) {
         return ((XBRNodeManager) itemManager).getSubNodesSeq(node);
-    }
-
-    @Override
-    public XBCRoot getRoot() {
-        return ((XBRNodeManager) itemManager).getRoot();
-    }
-
-    @Nonnull
-    @Override
-    public Optional<Date> getLastUpdate() {
-        return getRoot().getLastUpdate();
-    }
-
-    @Override
-    public void persistRoot(XBCRoot root) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public XBCRoot getRoot(long rootId) {
-        return ((XBRNodeManager) itemManager).getRoot(rootId);
     }
 }

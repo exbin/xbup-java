@@ -26,7 +26,7 @@ import org.exbin.xbup.core.catalog.base.manager.XBCXStriManager;
 /**
  * Remote manager class for XBRXStri catalog items.
  *
- * @version 0.1.25 2015/02/21
+ * @version 0.2.1 2020/08/18
  * @author ExBin Project (http://exbin.org)
  */
 public class XBRXStriManager extends XBRDefaultManager<XBRXStri> implements XBCXStriManager<XBRXStri> {
@@ -66,7 +66,7 @@ public class XBRXStriManager extends XBRDefaultManager<XBRXStri> implements XBCX
     public String getFullPath(XBCXStri itemString) {
         if ("/".equals(itemString.getNodePath())) {
             XBCNodeManager nodeManager = catalog.getCatalogManager(XBCNodeManager.class);
-            if (itemString.getItem().getId() == nodeManager.getRootNode().getId()) {
+            if (itemString.getItem().getId() == nodeManager.getMainRootNode().getId()) {
                 return "";
             }
         }

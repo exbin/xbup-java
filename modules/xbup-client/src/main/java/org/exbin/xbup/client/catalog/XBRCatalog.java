@@ -31,6 +31,7 @@ import org.exbin.xbup.client.catalog.remote.service.XBRInfoService;
 import org.exbin.xbup.client.catalog.remote.service.XBRItemService;
 import org.exbin.xbup.client.catalog.remote.service.XBRNodeService;
 import org.exbin.xbup.client.catalog.remote.service.XBRRevService;
+import org.exbin.xbup.client.catalog.remote.service.XBRRootService;
 import org.exbin.xbup.client.catalog.remote.service.XBRSpecService;
 import org.exbin.xbup.core.block.XBBasicBlockType;
 import org.exbin.xbup.core.block.XBBlockType;
@@ -56,6 +57,7 @@ import org.exbin.xbup.core.catalog.base.manager.XBCManager;
 import org.exbin.xbup.core.catalog.base.service.XBCItemService;
 import org.exbin.xbup.core.catalog.base.service.XBCNodeService;
 import org.exbin.xbup.core.catalog.base.service.XBCRevService;
+import org.exbin.xbup.core.catalog.base.service.XBCRootService;
 import org.exbin.xbup.core.catalog.base.service.XBCService;
 import org.exbin.xbup.core.catalog.base.service.XBCSpecService;
 import org.exbin.xbup.core.catalog.base.service.XBCXInfoService;
@@ -66,7 +68,7 @@ import org.exbin.xbup.core.parser.token.pull.XBTPullProvider;
  *
  * Catalog is accesed using XBService RPC network interface.
  *
- * @version 0.1.24 2014/09/03
+ * @version 0.2.1 2020/08/18
  * @author ExBin Project (http://exbin.org)
  */
 public class XBRCatalog implements XBCatalog {
@@ -88,6 +90,7 @@ public class XBRCatalog implements XBCatalog {
 
         // TODO IoC might be better
         catalogServices.put(XBCItemService.class, new XBRItemService(this));
+        catalogServices.put(XBCRootService.class, new XBRRootService(this));
         catalogServices.put(XBCNodeService.class, new XBRNodeService(this));
         catalogServices.put(XBCSpecService.class, new XBRSpecService(this));
         catalogServices.put(XBCXInfoService.class, new XBRInfoService(this));
@@ -98,7 +101,7 @@ public class XBRCatalog implements XBCatalog {
     public XBContext getRootContext() {
         XBRNodeService nodeService = (XBRNodeService) getCatalogService(XBCNodeService.class);
         XBRSpecService specService = (XBRSpecService) getCatalogService(XBCSpecService.class);
-        XBRNode node = (XBRNode) nodeService.getRootNode();
+        XBRNode node = (XBRNode) nodeService.getMainRootNode();
         XBRFormatSpec spec = (XBRFormatSpec) specService.findFormatSpecByXB(node, 0);
         if (spec == null) {
             return null;

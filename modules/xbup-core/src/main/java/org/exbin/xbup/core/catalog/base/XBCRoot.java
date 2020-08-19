@@ -22,7 +22,7 @@ import javax.annotation.Nonnull;
 /**
  * Interface for catalog root node entity.
  *
- * @version 0.2.1 2020/08/14
+ * @version 0.2.1 2020/08/19
  * @author ExBin Project (http://exbin.org)
  */
 public interface XBCRoot extends XBCBase {
@@ -41,7 +41,7 @@ public interface XBCRoot extends XBCBase {
      * @return the URL string or empty string for build-in catalog
      */
     @Nonnull
-    String getUrl();
+    Optional<String> getUrl();
 
     /**
      * Gets last update for this catalog root.

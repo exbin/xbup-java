@@ -51,7 +51,7 @@ public class XBRRoot implements XBCRoot {
 
     @Nonnull
     @Override
-    public String getUrl() {
+    public Optional<String> getUrl() {
         return rootStub.getRoot(id).getUrl();
     }
 

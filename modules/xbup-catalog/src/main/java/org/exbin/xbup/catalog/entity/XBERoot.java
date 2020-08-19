@@ -35,7 +35,7 @@ import org.exbin.xbup.core.catalog.base.XBCNode;
 /**
  * Root node database entity.
  *
- * @version 0.2.1 2020/08/14
+ * @version 0.2.1 2020/08/19
  * @author ExBin Project (http://exbin.org)
  */
 @ParametersAreNonnullByDefault
@@ -50,6 +50,7 @@ public class XBERoot implements XBMRoot, Serializable {
     @ManyToOne
     private XBENode node;
 
+    @Nullable
     private String url;
 
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
@@ -133,8 +134,8 @@ public class XBERoot implements XBMRoot, Serializable {
 
     @Nonnull
     @Override
-    public String getUrl() {
-        return url;
+    public Optional<String> getUrl() {
+        return Optional.ofNullable(url);
     }
 
     @Override

@@ -126,7 +126,7 @@ public class XBECatalog implements XBCatalog {
         catalogServices.put(XBCSpecService.class, new XBESpecService(this));
         catalogServices.put(XBCXInfoService.class, new XBEXInfoService(this));
         catalogServices.put(XBCRevService.class, new XBERevService(this));
-        shallInit = (rootService.isMainPresent());
+        shallInit = !rootService.isMainPresent();
     }
 
     @Nullable
@@ -257,8 +257,9 @@ public class XBECatalog implements XBCatalog {
 
             for (XBPlugUiType enumType : XBPlugUiType.values()) {
                 XBEXPlugUiType type = new XBEXPlugUiType();
-                type.setId(enumType.getDbIndex());
                 type.setName(enumType.getName());
+                em.persist(type);
+                type.setId(enumType.getDbIndex());
                 em.persist(type);
             }
 

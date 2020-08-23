@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.exbin.xbup.catalog.update;
+package org.exbin.xbup.client.update;
 
 import java.util.EventListener;
 

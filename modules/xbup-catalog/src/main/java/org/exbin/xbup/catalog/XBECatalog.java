@@ -43,7 +43,7 @@ import org.exbin.xbup.catalog.entity.service.XBERevService;
 import org.exbin.xbup.catalog.entity.service.XBERootService;
 import org.exbin.xbup.catalog.entity.service.XBESpecService;
 import org.exbin.xbup.catalog.entity.service.XBEXInfoService;
-import org.exbin.xbup.catalog.update.XBCUpdateHandler;
+import org.exbin.xbup.client.update.XBCUpdateHandler;
 import org.exbin.xbup.core.block.XBBasicBlockType;
 import org.exbin.xbup.core.block.XBBlockType;
 import org.exbin.xbup.core.block.XBFixedBlockType;
@@ -84,7 +84,7 @@ import org.exbin.xbup.core.serial.XBPSerialReader;
 /**
  * Basic level 1 catalog class using Java persistence.
  *
- * @version 0.2.1 2017/06/06
+ * @version 0.2.1 2020/08/23
  * @author ExBin Project (http://exbin.org)
  */
 @ParametersAreNonnullByDefault

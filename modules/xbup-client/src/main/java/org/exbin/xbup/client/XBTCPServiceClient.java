@@ -18,11 +18,11 @@ package org.exbin.xbup.client;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.net.ConnectException;
 import java.net.Socket;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.annotation.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
 import org.exbin.xbup.client.stub.XBPServiceStub;
 import org.exbin.xbup.core.catalog.XBCatalog;
 import org.exbin.xbup.core.parser.XBParserMode;
@@ -48,10 +48,18 @@ import org.exbin.xbup.core.stream.XBOutput;
 /**
  * XBService client connection handler using TCP/IP protocol.
  *
- * @version 0.2.1 2017/06/06
+ * @version 0.2.1 2020/08/23
  * @author ExBin Project (http://exbin.org)
  */
+@ParametersAreNonnullByDefault
 public class XBTCPServiceClient implements XBServiceClient {
+
+    // is 0x5842 (XB)
+    public static final int DEFAULT_PORT = 22594;
+    public static final int DEFAULT_DEV_PORT = 22595;
+
+    public static final String MAIN_CATALOG_HOST = "catalog.exbin.org";
+    public static final String MAIN_DEV_CATALOG_HOST = "catalog-dev.exbin.org";
 
     public static long[] XBSERVICE_FORMAT = {0, 2, 0, 0};
     public static long[] SERVICE_INVOCATION_SUCCESSFUL = {0, 2, 0, 0};
@@ -76,9 +84,9 @@ public class XBTCPServiceClient implements XBServiceClient {
         serviceStub = new XBPServiceStub(this);
     }
 
+    @Nonnull
     @Override
-    @Nullable
-    public XBCallHandler procedureCall() {
+    public XBCallHandler procedureCall() throws XBCallException {
         try {
             if (socket == null) {
                 socket = new Socket(getHost(), getPort());
@@ -138,15 +146,9 @@ public class XBTCPServiceClient implements XBServiceClient {
                     }
                 }
             };
-        } catch (ConnectException ex) {
-            Logger.getLogger(XBTCPServiceClient.class.getName()).log(Level.SEVERE, null, ex);
-
-            return null;
         } catch (XBProcessingException | IOException ex) {
-            Logger.getLogger(XBTCPServiceClient.class.getName()).log(Level.SEVERE, null, ex);
+            throw new XBCallException("Procedure call failed", ex);
         }
-
-        return null;
     }
 
     /**

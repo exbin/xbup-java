@@ -23,8 +23,8 @@ import java.util.logging.Logger;
 import javax.annotation.Nullable;
 import javax.persistence.EntityManager;
 import org.exbin.xbup.catalog.XBAECatalog;
-import org.exbin.xbup.catalog.update.XBCUpdateHandler;
-import org.exbin.xbup.core.catalog.base.service.XBCNodeService;
+import org.exbin.xbup.client.update.XBCUpdateHandler;
+import org.exbin.xbup.core.catalog.base.service.XBCRootService;
 import org.exbin.xbup.core.remote.XBServiceServer;
 import org.exbin.xbup.service.skeleton.XBPInfoSkeleton;
 import org.exbin.xbup.service.skeleton.XBPItemSkeleton;
@@ -46,7 +46,7 @@ import org.exbin.xbup.service.skeleton.XBPXUiSkeleton;
 /**
  * XBUP catalog service server.
  *
- * @version 0.2.1 2020/08/17
+ * @version 0.2.1 2020/08/23
  * @author ExBin Project (http://exbin.org)
  */
 public class XBCatalogNetServiceServer extends XBTCPServiceServer {
@@ -55,16 +55,15 @@ public class XBCatalogNetServiceServer extends XBTCPServiceServer {
     public static final Level XB_SERVICE_STATUS = new XBServiceStatus("XB_SERVICE_STATUS", 758, LOG_BUNDLE);
 
     private final ResourceBundle resourceBundle = ResourceBundle.getBundle("org/exbin/xbup/service/messages");
-    private XBCUpdateHandler wsHandler = null;
+    private XBCUpdateHandler updateHandler = null;
 
     public XBCatalogNetServiceServer(EntityManager entityManager, final XBAECatalog catalog) {
         super(entityManager, catalog);
+        
+//        updateHandler = new XBCatalogServiceUpdateHandler(catalog, /* MainServiceClient */);
+//        updateHandler.init();
+//        ((XBAECatalog) catalog).setUpdateHandler(updateHandler);
 
-//        wsHandler = XBCUpdatePHPHandler((XBAECatalog) catalog);
-//        wsHandler.init();
-//        wsHandler.getPort().getLanguageId("en");
-//        ((XBAECatalog) catalog).setUpdateHandler(wsHandler);
-//        wsHandler.fireUsageEvent(false);
         XBServiceServer server = this;
         // Register procedures
         new XBPServiceSkeleton(this).registerProcedures(server);
@@ -150,9 +149,9 @@ public class XBCatalogNetServiceServer extends XBTCPServiceServer {
      * @return true if update required
      */
     public boolean shallUpdate() {
-        XBCNodeService nodeService = catalog.getCatalogService(XBCNodeService.class);
+        XBCRootService rootService = catalog.getCatalogService(XBCRootService.class);
 
-        if (nodeService.getMainRootNode() == null) {
+        if (!rootService.isMainPresent()) {
             return true;
         }
 
@@ -165,12 +164,12 @@ public class XBCatalogNetServiceServer extends XBTCPServiceServer {
     public void update() {
         // TODO: Update only new items, currently removes all
         ((XBAECatalog) catalog).clear();
-        ((XBAECatalog) catalog).getUpdateHandler().processAllData(new Long[0]);
+        ((XBAECatalog) catalog).getUpdateHandler().performUpdate();
         // TODO: Support for sending full image latter...
     }
 
     @Nullable
-    public XBCUpdateHandler getWsHandler() {
-        return wsHandler;
+    public XBCUpdateHandler getUpdateHandler() {
+        return updateHandler;
     }
 }

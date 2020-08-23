@@ -25,6 +25,7 @@ repositories {
 
 dependencies {
     implementation moduleDep('XbupJava', 'org.exbin.xbup', 'xbup-core')
+    implementation moduleDep('XbupJava', 'org.exbin.xbup', 'xbup-client')
     implementation group: 'org.springframework', name: 'spring-core', version: '4.0.5.RELEASE'
     implementation 'org.springframework:spring-core:4.0.5.RELEASE', 'org.springframework:spring-context:4.0.5.RELEASE', 'org.springframework:spring-beans:4.0.5.RELEASE'
     implementation(

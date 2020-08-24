@@ -61,11 +61,6 @@ public class XBEXIcon implements XBMXIcon, Serializable {
         return id;
     }
 
-    @Override
-    public void setId(long id) {
-        this.id = id;
-    }
-
     @Nonnull
     @Override
     public XBEItem getParent() {

@@ -32,8 +32,8 @@ import org.exbin.xbup.core.catalog.base.XBCItem;
  * @version 0.2.1 2020/08/10
  * @author ExBin Project (http://exbin.org)
  */
-@Entity(name = "XBXStri")
 @ParametersAreNonnullByDefault
+@Entity(name = "XBXStri")
 public class XBEXStri implements XBMXStri, Serializable {
 
     @Id
@@ -54,11 +54,6 @@ public class XBEXStri implements XBMXStri, Serializable {
     @Override
     public long getId() {
         return id;
-    }
-
-    @Override
-    public void setId(long id) {
-        this.id = id;
     }
 
     @Nonnull

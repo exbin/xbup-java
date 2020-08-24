@@ -67,11 +67,6 @@ public class XBERoot implements XBMRoot, Serializable {
         return id;
     }
 
-    @Override
-    public void setId(long id) {
-        this.id = id;
-    }
-
     /**
      * Returns a hash code value for the object.
      *

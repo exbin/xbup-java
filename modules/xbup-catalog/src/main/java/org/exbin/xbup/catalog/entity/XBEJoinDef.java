@@ -20,8 +20,8 @@ import javax.annotation.Nonnull;
 import javax.persistence.Entity;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import org.exbin.xbup.catalog.modifiable.XBMJoinDef;
 import org.exbin.xbup.core.block.definition.XBParamType;
-import org.exbin.xbup.core.catalog.base.XBCJoinDef;
 import org.exbin.xbup.core.catalog.base.XBCSpec;
 
 /**
@@ -32,7 +32,7 @@ import org.exbin.xbup.core.catalog.base.XBCSpec;
  */
 @Entity(name = "XBJoinDef")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-public class XBEJoinDef extends XBESpecDef implements Serializable, XBCJoinDef {
+public class XBEJoinDef extends XBESpecDef implements Serializable, XBMJoinDef {
 
     public XBEJoinDef() {
     }

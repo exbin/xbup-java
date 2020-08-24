@@ -61,11 +61,6 @@ public class XBEXBlockUi implements XBMXBlockUi, Serializable {
         return id;
     }
 
-    @Override
-    public void setId(long id) {
-        this.id = id;
-    }
-
     @Nonnull
     @Override
     public XBEBlockRev getBlockRev() {

@@ -18,6 +18,7 @@ package org.exbin.xbup.catalog.entity;
 import java.io.Serializable;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -35,6 +36,7 @@ import org.exbin.xbup.core.catalog.base.XBCRoot;
  * @version 0.2.1 2020/08/14
  * @author ExBin Project (http://exbin.org)
  */
+@ParametersAreNonnullByDefault
 @Entity(name = "XBNodeTree")
 public class XBENodeTree implements XBMNodeTree, Serializable {
 
@@ -60,11 +62,6 @@ public class XBENodeTree implements XBMNodeTree, Serializable {
     @Override
     public long getId() {
         return id == 0 ? 0 : id;
-    }
-
-    @Override
-    public void setId(long id) {
-        this.id = id;
     }
 
     /**

@@ -63,11 +63,6 @@ public class XBEXHDoc implements XBMXHDoc, Serializable {
         return id;
     }
 
-    @Override
-    public void setId(long id) {
-        this.id = id;
-    }
-
     @Nonnull
     @Override
     public XBEXFile getDocFile() {

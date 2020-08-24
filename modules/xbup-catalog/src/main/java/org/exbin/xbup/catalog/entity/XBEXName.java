@@ -60,11 +60,6 @@ public class XBEXName implements XBMXName, Serializable {
         return id;
     }
 
-    @Override
-    public void setId(long id) {
-        this.id = id;
-    }
-
     @Nonnull
     @Override
     public XBCItem getItem() {

@@ -62,11 +62,6 @@ public class XBEXItemInfo implements XBMXItemInfo, Serializable {
         return id;
     }
 
-    @Override
-    public void setId(long id) {
-        this.id = id;
-    }
-
     /**
      * Returns a hash code value for the object. This implementation computes a
      * hash code value based on the id fields in this object.

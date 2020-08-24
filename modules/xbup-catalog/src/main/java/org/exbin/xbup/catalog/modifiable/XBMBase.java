@@ -20,15 +20,8 @@ import org.exbin.xbup.core.catalog.base.XBCBase;
 /**
  * Interface for modifiable catalog base.
  *
- * @version 0.2.1 2020/08/10
+ * @version 0.2.1 2020/08/24
  * @author ExBin Project (http://exbin.org)
  */
 public interface XBMBase extends XBCBase {
-
-    /**
-     * Sets id.
-     *
-     * @param id id
-     */
-    void setId(long id);
 }

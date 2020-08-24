@@ -59,11 +59,6 @@ public class XBEXPlugUi implements XBMXPlugUi, Serializable {
         return id;
     }
 
-    @Override
-    public void setId(long id) {
-        this.id = id;
-    }
-
     @Nonnull
     @Override
     public XBEXPlugin getPlugin() {
@@ -75,6 +70,7 @@ public class XBEXPlugUi implements XBMXPlugUi, Serializable {
         this.plugin = (XBEXPlugin) plugin;
     }
 
+    @Nonnull
     @Override
     public XBCXPlugUiType getUiType() {
         return uiType;

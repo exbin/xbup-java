@@ -65,11 +65,6 @@ public class XBEXUserInfo implements Serializable, XBMXUserInfo {
         return id;
     }
 
-    @Override
-    public void setId(long id) {
-        this.id = id;
-    }
-
     @Nonnull
     @Override
     public XBEXUser getUser() {

@@ -53,11 +53,6 @@ public class XBEXIconMode implements XBMXIconMode, Serializable {
     }
 
     @Override
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    @Override
     public long getType() {
         return type;
     }

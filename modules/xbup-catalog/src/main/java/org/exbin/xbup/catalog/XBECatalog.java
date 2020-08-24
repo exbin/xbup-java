@@ -231,7 +231,9 @@ public class XBECatalog implements XBCatalog {
             XBCGroupDecl groupDecl = new XBCGroupDecl((XBCGroupRev) revService.findRevByXB(specService.findGroupSpecByXB(basicNode, 0), 0), this);
             rootContext = new XBContext();
             rootContext.setStartFrom(0);
-            rootContext.getGroups().add(XBDeclaration.convertCatalogGroup(groupDecl));
+            if (groupDecl.getGroupSpecRev() != null) {
+                rootContext.getGroups().add(XBDeclaration.convertCatalogGroup(groupDecl));
+            }
         }
 
         return rootContext;
@@ -255,11 +257,10 @@ public class XBECatalog implements XBCatalog {
             root.setNode(node);
             em.persist(root);
 
-            for (XBPlugUiType enumType : XBPlugUiType.values()) {
+            for (int i = 1; i < XBPlugUiType.values().length; i++) {
                 XBEXPlugUiType type = new XBEXPlugUiType();
-                type.setName(enumType.getName());
-                em.persist(type);
-                type.setId(enumType.getDbIndex());
+                XBPlugUiType uiType = XBPlugUiType.findByDbIndex(i);
+                type.setName(uiType.getName());
                 em.persist(type);
             }
 

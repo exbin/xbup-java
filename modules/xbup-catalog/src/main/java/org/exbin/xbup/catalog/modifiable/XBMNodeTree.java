@@ -30,13 +30,6 @@ import org.exbin.xbup.core.catalog.base.XBCRoot;
 public interface XBMNodeTree extends XBCNodeTree {
 
     /**
-     * Sets index.
-     *
-     * @param id the index
-     */
-    void setId(long id);
-
-    /**
      * Sets node.
      *
      * @param owner the node

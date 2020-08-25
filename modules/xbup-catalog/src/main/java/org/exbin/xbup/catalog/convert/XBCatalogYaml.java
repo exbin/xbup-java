@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.exbin.xbup.catalog.yaml;
+package org.exbin.xbup.catalog.convert;
 
 import java.io.InputStream;
 import java.io.Writer;

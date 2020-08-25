@@ -103,6 +103,7 @@ public interface XBCNodeService<T extends XBCNode> extends XBCService<T> {
      * @param node node
      * @return catalog path
      */
+    @Nonnull
     Long[] getNodeXBPath(XBCNode node);
 
     /**

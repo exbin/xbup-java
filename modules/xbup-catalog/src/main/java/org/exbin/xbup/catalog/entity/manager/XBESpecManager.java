@@ -53,7 +53,7 @@ import org.springframework.stereotype.Repository;
 /**
  * XBUP catalog specification manager.
  *
- * @version 0.1.23 2014/05/19
+ * @version 0.2.1 2020/08/25
  * @author ExBin Project (http://exbin.org)
  */
 @Repository
@@ -127,9 +127,9 @@ public class XBESpecManager extends XBEDefaultCatalogManager<XBESpec> implements
     }
 
     @Override
-    public Long[] getSpecXBPath(XBCSpec node) {
+    public Long[] getSpecXBPath(XBCSpec spec) {
         ArrayList<Long> list = new ArrayList<>();
-        Optional<XBCNode> optionalParent = node.getParent();
+        Optional<XBCNode> optionalParent = spec.getParent();
         while (optionalParent.isPresent()) {
             XBCNode parent = optionalParent.get();
             if (parent.getParent().isPresent()) {
@@ -137,7 +137,7 @@ public class XBESpecManager extends XBEDefaultCatalogManager<XBESpec> implements
             }
             optionalParent = parent.getParent();
         }
-        list.add(node.getXBIndex());
+        list.add(spec.getXBIndex());
         return (Long[]) list.toArray(new Long[list.size()]);
     }
 

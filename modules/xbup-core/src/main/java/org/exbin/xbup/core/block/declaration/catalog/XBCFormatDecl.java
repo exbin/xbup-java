@@ -120,7 +120,7 @@ public class XBCFormatDecl implements XBFormatDecl, XBPSequenceSerializable {
 
     @Override
     public List<XBGroupDecl> getGroupDecls() {
-        return formatSpecRev == null ? new ArrayList<XBGroupDecl>() : catalog.getGroups(formatSpecRev.getParent());
+        return formatSpecRev == null ? new ArrayList<>() : catalog.getGroups(formatSpecRev.getParent());
     }
 
     public XBCFormatRev getFormatSpecRev() {

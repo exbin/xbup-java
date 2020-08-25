@@ -19,6 +19,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.annotation.Nullable;
 import org.exbin.xbup.core.block.XBBasicBlockType;
 import org.exbin.xbup.core.block.XBFixedBlockType;
@@ -177,7 +179,10 @@ public class XBCBlockDef implements XBBlockDef, XBPSequenceSerializable {
                     @Override
                     public void serializeToXB(XBPOutputSerialHandler serializationHandler) throws XBProcessingException, IOException {
                         XBBlockParam param = getBlockParam(position);
-                        if (param instanceof XBBlockParamConsist) {
+                        if (param == null) {
+                            Logger.getLogger(XBCBlockDef.class.getName()).log(Level.SEVERE, "Block parameter is null");
+                            serializationHandler.append(new XBBlockParamConsist(new XBCBlockDecl(null, catalog)));
+                        } else if (param instanceof XBBlockParamConsist) {
                             serializationHandler.append((XBBlockParamConsist) param);
                         } else if (param instanceof XBBlockParamJoin) {
                             serializationHandler.append((XBBlockParamJoin) param);
@@ -186,7 +191,7 @@ public class XBCBlockDef implements XBBlockDef, XBPSequenceSerializable {
                         } else if (param instanceof XBBlockParamListJoin) {
                             serializationHandler.append((XBBlockParamListJoin) param);
                         } else {
-                            throw new IllegalStateException("Illegal format parameter " + position);
+                            throw new IllegalStateException("Illegal block parameter " + position + ": " + (param == null ? "null" : param.getClass().getCanonicalName()));
                         }
                     }
                 };

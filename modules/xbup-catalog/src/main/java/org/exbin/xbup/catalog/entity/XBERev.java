@@ -54,7 +54,7 @@ public class XBERev extends XBEItem implements XBMRev {
      */
     @Override
     public long getXBLimit() {
-        return xbLimit;
+        return xbLimit == null ? 0 : xbLimit;
     }
 
     @Override

@@ -23,7 +23,7 @@ import org.exbin.xbup.core.catalog.base.XBCNode;
 /**
  * Interface for XBCNode catalog manager.
  *
- * @version 0.2.1 2020/08/18
+ * @version 0.2.1 2020/08/25
  * @author ExBin Project (http://exbin.org)
  * @param <T> node entity
  */
@@ -102,6 +102,7 @@ public interface XBCNodeManager<T extends XBCNode> extends XBCCatalogManager<T> 
      * @param node node
      * @return catalog path
      */
+    @Nonnull
     Long[] getNodeXBPath(XBCNode node);
 
     /**

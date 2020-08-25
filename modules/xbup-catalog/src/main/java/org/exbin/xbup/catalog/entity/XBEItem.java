@@ -111,7 +111,7 @@ public class XBEItem implements XBMItem, Serializable {
 
     @Override
     public long getXBIndex() {
-        return xbIndex;
+        return xbIndex == null ? 0 : xbIndex;
     }
 
     @Override

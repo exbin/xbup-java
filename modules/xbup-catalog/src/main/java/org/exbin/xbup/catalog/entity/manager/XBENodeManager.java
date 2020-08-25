@@ -103,7 +103,7 @@ public class XBENodeManager extends XBEDefaultCatalogManager<XBENode> implements
         for (Long pathComponent : catalogPath) {
             node = (XBENode) getSubNode(node, pathComponent);
             if (node == null) {
-                break;
+                return null;
             }
         }
         return node;
@@ -127,12 +127,12 @@ public class XBENodeManager extends XBEDefaultCatalogManager<XBENode> implements
     @Override
     public Long[] getNodeXBPath(XBCNode node) {
         ArrayList<Long> list = new ArrayList<>();
-        XBENode parent = (XBENode) node;
-        while (parent != null) {
-            if (parent.getParent().isPresent()) {
-                list.add(0, parent.getXBIndex());
+        XBENode current = (XBENode) node;
+        while (current != null) {
+            if (current.getParent().isPresent()) {
+                list.add(0, current.getXBIndex());
             }
-            parent = (XBENode) parent.getParent().orElse(null);
+            current = (XBENode) current.getParent().orElse(null);
         }
         return (Long[]) list.toArray(new Long[list.size()]);
     }

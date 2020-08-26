@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.annotation.ParametersAreNonnullByDefault;
 import org.exbin.xbup.client.XBCatalogServiceClient;
 import org.exbin.xbup.client.catalog.remote.XBRItem;
 import org.exbin.xbup.client.catalog.remote.XBRXLanguage;
@@ -36,10 +37,11 @@ import org.exbin.xbup.core.serial.param.XBPProviderSerialHandler;
 /**
  * RPC stub class for XBRXName catalog items.
  *
- * @version 0.1.25 2015/03/20
+ * @version 0.2.1 2020/08/26
  * @author ExBin Project (http://exbin.org)
  */
-public class XBPXNameStub extends XBPBaseStub<XBRXName> {
+@ParametersAreNonnullByDefault
+public class XBPXNameStub extends XBPBaseStub<XBCXName> {
 
     public static long[] ITEM_NAME_PROCEDURE = {0, 2, 9, 0, 0};
     public static long[] TEXT_NAME_PROCEDURE = {0, 2, 9, 1, 0};
@@ -52,12 +54,7 @@ public class XBPXNameStub extends XBPBaseStub<XBRXName> {
     private final XBCatalogServiceClient client;
 
     public XBPXNameStub(XBCatalogServiceClient client) {
-        super(client, new XBPConstructorMethod<XBRXName>() {
-            @Override
-            public XBRXName itemConstructor(XBCatalogServiceClient client, long itemId) {
-                return new XBRXName(client, itemId);
-            }
-        }, new XBPBaseProcedureType(null, null, null, null, new XBDeclBlockType(NAMESCOUNT_NAME_PROCEDURE)));
+        super(client, XBRXName::new, new XBPBaseProcedureType(null, null, null, null, new XBDeclBlockType(NAMESCOUNT_NAME_PROCEDURE)));
         this.client = client;
     }
 

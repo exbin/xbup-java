@@ -16,8 +16,8 @@
 package org.exbin.xbup.core.catalog.base.manager;
 
 import java.util.List;
+import javax.annotation.Nonnull;
 import javax.swing.ImageIcon;
-import org.exbin.xbup.core.catalog.base.XBCBlockSpec;
 import org.exbin.xbup.core.catalog.base.XBCExtension;
 import org.exbin.xbup.core.catalog.base.XBCItem;
 import org.exbin.xbup.core.catalog.base.XBCXIcon;
@@ -26,11 +26,10 @@ import org.exbin.xbup.core.catalog.base.XBCXIconMode;
 /**
  * Interface for XBCXIcon catalog manager.
  *
- * @version 0.1.24 2014/11/26
+ * @version 0.2.1 2020/08/26
  * @author ExBin Project (http://exbin.org)
- * @param <T> icon entity
  */
-public interface XBCXIconManager<T extends XBCXIcon> extends XBCManager<T>, XBCExtension {
+public interface XBCXIconManager extends XBCManager<XBCXIcon>, XBCExtension {
 
     /**
      * Gets icon mode by unique index.
@@ -43,10 +42,11 @@ public interface XBCXIconManager<T extends XBCXIcon> extends XBCManager<T>, XBCE
     /**
      * Gets list of icons for block specification.
      *
-     * @param blockSpec block specification
+     * @param item catalog item
      * @return list of icons
      */
-    List<XBCXIcon> getBlockSpecIcons(XBCBlockSpec blockSpec);
+    @Nonnull
+    List<XBCXIcon> getItemIcons(XBCItem item);
 
     /**
      * Gets default icon for item.

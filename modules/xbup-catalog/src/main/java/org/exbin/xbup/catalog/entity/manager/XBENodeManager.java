@@ -18,8 +18,10 @@ package org.exbin.xbup.catalog.entity.manager;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.annotation.ParametersAreNonnullByDefault;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
 import org.exbin.xbup.catalog.XBECatalog;
@@ -31,11 +33,12 @@ import org.springframework.stereotype.Repository;
 /**
  * XBUP catalog node manager.
  *
- * @version 0.2.1 2020/08/18
+ * @version 0.2.1 2020/08/26
  * @author ExBin Project (http://exbin.org)
  */
+@ParametersAreNonnullByDefault
 @Repository
-public class XBENodeManager extends XBEDefaultCatalogManager<XBENode> implements XBCNodeManager<XBENode>, Serializable {
+public class XBENodeManager extends XBEDefaultCatalogManager<XBCNode> implements XBCNodeManager, Serializable {
 
     public XBENodeManager() {
         super();
@@ -86,20 +89,20 @@ public class XBENodeManager extends XBEDefaultCatalogManager<XBENode> implements
     }
 
     @Override
-    public XBENode getMainRootNode() {
+    public Optional<XBCNode> getMainRootNode() {
         try {
-            return (XBENode) em.createQuery("SELECT object(n) FROM XBRoot AS o, XBNode AS n WHERE o.node = n AND o.url IS NULL").getSingleResult();
+            return Optional.of((XBCNode) em.createQuery("SELECT object(n) FROM XBRoot AS o, XBNode AS n WHERE o.node = n AND o.url IS NULL").getSingleResult());
         } catch (NoResultException e) {
-            return null;
+            return Optional.empty();
         } catch (Exception ex) {
             Logger.getLogger(XBENodeManager.class.getName()).log(Level.SEVERE, null, ex);
-            return null;
+            return Optional.empty();
         }
     }
 
     @Override
     public XBENode findNodeByXBPath(Long[] catalogPath) {
-        XBENode node = getMainRootNode();
+        XBENode node = (XBENode) getMainRootNode().get();
         for (Long pathComponent : catalogPath) {
             node = (XBENode) getSubNode(node, pathComponent);
             if (node == null) {
@@ -114,7 +117,7 @@ public class XBENodeManager extends XBEDefaultCatalogManager<XBENode> implements
         if (catalogPath.length == 0) {
             return null;
         }
-        XBENode node = getMainRootNode();
+        XBENode node = (XBENode) getMainRootNode().get();
         for (int i = 0; i < catalogPath.length - 1; i++) {
             node = (XBENode) getSubNode(node, catalogPath[i]);
             if (node == null) {
@@ -143,7 +146,7 @@ public class XBENodeManager extends XBEDefaultCatalogManager<XBENode> implements
             return null;
         }
 
-        XBENode node = getMainRootNode();
+        XBENode node = (XBENode) getMainRootNode().get();
         for (int i = 0; i < catalogPath.length - 1; i++) {
             node = (XBENode) getSubNode(node, catalogPath[i]);
             if (node == null) {

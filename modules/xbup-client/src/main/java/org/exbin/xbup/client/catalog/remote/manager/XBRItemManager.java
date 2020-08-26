@@ -16,19 +16,22 @@
 package org.exbin.xbup.client.catalog.remote.manager;
 
 import java.util.List;
+import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
 import org.exbin.xbup.client.catalog.XBRCatalog;
-import org.exbin.xbup.client.catalog.remote.XBRItem;
 import org.exbin.xbup.client.stub.XBPItemStub;
+import org.exbin.xbup.core.catalog.base.XBCItem;
 import org.exbin.xbup.core.catalog.base.manager.XBCItemManager;
 import org.exbin.xbup.core.catalog.base.service.XBItemWithDetail;
 
 /**
  * Remote manager class for XBRItem catalog items.
  *
- * @version 0.1.25 2015/02/20
+ * @version 0.2.1 2020/08/26
  * @author ExBin Project (http://exbin.org)
  */
-public class XBRItemManager extends XBRDefaultManager<XBRItem> implements XBCItemManager<XBRItem> {
+@ParametersAreNonnullByDefault
+public class XBRItemManager extends XBRDefaultManager<XBCItem> implements XBCItemManager {
 
     private final XBPItemStub itemStub;
 
@@ -43,12 +46,12 @@ public class XBRItemManager extends XBRDefaultManager<XBRItem> implements XBCIte
     }
 
     @Override
-    public List<XBItemWithDetail> findAllPaged(int startFrom, int maxResults, String filterCondition, String orderCondition, String specType) {
+    public List<XBItemWithDetail> findAllPaged(int startFrom, int maxResults, @Nullable String filterCondition, @Nullable String orderCondition, @Nullable String specType) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
-    public int findAllPagedCount(String filterCondition, String specType) {
+    public int findAllPagedCount(@Nullable String filterCondition, @Nullable String specType) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 }

@@ -15,6 +15,7 @@
  */
 package org.exbin.xbup.core.catalog.base.manager;
 
+import javax.annotation.ParametersAreNonnullByDefault;
 import org.exbin.xbup.core.catalog.base.XBCExtension;
 import org.exbin.xbup.core.catalog.base.XBCItem;
 import org.exbin.xbup.core.catalog.base.XBCXStri;
@@ -22,11 +23,11 @@ import org.exbin.xbup.core.catalog.base.XBCXStri;
 /**
  * Interface for XBCXStri catalog manager.
  *
- * @version 0.1.24 2014/11/18
+ * @version 0.2.1 2020/08/26
  * @author ExBin Project (http://exbin.org)
- * @param <T> string index entity
  */
-public interface XBCXStriManager<T extends XBCXStri> extends XBCManager<T>, XBCExtension {
+@ParametersAreNonnullByDefault
+public interface XBCXStriManager extends XBCManager<XBCXStri>, XBCExtension {
 
     /**
      * Returns string index for given item.

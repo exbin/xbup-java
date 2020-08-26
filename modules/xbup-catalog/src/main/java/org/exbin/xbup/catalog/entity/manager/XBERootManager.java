@@ -25,18 +25,19 @@ import javax.annotation.ParametersAreNonnullByDefault;
 import javax.persistence.NoResultException;
 import org.exbin.xbup.catalog.XBECatalog;
 import org.exbin.xbup.catalog.entity.XBERoot;
+import org.exbin.xbup.core.catalog.base.XBCRoot;
 import org.exbin.xbup.core.catalog.base.manager.XBCRootManager;
 import org.springframework.stereotype.Repository;
 
 /**
  * XBUP catalog root manager.
  *
- * @version 0.2.1 2020/08/18
+ * @version 0.2.1 2020/08/26
  * @author ExBin Project (http://exbin.org)
  */
 @ParametersAreNonnullByDefault
 @Repository
-public class XBERootManager extends XBEDefaultCatalogManager<XBERoot> implements XBCRootManager<XBERoot>, Serializable {
+public class XBERootManager extends XBEDefaultCatalogManager<XBCRoot> implements XBCRootManager, Serializable {
 
     public XBERootManager() {
         super();

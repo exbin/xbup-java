@@ -19,6 +19,7 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.annotation.ParametersAreNonnullByDefault;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.NoResultException;
@@ -32,11 +33,12 @@ import org.springframework.stereotype.Repository;
 /**
  * XBUP catalog language manager.
  *
- * @version 0.1.25 2015/09/06
+ * @version 0.2.1 2020/08/26
  * @author ExBin Project (http://exbin.org)
  */
+@ParametersAreNonnullByDefault
 @Repository
-public class XBEXLangManager extends XBEDefaultCatalogManager<XBEXLanguage> implements XBCXLangManager<XBEXLanguage>, Serializable {
+public class XBEXLangManager extends XBEDefaultCatalogManager<XBCXLanguage> implements XBCXLangManager, Serializable {
 
     private XBEXLanguage defaultLanguageCache = null;
 

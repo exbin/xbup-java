@@ -15,12 +15,14 @@
  */
 package org.exbin.xbup.client.catalog.remote.service;
 
+import javax.annotation.ParametersAreNonnullByDefault;
 import org.exbin.xbup.client.catalog.XBRCatalog;
 import org.exbin.xbup.client.catalog.remote.XBRXHDoc;
 import org.exbin.xbup.client.catalog.remote.manager.XBRXHDocManager;
 import org.exbin.xbup.core.catalog.base.XBCExtension;
 import org.exbin.xbup.core.catalog.base.XBCItem;
 import org.exbin.xbup.core.catalog.base.XBCXFile;
+import org.exbin.xbup.core.catalog.base.XBCXHDoc;
 import org.exbin.xbup.core.catalog.base.manager.XBCXHDocManager;
 import org.exbin.xbup.core.catalog.base.service.XBCXFileService;
 import org.exbin.xbup.core.catalog.base.service.XBCXHDocService;
@@ -28,10 +30,11 @@ import org.exbin.xbup.core.catalog.base.service.XBCXHDocService;
 /**
  * Remote service for XBRXHDoc items.
  *
- * @version 0.1.25 2015/03/19
+ * @version 0.2.1 2020/08/26
  * @author ExBin Project (http://exbin.org)
  */
-public class XBRXHDocService extends XBRDefaultService<XBRXHDoc> implements XBCXHDocService<XBRXHDoc> {
+@ParametersAreNonnullByDefault
+public class XBRXHDocService extends XBRDefaultService<XBCXHDoc> implements XBCXHDocService {
 
     public XBRXHDocService(XBRCatalog catalog) {
         super(catalog);

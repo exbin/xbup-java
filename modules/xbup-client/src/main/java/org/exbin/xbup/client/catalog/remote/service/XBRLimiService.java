@@ -16,18 +16,18 @@
 package org.exbin.xbup.client.catalog.remote.service;
 
 import org.exbin.xbup.client.catalog.XBRCatalog;
-import org.exbin.xbup.client.catalog.remote.XBRItemLimi;
 import org.exbin.xbup.client.catalog.remote.manager.XBRLimiManager;
+import org.exbin.xbup.core.catalog.base.XBCItemLimi;
 import org.exbin.xbup.core.catalog.base.manager.XBCLimiManager;
 import org.exbin.xbup.core.catalog.base.service.XBCLimiService;
 
 /**
  * Remote service for XBRItemLimi items.
  *
- * @version 0.1.25 2015/03/19
+ * @version 0.2.1 2020/08/26
  * @author ExBin Project (http://exbin.org)
  */
-public class XBRLimiService extends XBRDefaultService<XBRItemLimi> implements XBCLimiService<XBRItemLimi> {
+public class XBRLimiService extends XBRDefaultService<XBCItemLimi> implements XBCLimiService {
 
     public XBRLimiService(XBRCatalog catalog) {
         super(catalog);

@@ -16,6 +16,7 @@
 package org.exbin.xbup.client.catalog.remote.service;
 
 import java.util.List;
+import javax.annotation.ParametersAreNonnullByDefault;
 import org.exbin.xbup.client.catalog.XBRCatalog;
 import org.exbin.xbup.client.catalog.remote.XBRBlockRev;
 import org.exbin.xbup.client.catalog.remote.XBRFormatRev;
@@ -42,10 +43,11 @@ import org.exbin.xbup.core.catalog.base.service.XBCSpecService;
 /**
  * Remote service for XBRRev items.
  *
- * @version 0.1.25 2015/03/19
+ * @version 0.2.1 2020/08/26
  * @author ExBin Project (http://exbin.org)
  */
-public class XBRRevService extends XBRDefaultService<XBRRev> implements XBCRevService<XBRRev> {
+@ParametersAreNonnullByDefault
+public class XBRRevService extends XBRDefaultService<XBCRev> implements XBCRevService {
 
     public XBRRevService(XBRCatalog catalog) {
         super(catalog);
@@ -99,7 +101,7 @@ public class XBRRevService extends XBRDefaultService<XBRRev> implements XBCRevSe
             hdocManager.removeItem(itemHDoc);
         }
 
-        ((XBCSpecService) this).removeItem(rev);
+        ((XBCRevService) this).removeItem(rev);
     }
 
     @Override

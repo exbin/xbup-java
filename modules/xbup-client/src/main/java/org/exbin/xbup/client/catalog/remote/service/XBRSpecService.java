@@ -16,6 +16,7 @@
 package org.exbin.xbup.client.catalog.remote.service;
 
 import java.util.List;
+import javax.annotation.ParametersAreNonnullByDefault;
 import org.exbin.xbup.client.catalog.XBRCatalog;
 import org.exbin.xbup.client.catalog.remote.XBRBlockSpec;
 import org.exbin.xbup.client.catalog.remote.XBRFormatSpec;
@@ -50,10 +51,11 @@ import org.exbin.xbup.core.catalog.base.service.XBCSpecService;
 /**
  * Remote service for XBRSpec items.
  *
- * @version 0.1.25 2015/03/19
+ * @version 0.2.1 2020/08/26
  * @author ExBin Project (http://exbin.org)
  */
-public class XBRSpecService extends XBRDefaultService<XBRSpec> implements XBCSpecService<XBRSpec> {
+@ParametersAreNonnullByDefault
+public class XBRSpecService extends XBRDefaultService<XBCSpec> implements XBCSpecService {
 
     public XBRSpecService(XBRCatalog catalog) {
         super(catalog);
@@ -257,7 +259,7 @@ public class XBRSpecService extends XBRDefaultService<XBRSpec> implements XBCSpe
             hdocManager.removeItem(itemHDoc);
         }
 
-        ((XBCSpecService) this).removeItem(specDef);
+        ((XBCSpecService) this).removeSpecDef(specDef);
     }
 
     @Override
@@ -273,5 +275,15 @@ public class XBRSpecService extends XBRDefaultService<XBRSpec> implements XBCSpe
     @Override
     public XBLBlockDecl getBlockDeclAsLocal(XBCBlockDecl blockDecl) {
         throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public void persistSpecDef(XBCSpecDef specDef) {
+        ((XBRSpecManager) itemManager).persistSpecDef(specDef);
+    }
+
+    @Override
+    public void removeSpecDef(XBCSpecDef specDef) {
+        ((XBRSpecManager) itemManager).removeSpecDef(specDef);
     }
 }

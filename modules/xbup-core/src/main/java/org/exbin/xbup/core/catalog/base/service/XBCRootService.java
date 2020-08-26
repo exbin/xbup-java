@@ -24,12 +24,11 @@ import org.exbin.xbup.core.catalog.base.XBCRoot;
 /**
  * Interface for XBCRoot items service.
  *
- * @version 0.2.1 2020/08/18
+ * @version 0.2.1 2020/08/26
  * @author ExBin Project (http://exbin.org)
- * @param <T> root class
  */
 @ParametersAreNonnullByDefault
-public interface XBCRootService<T extends XBCRoot> extends XBCService<T> {
+public interface XBCRootService extends XBCService<XBCRoot> {
 
     /**
      * Gets main catalog root record.

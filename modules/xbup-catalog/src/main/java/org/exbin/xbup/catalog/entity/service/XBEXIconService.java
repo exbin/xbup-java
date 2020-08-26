@@ -17,13 +17,14 @@ package org.exbin.xbup.catalog.entity.service;
 
 import java.io.Serializable;
 import java.util.List;
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
 import javax.annotation.PostConstruct;
 import javax.swing.ImageIcon;
 import org.exbin.xbup.catalog.XBECatalog;
 import org.exbin.xbup.catalog.entity.XBEXIcon;
 import org.exbin.xbup.catalog.entity.XBEXIconMode;
 import org.exbin.xbup.catalog.entity.manager.XBEXIconManager;
-import org.exbin.xbup.core.catalog.base.XBCBlockSpec;
 import org.exbin.xbup.core.catalog.base.XBCExtension;
 import org.exbin.xbup.core.catalog.base.XBCItem;
 import org.exbin.xbup.core.catalog.base.XBCXIcon;
@@ -35,11 +36,12 @@ import org.springframework.stereotype.Service;
 /**
  * Interface for XBEXIcon items service.
  *
- * @version 0.1.24 2014/11/26
+ * @version 0.2.1 2020/08/26
  * @author ExBin Project (http://exbin.org)
  */
+@ParametersAreNonnullByDefault
 @Service
-public class XBEXIconService extends XBEDefaultService<XBEXIcon> implements XBCXIconService<XBEXIcon>, Serializable {
+public class XBEXIconService extends XBEDefaultService<XBCXIcon> implements XBCXIconService, Serializable {
 
     @Autowired
     private XBEXIconManager manager;
@@ -59,9 +61,10 @@ public class XBEXIconService extends XBEDefaultService<XBEXIcon> implements XBCX
         itemManager = manager;
     }
 
+    @Nonnull
     @Override
-    public List<XBCXIcon> getBlockSpecIcons(XBCBlockSpec icon) {
-        return ((XBEXIconManager) itemManager).getBlockSpecIcons(icon);
+    public List<XBCXIcon> getItemIcons(XBCItem item) {
+        return ((XBEXIconManager) itemManager).getItemIcons(item);
     }
 
     @Override

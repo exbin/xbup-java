@@ -39,12 +39,12 @@ import org.springframework.stereotype.Repository;
 /**
  * XBUP catalog UI editors manager.
  *
- * @version 0.2.1 2020/08/17
+ * @version 0.2.1 2020/08/26
  * @author ExBin Project (http://exbin.org)
  */
 @ParametersAreNonnullByDefault
 @Repository
-public class XBEXUiManager extends XBEDefaultCatalogManager<XBEXBlockUi> implements XBCXUiManager<XBEXBlockUi>, Serializable {
+public class XBEXUiManager extends XBEDefaultCatalogManager<XBCXBlockUi> implements XBCXUiManager, Serializable {
 
     public XBEXUiManager() {
         super();

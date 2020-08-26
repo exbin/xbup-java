@@ -17,10 +17,11 @@ package org.exbin.xbup.client.catalog.remote.service;
 
 import java.util.List;
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 import org.exbin.xbup.client.catalog.XBRCatalog;
-import org.exbin.xbup.client.catalog.remote.XBRItem;
 import org.exbin.xbup.client.catalog.remote.manager.XBRItemManager;
+import org.exbin.xbup.core.catalog.base.XBCItem;
 import org.exbin.xbup.core.catalog.base.manager.XBCItemManager;
 import org.exbin.xbup.core.catalog.base.service.XBCItemService;
 import org.exbin.xbup.core.catalog.base.service.XBItemWithDetail;
@@ -28,11 +29,11 @@ import org.exbin.xbup.core.catalog.base.service.XBItemWithDetail;
 /**
  * Remote service for XBRItem items.
  *
- * @version 0.2.1 2020/02/03
+ * @version 0.2.1 2020/08/26
  * @author ExBin Project (http://exbin.org)
  */
 @ParametersAreNonnullByDefault
-public class XBRItemService extends XBRDefaultService<XBRItem> implements XBCItemService<XBRItem> {
+public class XBRItemService extends XBRDefaultService<XBCItem> implements XBCItemService {
 
     public XBRItemService(XBRCatalog catalog) {
         super(catalog);
@@ -42,12 +43,12 @@ public class XBRItemService extends XBRDefaultService<XBRItem> implements XBCIte
 
     @Nonnull
     @Override
-    public List<XBItemWithDetail> findAllPaged(int startFrom, int maxResults, String filterCondition, String orderCondition, String specType) {
+    public List<XBItemWithDetail> findAllPaged(int startFrom, int maxResults, @Nullable String filterCondition, @Nullable String orderCondition, @Nullable String specType) {
         return ((XBRItemManager) itemManager).findAllPaged(startFrom, maxResults, filterCondition, orderCondition, specType);
     }
 
     @Override
-    public int findAllPagedCount(String filterCondition, String specType) {
+    public int findAllPagedCount(@Nullable String filterCondition, @Nullable String specType) {
         return ((XBRItemManager) itemManager).findAllPagedCount(filterCondition, specType);
     }
 }

@@ -18,8 +18,10 @@ package org.exbin.xbup.client.stub;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 import org.exbin.xbup.client.XBCatalogServiceClient;
 import org.exbin.xbup.client.catalog.remote.XBRNode;
@@ -34,11 +36,11 @@ import org.exbin.xbup.core.ubnumber.type.UBNat32;
 /**
  * RPC stub class for XBRNode catalog items.
  *
- * @version 0.2.1 2020/08/18
+ * @version 0.2.1 2020/08/26
  * @author ExBin Project (http://exbin.org)
  */
 @ParametersAreNonnullByDefault
-public class XBPNodeStub extends XBPBaseStub<XBRNode> {
+public class XBPNodeStub extends XBPBaseStub<XBCNode> {
 
     public static long[] ROOT_NODE_PROCEDURE = {0, 2, 4, 0, 0};
     public static long[] SUBNODE_NODE_PROCEDURE = {0, 2, 4, 1, 0};
@@ -56,12 +58,7 @@ public class XBPNodeStub extends XBPBaseStub<XBRNode> {
     private final XBCatalogServiceClient client;
 
     public XBPNodeStub(XBCatalogServiceClient client) {
-        super(client, new XBPConstructorMethod<XBRNode>() {
-            @Override
-            public XBRNode itemConstructor(XBCatalogServiceClient client, long itemId) {
-                return new XBRNode(client, itemId);
-            }
-        }, new XBPBaseProcedureType(null, null, null, null, new XBDeclBlockType(NODESCOUNT_NODE_PROCEDURE)));
+        super(client, XBRNode::new, new XBPBaseProcedureType(null, null, null, null, new XBDeclBlockType(NODESCOUNT_NODE_PROCEDURE)));
         this.client = client;
     }
 
@@ -70,9 +67,10 @@ public class XBPNodeStub extends XBPBaseStub<XBRNode> {
         return index == null ? null : new XBRNode(client, index);
     }
 
-    public XBRNode getMainRootNode() {
+    @Nonnull
+    public Optional<XBCNode> getMainRootNode() {
         Long index = XBPStubUtils.voidToLongMethod(client.procedureCall(), new XBDeclBlockType(MAINROOT_NODE_PROCEDURE));
-        return index == null ? null : new XBRNode(client, index);
+        return index == null ? Optional.empty() : Optional.of(new XBRNode(client, index));
     }
 
     public List<XBCNode> getSubNodes(XBCNode node) {
@@ -116,7 +114,7 @@ public class XBPNodeStub extends XBPBaseStub<XBRNode> {
     }
 
     public XBRNode findNodeByXBPath(Long[] catalogPath) {
-        XBRNode node = (XBRNode) getMainRootNode();
+        XBRNode node = (XBRNode) getMainRootNode().get();
         for (Long catalogPathNode : catalogPath) {
             node = (XBRNode) getSubNode(node, catalogPathNode);
             if (node == null) {
@@ -130,7 +128,7 @@ public class XBPNodeStub extends XBPBaseStub<XBRNode> {
         if (xbCatalogPath.length == 0) {
             return null;
         }
-        XBRNode node = (XBRNode) getMainRootNode();
+        XBRNode node = (XBRNode) getMainRootNode().get();
         for (int i = 0; i < xbCatalogPath.length - 1; i++) {
             node = (XBRNode) getSubNode(node, xbCatalogPath[i]);
             if (node == null) {

@@ -16,19 +16,21 @@
 package org.exbin.xbup.catalog.entity.manager;
 
 import java.io.Serializable;
+import javax.annotation.ParametersAreNonnullByDefault;
 import org.exbin.xbup.catalog.XBECatalog;
-import org.exbin.xbup.catalog.entity.XBETran;
+import org.exbin.xbup.core.catalog.base.XBCTran;
 import org.exbin.xbup.core.catalog.base.manager.XBCTranManager;
 import org.springframework.stereotype.Repository;
 
 /**
  * XBUP catalog transformation manager.
  *
- * @version 0.1.21 2011/12/29
+ * @version 0.2.1 2020/08/26
  * @author ExBin Project (http://exbin.org)
  */
+@ParametersAreNonnullByDefault
 @Repository
-public class XBETranManager extends XBEDefaultCatalogManager<XBETran> implements XBCTranManager<XBETran>, Serializable {
+public class XBETranManager extends XBEDefaultCatalogManager<XBCTran> implements XBCTranManager, Serializable {
 
     public XBETranManager() {
         super();

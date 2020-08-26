@@ -224,7 +224,7 @@ public class XBECatalog implements XBCatalog {
             XBENodeService nodeService = (XBENodeService) getCatalogService(XBCNodeService.class);
             XBESpecService specService = (XBESpecService) getCatalogService(XBCSpecService.class);
             XBERevService revService = (XBERevService) getCatalogService(XBCRevService.class);
-            XBENode rootNode = nodeService.getMainRootNode();
+            XBENode rootNode = (XBENode) nodeService.getMainRootNode().get();
             XBENode basicNode = nodeService.getSubNode(rootNode, 0);
             // XBCFormatDecl formatDecl = new XBCFormatDecl((XBCFormatRev) revService.findRevByXB(specService.findFormatSpecByXB(rootNode, 0),0), this);
             // XBCGroupDecl groupDecl = (XBCGroupDecl) formatDecl.getBlockDecls().get(0);

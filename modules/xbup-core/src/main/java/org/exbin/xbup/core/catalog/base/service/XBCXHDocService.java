@@ -22,11 +22,10 @@ import org.exbin.xbup.core.catalog.base.XBCXHDoc;
 /**
  * Interface for XBCXHDoc items service.
  *
- * @version 0.1.24 2015/01/31
+ * @version 0.2.1 2020/08/26
  * @author ExBin Project (http://exbin.org)
- * @param <T> documentation entity
  */
-public interface XBCXHDocService<T extends XBCXHDoc> extends XBCService<T>, XBCExtension {
+public interface XBCXHDocService extends XBCService<XBCXHDoc>, XBCExtension {
 
     /**
      * Gets documentation in default language for given item.

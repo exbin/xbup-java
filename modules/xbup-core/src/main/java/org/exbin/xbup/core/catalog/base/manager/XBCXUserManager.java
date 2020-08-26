@@ -15,14 +15,15 @@
  */
 package org.exbin.xbup.core.catalog.base.manager;
 
+import javax.annotation.ParametersAreNonnullByDefault;
 import org.exbin.xbup.core.catalog.base.XBCXUser;
 
 /**
  * Interface for XBCXUser catalog manager.
  *
- * @version 0.1.23 2014/03/17
+ * @version 0.2.1 2020/08/26
  * @author ExBin Project (http://exbin.org)
- * @param <T> item limitation entity
  */
-public interface XBCXUserManager<T extends XBCXUser> extends XBCManager<T> {
+@ParametersAreNonnullByDefault
+public interface XBCXUserManager extends XBCManager<XBCXUser> {
 }

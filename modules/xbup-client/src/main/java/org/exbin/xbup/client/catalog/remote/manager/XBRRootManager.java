@@ -28,11 +28,11 @@ import org.exbin.xbup.core.catalog.base.manager.XBCRootManager;
 /**
  * Remote manager class for XBRRoot catalog items.
  *
- * @version 0.2.1 2020/08/18
+ * @version 0.2.1 2020/08/26
  * @author ExBin Project (http://exbin.org)
  */
 @ParametersAreNonnullByDefault
-public class XBRRootManager extends XBRDefaultManager<XBRRoot> implements XBCRootManager<XBRRoot> {
+public class XBRRootManager extends XBRDefaultManager<XBCRoot> implements XBCRootManager {
 
     private final XBPRootStub rootStub;
 

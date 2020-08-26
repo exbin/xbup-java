@@ -17,17 +17,20 @@ package org.exbin.xbup.client.stub;
 
 import java.util.Optional;
 import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
 import org.exbin.xbup.client.XBCatalogServiceClient;
 import org.exbin.xbup.client.catalog.remote.XBRItem;
 import org.exbin.xbup.core.block.declaration.XBDeclBlockType;
+import org.exbin.xbup.core.catalog.base.XBCItem;
 
 /**
  * RPC stub class for XBRItem catalog items.
  *
- * @version 0.1.25 2015/03/21
+ * @version 0.2.1 2020/08/26
  * @author ExBin Project (http://exbin.org)
  */
-public class XBPItemStub extends XBPBaseStub<XBRItem> {
+@ParametersAreNonnullByDefault
+public class XBPItemStub extends XBPBaseStub<XBCItem> {
 
     public static long[] OWNER_ITEM_PROCEDURE = {0, 2, 3, 0, 0};
     public static long[] XBINDEX_ITEM_PROCEDURE = {0, 2, 3, 1, 0};
@@ -36,17 +39,12 @@ public class XBPItemStub extends XBPBaseStub<XBRItem> {
     private final XBCatalogServiceClient client;
 
     public XBPItemStub(XBCatalogServiceClient client) {
-        super(client, new XBPConstructorMethod<XBRItem>() {
-            @Override
-            public XBRItem itemConstructor(XBCatalogServiceClient client, long itemId) {
-                return new XBRItem(client, itemId);
-            }
-        }, new XBPBaseProcedureType(null, null, null, null, new XBDeclBlockType(ITEMSCOUNT_ITEM_PROCEDURE)));
+        super(client, XBRItem::new, new XBPBaseProcedureType(null, null, null, null, new XBDeclBlockType(ITEMSCOUNT_ITEM_PROCEDURE)));
         this.client = client;
     }
 
     @Nonnull
-    public Optional<XBRItem> getParent(Long itemId) {
+    public Optional<XBCItem> getParent(Long itemId) {
         Long index = XBPStubUtils.longToLongMethod(client.procedureCall(), new XBDeclBlockType(OWNER_ITEM_PROCEDURE), itemId);
         return index == null ? Optional.empty() : Optional.of(constructItem(index));
     }

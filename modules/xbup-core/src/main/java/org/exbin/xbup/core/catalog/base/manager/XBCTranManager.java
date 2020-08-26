@@ -20,9 +20,8 @@ import org.exbin.xbup.core.catalog.base.XBCTran;
 /**
  * Interface for XBCTran catalog manager.
  *
- * @version 0.1.25 2015/02/21
+ * @version 0.2.1 2020/08/26
  * @author ExBin Project (http://exbin.org)
- * @param <T> transformation entity
  */
-public interface XBCTranManager<T extends XBCTran> extends XBCCatalogManager<T> {
+public interface XBCTranManager extends XBCCatalogManager<XBCTran> {
 }

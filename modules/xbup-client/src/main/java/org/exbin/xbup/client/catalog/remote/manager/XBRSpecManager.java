@@ -16,6 +16,7 @@
 package org.exbin.xbup.client.catalog.remote.manager;
 
 import java.util.List;
+import javax.annotation.ParametersAreNonnullByDefault;
 import org.exbin.xbup.client.catalog.XBRCatalog;
 import org.exbin.xbup.client.catalog.remote.XBRBlockSpec;
 import org.exbin.xbup.client.catalog.remote.XBRFormatSpec;
@@ -35,10 +36,11 @@ import org.exbin.xbup.core.catalog.base.manager.XBCSpecManager;
 /**
  * Remote manager class for XBRSpec catalog items.
  *
- * @version 0.1.25 2015/02/21
+ * @version 0.2.1 2020/08/26
  * @author ExBin Project (http://exbin.org)
  */
-public class XBRSpecManager extends XBRDefaultManager<XBRSpec> implements XBCSpecManager<XBRSpec> {
+@ParametersAreNonnullByDefault
+public class XBRSpecManager extends XBRDefaultManager<XBCSpec> implements XBCSpecManager {
 
     private final XBPSpecStub specStub;
 
@@ -210,6 +212,16 @@ public class XBRSpecManager extends XBRDefaultManager<XBRSpec> implements XBCSpe
 
     @Override
     public XBCFormatSpec createFormatSpec() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public void persistSpecDef(XBCSpecDef specDef) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public void removeSpecDef(XBCSpecDef specDef) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 }

@@ -24,6 +24,7 @@ import javax.annotation.PostConstruct;
 import org.exbin.xbup.catalog.XBECatalog;
 import org.exbin.xbup.catalog.entity.XBERoot;
 import org.exbin.xbup.catalog.entity.manager.XBERootManager;
+import org.exbin.xbup.core.catalog.base.XBCRoot;
 import org.exbin.xbup.core.catalog.base.manager.XBCRootManager;
 import org.exbin.xbup.core.catalog.base.service.XBCRootService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,12 +33,12 @@ import org.springframework.stereotype.Service;
 /**
  * Interface for XBERoot items service.
  *
- * @version 0.2.1 2020/08/18
+ * @version 0.2.1 2020/08/26
  * @author ExBin Project (http://exbin.org)
  */
 @ParametersAreNonnullByDefault
 @Service
-public class XBERootService extends XBEDefaultService<XBERoot> implements XBCRootService<XBERoot>, Serializable {
+public class XBERootService extends XBEDefaultService<XBCRoot> implements XBCRootService, Serializable {
 
     @Autowired
     private XBERootManager manager;
@@ -73,7 +74,7 @@ public class XBERootService extends XBEDefaultService<XBERoot> implements XBCRoo
     public boolean isMainPresent() {
         return ((XBERootManager) itemManager).isMainPresent();
     }
-    
+
     @Override
     public void setMainLastUpdateToNow() {
         ((XBERootManager) itemManager).setMainLastUpdateToNow();

@@ -34,11 +34,11 @@ import org.exbin.xbup.core.catalog.base.service.XBCXUiService;
 /**
  * Remote service for XBRXBlockUi items.
  *
- * @version 0.2.1 2020/08/17
+ * @version 0.2.1 2020/08/26
  * @author ExBin Project (http://exbin.org)
  */
 @ParametersAreNonnullByDefault
-public class XBRXUiService extends XBRDefaultService<XBRXBlockUi> implements XBCXUiService<XBRXBlockUi> {
+public class XBRXUiService extends XBRDefaultService<XBCXBlockUi> implements XBCXUiService {
 
     public XBRXUiService(XBRCatalog catalog) {
         super(catalog);

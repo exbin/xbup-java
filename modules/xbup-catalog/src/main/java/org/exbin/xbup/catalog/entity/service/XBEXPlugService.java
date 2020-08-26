@@ -19,6 +19,7 @@ import java.io.InputStream;
 import java.io.Serializable;
 import java.util.List;
 import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
 import javax.annotation.PostConstruct;
 import org.exbin.xbup.catalog.XBECatalog;
 import org.exbin.xbup.catalog.entity.XBEXPlugin;
@@ -34,11 +35,12 @@ import org.springframework.stereotype.Service;
 /**
  * Interface for XBEXPlugin items service.
  *
- * @version 0.1.21 2011/12/31
+ * @version 0.2.1 2020/08/26
  * @author ExBin Project (http://exbin.org)
  */
+@ParametersAreNonnullByDefault
 @Service
-public class XBEXPlugService extends XBEDefaultService<XBEXPlugin> implements XBCXPlugService<XBEXPlugin>, Serializable {
+public class XBEXPlugService extends XBEDefaultService<XBCXPlugin> implements XBCXPlugService, Serializable {
 
     @Autowired
     private XBEXPlugManager manager;

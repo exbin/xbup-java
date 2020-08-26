@@ -16,17 +16,18 @@
 package org.exbin.xbup.core.catalog.base.manager;
 
 import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
 import org.exbin.xbup.core.catalog.base.XBCExtension;
 import org.exbin.xbup.core.catalog.base.XBCXLanguage;
 
 /**
  * Interface for XBXLanguage catalog manager.
  *
- * @version 0.1.21 2011/12/31
+ * @version 0.2.1 2020/08/26
  * @author ExBin Project (http://exbin.org)
- * @param <T> language entity
  */
-public interface XBCXLangManager<T extends XBCXLanguage> extends XBCManager<T>, XBCExtension {
+@ParametersAreNonnullByDefault
+public interface XBCXLangManager extends XBCManager<XBCXLanguage>, XBCExtension {
 
     /**
      * Gets default language.

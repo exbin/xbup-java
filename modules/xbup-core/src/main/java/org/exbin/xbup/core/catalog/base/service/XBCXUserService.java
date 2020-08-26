@@ -20,9 +20,8 @@ import org.exbin.xbup.core.catalog.base.XBCXUser;
 /**
  * Interface for XBCXUser items service.
  *
- * @version 0.1.23 2014/03/16
+ * @version 0.2.1 2020/08/26
  * @author ExBin Project (http://exbin.org)
- * @param <T> user entity
  */
-public interface XBCXUserService<T extends XBCXUser> extends XBCService<T> {
+public interface XBCXUserService extends XBCService<XBCXUser> {
 }

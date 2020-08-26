@@ -15,17 +15,19 @@
  */
 package org.exbin.xbup.client.catalog.remote.manager;
 
+import javax.annotation.ParametersAreNonnullByDefault;
 import org.exbin.xbup.client.catalog.XBRCatalog;
-import org.exbin.xbup.client.catalog.remote.XBRItemLimi;
+import org.exbin.xbup.core.catalog.base.XBCItemLimi;
 import org.exbin.xbup.core.catalog.base.manager.XBCLimiManager;
 
 /**
  * Remote manager class for XBRLimit catalog items.
  *
- * @version 0.1.25 2015/02/21
+ * @version 0.2.1 2020/08/26
  * @author ExBin Project (http://exbin.org)
  */
-public class XBRLimiManager extends XBRDefaultManager<XBRItemLimi> implements XBCLimiManager<XBRItemLimi> {
+@ParametersAreNonnullByDefault
+public class XBRLimiManager extends XBRDefaultManager<XBCItemLimi> implements XBCLimiManager {
 
     public XBRLimiManager(XBRCatalog catalog) {
         super(catalog);

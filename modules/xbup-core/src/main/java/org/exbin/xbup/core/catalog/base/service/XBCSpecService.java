@@ -33,11 +33,10 @@ import org.exbin.xbup.core.catalog.base.XBCSpecDef;
 /**
  * Interface for XBCSpec items service.
  *
- * @version 0.1.25 2015/02/20
+ * @version 0.2.1 2020/08/26
  * @author ExBin Project (http://exbin.org)
- * @param <T> specification entity
  */
-public interface XBCSpecService<T extends XBCSpec> extends XBCService<T> {
+public interface XBCSpecService extends XBCService<XBCSpec> {
 
     /**
      * Returns path of XBIndexes for given node.
@@ -343,4 +342,18 @@ public interface XBCSpecService<T extends XBCSpec> extends XBCService<T> {
      * @return local block declaration
      */
     XBLBlockDecl getBlockDeclAsLocal(XBCBlockDecl blockDecl);
+
+    /**
+     * Persists specification definition.
+     *
+     * @param specDef specification definition
+     */
+    void persistSpecDef(XBCSpecDef specDef);
+    
+    /**
+     * Removes specification definition.
+     *
+     * @param specDef specification definition
+     */
+    void removeSpecDef(XBCSpecDef specDef);
 }

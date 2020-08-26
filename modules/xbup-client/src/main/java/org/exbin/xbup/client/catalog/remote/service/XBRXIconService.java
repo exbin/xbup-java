@@ -16,12 +16,13 @@
 package org.exbin.xbup.client.catalog.remote.service;
 
 import java.util.List;
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
 import javax.swing.ImageIcon;
 import org.exbin.xbup.client.catalog.XBRCatalog;
 import org.exbin.xbup.client.catalog.remote.XBRXIcon;
 import org.exbin.xbup.client.catalog.remote.XBRXIconMode;
 import org.exbin.xbup.client.catalog.remote.manager.XBRXIconManager;
-import org.exbin.xbup.core.catalog.base.XBCBlockSpec;
 import org.exbin.xbup.core.catalog.base.XBCExtension;
 import org.exbin.xbup.core.catalog.base.XBCItem;
 import org.exbin.xbup.core.catalog.base.XBCXIcon;
@@ -31,10 +32,11 @@ import org.exbin.xbup.core.catalog.base.service.XBCXIconService;
 /**
  * Remote service for XBRXIcon items.
  *
- * @version 0.1.25 2015/09/06
+ * @version 0.2.1 2020/08/26
  * @author ExBin Project (http://exbin.org)
  */
-public class XBRXIconService extends XBRDefaultService<XBRXIcon> implements XBCXIconService<XBRXIcon> {
+@ParametersAreNonnullByDefault
+public class XBRXIconService extends XBRDefaultService<XBCXIcon> implements XBCXIconService {
 
     public XBRXIconService(XBRCatalog catalog) {
         super(catalog);
@@ -42,9 +44,10 @@ public class XBRXIconService extends XBRDefaultService<XBRXIcon> implements XBCX
         catalog.addCatalogManager(XBCXIconManager.class, (XBCXIconManager) itemManager);
     }
 
+    @Nonnull
     @Override
-    public List<XBCXIcon> getBlockSpecIcons(XBCBlockSpec icon) {
-        return ((XBRXIconManager) itemManager).getBlockSpecIcons(icon);
+    public List<XBCXIcon> getItemIcons(XBCItem item) {
+        return ((XBRXIconManager) itemManager).getItemIcons(item);
     }
 
     @Override

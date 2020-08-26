@@ -15,20 +15,23 @@
  */
 package org.exbin.xbup.client.stub;
 
+import javax.annotation.ParametersAreNonnullByDefault;
 import org.exbin.xbup.client.XBCatalogServiceClient;
 import org.exbin.xbup.client.catalog.remote.XBRNode;
 import org.exbin.xbup.client.catalog.remote.XBRXFile;
 import org.exbin.xbup.client.catalog.remote.XBRXPlugin;
 import org.exbin.xbup.core.block.declaration.XBDeclBlockType;
 import org.exbin.xbup.core.catalog.base.XBCXFile;
+import org.exbin.xbup.core.catalog.base.XBCXPlugin;
 
 /**
  * RPC stub class for XBRXPlugin catalog items.
  *
- * @version 0.1.25 2015/03/20
+ * @version 0.2.1 2020/08/26
  * @author ExBin Project (http://exbin.org)
  */
-public class XBPXPlugStub extends XBPBaseStub<XBRXPlugin> {
+@ParametersAreNonnullByDefault
+public class XBPXPlugStub extends XBPBaseStub<XBCXPlugin> {
 
     public static long[] OWNER_PLUGIN_PROCEDURE = {0, 2, 14, 0, 0};
     public static long[] FILE_PLUGIN_PROCEDURE = {0, 2, 14, 1, 0};
@@ -37,12 +40,7 @@ public class XBPXPlugStub extends XBPBaseStub<XBRXPlugin> {
     private final XBCatalogServiceClient client;
 
     public XBPXPlugStub(XBCatalogServiceClient client) {
-        super(client, new XBPConstructorMethod<XBRXPlugin>() {
-            @Override
-            public XBRXPlugin itemConstructor(XBCatalogServiceClient client, long itemId) {
-                return new XBRXPlugin(client, itemId);
-            }
-        }, null);
+        super(client, XBRXPlugin::new, null);
         this.client = client;
     }
 

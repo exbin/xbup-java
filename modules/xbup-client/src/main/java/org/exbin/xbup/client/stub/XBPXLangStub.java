@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.annotation.ParametersAreNonnullByDefault;
 import org.exbin.xbup.client.XBCatalogServiceClient;
 import org.exbin.xbup.client.catalog.remote.XBRXLanguage;
 import org.exbin.xbup.core.block.declaration.XBDeclBlockType;
@@ -32,10 +33,11 @@ import org.exbin.xbup.core.serial.param.XBPProviderSerialHandler;
 /**
  * RPC stub class for XBRXLanguage catalog items.
  *
- * @version 0.1.25 2015/03/20
+ * @version 0.2.1 2020/08/26
  * @author ExBin Project (http://exbin.org)
  */
-public class XBPXLangStub extends XBPBaseStub<XBRXLanguage> {
+@ParametersAreNonnullByDefault
+public class XBPXLangStub extends XBPBaseStub<XBCXLanguage> {
 
     public static long[] CODE_LANG_PROCEDURE = {0, 2, 8, 0, 0};
     public static long[] DEFAULT_LANG_PROCEDURE = {0, 2, 8, 1, 0};
@@ -45,12 +47,7 @@ public class XBPXLangStub extends XBPBaseStub<XBRXLanguage> {
     private final XBCatalogServiceClient client;
 
     public XBPXLangStub(XBCatalogServiceClient client) {
-        super(client, new XBPConstructorMethod<XBRXLanguage>() {
-            @Override
-            public XBRXLanguage itemConstructor(XBCatalogServiceClient client, long itemId) {
-                return new XBRXLanguage(client, itemId);
-            }
-        }, null);
+        super(client, XBRXLanguage::new, null);
         this.client = client;
     }
 

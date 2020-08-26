@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.annotation.ParametersAreNonnullByDefault;
 import org.exbin.xbup.client.XBCatalogServiceClient;
 import org.exbin.xbup.client.catalog.remote.XBRItem;
 import org.exbin.xbup.client.catalog.remote.XBRXDesc;
@@ -36,10 +37,11 @@ import org.exbin.xbup.core.serial.param.XBPProviderSerialHandler;
 /**
  * RPC stub class for XBRXDesc catalog items.
  *
- * @version 0.1.25 2015/03/20
+ * @version 0.2.1 2020/08/26
  * @author ExBin Project (http://exbin.org)
  */
-public class XBPXDescStub extends XBPBaseStub<XBRXDesc> {
+@ParametersAreNonnullByDefault
+public class XBPXDescStub extends XBPBaseStub<XBCXDesc> {
 
     public static long[] ITEM_DESC_PROCEDURE = {0, 2, 10, 0, 0};
     public static long[] TEXT_DESC_PROCEDURE = {0, 2, 10, 1, 0};
@@ -52,12 +54,7 @@ public class XBPXDescStub extends XBPBaseStub<XBRXDesc> {
     private final XBCatalogServiceClient client;
 
     public XBPXDescStub(XBCatalogServiceClient client) {
-        super(client, new XBPConstructorMethod<XBRXDesc>() {
-            @Override
-            public XBRXDesc itemConstructor(XBCatalogServiceClient client, long itemId) {
-                return new XBRXDesc(client, itemId);
-            }
-        }, new XBPBaseProcedureType(null, null, null, null, new XBDeclBlockType(DESCSCOUNT_DESC_PROCEDURE)));
+        super(client, XBRXDesc::new, new XBPBaseProcedureType(null, null, null, null, new XBDeclBlockType(DESCSCOUNT_DESC_PROCEDURE)));
         this.client = client;
     }
 

@@ -16,6 +16,9 @@
 package org.exbin.xbup.client.catalog.remote.service;
 
 import java.util.List;
+import java.util.Optional;
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
 import org.exbin.xbup.client.catalog.XBRCatalog;
 import org.exbin.xbup.client.catalog.remote.XBRNode;
 import org.exbin.xbup.client.catalog.remote.manager.XBRNodeManager;
@@ -26,10 +29,11 @@ import org.exbin.xbup.core.catalog.base.service.XBCNodeService;
 /**
  * Remote service for XBRNode items.
  *
- * @version 0.2.1 2020/08/18
+ * @version 0.2.1 2020/08/26
  * @author ExBin Project (http://exbin.org)
  */
-public class XBRNodeService extends XBRDefaultService<XBRNode> implements XBCNodeService<XBRNode> {
+@ParametersAreNonnullByDefault
+public class XBRNodeService extends XBRDefaultService<XBCNode> implements XBCNodeService {
 
     public XBRNodeService(XBRCatalog catalog) {
         super(catalog);
@@ -37,8 +41,9 @@ public class XBRNodeService extends XBRDefaultService<XBRNode> implements XBCNod
         catalog.addCatalogManager(XBCNodeManager.class, (XBCNodeManager) itemManager);
     }
 
+    @Nonnull
     @Override
-    public XBRNode getMainRootNode() {
+    public Optional<XBCNode> getMainRootNode() {
         return ((XBRNodeManager) itemManager).getMainRootNode();
     }
 

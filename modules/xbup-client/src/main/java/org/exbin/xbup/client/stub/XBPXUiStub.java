@@ -16,6 +16,7 @@
 package org.exbin.xbup.client.stub;
 
 import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
 import org.exbin.xbup.client.XBCatalogServiceClient;
 import org.exbin.xbup.client.catalog.remote.XBRBlockRev;
 import org.exbin.xbup.client.catalog.remote.XBRXBlockUi;
@@ -24,6 +25,7 @@ import org.exbin.xbup.client.catalog.remote.XBRXPlugin;
 import org.exbin.xbup.core.block.declaration.XBDeclBlockType;
 import org.exbin.xbup.core.catalog.XBPlugUiType;
 import org.exbin.xbup.core.catalog.base.XBCBlockRev;
+import org.exbin.xbup.core.catalog.base.XBCXBlockUi;
 import org.exbin.xbup.core.catalog.base.XBCXPlugUi;
 import org.exbin.xbup.core.catalog.base.XBCXPlugUiType;
 import org.exbin.xbup.core.catalog.base.XBCXPlugin;
@@ -31,10 +33,11 @@ import org.exbin.xbup.core.catalog.base.XBCXPlugin;
 /**
  * RPC stub class for XBRXBlockUi catalog items.
  *
- * @version 0.2.1 2020/08/16
+ * @version 0.2.1 2020/08/26
  * @author ExBin Project (http://exbin.org)
  */
-public class XBPXUiStub extends XBPBaseStub<XBRXBlockUi> {
+@ParametersAreNonnullByDefault
+public class XBPXUiStub extends XBPBaseStub<XBCXBlockUi> {
 
     // Previously line 15, pane 16
     public static long[] REV_UI_PROCEDURE = {0, 2, 18, 0, 0};
@@ -51,12 +54,7 @@ public class XBPXUiStub extends XBPBaseStub<XBRXBlockUi> {
     private final XBCatalogServiceClient client;
 
     public XBPXUiStub(XBCatalogServiceClient client) {
-        super(client, new XBPConstructorMethod<XBRXBlockUi>() {
-            @Override
-            public XBRXBlockUi itemConstructor(XBCatalogServiceClient client, long itemId) {
-                return new XBRXBlockUi(client, itemId);
-            }
-        }, null);
+        super(client, XBRXBlockUi::new, null);
         this.client = client;
     }
 

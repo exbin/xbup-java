@@ -16,11 +16,13 @@
 package org.exbin.xbup.catalog.entity.service;
 
 import java.io.Serializable;
+import javax.annotation.ParametersAreNonnullByDefault;
 import javax.annotation.PostConstruct;
 import org.exbin.xbup.catalog.XBECatalog;
 import org.exbin.xbup.catalog.entity.XBEXItemInfo;
 import org.exbin.xbup.catalog.entity.manager.XBEXInfoManager;
 import org.exbin.xbup.core.catalog.base.XBCNode;
+import org.exbin.xbup.core.catalog.base.XBCXItemInfo;
 import org.exbin.xbup.core.catalog.base.manager.XBCXInfoManager;
 import org.exbin.xbup.core.catalog.base.service.XBCXInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,11 +31,12 @@ import org.springframework.stereotype.Service;
 /**
  * Interface forXBEXItemInfoo items service.
  *
- * @version 0.1.21 2012/01/01
+ * @version 0.2.1 2020/08/26
  * @author ExBin Project (http://exbin.org)
  */
+@ParametersAreNonnullByDefault
 @Service
-public class XBEXInfoService extends XBEDefaultService<XBEXItemInfo> implements XBCXInfoService<XBEXItemInfo>, Serializable {
+public class XBEXInfoService extends XBEDefaultService<XBCXItemInfo> implements XBCXInfoService, Serializable {
 
     @Autowired
     private XBEXInfoManager manager;

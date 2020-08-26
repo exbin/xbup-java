@@ -16,6 +16,7 @@
 package org.exbin.xbup.client.catalog.remote.manager;
 
 import java.util.List;
+import javax.annotation.ParametersAreNonnullByDefault;
 import org.exbin.xbup.client.catalog.XBRCatalog;
 import org.exbin.xbup.client.catalog.remote.XBRXDesc;
 import org.exbin.xbup.client.stub.XBPXDescStub;
@@ -27,10 +28,11 @@ import org.exbin.xbup.core.catalog.base.manager.XBCXDescManager;
 /**
  * Remote manager class for XBRXDesc catalog items.
  *
- * @version 0.1.25 2015/02/21
+ * @version 0.2.1 2020/08/26
  * @author ExBin Project (http://exbin.org)
  */
-public class XBRXDescManager extends XBRDefaultManager<XBRXDesc> implements XBCXDescManager<XBRXDesc> {
+@ParametersAreNonnullByDefault
+public class XBRXDescManager extends XBRDefaultManager<XBCXDesc> implements XBCXDescManager {
 
     private final XBPXDescStub descStub;
 

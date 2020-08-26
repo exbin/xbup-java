@@ -68,7 +68,7 @@ import org.exbin.xbup.core.parser.token.pull.XBTPullProvider;
  *
  * Catalog is accesed using XBService RPC network interface.
  *
- * @version 0.2.1 2020/08/18
+ * @version 0.2.1 2020/08/26
  * @author ExBin Project (http://exbin.org)
  */
 public class XBRCatalog implements XBCatalog {
@@ -101,7 +101,7 @@ public class XBRCatalog implements XBCatalog {
     public XBContext getRootContext() {
         XBRNodeService nodeService = (XBRNodeService) getCatalogService(XBCNodeService.class);
         XBRSpecService specService = (XBRSpecService) getCatalogService(XBCSpecService.class);
-        XBRNode node = (XBRNode) nodeService.getMainRootNode();
+        XBRNode node = (XBRNode) nodeService.getMainRootNode().get();
         XBRFormatSpec spec = (XBRFormatSpec) specService.findFormatSpecByXB(node, 0);
         if (spec == null) {
             return null;

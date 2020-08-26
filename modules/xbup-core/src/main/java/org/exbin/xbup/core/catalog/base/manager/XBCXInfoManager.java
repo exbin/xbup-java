@@ -15,17 +15,18 @@
  */
 package org.exbin.xbup.core.catalog.base.manager;
 
+import javax.annotation.ParametersAreNonnullByDefault;
 import org.exbin.xbup.core.catalog.base.XBCNode;
 import org.exbin.xbup.core.catalog.base.XBCXItemInfo;
 
 /**
  * Interface for XBCXItemInfo catalog manager.
  *
- * @version 0.1.25 2015/02/21
+ * @version 0.2.1 2020/08/26
  * @author ExBin Project (http://exbin.org)
- * @param <T> item information entity
  */
-public interface XBCXInfoManager<T extends XBCXItemInfo> extends XBCManager<T> {
+@ParametersAreNonnullByDefault
+public interface XBCXInfoManager extends XBCManager<XBCXItemInfo> {
 
     /**
      * Returns item info for given node.

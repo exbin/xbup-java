@@ -16,6 +16,7 @@
 package org.exbin.xbup.client.catalog.remote.manager;
 
 import java.io.InputStream;
+import javax.annotation.ParametersAreNonnullByDefault;
 import org.exbin.xbup.client.catalog.XBRCatalog;
 import org.exbin.xbup.client.catalog.remote.XBRXHDoc;
 import org.exbin.xbup.client.stub.XBPXHDocStub;
@@ -28,10 +29,11 @@ import org.exbin.xbup.core.catalog.base.manager.XBCXHDocManager;
 /**
  * Remote manager class for XBRXHDoc catalog items.
  *
- * @version 0.1.25 2015/03/26
+ * @version 0.2.1 2020/08/26
  * @author ExBin Project (http://exbin.org)
  */
-public class XBRXHDocManager extends XBRDefaultManager<XBRXHDoc> implements XBCXHDocManager<XBRXHDoc> {
+@ParametersAreNonnullByDefault
+public class XBRXHDocManager extends XBRDefaultManager<XBCXHDoc> implements XBCXHDocManager {
 
     private XBCXFileManager fileManager = null;
     private final XBPXHDocStub hdocStub;

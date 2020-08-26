@@ -23,6 +23,9 @@ import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
+import javax.persistence.EntityTransaction;
+import javax.persistence.FlushModeType;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
 import org.exbin.xbup.catalog.XBECatalog;
@@ -53,11 +56,12 @@ import org.springframework.stereotype.Repository;
 /**
  * XBUP catalog specification manager.
  *
- * @version 0.2.1 2020/08/25
+ * @version 0.2.1 2020/08/26
  * @author ExBin Project (http://exbin.org)
  */
+@ParametersAreNonnullByDefault
 @Repository
-public class XBESpecManager extends XBEDefaultCatalogManager<XBESpec> implements XBCSpecManager<XBESpec>, Serializable {
+public class XBESpecManager extends XBEDefaultCatalogManager<XBCSpec> implements XBCSpecManager, Serializable {
 
     public XBESpecManager() {
         super();
@@ -539,6 +543,41 @@ public class XBESpecManager extends XBEDefaultCatalogManager<XBESpec> implements
     @Override
     public XBCFormatSpec createFormatSpec() {
         return newInstance(XBEFormatSpec.class);
+    }
+
+    @Override
+    public void persistSpecDef(XBCSpecDef specDef) {
+        EntityTransaction transaction = null;
+        try {
+            transaction = em.getTransaction();
+            transaction.begin();
+        } catch (IllegalStateException ex) {
+        }
+
+        em.persist(specDef); // was merge
+
+        if (em.getFlushMode() == FlushModeType.COMMIT && transaction != null) {
+            em.flush();
+            transaction.commit();
+        }
+    }
+
+    @Override
+    public void removeSpecDef(XBCSpecDef specDef) {
+        EntityTransaction transaction = null;
+        try {
+            transaction = em.getTransaction();
+            transaction.begin();
+        } catch (IllegalStateException ex) {
+        }
+
+        XBCSpecDef removedItem = em.merge(specDef);
+        em.remove(removedItem);
+
+        if (em.getFlushMode() == FlushModeType.COMMIT && transaction != null) {
+            em.flush();
+            transaction.commit();
+        }
     }
 
     @Nullable

@@ -19,6 +19,7 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.Optional;
 import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
 import javax.annotation.PostConstruct;
 import org.exbin.xbup.catalog.XBECatalog;
 import org.exbin.xbup.catalog.entity.XBEXName;
@@ -39,8 +40,9 @@ import org.springframework.stereotype.Service;
  * @version 0.2.1 2020/08/11
  * @author ExBin Project (http://exbin.org)
  */
+@ParametersAreNonnullByDefault
 @Service
-public class XBEXNameService extends XBEDefaultService<XBEXName> implements XBCXNameService<XBEXName>, Serializable {
+public class XBEXNameService extends XBEDefaultService<XBCXName> implements XBCXNameService, Serializable {
 
     @Autowired
     private XBEXNameManager manager;
@@ -99,7 +101,7 @@ public class XBEXNameService extends XBEDefaultService<XBEXName> implements XBCX
         } else {
             if (name == null) {
                 XBCXLangManager langManager = catalog.getCatalogManager(XBCXLangManager.class);
-                name = createItem();
+                name = (XBEXName) createItem();
                 name.setItem(item);
                 name.setLang(langManager.getDefaultLang());
             }

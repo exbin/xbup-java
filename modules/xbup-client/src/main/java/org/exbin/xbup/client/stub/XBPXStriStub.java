@@ -15,19 +15,22 @@
  */
 package org.exbin.xbup.client.stub;
 
+import javax.annotation.ParametersAreNonnullByDefault;
 import org.exbin.xbup.client.XBCatalogServiceClient;
 import org.exbin.xbup.client.catalog.remote.XBRItem;
 import org.exbin.xbup.client.catalog.remote.XBRXStri;
 import org.exbin.xbup.core.block.declaration.XBDeclBlockType;
 import org.exbin.xbup.core.catalog.base.XBCItem;
+import org.exbin.xbup.core.catalog.base.XBCXStri;
 
 /**
  * RPC stub class for XBRXStri catalog items.
  *
- * @version 0.1.25 2015/03/20
+ * @version 0.2.1 2020/08/26
  * @author ExBin Project (http://exbin.org)
  */
-public class XBPXStriStub extends XBPBaseStub<XBRXStri> {
+@ParametersAreNonnullByDefault
+public class XBPXStriStub extends XBPBaseStub<XBCXStri> {
 
     public static long[] ITEM_STRI_PROCEDURE = {0, 2, 14, 0, 0};
     public static long[] TEXT_STRI_PROCEDURE = {0, 2, 14, 1, 0};
@@ -38,12 +41,7 @@ public class XBPXStriStub extends XBPBaseStub<XBRXStri> {
     private final XBCatalogServiceClient client;
 
     public XBPXStriStub(XBCatalogServiceClient client) {
-        super(client, new XBPConstructorMethod<XBRXStri>() {
-            @Override
-            public XBRXStri itemConstructor(XBCatalogServiceClient client, long itemId) {
-                return new XBRXStri(client, itemId);
-            }
-        }, null);
+        super(client, XBRXStri::new, null);
         this.client = client;
     }
 

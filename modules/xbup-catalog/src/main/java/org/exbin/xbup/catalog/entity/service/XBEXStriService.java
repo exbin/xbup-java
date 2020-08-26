@@ -16,6 +16,7 @@
 package org.exbin.xbup.catalog.entity.service;
 
 import java.io.Serializable;
+import javax.annotation.ParametersAreNonnullByDefault;
 import javax.annotation.PostConstruct;
 import org.exbin.xbup.catalog.XBECatalog;
 import org.exbin.xbup.catalog.entity.XBEXStri;
@@ -32,11 +33,12 @@ import org.springframework.stereotype.Service;
 /**
  * Interface for XBEXStri items service.
  *
- * @version 0.1.24 2014/11/18
+ * @version 0.2.1 2020/08/26
  * @author ExBin Project (http://exbin.org)
  */
+@ParametersAreNonnullByDefault
 @Service
-public class XBEXStriService extends XBEDefaultService<XBEXStri> implements XBCXStriService<XBEXStri>, Serializable {
+public class XBEXStriService extends XBEDefaultService<XBCXStri> implements XBCXStriService, Serializable {
 
     @Autowired
     private XBEXStriManager manager;
@@ -84,7 +86,7 @@ public class XBEXStriService extends XBEDefaultService<XBEXStri> implements XBCX
             }
         } else {
             if (stringId == null) {
-                stringId = createItem();
+                stringId = (XBEXStri) createItem();
                 stringId.setItem(item);
             }
 

@@ -18,6 +18,7 @@ package org.exbin.xbup.client.catalog.remote.manager;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+import javax.annotation.ParametersAreNonnullByDefault;
 import javax.swing.ImageIcon;
 import org.exbin.xbup.client.catalog.XBRCatalog;
 import org.exbin.xbup.client.catalog.remote.XBRXFile;
@@ -29,10 +30,11 @@ import org.exbin.xbup.core.catalog.base.manager.XBCXFileManager;
 /**
  * Remote manager class for XBRXFile catalog items.
  *
- * @version 0.1.25 2015/03/18
+ * @version 0.2.1 2020/08/26
  * @author ExBin Project (http://exbin.org)
  */
-public class XBRXFileManager extends XBRDefaultManager<XBRXFile> implements XBCXFileManager<XBRXFile> {
+@ParametersAreNonnullByDefault
+public class XBRXFileManager extends XBRDefaultManager<XBCXFile> implements XBCXFileManager {
 
     private final XBPXFileStub fileStub;
 

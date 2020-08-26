@@ -17,6 +17,8 @@ package org.exbin.xbup.catalog.entity.service;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Optional;
+import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 import javax.annotation.PostConstruct;
 import org.exbin.xbup.catalog.XBECatalog;
@@ -31,12 +33,12 @@ import org.springframework.stereotype.Service;
 /**
  * Interface for XBENode items service.
  *
- * @version 0.2.1 2020/08/18
+ * @version 0.2.1 2020/08/26
  * @author ExBin Project (http://exbin.org)
  */
 @ParametersAreNonnullByDefault
 @Service
-public class XBENodeService extends XBEDefaultService<XBENode> implements XBCNodeService<XBENode>, Serializable {
+public class XBENodeService extends XBEDefaultService<XBCNode> implements XBCNodeService, Serializable {
 
     @Autowired
     private XBENodeManager manager;
@@ -56,8 +58,9 @@ public class XBENodeService extends XBEDefaultService<XBENode> implements XBCNod
         itemManager = manager;
     }
 
+    @Nonnull
     @Override
-    public XBENode getMainRootNode() {
+    public Optional<XBCNode> getMainRootNode() {
         return ((XBENodeManager) itemManager).getMainRootNode();
     }
 

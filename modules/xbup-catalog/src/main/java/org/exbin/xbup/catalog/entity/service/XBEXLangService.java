@@ -16,11 +16,13 @@
 package org.exbin.xbup.catalog.entity.service;
 
 import java.io.Serializable;
+import javax.annotation.ParametersAreNonnullByDefault;
 import javax.annotation.PostConstruct;
 import org.exbin.xbup.catalog.XBECatalog;
 import org.exbin.xbup.catalog.entity.XBEXLanguage;
 import org.exbin.xbup.catalog.entity.manager.XBEXLangManager;
 import org.exbin.xbup.core.catalog.base.XBCExtension;
+import org.exbin.xbup.core.catalog.base.XBCXLanguage;
 import org.exbin.xbup.core.catalog.base.manager.XBCXLangManager;
 import org.exbin.xbup.core.catalog.base.service.XBCXLangService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,11 +31,12 @@ import org.springframework.stereotype.Service;
 /**
  * Interface for XBEXLanguage items service.
  *
- * @version 0.1.21 2011/12/31
+ * @version 0.2.1 2020/08/26
  * @author ExBin Project (http://exbin.org)
  */
+@ParametersAreNonnullByDefault
 @Service
-public class XBEXLangService extends XBEDefaultService<XBEXLanguage> implements XBCXLangService<XBEXLanguage>, Serializable {
+public class XBEXLangService extends XBEDefaultService<XBCXLanguage> implements XBCXLangService, Serializable {
 
     @Autowired
     private XBEXLangManager manager;

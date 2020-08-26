@@ -18,6 +18,7 @@ package org.exbin.xbup.catalog.entity.service;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import javax.annotation.ParametersAreNonnullByDefault;
 import javax.annotation.PostConstruct;
 import org.exbin.xbup.catalog.XBECatalog;
 import org.exbin.xbup.catalog.entity.XBEBlockSpec;
@@ -67,11 +68,12 @@ import org.springframework.stereotype.Service;
 /**
  * Entity class for XBESpec items service.
  *
- * @version 0.2.1 2017/05/27
+ * @version 0.2.1 2020/08/26
  * @author ExBin Project (http://exbin.org)
  */
+@ParametersAreNonnullByDefault
 @Service
-public class XBESpecService extends XBEDefaultService<XBESpec> implements XBCSpecService<XBESpec>, Serializable {
+public class XBESpecService extends XBEDefaultService<XBCSpec> implements XBCSpecService, Serializable {
 
     @Autowired
     private XBESpecManager manager;
@@ -262,6 +264,16 @@ public class XBESpecService extends XBEDefaultService<XBESpec> implements XBCSpe
     }
 
     @Override
+    public void persistSpecDef(XBCSpecDef specDef) {
+        ((XBESpecManager) itemManager).persistSpecDef(specDef);
+    }
+
+    @Override
+    public void removeSpecDef(XBCSpecDef specDef) {
+        ((XBESpecManager) itemManager).removeSpecDef(specDef);
+    }
+
+    @Override
     public void removeItemDepth(XBCSpecDef specDef) {
         XBCXNameManager nameManager = catalog.getCatalogManager(XBCXNameManager.class);
         List<XBCXName> itemNames = nameManager.getItemNames(specDef);
@@ -287,7 +299,7 @@ public class XBESpecService extends XBEDefaultService<XBESpec> implements XBCSpe
             hdocManager.removeItem(itemHDoc);
         }
 
-        ((XBCSpecService) this).removeItem(specDef);
+        ((XBCSpecService) this).removeSpecDef(specDef);
     }
 
     @Override

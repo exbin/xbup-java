@@ -19,6 +19,7 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.annotation.ParametersAreNonnullByDefault;
 import javax.persistence.EntityTransaction;
 import javax.persistence.NoResultException;
 import org.exbin.xbup.catalog.XBECatalog;
@@ -39,11 +40,12 @@ import org.springframework.stereotype.Repository;
 /**
  * XBUP catalog item name manager.
  *
- * @version 0.1.24 2014/11/17
+ * @version 0.2.1 2020/08/26
  * @author ExBin Project (http://exbin.org)
  */
+@ParametersAreNonnullByDefault
 @Repository
-public class XBEXNameManager extends XBEDefaultCatalogManager<XBEXName> implements XBCXNameManager<XBEXName>, Serializable {
+public class XBEXNameManager extends XBEDefaultCatalogManager<XBCXName> implements XBCXNameManager, Serializable {
 
     public XBEXNameManager() {
         super();
@@ -102,44 +104,45 @@ public class XBEXNameManager extends XBEDefaultCatalogManager<XBEXName> implemen
         XBESpecManager specManager = (XBESpecManager) catalog.getCatalogManager(XBCSpecManager.class);
         try {
             tx.begin();
-            XBENode node = nodeManager.getMainRootNode();
-            XBEXLanguage defaultLang = (XBEXLanguage) ((XBEXLangManager) catalog.getCatalogManager(XBCXLangManager.class)).getDefaultLang();
-
-            XBEXName name = new XBEXName();
-            name.setItem(node);
-            name.setLang(defaultLang);
-            name.setText("Root");
-            em.persist(name);
-
-            XBESpec spec = specManager.findFormatSpecByXB(node, 0);
-            name = new XBEXName();
-            name.setItem(spec);
-            name.setLang(defaultLang);
-            name.setText("Default");
-            em.persist(name);
-
-            spec = specManager.findGroupSpecByXB(node, 0);
-            name = new XBEXName();
-            name.setItem(spec);
-            name.setLang(defaultLang);
-            name.setText("Basic");
-            em.persist(name);
-
-            spec = specManager.findBlockSpecByXB(node, 0);
-            name = new XBEXName();
-            name.setItem(spec);
-            name.setLang(defaultLang);
-            name.setText("Specification");
-            em.persist(name);
-
-            spec = specManager.findBlockSpecByXB(node, 8);
-            name = new XBEXName();
-            name.setItem(spec);
-            name.setLang(defaultLang);
-            name.setText("CatalogLink");
-            em.persist(name);
-
-            tx.commit();
+            throw new UnsupportedOperationException("Not supported yet.");
+//            XBENode node = nodeManager.getMainRootNode();
+//            XBEXLanguage defaultLang = (XBEXLanguage) ((XBEXLangManager) catalog.getCatalogManager(XBCXLangManager.class)).getDefaultLang();
+//
+//            XBEXName name = new XBEXName();
+//            name.setItem(node);
+//            name.setLang(defaultLang);
+//            name.setText("Root");
+//            em.persist(name);
+//
+//            XBESpec spec = specManager.findFormatSpecByXB(node, 0);
+//            name = new XBEXName();
+//            name.setItem(spec);
+//            name.setLang(defaultLang);
+//            name.setText("Default");
+//            em.persist(name);
+//
+//            spec = specManager.findGroupSpecByXB(node, 0);
+//            name = new XBEXName();
+//            name.setItem(spec);
+//            name.setLang(defaultLang);
+//            name.setText("Basic");
+//            em.persist(name);
+//
+//            spec = specManager.findBlockSpecByXB(node, 0);
+//            name = new XBEXName();
+//            name.setItem(spec);
+//            name.setLang(defaultLang);
+//            name.setText("Specification");
+//            em.persist(name);
+//
+//            spec = specManager.findBlockSpecByXB(node, 8);
+//            name = new XBEXName();
+//            name.setItem(spec);
+//            name.setLang(defaultLang);
+//            name.setText("CatalogLink");
+//            em.persist(name);
+//
+//            tx.commit();
         } catch (Exception ex) {
             Logger.getLogger(XBEXNameManager.class.getName()).log(Level.SEVERE, null, ex);
         }

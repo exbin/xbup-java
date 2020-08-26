@@ -18,6 +18,7 @@ package org.exbin.xbup.core.catalog.base.manager;
 import java.io.InputStream;
 import java.util.List;
 import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
 import org.exbin.xbup.core.catalog.base.XBCExtension;
 import org.exbin.xbup.core.catalog.base.XBCNode;
 import org.exbin.xbup.core.catalog.base.XBCXPlugin;
@@ -25,11 +26,11 @@ import org.exbin.xbup.core.catalog.base.XBCXPlugin;
 /**
  * Interface for XBCXPlugin catalog manager.
  *
- * @version 0.2.1 2020/07/22
+ * @version 0.2.1 2020/08/26
  * @author ExBin Project (http://exbin.org)
- * @param <T> plugin entity
  */
-public interface XBCXPlugManager<T extends XBCXPlugin> extends XBCManager<T>, XBCExtension {
+@ParametersAreNonnullByDefault
+public interface XBCXPlugManager extends XBCManager<XBCXPlugin>, XBCExtension {
 
     /**
      * Gets count of all plugins.

@@ -16,19 +16,21 @@
 package org.exbin.xbup.catalog.entity.manager;
 
 import java.io.Serializable;
+import javax.annotation.ParametersAreNonnullByDefault;
 import org.exbin.xbup.catalog.XBECatalog;
-import org.exbin.xbup.catalog.entity.XBEItemLimi;
+import org.exbin.xbup.core.catalog.base.XBCItemLimi;
 import org.exbin.xbup.core.catalog.base.manager.XBCLimiManager;
 import org.springframework.stereotype.Repository;
 
 /**
  * XBUP catalog limitation manager.
  *
- * @version 0.1.21 2011/12/29
+ * @version 0.2.1 2020/08/26
  * @author ExBin Project (http://exbin.org)
  */
+@ParametersAreNonnullByDefault
 @Repository
-public class XBELimiManager extends XBEDefaultCatalogManager<XBEItemLimi> implements XBCLimiManager<XBEItemLimi>, Serializable {
+public class XBELimiManager extends XBEDefaultCatalogManager<XBCItemLimi> implements XBCLimiManager, Serializable {
 
     public XBELimiManager() {
         super();

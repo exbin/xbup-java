@@ -19,6 +19,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.Serializable;
 import java.util.List;
+import javax.annotation.ParametersAreNonnullByDefault;
 import javax.annotation.PostConstruct;
 import javax.swing.ImageIcon;
 import org.exbin.xbup.catalog.XBECatalog;
@@ -35,11 +36,12 @@ import org.springframework.stereotype.Service;
 /**
  * Interface for XBEXFile items service.
  *
- * @version 0.1.22 2013/07/28
+ * @version 0.2.1 2020/08/26
  * @author ExBin Project (http://exbin.org)
  */
+@ParametersAreNonnullByDefault
 @Service
-public class XBEXFileService extends XBEDefaultService<XBEXFile> implements XBCXFileService<XBEXFile>, Serializable {
+public class XBEXFileService extends XBEDefaultService<XBCXFile> implements XBCXFileService, Serializable {
 
     @Autowired
     private XBEXFileManager manager;

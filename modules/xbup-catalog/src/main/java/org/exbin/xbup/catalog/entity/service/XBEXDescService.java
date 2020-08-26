@@ -17,6 +17,7 @@ package org.exbin.xbup.catalog.entity.service;
 
 import java.io.Serializable;
 import java.util.List;
+import javax.annotation.ParametersAreNonnullByDefault;
 import javax.annotation.PostConstruct;
 import org.exbin.xbup.catalog.XBECatalog;
 import org.exbin.xbup.catalog.entity.XBEXDesc;
@@ -34,11 +35,12 @@ import org.springframework.stereotype.Service;
 /**
  * Interface for XBEXDesc items service.
  *
- * @version 0.1.24 2014/11/17
+ * @version 0.2.1 2020/08/26
  * @author ExBin Project (http://exbin.org)
  */
+@ParametersAreNonnullByDefault
 @Service
-public class XBEXDescService extends XBEDefaultService<XBEXDesc> implements XBCXDescService<XBEXDesc>, Serializable {
+public class XBEXDescService extends XBEDefaultService<XBCXDesc> implements XBCXDescService, Serializable {
 
     @Autowired
     private XBEXDescManager manager;
@@ -97,7 +99,7 @@ public class XBEXDescService extends XBEDefaultService<XBEXDesc> implements XBCX
         } else {
             if (desc == null) {
                 XBCXLangManager langManager = catalog.getCatalogManager(XBCXLangManager.class);
-                desc = createItem();
+                desc = (XBEXDesc) createItem();
                 desc.setItem(item);
                 desc.setLang(langManager.getDefaultLang());
             }

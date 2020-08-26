@@ -16,8 +16,9 @@
 package org.exbin.xbup.core.catalog.base.service;
 
 import java.util.List;
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
 import javax.swing.ImageIcon;
-import org.exbin.xbup.core.catalog.base.XBCBlockSpec;
 import org.exbin.xbup.core.catalog.base.XBCExtension;
 import org.exbin.xbup.core.catalog.base.XBCItem;
 import org.exbin.xbup.core.catalog.base.XBCXIcon;
@@ -26,11 +27,11 @@ import org.exbin.xbup.core.catalog.base.XBCXIconMode;
 /**
  * Interface for XBCXIcon items service.
  *
- * @version 0.1.24 2014/11/26
+ * @version 0.2.1 2020/08/26
  * @author ExBin Project (http://exbin.org)
- * @param <T> icon entity
  */
-public interface XBCXIconService<T extends XBCXIcon> extends XBCService<T>, XBCExtension {
+@ParametersAreNonnullByDefault
+public interface XBCXIconService extends XBCService<XBCXIcon>, XBCExtension {
 
     /**
      * Gets icon mode.
@@ -41,12 +42,13 @@ public interface XBCXIconService<T extends XBCXIcon> extends XBCService<T>, XBCE
     XBCXIconMode getIconMode(Long iconModeIndex);
 
     /**
-     * Gets list of icons for given specification.
+     * Gets list of icons for block specification.
      *
-     * @param blockSpec specification
+     * @param item catalog item
      * @return list of icons
      */
-    List<XBCXIcon> getBlockSpecIcons(XBCBlockSpec blockSpec);
+    @Nonnull
+    List<XBCXIcon> getItemIcons(XBCItem item);
 
     /**
      * Gets default icon for given item.

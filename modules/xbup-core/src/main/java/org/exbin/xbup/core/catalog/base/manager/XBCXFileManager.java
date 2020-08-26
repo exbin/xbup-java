@@ -17,6 +17,7 @@ package org.exbin.xbup.core.catalog.base.manager;
 
 import java.io.InputStream;
 import java.util.List;
+import javax.annotation.ParametersAreNonnullByDefault;
 import javax.swing.ImageIcon;
 import org.exbin.xbup.core.catalog.base.XBCExtension;
 import org.exbin.xbup.core.catalog.base.XBCNode;
@@ -25,11 +26,11 @@ import org.exbin.xbup.core.catalog.base.XBCXFile;
 /**
  * Interface for XBCXFile catalog manager.
  *
- * @version 0.1.22 2013/07/28
+ * @version 0.2.1 2020/08/26
  * @author ExBin Project (http://exbin.org)
- * @param <T> file entity
  */
-public interface XBCXFileManager<T extends XBCXFile> extends XBCManager<T>, XBCExtension {
+@ParametersAreNonnullByDefault
+public interface XBCXFileManager extends XBCManager<XBCXFile>, XBCExtension {
 
     /**
      * Returns path of XBIndexes for given file.

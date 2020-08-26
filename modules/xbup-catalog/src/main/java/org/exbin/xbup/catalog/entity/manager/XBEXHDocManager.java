@@ -18,12 +18,14 @@ package org.exbin.xbup.catalog.entity.manager;
 import java.io.Serializable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.annotation.ParametersAreNonnullByDefault;
 import javax.persistence.NoResultException;
 import org.exbin.xbup.catalog.XBECatalog;
 import org.exbin.xbup.catalog.entity.XBEItem;
 import org.exbin.xbup.catalog.entity.XBEXHDoc;
 import org.exbin.xbup.catalog.entity.XBEXLanguage;
 import org.exbin.xbup.core.catalog.base.XBCItem;
+import org.exbin.xbup.core.catalog.base.XBCXHDoc;
 import org.exbin.xbup.core.catalog.base.XBCXLanguage;
 import org.exbin.xbup.core.catalog.base.manager.XBCXHDocManager;
 import org.exbin.xbup.core.catalog.base.manager.XBCXLangManager;
@@ -32,11 +34,12 @@ import org.springframework.stereotype.Repository;
 /**
  * XBUP catalog HTML documentation manager.
  *
- * @version 0.1.25 2015/09/06
+ * @version 0.2.1 2020/08/26
  * @author ExBin Project (http://exbin.org)
  */
+@ParametersAreNonnullByDefault
 @Repository
-public class XBEXHDocManager extends XBEDefaultCatalogManager<XBEXHDoc> implements XBCXHDocManager<XBEXHDoc>, Serializable {
+public class XBEXHDocManager extends XBEDefaultCatalogManager<XBCXHDoc> implements XBCXHDocManager, Serializable {
 
     public XBEXHDocManager() {
         super();

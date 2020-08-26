@@ -18,6 +18,7 @@ package org.exbin.xbup.client.catalog.remote.manager;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+import javax.annotation.ParametersAreNonnullByDefault;
 import org.exbin.xbup.client.catalog.XBRCatalog;
 import org.exbin.xbup.client.catalog.remote.XBRXPlugin;
 import org.exbin.xbup.client.stub.XBPXPlugStub;
@@ -28,10 +29,11 @@ import org.exbin.xbup.core.catalog.base.manager.XBCXPlugManager;
 /**
  * Remote manager class for XBRXPlugin catalog items.
  *
- * @version 0.1.25 2015/02/21
+ * @version 0.2.1 2020/08/26
  * @author ExBin Project (http://exbin.org)
  */
-public class XBRXPlugManager extends XBRDefaultManager<XBRXPlugin> implements XBCXPlugManager<XBRXPlugin> {
+@ParametersAreNonnullByDefault
+public class XBRXPlugManager extends XBRDefaultManager<XBCXPlugin> implements XBCXPlugManager {
 
     private final XBPXPlugStub plugStub;
 

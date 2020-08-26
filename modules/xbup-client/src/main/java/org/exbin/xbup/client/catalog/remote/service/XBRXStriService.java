@@ -15,6 +15,7 @@
  */
 package org.exbin.xbup.client.catalog.remote.service;
 
+import javax.annotation.ParametersAreNonnullByDefault;
 import org.exbin.xbup.client.catalog.XBRCatalog;
 import org.exbin.xbup.client.catalog.remote.XBRXStri;
 import org.exbin.xbup.client.catalog.remote.manager.XBRXStriManager;
@@ -28,10 +29,11 @@ import org.exbin.xbup.core.catalog.base.service.XBCXStriService;
 /**
  * Remote service for XBRXStri items.
  *
- * @version 0.1.25 2015/03/19
+ * @version 0.2.1 2020/08/26
  * @author ExBin Project (http://exbin.org)
  */
-public class XBRXStriService extends XBRDefaultService<XBRXStri> implements XBCXStriService<XBRXStri> {
+@ParametersAreNonnullByDefault
+public class XBRXStriService extends XBRDefaultService<XBCXStri> implements XBCXStriService {
 
     public XBRXStriService(XBRCatalog catalog) {
         super(catalog);

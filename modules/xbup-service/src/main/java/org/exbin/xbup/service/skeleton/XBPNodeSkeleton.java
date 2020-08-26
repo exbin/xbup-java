@@ -80,7 +80,7 @@ public class XBPNodeSkeleton {
                 XBCNodeService nodeService = catalog.getCatalogService(XBCNodeService.class);
 
                 XBPListenerSerialHandler listener = new XBPListenerSerialHandler(resultInput);
-                XBCNode node = nodeService.getMainRootNode();
+                XBCNode node = nodeService.getMainRootNode().get();
                 listener.process(new UBNat32(node.getId()));
             }
         });
@@ -253,7 +253,7 @@ public class XBPNodeSkeleton {
                 long orderIndex = provider.pullLongAttribute();
                 provider.end();
 
-                XBCNodeService<XBCNode> nodeService = catalog.getCatalogService(XBCNodeService.class);
+                XBCNodeService nodeService = catalog.getCatalogService(XBCNodeService.class);
                 Optional<XBCNode> node = nodeService.getItem(nodeId);
                 XBENode subNode = node.isPresent() ? (XBENode) nodeService.getSubNodeSeq(node.get(), orderIndex) : null;
 

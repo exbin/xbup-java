@@ -17,6 +17,8 @@ package org.exbin.xbup.core.catalog.base.service;
 
 import java.io.InputStream;
 import java.util.List;
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
 import javax.swing.ImageIcon;
 import org.exbin.xbup.core.catalog.base.XBCExtension;
 import org.exbin.xbup.core.catalog.base.XBCNode;
@@ -25,11 +27,11 @@ import org.exbin.xbup.core.catalog.base.XBCXFile;
 /**
  * Interface for XBCXFile items service.
  *
- * @version 0.1.21 2011/12/31
+ * @version 0.2.1 2020/08/26
  * @author ExBin Project (http://exbin.org)
- * @param <T> file entity
  */
-public interface XBCXFileService<T extends XBCXFile> extends XBCService<T>, XBCExtension {
+@ParametersAreNonnullByDefault
+public interface XBCXFileService extends XBCService<XBCXFile>, XBCExtension {
 
     /**
      * Returns path of XBIndexes for given node.
@@ -70,5 +72,6 @@ public interface XBCXFileService<T extends XBCXFile> extends XBCService<T>, XBCE
      * @param node parent node of the file
      * @return list of files or null if no such file exist
      */
+    @Nonnull
     List<XBCXFile> findFilesForNode(XBCNode node);
 }

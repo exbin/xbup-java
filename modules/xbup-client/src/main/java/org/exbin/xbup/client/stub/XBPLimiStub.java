@@ -15,14 +15,16 @@
  */
 package org.exbin.xbup.client.stub;
 
+import javax.annotation.ParametersAreNonnullByDefault;
 import org.exbin.xbup.client.XBCatalogServiceClient;
 
 /**
  * RPC stub class for XBRLimit catalog items.
  *
- * @version 0.1.25 2015/02/20
+ * @version 0.2.1 2020/08/26
  * @author ExBin Project (http://exbin.org)
  */
+@ParametersAreNonnullByDefault
 public class XBPLimiStub {
 
     private final XBCatalogServiceClient client;

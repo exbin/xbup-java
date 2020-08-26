@@ -16,17 +16,18 @@
 package org.exbin.xbup.core.catalog.base.service;
 
 import java.util.List;
+import javax.annotation.ParametersAreNonnullByDefault;
 import org.exbin.xbup.core.catalog.base.XBCRev;
 import org.exbin.xbup.core.catalog.base.XBCSpec;
 
 /**
  * Interface for XBCRev items service.
  *
- * @version 0.1.25 2015/02/20
+ * @version 0.2.1 2020/08/26
  * @author ExBin Project (http://exbin.org)
- * @param <T> revision class
  */
-public interface XBCRevService<T extends XBCRev> extends XBCService<T> {
+@ParametersAreNonnullByDefault
+public interface XBCRevService extends XBCService<XBCRev> {
 
     /**
      * Gets revision of given XB index.

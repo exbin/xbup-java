@@ -18,21 +18,24 @@ package org.exbin.xbup.catalog.entity.manager;
 import java.io.Serializable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.annotation.ParametersAreNonnullByDefault;
 import javax.persistence.NoResultException;
 import org.exbin.xbup.catalog.XBECatalog;
 import org.exbin.xbup.catalog.entity.XBEXItemInfo;
 import org.exbin.xbup.core.catalog.base.XBCNode;
+import org.exbin.xbup.core.catalog.base.XBCXItemInfo;
 import org.exbin.xbup.core.catalog.base.manager.XBCXInfoManager;
 import org.springframework.stereotype.Repository;
 
 /**
  * XBUP catalog infomation manager.
  *
- * @version 0.1.21 2011/12/31
+ * @version 0.2.1 2020/08/26
  * @author ExBin Project (http://exbin.org)
  */
+@ParametersAreNonnullByDefault
 @Repository
-public class XBEXInfoManager extends XBEDefaultCatalogManager<XBEXItemInfo> implements XBCXInfoManager<XBEXItemInfo>, Serializable {
+public class XBEXInfoManager extends XBEDefaultCatalogManager<XBCXItemInfo> implements XBCXInfoManager, Serializable {
 
     public XBEXInfoManager() {
         super();

@@ -17,6 +17,7 @@ package org.exbin.xbup.client.catalog.remote.service;
 
 import java.io.InputStream;
 import java.util.List;
+import javax.annotation.ParametersAreNonnullByDefault;
 import org.exbin.xbup.client.catalog.XBRCatalog;
 import org.exbin.xbup.client.catalog.remote.XBRXPlugin;
 import org.exbin.xbup.client.catalog.remote.manager.XBRXPlugManager;
@@ -29,10 +30,11 @@ import org.exbin.xbup.core.catalog.base.service.XBCXPlugService;
 /**
  * Remote service for XBRXPlugin items.
  *
- * @version 0.1.25 2015/03/19
+ * @version 0.2.1 2020/08/26
  * @author ExBin Project (http://exbin.org)
  */
-public class XBRXPlugService extends XBRDefaultService<XBRXPlugin> implements XBCXPlugService<XBRXPlugin> {
+@ParametersAreNonnullByDefault
+public class XBRXPlugService extends XBRDefaultService<XBCXPlugin> implements XBCXPlugService {
 
     public XBRXPlugService(XBRCatalog catalog) {
         super(catalog);

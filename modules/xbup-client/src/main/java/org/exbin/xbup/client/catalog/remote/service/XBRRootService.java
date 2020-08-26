@@ -18,8 +18,8 @@ package org.exbin.xbup.client.catalog.remote.service;
 import java.util.Date;
 import java.util.Optional;
 import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
 import org.exbin.xbup.client.catalog.XBRCatalog;
-import org.exbin.xbup.client.catalog.remote.XBRRoot;
 import org.exbin.xbup.client.catalog.remote.manager.XBRRootManager;
 import org.exbin.xbup.core.catalog.base.XBCRoot;
 import org.exbin.xbup.core.catalog.base.manager.XBCRootManager;
@@ -28,10 +28,11 @@ import org.exbin.xbup.core.catalog.base.service.XBCRootService;
 /**
  * Remote service for XBRRoot items.
  *
- * @version 0.2.1 2020/08/18
+ * @version 0.2.1 2020/08/26
  * @author ExBin Project (http://exbin.org)
  */
-public class XBRRootService extends XBRDefaultService<XBRRoot> implements XBCRootService<XBRRoot> {
+@ParametersAreNonnullByDefault
+public class XBRRootService extends XBRDefaultService<XBCRoot> implements XBCRootService {
 
     public XBRRootService(XBRCatalog catalog) {
         super(catalog);

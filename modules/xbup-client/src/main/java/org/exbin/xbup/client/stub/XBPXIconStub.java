@@ -15,6 +15,7 @@
  */
 package org.exbin.xbup.client.stub;
 
+import javax.annotation.ParametersAreNonnullByDefault;
 import org.exbin.xbup.client.XBCatalogServiceClient;
 import org.exbin.xbup.client.catalog.remote.XBRItem;
 import org.exbin.xbup.client.catalog.remote.XBRXFile;
@@ -23,15 +24,17 @@ import org.exbin.xbup.client.catalog.remote.XBRXIconMode;
 import org.exbin.xbup.core.block.declaration.XBDeclBlockType;
 import org.exbin.xbup.core.catalog.base.XBCItem;
 import org.exbin.xbup.core.catalog.base.XBCXFile;
+import org.exbin.xbup.core.catalog.base.XBCXIcon;
 import org.exbin.xbup.core.catalog.base.XBCXIconMode;
 
 /**
  * RPC stub class for XBRXIcon catalog items.
  *
- * @version 0.1.25 2015/09/06
+ * @version 0.2.1 2020/08/26
  * @author ExBin Project (http://exbin.org)
  */
-public class XBPXIconStub extends XBPBaseStub<XBRXIcon> {
+@ParametersAreNonnullByDefault
+public class XBPXIconStub extends XBPBaseStub<XBCXIcon> {
 
     public static long[] OWNER_ICON_PROCEDURE = {0, 2, 13, 0, 0};
     public static long[] MODE_ICON_PROCEDURE = {0, 2, 13, 1, 0};
@@ -44,7 +47,7 @@ public class XBPXIconStub extends XBPBaseStub<XBRXIcon> {
     private final XBCatalogServiceClient client;
 
     public XBPXIconStub(XBCatalogServiceClient client) {
-        super(client, new XBPConstructorMethod<XBRXIcon>() {
+        super(client, new XBPConstructorMethod<XBCXIcon>() {
             @Override
             public XBRXIcon itemConstructor(XBCatalogServiceClient client, long itemId) {
                 return new XBRXIcon(client, itemId);

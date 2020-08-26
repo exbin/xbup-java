@@ -29,12 +29,11 @@ import org.exbin.xbup.core.catalog.base.XBCXPlugin;
 /**
  * Interface for XBCXBlockUi items service.
  *
- * @version 0.2.1 2020/08/17
+ * @version 0.2.1 2020/08/26
  * @author ExBin Project (http://exbin.org)
- * @param <T> block UI editor entity
  */
 @ParametersAreNonnullByDefault
-public interface XBCXUiService<T extends XBCXBlockUi> extends XBCService<T>, XBCExtension {
+public interface XBCXUiService extends XBCService<XBCXBlockUi>, XBCExtension {
 
     /**
      * Gets list of all block UI editors.

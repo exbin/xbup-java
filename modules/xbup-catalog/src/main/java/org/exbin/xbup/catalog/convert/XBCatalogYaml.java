@@ -43,8 +43,6 @@ import org.exbin.xbup.core.catalog.base.XBCNode;
 import org.exbin.xbup.core.catalog.base.XBCRev;
 import org.exbin.xbup.core.catalog.base.XBCSpec;
 import org.exbin.xbup.core.catalog.base.XBCSpecDef;
-import org.exbin.xbup.core.catalog.base.XBCXHDoc;
-import org.exbin.xbup.core.catalog.base.XBCXStri;
 import org.exbin.xbup.core.catalog.base.service.XBCNodeService;
 import org.exbin.xbup.core.catalog.base.service.XBCRevService;
 import org.exbin.xbup.core.catalog.base.service.XBCSpecService;
@@ -122,8 +120,8 @@ public class XBCatalogYaml {
     }
 
     public void exportSpec(XBCItem item, Map<String, Object> targetData) {
-        XBCSpecService<? extends XBCSpec> specService = (XBCSpecService<? extends XBCSpec>) catalog.getCatalogService(XBCSpecService.class);
-        XBCXStriService<? extends XBCXStri> striService = (XBCXStriService<? extends XBCXStri>) catalog.getCatalogService(XBCXStriService.class);
+        XBCSpecService specService = (XBCSpecService) catalog.getCatalogService(XBCSpecService.class);
+        XBCXStriService striService = (XBCXStriService) catalog.getCatalogService(XBCXStriService.class);
 
         List<Map<String, Object>> defs = new ArrayList<>();
 
@@ -154,8 +152,8 @@ public class XBCatalogYaml {
     }
 
     public void exportNode(XBCNode node, Map<String, Object> targetData) {
-        XBCNodeService<? extends XBCNode> nodeService = (XBCNodeService<? extends XBCNode>) catalog.getCatalogService(XBCNodeService.class);
-        XBCSpecService<? extends XBCSpec> specService = (XBCSpecService<? extends XBCSpec>) catalog.getCatalogService(XBCSpecService.class);
+        XBCNodeService nodeService = (XBCNodeService) catalog.getCatalogService(XBCNodeService.class);
+        XBCSpecService specService = (XBCSpecService) catalog.getCatalogService(XBCSpecService.class);
 
         exportItem(node, targetData);
 
@@ -208,9 +206,9 @@ public class XBCatalogYaml {
     }
 
     public void importItem(Map<String, Object> blockData, XBEItem target) {
-        XBCSpecService<? extends XBCSpec> specService = (XBCSpecService<? extends XBCSpec>) catalog.getCatalogService(XBCSpecService.class);
-        XBCXStriService<? extends XBCXStri> striService = (XBCXStriService<? extends XBCXStri>) catalog.getCatalogService(XBCXStriService.class);
-        XBCXHDocService<? extends XBCXHDoc> hdocService = (XBCXHDocService<? extends XBCXHDoc>) catalog.getCatalogService(XBCXHDocService.class);
+        XBCSpecService specService = (XBCSpecService) catalog.getCatalogService(XBCSpecService.class);
+        XBCXStriService striService = (XBCXStriService) catalog.getCatalogService(XBCXStriService.class);
+        XBCXHDocService hdocService = (XBCXHDocService) catalog.getCatalogService(XBCXHDocService.class);
 
         String stringId = (String) blockData.get("id");
         ((XBEXStriService) striService).setItemStringIdText(target, stringId);
@@ -223,13 +221,13 @@ public class XBCatalogYaml {
     }
 
     public void importSpec(Map<String, Object> specData, XBESpec target) {
-        XBCSpecService<? extends XBCSpec> specService = (XBCSpecService<? extends XBCSpec>) catalog.getCatalogService(XBCSpecService.class);
-        XBCRevService<? extends XBCRev> revService = (XBCRevService<? extends XBCRev>) catalog.getCatalogService(XBCRevService.class);
-        XBCXStriService<? extends XBCXStri> striService = (XBCXStriService<? extends XBCXStri>) catalog.getCatalogService(XBCXStriService.class);
+        XBCSpecService specService = (XBCSpecService) catalog.getCatalogService(XBCSpecService.class);
+        XBCRevService revService = (XBCRevService) catalog.getCatalogService(XBCRevService.class);
+        XBCXStriService striService = (XBCXStriService) catalog.getCatalogService(XBCXStriService.class);
 
         XBEBlockSpec blockSpec = (XBEBlockSpec) specService.createBlockSpec();
         //blockSpec.setParent((XBENode) parentNode);
-        ((XBCSpecService<XBCSpec>) specService).persistItem(blockSpec);
+        specService.persistItem(blockSpec);
         importItem(specData, blockSpec);
 
         List defs = (List) specData.get("def");
@@ -241,7 +239,7 @@ public class XBCatalogYaml {
             XBParamType bindType = getBindType(bind);
 
             XBESpecDef specDef = (XBESpecDef) specService.createSpecDef(blockSpec, bindType);
-            ((XBCSpecService) specService).persistItem(specDef);
+            specService.persistSpecDef(specDef);
             importItem(def, specDef);
 
             specDef.setSpec(blockSpec);
@@ -255,15 +253,15 @@ public class XBCatalogYaml {
                 specDef.setTargetRev(targetRev);
             }
 
-            ((XBCSpecService) specService).persistItem(specDef);
+            specService.persistSpecDef(specDef);
         }
 
-        ((XBCSpecService) specService).persistItem(blockSpec);
+        specService.persistItem(blockSpec);
     }
 
     public void importNode(Map<String, Object> nodeData, XBENode target) {
-        XBCSpecService<? extends XBCSpec> specService = (XBCSpecService<? extends XBCSpec>) catalog.getCatalogService(XBCSpecService.class);
-        XBCNodeService<? extends XBCNode> nodeService = (XBCNodeService<? extends XBCNode>) catalog.getCatalogService(XBCNodeService.class);
+        XBCSpecService specService = (XBCSpecService) catalog.getCatalogService(XBCSpecService.class);
+        XBCNodeService nodeService = (XBCNodeService) catalog.getCatalogService(XBCNodeService.class);
 
         List<Object> nodes = (List<Object>) nodeData.get("node");
         if (nodes != null) {

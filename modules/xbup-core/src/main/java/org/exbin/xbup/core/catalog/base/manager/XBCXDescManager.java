@@ -16,6 +16,7 @@
 package org.exbin.xbup.core.catalog.base.manager;
 
 import java.util.List;
+import javax.annotation.ParametersAreNonnullByDefault;
 import org.exbin.xbup.core.catalog.base.XBCExtension;
 import org.exbin.xbup.core.catalog.base.XBCItem;
 import org.exbin.xbup.core.catalog.base.XBCXDesc;
@@ -24,11 +25,11 @@ import org.exbin.xbup.core.catalog.base.XBCXLanguage;
 /**
  * Interface for XBCXDesc catalog manager.
  *
- * @version 0.1.24 2014/12/03
+ * @version 0.2.1 2020/08/26
  * @author ExBin Project (http://exbin.org)
- * @param <T> description entity
  */
-public interface XBCXDescManager<T extends XBCXDesc> extends XBCManager<T>, XBCExtension {
+@ParametersAreNonnullByDefault
+public interface XBCXDescManager extends XBCManager<XBCXDesc>, XBCExtension {
 
     /**
      * Returns description for given item in default language.

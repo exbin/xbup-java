@@ -20,12 +20,15 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
 import javax.persistence.Query;
 import org.exbin.xbup.catalog.XBECatalog;
 import org.exbin.xbup.catalog.entity.XBEItem;
 import org.exbin.xbup.catalog.entity.XBEXDesc;
 import org.exbin.xbup.catalog.entity.XBEXName;
 import org.exbin.xbup.catalog.entity.XBEXStri;
+import org.exbin.xbup.core.catalog.base.XBCItem;
 import org.exbin.xbup.core.catalog.base.manager.XBCItemManager;
 import org.exbin.xbup.core.catalog.base.manager.XBCXLangManager;
 import org.springframework.stereotype.Repository;
@@ -33,11 +36,12 @@ import org.springframework.stereotype.Repository;
 /**
  * XBUP catalog item manager.
  *
- * @version 0.2.1 2017/05/27
+ * @version 0.2.1 2020/08/26
  * @author ExBin Project (http://exbin.org)
  */
+@ParametersAreNonnullByDefault
 @Repository
-public class XBEItemManager extends XBEDefaultCatalogManager<XBEItem> implements XBCItemManager<XBEItem>, Serializable {
+public class XBEItemManager extends XBEDefaultCatalogManager<XBCItem> implements XBCItemManager, Serializable {
 
     public XBEItemManager() {
         super();
@@ -48,7 +52,8 @@ public class XBEItemManager extends XBEDefaultCatalogManager<XBEItem> implements
     }
 
     @Nonnull
-    public List<XBItemWithDetail> findAllPaged(int startFrom, int maxResults, String filterCondition, String orderCondition, String specType) {
+    @Override
+    public List<XBItemWithDetail> findAllPaged(int startFrom, int maxResults, @Nullable String filterCondition, @Nullable String orderCondition, @Nullable String specType) {
         XBCXLangManager langManager = catalog.getCatalogManager(XBCXLangManager.class);
         long languageId = langManager.getDefaultLang().getId();
         if (orderCondition == null) {
@@ -84,7 +89,7 @@ public class XBEItemManager extends XBEDefaultCatalogManager<XBEItem> implements
         return results;
     }
 
-    public int findAllPagedCount(String filterCondition, String specType) {
+    public int findAllPagedCount(@Nullable String filterCondition, @Nullable String specType) {
         XBCXLangManager langManager = catalog.getCatalogManager(XBCXLangManager.class);
         long languageId = langManager.getDefaultLang().getId();
 

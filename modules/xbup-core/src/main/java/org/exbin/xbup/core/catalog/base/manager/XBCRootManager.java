@@ -18,16 +18,17 @@ package org.exbin.xbup.core.catalog.base.manager;
 import java.util.Date;
 import java.util.Optional;
 import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
 import org.exbin.xbup.core.catalog.base.XBCRoot;
 
 /**
  * Interface for XBCRoot catalog manager.
  *
- * @version 0.2.1 2020/08/18
+ * @version 0.2.1 2020/08/26
  * @author ExBin Project (http://exbin.org)
- * @param <T> node entity
  */
-public interface XBCRootManager<T extends XBCRoot> extends XBCCatalogManager<T> {
+@ParametersAreNonnullByDefault
+public interface XBCRootManager extends XBCCatalogManager<XBCRoot> {
 
     /**
      * Gets main catalog root record.

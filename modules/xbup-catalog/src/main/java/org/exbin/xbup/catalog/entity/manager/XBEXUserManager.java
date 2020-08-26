@@ -18,20 +18,23 @@ package org.exbin.xbup.catalog.entity.manager;
 import java.io.Serializable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.annotation.ParametersAreNonnullByDefault;
 import javax.persistence.NoResultException;
 import org.exbin.xbup.catalog.XBECatalog;
 import org.exbin.xbup.catalog.entity.XBEXUser;
+import org.exbin.xbup.core.catalog.base.XBCXUser;
 import org.exbin.xbup.core.catalog.base.manager.XBCXUserManager;
 import org.springframework.stereotype.Repository;
 
 /**
  * XBUP catalog limitation manager.
  *
- * @version 0.1.21 2011/12/29
+ * @version 0.2.1 2020/08/26
  * @author ExBin Project (http://exbin.org)
  */
+@ParametersAreNonnullByDefault
 @Repository
-public class XBEXUserManager extends XBEDefaultCatalogManager<XBEXUser> implements XBCXUserManager<XBEXUser>, Serializable {
+public class XBEXUserManager extends XBEDefaultCatalogManager<XBCXUser> implements XBCXUserManager, Serializable {
 
     public XBEXUserManager() {
         super();

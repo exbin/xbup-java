@@ -15,6 +15,7 @@
  */
 package org.exbin.xbup.core.catalog.base.service;
 
+import javax.annotation.ParametersAreNonnullByDefault;
 import org.exbin.xbup.core.catalog.base.XBCExtension;
 import org.exbin.xbup.core.catalog.base.XBCItem;
 import org.exbin.xbup.core.catalog.base.XBCSpec;
@@ -23,11 +24,11 @@ import org.exbin.xbup.core.catalog.base.XBCXStri;
 /**
  * Interface for XBCXStri items service.
  *
- * @version 0.1.24 2014/11/18
+ * @version 0.2.1 2020/08/26
  * @author ExBin Project (http://exbin.org)
- * @param <T> stringId entity
  */
-public interface XBCXStriService<T extends XBCXStri> extends XBCService<T>, XBCExtension {
+@ParametersAreNonnullByDefault
+public interface XBCXStriService extends XBCService<XBCXStri>, XBCExtension {
 
     /**
      * Returns StringId for given item.

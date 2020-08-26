@@ -16,6 +16,7 @@
 package org.exbin.xbup.core.catalog.base.manager;
 
 import java.util.List;
+import javax.annotation.ParametersAreNonnullByDefault;
 import org.exbin.xbup.core.block.definition.XBParamType;
 import org.exbin.xbup.core.catalog.base.XBCBlockSpec;
 import org.exbin.xbup.core.catalog.base.XBCFormatSpec;
@@ -27,11 +28,11 @@ import org.exbin.xbup.core.catalog.base.XBCSpecDef;
 /**
  * Interface for XBCSpec catalog manager.
  *
- * @version 0.1.22 2013/01/11
+ * @version 0.2.1 2020/08/26
  * @author ExBin Project (http://exbin.org)
- * @param <T> specification entity
  */
-public interface XBCSpecManager<T extends XBCSpec> extends XBCCatalogManager<T> {
+@ParametersAreNonnullByDefault
+public interface XBCSpecManager extends XBCCatalogManager<XBCSpec> {
 
     /**
      * Gets count of all specifications.
@@ -303,4 +304,18 @@ public interface XBCSpecManager<T extends XBCSpec> extends XBCCatalogManager<T> 
      * @return format specification
      */
     XBCFormatSpec createFormatSpec();
+
+    /**
+     * Persists specification definition.
+     *
+     * @param specDef specification definition
+     */
+    void persistSpecDef(XBCSpecDef specDef);
+
+    /**
+     * Removes specification definition.
+     *
+     * @param specDef specification definition
+     */
+    void removeSpecDef(XBCSpecDef specDef);
 }

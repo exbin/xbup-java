@@ -21,12 +21,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.annotation.ParametersAreNonnullByDefault;
 import javax.swing.ImageIcon;
 import org.exbin.xbup.client.catalog.XBRCatalog;
 import org.exbin.xbup.client.catalog.remote.XBRXIcon;
 import org.exbin.xbup.client.catalog.remote.XBRXIconMode;
 import org.exbin.xbup.client.stub.XBPXIconStub;
-import org.exbin.xbup.core.catalog.base.XBCBlockSpec;
 import org.exbin.xbup.core.catalog.base.XBCItem;
 import org.exbin.xbup.core.catalog.base.XBCNode;
 import org.exbin.xbup.core.catalog.base.XBCXFile;
@@ -38,10 +38,11 @@ import org.exbin.xbup.core.util.StreamUtils;
 /**
  * Remote manager class for XBRXIcon catalog items.
  *
- * @version 0.1.25 2015/09/06
+ * @version 0.2.1 2020/08/26
  * @author ExBin Project (http://exbin.org)
  */
-public class XBRXIconManager extends XBRDefaultManager<XBRXIcon> implements XBCXIconManager<XBRXIcon> {
+@ParametersAreNonnullByDefault
+public class XBRXIconManager extends XBRDefaultManager<XBCXIcon> implements XBCXIconManager {
 
     private final XBPXIconStub iconStub;
 
@@ -70,7 +71,7 @@ public class XBRXIconManager extends XBRDefaultManager<XBRXIcon> implements XBCX
     }
 
     @Override
-    public List<XBCXIcon> getBlockSpecIcons(XBCBlockSpec icon) {
+    public List<XBCXIcon> getItemIcons(XBCItem item) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 

@@ -22,6 +22,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
 import javax.persistence.NoResultException;
 import org.exbin.xbup.catalog.XBECatalog;
 import org.exbin.xbup.catalog.entity.XBEXFile;
@@ -35,11 +36,12 @@ import org.springframework.stereotype.Repository;
 /**
  * XBUP catalog plugin manager.
  *
- * @version 0.2.0 2020/07/22
+ * @version 0.2.0 2020/08/26
  * @author ExBin Project (http://exbin.org)
  */
+@ParametersAreNonnullByDefault
 @Repository
-public class XBEXPlugManager extends XBEDefaultCatalogManager<XBEXPlugin> implements XBCXPlugManager<XBEXPlugin>, Serializable {
+public class XBEXPlugManager extends XBEDefaultCatalogManager<XBCXPlugin> implements XBCXPlugManager, Serializable {
 
     public XBEXPlugManager() {
         super();

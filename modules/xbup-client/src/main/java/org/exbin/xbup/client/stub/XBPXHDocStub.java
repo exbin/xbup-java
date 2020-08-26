@@ -15,20 +15,23 @@
  */
 package org.exbin.xbup.client.stub;
 
+import javax.annotation.ParametersAreNonnullByDefault;
 import org.exbin.xbup.client.XBCatalogServiceClient;
 import org.exbin.xbup.client.catalog.remote.XBRItem;
 import org.exbin.xbup.client.catalog.remote.XBRXFile;
 import org.exbin.xbup.client.catalog.remote.XBRXHDoc;
 import org.exbin.xbup.core.block.declaration.XBDeclBlockType;
 import org.exbin.xbup.core.catalog.base.XBCXFile;
+import org.exbin.xbup.core.catalog.base.XBCXHDoc;
 
 /**
  * RPC stub class for XBRXHDoc catalog items.
  *
- * @version 0.1.25 2015/04/04
+ * @version 0.2.1 2020/08/26
  * @author ExBin Project (http://exbin.org)
  */
-public class XBPXHDocStub extends XBPBaseStub<XBRXHDoc> {
+@ParametersAreNonnullByDefault
+public class XBPXHDocStub extends XBPBaseStub<XBCXHDoc> {
 
     public static long[] OWNER_HDOC_PROCEDURE = {0, 2, 17, 0, 0};
     public static long[] ITEM_HDOC_PROCEDURE = {0, 2, 17, 1, 0};
@@ -37,12 +40,7 @@ public class XBPXHDocStub extends XBPBaseStub<XBRXHDoc> {
     private final XBCatalogServiceClient client;
 
     public XBPXHDocStub(XBCatalogServiceClient client) {
-        super(client, new XBPConstructorMethod<XBRXHDoc>() {
-            @Override
-            public XBRXHDoc itemConstructor(XBCatalogServiceClient client, long itemId) {
-                return new XBRXHDoc(client, itemId);
-            }
-        }, null);
+        super(client, XBRXHDoc::new, null);
         this.client = client;
     }
 

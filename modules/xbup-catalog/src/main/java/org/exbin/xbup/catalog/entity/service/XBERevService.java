@@ -17,6 +17,7 @@ package org.exbin.xbup.catalog.entity.service;
 
 import java.io.Serializable;
 import java.util.List;
+import javax.annotation.ParametersAreNonnullByDefault;
 import javax.annotation.PostConstruct;
 import org.exbin.xbup.catalog.XBECatalog;
 import org.exbin.xbup.catalog.entity.XBEBlockRev;
@@ -45,11 +46,12 @@ import org.springframework.stereotype.Service;
 /**
  * Interface for XBERev items service.
  *
- * @version 0.2.1 2017/05/27
+ * @version 0.2.1 2020/08/26
  * @author ExBin Project (http://exbin.org)
  */
+@ParametersAreNonnullByDefault
 @Service
-public class XBERevService extends XBEDefaultService<XBERev> implements XBCRevService<XBERev>, Serializable {
+public class XBERevService extends XBEDefaultService<XBCRev> implements XBCRevService, Serializable {
 
     @Autowired
     private XBERevManager manager;

@@ -39,12 +39,12 @@ import org.springframework.stereotype.Service;
 /**
  * Interface for XBEXBlockLine items service.
  *
- * @version 0.2.1 2020/08/17
+ * @version 0.2.1 2020/08/26
  * @author ExBin Project (http://exbin.org)
  */
 @ParametersAreNonnullByDefault
 @Service
-public class XBEXUiService extends XBEDefaultService<XBEXBlockUi> implements XBCXUiService<XBEXBlockUi>, Serializable {
+public class XBEXUiService extends XBEDefaultService<XBCXBlockUi> implements XBCXUiService, Serializable {
 
     @Autowired
     private XBEXUiManager manager;

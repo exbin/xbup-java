@@ -15,19 +15,22 @@
  */
 package org.exbin.xbup.client.catalog.remote.manager;
 
+import javax.annotation.ParametersAreNonnullByDefault;
 import org.exbin.xbup.client.catalog.XBRCatalog;
 import org.exbin.xbup.client.catalog.remote.XBRXItemInfo;
 import org.exbin.xbup.client.stub.XBPInfoStub;
 import org.exbin.xbup.core.catalog.base.XBCNode;
+import org.exbin.xbup.core.catalog.base.XBCXItemInfo;
 import org.exbin.xbup.core.catalog.base.manager.XBCXInfoManager;
 
 /**
  * Remote manager class for XBRXItemInfo catalog items.
  *
- * @version 0.1.25 2015/02/20
+ * @version 0.2.1 2020/08/26
  * @author ExBin Project (http://exbin.org)
  */
-public class XBRInfoManager extends XBRDefaultManager<XBRXItemInfo> implements XBCXInfoManager<XBRXItemInfo> {
+@ParametersAreNonnullByDefault
+public class XBRInfoManager extends XBRDefaultManager<XBCXItemInfo> implements XBCXInfoManager {
 
     private final XBPInfoStub infoStub;
 

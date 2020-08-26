@@ -15,18 +15,21 @@
  */
 package org.exbin.xbup.client.stub;
 
+import javax.annotation.ParametersAreNonnullByDefault;
 import org.exbin.xbup.client.XBCatalogServiceClient;
 import org.exbin.xbup.client.catalog.remote.XBRXItemInfo;
 import org.exbin.xbup.core.block.declaration.XBDeclBlockType;
 import org.exbin.xbup.core.catalog.base.XBCNode;
+import org.exbin.xbup.core.catalog.base.XBCXItemInfo;
 
 /**
  * RPC Stub for Info extension related operations.
  *
- * @version 0.1.25 2015/03/20
+ * @version 0.2.1 2020/08/26
  * @author ExBin Project (http://exbin.org)
  */
-public class XBPInfoStub extends XBPBaseStub<XBRXItemInfo> {
+@ParametersAreNonnullByDefault
+public class XBPInfoStub extends XBPBaseStub<XBCXItemInfo> {
 
     public static long[] NODE_INFO_PROCEDURE = {0, 2, 11, 0, 0};
     public static long[] INFOSCOUNT_INFO_PROCEDURE = {0, 2, 11, 1, 0};
@@ -36,12 +39,7 @@ public class XBPInfoStub extends XBPBaseStub<XBRXItemInfo> {
     private final XBCatalogServiceClient client;
 
     public XBPInfoStub(XBCatalogServiceClient client) {
-        super(client, new XBPConstructorMethod<XBRXItemInfo>() {
-            @Override
-            public XBRXItemInfo itemConstructor(XBCatalogServiceClient client, long itemId) {
-                return new XBRXItemInfo(client, itemId);
-            }
-        }, null);
+        super(client, XBRXItemInfo::new, null);
         this.client = client;
     }
 

@@ -15,20 +15,23 @@
  */
 package org.exbin.xbup.client.catalog.remote.service;
 
+import javax.annotation.ParametersAreNonnullByDefault;
 import org.exbin.xbup.client.catalog.XBRCatalog;
 import org.exbin.xbup.client.catalog.remote.XBRXLanguage;
 import org.exbin.xbup.client.catalog.remote.manager.XBRXLangManager;
 import org.exbin.xbup.core.catalog.base.XBCExtension;
+import org.exbin.xbup.core.catalog.base.XBCXLanguage;
 import org.exbin.xbup.core.catalog.base.manager.XBCXLangManager;
 import org.exbin.xbup.core.catalog.base.service.XBCXLangService;
 
 /**
  * Remote service for XBRXLanguage items.
  *
- * @version 0.1.25 2015/03/19
+ * @version 0.2.1 2020/08/26
  * @author ExBin Project (http://exbin.org)
  */
-public class XBRXLangService extends XBRDefaultService<XBRXLanguage> implements XBCXLangService<XBRXLanguage> {
+@ParametersAreNonnullByDefault
+public class XBRXLangService extends XBRDefaultService<XBCXLanguage> implements XBCXLangService {
 
     public XBRXLangService(XBRCatalog catalog) {
         super(catalog);

@@ -16,6 +16,7 @@
 package org.exbin.xbup.core.catalog.base.manager;
 
 import java.util.List;
+import java.util.Optional;
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 import org.exbin.xbup.core.catalog.base.XBCNode;
@@ -23,19 +24,18 @@ import org.exbin.xbup.core.catalog.base.XBCNode;
 /**
  * Interface for XBCNode catalog manager.
  *
- * @version 0.2.1 2020/08/25
+ * @version 0.2.1 2020/08/26
  * @author ExBin Project (http://exbin.org)
- * @param <T> node entity
  */
 @ParametersAreNonnullByDefault
-public interface XBCNodeManager<T extends XBCNode> extends XBCCatalogManager<T> {
+public interface XBCNodeManager extends XBCCatalogManager<XBCNode> {
 
     /**
      * Returns specification tree root node.
      *
      * @return root node
      */
-    XBCNode getMainRootNode();
+    Optional<XBCNode> getMainRootNode();
 
     /**
      * Gets list of subnodes.

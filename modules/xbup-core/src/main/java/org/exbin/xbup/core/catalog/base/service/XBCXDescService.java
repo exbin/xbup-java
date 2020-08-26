@@ -16,6 +16,7 @@
 package org.exbin.xbup.core.catalog.base.service;
 
 import java.util.List;
+import javax.annotation.Nonnull;
 import org.exbin.xbup.core.catalog.base.XBCExtension;
 import org.exbin.xbup.core.catalog.base.XBCItem;
 import org.exbin.xbup.core.catalog.base.XBCXDesc;
@@ -24,11 +25,10 @@ import org.exbin.xbup.core.catalog.base.XBCXLanguage;
 /**
  * Interface for XBCXDesc items service.
  *
- * @version 0.1.24 2014/12/03
+ * @version 0.2.1 2020/08/26
  * @author ExBin Project (http://exbin.org)
- * @param <T> description entity
  */
-public interface XBCXDescService<T extends XBCXDesc> extends XBCService<T>, XBCExtension {
+public interface XBCXDescService extends XBCService<XBCXDesc>, XBCExtension {
 
     /**
      * Returns description for given item in default language.
@@ -53,6 +53,7 @@ public interface XBCXDescService<T extends XBCXDesc> extends XBCService<T>, XBCE
      * @param item item
      * @return description
      */
+    @Nonnull
     List<XBCXDesc> getItemDescs(XBCItem item);
 
     /**

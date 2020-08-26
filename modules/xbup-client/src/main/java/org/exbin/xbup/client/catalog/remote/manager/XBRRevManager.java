@@ -16,6 +16,7 @@
 package org.exbin.xbup.client.catalog.remote.manager;
 
 import java.util.List;
+import javax.annotation.ParametersAreNonnullByDefault;
 import org.exbin.xbup.client.catalog.XBRCatalog;
 import org.exbin.xbup.client.catalog.remote.XBRRev;
 import org.exbin.xbup.client.stub.XBPRevStub;
@@ -26,10 +27,11 @@ import org.exbin.xbup.core.catalog.base.manager.XBCRevManager;
 /**
  * Remote manager class for XBRRev catalog items.
  *
- * @version 0.1.25 2015/02/21
+ * @version 0.2.1 2020/08/26
  * @author ExBin Project (http://exbin.org)
  */
-public class XBRRevManager extends XBRDefaultManager<XBRRev> implements XBCRevManager<XBRRev> {
+@ParametersAreNonnullByDefault
+public class XBRRevManager extends XBRDefaultManager<XBCRev> implements XBCRevManager {
 
     private final XBPRevStub revStub;
 

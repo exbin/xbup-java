@@ -16,6 +16,7 @@
 package org.exbin.xbup.core.catalog.base.service;
 
 import java.util.List;
+import java.util.Optional;
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 import org.exbin.xbup.core.catalog.base.XBCNode;
@@ -23,12 +24,11 @@ import org.exbin.xbup.core.catalog.base.XBCNode;
 /**
  * Interface for XBCNode items service.
  *
- * @version 0.2.1 2020/08/18
+ * @version 0.2.1 2020/08/26
  * @author ExBin Project (http://exbin.org)
- * @param <T> node class
  */
 @ParametersAreNonnullByDefault
-public interface XBCNodeService<T extends XBCNode> extends XBCService<T> {
+public interface XBCNodeService extends XBCService<XBCNode> {
 
     /**
      * Returns specification tree root node.
@@ -36,7 +36,7 @@ public interface XBCNodeService<T extends XBCNode> extends XBCService<T> {
      * @return root node
      */
     @Nonnull
-    XBCNode getMainRootNode();
+    Optional<XBCNode> getMainRootNode();
 
     /**
      * Gets list of subnodes.

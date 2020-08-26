@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.annotation.ParametersAreNonnullByDefault;
 import org.exbin.xbup.client.XBCatalogServiceClient;
 import org.exbin.xbup.client.catalog.remote.XBRBlockCons;
 import org.exbin.xbup.client.catalog.remote.XBRBlockJoin;
@@ -52,10 +53,11 @@ import org.exbin.xbup.core.ubnumber.type.UBNat32;
 /**
  * RPC stub class for XBRSpec catalog items.
  *
- * @version 0.1.25 2015/03/20
+ * @version 0.2.1 2020/08/26
  * @author ExBin Project (http://exbin.org)
  */
-public class XBPSpecStub extends XBPBaseStub<XBRSpec> {
+@ParametersAreNonnullByDefault
+public class XBPSpecStub extends XBPBaseStub<XBCSpec> {
 
     public static long[] SPEC_NODE_PROCEDURE = {0, 2, 4, 4, 0};
     public static long[] SPECS_NODE_PROCEDURE = {0, 2, 4, 5, 0};
@@ -91,12 +93,7 @@ public class XBPSpecStub extends XBPBaseStub<XBRSpec> {
     private final XBCatalogServiceClient client;
 
     public XBPSpecStub(XBCatalogServiceClient client) {
-        super(client, new XBPConstructorMethod<XBRSpec>() {
-            @Override
-            public XBRSpec itemConstructor(XBCatalogServiceClient client, long itemId) {
-                return new XBRSpec(client, itemId);
-            }
-        }, new XBPBaseProcedureType(null, null, null, null, new XBDeclBlockType(SPECSCOUNT_SPEC_PROCEDURE)));
+        super(client, XBRSpec::new, new XBPBaseProcedureType(null, null, null, null, new XBDeclBlockType(SPECSCOUNT_SPEC_PROCEDURE)));
         this.client = client;
     }
 

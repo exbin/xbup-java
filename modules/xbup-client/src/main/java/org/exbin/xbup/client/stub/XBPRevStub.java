@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.annotation.ParametersAreNonnullByDefault;
 import org.exbin.xbup.client.XBCatalogServiceClient;
 import org.exbin.xbup.client.catalog.remote.XBRBlockRev;
 import org.exbin.xbup.client.catalog.remote.XBRFormatRev;
@@ -40,10 +41,11 @@ import org.exbin.xbup.core.ubnumber.type.UBNat32;
 /**
  * RPC stub class for XBRRev catalog items.
  *
- * @version 0.1.25 2015/03/25
+ * @version 0.2.1 2020/08/26
  * @author ExBin Project (http://exbin.org)
  */
-public class XBPRevStub extends XBPBaseStub<XBRRev> {
+@ParametersAreNonnullByDefault
+public class XBPRevStub extends XBPBaseStub<XBCRev> {
 
     public static long[] FINDREV_SPEC_PROCEDURE = {0, 2, 5, 4, 0};
     public static long[] REVSCOUNT_SPEC_PROCEDURE = {0, 2, 5, 9, 0};
@@ -55,12 +57,7 @@ public class XBPRevStub extends XBPBaseStub<XBRRev> {
     private final XBCatalogServiceClient client;
 
     public XBPRevStub(XBCatalogServiceClient client) {
-        super(client, new XBPConstructorMethod<XBRRev>() {
-            @Override
-            public XBRRev itemConstructor(XBCatalogServiceClient client, long itemId) {
-                return new XBRRev(client, itemId);
-            }
-        }, new XBPBaseProcedureType(null, null, null, null, new XBDeclBlockType(REVSCOUNT_REV_PROCEDURE)));
+        super(client, XBRRev::new, new XBPBaseProcedureType(null, null, null, null, new XBDeclBlockType(REVSCOUNT_REV_PROCEDURE)));
         this.client = client;
     }
 

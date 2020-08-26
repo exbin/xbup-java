@@ -16,6 +16,8 @@
 package org.exbin.xbup.client.catalog.remote.manager;
 
 import java.util.List;
+import java.util.Optional;
+import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 import org.exbin.xbup.client.catalog.XBRCatalog;
 import org.exbin.xbup.client.catalog.remote.XBRNode;
@@ -26,11 +28,11 @@ import org.exbin.xbup.core.catalog.base.manager.XBCNodeManager;
 /**
  * Remote manager class for XBRNode catalog items.
  *
- * @version 0.2.1 2020/08/18
+ * @version 0.2.1 2020/08/26
  * @author ExBin Project (http://exbin.org)
  */
 @ParametersAreNonnullByDefault
-public class XBRNodeManager extends XBRDefaultManager<XBRNode> implements XBCNodeManager<XBRNode> {
+public class XBRNodeManager extends XBRDefaultManager<XBCNode> implements XBCNodeManager {
 
     private final XBPNodeStub nodeStub;
 
@@ -40,8 +42,9 @@ public class XBRNodeManager extends XBRDefaultManager<XBRNode> implements XBCNod
         setManagerStub(nodeStub);
     }
 
+    @Nonnull
     @Override
-    public XBRNode getMainRootNode() {
+    public Optional<XBCNode> getMainRootNode() {
         return nodeStub.getMainRootNode();
     }
 

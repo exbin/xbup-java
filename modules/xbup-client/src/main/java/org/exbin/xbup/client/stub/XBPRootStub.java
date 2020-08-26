@@ -21,6 +21,7 @@ import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
 import org.exbin.xbup.client.XBCatalogServiceClient;
 import org.exbin.xbup.client.catalog.remote.XBRRoot;
 import org.exbin.xbup.core.block.declaration.XBDeclBlockType;
@@ -34,10 +35,11 @@ import org.exbin.xbup.core.type.XBDateTime;
 /**
  * RPC stub class for XBRRoot catalog items.
  *
- * @version 0.2.1 2020/08/18
+ * @version 0.2.1 2020/08/26
  * @author ExBin Project (http://exbin.org)
  */
-public class XBPRootStub extends XBPBaseStub<XBRRoot> {
+@ParametersAreNonnullByDefault
+public class XBPRootStub extends XBPBaseStub<XBCRoot> {
 
     public static long[] ROOT_PROCEDURE = {0, 2, 4, 29, 0};
     public static long[] CATALOG_ROOT_PROCEDURE = {0, 2, 4, 30, 0};
@@ -46,12 +48,7 @@ public class XBPRootStub extends XBPBaseStub<XBRRoot> {
     private final XBCatalogServiceClient client;
 
     public XBPRootStub(XBCatalogServiceClient client) {
-        super(client, new XBPConstructorMethod<XBRRoot>() {
-            @Override
-            public XBRRoot itemConstructor(XBCatalogServiceClient client, long itemId) {
-                return new XBRRoot(client, itemId);
-            }
-        }, new XBPBaseProcedureType(null, null, null, null, null));
+        super(client, XBRRoot::new, new XBPBaseProcedureType(null, null, null, null, null));
         this.client = client;
     }
 

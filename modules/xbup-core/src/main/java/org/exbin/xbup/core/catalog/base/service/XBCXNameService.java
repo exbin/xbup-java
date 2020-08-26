@@ -16,6 +16,7 @@
 package org.exbin.xbup.core.catalog.base.service;
 
 import java.util.List;
+import javax.annotation.ParametersAreNonnullByDefault;
 import org.exbin.xbup.core.catalog.base.XBCExtension;
 import org.exbin.xbup.core.catalog.base.XBCItem;
 import org.exbin.xbup.core.catalog.base.XBCXLanguage;
@@ -24,11 +25,11 @@ import org.exbin.xbup.core.catalog.base.XBCXName;
 /**
  * Interface for XBCXName items service.
  *
- * @version 0.1.24 2014/11/17
+ * @version 0.2.1 2020/08/26
  * @author ExBin Project (http://exbin.org)
- * @param <T> name entity
  */
-public interface XBCXNameService<T extends XBCXName> extends XBCService<T>, XBCExtension {
+@ParametersAreNonnullByDefault
+public interface XBCXNameService extends XBCService<XBCXName>, XBCExtension {
 
     /**
      * Returns default name for given item.

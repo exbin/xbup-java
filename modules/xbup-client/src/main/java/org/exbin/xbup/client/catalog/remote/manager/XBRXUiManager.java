@@ -18,6 +18,7 @@ package org.exbin.xbup.client.catalog.remote.manager;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
 import org.exbin.xbup.client.catalog.XBRCatalog;
 import org.exbin.xbup.client.catalog.remote.XBRXBlockUi;
 import org.exbin.xbup.client.catalog.remote.XBRXPlugUi;
@@ -33,10 +34,11 @@ import org.exbin.xbup.core.catalog.base.manager.XBCXUiManager;
 /**
  * Remote manager class for XBRXBlockUi catalog items.
  *
- * @version 0.2.1 2020/08/17
+ * @version 0.2.1 2020/08/26
  * @author ExBin Project (http://exbin.org)
  */
-public class XBRXUiManager extends XBRDefaultManager<XBRXBlockUi> implements XBCXUiManager<XBRXBlockUi> {
+@ParametersAreNonnullByDefault
+public class XBRXUiManager extends XBRDefaultManager<XBCXBlockUi> implements XBCXUiManager {
 
     private final XBPXUiStub uiStub;
 

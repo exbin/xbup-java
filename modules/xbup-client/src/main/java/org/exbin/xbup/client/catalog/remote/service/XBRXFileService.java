@@ -17,6 +17,7 @@ package org.exbin.xbup.client.catalog.remote.service;
 
 import java.io.InputStream;
 import java.util.List;
+import javax.annotation.ParametersAreNonnullByDefault;
 import javax.swing.ImageIcon;
 import org.exbin.xbup.client.catalog.XBRCatalog;
 import org.exbin.xbup.client.catalog.remote.XBRXFile;
@@ -29,10 +30,11 @@ import org.exbin.xbup.core.catalog.base.service.XBCXFileService;
 /**
  * Remote service for XBRXFile items.
  *
- * @version 0.1.25 2015/03/19
+ * @version 0.2.1 2020/08/26
  * @author ExBin Project (http://exbin.org)
  */
-public class XBRXFileService extends XBRDefaultService<XBRXFile> implements XBCXFileService<XBRXFile> {
+@ParametersAreNonnullByDefault
+public class XBRXFileService extends XBRDefaultService<XBCXFile> implements XBCXFileService {
 
     public XBRXFileService(XBRCatalog catalog) {
         super(catalog);

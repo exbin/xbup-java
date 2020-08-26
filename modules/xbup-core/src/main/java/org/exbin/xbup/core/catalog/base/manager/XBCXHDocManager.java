@@ -15,6 +15,7 @@
  */
 package org.exbin.xbup.core.catalog.base.manager;
 
+import javax.annotation.ParametersAreNonnullByDefault;
 import org.exbin.xbup.core.catalog.base.XBCExtension;
 import org.exbin.xbup.core.catalog.base.XBCItem;
 import org.exbin.xbup.core.catalog.base.XBCXHDoc;
@@ -22,11 +23,11 @@ import org.exbin.xbup.core.catalog.base.XBCXHDoc;
 /**
  * Interface for XBCXHDoc catalog manager.
  *
- * @version 0.1.21 2011/12/31
+ * @version 0.2.1 2020/08/26
  * @author ExBin Project (http://exbin.org)
- * @param <T> HTML documentation entity
  */
-public interface XBCXHDocManager<T extends XBCXHDoc> extends XBCManager<T>, XBCExtension {
+@ParametersAreNonnullByDefault
+public interface XBCXHDocManager extends XBCManager<XBCXHDoc>, XBCExtension {
 
     /**
      * Gets documentation for item.

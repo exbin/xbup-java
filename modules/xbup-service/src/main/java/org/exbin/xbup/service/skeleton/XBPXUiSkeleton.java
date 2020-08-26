@@ -18,7 +18,6 @@ package org.exbin.xbup.service.skeleton;
 import java.io.IOException;
 import java.util.Optional;
 import org.exbin.xbup.catalog.XBAECatalog;
-import org.exbin.xbup.catalog.entity.XBEBlockRev;
 import org.exbin.xbup.catalog.entity.XBEXBlockUi;
 import org.exbin.xbup.catalog.entity.XBEXPlugUi;
 import org.exbin.xbup.client.stub.XBPXUiStub;
@@ -26,6 +25,8 @@ import org.exbin.xbup.core.block.XBBlockType;
 import org.exbin.xbup.core.block.XBTEmptyBlock;
 import org.exbin.xbup.core.block.declaration.XBDeclBlockType;
 import org.exbin.xbup.core.catalog.XBPlugUiType;
+import org.exbin.xbup.core.catalog.base.XBCBlockRev;
+import org.exbin.xbup.core.catalog.base.XBCRev;
 import org.exbin.xbup.core.catalog.base.XBCXPlugin;
 import org.exbin.xbup.core.catalog.base.service.XBCRevService;
 import org.exbin.xbup.core.catalog.base.service.XBCXPlugService;
@@ -168,8 +169,8 @@ public class XBPXUiSkeleton {
 
                 XBCXUiService uiService = catalog.getCatalogService(XBCXUiService.class);
                 XBCRevService revService = catalog.getCatalogService(XBCRevService.class);
-                Optional<XBEBlockRev> rev = revService.getItem(index.getNaturalLong());
-                XBEXBlockUi blockUi = rev.isPresent() ? (XBEXBlockUi) uiService.findUiByPR(rev.get(), XBPlugUiType.findByDbIndex(type.getNaturalInt()), priority.getNaturalLong()) : null;
+                Optional<XBCRev> rev = revService.getItem(index.getNaturalLong());
+                XBEXBlockUi blockUi = rev.isPresent() ? (XBEXBlockUi) uiService.findUiByPR((XBCBlockRev) rev.get(), XBPlugUiType.findByDbIndex(type.getNaturalInt()), priority.getNaturalLong()) : null;
 
                 XBPListenerSerialHandler listener = new XBPListenerSerialHandler(resultInput);
                 listener.process(blockUi == null ? XBTEmptyBlock.getEmptyBlock() : new UBNat32(blockUi.getId()));

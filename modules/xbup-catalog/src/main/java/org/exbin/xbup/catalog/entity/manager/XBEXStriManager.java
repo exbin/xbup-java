@@ -18,6 +18,7 @@ package org.exbin.xbup.catalog.entity.manager;
 import java.io.Serializable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.annotation.ParametersAreNonnullByDefault;
 import javax.persistence.NoResultException;
 import org.exbin.xbup.catalog.XBECatalog;
 import org.exbin.xbup.catalog.entity.XBEItem;
@@ -33,11 +34,12 @@ import org.springframework.stereotype.Repository;
 /**
  * XBUP catalog string ID manager.
  *
- * @version 0.1.24 2014/11/18
+ * @version 0.2.1 2020/08/26
  * @author ExBin Project (http://exbin.org)
  */
+@ParametersAreNonnullByDefault
 @Repository
-public class XBEXStriManager extends XBEDefaultCatalogManager<XBEXStri> implements XBCXStriManager<XBEXStri>, Serializable {
+public class XBEXStriManager extends XBEDefaultCatalogManager<XBCXStri> implements XBCXStriManager, Serializable {
 
     public XBEXStriManager() {
         super();
@@ -89,7 +91,7 @@ public class XBEXStriManager extends XBEDefaultCatalogManager<XBEXStri> implemen
         final String nodePath = itemString.getNodePath();
         if ("/".equals(nodePath)) {
             XBCNodeManager nodeManager = catalog.getCatalogManager(XBCNodeManager.class);
-            if (itemString.getItem().getId() == nodeManager.getMainRootNode().getId()) {
+            if (itemString.getItem().getId() == nodeManager.getMainRootNode().get().getId()) {
                 return "";
             }
             return nodePath + itemString.getText();

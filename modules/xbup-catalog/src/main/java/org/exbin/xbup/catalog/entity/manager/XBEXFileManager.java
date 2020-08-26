@@ -25,6 +25,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.annotation.ParametersAreNonnullByDefault;
 import javax.persistence.NoResultException;
 import javax.swing.ImageIcon;
 import org.exbin.xbup.catalog.XBECatalog;
@@ -37,11 +38,12 @@ import org.springframework.stereotype.Repository;
 /**
  * XBUP catalog accessory files manager.
  *
- * @version 0.1.25 2015/09/06
+ * @version 0.2.1 2020/08/26
  * @author ExBin Project (http://exbin.org)
  */
+@ParametersAreNonnullByDefault
 @Repository
-public class XBEXFileManager extends XBEDefaultCatalogManager<XBEXFile> implements XBCXFileManager<XBEXFile>, Serializable {
+public class XBEXFileManager extends XBEDefaultCatalogManager<XBCXFile> implements XBCXFileManager, Serializable {
 
     public XBEXFileManager() {
         super();

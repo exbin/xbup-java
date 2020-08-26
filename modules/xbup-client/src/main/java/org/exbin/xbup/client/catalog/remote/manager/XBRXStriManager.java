@@ -15,6 +15,7 @@
  */
 package org.exbin.xbup.client.catalog.remote.manager;
 
+import javax.annotation.ParametersAreNonnullByDefault;
 import org.exbin.xbup.client.catalog.XBRCatalog;
 import org.exbin.xbup.client.catalog.remote.XBRXStri;
 import org.exbin.xbup.client.stub.XBPXStriStub;
@@ -26,10 +27,11 @@ import org.exbin.xbup.core.catalog.base.manager.XBCXStriManager;
 /**
  * Remote manager class for XBRXStri catalog items.
  *
- * @version 0.2.1 2020/08/18
+ * @version 0.2.1 2020/08/26
  * @author ExBin Project (http://exbin.org)
  */
-public class XBRXStriManager extends XBRDefaultManager<XBRXStri> implements XBCXStriManager<XBRXStri> {
+@ParametersAreNonnullByDefault
+public class XBRXStriManager extends XBRDefaultManager<XBCXStri> implements XBCXStriManager {
 
     private final XBPXStriStub striStub;
 
@@ -66,7 +68,7 @@ public class XBRXStriManager extends XBRDefaultManager<XBRXStri> implements XBCX
     public String getFullPath(XBCXStri itemString) {
         if ("/".equals(itemString.getNodePath())) {
             XBCNodeManager nodeManager = catalog.getCatalogManager(XBCNodeManager.class);
-            if (itemString.getItem().getId() == nodeManager.getMainRootNode().getId()) {
+            if (itemString.getItem().getId() == nodeManager.getMainRootNode().get().getId()) {
                 return "";
             }
         }

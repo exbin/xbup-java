@@ -19,6 +19,7 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.annotation.ParametersAreNonnullByDefault;
 import javax.persistence.EntityTransaction;
 import javax.persistence.NoResultException;
 import org.exbin.xbup.catalog.XBECatalog;
@@ -39,11 +40,12 @@ import org.springframework.stereotype.Repository;
 /**
  * XBUP catalog description manager.
  *
- * @version 0.2.1 2017/05/27
+ * @version 0.2.1 2020/08/26
  * @author ExBin Project (http://exbin.org)
  */
+@ParametersAreNonnullByDefault
 @Repository
-public class XBEXDescManager extends XBEDefaultCatalogManager<XBEXDesc> implements XBCXDescManager<XBEXDesc>, Serializable {
+public class XBEXDescManager extends XBEDefaultCatalogManager<XBCXDesc> implements XBCXDescManager, Serializable {
 
     public XBEXDescManager() {
         super();
@@ -100,36 +102,37 @@ public class XBEXDescManager extends XBEDefaultCatalogManager<XBEXDesc> implemen
         EntityTransaction tx = em.getTransaction();
         XBCNodeManager nodeManager = catalog.getCatalogManager(XBCNodeManager.class);
         XBCSpecManager specManager = catalog.getCatalogManager(XBCSpecManager.class);
-        try {
-            tx.begin();
-            XBCNode node = nodeManager.getMainRootNode();
-            XBCXLangManager langManager = catalog.getCatalogManager(XBCXLangManager.class);
-            XBCXLanguage defaultLang = langManager.getDefaultLang();
-
-            XBEXDesc desc = new XBEXDesc();
-            desc.setItem(node);
-            desc.setLang(defaultLang);
-            desc.setText("Specification's catalog root node");
-            em.persist(desc);
-
-            XBCSpec spec = specManager.findFormatSpecByXB(node, 0);
-            desc = new XBEXDesc();
-            desc.setItem(spec);
-            desc.setLang(defaultLang);
-            desc.setText("Default specification's format");
-            em.persist(desc);
-
-            spec = specManager.findGroupSpecByXB(node, 0);
-            desc = new XBEXDesc();
-            desc.setItem(spec);
-            desc.setLang(defaultLang);
-            desc.setText("Default specification's group");
-            em.persist(desc);
-
-            tx.commit();
-        } catch (Exception ex) {
-            Logger.getLogger(XBEXDescManager.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        throw new UnsupportedOperationException("Not supported yet.");
+//        try {
+//            tx.begin();
+//            XBCNode node = nodeManager.getMainRootNode().get();
+//            XBCXLangManager langManager = catalog.getCatalogManager(XBCXLangManager.class);
+//            XBCXLanguage defaultLang = langManager.getDefaultLang();
+//
+//            XBEXDesc desc = new XBEXDesc();
+//            desc.setItem(node);
+//            desc.setLang(defaultLang);
+//            desc.setText("Specification's catalog root node");
+//            em.persist(desc);
+//
+//            XBCSpec spec = specManager.findFormatSpecByXB(node, 0);
+//            desc = new XBEXDesc();
+//            desc.setItem(spec);
+//            desc.setLang(defaultLang);
+//            desc.setText("Default specification's format");
+//            em.persist(desc);
+//
+//            spec = specManager.findGroupSpecByXB(node, 0);
+//            desc = new XBEXDesc();
+//            desc.setItem(spec);
+//            desc.setLang(defaultLang);
+//            desc.setText("Default specification's group");
+//            em.persist(desc);
+//
+//            tx.commit();
+//        } catch (Exception ex) {
+//            Logger.getLogger(XBEXDescManager.class.getName()).log(Level.SEVERE, null, ex);
+//        }
     }
 
     @Override

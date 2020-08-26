@@ -25,10 +25,10 @@ import org.exbin.xbup.core.catalog.base.manager.XBCXLangManager;
 /**
  * Remote manager class for XBRXLanguage catalog items.
  *
- * @version 0.1.25 2015/02/21
+ * @version 0.2.1 2020/08/26
  * @author ExBin Project (http://exbin.org)
  */
-public class XBRXLangManager extends XBRDefaultManager<XBRXLanguage> implements XBCXLangManager<XBRXLanguage> {
+public class XBRXLangManager extends XBRDefaultManager<XBCXLanguage> implements XBCXLangManager {
 
     private final XBPXLangStub langStub;
 

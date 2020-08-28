@@ -16,7 +16,7 @@
 package org.exbin.xbup.core.serial.child;
 
 import java.io.IOException;
-import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
 import org.exbin.xbup.core.parser.XBProcessingException;
 import org.exbin.xbup.core.serial.XBSerializable;
 
@@ -27,6 +27,7 @@ import org.exbin.xbup.core.serial.XBSerializable;
  * @version 0.1.24 2014/08/23
  * @author ExBin Project (http://exbin.org)
  */
+@ParametersAreNonnullByDefault
 public interface XBTChildSerializable extends XBSerializable {
 
     /**
@@ -36,7 +37,7 @@ public interface XBTChildSerializable extends XBSerializable {
      * @throws XBProcessingException if proccesing problem encountered
      * @throws IOException if input/output problem encountered
      */
-    void serializeFromXB(@Nonnull XBTChildInputSerialHandler serializationHandler) throws XBProcessingException, IOException;
+    void serializeFromXB(XBTChildInputSerialHandler serializationHandler) throws XBProcessingException, IOException;
 
     /**
      * Performs serialization to XBUP protocol.
@@ -45,5 +46,5 @@ public interface XBTChildSerializable extends XBSerializable {
      * @throws XBProcessingException if proccesing problem encountered
      * @throws IOException if input/output problem encountered
      */
-    void serializeToXB(@Nonnull XBTChildOutputSerialHandler serializationHandler) throws XBProcessingException, IOException;
+    void serializeToXB(XBTChildOutputSerialHandler serializationHandler) throws XBProcessingException, IOException;
 }

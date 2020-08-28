@@ -397,7 +397,7 @@ public class XBCatalogXb {
                 putPath(serialInput, nodePath);
                 putPath(serialInput, nodeService.getNodeXBPath(icon.getIconFile().getNode()));
                 serialInput.consist(new XBString(icon.getIconFile().getFilename()));
-                
+
                 serialInput.end();
             }
         }
@@ -418,19 +418,19 @@ public class XBCatalogXb {
             }
             case BLOCK: {
                 XBCSpecService specService = catalog.getCatalogService(XBCSpecService.class);
-                List blockSpecs = specService.getBlockSpecs(node);
+                List<XBCBlockSpec> blockSpecs = specService.getBlockSpecs(node);
                 result.addAll(blockSpecs);
                 break;
             }
             case GROUP: {
                 XBCSpecService specService = catalog.getCatalogService(XBCSpecService.class);
-                List groupSpecs = specService.getGroupSpecs(node);
+                List<XBCGroupSpec> groupSpecs = specService.getGroupSpecs(node);
                 result.addAll(groupSpecs);
                 break;
             }
             case FORMAT: {
                 XBCSpecService specService = catalog.getCatalogService(XBCSpecService.class);
-                List formatSpecs = specService.getFormatSpecs(node);
+                List<XBCFormatSpec> formatSpecs = specService.getFormatSpecs(node);
                 result.addAll(formatSpecs);
                 break;
             }

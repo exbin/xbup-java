@@ -17,6 +17,7 @@ package org.exbin.xbup.core.parser.token.pull.convert;
 
 import java.io.IOException;
 import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
 import org.exbin.xbup.core.block.XBFixedBlockType;
 import org.exbin.xbup.core.parser.XBProcessingException;
 import org.exbin.xbup.core.parser.XBProcessingExceptionType;
@@ -41,25 +42,26 @@ import org.exbin.xbup.core.parser.token.pull.XBTPullProvider;
  * @version 0.2.1 2017/06/05
  * @author ExBin Project (http://exbin.org)
  */
+@ParametersAreNonnullByDefault
 public class XBToXBTPullConvertor implements XBPullConsumer, XBTPullProvider {
 
     private XBPullProvider pullProvider;
     private boolean first;
     private XBToken buffer;
 
-    public XBToXBTPullConvertor(@Nonnull XBPullProvider pullProvider) {
+    public XBToXBTPullConvertor(XBPullProvider pullProvider) {
         this.pullProvider = pullProvider;
     }
 
     @Override
-    public void attachXBPullProvider(@Nonnull XBPullProvider pullProvider) {
+    public void attachXBPullProvider(XBPullProvider pullProvider) {
         this.pullProvider = pullProvider;
         first = true;
         buffer = null;
     }
 
-    @Override
     @Nonnull
+    @Override
     public XBTToken pullXBTToken() throws XBProcessingException, IOException {
         XBToken token;
         if (buffer != null) {

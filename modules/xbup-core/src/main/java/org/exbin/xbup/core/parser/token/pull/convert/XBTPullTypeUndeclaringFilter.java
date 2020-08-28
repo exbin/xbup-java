@@ -21,6 +21,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
 import org.exbin.xbup.core.block.XBBasicBlockType;
 import org.exbin.xbup.core.block.XBBlockTerminationMode;
 import org.exbin.xbup.core.block.XBBlockType;
@@ -47,6 +49,7 @@ import org.exbin.xbup.core.util.StreamUtils;
  * @version 0.1.25 2015/02/27
  * @author ExBin Project (http://exbin.org)
  */
+@ParametersAreNonnullByDefault
 public class XBTPullTypeUndeclaringFilter implements XBTPullFilter {
 
     private XBTPullProvider pullProvider;
@@ -76,6 +79,7 @@ public class XBTPullTypeUndeclaringFilter implements XBTPullFilter {
         this.pullProvider = pullProvider;
     }
 
+    @Nonnull
     @Override
     public XBTToken pullXBTToken() throws XBProcessingException, IOException {
         XBTToken token = pullProvider.pullXBTToken();

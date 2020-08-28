@@ -18,6 +18,8 @@ package org.exbin.xbup.core.parser.token.pull.convert;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
 import org.exbin.xbup.core.block.XBBlockType;
 import org.exbin.xbup.core.block.definition.XBBlockParam;
 import org.exbin.xbup.core.catalog.XBACatalog;
@@ -38,6 +40,7 @@ import org.exbin.xbup.core.parser.token.pull.XBTPullProvider;
  * @version 0.1.24 2014/12/23
  * @author ExBin Project (http://exbin.org)
  */
+@ParametersAreNonnullByDefault
 public class XBTPullParamFilter implements XBTPullFilter {
 
     private XBTPullPreLoader pullProvider;
@@ -73,6 +76,7 @@ public class XBTPullParamFilter implements XBTPullFilter {
         }
     }
 
+    @Nonnull
     @Override
     public XBTToken pullXBTToken() throws XBProcessingException, IOException {
         if (state == XBParserState.START) {

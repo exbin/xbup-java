@@ -17,6 +17,7 @@ package org.exbin.xbup.core.parser.token.event.convert;
 
 import java.io.IOException;
 import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
 import org.exbin.xbup.core.block.XBFBlockType;
 import org.exbin.xbup.core.parser.XBProcessingException;
 import org.exbin.xbup.core.parser.XBProcessingExceptionType;
@@ -39,22 +40,23 @@ import org.exbin.xbup.core.parser.token.event.XBTEventListener;
  * @version 0.2.1 2017/06/05
  * @author ExBin Project (http://exbin.org)
  */
+@ParametersAreNonnullByDefault
 public class XBTToXBEventConvertor implements XBTEventListener, XBEventProducer {
 
     @Nonnull
     private XBEventListener eventListener;
 
-    public XBTToXBEventConvertor(@Nonnull XBEventListener eventListener) {
+    public XBTToXBEventConvertor(XBEventListener eventListener) {
         this.eventListener = eventListener;
     }
 
     @Override
-    public void attachXBEventListener(@Nonnull XBEventListener eventListener) {
+    public void attachXBEventListener(XBEventListener eventListener) {
         this.eventListener = eventListener;
     }
 
     @Override
-    public void putXBTToken(@Nonnull XBTToken token) throws XBProcessingException, IOException {
+    public void putXBTToken(XBTToken token) throws XBProcessingException, IOException {
         switch (token.getTokenType()) {
             case BEGIN: {
                 eventListener.putXBToken(XBBeginToken.create(((XBTBeginToken) token).getTerminationMode()));

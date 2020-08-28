@@ -17,6 +17,7 @@ package org.exbin.xbup.core.parser.token.event.convert;
 
 import java.io.IOException;
 import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
 import org.exbin.xbup.core.block.XBBlockType;
 import org.exbin.xbup.core.block.XBFixedBlockType;
 import org.exbin.xbup.core.parser.XBProcessingException;
@@ -34,6 +35,7 @@ import org.exbin.xbup.core.parser.token.event.XBTEventListener;
  * @version 0.2.1 2017/06/05
  * @author ExBin Project (http://exbin.org)
  */
+@ParametersAreNonnullByDefault
 public class XBTPrintEventFilter implements XBTEventFilter {
 
     @Nonnull
@@ -41,17 +43,17 @@ public class XBTPrintEventFilter implements XBTEventFilter {
     @Nonnull
     private String prefix = "";
 
-    public XBTPrintEventFilter(@Nonnull String prefix, @Nonnull XBTEventListener eventListener) {
+    public XBTPrintEventFilter(String prefix, XBTEventListener eventListener) {
         this(eventListener);
         this.prefix = prefix;
     }
 
-    public XBTPrintEventFilter(@Nonnull XBTEventListener eventListener) {
+    public XBTPrintEventFilter(XBTEventListener eventListener) {
         this.eventListener = eventListener;
     }
 
     @Override
-    public void putXBTToken(@Nonnull XBTToken token) throws XBProcessingException, IOException {
+    public void putXBTToken(XBTToken token) throws XBProcessingException, IOException {
         switch (token.getTokenType()) {
             case BEGIN: {
                 System.out.println(prefix + "> Begin (" + ((XBTBeginToken) token).getTerminationMode().toString() + "):");
@@ -84,7 +86,7 @@ public class XBTPrintEventFilter implements XBTEventFilter {
     }
 
     @Override
-    public void attachXBTEventListener(@Nonnull XBTEventListener eventListener) {
+    public void attachXBTEventListener(XBTEventListener eventListener) {
         this.eventListener = eventListener;
     }
 }

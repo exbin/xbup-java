@@ -16,6 +16,7 @@
 package org.exbin.xbup.core.parser.token.pull.convert;
 
 import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
 import org.exbin.xbup.core.parser.basic.XBConsumer;
 import org.exbin.xbup.core.parser.token.pull.XBPullConsumer;
 import org.exbin.xbup.core.parser.token.pull.XBPullProvider;
@@ -26,17 +27,18 @@ import org.exbin.xbup.core.parser.token.pull.XBPullProvider;
  * @version 0.2.1 2017/06/05
  * @author ExBin Project (http://exbin.org)
  */
+@ParametersAreNonnullByDefault
 public class XBConsumerToPullConsumer implements XBPullConsumer {
 
     @Nonnull
     private final XBConsumer consumer;
 
-    public XBConsumerToPullConsumer(@Nonnull XBConsumer consumer) {
+    public XBConsumerToPullConsumer(XBConsumer consumer) {
         this.consumer = consumer;
     }
 
     @Override
-    public void attachXBPullProvider(@Nonnull XBPullProvider pullProvider) {
+    public void attachXBPullProvider(XBPullProvider pullProvider) {
         consumer.attachXBProvider(new XBPullProviderToProvider(pullProvider));
     }
 }

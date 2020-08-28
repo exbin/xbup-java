@@ -17,6 +17,8 @@ package org.exbin.xbup.core.serial.child;
 
 import java.io.IOException;
 import java.io.InputStream;
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
 import org.exbin.xbup.core.block.XBBlockTerminationMode;
 import org.exbin.xbup.core.block.XBBlockType;
 import org.exbin.xbup.core.parser.XBProcessingException;
@@ -41,6 +43,7 @@ import org.exbin.xbup.core.ubnumber.type.UBNat32;
  * @version 0.1.24 2015/01/18
  * @author ExBin Project (http://exbin.org)
  */
+@ParametersAreNonnullByDefault
 public class XBTChildProviderSerialHandler implements XBTChildInputSerialHandler, XBTTokenInputSerialHandler {
 
     private XBTPullProvider pullProvider;
@@ -61,6 +64,7 @@ public class XBTChildProviderSerialHandler implements XBTChildInputSerialHandler
         this.pullProvider = pullProvider;
     }
 
+    @Nonnull
     @Override
     public XBBlockTerminationMode pullBegin() throws XBProcessingException, IOException {
         if (state == XBChildSerialState.EOF) {
@@ -76,6 +80,7 @@ public class XBTChildProviderSerialHandler implements XBTChildInputSerialHandler
         return ((XBTBeginToken) token).getTerminationMode();
     }
 
+    @Nonnull
     @Override
     public XBBlockType pullType() throws XBProcessingException, IOException {
         if (state != XBChildSerialState.BLOCK_BEGIN && state != XBChildSerialState.ATTRIBUTE_PART) {
@@ -95,6 +100,7 @@ public class XBTChildProviderSerialHandler implements XBTChildInputSerialHandler
         return ((XBTTypeToken) token).getBlockType();
     }
 
+    @Nonnull
     @Override
     public XBAttribute pullAttribute() throws XBProcessingException, IOException {
         if (state == XBChildSerialState.EOF) {
@@ -210,6 +216,7 @@ public class XBTChildProviderSerialHandler implements XBTChildInputSerialHandler
         }
     }
 
+    @Nonnull
     @Override
     public InputStream pullData() throws XBProcessingException, IOException {
         if (state == XBChildSerialState.EOF) {

@@ -23,6 +23,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
 import org.exbin.xbup.core.block.XBBasicBlockType;
 import org.exbin.xbup.core.block.XBBlockTerminationMode;
 import org.exbin.xbup.core.parser.XBProcessingException;
@@ -44,6 +45,7 @@ import org.exbin.xbup.core.ubnumber.type.UBNat32;
  * @version 0.2.0 2015/09/21
  * @author ExBin Project (http://exbin.org)
  */
+@ParametersAreNonnullByDefault
 public class XBTCompactingEventFilter implements XBTEventFilter {
 
     @Nonnull
@@ -56,17 +58,17 @@ public class XBTCompactingEventFilter implements XBTEventFilter {
     @Nullable
     private XBBlockTerminationMode blockMode = null;
 
-    public XBTCompactingEventFilter(@Nonnull XBTEventListener eventListener) {
+    public XBTCompactingEventFilter(XBTEventListener eventListener) {
         this.eventListener = eventListener;
     }
 
     @Override
-    public void attachXBTEventListener(@Nonnull XBTEventListener eventListener) {
+    public void attachXBTEventListener(XBTEventListener eventListener) {
         this.eventListener = eventListener;
     }
 
     @Override
-    public void putXBTToken(@Nonnull XBTToken token) throws XBProcessingException, IOException {
+    public void putXBTToken(XBTToken token) throws XBProcessingException, IOException {
         switch (token.getTokenType()) {
             case BEGIN: {
                 blockMode = ((XBTBeginToken) token).getTerminationMode();

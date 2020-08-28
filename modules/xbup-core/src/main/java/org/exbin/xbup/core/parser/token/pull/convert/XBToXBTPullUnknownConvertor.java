@@ -17,6 +17,7 @@ package org.exbin.xbup.core.parser.token.pull.convert;
 
 import java.io.IOException;
 import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
 import org.exbin.xbup.core.block.XBFixedBlockType;
 import org.exbin.xbup.core.parser.XBProcessingException;
 import org.exbin.xbup.core.parser.XBProcessingExceptionType;
@@ -41,6 +42,7 @@ import org.exbin.xbup.core.parser.token.pull.XBTPullProvider;
  * @version 0.2.1 2017/06/05
  * @author ExBin Project (http://exbin.org)
  */
+@ParametersAreNonnullByDefault
 public class XBToXBTPullUnknownConvertor implements XBPullProvider, XBTPullConsumer {
 
     @Nonnull
@@ -48,17 +50,17 @@ public class XBToXBTPullUnknownConvertor implements XBPullProvider, XBTPullConsu
     @Nonnull
     private final XBFixedBlockType unknownBlockType = new XBFixedBlockType();
 
-    public XBToXBTPullUnknownConvertor(@Nonnull XBTPullProvider pullProvider) {
+    public XBToXBTPullUnknownConvertor(XBTPullProvider pullProvider) {
         this.pullProvider = pullProvider;
     }
 
     @Override
-    public void attachXBTPullProvider(@Nonnull XBTPullProvider pullProvider) {
+    public void attachXBTPullProvider(XBTPullProvider pullProvider) {
         this.pullProvider = pullProvider;
     }
 
-    @Override
     @Nonnull
+    @Override
     public XBToken pullXBToken() throws XBProcessingException, IOException {
         XBTToken token = pullProvider.pullXBTToken();
         if (token.getTokenType() == XBTTokenType.TYPE) {

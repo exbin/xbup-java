@@ -17,6 +17,7 @@ package org.exbin.xbup.core.parser.token.event.convert;
 
 import java.io.IOException;
 import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
 import org.exbin.xbup.core.parser.XBProcessingException;
 import org.exbin.xbup.core.parser.token.XBAttributeToken;
 import org.exbin.xbup.core.parser.token.XBBeginToken;
@@ -37,24 +38,25 @@ import org.exbin.xbup.core.parser.token.event.XBTEventListener;
  * @version 0.2.1 2017/06/05
  * @author ExBin Project (http://exbin.org)
  */
+@ParametersAreNonnullByDefault
 public class XBTToXBEventDropper implements XBTEventListener, XBEventProducer {
 
     @Nonnull
     private XBEventListener target;
     private boolean typeProcessed;
 
-    public XBTToXBEventDropper(@Nonnull XBEventListener target) {
+    public XBTToXBEventDropper(XBEventListener target) {
         this.target = target;
     }
 
     @Override
-    public void attachXBEventListener(@Nonnull XBEventListener eventListener) {
+    public void attachXBEventListener(XBEventListener eventListener) {
         target = eventListener;
         typeProcessed = false;
     }
 
     @Override
-    public void putXBTToken(@Nonnull XBTToken token) throws XBProcessingException, IOException {
+    public void putXBTToken(XBTToken token) throws XBProcessingException, IOException {
         if (typeProcessed && (token.getTokenType() != XBTTokenType.ATTRIBUTE)) {
             target.putXBToken(XBAttributeToken.createZeroToken());
             typeProcessed = false;

@@ -19,6 +19,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
 import org.exbin.xbup.core.block.XBBlockTerminationMode;
 import org.exbin.xbup.core.block.XBBlockType;
 import org.exbin.xbup.core.parser.XBProcessingException;
@@ -41,6 +42,7 @@ import org.exbin.xbup.core.ubnumber.UBNatural;
  * @version 0.2.1 2017/06/05
  * @author ExBin Project (http://exbin.org)
  */
+@ParametersAreNonnullByDefault
 public class XBTProviderToPullProvider implements XBTPullProvider {
 
     @Nonnull
@@ -48,12 +50,12 @@ public class XBTProviderToPullProvider implements XBTPullProvider {
     @Nullable
     private XBTToken token;
 
-    public XBTProviderToPullProvider(@Nonnull XBTProvider provider) {
+    public XBTProviderToPullProvider(XBTProvider provider) {
         this.provider = provider;
     }
 
-    @Override
     @Nonnull
+    @Override
     public XBTToken pullXBTToken() throws XBProcessingException, IOException {
         provider.produceXBT(new XBTSListener() {
             @Override

@@ -21,6 +21,8 @@ import java.io.IOException;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
 import org.exbin.xbup.core.parser.XBProcessingException;
 import org.exbin.xbup.core.parser.token.XBTDataToken;
 import org.exbin.xbup.core.parser.token.XBTToken;
@@ -37,6 +39,7 @@ import org.exbin.xbup.core.util.StreamUtils;
  * @version 0.1.24 2014/12/02
  * @author ExBin Project (http://exbin.org)
  */
+@ParametersAreNonnullByDefault
 public class XBTPullPreLoader implements XBTPullFilter {
 
     private XBTToken nextToken;
@@ -62,6 +65,7 @@ public class XBTPullPreLoader implements XBTPullFilter {
         }
     }
 
+    @Nonnull
     @Override
     public XBTToken pullXBTToken() throws XBProcessingException, IOException {
         XBTToken returnToken;

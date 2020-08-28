@@ -17,6 +17,7 @@ package org.exbin.xbup.core.parser.token.event.convert;
 
 import java.io.IOException;
 import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
 import org.exbin.xbup.core.block.XBFixedBlockType;
 import org.exbin.xbup.core.parser.XBProcessingException;
 import org.exbin.xbup.core.parser.XBProcessingExceptionType;
@@ -39,6 +40,7 @@ import org.exbin.xbup.core.parser.token.event.XBTEventListener;
  * @version 0.2.1 2017/06/05
  * @author ExBin Project (http://exbin.org)
  */
+@ParametersAreNonnullByDefault
 public class XBTToXBEventUnwrapper implements XBTEventListener, XBEventProducer {
 
     @Nonnull
@@ -46,17 +48,17 @@ public class XBTToXBEventUnwrapper implements XBTEventListener, XBEventProducer 
     @Nonnull
     private final XBFixedBlockType unknownBlockType = new XBFixedBlockType();
 
-    public XBTToXBEventUnwrapper(@Nonnull XBEventListener eventListener) {
+    public XBTToXBEventUnwrapper(XBEventListener eventListener) {
         this.eventListener = eventListener;
     }
 
     @Override
-    public void attachXBEventListener(@Nonnull XBEventListener eventListener) {
+    public void attachXBEventListener(XBEventListener eventListener) {
         this.eventListener = eventListener;
     }
 
     @Override
-    public void putXBTToken(@Nonnull XBTToken token) throws XBProcessingException, IOException {
+    public void putXBTToken(XBTToken token) throws XBProcessingException, IOException {
         switch (token.getTokenType()) {
             case BEGIN: {
                 eventListener.putXBToken(XBBeginToken.create(((XBTBeginToken) token).getTerminationMode()));

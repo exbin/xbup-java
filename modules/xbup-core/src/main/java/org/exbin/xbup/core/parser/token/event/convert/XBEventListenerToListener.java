@@ -19,6 +19,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
 import org.exbin.xbup.core.block.XBBlockTerminationMode;
 import org.exbin.xbup.core.parser.XBProcessingException;
 import org.exbin.xbup.core.parser.basic.XBListener;
@@ -38,32 +39,33 @@ import org.exbin.xbup.core.ubnumber.UBNatural;
  * @version 0.2.1 2017/06/05
  * @author ExBin Project (http://exbin.org)
  */
+@ParametersAreNonnullByDefault
 public class XBEventListenerToListener implements XBListener, XBSListener {
 
     @Nonnull
     private final XBEventListener eventListener;
 
-    public XBEventListenerToListener(@Nonnull XBEventListener eventListener) {
+    public XBEventListenerToListener(XBEventListener eventListener) {
         this.eventListener = eventListener;
     }
 
     @Override
-    public void attribXB(@Nonnull XBAttribute value) throws XBProcessingException, IOException {
+    public void attribXB(XBAttribute value) throws XBProcessingException, IOException {
         eventListener.putXBToken(XBAttributeToken.create(value));
     }
 
     @Override
-    public void beginXB(@Nonnull XBBlockTerminationMode terminationMode) throws XBProcessingException, IOException {
+    public void beginXB(XBBlockTerminationMode terminationMode) throws XBProcessingException, IOException {
         eventListener.putXBToken(XBBeginToken.create(terminationMode));
     }
 
     @Override
-    public void beginXB(@Nonnull XBBlockTerminationMode terminationMode, @Nullable UBNatural blockSize) throws XBProcessingException, IOException {
+    public void beginXB(XBBlockTerminationMode terminationMode, @Nullable UBNatural blockSize) throws XBProcessingException, IOException {
         eventListener.putXBToken(XBSBeginToken.create(terminationMode, blockSize));
     }
 
     @Override
-    public void dataXB(@Nonnull InputStream data) throws XBProcessingException, IOException {
+    public void dataXB(InputStream data) throws XBProcessingException, IOException {
         eventListener.putXBToken(XBDataToken.create(data));
     }
 

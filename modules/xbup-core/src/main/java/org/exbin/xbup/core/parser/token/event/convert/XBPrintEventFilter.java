@@ -17,6 +17,7 @@ package org.exbin.xbup.core.parser.token.event.convert;
 
 import java.io.IOException;
 import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
 import org.exbin.xbup.core.parser.XBProcessingException;
 import org.exbin.xbup.core.parser.XBProcessingExceptionType;
 import org.exbin.xbup.core.parser.token.XBAttributeToken;
@@ -32,6 +33,7 @@ import org.exbin.xbup.core.parser.token.event.XBEventListener;
  * @version 0.2.1 2017/06/05
  * @author ExBin Project (http://exbin.org)
  */
+@ParametersAreNonnullByDefault
 public class XBPrintEventFilter implements XBEventFilter {
 
     @Nonnull
@@ -39,7 +41,7 @@ public class XBPrintEventFilter implements XBEventFilter {
     @Nonnull
     private String prefix = "";
 
-    public XBPrintEventFilter(@Nonnull String prefix, @Nonnull XBEventListener eventListener) {
+    public XBPrintEventFilter(String prefix, XBEventListener eventListener) {
         this(eventListener);
         this.prefix = prefix;
     }
@@ -49,7 +51,7 @@ public class XBPrintEventFilter implements XBEventFilter {
     }
 
     @Override
-    public void putXBToken(@Nonnull XBToken token) throws XBProcessingException, IOException {
+    public void putXBToken(XBToken token) throws XBProcessingException, IOException {
         switch (token.getTokenType()) {
             case BEGIN: {
                 System.out.println(prefix + "> Begin (" + ((XBBeginToken) token).getTerminationMode().toString() + "):");
@@ -77,7 +79,7 @@ public class XBPrintEventFilter implements XBEventFilter {
     }
 
     @Override
-    public void attachXBEventListener(@Nonnull XBEventListener eventListener) {
+    public void attachXBEventListener(XBEventListener eventListener) {
         this.eventListener = eventListener;
     }
 }

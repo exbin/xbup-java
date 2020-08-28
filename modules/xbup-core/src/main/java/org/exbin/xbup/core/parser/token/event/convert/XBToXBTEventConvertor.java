@@ -18,6 +18,7 @@ package org.exbin.xbup.core.parser.token.event.convert;
 import java.io.IOException;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
 import org.exbin.xbup.core.block.XBFixedBlockType;
 import org.exbin.xbup.core.parser.XBProcessingException;
 import org.exbin.xbup.core.parser.token.XBAttributeToken;
@@ -40,6 +41,7 @@ import org.exbin.xbup.core.ubnumber.UBNatural;
  * @version 0.2.1 2017/06/05
  * @author ExBin Project (http://exbin.org)
  */
+@ParametersAreNonnullByDefault
 public class XBToXBTEventConvertor implements XBEventListener, XBTEventProducer {
 
     @Nonnull
@@ -48,18 +50,18 @@ public class XBToXBTEventConvertor implements XBEventListener, XBTEventProducer 
     @Nullable
     private UBNatural group;
 
-    public XBToXBTEventConvertor(@Nonnull XBTEventListener target) {
+    public XBToXBTEventConvertor(XBTEventListener target) {
         this.target = target;
         expectType = true;
     }
 
     @Override
-    public void attachXBTEventListener(@Nonnull XBTEventListener eventListener) {
+    public void attachXBTEventListener(XBTEventListener eventListener) {
         target = eventListener;
     }
 
     @Override
-    public void putXBToken(@Nonnull XBToken token) throws XBProcessingException, IOException {
+    public void putXBToken(XBToken token) throws XBProcessingException, IOException {
         switch (token.getTokenType()) {
             case BEGIN: {
                 if (expectType && group != null) {

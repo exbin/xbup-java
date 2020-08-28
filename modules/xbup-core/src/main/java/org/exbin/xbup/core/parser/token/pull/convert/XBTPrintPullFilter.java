@@ -17,6 +17,7 @@ package org.exbin.xbup.core.parser.token.pull.convert;
 
 import java.io.IOException;
 import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
 import org.exbin.xbup.core.block.XBBlockType;
 import org.exbin.xbup.core.block.XBFixedBlockType;
 import org.exbin.xbup.core.parser.XBProcessingException;
@@ -35,6 +36,7 @@ import org.exbin.xbup.core.parser.token.pull.XBTPullProvider;
  * @version 0.2.1 2017/06/05
  * @author ExBin Project (http://exbin.org)
  */
+@ParametersAreNonnullByDefault
 public class XBTPrintPullFilter implements XBTPullFilter {
 
     @Nonnull
@@ -42,17 +44,17 @@ public class XBTPrintPullFilter implements XBTPullFilter {
     @Nonnull
     private String prefix = "";
 
-    public XBTPrintPullFilter(@Nonnull String prefix, @Nonnull XBTPullProvider pullProvider) {
+    public XBTPrintPullFilter(String prefix, XBTPullProvider pullProvider) {
         this(pullProvider);
         this.prefix = prefix;
     }
 
-    public XBTPrintPullFilter(@Nonnull XBTPullProvider pullProvider) {
+    public XBTPrintPullFilter(XBTPullProvider pullProvider) {
         this.pullProvider = pullProvider;
     }
 
-    @Override
     @Nonnull
+    @Override
     public XBTToken pullXBTToken() throws XBProcessingException, IOException {
         XBTToken token = pullProvider.pullXBTToken();
         switch (token.getTokenType()) {
@@ -85,7 +87,7 @@ public class XBTPrintPullFilter implements XBTPullFilter {
     }
 
     @Override
-    public void attachXBTPullProvider(@Nonnull XBTPullProvider pullProvider) {
+    public void attachXBTPullProvider(XBTPullProvider pullProvider) {
         this.pullProvider = pullProvider;
     }
 }

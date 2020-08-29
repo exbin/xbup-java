@@ -41,25 +41,16 @@ import org.exbin.xbup.core.ubnumber.type.UBNat32;
  * Level 2 event listener for performing block building using sequence
  * operations.
  *
- * @version 0.1.24 2015/01/26
+ * @version 0.2.1 2020/08/29
  * @author ExBin Project (http://exbin.org)
  */
 @ParametersAreNonnullByDefault
-public class XBPSequencingListener implements XBPListener {
+public class XBPSerialSequence implements XBPListener {
 
-    private final List<XBSerialSequenceItem> serialSequence = new ArrayList<>();
+    private final List<XBSerialSequenceItem> items = new ArrayList<>();
     private int depth = 0;
 
-    public XBPSequencingListener() {
-    }
-
-    /**
-     * Returns if processing was finished (or was not started yet).
-     *
-     * @return true if processing finished or was not started yet.
-     */
-    public boolean isFinished() {
-        return depth == 0;
+    public XBPSerialSequence() {
     }
 
     private void validate() {
@@ -71,19 +62,19 @@ public class XBPSequencingListener implements XBPListener {
     @Override
     public void putBegin(XBBlockTerminationMode terminationMode) throws XBProcessingException, IOException {
         depth++;
-        serialSequence.add(new XBSerialSequenceItem(XBSerialSequenceOp.TOKEN, new XBPTokenWrapper(XBTBeginToken.create(terminationMode))));
+        items.add(new XBSerialSequenceItem(XBSerialSequenceOp.TOKEN, new XBPTokenWrapper(XBTBeginToken.create(terminationMode))));
     }
 
     @Override
     public void putType(XBBlockType type) throws XBProcessingException, IOException {
         validate();
-        serialSequence.add(new XBSerialSequenceItem(XBSerialSequenceOp.TOKEN, new XBPTokenWrapper(XBTTypeToken.create(type))));
+        items.add(new XBSerialSequenceItem(XBSerialSequenceOp.TOKEN, new XBPTokenWrapper(XBTTypeToken.create(type))));
     }
 
     @Override
     public void putAttribute(XBAttribute attribute) throws XBProcessingException, IOException {
         validate();
-        serialSequence.add(new XBSerialSequenceItem(XBSerialSequenceOp.TOKEN, new XBPTokenWrapper(XBTAttributeToken.create(attribute))));
+        items.add(new XBSerialSequenceItem(XBSerialSequenceOp.TOKEN, new XBPTokenWrapper(XBTAttributeToken.create(attribute))));
     }
 
     @Override
@@ -113,13 +104,13 @@ public class XBPSequencingListener implements XBPListener {
     @Override
     public void putData(InputStream data) throws XBProcessingException, IOException {
         validate();
-        serialSequence.add(new XBSerialSequenceItem(XBSerialSequenceOp.TOKEN, new XBPTokenWrapper(XBTDataToken.create(data))));
+        items.add(new XBSerialSequenceItem(XBSerialSequenceOp.TOKEN, new XBPTokenWrapper(XBTDataToken.create(data))));
     }
 
     @Override
     public void putEnd() throws XBProcessingException, IOException {
         validate();
-        serialSequence.add(new XBSerialSequenceItem(XBSerialSequenceOp.TOKEN, new XBPTokenWrapper(XBTEndToken.create())));
+        items.add(new XBSerialSequenceItem(XBSerialSequenceOp.TOKEN, new XBPTokenWrapper(XBTEndToken.create())));
         depth--;
     }
 
@@ -131,25 +122,25 @@ public class XBPSequencingListener implements XBPListener {
     @Override
     public void putConsist(XBSerializable serial) throws XBProcessingException, IOException {
         validate();
-        serialSequence.add(new XBSerialSequenceItem(XBSerialSequenceOp.CONSIST, serial));
+        items.add(new XBSerialSequenceItem(XBSerialSequenceOp.CONSIST, serial));
     }
 
     @Override
     public void putJoin(XBSerializable serial) throws XBProcessingException, IOException {
         validate();
-        serialSequence.add(new XBSerialSequenceItem(XBSerialSequenceOp.JOIN, serial));
+        items.add(new XBSerialSequenceItem(XBSerialSequenceOp.JOIN, serial));
     }
 
     @Override
     public void putListConsist(XBSerializable serial) throws XBProcessingException, IOException {
         validate();
-        serialSequence.add(new XBSerialSequenceItem(XBSerialSequenceOp.LIST_CONSIST, serial));
+        items.add(new XBSerialSequenceItem(XBSerialSequenceOp.LIST_CONSIST, serial));
     }
 
     @Override
     public void putListJoin(XBSerializable serial) throws XBProcessingException, IOException {
         validate();
-        serialSequence.add(new XBSerialSequenceItem(XBSerialSequenceOp.LIST_JOIN, serial));
+        items.add(new XBSerialSequenceItem(XBSerialSequenceOp.LIST_JOIN, serial));
     }
 
     @Override
@@ -170,10 +161,10 @@ public class XBPSequencingListener implements XBPListener {
                 }
             }
 
-            serialSequence.add(item);
+            items.add(item);
         } else {
             validate();
-            serialSequence.add(item);
+            items.add(item);
         }
     }
 
@@ -183,13 +174,17 @@ public class XBPSequencingListener implements XBPListener {
     }
 
     @Nonnull
-    public List<XBSerialSequenceItem> getSerialSequence() {
-        return serialSequence;
+    public List<XBSerialSequenceItem> getItems() {
+        return items;
     }
 
     @Nonnull
     public XBSerializable getSequenceSerial() {
-        return new XBPSerialSequenceWrapper(serialSequence);
+        if (depth != 0) {
+            throw new IllegalStateException("Append is not allowed on sequencing");
+        }
+
+        return new XBPSerialSequenceWrapper();
     }
 
     public int getDepth() {
@@ -197,12 +192,9 @@ public class XBPSequencingListener implements XBPListener {
     }
 
     @ParametersAreNonnullByDefault
-    private static class XBPSerialSequenceWrapper implements XBPSerializable {
+    private class XBPSerialSequenceWrapper implements XBPSerializable {
 
-        private final List<XBSerialSequenceItem> serialSequence;
-
-        public XBPSerialSequenceWrapper(List<XBSerialSequenceItem> serialSequence) {
-            this.serialSequence = serialSequence;
+        public XBPSerialSequenceWrapper() {
         }
 
         @Override
@@ -212,7 +204,7 @@ public class XBPSequencingListener implements XBPListener {
 
         @Override
         public void serializeToXB(XBPOutputSerialHandler serializationHandler) throws XBProcessingException, IOException {
-            for (XBSerialSequenceItem serialItem : serialSequence) {
+            for (XBSerialSequenceItem serialItem : items) {
                 serializationHandler.putItem(serialItem);
             }
         }

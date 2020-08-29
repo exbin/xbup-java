@@ -59,7 +59,7 @@ import org.exbin.xbup.core.ubnumber.type.UBNat32;
 /**
  * XBUP level 2 serialization handler using parameter mapping to listener.
  *
- * @version 0.1.25 2015/05/03
+ * @version 0.2.1 2020/08/29
  * @author ExBin Project (http://exbin.org)
  */
 @ParametersAreNonnullByDefault
@@ -67,17 +67,21 @@ public class XBPListenerSerialHandler implements XBPOutputSerialHandler, XBPSequ
 
     private XBPSequenceEventProducer eventListener;
 
-    private XBPSequencingListener sequencingListener = null;
-    private final List<XBParamProcessingState> processingStates = new ArrayList<>();
-    private XBParamProcessingState processingState = XBParamProcessingState.START;
-    private XBParamType paramType = XBParamType.CONSIST;
+    private final List<ProcessingState> processingStates = new ArrayList<>();
+    private int joinDepth = 0;
+    private int subDepth = 0;
 
     private static final String PULL_NOT_ALLOWED_EXCEPTION = "Pulling data not allowed in pushing mode";
 
+    private XBTChildOutputSerialHandlerImpl childOutputSerialHandler = null;
+    private XBTBasicOutputSerialHandlerImpl basicOutputSerialHandler = null;
+
     public XBPListenerSerialHandler() {
+        processingStates.add(new ProcessingState());
     }
 
     public XBPListenerSerialHandler(XBInput input) {
+        this();
         performAttachXBInput(input);
     }
 
@@ -87,9 +91,15 @@ public class XBPListenerSerialHandler implements XBPOutputSerialHandler, XBPSequ
         } else if (serial instanceof XBPSequenceSerializable) {
             ((XBPSequenceSerializable) serial).serializeXB(this);
         } else if (serial instanceof XBTChildSerializable) {
-            ((XBTChildSerializable) serial).serializeToXB(new XBTChildOutputSerialHandlerImpl(this));
+            if (childOutputSerialHandler == null) {
+                childOutputSerialHandler = new XBTChildOutputSerialHandlerImpl();
+            }
+            ((XBTChildSerializable) serial).serializeToXB(childOutputSerialHandler);
         } else if (serial instanceof XBTBasicSerializable) {
-            ((XBTBasicSerializable) serial).serializeToXB(new XBTBasicOutputSerialHandlerImpl(this));
+            if (basicOutputSerialHandler == null) {
+                basicOutputSerialHandler = new XBTBasicOutputSerialHandlerImpl();
+            }
+            ((XBTBasicSerializable) serial).serializeToXB(basicOutputSerialHandler);
         } else {
             throw new UnsupportedOperationException("Serialization method " + serial.getClass().getCanonicalName() + " not supported.");
         }
@@ -114,25 +124,24 @@ public class XBPListenerSerialHandler implements XBPOutputSerialHandler, XBPSequ
 
     @Override
     public void putBegin(XBBlockTerminationMode terminationMode) throws XBProcessingException, IOException {
-        if (sequencingListener != null) {
-            sequencingListener.putBegin(terminationMode);
+        ProcessingState currentState = getCurrentState();
+        if (subDepth > 0) {
+            currentState.serialSequence.putBegin(terminationMode);
             return;
         }
 
-        switch (processingState) {
+        switch (currentState.processingState) {
             case START: {
-                if (paramType.isConsist()) {
-                    eventListener.putToken(XBTBeginToken.create(terminationMode));
-                }
-                processingState = XBParamProcessingState.BEGIN;
+                eventListener.putToken(XBTBeginToken.create(terminationMode));
+                currentState.processingState = XBParamProcessingState.BEGIN;
                 break;
             }
 
             case TYPE:
             case ATTRIBUTES:
             case CHILDREN: {
-                sequencingListener = new XBPSequencingListener();
-                sequencingListener.putBegin(terminationMode);
+                subDepth++;
+                currentState.serialSequence.putBegin(terminationMode);
                 break;
             }
             default: {
@@ -143,16 +152,15 @@ public class XBPListenerSerialHandler implements XBPOutputSerialHandler, XBPSequ
 
     @Override
     public void putType(XBBlockType type) throws XBProcessingException, IOException {
-        if (sequencingListener != null) {
-            sequencingListener.putType(type);
+        ProcessingState currentState = getCurrentState();
+        if (subDepth > 0) {
+            currentState.serialSequence.putType(type);
             return;
         }
 
-        if (processingState == XBParamProcessingState.BEGIN) {
-            if (paramType.isConsist()) {
-                eventListener.putToken(XBTTypeToken.create(type));
-            }
-            processingState = XBParamProcessingState.TYPE;
+        if (currentState.processingState == XBParamProcessingState.BEGIN) {
+            eventListener.putToken(XBTTypeToken.create(type));
+            currentState.processingState = XBParamProcessingState.TYPE;
         } else {
             throw new XBProcessingException("Unexpected token order", XBProcessingExceptionType.UNEXPECTED_ORDER);
         }
@@ -160,14 +168,15 @@ public class XBPListenerSerialHandler implements XBPOutputSerialHandler, XBPSequ
 
     @Override
     public void putAttribute(XBAttribute attribute) throws XBSerialException, XBProcessingException, IOException {
-        if (sequencingListener != null) {
-            sequencingListener.putAttribute(attribute);
+        ProcessingState currentState = getCurrentState();
+        if (subDepth > 0) {
+            currentState.serialSequence.putAttribute(attribute);
             return;
         }
 
-        if (processingState == XBParamProcessingState.BEGIN || processingState == XBParamProcessingState.TYPE || processingState == XBParamProcessingState.ATTRIBUTES) {
+        if (currentState.processingState == XBParamProcessingState.BEGIN || currentState.processingState == XBParamProcessingState.TYPE || currentState.processingState == XBParamProcessingState.ATTRIBUTES) {
             eventListener.putToken(XBTAttributeToken.create(attribute));
-            processingState = XBParamProcessingState.ATTRIBUTES;
+            currentState.processingState = XBParamProcessingState.ATTRIBUTES;
         } else {
             throw new XBProcessingException("Unexpected token order", XBProcessingExceptionType.UNEXPECTED_ORDER);
         }
@@ -175,14 +184,15 @@ public class XBPListenerSerialHandler implements XBPOutputSerialHandler, XBPSequ
 
     @Override
     public void putData(InputStream data) throws XBProcessingException, IOException {
-        if (sequencingListener != null) {
-            sequencingListener.putData(data);
+        ProcessingState currentState = getCurrentState();
+        if (subDepth > 0) {
+            currentState.serialSequence.putData(data);
             return;
         }
 
-        if (processingState == XBParamProcessingState.BEGIN) {
+        if (currentState.processingState == XBParamProcessingState.BEGIN) {
             eventListener.putToken(XBTDataToken.create(data));
-            processingState = XBParamProcessingState.DATA;
+            currentState.processingState = XBParamProcessingState.DATA;
         } else {
             throw new XBProcessingException("Unexpected token order", XBProcessingExceptionType.UNEXPECTED_ORDER);
         }
@@ -190,27 +200,29 @@ public class XBPListenerSerialHandler implements XBPOutputSerialHandler, XBPSequ
 
     @Override
     public void putEnd() throws XBProcessingException, IOException {
-        if (sequencingListener != null) {
-            sequencingListener.putEnd();
-            checkSequencingListener();
+        ProcessingState currentState = getCurrentState();
+        if (subDepth > 0) {
+            currentState.serialSequence.putEnd();
+            subDepth--;
+            return;
+        } else if (joinDepth > 0) {
+            joinDepth--;
             return;
         }
 
-        if (processingState == XBParamProcessingState.TYPE || processingState == XBParamProcessingState.ATTRIBUTES || processingState == XBParamProcessingState.DATA) {
-            if (paramType.isConsist()) {
-                eventListener.putToken(XBTEndToken.create());
-            }
-            processingState = XBParamProcessingState.END;
+        if (currentState.processingState == XBParamProcessingState.TYPE || currentState.processingState == XBParamProcessingState.ATTRIBUTES || currentState.processingState == XBParamProcessingState.DATA) {
+            eventListener.putToken(XBTEndToken.create());
+            currentState.processingState = XBParamProcessingState.END;
             if (processingStates.isEmpty()) {
                 XBSerializable nextChild = eventListener.getNextChild();
                 if (nextChild != null) {
-                    processingState = XBParamProcessingState.START;
-                    paramType = XBParamType.CONSIST;
+                    currentState.processingState = XBParamProcessingState.START;
                     process(nextChild);
                 }
             } else {
-                processingState = processingStates.remove(processingStates.size() - 1);
-                paramType = processingStates.isEmpty() ? XBParamType.CONSIST : XBParamType.JOIN;
+                throw new UnsupportedOperationException("Not supported yet.");
+//                currentState.processingState = processingStates.remove(processingStates.size() - 1);
+//                paramType = processingStates.isEmpty() ? XBParamType.CONSIST : XBParamType.JOIN;
             }
         } else {
             throw new XBProcessingException("Unexpected token order", XBProcessingExceptionType.UNEXPECTED_ORDER);
@@ -219,8 +231,9 @@ public class XBPListenerSerialHandler implements XBPOutputSerialHandler, XBPSequ
 
     @Override
     public void putAttribute(byte attributeValue) throws XBProcessingException, IOException {
-        if (sequencingListener != null) {
-            sequencingListener.putAttribute(attributeValue);
+        ProcessingState currentState = getCurrentState();
+        if (subDepth > 0) {
+            currentState.serialSequence.putAttribute(attributeValue);
             return;
         }
 
@@ -229,8 +242,9 @@ public class XBPListenerSerialHandler implements XBPOutputSerialHandler, XBPSequ
 
     @Override
     public void putAttribute(short attributeValue) throws XBProcessingException, IOException {
-        if (sequencingListener != null) {
-            sequencingListener.putAttribute(attributeValue);
+        ProcessingState currentState = getCurrentState();
+        if (subDepth > 0) {
+            currentState.serialSequence.putAttribute(attributeValue);
             return;
         }
 
@@ -239,8 +253,9 @@ public class XBPListenerSerialHandler implements XBPOutputSerialHandler, XBPSequ
 
     @Override
     public void putAttribute(int attributeValue) throws XBProcessingException, IOException {
-        if (sequencingListener != null) {
-            sequencingListener.putAttribute(attributeValue);
+        ProcessingState currentState = getCurrentState();
+        if (subDepth > 0) {
+            currentState.serialSequence.putAttribute(attributeValue);
             return;
         }
 
@@ -249,8 +264,9 @@ public class XBPListenerSerialHandler implements XBPOutputSerialHandler, XBPSequ
 
     @Override
     public void putAttribute(long attributeValue) throws XBProcessingException, IOException {
-        if (sequencingListener != null) {
-            sequencingListener.putAttribute(attributeValue);
+        ProcessingState currentState = getCurrentState();
+        if (subDepth > 0) {
+            currentState.serialSequence.putAttribute(attributeValue);
             return;
         }
 
@@ -259,8 +275,9 @@ public class XBPListenerSerialHandler implements XBPOutputSerialHandler, XBPSequ
 
     @Override
     public void putToken(XBTToken token) throws XBProcessingException, IOException {
-        if (sequencingListener != null) {
-            sequencingListener.putToken(token);
+        ProcessingState currentState = getCurrentState();
+        if (subDepth > 0) {
+            currentState.serialSequence.putToken(token);
             checkSequencingListener();
             return;
         }
@@ -291,8 +308,9 @@ public class XBPListenerSerialHandler implements XBPOutputSerialHandler, XBPSequ
 
     @Override
     public void putConsist(XBSerializable serial) throws XBProcessingException, IOException {
-        if (sequencingListener != null) {
-            sequencingListener.putConsist(serial);
+        ProcessingState currentState = getCurrentState();
+        if (subDepth > 0) {
+            currentState.serialSequence.putConsist(serial);
             return;
         }
 
@@ -301,21 +319,24 @@ public class XBPListenerSerialHandler implements XBPOutputSerialHandler, XBPSequ
 
     @Override
     public void putJoin(XBSerializable serial) throws XBProcessingException, IOException {
-        if (sequencingListener != null) {
-            sequencingListener.putJoin(serial);
+        ProcessingState currentState = getCurrentState();
+        if (subDepth > 0) {
+            currentState.serialSequence.putJoin(serial);
             return;
         }
 
-        processingStates.add(processingState);
-        processingState = XBParamProcessingState.START;
-        paramType = XBParamType.JOIN;
-        process(serial);
+        throw new UnsupportedOperationException("Not supported yet.");
+//        processingStates.add(processingState);
+//        processingState = XBParamProcessingState.START;
+//        paramType = XBParamType.JOIN;
+//        process(serial);
     }
 
     @Override
     public void putListConsist(XBSerializable serial) throws XBProcessingException, IOException {
-        if (sequencingListener != null) {
-            sequencingListener.putListConsist(serial);
+        ProcessingState currentState = getCurrentState();
+        if (subDepth > 0) {
+            currentState.serialSequence.putListConsist(serial);
             return;
         }
 
@@ -331,8 +352,9 @@ public class XBPListenerSerialHandler implements XBPOutputSerialHandler, XBPSequ
 
     @Override
     public void putListJoin(XBSerializable serial) throws XBProcessingException, IOException {
-        if (sequencingListener != null) {
-            sequencingListener.putListJoin(serial);
+        ProcessingState currentState = getCurrentState();
+        if (subDepth > 0) {
+            currentState.serialSequence.putListJoin(serial);
             return;
         }
 
@@ -348,8 +370,9 @@ public class XBPListenerSerialHandler implements XBPOutputSerialHandler, XBPSequ
 
     @Override
     public void putItem(XBSerialSequenceItem item) throws XBProcessingException, IOException {
-        if (sequencingListener != null) {
-            sequencingListener.putItem(item);
+        ProcessingState currentState = getCurrentState();
+        if (subDepth > 0) {
+            currentState.serialSequence.putItem(item);
             checkSequencingListener();
             return;
         }
@@ -383,6 +406,10 @@ public class XBPListenerSerialHandler implements XBPOutputSerialHandler, XBPSequ
             default:
                 throw new IllegalStateException();
         }
+    }
+
+    private ProcessingState getCurrentState() {
+        return processingStates.get(processingStates.size() - 1);
     }
 
     @Override
@@ -548,75 +575,72 @@ public class XBPListenerSerialHandler implements XBPOutputSerialHandler, XBPSequ
     }
 
     private void checkSequencingListener() throws IOException, XBProcessingException {
-        if (sequencingListener.isFinished()) {
-            eventListener.putChild(sequencingListener.getSequenceSerial());
-            sequencingListener = null;
-
-        }
+        throw new UnsupportedOperationException("Not supported yet.");
+//        if (serialSequence.isFinished()) {
+//            eventListener.putChild(serialSequence.getSequenceSerial());
+//            serialSequence = null;
+//        }
     }
 
     @ParametersAreNonnullByDefault
-    private static class XBTChildOutputSerialHandlerImpl implements XBTChildOutputSerialHandler {
+    private class XBTChildOutputSerialHandlerImpl implements XBTChildOutputSerialHandler {
 
-        private final XBPListenerSerialHandler handler;
-
-        public XBTChildOutputSerialHandlerImpl(XBPListenerSerialHandler handler) {
-            this.handler = handler;
+        public XBTChildOutputSerialHandlerImpl() {
         }
 
         @Override
         public void putBegin(XBBlockTerminationMode terminationMode) throws XBProcessingException, IOException {
-            handler.putBegin(terminationMode);
+            XBPListenerSerialHandler.this.putBegin(terminationMode);
         }
 
         @Override
         public void putType(XBBlockType type) throws XBProcessingException, IOException {
-            handler.putType(type);
+            XBPListenerSerialHandler.this.putType(type);
         }
 
         @Override
         public void putAttribute(UBNatural attribute) throws XBProcessingException, IOException {
-            handler.putAttribute(attribute);
+            XBPListenerSerialHandler.this.putAttribute(attribute);
         }
 
         @Override
         public void putAttribute(byte attributeValue) throws XBProcessingException, IOException {
-            handler.putAttribute(attributeValue);
+            XBPListenerSerialHandler.this.putAttribute(attributeValue);
         }
 
         @Override
         public void putAttribute(short attributeValue) throws XBProcessingException, IOException {
-            handler.putAttribute(attributeValue);
+            XBPListenerSerialHandler.this.putAttribute(attributeValue);
         }
 
         @Override
         public void putAttribute(int attributeValue) throws XBProcessingException, IOException {
-            handler.putAttribute(attributeValue);
+            XBPListenerSerialHandler.this.putAttribute(attributeValue);
         }
 
         @Override
         public void putAttribute(long attributeValue) throws XBProcessingException, IOException {
-            handler.putAttribute(attributeValue);
+            XBPListenerSerialHandler.this.putAttribute(attributeValue);
         }
 
         @Override
         public void putChild(XBSerializable child) throws XBProcessingException, IOException {
-            handler.putConsist(child);
+            XBPListenerSerialHandler.this.putConsist(child);
         }
 
         @Override
         public void putAppend(XBSerializable serial) throws XBProcessingException, IOException {
-            handler.process(serial);
+            XBPListenerSerialHandler.this.process(serial);
         }
 
         @Override
         public void putData(InputStream data) throws XBProcessingException, IOException {
-            handler.putData(data);
+            XBPListenerSerialHandler.this.putData(data);
         }
 
         @Override
         public void putEnd() throws XBProcessingException, IOException {
-            handler.putEnd();
+            XBPListenerSerialHandler.this.putEnd();
         }
 
         @Override
@@ -626,12 +650,9 @@ public class XBPListenerSerialHandler implements XBPOutputSerialHandler, XBPSequ
     }
 
     @ParametersAreNonnullByDefault
-    private static class XBTBasicOutputSerialHandlerImpl implements XBTBasicOutputSerialHandler {
+    private class XBTBasicOutputSerialHandlerImpl implements XBTBasicOutputSerialHandler {
 
-        private final XBPListenerSerialHandler handler;
-
-        public XBTBasicOutputSerialHandlerImpl(XBPListenerSerialHandler handler) {
-            this.handler = handler;
+        public XBTBasicOutputSerialHandlerImpl() {
         }
 
         @Override
@@ -639,30 +660,36 @@ public class XBPListenerSerialHandler implements XBPOutputSerialHandler, XBPSequ
             producer.attachXBTListener(new XBTListener() {
 
                 @Override
-                public void beginXBT(@Nonnull XBBlockTerminationMode terminationMode) throws XBProcessingException, IOException {
-                    handler.putBegin(terminationMode);
+                public void beginXBT(XBBlockTerminationMode terminationMode) throws XBProcessingException, IOException {
+                    putBegin(terminationMode);
                 }
 
                 @Override
-                public void typeXBT(@Nonnull XBBlockType blockType) throws XBProcessingException, IOException {
-                    handler.putType(blockType);
+                public void typeXBT(XBBlockType blockType) throws XBProcessingException, IOException {
+                    putType(blockType);
                 }
 
                 @Override
-                public void attribXBT(@Nonnull XBAttribute attribute) throws XBProcessingException, IOException {
-                    handler.putAttribute(attribute);
+                public void attribXBT(XBAttribute attribute) throws XBProcessingException, IOException {
+                    putAttribute(attribute);
                 }
 
                 @Override
-                public void dataXBT(@Nonnull InputStream data) throws XBProcessingException, IOException {
-                    handler.putData(data);
+                public void dataXBT(InputStream data) throws XBProcessingException, IOException {
+                    putData(data);
                 }
 
                 @Override
                 public void endXBT() throws XBProcessingException, IOException {
-                    handler.putEnd();
+                    putEnd();
                 }
             });
         }
+    }
+
+    private static class ProcessingState {
+
+        XBParamProcessingState processingState = XBParamProcessingState.START;
+        XBPSerialSequence serialSequence = null;
     }
 }

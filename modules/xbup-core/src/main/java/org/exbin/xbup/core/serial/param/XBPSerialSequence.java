@@ -19,7 +19,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
-import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 import org.exbin.xbup.core.block.XBBlockTerminationMode;
 import org.exbin.xbup.core.block.XBBlockType;
@@ -41,7 +40,7 @@ import org.exbin.xbup.core.ubnumber.type.UBNat32;
  * Level 2 event listener for performing block building using sequence
  * operations.
  *
- * @version 0.2.1 2020/08/29
+ * @version 0.2.1 2020/08/30
  * @author ExBin Project (http://exbin.org)
  */
 @ParametersAreNonnullByDefault
@@ -53,7 +52,7 @@ public class XBPSerialSequence implements XBPListener {
     public XBPSerialSequence() {
     }
 
-    private void validate() {
+    private void checkStarted() {
         if (depth == 0) {
             throw new XBProcessingException("Unexpected serialization event when sequencing", XBProcessingExceptionType.WRITING_AFTER_END);
         }
@@ -67,49 +66,49 @@ public class XBPSerialSequence implements XBPListener {
 
     @Override
     public void putType(XBBlockType type) throws XBProcessingException, IOException {
-        validate();
+        checkStarted();
         items.add(new XBSerialSequenceItem(XBSerialSequenceOp.TOKEN, new XBPTokenWrapper(XBTTypeToken.create(type))));
     }
 
     @Override
     public void putAttribute(XBAttribute attribute) throws XBProcessingException, IOException {
-        validate();
+        checkStarted();
         items.add(new XBSerialSequenceItem(XBSerialSequenceOp.TOKEN, new XBPTokenWrapper(XBTAttributeToken.create(attribute))));
     }
 
     @Override
     public void putAttribute(byte attributeValue) throws XBProcessingException, IOException {
-        validate();
+        checkStarted();
         putAttribute(new UBNat32(attributeValue));
     }
 
     @Override
     public void putAttribute(short attributeValue) throws XBProcessingException, IOException {
-        validate();
+        checkStarted();
         putAttribute(new UBNat32(attributeValue));
     }
 
     @Override
     public void putAttribute(int attributeValue) throws XBProcessingException, IOException {
-        validate();
+        checkStarted();
         putAttribute(new UBNat32(attributeValue));
     }
 
     @Override
     public void putAttribute(long attributeValue) throws XBProcessingException, IOException {
-        validate();
+        checkStarted();
         putAttribute(new UBNat32(attributeValue));
     }
 
     @Override
     public void putData(InputStream data) throws XBProcessingException, IOException {
-        validate();
+        checkStarted();
         items.add(new XBSerialSequenceItem(XBSerialSequenceOp.TOKEN, new XBPTokenWrapper(XBTDataToken.create(data))));
     }
 
     @Override
     public void putEnd() throws XBProcessingException, IOException {
-        validate();
+        checkStarted();
         items.add(new XBSerialSequenceItem(XBSerialSequenceOp.TOKEN, new XBPTokenWrapper(XBTEndToken.create())));
         depth--;
     }
@@ -121,25 +120,25 @@ public class XBPSerialSequence implements XBPListener {
 
     @Override
     public void putConsist(XBSerializable serial) throws XBProcessingException, IOException {
-        validate();
+        checkStarted();
         items.add(new XBSerialSequenceItem(XBSerialSequenceOp.CONSIST, serial));
     }
 
     @Override
     public void putJoin(XBSerializable serial) throws XBProcessingException, IOException {
-        validate();
+        checkStarted();
         items.add(new XBSerialSequenceItem(XBSerialSequenceOp.JOIN, serial));
     }
 
     @Override
     public void putListConsist(XBSerializable serial) throws XBProcessingException, IOException {
-        validate();
+        checkStarted();
         items.add(new XBSerialSequenceItem(XBSerialSequenceOp.LIST_CONSIST, serial));
     }
 
     @Override
     public void putListJoin(XBSerializable serial) throws XBProcessingException, IOException {
-        validate();
+        checkStarted();
         items.add(new XBSerialSequenceItem(XBSerialSequenceOp.LIST_JOIN, serial));
     }
 
@@ -152,18 +151,18 @@ public class XBPSerialSequence implements XBPListener {
                     break;
                 }
                 case END: {
-                    validate();
+                    checkStarted();
                     depth--;
                     break;
                 }
                 default: {
-                    validate();
+                    checkStarted();
                 }
             }
 
             items.add(item);
         } else {
-            validate();
+            checkStarted();
             items.add(item);
         }
     }
@@ -173,40 +172,17 @@ public class XBPSerialSequence implements XBPListener {
         throw new IllegalStateException("Append is not allowed on sequencing");
     }
 
-    @Nonnull
-    public List<XBSerialSequenceItem> getItems() {
-        return items;
-    }
-
-    @Nonnull
-    public XBSerializable getSequenceSerial() {
-        if (depth != 0) {
-            throw new IllegalStateException("Append is not allowed on sequencing");
+    public void passSequence(XBPOutputSerialHandler serializationHandler) throws XBProcessingException, IOException {
+        for (XBSerialSequenceItem serialItem : items) {
+            serializationHandler.putItem(serialItem);
         }
-
-        return new XBPSerialSequenceWrapper();
     }
 
     public int getDepth() {
         return depth;
     }
 
-    @ParametersAreNonnullByDefault
-    private class XBPSerialSequenceWrapper implements XBPSerializable {
-
-        public XBPSerialSequenceWrapper() {
-        }
-
-        @Override
-        public void serializeFromXB(XBPInputSerialHandler serializationHandler) throws XBProcessingException, IOException {
-            throw new IllegalStateException();
-        }
-
-        @Override
-        public void serializeToXB(XBPOutputSerialHandler serializationHandler) throws XBProcessingException, IOException {
-            for (XBSerialSequenceItem serialItem : items) {
-                serializationHandler.putItem(serialItem);
-            }
-        }
+    public boolean isClosed() {
+        return depth == 0;
     }
 }

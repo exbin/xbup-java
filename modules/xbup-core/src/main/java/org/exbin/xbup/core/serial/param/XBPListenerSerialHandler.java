@@ -72,7 +72,7 @@ public class XBPListenerSerialHandler implements XBPOutputSerialHandler, XBPSequ
 
     private XBParamProcessingState processingState = XBParamProcessingState.START;
     private final List<ProcessingState> processingStates = new ArrayList<>();
-    private int joinDepth = 0;
+    private final List<JoinState> joinStates = new ArrayList<>();
     private int subDepth = 0;
 
     private static final String PULL_NOT_ALLOWED_EXCEPTION = "Pulling data not allowed in pushing mode";
@@ -142,10 +142,18 @@ public class XBPListenerSerialHandler implements XBPOutputSerialHandler, XBPSequ
     public void putBegin(XBBlockTerminationMode terminationMode) throws XBProcessingException, IOException {
         ProcessingState currentState = getCurrentState();
         if (currentState.isCollecting()) {
+            if (subDepth == 0 && !joinStates.isEmpty()) {
+                JoinState joinState = joinStates.get(joinStates.size() - 1);
+                if (joinState == JoinState.START) {
+                    joinStates.set(joinStates.size() - 1, JoinState.BEGIN_SKIPPED);
+                    return;
+                }
+            }
+
             subDepth++;
             currentState.serialSequence.putBegin(terminationMode);
             return;
-        } else if (currentState.mode == Mode.PASSING) {
+        } else if (currentState.isPassing()) {
             eventListener.putXBTToken(XBTBeginToken.create(terminationMode));
             return;
         }
@@ -179,10 +187,20 @@ public class XBPListenerSerialHandler implements XBPOutputSerialHandler, XBPSequ
     @Override
     public void putType(XBBlockType type) throws XBProcessingException, IOException {
         ProcessingState currentState = getCurrentState();
-        if (currentState.isCollecting() && (joinDepth > 0 || subDepth > 0)) {
-            currentState.serialSequence.putType(type);
-            return;
-        } else if (currentState.mode == Mode.PASSING) {
+        if (currentState.isCollecting()) {
+            if (subDepth > 0) {
+                currentState.serialSequence.putType(type);
+                return;
+            }
+
+            if (!joinStates.isEmpty()) {
+                JoinState joinState = joinStates.get(joinStates.size() - 1);
+                if (joinState == JoinState.BEGIN_SKIPPED) {
+                    joinStates.set(joinStates.size() - 1, JoinState.TYPE_SKIPPED);
+                    return;
+                }
+            }
+        } else if (currentState.isPassing()) {
             eventListener.putXBTToken(XBTTypeToken.create(type));
             return;
         }
@@ -201,7 +219,7 @@ public class XBPListenerSerialHandler implements XBPOutputSerialHandler, XBPSequ
         if (currentState.isCollecting() && subDepth > 0) {
             currentState.serialSequence.putAttribute(attribute);
             return;
-        } else if (currentState.mode == Mode.PASSING) {
+        } else if (currentState.isPassing()) {
             eventListener.putXBTToken(XBTAttributeToken.create(attribute));
             return;
         }
@@ -220,7 +238,7 @@ public class XBPListenerSerialHandler implements XBPOutputSerialHandler, XBPSequ
         if (currentState.isCollecting() && subDepth > 0) {
             currentState.serialSequence.putData(data);
             return;
-        } else if (currentState.mode == Mode.PASSING) {
+        } else if (currentState.isPassing()) {
             eventListener.putXBTToken(XBTDataToken.create(data));
             return;
         }
@@ -241,9 +259,14 @@ public class XBPListenerSerialHandler implements XBPOutputSerialHandler, XBPSequ
                 currentState.serialSequence.putEnd();
                 subDepth--;
                 return;
-            } else if (joinDepth > 0) {
-                joinDepth--;
-                return;
+            }
+
+            if (!joinStates.isEmpty()) {
+                JoinState joinState = joinStates.get(joinStates.size() - 1);
+                if (joinState == JoinState.TYPE_SKIPPED) {
+                    joinStates.remove(joinStates.size() - 1);
+                    return;
+                }
             }
 
             if (currentState.containsJoin) {
@@ -253,7 +276,7 @@ public class XBPListenerSerialHandler implements XBPOutputSerialHandler, XBPSequ
                 currentState.serialSequence.passSequence(this);
                 currentState.serialSequence = null;
             }
-        } else if (currentState.mode == Mode.PASSING) {
+        } else if (currentState.isPassing()) {
             eventListener.putXBTToken(XBTEndToken.create());
             return;
         }
@@ -261,16 +284,6 @@ public class XBPListenerSerialHandler implements XBPOutputSerialHandler, XBPSequ
         if (processingState != XBParamProcessingState.BEGIN && processingState != XBParamProcessingState.START) {
             eventListener.putXBTToken(XBTEndToken.create());
             processingState = XBParamProcessingState.END;
-//            if (processingStates.isEmpty()) {
-//                XBSerializable nextChild = eventListener.getNextChild();
-//                if (nextChild != null) {
-//                    processingState = XBParamProcessingState.START;
-//                    process(nextChild);
-//                }
-//            } else {
-//                currentState.processingState = processingStates.remove(processingStates.size() - 1);
-//                paramType = processingStates.isEmpty() ? XBParamType.CONSIST : XBParamType.JOIN;
-//            }
         } else {
             throw new XBProcessingException("Unexpected token order", XBProcessingExceptionType.UNEXPECTED_ORDER);
         }
@@ -325,7 +338,6 @@ public class XBPListenerSerialHandler implements XBPOutputSerialHandler, XBPSequ
         ProcessingState currentState = getCurrentState();
         if (currentState.isCollecting() && subDepth > 0) {
             currentState.serialSequence.putToken(token);
-            checkSequencingListener();
             return;
         }
 
@@ -359,58 +371,92 @@ public class XBPListenerSerialHandler implements XBPOutputSerialHandler, XBPSequ
         if (currentState.isCollecting()) {
             currentState.serialSequence.putConsist(serial);
             return;
-        } else if (currentState.mode == Mode.PASSING) {
+        } else if (currentState.isPassing()) {
             process(serial);
             return;
         }
 
         currentState.mode = Mode.COLLECTING;
-        processingState = XBParamProcessingState.CHILDREN;
         currentState.serialSequence.putConsist(serial);
     }
 
     @Override
     public void putJoin(XBSerializable serial) throws XBProcessingException, IOException {
-        throw new UnsupportedOperationException("Not supported yet.");
-//        ProcessingState currentState = getCurrentState();
-//        if (currentState.isCollecting()) {
-//            if (subDepth > 0) {
-//                currentState.serialSequence.putJoin(serial);
-//                return;
-//            } else {
-//                currentState.containsJoin = true;
-//                
-//            }
-//        }
-//
-//        processingStates.add(processingState);
-//        processingState = XBParamProcessingState.START;
-//        paramType = XBParamType.JOIN;
-//        process(serial);
+        ProcessingState currentState = getCurrentState();
+        if (currentState.isCollecting()) {
+            if (subDepth > 0) {
+                currentState.containsJoin = true;
+                currentState.serialSequence.putJoin(serial);
+            } else {
+                joinStates.add(JoinState.START);
+                process(serial);
+            }
+            return;
+        } else if (currentState.isPassing()) {
+            process(serial);
+            return;
+        }
+
+        currentState.mode = Mode.COLLECTING;
+        if (subDepth > 0) {
+            currentState.containsJoin = true;
+            currentState.serialSequence.putJoin(serial);
+        } else {
+            joinStates.add(JoinState.START);
+            process(serial);
+        }
     }
 
     @Override
     public void putListConsist(XBSerializable serial) throws XBProcessingException, IOException {
         ProcessingState currentState = getCurrentState();
         if (currentState.isCollecting()) {
-            currentState.serialSequence.putListConsist(serial);
+            if (subDepth > 0) {
+                currentState.serialSequence.putListConsist(serial);
+                return;
+            } else {
+                XBListConsistSerializable list = (XBListConsistSerializable) serial;
+                UBENatural count = list.getSize();
+                putAttribute(count.convertToNatural());
+
+                list.reset();
+                int listSize = count.getInt();
+                for (int i = 0; i < listSize; i++) {
+                    currentState.serialSequence.putConsist(list.next());
+                }
+                return;
+            }
+        } else if (currentState.isPassing()) {
+            XBListConsistSerializable list = (XBListConsistSerializable) serial;
+            UBENatural count = list.getSize();
+            eventListener.putXBTToken(XBTAttributeToken.create(count.convertToNatural()));
+
+            currentState.mode = Mode.COLLECTING;
+            list.reset();
+            int listSize = count.getInt();
+            for (int i = 0; i < listSize; i++) {
+                process(list.next());
+            }
+
             return;
         }
 
         XBListConsistSerializable list = (XBListConsistSerializable) serial;
         UBENatural count = list.getSize();
         putAttribute(count.convertToNatural());
+
+        currentState.mode = Mode.COLLECTING;
         list.reset();
         int listSize = count.getInt();
         for (int i = 0; i < listSize; i++) {
-            putConsist(list.next());
+            currentState.serialSequence.putConsist(list.next());
         }
     }
 
     @Override
     public void putListJoin(XBSerializable serial) throws XBProcessingException, IOException {
         ProcessingState currentState = getCurrentState();
-        if (currentState.isCollecting()) {
+        if (currentState.isCollecting() && subDepth > 0) {
             currentState.serialSequence.putListJoin(serial);
             return;
         }
@@ -418,6 +464,7 @@ public class XBPListenerSerialHandler implements XBPOutputSerialHandler, XBPSequ
         XBListJoinSerializable list = (XBListJoinSerializable) serial;
         UBNatural count = list.getSize();
         putAttribute(count);
+
         list.reset();
         int listSize = count.getInt();
         for (int i = 0; i < listSize; i++) {
@@ -430,7 +477,6 @@ public class XBPListenerSerialHandler implements XBPOutputSerialHandler, XBPSequ
         ProcessingState currentState = getCurrentState();
         if (currentState.isCollecting() && subDepth > 0) {
             currentState.serialSequence.putItem(item);
-            checkSequencingListener();
             return;
         }
 
@@ -465,6 +511,7 @@ public class XBPListenerSerialHandler implements XBPOutputSerialHandler, XBPSequ
         }
     }
 
+    @Nonnull
     private ProcessingState getCurrentState() {
         return processingStates.get(processingStates.size() - 1);
     }
@@ -631,14 +678,6 @@ public class XBPListenerSerialHandler implements XBPOutputSerialHandler, XBPSequ
         throw new XBProcessingException(PULL_NOT_ALLOWED_EXCEPTION, XBProcessingExceptionType.ILLEGAL_OPERATION);
     }
 
-    private void checkSequencingListener() throws IOException, XBProcessingException {
-        throw new UnsupportedOperationException("Not supported yet.");
-//        if (serialSequence.isFinished()) {
-//            eventListener.putChild(serialSequence.getSequenceSerial());
-//            serialSequence = null;
-//        }
-    }
-
     @ParametersAreNonnullByDefault
     private class XBTChildOutputSerialHandlerImpl implements XBTChildOutputSerialHandler {
 
@@ -753,6 +792,14 @@ public class XBPListenerSerialHandler implements XBPOutputSerialHandler, XBPSequ
         private boolean isCollecting() {
             return mode == Mode.COLLECTING;
         }
+
+        private boolean isPassing() {
+            return mode == Mode.PASSING;
+        }
+    }
+
+    private enum JoinState {
+        START, BEGIN_SKIPPED, TYPE_SKIPPED
     }
 
     private enum Mode {

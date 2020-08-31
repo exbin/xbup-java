@@ -64,6 +64,7 @@ import org.exbin.xbup.core.parser.token.XBTTypeToken;
 import org.exbin.xbup.core.parser.token.event.XBEventWriter;
 import org.exbin.xbup.core.parser.token.event.XBTEventFilter;
 import org.exbin.xbup.core.parser.token.event.XBTEventListener;
+import org.exbin.xbup.core.parser.token.event.convert.XBPrintEventFilter;
 import org.exbin.xbup.core.parser.token.event.convert.XBTPrintEventFilter;
 import org.exbin.xbup.core.parser.token.event.convert.XBTToXBEventConvertor;
 import org.exbin.xbup.core.serial.XBSerializable;
@@ -96,7 +97,7 @@ public class XBCatalogXb {
 
     public void exportToXb(OutputStream stream) {
         try {
-            XBPListenerSerialHandler serialInput = new XBPListenerSerialHandler(new TypeDroppingFilter(new XBTToXBEventConvertor(new XBEventWriter(stream, XBParserMode.SINGLE_BLOCK))));
+            XBPListenerSerialHandler serialInput = new XBPListenerSerialHandler(new TypeDroppingFilter(new XBTToXBEventConvertor(new XBPrintEventFilter(new XBEventWriter(stream, XBParserMode.SINGLE_BLOCK)))));
 
             exportAllNodes(serialInput);
         } catch (XBProcessingException | IOException ex) {

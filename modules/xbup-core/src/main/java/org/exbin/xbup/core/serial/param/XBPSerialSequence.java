@@ -120,25 +120,21 @@ public class XBPSerialSequence implements XBPListener {
 
     @Override
     public void putConsist(XBSerializable serial) throws XBProcessingException, IOException {
-        checkStarted();
         items.add(new XBSerialSequenceItem(XBSerialSequenceOp.CONSIST, serial));
     }
 
     @Override
     public void putJoin(XBSerializable serial) throws XBProcessingException, IOException {
-        checkStarted();
         items.add(new XBSerialSequenceItem(XBSerialSequenceOp.JOIN, serial));
     }
 
     @Override
     public void putListConsist(XBSerializable serial) throws XBProcessingException, IOException {
-        checkStarted();
         items.add(new XBSerialSequenceItem(XBSerialSequenceOp.LIST_CONSIST, serial));
     }
 
     @Override
     public void putListJoin(XBSerializable serial) throws XBProcessingException, IOException {
-        checkStarted();
         items.add(new XBSerialSequenceItem(XBSerialSequenceOp.LIST_JOIN, serial));
     }
 

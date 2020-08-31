@@ -64,6 +64,7 @@ import org.exbin.xbup.core.parser.token.XBTTypeToken;
 import org.exbin.xbup.core.parser.token.event.XBEventWriter;
 import org.exbin.xbup.core.parser.token.event.XBTEventFilter;
 import org.exbin.xbup.core.parser.token.event.XBTEventListener;
+import org.exbin.xbup.core.parser.token.event.convert.XBTPrintEventFilter;
 import org.exbin.xbup.core.parser.token.event.convert.XBTToXBEventConvertor;
 import org.exbin.xbup.core.serial.XBSerializable;
 import org.exbin.xbup.core.serial.param.XBPListenerSerialHandler;

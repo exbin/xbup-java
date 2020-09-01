@@ -40,7 +40,7 @@ import org.exbin.xbup.core.ubnumber.type.UBNat32;
  * @author ExBin Project (http://exbin.org)
  */
 @ParametersAreNonnullByDefault
-public class XBPNodeStub extends XBPBaseStub<XBCNode> {
+public class XBPNodeStub extends XBPBaseStub<XBRNode> {
 
     public static long[] ROOT_NODE_PROCEDURE = {0, 2, 4, 0, 0};
     public static long[] SUBNODE_NODE_PROCEDURE = {0, 2, 4, 1, 0};

@@ -28,7 +28,6 @@ import org.exbin.xbup.catalog.entity.XBEItem;
 import org.exbin.xbup.catalog.entity.XBEXDesc;
 import org.exbin.xbup.catalog.entity.XBEXName;
 import org.exbin.xbup.catalog.entity.XBEXStri;
-import org.exbin.xbup.core.catalog.base.XBCItem;
 import org.exbin.xbup.core.catalog.base.manager.XBCItemManager;
 import org.exbin.xbup.core.catalog.base.manager.XBCXLangManager;
 import org.springframework.stereotype.Repository;
@@ -41,7 +40,7 @@ import org.springframework.stereotype.Repository;
  */
 @ParametersAreNonnullByDefault
 @Repository
-public class XBEItemManager extends XBEDefaultCatalogManager<XBCItem> implements XBCItemManager, Serializable {
+public class XBEItemManager extends XBEDefaultCatalogManager<XBEItem> implements XBCItemManager<XBEItem>, Serializable {
 
     public XBEItemManager() {
         super();
@@ -89,6 +88,7 @@ public class XBEItemManager extends XBEDefaultCatalogManager<XBCItem> implements
         return results;
     }
 
+    @Override
     public int findAllPagedCount(@Nullable String filterCondition, @Nullable String specType) {
         XBCXLangManager langManager = catalog.getCatalogManager(XBCXLangManager.class);
         long languageId = langManager.getDefaultLang().getId();

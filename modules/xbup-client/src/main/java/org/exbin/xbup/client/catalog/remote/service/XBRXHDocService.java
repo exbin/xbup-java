@@ -22,7 +22,6 @@ import org.exbin.xbup.client.catalog.remote.manager.XBRXHDocManager;
 import org.exbin.xbup.core.catalog.base.XBCExtension;
 import org.exbin.xbup.core.catalog.base.XBCItem;
 import org.exbin.xbup.core.catalog.base.XBCXFile;
-import org.exbin.xbup.core.catalog.base.XBCXHDoc;
 import org.exbin.xbup.core.catalog.base.manager.XBCXHDocManager;
 import org.exbin.xbup.core.catalog.base.service.XBCXFileService;
 import org.exbin.xbup.core.catalog.base.service.XBCXHDocService;
@@ -34,7 +33,7 @@ import org.exbin.xbup.core.catalog.base.service.XBCXHDocService;
  * @author ExBin Project (http://exbin.org)
  */
 @ParametersAreNonnullByDefault
-public class XBRXHDocService extends XBRDefaultService<XBCXHDoc> implements XBCXHDocService {
+public class XBRXHDocService extends XBRDefaultService<XBRXHDoc> implements XBCXHDocService<XBRXHDoc> {
 
     public XBRXHDocService(XBRCatalog catalog) {
         super(catalog);

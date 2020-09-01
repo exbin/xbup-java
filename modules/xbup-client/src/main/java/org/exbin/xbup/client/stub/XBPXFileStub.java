@@ -44,7 +44,7 @@ import org.exbin.xbup.core.util.StreamUtils;
  * @author ExBin Project (http://exbin.org)
  */
 @ParametersAreNonnullByDefault
-public class XBPXFileStub extends XBPBaseStub<XBCXFile> {
+public class XBPXFileStub extends XBPBaseStub<XBRXFile> {
 
     public static long[] OWNER_FILE_PROCEDURE = {0, 2, 12, 0, 0};
     public static long[] FILENAME_FILE_PROCEDURE = {0, 2, 12, 1, 0};

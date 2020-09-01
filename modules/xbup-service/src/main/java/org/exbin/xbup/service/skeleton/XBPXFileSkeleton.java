@@ -20,8 +20,6 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 import org.exbin.xbup.catalog.XBAECatalog;
-import org.exbin.xbup.catalog.entity.service.XBENodeService;
-import org.exbin.xbup.catalog.entity.service.XBEXFileService;
 import org.exbin.xbup.client.stub.XBPXFileStub;
 import org.exbin.xbup.core.block.XBBlockType;
 import org.exbin.xbup.core.block.XBTEmptyBlock;
@@ -65,7 +63,7 @@ public class XBPXFileSkeleton {
                 XBAttribute index = provider.pullAttribute();
                 provider.end();
 
-                XBEXFileService fileService = (XBEXFileService) catalog.getCatalogService(XBCXFileService.class);
+                XBCXFileService<XBCXFile> fileService = catalog.getCatalogService(XBCXFileService.class);
                 Optional<XBCXFile> file = fileService.getItem(index.getNaturalLong());
 
                 XBPListenerSerialHandler listener = new XBPListenerSerialHandler(resultInput);
@@ -82,7 +80,7 @@ public class XBPXFileSkeleton {
                 XBAttribute index = provider.pullAttribute();
                 provider.end();
 
-                XBEXFileService fileService = (XBEXFileService) catalog.getCatalogService(XBCXFileService.class);
+                XBCXFileService<XBCXFile> fileService = catalog.getCatalogService(XBCXFileService.class);
                 Optional<XBCXFile> file = fileService.getItem(index.getNaturalLong());
 
                 XBPListenerSerialHandler listener = new XBPListenerSerialHandler(resultInput);
@@ -99,7 +97,7 @@ public class XBPXFileSkeleton {
                 XBAttribute index = provider.pullAttribute();
                 provider.end();
 
-                XBEXFileService fileService = (XBEXFileService) catalog.getCatalogService(XBCXFileService.class);
+                XBCXFileService<XBCXFile> fileService = catalog.getCatalogService(XBCXFileService.class);
                 Optional<XBCXFile> file = fileService.getItem(index.getNaturalLong());
 
                 XBPListenerSerialHandler listener = new XBPListenerSerialHandler(resultInput);
@@ -118,8 +116,8 @@ public class XBPXFileSkeleton {
                 long nodeId = provider.pullLongAttribute();
                 provider.end();
 
-                XBEXFileService fileService = (XBEXFileService) catalog.getCatalogService(XBCXFileService.class);
-                XBENodeService nodeService = (XBENodeService) catalog.getCatalogService(XBCNodeService.class);
+                XBCXFileService<XBCXFile> fileService = catalog.getCatalogService(XBCXFileService.class);
+                XBCNodeService<XBCNode> nodeService = catalog.getCatalogService(XBCNodeService.class);
                 Optional<XBCNode> node = nodeService.getItem(nodeId);
                 List<XBCXFile> files = fileService.findFilesForNode(node.get());
 

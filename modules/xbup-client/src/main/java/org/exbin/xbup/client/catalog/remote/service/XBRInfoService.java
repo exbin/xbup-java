@@ -20,7 +20,6 @@ import org.exbin.xbup.client.catalog.XBRCatalog;
 import org.exbin.xbup.client.catalog.remote.XBRXItemInfo;
 import org.exbin.xbup.client.catalog.remote.manager.XBRInfoManager;
 import org.exbin.xbup.core.catalog.base.XBCNode;
-import org.exbin.xbup.core.catalog.base.XBCXItemInfo;
 import org.exbin.xbup.core.catalog.base.manager.XBCXInfoManager;
 import org.exbin.xbup.core.catalog.base.service.XBCXInfoService;
 
@@ -31,7 +30,7 @@ import org.exbin.xbup.core.catalog.base.service.XBCXInfoService;
  * @author ExBin Project (http://exbin.org)
  */
 @ParametersAreNonnullByDefault
-public class XBRInfoService extends XBRDefaultService<XBCXItemInfo> implements XBCXInfoService {
+public class XBRInfoService extends XBRDefaultService<XBRXItemInfo> implements XBCXInfoService<XBRXItemInfo> {
 
     public XBRInfoService(XBRCatalog catalog) {
         super(catalog);

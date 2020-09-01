@@ -34,7 +34,7 @@ import org.exbin.xbup.core.catalog.base.service.XBCXFileService;
  * @author ExBin Project (http://exbin.org)
  */
 @ParametersAreNonnullByDefault
-public class XBRXFileService extends XBRDefaultService<XBCXFile> implements XBCXFileService {
+public class XBRXFileService extends XBRDefaultService<XBRXFile> implements XBCXFileService<XBRXFile> {
 
     public XBRXFileService(XBRCatalog catalog) {
         super(catalog);

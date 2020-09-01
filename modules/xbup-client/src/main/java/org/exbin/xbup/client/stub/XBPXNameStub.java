@@ -41,7 +41,7 @@ import org.exbin.xbup.core.serial.param.XBPProviderSerialHandler;
  * @author ExBin Project (http://exbin.org)
  */
 @ParametersAreNonnullByDefault
-public class XBPXNameStub extends XBPBaseStub<XBCXName> {
+public class XBPXNameStub extends XBPBaseStub<XBRXName> {
 
     public static long[] ITEM_NAME_PROCEDURE = {0, 2, 9, 0, 0};
     public static long[] TEXT_NAME_PROCEDURE = {0, 2, 9, 1, 0};

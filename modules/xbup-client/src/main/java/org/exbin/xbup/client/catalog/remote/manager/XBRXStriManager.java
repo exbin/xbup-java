@@ -31,7 +31,7 @@ import org.exbin.xbup.core.catalog.base.manager.XBCXStriManager;
  * @author ExBin Project (http://exbin.org)
  */
 @ParametersAreNonnullByDefault
-public class XBRXStriManager extends XBRDefaultManager<XBCXStri> implements XBCXStriManager {
+public class XBRXStriManager extends XBRDefaultManager<XBRXStri> implements XBCXStriManager<XBRXStri> {
 
     private final XBPXStriStub striStub;
 
@@ -67,7 +67,7 @@ public class XBRXStriManager extends XBRDefaultManager<XBCXStri> implements XBCX
     @Override
     public String getFullPath(XBCXStri itemString) {
         if ("/".equals(itemString.getNodePath())) {
-            XBCNodeManager nodeManager = catalog.getCatalogManager(XBCNodeManager.class);
+            XBRNodeManager nodeManager = (XBRNodeManager) catalog.getCatalogManager(XBCNodeManager.class);
             if (itemString.getItem().getId() == nodeManager.getMainRootNode().get().getId()) {
                 return "";
             }

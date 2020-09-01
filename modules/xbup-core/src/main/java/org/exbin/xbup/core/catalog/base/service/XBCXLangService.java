@@ -24,9 +24,10 @@ import org.exbin.xbup.core.catalog.base.XBCXLanguage;
  *
  * @version 0.2.1 2020/08/26
  * @author ExBin Project (http://exbin.org)
+ * @param <T> entity
  */
 @ParametersAreNonnullByDefault
-public interface XBCXLangService extends XBCService<XBCXLanguage>, XBCExtension {
+public interface XBCXLangService<T extends XBCXLanguage> extends XBCService<T>, XBCExtension {
 
     /**
      * Gets default language.

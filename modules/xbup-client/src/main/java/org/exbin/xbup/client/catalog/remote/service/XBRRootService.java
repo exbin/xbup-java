@@ -20,6 +20,7 @@ import java.util.Optional;
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 import org.exbin.xbup.client.catalog.XBRCatalog;
+import org.exbin.xbup.client.catalog.remote.XBRRoot;
 import org.exbin.xbup.client.catalog.remote.manager.XBRRootManager;
 import org.exbin.xbup.core.catalog.base.XBCRoot;
 import org.exbin.xbup.core.catalog.base.manager.XBCRootManager;
@@ -32,7 +33,7 @@ import org.exbin.xbup.core.catalog.base.service.XBCRootService;
  * @author ExBin Project (http://exbin.org)
  */
 @ParametersAreNonnullByDefault
-public class XBRRootService extends XBRDefaultService<XBCRoot> implements XBCRootService {
+public class XBRRootService extends XBRDefaultService<XBRRoot> implements XBCRootService<XBRRoot> {
 
     public XBRRootService(XBRCatalog catalog) {
         super(catalog);

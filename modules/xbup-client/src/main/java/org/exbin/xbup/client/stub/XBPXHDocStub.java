@@ -22,7 +22,6 @@ import org.exbin.xbup.client.catalog.remote.XBRXFile;
 import org.exbin.xbup.client.catalog.remote.XBRXHDoc;
 import org.exbin.xbup.core.block.declaration.XBDeclBlockType;
 import org.exbin.xbup.core.catalog.base.XBCXFile;
-import org.exbin.xbup.core.catalog.base.XBCXHDoc;
 
 /**
  * RPC stub class for XBRXHDoc catalog items.
@@ -31,7 +30,7 @@ import org.exbin.xbup.core.catalog.base.XBCXHDoc;
  * @author ExBin Project (http://exbin.org)
  */
 @ParametersAreNonnullByDefault
-public class XBPXHDocStub extends XBPBaseStub<XBCXHDoc> {
+public class XBPXHDocStub extends XBPBaseStub<XBRXHDoc> {
 
     public static long[] OWNER_HDOC_PROCEDURE = {0, 2, 17, 0, 0};
     public static long[] ITEM_HDOC_PROCEDURE = {0, 2, 17, 1, 0};

@@ -19,8 +19,8 @@ import java.io.Serializable;
 import javax.annotation.ParametersAreNonnullByDefault;
 import javax.annotation.PostConstruct;
 import org.exbin.xbup.catalog.XBECatalog;
+import org.exbin.xbup.catalog.entity.XBEItemLimi;
 import org.exbin.xbup.catalog.entity.manager.XBELimiManager;
-import org.exbin.xbup.core.catalog.base.XBCItemLimi;
 import org.exbin.xbup.core.catalog.base.manager.XBCLimiManager;
 import org.exbin.xbup.core.catalog.base.service.XBCLimiService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +34,7 @@ import org.springframework.stereotype.Service;
  */
 @ParametersAreNonnullByDefault
 @Service
-public class XBELimiService extends XBEDefaultService<XBCItemLimi> implements XBCLimiService, Serializable {
+public class XBELimiService extends XBEDefaultService<XBEItemLimi> implements XBCLimiService<XBEItemLimi>, Serializable {
 
     @Autowired
     private XBELimiManager manager;

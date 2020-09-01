@@ -23,7 +23,6 @@ import javax.persistence.NoResultException;
 import org.exbin.xbup.catalog.XBECatalog;
 import org.exbin.xbup.catalog.entity.XBEXItemInfo;
 import org.exbin.xbup.core.catalog.base.XBCNode;
-import org.exbin.xbup.core.catalog.base.XBCXItemInfo;
 import org.exbin.xbup.core.catalog.base.manager.XBCXInfoManager;
 import org.springframework.stereotype.Repository;
 
@@ -35,7 +34,7 @@ import org.springframework.stereotype.Repository;
  */
 @ParametersAreNonnullByDefault
 @Repository
-public class XBEXInfoManager extends XBEDefaultCatalogManager<XBCXItemInfo> implements XBCXInfoManager, Serializable {
+public class XBEXInfoManager extends XBEDefaultCatalogManager<XBEXItemInfo> implements XBCXInfoManager<XBEXItemInfo>, Serializable {
 
     public XBEXInfoManager() {
         super();

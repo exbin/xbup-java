@@ -20,8 +20,6 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.ParametersAreNonnullByDefault;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityTransaction;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
 import org.exbin.xbup.catalog.XBECatalog;
@@ -38,7 +36,7 @@ import org.springframework.stereotype.Repository;
  */
 @ParametersAreNonnullByDefault
 @Repository
-public class XBEXLangManager extends XBEDefaultCatalogManager<XBCXLanguage> implements XBCXLangManager, Serializable {
+public class XBEXLangManager extends XBEDefaultCatalogManager<XBEXLanguage> implements XBCXLangManager<XBEXLanguage>, Serializable {
 
     private XBEXLanguage defaultLanguageCache = null;
 
@@ -83,17 +81,6 @@ public class XBEXLangManager extends XBEDefaultCatalogManager<XBCXLanguage> impl
 
     @Override
     public void initializeExtension() {
-        EntityManager em = catalog.getEntityManager();
-        EntityTransaction tx = em.getTransaction();
-        try {
-            tx.begin();
-            XBEXLanguage lang = new XBEXLanguage();
-            lang.setLangCode("en");
-            em.persist(lang);
-            tx.commit();
-        } catch (Exception ex) {
-            Logger.getLogger(XBEXLangManager.class.getName()).log(Level.SEVERE, null, ex);
-        }
     }
 
     @Override
@@ -114,12 +101,21 @@ public class XBEXLangManager extends XBEDefaultCatalogManager<XBCXLanguage> impl
 
     public XBEXLanguage findById(long id) {
         try {
-            return (XBEXLanguage) catalog.getEntityManager().createQuery("SELECT object(o) FROM XBXLanguage as o WHERE o.id = "+ id).getSingleResult();
+            return (XBEXLanguage) catalog.getEntityManager().createQuery("SELECT object(o) FROM XBXLanguage as o WHERE o.id = " + id).getSingleResult();
         } catch (NoResultException ex) {
             return null;
         } catch (Exception ex) {
             Logger.getLogger(XBEXLangManager.class.getName()).log(Level.SEVERE, null, ex);
             return null;
         }
+    }
+
+    @Override
+    public boolean initCatalog() {
+        XBEXLanguage lang = new XBEXLanguage();
+        lang.setLangCode("en");
+        em.persist(lang);
+
+        return true;
     }
 }

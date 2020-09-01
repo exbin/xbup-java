@@ -15,11 +15,8 @@
  */
 package org.exbin.xbup.catalog;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.annotation.ParametersAreNonnullByDefault;
 import javax.persistence.EntityManager;
-import javax.persistence.EntityTransaction;
 import org.exbin.xbup.catalog.entity.service.XBELimiService;
 import org.exbin.xbup.catalog.entity.service.XBETranService;
 import org.exbin.xbup.core.block.declaration.XBContext;
@@ -30,7 +27,7 @@ import org.exbin.xbup.core.catalog.base.service.XBCTranService;
 /**
  * Basic level 2 catalog class using Java persistence.
  *
- * @version 0.1.25 2015/08/08
+ * @version 0.2.1 2020/09/01
  * @author ExBin Project (http://exbin.org)
  */
 @ParametersAreNonnullByDefault
@@ -55,28 +52,5 @@ public class XBAECatalog extends XBECatalog implements XBACatalog {
     public XBContext getRootContext() {
         return super.getRootContext();
         // TODO: Should be level 2 Context
-    }
-
-    @Override
-    public void initCatalog() {
-        super.initCatalog();
-        EntityTransaction tx = em.getTransaction();
-        try {
-            tx.begin();
-
-            /*            XBEType node = new XBEType();
-             node.setXBIndex(0l);
-             node.setOwner(null);
-             em.persist(node);
-
-             XBEAttrib attrib = new XBEAttrib();
-             attrib.setOwner(node);
-             attrib.setXBIndex(0l);
-             em.persist(attrib);
-             */
-            tx.commit();
-        } catch (Exception ex) {
-            Logger.getLogger(XBAECatalog.class.getName()).log(Level.SEVERE, null, ex);
-        }
     }
 }

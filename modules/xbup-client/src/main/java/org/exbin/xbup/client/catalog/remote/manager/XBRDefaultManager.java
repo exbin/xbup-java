@@ -108,4 +108,9 @@ public abstract class XBRDefaultManager<T extends XBCBase> implements XBCManager
 
         throw new IllegalStateException("Operation not supported");
     }
+
+    @Override
+    public boolean initCatalog() {
+        return true;
+    }
 }

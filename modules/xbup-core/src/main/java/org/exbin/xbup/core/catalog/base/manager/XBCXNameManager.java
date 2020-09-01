@@ -27,9 +27,10 @@ import org.exbin.xbup.core.catalog.base.XBCXName;
  *
  * @version 0.2.1 2020/08/26
  * @author ExBin Project (http://exbin.org)
+ * @param <T> entity
  */
 @ParametersAreNonnullByDefault
-public interface XBCXNameManager extends XBCManager<XBCXName>, XBCExtension {
+public interface XBCXNameManager<T extends XBCXName> extends XBCManager<T>, XBCExtension {
 
     /**
      * Returns name for given item in default language.

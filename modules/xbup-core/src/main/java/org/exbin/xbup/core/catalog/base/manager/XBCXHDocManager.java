@@ -25,9 +25,10 @@ import org.exbin.xbup.core.catalog.base.XBCXHDoc;
  *
  * @version 0.2.1 2020/08/26
  * @author ExBin Project (http://exbin.org)
+ * @param <T> entity
  */
 @ParametersAreNonnullByDefault
-public interface XBCXHDocManager extends XBCManager<XBCXHDoc>, XBCExtension {
+public interface XBCXHDocManager<T extends XBCXHDoc> extends XBCManager<T>, XBCExtension {
 
     /**
      * Gets documentation for item.

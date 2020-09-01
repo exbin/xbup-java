@@ -33,12 +33,12 @@ import org.springframework.stereotype.Repository;
 /**
  * XBUP catalog node manager.
  *
- * @version 0.2.1 2020/08/26
+ * @version 0.2.1 2020/09/01
  * @author ExBin Project (http://exbin.org)
  */
 @ParametersAreNonnullByDefault
 @Repository
-public class XBENodeManager extends XBEDefaultCatalogManager<XBCNode> implements XBCNodeManager, Serializable {
+public class XBENodeManager extends XBEDefaultCatalogManager<XBENode> implements XBCNodeManager<XBENode>, Serializable {
 
     public XBENodeManager() {
         super();

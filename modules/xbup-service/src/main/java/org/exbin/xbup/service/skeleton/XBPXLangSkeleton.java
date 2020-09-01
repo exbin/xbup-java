@@ -26,6 +26,7 @@ import org.exbin.xbup.core.block.XBBlockType;
 import org.exbin.xbup.core.block.XBTEmptyBlock;
 import org.exbin.xbup.core.block.declaration.XBDeclBlockType;
 import org.exbin.xbup.core.catalog.base.XBCXLanguage;
+import org.exbin.xbup.core.catalog.base.service.XBCXLangService;
 import org.exbin.xbup.core.parser.XBProcessingException;
 import org.exbin.xbup.core.parser.token.XBAttribute;
 import org.exbin.xbup.core.remote.XBMultiProcedure;
@@ -62,7 +63,7 @@ public class XBPXLangSkeleton {
                 provider.end();
 
                 XBEXLangService langService = (XBEXLangService) catalog.getCatalogService(XBEXLangService.class);
-                Optional<XBCXLanguage> lang = langService.getItem(index.getNaturalLong());
+                Optional<XBEXLanguage> lang = langService.getItem(index.getNaturalLong());
 
                 XBPListenerSerialHandler listener = new XBPListenerSerialHandler(resultInput);
                 listener.process(lang.isPresent() ? new XBString(lang.get().getLangCode()) : XBTEmptyBlock.getEmptyBlock());
@@ -94,7 +95,7 @@ public class XBPXLangSkeleton {
                 provider.end();
 
                 XBEXLangService langService = (XBEXLangService) catalog.getCatalogService(XBEXLangService.class);
-                List<XBCXLanguage> items = langService.getAllItems();
+                List<XBEXLanguage> items = langService.getAllItems();
 
                 XBPListenerSerialHandler listener = new XBPListenerSerialHandler(resultInput);
                 listener.begin();

@@ -41,7 +41,7 @@ import org.springframework.stereotype.Repository;
  */
 @ParametersAreNonnullByDefault
 @Repository
-public class XBEXIconManager extends XBEDefaultCatalogManager<XBCXIcon> implements XBCXIconManager, Serializable {
+public class XBEXIconManager extends XBEDefaultCatalogManager<XBEXIcon> implements XBCXIconManager<XBEXIcon>, Serializable {
 
     public XBEXIconManager() {
         super();
@@ -75,7 +75,6 @@ public class XBEXIconManager extends XBEDefaultCatalogManager<XBCXIcon> implemen
 
     @Override
     public void initializeExtension() {
-//        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override

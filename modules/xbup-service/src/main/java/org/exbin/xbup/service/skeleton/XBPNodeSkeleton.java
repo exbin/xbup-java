@@ -77,7 +77,7 @@ public class XBPNodeSkeleton {
                 provider.matchType(blockType);
                 provider.end();
 
-                XBCNodeService nodeService = catalog.getCatalogService(XBCNodeService.class);
+                XBCNodeService<XBCNode> nodeService = catalog.getCatalogService(XBCNodeService.class);
 
                 XBPListenerSerialHandler listener = new XBPListenerSerialHandler(resultInput);
                 XBCNode node = nodeService.getMainRootNode().get();

@@ -22,6 +22,7 @@ import org.exbin.xbup.core.catalog.base.XBCItemLimi;
  *
  * @version 0.2.1 2020/08/26
  * @author ExBin Project (http://exbin.org)
+ * @param <T> entity
  */
-public interface XBCLimiService extends XBCService<XBCItemLimi> {
+public interface XBCLimiService<T extends XBCItemLimi> extends XBCService<T> {
 }

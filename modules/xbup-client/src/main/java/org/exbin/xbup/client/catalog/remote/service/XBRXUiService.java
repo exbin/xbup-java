@@ -38,7 +38,7 @@ import org.exbin.xbup.core.catalog.base.service.XBCXUiService;
  * @author ExBin Project (http://exbin.org)
  */
 @ParametersAreNonnullByDefault
-public class XBRXUiService extends XBRDefaultService<XBCXBlockUi> implements XBCXUiService {
+public class XBRXUiService extends XBRDefaultService<XBRXBlockUi> implements XBCXUiService<XBRXBlockUi> {
 
     public XBRXUiService(XBRCatalog catalog) {
         super(catalog);

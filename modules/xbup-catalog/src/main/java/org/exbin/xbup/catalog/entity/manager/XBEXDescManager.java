@@ -20,19 +20,14 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.ParametersAreNonnullByDefault;
-import javax.persistence.EntityTransaction;
 import javax.persistence.NoResultException;
 import org.exbin.xbup.catalog.XBECatalog;
 import org.exbin.xbup.catalog.entity.XBEItem;
 import org.exbin.xbup.catalog.entity.XBEXDesc;
 import org.exbin.xbup.catalog.entity.XBEXLanguage;
 import org.exbin.xbup.core.catalog.base.XBCItem;
-import org.exbin.xbup.core.catalog.base.XBCNode;
-import org.exbin.xbup.core.catalog.base.XBCSpec;
 import org.exbin.xbup.core.catalog.base.XBCXDesc;
 import org.exbin.xbup.core.catalog.base.XBCXLanguage;
-import org.exbin.xbup.core.catalog.base.manager.XBCNodeManager;
-import org.exbin.xbup.core.catalog.base.manager.XBCSpecManager;
 import org.exbin.xbup.core.catalog.base.manager.XBCXDescManager;
 import org.exbin.xbup.core.catalog.base.manager.XBCXLangManager;
 import org.springframework.stereotype.Repository;
@@ -45,7 +40,7 @@ import org.springframework.stereotype.Repository;
  */
 @ParametersAreNonnullByDefault
 @Repository
-public class XBEXDescManager extends XBEDefaultCatalogManager<XBCXDesc> implements XBCXDescManager, Serializable {
+public class XBEXDescManager extends XBEDefaultCatalogManager<XBEXDesc> implements XBCXDescManager<XBEXDesc>, Serializable {
 
     public XBEXDescManager() {
         super();
@@ -99,40 +94,6 @@ public class XBEXDescManager extends XBEDefaultCatalogManager<XBCXDesc> implemen
 
     @Override
     public void initializeExtension() {
-        EntityTransaction tx = em.getTransaction();
-        XBCNodeManager nodeManager = catalog.getCatalogManager(XBCNodeManager.class);
-        XBCSpecManager specManager = catalog.getCatalogManager(XBCSpecManager.class);
-        throw new UnsupportedOperationException("Not supported yet.");
-//        try {
-//            tx.begin();
-//            XBCNode node = nodeManager.getMainRootNode().get();
-//            XBCXLangManager langManager = catalog.getCatalogManager(XBCXLangManager.class);
-//            XBCXLanguage defaultLang = langManager.getDefaultLang();
-//
-//            XBEXDesc desc = new XBEXDesc();
-//            desc.setItem(node);
-//            desc.setLang(defaultLang);
-//            desc.setText("Specification's catalog root node");
-//            em.persist(desc);
-//
-//            XBCSpec spec = specManager.findFormatSpecByXB(node, 0);
-//            desc = new XBEXDesc();
-//            desc.setItem(spec);
-//            desc.setLang(defaultLang);
-//            desc.setText("Default specification's format");
-//            em.persist(desc);
-//
-//            spec = specManager.findGroupSpecByXB(node, 0);
-//            desc = new XBEXDesc();
-//            desc.setItem(spec);
-//            desc.setLang(defaultLang);
-//            desc.setText("Default specification's group");
-//            em.persist(desc);
-//
-//            tx.commit();
-//        } catch (Exception ex) {
-//            Logger.getLogger(XBEXDescManager.class.getName()).log(Level.SEVERE, null, ex);
-//        }
     }
 
     @Override

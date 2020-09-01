@@ -35,8 +35,6 @@ import org.exbin.xbup.catalog.entity.XBEBlockSpec;
 import org.exbin.xbup.catalog.entity.XBEFormatSpec;
 import org.exbin.xbup.catalog.entity.XBEGroupSpec;
 import org.exbin.xbup.catalog.entity.XBENode;
-import org.exbin.xbup.catalog.entity.XBERoot;
-import org.exbin.xbup.catalog.entity.XBEXPlugUiType;
 import org.exbin.xbup.catalog.entity.service.XBEItemService;
 import org.exbin.xbup.catalog.entity.service.XBENodeService;
 import org.exbin.xbup.catalog.entity.service.XBERevService;
@@ -59,13 +57,14 @@ import org.exbin.xbup.core.block.declaration.catalog.XBCFormatDecl;
 import org.exbin.xbup.core.block.declaration.catalog.XBCGroupDecl;
 import org.exbin.xbup.core.block.declaration.local.XBLGroupDecl;
 import org.exbin.xbup.core.catalog.XBCatalog;
-import org.exbin.xbup.core.catalog.XBPlugUiType;
+import org.exbin.xbup.core.catalog.base.XBCBase;
 import org.exbin.xbup.core.catalog.base.XBCBlockRev;
 import org.exbin.xbup.core.catalog.base.XBCExtension;
 import org.exbin.xbup.core.catalog.base.XBCFormatRev;
 import org.exbin.xbup.core.catalog.base.XBCFormatSpec;
 import org.exbin.xbup.core.catalog.base.XBCGroupRev;
 import org.exbin.xbup.core.catalog.base.XBCGroupSpec;
+import org.exbin.xbup.core.catalog.base.XBCNode;
 import org.exbin.xbup.core.catalog.base.XBCRev;
 import org.exbin.xbup.core.catalog.base.XBCSpec;
 import org.exbin.xbup.core.catalog.base.XBCSpecDef;
@@ -84,7 +83,7 @@ import org.exbin.xbup.core.serial.XBPSerialReader;
 /**
  * Basic level 1 catalog class using Java persistence.
  *
- * @version 0.2.1 2020/08/23
+ * @version 0.2.1 2020/09/01
  * @author ExBin Project (http://exbin.org)
  */
 @ParametersAreNonnullByDefault
@@ -119,10 +118,10 @@ public class XBECatalog implements XBCatalog {
         catalogServices = new HashMap<>();
 
         // TODO: Or maybe IoC would be better...
-        catalogServices.put(XBCItemService.class, new XBEItemService(this));
         XBERootService rootService = new XBERootService(this);
-        catalogServices.put(XBCRootService.class, rootService);
+        catalogServices.put(XBCItemService.class, new XBEItemService(this));
         catalogServices.put(XBCNodeService.class, new XBENodeService(this));
+        catalogServices.put(XBCRootService.class, rootService);
         catalogServices.put(XBCSpecService.class, new XBESpecService(this));
         catalogServices.put(XBCXInfoService.class, new XBEXInfoService(this));
         catalogServices.put(XBCRevService.class, new XBERevService(this));
@@ -246,25 +245,25 @@ public class XBECatalog implements XBCatalog {
     public void initCatalog() {
         EntityTransaction tx = em.getTransaction();
         try {
-            tx.begin();
+            List<XBCManager<?>> todoManagers = new ArrayList<>(catalogManagers.values());
+            int consecutive = 0;
+            while (!todoManagers.isEmpty()) {
+                XBCManager<?> manager = todoManagers.remove(0);
 
-            XBENode node = new XBENode();
-            node.setXBIndex(Long.valueOf(0));
-            node.setParent(null);
-            em.persist(node);
+                tx.begin();
+                boolean success = manager.initCatalog();
+                tx.commit();
 
-            XBERoot root = new XBERoot();
-            root.setNode(node);
-            em.persist(root);
-
-            for (int i = 1; i < XBPlugUiType.values().length; i++) {
-                XBEXPlugUiType type = new XBEXPlugUiType();
-                XBPlugUiType uiType = XBPlugUiType.findByDbIndex(i);
-                type.setName(uiType.getName());
-                em.persist(type);
+                if (success) {
+                    consecutive = 0;
+                } else {
+                    consecutive++;
+                    todoManagers.add(manager);
+                    if (consecutive == todoManagers.size()) {
+                        throw new IllegalStateException("Unable to initialize catalog");
+                    }
+                }
             }
-
-            tx.commit();
 
             shallInit = false;
         } catch (Exception ex) {

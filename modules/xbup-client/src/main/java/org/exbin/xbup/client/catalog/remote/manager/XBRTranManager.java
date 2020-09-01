@@ -17,7 +17,7 @@ package org.exbin.xbup.client.catalog.remote.manager;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 import org.exbin.xbup.client.catalog.XBRCatalog;
-import org.exbin.xbup.core.catalog.base.XBCTran;
+import org.exbin.xbup.client.catalog.remote.XBRTran;
 import org.exbin.xbup.core.catalog.base.manager.XBCTranManager;
 
 /**
@@ -27,7 +27,7 @@ import org.exbin.xbup.core.catalog.base.manager.XBCTranManager;
  * @author ExBin Project (http://exbin.org)
  */
 @ParametersAreNonnullByDefault
-public class XBRTranManager extends XBRDefaultManager<XBCTran> implements XBCTranManager {
+public class XBRTranManager extends XBRDefaultManager<XBRTran> implements XBCTranManager<XBRTran> {
 
     public XBRTranManager(XBRCatalog catalog) {
         super(catalog);

@@ -29,9 +29,10 @@ import org.exbin.xbup.core.catalog.base.XBCXIconMode;
  *
  * @version 0.2.1 2020/08/26
  * @author ExBin Project (http://exbin.org)
+ * @param <T> entity
  */
 @ParametersAreNonnullByDefault
-public interface XBCXIconService extends XBCService<XBCXIcon>, XBCExtension {
+public interface XBCXIconService<T extends XBCXIcon> extends XBCService<T>, XBCExtension {
 
     /**
      * Gets icon mode.

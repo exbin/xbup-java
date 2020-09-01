@@ -24,8 +24,8 @@ import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 import javax.persistence.NoResultException;
 import org.exbin.xbup.catalog.XBECatalog;
+import org.exbin.xbup.catalog.entity.XBENode;
 import org.exbin.xbup.catalog.entity.XBERoot;
-import org.exbin.xbup.core.catalog.base.XBCRoot;
 import org.exbin.xbup.core.catalog.base.manager.XBCRootManager;
 import org.springframework.stereotype.Repository;
 
@@ -37,7 +37,7 @@ import org.springframework.stereotype.Repository;
  */
 @ParametersAreNonnullByDefault
 @Repository
-public class XBERootManager extends XBEDefaultCatalogManager<XBCRoot> implements XBCRootManager, Serializable {
+public class XBERootManager extends XBEDefaultCatalogManager<XBERoot> implements XBCRootManager<XBERoot>, Serializable {
 
     public XBERootManager() {
         super();
@@ -96,5 +96,19 @@ public class XBERootManager extends XBEDefaultCatalogManager<XBCRoot> implements
         } catch (Exception ex) {
             throw new IllegalStateException("Missing main root", ex);
         }
+    }
+
+    @Override
+    public boolean initCatalog() {
+        XBENode node = new XBENode();
+        node.setXBIndex(Long.valueOf(0));
+        node.setParent(null);
+        em.persist(node);
+
+        XBERoot root = new XBERoot();
+        root.setNode(node);
+        em.persist(root);
+
+        return true;
     }
 }

@@ -61,7 +61,7 @@ import org.springframework.stereotype.Repository;
  */
 @ParametersAreNonnullByDefault
 @Repository
-public class XBESpecManager extends XBEDefaultCatalogManager<XBCSpec> implements XBCSpecManager, Serializable {
+public class XBESpecManager extends XBEDefaultCatalogManager<XBESpec> implements XBCSpecManager<XBESpec>, Serializable {
 
     public XBESpecManager() {
         super();

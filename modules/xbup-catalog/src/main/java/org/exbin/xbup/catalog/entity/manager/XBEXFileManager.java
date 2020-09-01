@@ -43,7 +43,7 @@ import org.springframework.stereotype.Repository;
  */
 @ParametersAreNonnullByDefault
 @Repository
-public class XBEXFileManager extends XBEDefaultCatalogManager<XBCXFile> implements XBCXFileManager, Serializable {
+public class XBEXFileManager extends XBEDefaultCatalogManager<XBEXFile> implements XBCXFileManager<XBEXFile>, Serializable {
 
     public XBEXFileManager() {
         super();
@@ -91,7 +91,6 @@ public class XBEXFileManager extends XBEDefaultCatalogManager<XBCXFile> implemen
 
     @Override
     public void initializeExtension() {
-//        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override

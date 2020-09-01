@@ -25,9 +25,10 @@ import org.exbin.xbup.core.catalog.base.XBCSpec;
  *
  * @version 0.2.1 2020/08/26
  * @author ExBin Project (http://exbin.org)
+ * @param <T> entity
  */
 @ParametersAreNonnullByDefault
-public interface XBCRevService extends XBCService<XBCRev> {
+public interface XBCRevService<T extends XBCRev> extends XBCService<T> {
 
     /**
      * Gets revision of given XB index.

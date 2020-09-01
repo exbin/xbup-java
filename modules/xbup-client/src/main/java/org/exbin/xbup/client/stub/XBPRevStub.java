@@ -45,7 +45,7 @@ import org.exbin.xbup.core.ubnumber.type.UBNat32;
  * @author ExBin Project (http://exbin.org)
  */
 @ParametersAreNonnullByDefault
-public class XBPRevStub extends XBPBaseStub<XBCRev> {
+public class XBPRevStub extends XBPBaseStub<XBRRev> {
 
     public static long[] FINDREV_SPEC_PROCEDURE = {0, 2, 5, 4, 0};
     public static long[] REVSCOUNT_SPEC_PROCEDURE = {0, 2, 5, 9, 0};

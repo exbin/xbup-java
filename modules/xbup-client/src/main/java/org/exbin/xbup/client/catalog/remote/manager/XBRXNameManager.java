@@ -32,7 +32,7 @@ import org.exbin.xbup.core.catalog.base.manager.XBCXNameManager;
  * @author ExBin Project (http://exbin.org)
  */
 @ParametersAreNonnullByDefault
-public class XBRXNameManager extends XBRDefaultManager<XBCXName> implements XBCXNameManager {
+public class XBRXNameManager extends XBRDefaultManager<XBRXName> implements XBCXNameManager<XBRXName> {
 
     private final XBPXNameStub nameStub;
 

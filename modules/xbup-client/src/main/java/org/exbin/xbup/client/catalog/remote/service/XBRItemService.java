@@ -20,8 +20,8 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 import org.exbin.xbup.client.catalog.XBRCatalog;
+import org.exbin.xbup.client.catalog.remote.XBRItem;
 import org.exbin.xbup.client.catalog.remote.manager.XBRItemManager;
-import org.exbin.xbup.core.catalog.base.XBCItem;
 import org.exbin.xbup.core.catalog.base.manager.XBCItemManager;
 import org.exbin.xbup.core.catalog.base.service.XBCItemService;
 import org.exbin.xbup.core.catalog.base.service.XBItemWithDetail;
@@ -33,7 +33,7 @@ import org.exbin.xbup.core.catalog.base.service.XBItemWithDetail;
  * @author ExBin Project (http://exbin.org)
  */
 @ParametersAreNonnullByDefault
-public class XBRItemService extends XBRDefaultService<XBCItem> implements XBCItemService {
+public class XBRItemService extends XBRDefaultService<XBRItem> implements XBCItemService<XBRItem> {
 
     public XBRItemService(XBRCatalog catalog) {
         super(catalog);

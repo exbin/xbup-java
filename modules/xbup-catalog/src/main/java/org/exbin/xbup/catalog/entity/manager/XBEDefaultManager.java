@@ -170,4 +170,9 @@ public class XBEDefaultManager<T extends XBCBase> implements XBCManager<T> {
 
         return genClass.getSimpleName();
     }
+
+    @Override
+    public boolean initCatalog() {
+        return true;
+    }
 }

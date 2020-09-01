@@ -25,7 +25,6 @@ import org.exbin.xbup.catalog.entity.XBEItem;
 import org.exbin.xbup.catalog.entity.XBEXHDoc;
 import org.exbin.xbup.catalog.entity.XBEXLanguage;
 import org.exbin.xbup.core.catalog.base.XBCItem;
-import org.exbin.xbup.core.catalog.base.XBCXHDoc;
 import org.exbin.xbup.core.catalog.base.XBCXLanguage;
 import org.exbin.xbup.core.catalog.base.manager.XBCXHDocManager;
 import org.exbin.xbup.core.catalog.base.manager.XBCXLangManager;
@@ -39,7 +38,7 @@ import org.springframework.stereotype.Repository;
  */
 @ParametersAreNonnullByDefault
 @Repository
-public class XBEXHDocManager extends XBEDefaultCatalogManager<XBCXHDoc> implements XBCXHDocManager, Serializable {
+public class XBEXHDocManager extends XBEDefaultCatalogManager<XBEXHDoc> implements XBCXHDocManager<XBEXHDoc>, Serializable {
 
     public XBEXHDocManager() {
         super();
@@ -75,7 +74,6 @@ public class XBEXHDocManager extends XBEDefaultCatalogManager<XBCXHDoc> implemen
 
     @Override
     public void initializeExtension() {
-//        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override

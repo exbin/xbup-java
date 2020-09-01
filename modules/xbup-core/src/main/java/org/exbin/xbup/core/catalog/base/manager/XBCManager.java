@@ -24,7 +24,7 @@ import org.exbin.xbup.core.catalog.base.XBCBase;
 /**
  * Generic interface for persistence item management classes.
  *
- * @version 0.2.1 2020/08/17
+ * @version 0.2.1 2020/09/01
  * @author ExBin Project (http://exbin.org)
  * @param <T> base entity
  */
@@ -76,4 +76,11 @@ public interface XBCManager<T extends XBCBase> {
      * @return count of items
      */
     long getItemsCount();
+
+    /**
+     * Initialize content of the catalog.Returns true if successful.
+     *
+     * @return true if successful, false if dependency is missing.
+     */
+    boolean initCatalog();
 }

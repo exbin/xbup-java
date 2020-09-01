@@ -40,7 +40,7 @@ import org.exbin.xbup.core.catalog.base.manager.XBCSpecManager;
  * @author ExBin Project (http://exbin.org)
  */
 @ParametersAreNonnullByDefault
-public class XBRSpecManager extends XBRDefaultManager<XBCSpec> implements XBCSpecManager {
+public class XBRSpecManager extends XBRDefaultManager<XBRSpec> implements XBCSpecManager<XBRSpec> {
 
     private final XBPSpecStub specStub;
 

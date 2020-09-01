@@ -20,7 +20,6 @@ import org.exbin.xbup.client.catalog.XBRCatalog;
 import org.exbin.xbup.client.catalog.remote.XBRXLanguage;
 import org.exbin.xbup.client.catalog.remote.manager.XBRXLangManager;
 import org.exbin.xbup.core.catalog.base.XBCExtension;
-import org.exbin.xbup.core.catalog.base.XBCXLanguage;
 import org.exbin.xbup.core.catalog.base.manager.XBCXLangManager;
 import org.exbin.xbup.core.catalog.base.service.XBCXLangService;
 
@@ -31,7 +30,7 @@ import org.exbin.xbup.core.catalog.base.service.XBCXLangService;
  * @author ExBin Project (http://exbin.org)
  */
 @ParametersAreNonnullByDefault
-public class XBRXLangService extends XBRDefaultService<XBCXLanguage> implements XBCXLangService {
+public class XBRXLangService extends XBRDefaultService<XBRXLanguage> implements XBCXLangService<XBRXLanguage> {
 
     public XBRXLangService(XBRCatalog catalog) {
         super(catalog);

@@ -34,7 +34,7 @@ import org.exbin.xbup.core.catalog.base.service.XBCXDescService;
  * @author ExBin Project (http://exbin.org)
  */
 @ParametersAreNonnullByDefault
-public class XBRXDescService extends XBRDefaultService<XBCXDesc> implements XBCXDescService {
+public class XBRXDescService extends XBRDefaultService<XBRXDesc> implements XBCXDescService<XBRXDesc> {
 
     public XBRXDescService(XBRCatalog catalog) {
         super(catalog);

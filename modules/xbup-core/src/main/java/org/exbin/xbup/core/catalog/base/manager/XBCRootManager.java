@@ -26,9 +26,10 @@ import org.exbin.xbup.core.catalog.base.XBCRoot;
  *
  * @version 0.2.1 2020/08/26
  * @author ExBin Project (http://exbin.org)
+ * @param <T> entity
  */
 @ParametersAreNonnullByDefault
-public interface XBCRootManager extends XBCCatalogManager<XBCRoot> {
+public interface XBCRootManager<T extends XBCRoot> extends XBCCatalogManager<T> {
 
     /**
      * Gets main catalog root record.

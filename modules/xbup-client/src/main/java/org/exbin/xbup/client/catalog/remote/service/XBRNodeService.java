@@ -33,7 +33,7 @@ import org.exbin.xbup.core.catalog.base.service.XBCNodeService;
  * @author ExBin Project (http://exbin.org)
  */
 @ParametersAreNonnullByDefault
-public class XBRNodeService extends XBRDefaultService<XBCNode> implements XBCNodeService {
+public class XBRNodeService extends XBRDefaultService<XBRNode> implements XBCNodeService<XBRNode> {
 
     public XBRNodeService(XBRCatalog catalog) {
         super(catalog);

@@ -39,7 +39,7 @@ import org.springframework.stereotype.Repository;
  */
 @ParametersAreNonnullByDefault
 @Repository
-public class XBEXStriManager extends XBEDefaultCatalogManager<XBCXStri> implements XBCXStriManager, Serializable {
+public class XBEXStriManager extends XBEDefaultCatalogManager<XBEXStri> implements XBCXStriManager<XBEXStri>, Serializable {
 
     public XBEXStriManager() {
         super();
@@ -90,7 +90,7 @@ public class XBEXStriManager extends XBEDefaultCatalogManager<XBCXStri> implemen
         }
         final String nodePath = itemString.getNodePath();
         if ("/".equals(nodePath)) {
-            XBCNodeManager nodeManager = catalog.getCatalogManager(XBCNodeManager.class);
+            XBENodeManager nodeManager = (XBENodeManager) catalog.getCatalogManager(XBCNodeManager.class);
             if (itemString.getItem().getId() == nodeManager.getMainRootNode().get().getId()) {
                 return "";
             }

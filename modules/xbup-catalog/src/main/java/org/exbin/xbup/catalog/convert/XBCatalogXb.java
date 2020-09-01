@@ -25,17 +25,13 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
+import org.exbin.xbup.catalog.entity.XBENode;
+import org.exbin.xbup.catalog.entity.service.XBENodeService;
 import org.exbin.xbup.core.block.XBBlockType;
 import org.exbin.xbup.core.block.XBFixedBlockType;
-import org.exbin.xbup.core.block.declaration.catalog.XBCBlockDecl;
-import org.exbin.xbup.core.block.declaration.catalog.XBCFormatDecl;
-import org.exbin.xbup.core.block.declaration.catalog.XBCGroupDecl;
 import org.exbin.xbup.core.catalog.XBACatalog;
-import org.exbin.xbup.core.catalog.base.XBCBlockRev;
 import org.exbin.xbup.core.catalog.base.XBCBlockSpec;
-import org.exbin.xbup.core.catalog.base.XBCFormatRev;
 import org.exbin.xbup.core.catalog.base.XBCFormatSpec;
-import org.exbin.xbup.core.catalog.base.XBCGroupRev;
 import org.exbin.xbup.core.catalog.base.XBCGroupSpec;
 import org.exbin.xbup.core.catalog.base.XBCItem;
 import org.exbin.xbup.core.catalog.base.XBCNode;
@@ -64,11 +60,11 @@ import org.exbin.xbup.core.parser.token.XBTTypeToken;
 import org.exbin.xbup.core.parser.token.event.XBEventWriter;
 import org.exbin.xbup.core.parser.token.event.XBTEventFilter;
 import org.exbin.xbup.core.parser.token.event.XBTEventListener;
-import org.exbin.xbup.core.parser.token.event.convert.XBPrintEventFilter;
-import org.exbin.xbup.core.parser.token.event.convert.XBTPrintEventFilter;
 import org.exbin.xbup.core.parser.token.event.convert.XBTToXBEventConvertor;
-import org.exbin.xbup.core.serial.XBSerializable;
+import org.exbin.xbup.core.parser.token.pull.XBPullReader;
+import org.exbin.xbup.core.parser.token.pull.convert.XBToXBTPullConvertor;
 import org.exbin.xbup.core.serial.param.XBPListenerSerialHandler;
+import org.exbin.xbup.core.serial.param.XBPProviderSerialHandler;
 import org.exbin.xbup.core.type.XBString;
 
 /**
@@ -76,7 +72,7 @@ import org.exbin.xbup.core.type.XBString;
  *
  * TODO: Block types
  *
- * @version 0.2.1 2020/08/26
+ * @version 0.2.1 2020/09/01
  * @author ExBin Project (http://exbin.org)
  */
 @ParametersAreNonnullByDefault
@@ -97,30 +93,30 @@ public class XBCatalogXb {
 
     public void exportToXb(OutputStream stream) {
         try {
-            XBPListenerSerialHandler serialInput = new XBPListenerSerialHandler(new TypeDroppingFilter(new XBTToXBEventConvertor(new XBPrintEventFilter(new XBEventWriter(stream, XBParserMode.SINGLE_BLOCK)))));
+            XBPListenerSerialHandler serialInput = new XBPListenerSerialHandler(new TypeDroppingFilter(new XBTToXBEventConvertor(new XBEventWriter(stream, XBParserMode.SINGLE_BLOCK))));
 
-            exportAllNodes(serialInput);
+            exportAll(serialInput);
         } catch (XBProcessingException | IOException ex) {
             Logger.getLogger(XBCatalogXb.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
-    private void exportAllNodes(XBPListenerSerialHandler serialInput) throws XBProcessingException, IOException {
+    private void exportAll(XBPListenerSerialHandler serialInput) throws XBProcessingException, IOException {
         serialInput.begin();
         serialInput.putType(new XBFixedBlockType());
 
-        XBCNodeService nodeService = catalog.getCatalogService(XBCNodeService.class);
+        XBCNodeService<XBCNode> nodeService = catalog.getCatalogService(XBCNodeService.class);
         XBCNode mainRootNode = nodeService.getMainRootNode().get();
         exportAllNodes(serialInput, mainRootNode);
-        exportAllFiles(serialInput);
-        exportProperties(serialInput, CatalogItemType.NODE);
-
-        exportAllSpecs(serialInput, mainRootNode, CatalogItemType.BLOCK);
-        exportProperties(serialInput, CatalogItemType.BLOCK);
-        exportAllSpecs(serialInput, mainRootNode, CatalogItemType.GROUP);
-        exportProperties(serialInput, CatalogItemType.GROUP);
-        exportAllSpecs(serialInput, mainRootNode, CatalogItemType.FORMAT);
-        exportProperties(serialInput, CatalogItemType.FORMAT);
+//        exportAllFiles(serialInput);
+//        exportProperties(serialInput, CatalogItemType.NODE);
+//
+//        exportAllSpecs(serialInput, mainRootNode, CatalogItemType.BLOCK);
+//        exportProperties(serialInput, CatalogItemType.BLOCK);
+//        exportAllSpecs(serialInput, mainRootNode, CatalogItemType.GROUP);
+//        exportProperties(serialInput, CatalogItemType.GROUP);
+//        exportAllSpecs(serialInput, mainRootNode, CatalogItemType.FORMAT);
+//        exportProperties(serialInput, CatalogItemType.FORMAT);
         serialInput.end();
     }
 
@@ -162,10 +158,10 @@ public class XBCatalogXb {
                 serialInput.putAttribute(specRev.getXBLimit());
 
                 // List<XBCSpecDef> specDefs = specService.getSpecDefs((XBCSpec) item);
-                XBSerializable decl = item instanceof XBCFormatSpec ? specService.getFormatDeclAsLocal(new XBCFormatDecl((XBCFormatRev) specRev, catalog))
-                        : item instanceof XBCGroupSpec ? specService.getGroupDeclAsLocal(new XBCGroupDecl((XBCGroupRev) specRev, catalog))
-                                : item instanceof XBCBlockSpec ? specService.getBlockDeclAsLocal(new XBCBlockDecl((XBCBlockRev) specRev, catalog)) : null;
-                serialInput.consist(decl);
+//                XBSerializable decl = item instanceof XBCFormatSpec ? specService.getFormatDeclAsLocal(new XBCFormatDecl((XBCFormatRev) specRev, catalog))
+//                        : item instanceof XBCGroupSpec ? specService.getGroupDeclAsLocal(new XBCGroupDecl((XBCGroupRev) specRev, catalog))
+//                                : item instanceof XBCBlockSpec ? specService.getBlockDeclAsLocal(new XBCBlockDecl((XBCBlockRev) specRev, catalog)) : null;
+//                serialInput.consist(decl);
                 serialInput.end();
             }
 
@@ -190,7 +186,7 @@ public class XBCatalogXb {
         serialInput.begin();
         serialInput.putType(new XBFixedBlockType());
 
-        XBCNodeService nodeService = catalog.getCatalogService(XBCNodeService.class);
+        XBCNodeService<XBCNode> nodeService = catalog.getCatalogService(XBCNodeService.class);
         XBCNode mainRootNode = nodeService.getMainRootNode().get();
         exportAllFiles(serialInput, mainRootNode);
 
@@ -198,8 +194,8 @@ public class XBCatalogXb {
     }
 
     private void exportAllFiles(XBPListenerSerialHandler serialInput, XBCNode node) throws XBProcessingException, IOException {
-        XBCNodeService nodeService = catalog.getCatalogService(XBCNodeService.class);
-        XBCXFileService fileService = catalog.getCatalogService(XBCXFileService.class);
+        XBCNodeService<XBCNode> nodeService = catalog.getCatalogService(XBCNodeService.class);
+        XBCXFileService<XBCXFile> fileService = catalog.getCatalogService(XBCXFileService.class);
         Long[] nodePath = nodeService.getNodeXBPath(node);
 
         List<XBCXFile> files = fileService.findFilesForNode(node);
@@ -228,7 +224,7 @@ public class XBCatalogXb {
         serialInput.begin();
         serialInput.putType(new XBFixedBlockType());
 
-        XBCNodeService nodeService = catalog.getCatalogService(XBCNodeService.class);
+        XBCNodeService<XBCNode> nodeService = catalog.getCatalogService(XBCNodeService.class);
         XBCNode mainRootNode = nodeService.getMainRootNode().get();
         exportNames(serialInput, itemType, mainRootNode);
 
@@ -236,7 +232,7 @@ public class XBCatalogXb {
     }
 
     private void exportNames(XBPListenerSerialHandler serialInput, CatalogItemType itemType, XBCNode node) throws XBProcessingException, IOException {
-        XBCNodeService nodeService = catalog.getCatalogService(XBCNodeService.class);
+        XBCNodeService<XBCNode> nodeService = catalog.getCatalogService(XBCNodeService.class);
         Long[] nodePath = nodeService.getNodeXBPath(node);
 
         List<XBCItem> items = getItems(serialInput, itemType, node);
@@ -265,7 +261,7 @@ public class XBCatalogXb {
         serialInput.begin();
         serialInput.putType(new XBFixedBlockType());
 
-        XBCNodeService nodeService = catalog.getCatalogService(XBCNodeService.class);
+        XBCNodeService<XBCNode> nodeService = catalog.getCatalogService(XBCNodeService.class);
         XBCNode mainRootNode = nodeService.getMainRootNode().get();
         exportDescs(serialInput, itemType, mainRootNode);
 
@@ -302,7 +298,7 @@ public class XBCatalogXb {
         serialInput.begin();
         serialInput.putType(new XBFixedBlockType());
 
-        XBCNodeService nodeService = catalog.getCatalogService(XBCNodeService.class);
+        XBCNodeService<XBCNode> nodeService = catalog.getCatalogService(XBCNodeService.class);
         XBCNode mainRootNode = nodeService.getMainRootNode().get();
         exportStri(serialInput, itemType, mainRootNode);
 
@@ -338,7 +334,7 @@ public class XBCatalogXb {
         serialInput.begin();
         serialInput.putType(new XBFixedBlockType());
 
-        XBCNodeService nodeService = catalog.getCatalogService(XBCNodeService.class);
+        XBCNodeService<XBCNode> nodeService = catalog.getCatalogService(XBCNodeService.class);
         XBCNode mainRootNode = nodeService.getMainRootNode().get();
         exportHDocs(serialInput, itemType, mainRootNode);
 
@@ -376,7 +372,7 @@ public class XBCatalogXb {
         serialInput.begin();
         serialInput.putType(new XBFixedBlockType());
 
-        XBCNodeService nodeService = catalog.getCatalogService(XBCNodeService.class);
+        XBCNodeService<XBCNode> nodeService = catalog.getCatalogService(XBCNodeService.class);
         XBCNode mainRootNode = nodeService.getMainRootNode().get();
         exportIcons(serialInput, itemType, mainRootNode);
 
@@ -452,9 +448,63 @@ public class XBCatalogXb {
     }
 
     public void importFromXb(InputStream stream) {
-
+        try {
+            XBPProviderSerialHandler serialOutput = new XBPProviderSerialHandler(new XBToXBTPullConvertor(new XBPullReader(stream, XBParserMode.SINGLE_BLOCK)));
+            
+            importAll(serialOutput);
+        } catch (XBProcessingException | IOException ex) {
+            Logger.getLogger(XBCatalogXb.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
+    private void importAll(XBPProviderSerialHandler serialOutput) throws XBProcessingException, IOException {
+        serialOutput.begin();
+        serialOutput.pullType();
+
+        importAllNodes(serialOutput);
+//        importAllFiles(serialOutput);
+//        importProperties(serialOutput, CatalogItemType.NODE);
+//
+//        importAllSpecs(serialOutput, mainRootNode, CatalogItemType.BLOCK);
+//        importProperties(serialOutput, CatalogItemType.BLOCK);
+//        importAllSpecs(serialOutput, mainRootNode, CatalogItemType.GROUP);
+//        importProperties(serialOutput, CatalogItemType.GROUP);
+//        importAllSpecs(serialOutput, mainRootNode, CatalogItemType.FORMAT);
+//        importProperties(serialOutput, CatalogItemType.FORMAT);
+        serialOutput.pullEnd();
+    }
+
+    private void importAllNodes(XBPProviderSerialHandler serialOutput) throws XBProcessingException, IOException {
+        XBCNodeService nodeService = catalog.getCatalogService(XBCNodeService.class);
+
+        while (!serialOutput.isFinishedNext()) {
+            serialOutput.pullBegin();
+            serialOutput.pullType();
+            long xbIndex = serialOutput.pullAttribute().getNaturalLong();
+            Long[] nodePath = pullPath(serialOutput);
+            XBENode parentNode = (XBENode) nodeService.findOwnerByXBPath(nodePath);
+            serialOutput.pullEnd();
+            XBENode node = (XBENode) nodeService.createItem();
+            node.setParent(parentNode);
+            node.setXBIndex(xbIndex);
+            nodeService.persistItem(node);
+        }
+    }
+
+    @Nonnull
+    private Long[] pullPath(XBPProviderSerialHandler serialOutput) throws XBProcessingException, IOException {
+        serialOutput.pullBegin();
+        serialOutput.pullType();
+        int length = serialOutput.pullAttribute().getNaturalInt();
+        Long[] result = new Long[length];
+        for (int i = 0; i < length; i++) {
+            result[i] = serialOutput.pullAttribute().getNaturalLong();
+        }
+        serialOutput.pullEnd();
+        return result;
+    }
+
+    @ParametersAreNonnullByDefault
     private static final class TypeDroppingFilter implements XBTEventFilter {
 
         private XBTEventListener listener;

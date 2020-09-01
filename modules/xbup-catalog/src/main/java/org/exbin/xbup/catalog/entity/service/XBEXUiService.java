@@ -44,7 +44,7 @@ import org.springframework.stereotype.Service;
  */
 @ParametersAreNonnullByDefault
 @Service
-public class XBEXUiService extends XBEDefaultService<XBCXBlockUi> implements XBCXUiService, Serializable {
+public class XBEXUiService extends XBEDefaultService<XBEXBlockUi> implements XBCXUiService<XBEXBlockUi>, Serializable {
 
     @Autowired
     private XBEXUiManager manager;

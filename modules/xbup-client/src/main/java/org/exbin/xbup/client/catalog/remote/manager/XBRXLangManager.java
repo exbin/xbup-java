@@ -28,7 +28,7 @@ import org.exbin.xbup.core.catalog.base.manager.XBCXLangManager;
  * @version 0.2.1 2020/08/26
  * @author ExBin Project (http://exbin.org)
  */
-public class XBRXLangManager extends XBRDefaultManager<XBCXLanguage> implements XBCXLangManager {
+public class XBRXLangManager extends XBRDefaultManager<XBRXLanguage> implements XBCXLangManager<XBRXLanguage> {
 
     private final XBPXLangStub langStub;
 

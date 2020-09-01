@@ -38,7 +38,7 @@ import org.springframework.stereotype.Repository;
  */
 @ParametersAreNonnullByDefault
 @Repository
-public class XBERevManager extends XBEDefaultCatalogManager<XBCRev> implements XBCRevManager, Serializable {
+public class XBERevManager extends XBEDefaultCatalogManager<XBERev> implements XBCRevManager<XBERev>, Serializable {
 
     public XBERevManager() {
         super();

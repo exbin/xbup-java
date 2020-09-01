@@ -22,7 +22,6 @@ import org.exbin.xbup.catalog.XBECatalog;
 import org.exbin.xbup.catalog.entity.XBEXLanguage;
 import org.exbin.xbup.catalog.entity.manager.XBEXLangManager;
 import org.exbin.xbup.core.catalog.base.XBCExtension;
-import org.exbin.xbup.core.catalog.base.XBCXLanguage;
 import org.exbin.xbup.core.catalog.base.manager.XBCXLangManager;
 import org.exbin.xbup.core.catalog.base.service.XBCXLangService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,7 +35,7 @@ import org.springframework.stereotype.Service;
  */
 @ParametersAreNonnullByDefault
 @Service
-public class XBEXLangService extends XBEDefaultService<XBCXLanguage> implements XBCXLangService, Serializable {
+public class XBEXLangService extends XBEDefaultService<XBEXLanguage> implements XBCXLangService<XBEXLanguage>, Serializable {
 
     @Autowired
     private XBEXLangManager manager;

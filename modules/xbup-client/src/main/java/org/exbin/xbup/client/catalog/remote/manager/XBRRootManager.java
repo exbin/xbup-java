@@ -32,7 +32,7 @@ import org.exbin.xbup.core.catalog.base.manager.XBCRootManager;
  * @author ExBin Project (http://exbin.org)
  */
 @ParametersAreNonnullByDefault
-public class XBRRootManager extends XBRDefaultManager<XBCRoot> implements XBCRootManager {
+public class XBRRootManager extends XBRDefaultManager<XBRRoot> implements XBCRootManager<XBRRoot> {
 
     private final XBPRootStub rootStub;
 

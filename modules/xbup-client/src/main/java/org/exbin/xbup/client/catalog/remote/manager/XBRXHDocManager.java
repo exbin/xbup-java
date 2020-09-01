@@ -33,7 +33,7 @@ import org.exbin.xbup.core.catalog.base.manager.XBCXHDocManager;
  * @author ExBin Project (http://exbin.org)
  */
 @ParametersAreNonnullByDefault
-public class XBRXHDocManager extends XBRDefaultManager<XBCXHDoc> implements XBCXHDocManager {
+public class XBRXHDocManager extends XBRDefaultManager<XBRXHDoc> implements XBCXHDocManager<XBRXHDoc> {
 
     private XBCXFileManager fileManager = null;
     private final XBPXHDocStub hdocStub;

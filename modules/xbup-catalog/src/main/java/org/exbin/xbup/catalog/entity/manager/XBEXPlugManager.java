@@ -41,7 +41,7 @@ import org.springframework.stereotype.Repository;
  */
 @ParametersAreNonnullByDefault
 @Repository
-public class XBEXPlugManager extends XBEDefaultCatalogManager<XBCXPlugin> implements XBCXPlugManager, Serializable {
+public class XBEXPlugManager extends XBEDefaultCatalogManager<XBEXPlugin> implements XBCXPlugManager<XBEXPlugin>, Serializable {
 
     public XBEXPlugManager() {
         super();
@@ -90,7 +90,6 @@ public class XBEXPlugManager extends XBEDefaultCatalogManager<XBCXPlugin> implem
 
     @Override
     public void initializeExtension() {
-//        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override

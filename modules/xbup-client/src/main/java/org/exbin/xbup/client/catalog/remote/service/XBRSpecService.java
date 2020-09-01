@@ -55,7 +55,7 @@ import org.exbin.xbup.core.catalog.base.service.XBCSpecService;
  * @author ExBin Project (http://exbin.org)
  */
 @ParametersAreNonnullByDefault
-public class XBRSpecService extends XBRDefaultService<XBCSpec> implements XBCSpecService {
+public class XBRSpecService extends XBRDefaultService<XBRSpec> implements XBCSpecService<XBRSpec> {
 
     public XBRSpecService(XBRCatalog catalog) {
         super(catalog);

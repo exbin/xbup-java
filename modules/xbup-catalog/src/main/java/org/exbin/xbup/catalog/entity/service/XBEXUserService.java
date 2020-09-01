@@ -21,7 +21,6 @@ import javax.annotation.PostConstruct;
 import org.exbin.xbup.catalog.XBECatalog;
 import org.exbin.xbup.catalog.entity.XBEXUser;
 import org.exbin.xbup.catalog.entity.manager.XBEXUserManager;
-import org.exbin.xbup.core.catalog.base.XBCXUser;
 import org.exbin.xbup.core.catalog.base.manager.XBCXUserManager;
 import org.exbin.xbup.core.catalog.base.service.XBCXUserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +34,7 @@ import org.springframework.stereotype.Service;
  */
 @ParametersAreNonnullByDefault
 @Service
-public class XBEXUserService extends XBEDefaultService<XBCXUser> implements XBCXUserService, Serializable {
+public class XBEXUserService extends XBEDefaultService<XBEXUser> implements XBCXUserService<XBEXUser>, Serializable {
 
     @Autowired
     private XBEXUserManager manager;

@@ -38,7 +38,6 @@ import org.exbin.xbup.core.catalog.base.manager.XBCXHDocManager;
 import org.exbin.xbup.core.catalog.base.manager.XBCXNameManager;
 import org.exbin.xbup.core.catalog.base.manager.XBCXStriManager;
 import org.exbin.xbup.core.catalog.base.service.XBCRevService;
-import org.exbin.xbup.core.catalog.base.service.XBCSpecService;
 
 /**
  * Remote service for XBRRev items.
@@ -47,7 +46,7 @@ import org.exbin.xbup.core.catalog.base.service.XBCSpecService;
  * @author ExBin Project (http://exbin.org)
  */
 @ParametersAreNonnullByDefault
-public class XBRRevService extends XBRDefaultService<XBCRev> implements XBCRevService {
+public class XBRRevService extends XBRDefaultService<XBRRev> implements XBCRevService<XBRRev> {
 
     public XBRRevService(XBRCatalog catalog) {
         super(catalog);

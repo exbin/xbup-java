@@ -59,7 +59,7 @@ import org.exbin.xbup.core.ubnumber.type.UBENat32;
 /**
  * XBUP level 2 serialization handler using parameter mapping to provider.
  *
- * @version 0.1.25 2015/06/28
+ * @version 0.2.1 2020/09/01
  * @author ExBin Project (http://exbin.org)
  */
 @ParametersAreNonnullByDefault
@@ -200,6 +200,10 @@ public class XBPProviderSerialHandler implements XBPInputSerialHandler, XBPSeque
         return false;
     }
 
+    public boolean isFinishedNext() {
+        return pullProvider.isFinishedNext();
+    }
+
     @Override
     public void pullEnd() throws XBProcessingException, IOException {
         if (paramType.isConsist()) {
@@ -208,7 +212,7 @@ public class XBPProviderSerialHandler implements XBPInputSerialHandler, XBPSeque
         }
 
         if (paramTypes.isEmpty()) {
-            paramType = null;
+            paramType = XBParamType.CONSIST;
         } else {
             paramType = paramTypes.remove(paramTypes.size() - 1);
         }

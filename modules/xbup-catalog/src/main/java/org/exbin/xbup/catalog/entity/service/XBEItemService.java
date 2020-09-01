@@ -21,8 +21,8 @@ import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 import javax.annotation.PostConstruct;
 import org.exbin.xbup.catalog.XBECatalog;
+import org.exbin.xbup.catalog.entity.XBEItem;
 import org.exbin.xbup.catalog.entity.manager.XBEItemManager;
-import org.exbin.xbup.core.catalog.base.XBCItem;
 import org.exbin.xbup.core.catalog.base.service.XBItemWithDetail;
 import org.exbin.xbup.core.catalog.base.manager.XBCItemManager;
 import org.exbin.xbup.core.catalog.base.service.XBCItemService;
@@ -37,7 +37,7 @@ import org.springframework.stereotype.Service;
  */
 @ParametersAreNonnullByDefault
 @Service
-public class XBEItemService extends XBEDefaultService<XBCItem> implements XBCItemService, Serializable {
+public class XBEItemService extends XBEDefaultService<XBEItem> implements XBCItemService<XBEItem>, Serializable {
 
     @Autowired
     private XBEItemManager manager;

@@ -19,9 +19,6 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 import org.exbin.xbup.catalog.XBAECatalog;
-import org.exbin.xbup.catalog.entity.XBEXName;
-import org.exbin.xbup.catalog.entity.service.XBEItemService;
-import org.exbin.xbup.catalog.entity.service.XBEXLangService;
 import org.exbin.xbup.catalog.entity.service.XBEXNameService;
 import org.exbin.xbup.client.stub.XBPXNameStub;
 import org.exbin.xbup.core.block.XBBlockType;
@@ -69,7 +66,7 @@ public class XBPXNameSkeleton {
                 XBAttribute index = provider.pullAttribute();
                 provider.end();
 
-                XBEXNameService nameService = (XBEXNameService) catalog.getCatalogService(XBCXNameService.class);
+                XBCXNameService<XBCXName> nameService = catalog.getCatalogService(XBCXNameService.class);
                 Optional<XBCXName> name = nameService.getItem(index.getNaturalLong());
 
                 XBPListenerSerialHandler listener = new XBPListenerSerialHandler(resultInput);
@@ -86,7 +83,7 @@ public class XBPXNameSkeleton {
                 XBAttribute index = provider.pullAttribute();
                 provider.end();
 
-                XBEXNameService nameService = (XBEXNameService) catalog.getCatalogService(XBCXNameService.class);
+                XBCXNameService<XBCXName> nameService = catalog.getCatalogService(XBCXNameService.class);
                 Optional<XBCXName> name = nameService.getItem(index.getNaturalLong());
 
                 XBPListenerSerialHandler listener = new XBPListenerSerialHandler(resultInput);
@@ -103,7 +100,7 @@ public class XBPXNameSkeleton {
                 XBAttribute index = provider.pullAttribute();
                 provider.end();
 
-                XBEXNameService nameService = (XBEXNameService) catalog.getCatalogService(XBCXNameService.class);
+                XBCXNameService<XBCXName> nameService = catalog.getCatalogService(XBCXNameService.class);
                 Optional<XBCXName> name = nameService.getItem(index.getNaturalLong());
 
                 XBPListenerSerialHandler listener = new XBPListenerSerialHandler(resultInput);
@@ -120,10 +117,10 @@ public class XBPXNameSkeleton {
                 XBAttribute index = provider.pullAttribute();
                 provider.end();
 
-                XBEItemService itemService = (XBEItemService) catalog.getCatalogService(XBCItemService.class);
-                XBEXNameService nameService = (XBEXNameService) catalog.getCatalogService(XBCXNameService.class);
+                XBCItemService<XBCItem> itemService = catalog.getCatalogService(XBCItemService.class);
+                XBCXNameService<XBCXName> nameService = catalog.getCatalogService(XBCXNameService.class);
                 Optional<XBCItem> item = itemService.getItem(index.getNaturalLong());
-                XBEXName name = nameService.getDefaultItemName(item.get());
+                XBCXName name = nameService.getDefaultItemName(item.get());
 
                 XBPListenerSerialHandler listener = new XBPListenerSerialHandler(resultInput);
                 listener.process(name == null ? XBTEmptyBlock.getEmptyBlock() : new UBNat32(name.getId()));
@@ -140,12 +137,12 @@ public class XBPXNameSkeleton {
                 XBAttribute langIndex = provider.pullAttribute();
                 provider.end();
 
-                XBEItemService itemService = (XBEItemService) catalog.getCatalogService(XBCItemService.class);
-                XBEXLangService langService = (XBEXLangService) catalog.getCatalogService(XBCXLangService.class);
-                XBEXNameService nameService = (XBEXNameService) catalog.getCatalogService(XBCXNameService.class);
+                XBCItemService<XBCItem> itemService = catalog.getCatalogService(XBCItemService.class);
+                XBCXLangService<XBCXLanguage> langService = catalog.getCatalogService(XBCXLangService.class);
+                XBCXNameService<XBCXName> nameService = catalog.getCatalogService(XBCXNameService.class);
                 Optional<XBCItem> item = itemService.getItem(index.getNaturalLong());
                 Optional<XBCXLanguage> lang = langService.getItem(langIndex.getNaturalLong());
-                XBEXName name = nameService.getItemName(item.get(), lang.get());
+                XBCXName name = nameService.getItemName(item.get(), lang.get());
 
                 XBPListenerSerialHandler listener = new XBPListenerSerialHandler(resultInput);
                 listener.process(name == null ? XBTEmptyBlock.getEmptyBlock() : new UBNat32(name.getId()));
@@ -161,8 +158,8 @@ public class XBPXNameSkeleton {
                 XBAttribute index = provider.pullAttribute();
                 provider.end();
 
-                XBEItemService itemService = (XBEItemService) catalog.getCatalogService(XBCItemService.class);
-                XBEXNameService nameService = (XBEXNameService) catalog.getCatalogService(XBCXNameService.class);
+                XBCItemService<XBCItem> itemService = catalog.getCatalogService(XBCItemService.class);
+                XBCXNameService<XBCXName> nameService = catalog.getCatalogService(XBCXNameService.class);
                 Optional<XBCItem> item = itemService.getItem(index.getNaturalLong());
                 List<XBCXName> itemNames = nameService.getItemNames(item.get());
 

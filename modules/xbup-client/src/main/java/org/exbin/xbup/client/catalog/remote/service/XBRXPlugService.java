@@ -34,7 +34,7 @@ import org.exbin.xbup.core.catalog.base.service.XBCXPlugService;
  * @author ExBin Project (http://exbin.org)
  */
 @ParametersAreNonnullByDefault
-public class XBRXPlugService extends XBRDefaultService<XBCXPlugin> implements XBCXPlugService {
+public class XBRXPlugService extends XBRDefaultService<XBRXPlugin> implements XBCXPlugService<XBRXPlugin> {
 
     public XBRXPlugService(XBRCatalog catalog) {
         super(catalog);

@@ -21,7 +21,6 @@ import org.exbin.xbup.client.catalog.remote.XBRItem;
 import org.exbin.xbup.client.catalog.remote.XBRXStri;
 import org.exbin.xbup.core.block.declaration.XBDeclBlockType;
 import org.exbin.xbup.core.catalog.base.XBCItem;
-import org.exbin.xbup.core.catalog.base.XBCXStri;
 
 /**
  * RPC stub class for XBRXStri catalog items.
@@ -30,7 +29,7 @@ import org.exbin.xbup.core.catalog.base.XBCXStri;
  * @author ExBin Project (http://exbin.org)
  */
 @ParametersAreNonnullByDefault
-public class XBPXStriStub extends XBPBaseStub<XBCXStri> {
+public class XBPXStriStub extends XBPBaseStub<XBRXStri> {
 
     public static long[] ITEM_STRI_PROCEDURE = {0, 2, 14, 0, 0};
     public static long[] TEXT_STRI_PROCEDURE = {0, 2, 14, 1, 0};

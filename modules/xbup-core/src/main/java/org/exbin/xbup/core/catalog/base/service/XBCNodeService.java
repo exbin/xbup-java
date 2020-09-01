@@ -26,9 +26,10 @@ import org.exbin.xbup.core.catalog.base.XBCNode;
  *
  * @version 0.2.1 2020/08/26
  * @author ExBin Project (http://exbin.org)
+ * @param <T> entity
  */
 @ParametersAreNonnullByDefault
-public interface XBCNodeService extends XBCService<XBCNode> {
+public interface XBCNodeService<T extends XBCNode> extends XBCService<T> {
 
     /**
      * Returns specification tree root node.

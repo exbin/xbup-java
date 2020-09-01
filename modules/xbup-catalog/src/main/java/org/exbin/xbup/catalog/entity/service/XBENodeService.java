@@ -38,7 +38,7 @@ import org.springframework.stereotype.Service;
  */
 @ParametersAreNonnullByDefault
 @Service
-public class XBENodeService extends XBEDefaultService<XBCNode> implements XBCNodeService, Serializable {
+public class XBENodeService extends XBEDefaultService<XBENode> implements XBCNodeService<XBENode>, Serializable {
 
     @Autowired
     private XBENodeManager manager;

@@ -27,8 +27,9 @@ import org.exbin.xbup.core.catalog.base.XBCXLanguage;
  *
  * @version 0.2.1 2020/08/26
  * @author ExBin Project (http://exbin.org)
+ * @param <T> entity
  */
-public interface XBCXDescService extends XBCService<XBCXDesc>, XBCExtension {
+public interface XBCXDescService<T extends XBCXDesc> extends XBCService<T>, XBCExtension {
 
     /**
      * Returns description for given item in default language.

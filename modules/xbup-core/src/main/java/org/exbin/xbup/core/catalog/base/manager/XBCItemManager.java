@@ -27,10 +27,9 @@ import org.exbin.xbup.core.catalog.base.service.XBItemWithDetail;
  *
  * @version 0.2.1 2020/08/26
  * @author ExBin Project (http://exbin.org)
- * @param <T> entity
  */
 @ParametersAreNonnullByDefault
-public interface XBCItemManager<T extends XBCItem> extends XBCCatalogManager<T> {
+public interface XBCItemManager extends XBCCatalogManager<XBCItem> {
 
     @Nonnull
     List<XBItemWithDetail> findAllPaged(int startFrom, int maxResults, @Nullable String filterCondition, @Nullable String orderCondition, @Nullable String specType);

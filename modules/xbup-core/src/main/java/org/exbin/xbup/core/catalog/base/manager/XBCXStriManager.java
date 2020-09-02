@@ -25,10 +25,9 @@ import org.exbin.xbup.core.catalog.base.XBCXStri;
  *
  * @version 0.2.1 2020/08/26
  * @author ExBin Project (http://exbin.org)
- * @param <T> entity
  */
 @ParametersAreNonnullByDefault
-public interface XBCXStriManager<T extends XBCXStri> extends XBCManager<T>, XBCExtension {
+public interface XBCXStriManager extends XBCManager<XBCXStri>, XBCExtension {
 
     /**
      * Returns string index for given item.

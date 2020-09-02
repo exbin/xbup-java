@@ -32,7 +32,7 @@ import org.exbin.xbup.core.catalog.base.manager.XBCNodeManager;
  * @author ExBin Project (http://exbin.org)
  */
 @ParametersAreNonnullByDefault
-public class XBRNodeManager extends XBRDefaultManager<XBRNode> implements XBCNodeManager<XBRNode> {
+public class XBRNodeManager extends XBRDefaultManager<XBCNode> implements XBCNodeManager {
 
     private final XBPNodeStub nodeStub;
 

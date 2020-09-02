@@ -63,7 +63,7 @@ public class XBPXLangSkeleton {
                 provider.end();
 
                 XBEXLangService langService = (XBEXLangService) catalog.getCatalogService(XBEXLangService.class);
-                Optional<XBEXLanguage> lang = langService.getItem(index.getNaturalLong());
+                Optional<XBCXLanguage> lang = langService.getItem(index.getNaturalLong());
 
                 XBPListenerSerialHandler listener = new XBPListenerSerialHandler(resultInput);
                 listener.process(lang.isPresent() ? new XBString(lang.get().getLangCode()) : XBTEmptyBlock.getEmptyBlock());
@@ -95,7 +95,7 @@ public class XBPXLangSkeleton {
                 provider.end();
 
                 XBEXLangService langService = (XBEXLangService) catalog.getCatalogService(XBEXLangService.class);
-                List<XBEXLanguage> items = langService.getAllItems();
+                List<XBCXLanguage> items = langService.getAllItems();
 
                 XBPListenerSerialHandler listener = new XBPListenerSerialHandler(resultInput);
                 listener.begin();

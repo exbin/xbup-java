@@ -33,7 +33,7 @@ import org.exbin.xbup.core.catalog.base.service.XBCXStriService;
  * @author ExBin Project (http://exbin.org)
  */
 @ParametersAreNonnullByDefault
-public class XBRXStriService extends XBRDefaultService<XBRXStri> implements XBCXStriService<XBRXStri> {
+public class XBRXStriService extends XBRDefaultService<XBCXStri> implements XBCXStriService {
 
     public XBRXStriService(XBRCatalog catalog) {
         super(catalog);

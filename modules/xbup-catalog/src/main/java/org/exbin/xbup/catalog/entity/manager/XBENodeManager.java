@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
@@ -38,7 +39,7 @@ import org.springframework.stereotype.Repository;
  */
 @ParametersAreNonnullByDefault
 @Repository
-public class XBENodeManager extends XBEDefaultCatalogManager<XBENode> implements XBCNodeManager<XBENode>, Serializable {
+public class XBENodeManager extends XBEDefaultCatalogManager<XBCNode> implements XBCNodeManager, Serializable {
 
     public XBENodeManager() {
         super();
@@ -46,6 +47,12 @@ public class XBENodeManager extends XBEDefaultCatalogManager<XBENode> implements
 
     public XBENodeManager(XBECatalog catalog) {
         super(catalog);
+    }
+
+    @Nonnull
+    @Override
+    public Class getEntityClass() {
+        return XBENode.class;
     }
 
     @SuppressWarnings("unchecked")
@@ -62,12 +69,12 @@ public class XBENodeManager extends XBEDefaultCatalogManager<XBENode> implements
     }
 
     @Override
-    public XBENode getSubNode(XBCNode node, long index) {
+    public XBENode getSubNode(XBCNode node, long xbIndex) {
         if (node == null) {
             return null;
         }
         try {
-            return (XBENode) em.createQuery("SELECT object(o) FROM XBNode as o WHERE o.parent.id = " + ((XBENode) node).getId() + " AND o.xbIndex = " + index).getSingleResult();
+            return (XBENode) em.createQuery("SELECT object(o) FROM XBNode as o WHERE o.parent.id = " + ((XBENode) node).getId() + " AND o.xbIndex = " + xbIndex).getSingleResult();
         } catch (NoResultException e) {
             return null;
         } catch (Exception ex) {

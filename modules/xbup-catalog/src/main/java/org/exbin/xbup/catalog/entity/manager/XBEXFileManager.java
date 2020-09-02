@@ -25,6 +25,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 import javax.persistence.NoResultException;
 import javax.swing.ImageIcon;
@@ -43,7 +44,7 @@ import org.springframework.stereotype.Repository;
  */
 @ParametersAreNonnullByDefault
 @Repository
-public class XBEXFileManager extends XBEDefaultCatalogManager<XBEXFile> implements XBCXFileManager<XBEXFile>, Serializable {
+public class XBEXFileManager extends XBEDefaultCatalogManager<XBCXFile> implements XBCXFileManager, Serializable {
 
     public XBEXFileManager() {
         super();
@@ -51,6 +52,12 @@ public class XBEXFileManager extends XBEDefaultCatalogManager<XBEXFile> implemen
 
     public XBEXFileManager(XBECatalog catalog) {
         super(catalog);
+    }
+
+    @Nonnull
+    @Override
+    public Class getEntityClass() {
+        return XBEXFile.class;
     }
 
     public Long getAllFilesCount() {
@@ -66,7 +73,7 @@ public class XBEXFileManager extends XBEDefaultCatalogManager<XBEXFile> implemen
 
     public XBEXFile findById(long id) {
         try {
-            return (XBEXFile) catalog.getEntityManager().createQuery("SELECT object(o) FROM XBXFile as o WHERE o.id = "+ id).getSingleResult();
+            return (XBEXFile) catalog.getEntityManager().createQuery("SELECT object(o) FROM XBXFile as o WHERE o.id = " + id).getSingleResult();
         } catch (NoResultException ex) {
             return null;
         } catch (Exception ex) {
@@ -101,7 +108,7 @@ public class XBEXFileManager extends XBEDefaultCatalogManager<XBEXFile> implemen
     @Override
     public XBEXFile findFile(XBCNode node, String fileName) {
         try {
-            return (XBEXFile) catalog.getEntityManager().createQuery("SELECT object(o) FROM XBXFile as o WHERE o.node.id = "+ node.getId() + " AND o.filename = '"+fileName+"'").getSingleResult();
+            return (XBEXFile) catalog.getEntityManager().createQuery("SELECT object(o) FROM XBXFile as o WHERE o.node.id = " + node.getId() + " AND o.filename = '" + DatabaseUtils.sqlEscapeString(fileName) + "'").getSingleResult();
         } catch (NoResultException ex) {
             return null;
         } catch (Exception ex) {
@@ -152,7 +159,7 @@ public class XBEXFileManager extends XBEDefaultCatalogManager<XBEXFile> implemen
     @Override
     public List<XBCXFile> findFilesForNode(XBCNode node) {
         try {
-            return (List<XBCXFile>) catalog.getEntityManager().createQuery("SELECT object(o) FROM XBXFile as o WHERE o.node.id = "+ node.getId()).getResultList();
+            return (List<XBCXFile>) catalog.getEntityManager().createQuery("SELECT object(o) FROM XBXFile as o WHERE o.node.id = " + node.getId()).getResultList();
         } catch (NoResultException ex) {
             return null;
         } catch (Exception ex) {

@@ -24,6 +24,7 @@ import javax.annotation.PostConstruct;
 import org.exbin.xbup.catalog.XBECatalog;
 import org.exbin.xbup.catalog.entity.XBERoot;
 import org.exbin.xbup.catalog.entity.manager.XBERootManager;
+import org.exbin.xbup.core.catalog.base.XBCRoot;
 import org.exbin.xbup.core.catalog.base.manager.XBCRootManager;
 import org.exbin.xbup.core.catalog.base.service.XBCRootService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,7 +38,7 @@ import org.springframework.stereotype.Service;
  */
 @ParametersAreNonnullByDefault
 @Service
-public class XBERootService extends XBEDefaultService<XBERoot> implements XBCRootService<XBERoot>, Serializable {
+public class XBERootService extends XBEDefaultService<XBCRoot> implements XBCRootService, Serializable {
 
     @Autowired
     private XBERootManager manager;

@@ -19,8 +19,8 @@ import java.util.List;
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 import org.exbin.xbup.client.catalog.XBRCatalog;
-import org.exbin.xbup.client.catalog.remote.XBRItem;
 import org.exbin.xbup.client.stub.XBPItemStub;
+import org.exbin.xbup.core.catalog.base.XBCItem;
 import org.exbin.xbup.core.catalog.base.manager.XBCItemManager;
 import org.exbin.xbup.core.catalog.base.service.XBItemWithDetail;
 
@@ -31,7 +31,7 @@ import org.exbin.xbup.core.catalog.base.service.XBItemWithDetail;
  * @author ExBin Project (http://exbin.org)
  */
 @ParametersAreNonnullByDefault
-public class XBRItemManager extends XBRDefaultManager<XBRItem> implements XBCItemManager<XBRItem> {
+public class XBRItemManager extends XBRDefaultManager<XBCItem> implements XBCItemManager {
 
     private final XBPItemStub itemStub;
 

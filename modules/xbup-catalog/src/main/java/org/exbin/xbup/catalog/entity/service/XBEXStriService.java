@@ -38,7 +38,7 @@ import org.springframework.stereotype.Service;
  */
 @ParametersAreNonnullByDefault
 @Service
-public class XBEXStriService extends XBEDefaultService<XBEXStri> implements XBCXStriService<XBEXStri>, Serializable {
+public class XBEXStriService extends XBEDefaultService<XBCXStri> implements XBCXStriService, Serializable {
 
     @Autowired
     private XBEXStriManager manager;

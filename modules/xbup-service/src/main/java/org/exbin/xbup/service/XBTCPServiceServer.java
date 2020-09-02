@@ -135,7 +135,7 @@ public class XBTCPServiceServer implements XBServiceServer {
                     respondMessage(input, output);
 
                     if (debugMode) {
-                        ServiceELogItem logItem = logItemService.createItem();
+                        ServiceELogItem logItem = (ServiceELogItem) logItemService.createItem();
                         logItem.setCreated(new Date());
                         ByteArrayOutputStream requestOutputStream = new ByteArrayOutputStream();
                         ((XBLoggingInputStream) inputStream).getData().saveToStream(requestOutputStream);

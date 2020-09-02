@@ -26,7 +26,7 @@ import org.springframework.beans.factory.annotation.Autowired;
  * @author ExBin Project (http://exbin.org)
  * @param <T> entity class
  */
-public class XBEDefaultCatalogManager<T extends XBCBase> extends XBEDefaultManager<T> {
+public abstract class XBEDefaultCatalogManager<T extends XBCBase> extends XBEDefaultManager<T> {
 
     @Autowired
     protected XBECatalog catalog;

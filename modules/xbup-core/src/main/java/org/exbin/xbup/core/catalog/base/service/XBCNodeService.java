@@ -26,10 +26,9 @@ import org.exbin.xbup.core.catalog.base.XBCNode;
  *
  * @version 0.2.1 2020/08/26
  * @author ExBin Project (http://exbin.org)
- * @param <T> entity
  */
 @ParametersAreNonnullByDefault
-public interface XBCNodeService<T extends XBCNode> extends XBCService<T> {
+public interface XBCNodeService extends XBCService<XBCNode> {
 
     /**
      * Returns specification tree root node.
@@ -52,10 +51,10 @@ public interface XBCNodeService<T extends XBCNode> extends XBCService<T> {
      * Returns subnode of given index.
      *
      * @param parentNode parent node
-     * @param index sub node index
+     * @param xbIndex sub node index
      * @return node or null
      */
-    XBCNode getSubNode(XBCNode parentNode, long index);
+    XBCNode getSubNode(XBCNode parentNode, long xbIndex);
 
     /**
      * Returns count of direct subnodes.

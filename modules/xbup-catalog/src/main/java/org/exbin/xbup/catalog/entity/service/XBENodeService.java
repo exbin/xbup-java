@@ -38,7 +38,7 @@ import org.springframework.stereotype.Service;
  */
 @ParametersAreNonnullByDefault
 @Service
-public class XBENodeService extends XBEDefaultService<XBENode> implements XBCNodeService<XBENode>, Serializable {
+public class XBENodeService extends XBEDefaultService<XBCNode> implements XBCNodeService, Serializable {
 
     @Autowired
     private XBENodeManager manager;
@@ -90,8 +90,8 @@ public class XBENodeService extends XBEDefaultService<XBENode> implements XBCNod
     }
 
     @Override
-    public XBENode getSubNode(XBCNode node, long index) {
-        return ((XBENodeManager) itemManager).getSubNode(node, index);
+    public XBENode getSubNode(XBCNode node, long xbIndex) {
+        return ((XBENodeManager) itemManager).getSubNode(node, xbIndex);
     }
 
     @Override

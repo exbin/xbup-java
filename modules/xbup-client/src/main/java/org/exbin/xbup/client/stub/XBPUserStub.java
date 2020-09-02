@@ -20,6 +20,7 @@ import org.exbin.xbup.client.XBCatalogServiceClient;
 import org.exbin.xbup.client.catalog.remote.XBRXItemInfo;
 import org.exbin.xbup.core.block.declaration.XBDeclBlockType;
 import org.exbin.xbup.core.catalog.base.XBCNode;
+import org.exbin.xbup.core.catalog.base.XBCXItemInfo;
 
 /**
  * RPC Stub for Info extension related operations.
@@ -28,7 +29,7 @@ import org.exbin.xbup.core.catalog.base.XBCNode;
  * @author ExBin Project (http://exbin.org)
  */
 @ParametersAreNonnullByDefault
-public class XBPUserStub extends XBPBaseStub<XBRXItemInfo> {
+public class XBPUserStub extends XBPBaseStub<XBCXItemInfo> {
 
     public static long[] NODE_INFO_PROCEDURE = {0, 2, 11, 0, 0};
     public static long[] INFOSCOUNT_INFO_PROCEDURE = {0, 2, 11, 1, 0};

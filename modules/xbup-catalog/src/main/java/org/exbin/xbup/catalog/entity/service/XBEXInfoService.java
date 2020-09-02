@@ -22,6 +22,7 @@ import org.exbin.xbup.catalog.XBECatalog;
 import org.exbin.xbup.catalog.entity.XBEXItemInfo;
 import org.exbin.xbup.catalog.entity.manager.XBEXInfoManager;
 import org.exbin.xbup.core.catalog.base.XBCNode;
+import org.exbin.xbup.core.catalog.base.XBCXItemInfo;
 import org.exbin.xbup.core.catalog.base.manager.XBCXInfoManager;
 import org.exbin.xbup.core.catalog.base.service.XBCXInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +36,7 @@ import org.springframework.stereotype.Service;
  */
 @ParametersAreNonnullByDefault
 @Service
-public class XBEXInfoService extends XBEDefaultService<XBEXItemInfo> implements XBCXInfoService<XBEXItemInfo>, Serializable {
+public class XBEXInfoService extends XBEDefaultService<XBCXItemInfo> implements XBCXInfoService, Serializable {
 
     @Autowired
     private XBEXInfoManager manager;

@@ -63,7 +63,7 @@ public class XBPXFileSkeleton {
                 XBAttribute index = provider.pullAttribute();
                 provider.end();
 
-                XBCXFileService<XBCXFile> fileService = catalog.getCatalogService(XBCXFileService.class);
+                XBCXFileService fileService = catalog.getCatalogService(XBCXFileService.class);
                 Optional<XBCXFile> file = fileService.getItem(index.getNaturalLong());
 
                 XBPListenerSerialHandler listener = new XBPListenerSerialHandler(resultInput);
@@ -80,7 +80,7 @@ public class XBPXFileSkeleton {
                 XBAttribute index = provider.pullAttribute();
                 provider.end();
 
-                XBCXFileService<XBCXFile> fileService = catalog.getCatalogService(XBCXFileService.class);
+                XBCXFileService fileService = catalog.getCatalogService(XBCXFileService.class);
                 Optional<XBCXFile> file = fileService.getItem(index.getNaturalLong());
 
                 XBPListenerSerialHandler listener = new XBPListenerSerialHandler(resultInput);
@@ -97,7 +97,7 @@ public class XBPXFileSkeleton {
                 XBAttribute index = provider.pullAttribute();
                 provider.end();
 
-                XBCXFileService<XBCXFile> fileService = catalog.getCatalogService(XBCXFileService.class);
+                XBCXFileService fileService = catalog.getCatalogService(XBCXFileService.class);
                 Optional<XBCXFile> file = fileService.getItem(index.getNaturalLong());
 
                 XBPListenerSerialHandler listener = new XBPListenerSerialHandler(resultInput);
@@ -116,8 +116,8 @@ public class XBPXFileSkeleton {
                 long nodeId = provider.pullLongAttribute();
                 provider.end();
 
-                XBCXFileService<XBCXFile> fileService = catalog.getCatalogService(XBCXFileService.class);
-                XBCNodeService<XBCNode> nodeService = catalog.getCatalogService(XBCNodeService.class);
+                XBCXFileService fileService = catalog.getCatalogService(XBCXFileService.class);
+                XBCNodeService nodeService = catalog.getCatalogService(XBCNodeService.class);
                 Optional<XBCNode> node = nodeService.getItem(nodeId);
                 List<XBCXFile> files = fileService.findFilesForNode(node.get());
 

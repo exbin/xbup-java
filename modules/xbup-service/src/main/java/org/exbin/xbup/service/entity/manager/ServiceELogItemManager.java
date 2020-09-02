@@ -16,8 +16,10 @@
 package org.exbin.xbup.service.entity.manager;
 
 import java.io.Serializable;
+import javax.annotation.Nonnull;
 import javax.persistence.EntityManager;
 import org.exbin.xbup.catalog.entity.manager.XBEDefaultManager;
+import org.exbin.xbup.service.base.ServiceLogItem;
 import org.exbin.xbup.service.base.manager.ServiceLogItemManager;
 import org.exbin.xbup.service.entity.ServiceELogItem;
 import org.springframework.stereotype.Repository;
@@ -29,7 +31,7 @@ import org.springframework.stereotype.Repository;
  * @author ExBin Project (http://exbin.org)
  */
 @Repository
-public class ServiceELogItemManager extends XBEDefaultManager<ServiceELogItem> implements ServiceLogItemManager<ServiceELogItem>, Serializable {
+public class ServiceELogItemManager extends XBEDefaultManager<ServiceLogItem> implements ServiceLogItemManager, Serializable {
 
     public ServiceELogItemManager() {
         super();
@@ -37,5 +39,11 @@ public class ServiceELogItemManager extends XBEDefaultManager<ServiceELogItem> i
 
     public ServiceELogItemManager(EntityManager entityManager) {
         super(entityManager);
+    }
+
+    @Nonnull
+    @Override
+    public Class getEntityClass() {
+        return ServiceELogItem.class;
     }
 }

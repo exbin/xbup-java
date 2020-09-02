@@ -36,7 +36,7 @@ import org.exbin.xbup.core.catalog.base.service.XBCXIconService;
  * @author ExBin Project (http://exbin.org)
  */
 @ParametersAreNonnullByDefault
-public class XBRXIconService extends XBRDefaultService<XBRXIcon> implements XBCXIconService<XBRXIcon> {
+public class XBRXIconService extends XBRDefaultService<XBCXIcon> implements XBCXIconService {
 
     public XBRXIconService(XBRCatalog catalog) {
         super(catalog);

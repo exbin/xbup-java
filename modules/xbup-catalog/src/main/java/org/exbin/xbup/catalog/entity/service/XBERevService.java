@@ -51,7 +51,7 @@ import org.springframework.stereotype.Service;
  */
 @ParametersAreNonnullByDefault
 @Service
-public class XBERevService extends XBEDefaultService<XBERev> implements XBCRevService<XBERev>, Serializable {
+public class XBERevService extends XBEDefaultService<XBCRev> implements XBCRevService, Serializable {
 
     @Autowired
     private XBERevManager manager;

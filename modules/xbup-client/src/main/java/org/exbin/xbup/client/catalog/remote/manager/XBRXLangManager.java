@@ -16,6 +16,8 @@
 package org.exbin.xbup.client.catalog.remote.manager;
 
 import java.util.List;
+import java.util.Optional;
+import javax.annotation.ParametersAreNonnullByDefault;
 import org.exbin.xbup.client.catalog.XBRCatalog;
 import org.exbin.xbup.client.catalog.remote.XBRXLanguage;
 import org.exbin.xbup.client.stub.XBPXLangStub;
@@ -28,7 +30,8 @@ import org.exbin.xbup.core.catalog.base.manager.XBCXLangManager;
  * @version 0.2.1 2020/08/26
  * @author ExBin Project (http://exbin.org)
  */
-public class XBRXLangManager extends XBRDefaultManager<XBRXLanguage> implements XBCXLangManager<XBRXLanguage> {
+@ParametersAreNonnullByDefault
+public class XBRXLangManager extends XBRDefaultManager<XBCXLanguage> implements XBCXLangManager {
 
     private final XBPXLangStub langStub;
 
@@ -45,6 +48,11 @@ public class XBRXLangManager extends XBRDefaultManager<XBRXLanguage> implements 
 
     public List<XBCXLanguage> getLangs() {
         return langStub.getLangs();
+    }
+
+    @Override
+    public Optional<XBCXLanguage> findByCode(String langCode) {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override

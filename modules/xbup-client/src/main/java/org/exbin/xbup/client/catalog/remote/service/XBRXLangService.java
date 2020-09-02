@@ -15,11 +15,13 @@
  */
 package org.exbin.xbup.client.catalog.remote.service;
 
+import java.util.Optional;
 import javax.annotation.ParametersAreNonnullByDefault;
 import org.exbin.xbup.client.catalog.XBRCatalog;
 import org.exbin.xbup.client.catalog.remote.XBRXLanguage;
 import org.exbin.xbup.client.catalog.remote.manager.XBRXLangManager;
 import org.exbin.xbup.core.catalog.base.XBCExtension;
+import org.exbin.xbup.core.catalog.base.XBCXLanguage;
 import org.exbin.xbup.core.catalog.base.manager.XBCXLangManager;
 import org.exbin.xbup.core.catalog.base.service.XBCXLangService;
 
@@ -30,7 +32,7 @@ import org.exbin.xbup.core.catalog.base.service.XBCXLangService;
  * @author ExBin Project (http://exbin.org)
  */
 @ParametersAreNonnullByDefault
-public class XBRXLangService extends XBRDefaultService<XBRXLanguage> implements XBCXLangService<XBRXLanguage> {
+public class XBRXLangService extends XBRDefaultService<XBCXLanguage> implements XBCXLangService {
 
     public XBRXLangService(XBRCatalog catalog) {
         super(catalog);
@@ -41,6 +43,11 @@ public class XBRXLangService extends XBRDefaultService<XBRXLanguage> implements 
     @Override
     public XBRXLanguage getDefaultLang() {
         return ((XBRXLangManager) itemManager).getDefaultLang();
+    }
+
+    @Override
+    public Optional<XBCXLanguage> findByCode(String langCode) {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override

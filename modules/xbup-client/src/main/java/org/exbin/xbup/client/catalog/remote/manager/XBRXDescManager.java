@@ -32,7 +32,7 @@ import org.exbin.xbup.core.catalog.base.manager.XBCXDescManager;
  * @author ExBin Project (http://exbin.org)
  */
 @ParametersAreNonnullByDefault
-public class XBRXDescManager extends XBRDefaultManager<XBRXDesc> implements XBCXDescManager<XBRXDesc> {
+public class XBRXDescManager extends XBRDefaultManager<XBCXDesc> implements XBCXDescManager {
 
     private final XBPXDescStub descStub;
 

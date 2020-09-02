@@ -13,16 +13,30 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.exbin.xbup.service.base.service;
+package org.exbin.xbup.catalog.entity.manager;
 
-import org.exbin.xbup.core.catalog.base.service.XBCService;
-import org.exbin.xbup.service.base.ServiceLogItem;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
 
 /**
- * Interface for ServiceLogItem items service.
+ * Database utilities.
  *
- * @version 0.2.0 2016/02/20
+ * @version 0.2.1 2020/09/01
  * @author ExBin Project (http://exbin.org)
  */
-public interface ServiceLogItemService extends XBCService<ServiceLogItem> {
+@ParametersAreNonnullByDefault
+public class DatabaseUtils {
+
+    private DatabaseUtils() {
+    }
+
+    @Nonnull
+    public static String sqlEscapeString(@Nullable String text) {
+        if (text == null) {
+            return "";
+        }
+
+        return text.replace("'", "''");
+    }
 }

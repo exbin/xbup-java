@@ -37,7 +37,7 @@ import org.exbin.xbup.core.serial.param.XBPProviderSerialHandler;
  * @author ExBin Project (http://exbin.org)
  */
 @ParametersAreNonnullByDefault
-public class XBPXLangStub extends XBPBaseStub<XBRXLanguage> {
+public class XBPXLangStub extends XBPBaseStub<XBCXLanguage> {
 
     public static long[] CODE_LANG_PROCEDURE = {0, 2, 8, 0, 0};
     public static long[] DEFAULT_LANG_PROCEDURE = {0, 2, 8, 1, 0};

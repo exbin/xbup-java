@@ -15,6 +15,7 @@
  */
 package org.exbin.xbup.core.catalog.base.manager;
 
+import java.util.Optional;
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 import org.exbin.xbup.core.catalog.base.XBCExtension;
@@ -25,10 +26,9 @@ import org.exbin.xbup.core.catalog.base.XBCXLanguage;
  *
  * @version 0.2.1 2020/08/26
  * @author ExBin Project (http://exbin.org)
- * @param <T> entity
  */
 @ParametersAreNonnullByDefault
-public interface XBCXLangManager<T extends XBCXLanguage> extends XBCManager<T>, XBCExtension {
+public interface XBCXLangManager extends XBCManager<XBCXLanguage>, XBCExtension {
 
     /**
      * Gets default language.
@@ -37,4 +37,13 @@ public interface XBCXLangManager<T extends XBCXLanguage> extends XBCManager<T>, 
      */
     @Nonnull
     XBCXLanguage getDefaultLang();
+
+    /**
+     * Finds language by code.
+     *
+     * @param langCode code
+     * @return language
+     */
+    @Nonnull
+    Optional<XBCXLanguage> findByCode(String langCode);
 }

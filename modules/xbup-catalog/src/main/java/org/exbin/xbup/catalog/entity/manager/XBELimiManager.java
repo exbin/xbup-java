@@ -16,9 +16,11 @@
 package org.exbin.xbup.catalog.entity.manager;
 
 import java.io.Serializable;
+import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 import org.exbin.xbup.catalog.XBECatalog;
 import org.exbin.xbup.catalog.entity.XBEItemLimi;
+import org.exbin.xbup.core.catalog.base.XBCItemLimi;
 import org.exbin.xbup.core.catalog.base.manager.XBCLimiManager;
 import org.springframework.stereotype.Repository;
 
@@ -30,7 +32,7 @@ import org.springframework.stereotype.Repository;
  */
 @ParametersAreNonnullByDefault
 @Repository
-public class XBELimiManager extends XBEDefaultCatalogManager<XBEItemLimi> implements XBCLimiManager<XBEItemLimi>, Serializable {
+public class XBELimiManager extends XBEDefaultCatalogManager<XBCItemLimi> implements XBCLimiManager, Serializable {
 
     public XBELimiManager() {
         super();
@@ -39,4 +41,11 @@ public class XBELimiManager extends XBEDefaultCatalogManager<XBEItemLimi> implem
     public XBELimiManager(XBECatalog catalog) {
         super(catalog);
     }
+
+    @Nonnull
+    @Override
+    public Class getEntityClass() {
+        return XBEItemLimi.class;
+    }
+
 }

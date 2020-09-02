@@ -41,7 +41,7 @@ import org.springframework.stereotype.Service;
  */
 @ParametersAreNonnullByDefault
 @Service
-public class XBEXIconService extends XBEDefaultService<XBEXIcon> implements XBCXIconService<XBEXIcon>, Serializable {
+public class XBEXIconService extends XBEDefaultService<XBCXIcon> implements XBCXIconService, Serializable {
 
     @Autowired
     private XBEXIconManager manager;

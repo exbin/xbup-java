@@ -17,6 +17,7 @@ package org.exbin.xbup.core.catalog.base.manager;
 
 import java.util.List;
 import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
 import javax.swing.ImageIcon;
 import org.exbin.xbup.core.catalog.base.XBCExtension;
 import org.exbin.xbup.core.catalog.base.XBCItem;
@@ -28,9 +29,9 @@ import org.exbin.xbup.core.catalog.base.XBCXIconMode;
  *
  * @version 0.2.1 2020/08/26
  * @author ExBin Project (http://exbin.org)
- * @param <T> entity
  */
-public interface XBCXIconManager<T extends XBCXIcon> extends XBCManager<T>, XBCExtension {
+@ParametersAreNonnullByDefault
+public interface XBCXIconManager extends XBCManager<XBCXIcon>, XBCExtension {
 
     /**
      * Gets icon mode by unique index.

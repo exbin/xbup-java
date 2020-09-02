@@ -18,6 +18,7 @@ package org.exbin.xbup.catalog.entity.manager;
 import java.io.Serializable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 import javax.persistence.NoResultException;
 import org.exbin.xbup.catalog.XBECatalog;
@@ -25,6 +26,7 @@ import org.exbin.xbup.catalog.entity.XBEItem;
 import org.exbin.xbup.catalog.entity.XBEXHDoc;
 import org.exbin.xbup.catalog.entity.XBEXLanguage;
 import org.exbin.xbup.core.catalog.base.XBCItem;
+import org.exbin.xbup.core.catalog.base.XBCXHDoc;
 import org.exbin.xbup.core.catalog.base.XBCXLanguage;
 import org.exbin.xbup.core.catalog.base.manager.XBCXHDocManager;
 import org.exbin.xbup.core.catalog.base.manager.XBCXLangManager;
@@ -38,7 +40,7 @@ import org.springframework.stereotype.Repository;
  */
 @ParametersAreNonnullByDefault
 @Repository
-public class XBEXHDocManager extends XBEDefaultCatalogManager<XBEXHDoc> implements XBCXHDocManager<XBEXHDoc>, Serializable {
+public class XBEXHDocManager extends XBEDefaultCatalogManager<XBCXHDoc> implements XBCXHDocManager, Serializable {
 
     public XBEXHDocManager() {
         super();
@@ -46,6 +48,12 @@ public class XBEXHDocManager extends XBEDefaultCatalogManager<XBEXHDoc> implemen
 
     public XBEXHDocManager(XBECatalog catalog) {
         super(catalog);
+    }
+
+    @Nonnull
+    @Override
+    public Class getEntityClass() {
+        return XBEXHDoc.class;
     }
 
     @Override

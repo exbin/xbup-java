@@ -19,6 +19,7 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
@@ -38,7 +39,7 @@ import org.springframework.stereotype.Repository;
  */
 @ParametersAreNonnullByDefault
 @Repository
-public class XBERevManager extends XBEDefaultCatalogManager<XBERev> implements XBCRevManager<XBERev>, Serializable {
+public class XBERevManager extends XBEDefaultCatalogManager<XBCRev> implements XBCRevManager, Serializable {
 
     public XBERevManager() {
         super();
@@ -46,6 +47,12 @@ public class XBERevManager extends XBEDefaultCatalogManager<XBERev> implements X
 
     public XBERevManager(XBECatalog catalog) {
         super(catalog);
+    }
+
+    @Nonnull
+    @Override
+    public Class getEntityClass() {
+        return XBERev.class;
     }
 
     @Override

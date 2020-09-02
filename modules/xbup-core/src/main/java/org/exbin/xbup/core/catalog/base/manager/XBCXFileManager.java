@@ -28,10 +28,9 @@ import org.exbin.xbup.core.catalog.base.XBCXFile;
  *
  * @version 0.2.1 2020/08/26
  * @author ExBin Project (http://exbin.org)
- * @param <T> entity
  */
 @ParametersAreNonnullByDefault
-public interface XBCXFileManager<T extends XBCXFile> extends XBCManager<T>, XBCExtension {
+public interface XBCXFileManager extends XBCManager<XBCXFile>, XBCExtension {
 
     /**
      * Returns path of XBIndexes for given file.

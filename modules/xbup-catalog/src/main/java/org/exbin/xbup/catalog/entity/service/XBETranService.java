@@ -19,8 +19,8 @@ import java.io.Serializable;
 import javax.annotation.ParametersAreNonnullByDefault;
 import javax.annotation.PostConstruct;
 import org.exbin.xbup.catalog.XBECatalog;
-import org.exbin.xbup.catalog.entity.XBETran;
 import org.exbin.xbup.catalog.entity.manager.XBETranManager;
+import org.exbin.xbup.core.catalog.base.XBCTran;
 import org.exbin.xbup.core.catalog.base.manager.XBCTranManager;
 import org.exbin.xbup.core.catalog.base.service.XBCTranService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +34,7 @@ import org.springframework.stereotype.Service;
  */
 @ParametersAreNonnullByDefault
 @Service
-public class XBETranService extends XBEDefaultService<XBETran> implements XBCTranService<XBETran>, Serializable {
+public class XBETranService extends XBEDefaultService<XBCTran> implements XBCTranService, Serializable {
 
     @Autowired
     private XBETranManager manager;

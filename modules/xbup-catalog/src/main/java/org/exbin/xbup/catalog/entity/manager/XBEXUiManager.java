@@ -44,7 +44,7 @@ import org.springframework.stereotype.Repository;
  */
 @ParametersAreNonnullByDefault
 @Repository
-public class XBEXUiManager extends XBEDefaultCatalogManager<XBEXBlockUi> implements XBCXUiManager<XBEXBlockUi>, Serializable {
+public class XBEXUiManager extends XBEDefaultCatalogManager<XBCXBlockUi> implements XBCXUiManager, Serializable {
 
     public XBEXUiManager() {
         super();
@@ -52,6 +52,12 @@ public class XBEXUiManager extends XBEDefaultCatalogManager<XBEXBlockUi> impleme
 
     public XBEXUiManager(XBECatalog catalog) {
         super(catalog);
+    }
+
+    @Nonnull
+    @Override
+    public Class getEntityClass() {
+        return XBEXBlockUi.class;
     }
 
     @Override

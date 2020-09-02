@@ -46,7 +46,7 @@ import org.exbin.xbup.core.catalog.base.service.XBCRevService;
  * @author ExBin Project (http://exbin.org)
  */
 @ParametersAreNonnullByDefault
-public class XBRRevService extends XBRDefaultService<XBRRev> implements XBCRevService<XBRRev> {
+public class XBRRevService extends XBRDefaultService<XBCRev> implements XBCRevService {
 
     public XBRRevService(XBRCatalog catalog) {
         super(catalog);

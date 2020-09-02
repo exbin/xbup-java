@@ -41,7 +41,7 @@ import org.springframework.stereotype.Service;
  */
 @ParametersAreNonnullByDefault
 @Service
-public class XBEXFileService extends XBEDefaultService<XBEXFile> implements XBCXFileService<XBEXFile>, Serializable {
+public class XBEXFileService extends XBEDefaultService<XBCXFile> implements XBCXFileService, Serializable {
 
     @Autowired
     private XBEXFileManager manager;

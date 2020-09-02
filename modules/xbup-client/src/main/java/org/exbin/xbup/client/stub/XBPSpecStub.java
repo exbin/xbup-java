@@ -57,7 +57,7 @@ import org.exbin.xbup.core.ubnumber.type.UBNat32;
  * @author ExBin Project (http://exbin.org)
  */
 @ParametersAreNonnullByDefault
-public class XBPSpecStub extends XBPBaseStub<XBRSpec> {
+public class XBPSpecStub extends XBPBaseStub<XBCSpec> {
 
     public static long[] SPEC_NODE_PROCEDURE = {0, 2, 4, 4, 0};
     public static long[] SPECS_NODE_PROCEDURE = {0, 2, 4, 5, 0};

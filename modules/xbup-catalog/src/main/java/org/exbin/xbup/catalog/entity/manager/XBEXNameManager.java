@@ -19,6 +19,7 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 import javax.persistence.NoResultException;
 import org.exbin.xbup.catalog.XBECatalog;
@@ -42,7 +43,7 @@ import org.springframework.stereotype.Repository;
  */
 @ParametersAreNonnullByDefault
 @Repository
-public class XBEXNameManager extends XBEDefaultCatalogManager<XBEXName> implements XBCXNameManager<XBEXName>, Serializable {
+public class XBEXNameManager extends XBEDefaultCatalogManager<XBCXName> implements XBCXNameManager, Serializable {
 
     public XBEXNameManager() {
         super();
@@ -50,6 +51,12 @@ public class XBEXNameManager extends XBEDefaultCatalogManager<XBEXName> implemen
 
     public XBEXNameManager(XBECatalog catalog) {
         super(catalog);
+    }
+
+    @Nonnull
+    @Override
+    public Class getEntityClass() {
+        return XBEXName.class;
     }
 
     @Override

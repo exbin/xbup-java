@@ -17,7 +17,7 @@ package org.exbin.xbup.client.catalog.remote.manager;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 import org.exbin.xbup.client.catalog.XBRCatalog;
-import org.exbin.xbup.client.catalog.remote.XBRItemLimi;
+import org.exbin.xbup.core.catalog.base.XBCItemLimi;
 import org.exbin.xbup.core.catalog.base.manager.XBCLimiManager;
 
 /**
@@ -27,7 +27,7 @@ import org.exbin.xbup.core.catalog.base.manager.XBCLimiManager;
  * @author ExBin Project (http://exbin.org)
  */
 @ParametersAreNonnullByDefault
-public class XBRLimiManager extends XBRDefaultManager<XBRItemLimi> implements XBCLimiManager<XBRItemLimi> {
+public class XBRLimiManager extends XBRDefaultManager<XBCItemLimi> implements XBCLimiManager {
 
     public XBRLimiManager(XBRCatalog catalog) {
         super(catalog);

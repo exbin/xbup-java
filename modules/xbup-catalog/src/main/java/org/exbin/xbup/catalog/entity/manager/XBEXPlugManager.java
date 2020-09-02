@@ -41,7 +41,7 @@ import org.springframework.stereotype.Repository;
  */
 @ParametersAreNonnullByDefault
 @Repository
-public class XBEXPlugManager extends XBEDefaultCatalogManager<XBEXPlugin> implements XBCXPlugManager<XBEXPlugin>, Serializable {
+public class XBEXPlugManager extends XBEDefaultCatalogManager<XBCXPlugin> implements XBCXPlugManager, Serializable {
 
     public XBEXPlugManager() {
         super();
@@ -49,6 +49,12 @@ public class XBEXPlugManager extends XBEDefaultCatalogManager<XBEXPlugin> implem
 
     public XBEXPlugManager(XBECatalog catalog) {
         super(catalog);
+    }
+
+    @Nonnull
+    @Override
+    public Class getEntityClass() {
+        return XBEXPlugin.class;
     }
 
     @Override
@@ -99,7 +105,7 @@ public class XBEXPlugManager extends XBEDefaultCatalogManager<XBEXPlugin> implem
 
     public XBEXFile findFile(XBCNode node, String fileName) {
         try {
-            return (XBEXFile) catalog.getEntityManager().createQuery("SELECT object(o) FROM XBXFile as o WHERE o.parent.id = " + node.getId() + " AND o.filename = '" + fileName + "'").getSingleResult();
+            return (XBEXFile) catalog.getEntityManager().createQuery("SELECT object(o) FROM XBXFile as o WHERE o.parent.id = " + node.getId() + " AND o.filename = '" + DatabaseUtils.sqlEscapeString(fileName) + "'").getSingleResult();
         } catch (NoResultException ex) {
             return null;
         } catch (Exception ex) {

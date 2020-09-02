@@ -23,7 +23,6 @@ import org.exbin.xbup.service.base.ServiceLogItem;
  *
  * @version 0.2.0 2016/02/20
  * @author ExBin Project (http://exbin.org)
- * @param <T> item entity
  */
-public interface ServiceLogItemManager<T extends ServiceLogItem> extends XBCManager<T> {
+public interface ServiceLogItemManager extends XBCManager<ServiceLogItem> {
 }

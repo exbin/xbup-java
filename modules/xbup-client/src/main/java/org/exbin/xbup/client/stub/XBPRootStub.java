@@ -39,7 +39,7 @@ import org.exbin.xbup.core.type.XBDateTime;
  * @author ExBin Project (http://exbin.org)
  */
 @ParametersAreNonnullByDefault
-public class XBPRootStub extends XBPBaseStub<XBRRoot> {
+public class XBPRootStub extends XBPBaseStub<XBCRoot> {
 
     public static long[] ROOT_PROCEDURE = {0, 2, 4, 29, 0};
     public static long[] CATALOG_ROOT_PROCEDURE = {0, 2, 4, 30, 0};

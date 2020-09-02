@@ -26,10 +26,9 @@ import org.exbin.xbup.core.catalog.base.XBCRoot;
  *
  * @version 0.2.1 2020/08/26
  * @author ExBin Project (http://exbin.org)
- * @param <T> entity
  */
 @ParametersAreNonnullByDefault
-public interface XBCRootManager<T extends XBCRoot> extends XBCCatalogManager<T> {
+public interface XBCRootManager extends XBCCatalogManager<XBCRoot> {
 
     /**
      * Gets main catalog root record.
@@ -51,7 +50,7 @@ public interface XBCRootManager<T extends XBCRoot> extends XBCCatalogManager<T> 
      * Sets main last update to now.
      */
     void setMainLastUpdateToNow();
-    
+
     /**
      * Resutrn true if main root is available.
      *

@@ -34,7 +34,7 @@ import org.exbin.xbup.core.catalog.base.manager.XBCXFileManager;
  * @author ExBin Project (http://exbin.org)
  */
 @ParametersAreNonnullByDefault
-public class XBRXFileManager extends XBRDefaultManager<XBRXFile> implements XBCXFileManager<XBRXFile> {
+public class XBRXFileManager extends XBRDefaultManager<XBCXFile> implements XBCXFileManager {
 
     private final XBPXFileStub fileStub;
 

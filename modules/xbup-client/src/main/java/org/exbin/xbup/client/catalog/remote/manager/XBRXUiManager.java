@@ -38,7 +38,7 @@ import org.exbin.xbup.core.catalog.base.manager.XBCXUiManager;
  * @author ExBin Project (http://exbin.org)
  */
 @ParametersAreNonnullByDefault
-public class XBRXUiManager extends XBRDefaultManager<XBRXBlockUi> implements XBCXUiManager<XBRXBlockUi> {
+public class XBRXUiManager extends XBRDefaultManager<XBCXBlockUi> implements XBCXUiManager {
 
     private final XBPXUiStub uiStub;
 

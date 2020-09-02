@@ -23,8 +23,7 @@ import org.exbin.xbup.core.catalog.base.XBCXUser;
  *
  * @version 0.2.1 2020/08/26
  * @author ExBin Project (http://exbin.org)
- * @param <T> entity
  */
 @ParametersAreNonnullByDefault
-public interface XBCXUserManager<T extends XBCXUser> extends XBCManager<T> {
+public interface XBCXUserManager extends XBCManager<XBCXUser> {
 }

@@ -30,7 +30,7 @@ import org.exbin.xbup.core.catalog.base.XBCItem;
  * @author ExBin Project (http://exbin.org)
  */
 @ParametersAreNonnullByDefault
-public class XBPItemStub extends XBPBaseStub<XBRItem> {
+public class XBPItemStub extends XBPBaseStub<XBCItem> {
 
     public static long[] OWNER_ITEM_PROCEDURE = {0, 2, 3, 0, 0};
     public static long[] XBINDEX_ITEM_PROCEDURE = {0, 2, 3, 1, 0};

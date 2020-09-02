@@ -18,12 +18,12 @@ package org.exbin.xbup.service.skeleton;
 import java.io.IOException;
 import java.util.Optional;
 import org.exbin.xbup.catalog.XBAECatalog;
-import org.exbin.xbup.catalog.entity.XBEItem;
 import org.exbin.xbup.catalog.entity.service.XBEItemService;
 import org.exbin.xbup.client.stub.XBPItemStub;
 import org.exbin.xbup.core.block.XBBlockType;
 import org.exbin.xbup.core.block.XBTEmptyBlock;
 import org.exbin.xbup.core.block.declaration.XBDeclBlockType;
+import org.exbin.xbup.core.catalog.base.XBCItem;
 import org.exbin.xbup.core.catalog.base.service.XBCItemService;
 import org.exbin.xbup.core.parser.XBProcessingException;
 import org.exbin.xbup.core.parser.token.XBAttribute;
@@ -62,7 +62,7 @@ public class XBPItemSkeleton {
                 XBEItemService itemService = (XBEItemService) catalog.getCatalogService(XBCItemService.class);
 
                 XBPListenerSerialHandler listener = new XBPListenerSerialHandler(resultInput);
-                Optional<XBEItem> item = itemService.getItem(index.getNaturalLong());
+                Optional<XBCItem> item = itemService.getItem(index.getNaturalLong());
                 listener.process(!item.isPresent() || !item.get().getParentItem().isPresent() ? XBTEmptyBlock.getEmptyBlock() : new UBNat32(item.get().getParentItem().get().getId()));
             }
         });
@@ -79,7 +79,7 @@ public class XBPItemSkeleton {
                 XBEItemService itemService = (XBEItemService) catalog.getCatalogService(XBCItemService.class);
 
                 XBPListenerSerialHandler listener = new XBPListenerSerialHandler(resultInput);
-                Optional<XBEItem> item = itemService.getItem(index.getNaturalLong());
+                Optional<XBCItem> item = itemService.getItem(index.getNaturalLong());
                 listener.process(item.isPresent() ? new UBNat32(item.get().getXBIndex()) : XBTEmptyBlock.getEmptyBlock());
             }
         });

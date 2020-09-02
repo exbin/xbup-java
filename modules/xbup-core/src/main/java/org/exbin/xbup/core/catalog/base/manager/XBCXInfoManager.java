@@ -24,10 +24,9 @@ import org.exbin.xbup.core.catalog.base.XBCXItemInfo;
  *
  * @version 0.2.1 2020/08/26
  * @author ExBin Project (http://exbin.org)
- * @param <T> entity
  */
 @ParametersAreNonnullByDefault
-public interface XBCXInfoManager<T extends XBCXItemInfo> extends XBCManager<T> {
+public interface XBCXInfoManager extends XBCManager<XBCXItemInfo> {
 
     /**
      * Returns item info for given node.

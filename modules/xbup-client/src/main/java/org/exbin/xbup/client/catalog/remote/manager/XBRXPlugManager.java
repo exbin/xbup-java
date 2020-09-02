@@ -33,7 +33,7 @@ import org.exbin.xbup.core.catalog.base.manager.XBCXPlugManager;
  * @author ExBin Project (http://exbin.org)
  */
 @ParametersAreNonnullByDefault
-public class XBRXPlugManager extends XBRDefaultManager<XBRXPlugin> implements XBCXPlugManager<XBRXPlugin> {
+public class XBRXPlugManager extends XBRDefaultManager<XBCXPlugin> implements XBCXPlugManager {
 
     private final XBPXPlugStub plugStub;
 

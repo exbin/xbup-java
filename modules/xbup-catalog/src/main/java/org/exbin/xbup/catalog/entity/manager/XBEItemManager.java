@@ -28,6 +28,7 @@ import org.exbin.xbup.catalog.entity.XBEItem;
 import org.exbin.xbup.catalog.entity.XBEXDesc;
 import org.exbin.xbup.catalog.entity.XBEXName;
 import org.exbin.xbup.catalog.entity.XBEXStri;
+import org.exbin.xbup.core.catalog.base.XBCItem;
 import org.exbin.xbup.core.catalog.base.manager.XBCItemManager;
 import org.exbin.xbup.core.catalog.base.manager.XBCXLangManager;
 import org.springframework.stereotype.Repository;
@@ -35,12 +36,12 @@ import org.springframework.stereotype.Repository;
 /**
  * XBUP catalog item manager.
  *
- * @version 0.2.1 2020/08/26
+ * @version 0.2.1 2020/09/02
  * @author ExBin Project (http://exbin.org)
  */
 @ParametersAreNonnullByDefault
 @Repository
-public class XBEItemManager extends XBEDefaultCatalogManager<XBEItem> implements XBCItemManager<XBEItem>, Serializable {
+public class XBEItemManager extends XBEDefaultCatalogManager<XBCItem> implements XBCItemManager, Serializable {
 
     public XBEItemManager() {
         super();
@@ -48,6 +49,12 @@ public class XBEItemManager extends XBEDefaultCatalogManager<XBEItem> implements
 
     public XBEItemManager(XBECatalog catalog) {
         super(catalog);
+    }
+
+    @Nonnull
+    @Override
+    public Class getEntityClass() {
+        return XBEItem.class;
     }
 
     @Nonnull

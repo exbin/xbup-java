@@ -31,7 +31,7 @@ import org.exbin.xbup.core.catalog.base.manager.XBCXStriManager;
  * @author ExBin Project (http://exbin.org)
  */
 @ParametersAreNonnullByDefault
-public class XBRXStriManager extends XBRDefaultManager<XBRXStri> implements XBCXStriManager<XBRXStri> {
+public class XBRXStriManager extends XBRDefaultManager<XBCXStri> implements XBCXStriManager {
 
     private final XBPXStriStub striStub;
 

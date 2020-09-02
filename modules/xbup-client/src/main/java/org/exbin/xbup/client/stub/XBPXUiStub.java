@@ -25,6 +25,7 @@ import org.exbin.xbup.client.catalog.remote.XBRXPlugin;
 import org.exbin.xbup.core.block.declaration.XBDeclBlockType;
 import org.exbin.xbup.core.catalog.XBPlugUiType;
 import org.exbin.xbup.core.catalog.base.XBCBlockRev;
+import org.exbin.xbup.core.catalog.base.XBCXBlockUi;
 import org.exbin.xbup.core.catalog.base.XBCXPlugUi;
 import org.exbin.xbup.core.catalog.base.XBCXPlugUiType;
 import org.exbin.xbup.core.catalog.base.XBCXPlugin;
@@ -36,7 +37,7 @@ import org.exbin.xbup.core.catalog.base.XBCXPlugin;
  * @author ExBin Project (http://exbin.org)
  */
 @ParametersAreNonnullByDefault
-public class XBPXUiStub extends XBPBaseStub<XBRXBlockUi> {
+public class XBPXUiStub extends XBPBaseStub<XBCXBlockUi> {
 
     // Previously line 15, pane 16
     public static long[] REV_UI_PROCEDURE = {0, 2, 18, 0, 0};

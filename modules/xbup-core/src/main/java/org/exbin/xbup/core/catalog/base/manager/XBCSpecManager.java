@@ -30,10 +30,9 @@ import org.exbin.xbup.core.catalog.base.XBCSpecDef;
  *
  * @version 0.2.1 2020/08/26
  * @author ExBin Project (http://exbin.org)
- * @param <T> entity
  */
 @ParametersAreNonnullByDefault
-public interface XBCSpecManager<T extends XBCSpec> extends XBCCatalogManager<T> {
+public interface XBCSpecManager extends XBCCatalogManager<XBCSpec> {
 
     /**
      * Gets count of all specifications.

@@ -22,6 +22,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 import javax.persistence.EntityTransaction;
@@ -61,7 +62,7 @@ import org.springframework.stereotype.Repository;
  */
 @ParametersAreNonnullByDefault
 @Repository
-public class XBESpecManager extends XBEDefaultCatalogManager<XBESpec> implements XBCSpecManager<XBESpec>, Serializable {
+public class XBESpecManager extends XBEDefaultCatalogManager<XBCSpec> implements XBCSpecManager, Serializable {
 
     public XBESpecManager() {
         super();
@@ -69,6 +70,12 @@ public class XBESpecManager extends XBEDefaultCatalogManager<XBESpec> implements
 
     public XBESpecManager(XBECatalog catalog) {
         super(catalog);
+    }
+
+    @Nonnull
+    @Override
+    public Class getEntityClass() {
+        return XBESpec.class;
     }
 
     @Override

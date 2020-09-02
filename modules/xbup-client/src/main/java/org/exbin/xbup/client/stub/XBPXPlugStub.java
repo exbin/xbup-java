@@ -22,6 +22,7 @@ import org.exbin.xbup.client.catalog.remote.XBRXFile;
 import org.exbin.xbup.client.catalog.remote.XBRXPlugin;
 import org.exbin.xbup.core.block.declaration.XBDeclBlockType;
 import org.exbin.xbup.core.catalog.base.XBCXFile;
+import org.exbin.xbup.core.catalog.base.XBCXPlugin;
 
 /**
  * RPC stub class for XBRXPlugin catalog items.
@@ -30,7 +31,7 @@ import org.exbin.xbup.core.catalog.base.XBCXFile;
  * @author ExBin Project (http://exbin.org)
  */
 @ParametersAreNonnullByDefault
-public class XBPXPlugStub extends XBPBaseStub<XBRXPlugin> {
+public class XBPXPlugStub extends XBPBaseStub<XBCXPlugin> {
 
     public static long[] OWNER_PLUGIN_PROCEDURE = {0, 2, 14, 0, 0};
     public static long[] FILE_PLUGIN_PROCEDURE = {0, 2, 14, 1, 0};

@@ -24,10 +24,7 @@ import org.exbin.xbup.catalog.entity.XBEBlockListCons;
 import org.exbin.xbup.catalog.entity.XBEBlockListJoin;
 import org.exbin.xbup.catalog.entity.XBEFormatJoin;
 import org.exbin.xbup.catalog.entity.XBEGroupJoin;
-import org.exbin.xbup.catalog.entity.XBESpec;
 import org.exbin.xbup.catalog.entity.XBESpecDef;
-import org.exbin.xbup.catalog.entity.service.XBENodeService;
-import org.exbin.xbup.catalog.entity.service.XBESpecService;
 import org.exbin.xbup.client.stub.XBPSpecStub;
 import org.exbin.xbup.core.block.XBBlockType;
 import org.exbin.xbup.core.block.XBTEmptyBlock;
@@ -74,8 +71,8 @@ public class XBPSpecSkeleton {
                 long orderIndex = provider.pullLongAttribute();
                 provider.end();
 
-                XBCSpecService<XBCSpec> specService = catalog.getCatalogService(XBCSpecService.class);
-                XBCNodeService<XBCNode> nodeService = catalog.getCatalogService(XBCNodeService.class);
+                XBCSpecService specService = catalog.getCatalogService(XBCSpecService.class);
+                XBCNodeService nodeService = catalog.getCatalogService(XBCNodeService.class);
                 Optional<XBCNode> node = nodeService.getItem(nodeId);
                 XBCSpec spec = node.isPresent() ? specService.getSpecByOrder(node.get(), orderIndex) : null;
 
@@ -94,8 +91,8 @@ public class XBPSpecSkeleton {
                 long orderIndex = provider.pullLongAttribute();
                 provider.end();
 
-                XBCSpecService<XBCSpec> specService = catalog.getCatalogService(XBCSpecService.class);
-                XBCNodeService<XBCNode> nodeService = catalog.getCatalogService(XBCNodeService.class);
+                XBCSpecService specService = catalog.getCatalogService(XBCSpecService.class);
+                XBCNodeService nodeService = catalog.getCatalogService(XBCNodeService.class);
                 Optional<XBCNode> node = nodeService.getItem(nodeId);
                 XBCSpec spec = node.isPresent() ? specService.getFormatSpec(node.get(), orderIndex) : null;
 
@@ -114,8 +111,8 @@ public class XBPSpecSkeleton {
                 long orderIndex = provider.pullLongAttribute();
                 provider.end();
 
-                XBCSpecService<XBCSpec> specService = catalog.getCatalogService(XBCSpecService.class);
-                XBCNodeService<XBCNode> nodeService = catalog.getCatalogService(XBCNodeService.class);
+                XBCSpecService specService = catalog.getCatalogService(XBCSpecService.class);
+                XBCNodeService nodeService = catalog.getCatalogService(XBCNodeService.class);
                 Optional<XBCNode> node = nodeService.getItem(nodeId);
                 XBCSpec spec = node.isPresent() ? specService.getGroupSpec(node.get(), orderIndex) : null;
 
@@ -134,8 +131,8 @@ public class XBPSpecSkeleton {
                 long orderIndex = provider.pullLongAttribute();
                 provider.end();
 
-                XBCSpecService<XBCSpec> specService = catalog.getCatalogService(XBCSpecService.class);
-                XBCNodeService<XBCNode> nodeService = catalog.getCatalogService(XBCNodeService.class);
+                XBCSpecService specService = catalog.getCatalogService(XBCSpecService.class);
+                XBCNodeService nodeService = catalog.getCatalogService(XBCNodeService.class);
                 Optional<XBCNode> node = nodeService.getItem(nodeId);
                 XBCSpec spec = node.isPresent() ? specService.getBlockSpec(node.get(), orderIndex) : null;
 
@@ -153,8 +150,8 @@ public class XBPSpecSkeleton {
                 long nodeId = provider.pullLongAttribute();
                 provider.end();
 
-                XBCSpecService<XBCSpec> specService = catalog.getCatalogService(XBCSpecService.class);
-                XBCNodeService<XBCNode> nodeService = catalog.getCatalogService(XBCNodeService.class);
+                XBCSpecService specService = catalog.getCatalogService(XBCSpecService.class);
+                XBCNodeService nodeService = catalog.getCatalogService(XBCNodeService.class);
                 Optional<XBCNode> node = nodeService.getItem(nodeId);
                 List<XBCSpec> specs = specService.getSpecs(node.get());
 
@@ -178,8 +175,8 @@ public class XBPSpecSkeleton {
                 long nodeId = provider.pullLongAttribute();
                 provider.end();
 
-                XBCSpecService<XBCSpec> specService = catalog.getCatalogService(XBCSpecService.class);
-                XBCNodeService<XBCNode> nodeService = catalog.getCatalogService(XBCNodeService.class);
+                XBCSpecService specService = catalog.getCatalogService(XBCSpecService.class);
+                XBCNodeService nodeService = catalog.getCatalogService(XBCNodeService.class);
                 Optional<XBCNode> node = nodeService.getItem(nodeId);
                 List<XBCFormatSpec> specs = specService.getFormatSpecs(node.get());
 
@@ -203,8 +200,8 @@ public class XBPSpecSkeleton {
                 long nodeId = provider.pullLongAttribute();
                 provider.end();
 
-                XBCSpecService<XBCSpec> specService = catalog.getCatalogService(XBCSpecService.class);
-                XBCNodeService<XBCNode> nodeService = catalog.getCatalogService(XBCNodeService.class);
+                XBCSpecService specService = catalog.getCatalogService(XBCSpecService.class);
+                XBCNodeService nodeService = catalog.getCatalogService(XBCNodeService.class);
                 Optional<XBCNode> node = nodeService.getItem(nodeId);
                 List<XBCGroupSpec> specs = specService.getGroupSpecs(node.get());
 
@@ -228,8 +225,8 @@ public class XBPSpecSkeleton {
                 long nodeId = provider.pullLongAttribute();
                 provider.end();
 
-                XBCSpecService<XBCSpec> specService = catalog.getCatalogService(XBCSpecService.class);
-                XBCNodeService<XBCNode> nodeService = catalog.getCatalogService(XBCNodeService.class);
+                XBCSpecService specService = catalog.getCatalogService(XBCSpecService.class);
+                XBCNodeService nodeService = catalog.getCatalogService(XBCNodeService.class);
                 Optional<XBCNode> node = nodeService.getItem(nodeId);
                 List<XBCBlockSpec> specs = specService.getBlockSpecs(node.get());
 
@@ -254,8 +251,8 @@ public class XBPSpecSkeleton {
                 long xbIndex = provider.pullLongAttribute();
                 provider.end();
 
-                XBCSpecService<XBCSpec> specService = catalog.getCatalogService(XBCSpecService.class);
-                XBCNodeService<XBCNode> nodeService = catalog.getCatalogService(XBCNodeService.class);
+                XBCSpecService specService = catalog.getCatalogService(XBCSpecService.class);
+                XBCNodeService nodeService = catalog.getCatalogService(XBCNodeService.class);
                 Optional<XBCNode> node = nodeService.getItem(nodeId);
                 XBCSpec spec = node.isPresent() ? specService.findFormatSpecByXB(node.get(), xbIndex) : null;
 
@@ -274,8 +271,8 @@ public class XBPSpecSkeleton {
                 long xbIndex = provider.pullLongAttribute();
                 provider.end();
 
-                XBCSpecService<XBCSpec> specService = catalog.getCatalogService(XBCSpecService.class);
-                XBCNodeService<XBCNode> nodeService = catalog.getCatalogService(XBCNodeService.class);
+                XBCSpecService specService = catalog.getCatalogService(XBCSpecService.class);
+                XBCNodeService nodeService = catalog.getCatalogService(XBCNodeService.class);
                 Optional<XBCNode> node = nodeService.getItem(nodeId);
                 XBCSpec spec = node.isPresent() ? specService.findGroupSpecByXB(node.get(), xbIndex) : null;
 
@@ -294,8 +291,8 @@ public class XBPSpecSkeleton {
                 long xbIndex = provider.pullLongAttribute();
                 provider.end();
 
-                XBCSpecService<XBCSpec> specService = catalog.getCatalogService(XBCSpecService.class);
-                XBCNodeService<XBCNode> nodeService = catalog.getCatalogService(XBCNodeService.class);
+                XBCSpecService specService = catalog.getCatalogService(XBCSpecService.class);
+                XBCNodeService nodeService = catalog.getCatalogService(XBCNodeService.class);
                 Optional<XBCNode> node = nodeService.getItem(nodeId);
                 XBCSpec spec = node.isPresent() ? specService.findBlockSpecByXB(node.get(), xbIndex) : null;
 
@@ -313,8 +310,8 @@ public class XBPSpecSkeleton {
                 long nodeId = provider.pullLongAttribute();
                 provider.end();
 
-                XBCSpecService<XBCSpec> specService = catalog.getCatalogService(XBCSpecService.class);
-                XBCNodeService<XBCNode> nodeService = catalog.getCatalogService(XBCNodeService.class);
+                XBCSpecService specService = catalog.getCatalogService(XBCSpecService.class);
+                XBCNodeService nodeService = catalog.getCatalogService(XBCNodeService.class);
                 Optional<XBCNode> node = nodeService.getItem(nodeId);
 
                 XBPListenerSerialHandler listener = new XBPListenerSerialHandler(resultInput);
@@ -331,8 +328,8 @@ public class XBPSpecSkeleton {
                 long nodeId = provider.pullLongAttribute();
                 provider.end();
 
-                XBCSpecService<XBCSpec> specService = catalog.getCatalogService(XBCSpecService.class);
-                XBCNodeService<XBCNode> nodeService = catalog.getCatalogService(XBCNodeService.class);
+                XBCSpecService specService = catalog.getCatalogService(XBCSpecService.class);
+                XBCNodeService nodeService = catalog.getCatalogService(XBCNodeService.class);
                 Optional<XBCNode> node = nodeService.getItem(nodeId);
 
                 XBPListenerSerialHandler listener = new XBPListenerSerialHandler(resultInput);
@@ -349,8 +346,8 @@ public class XBPSpecSkeleton {
                 long nodeId = provider.pullLongAttribute();
                 provider.end();
 
-                XBCSpecService<XBCSpec> specService = catalog.getCatalogService(XBCSpecService.class);
-                XBCNodeService<XBCNode> nodeService = catalog.getCatalogService(XBCNodeService.class);
+                XBCSpecService specService = catalog.getCatalogService(XBCSpecService.class);
+                XBCNodeService nodeService = catalog.getCatalogService(XBCNodeService.class);
                 Optional<XBCNode> node = nodeService.getItem(nodeId);
 
                 XBPListenerSerialHandler listener = new XBPListenerSerialHandler(resultInput);
@@ -367,8 +364,8 @@ public class XBPSpecSkeleton {
                 long nodeId = provider.pullLongAttribute();
                 provider.end();
 
-                XBCSpecService<XBCSpec> specService = catalog.getCatalogService(XBCSpecService.class);
-                XBCNodeService<XBCNode> nodeService = catalog.getCatalogService(XBCNodeService.class);
+                XBCSpecService specService = catalog.getCatalogService(XBCSpecService.class);
+                XBCNodeService nodeService = catalog.getCatalogService(XBCNodeService.class);
                 Optional<XBCNode> node = nodeService.getItem(nodeId);
 
                 XBPListenerSerialHandler listener = new XBPListenerSerialHandler(resultInput);
@@ -385,8 +382,8 @@ public class XBPSpecSkeleton {
                 long nodeId = provider.pullLongAttribute();
                 provider.end();
 
-                XBCSpecService<XBCSpec> specService = catalog.getCatalogService(XBCSpecService.class);
-                XBCNodeService<XBCNode> nodeService = catalog.getCatalogService(XBCNodeService.class);
+                XBCSpecService specService = catalog.getCatalogService(XBCSpecService.class);
+                XBCNodeService nodeService = catalog.getCatalogService(XBCNodeService.class);
                 Optional<XBCNode> node = nodeService.getItem(nodeId);
 
                 XBPListenerSerialHandler listener = new XBPListenerSerialHandler(resultInput);
@@ -403,8 +400,8 @@ public class XBPSpecSkeleton {
                 long nodeId = provider.pullLongAttribute();
                 provider.end();
 
-                XBCSpecService<XBCSpec> specService = catalog.getCatalogService(XBCSpecService.class);
-                XBCNodeService<XBCNode> nodeService = catalog.getCatalogService(XBCNodeService.class);
+                XBCSpecService specService = catalog.getCatalogService(XBCSpecService.class);
+                XBCNodeService nodeService = catalog.getCatalogService(XBCNodeService.class);
                 Optional<XBCNode> node = nodeService.getItem(nodeId);
 
                 XBPListenerSerialHandler listener = new XBPListenerSerialHandler(resultInput);
@@ -421,8 +418,8 @@ public class XBPSpecSkeleton {
                 long nodeId = provider.pullLongAttribute();
                 provider.end();
 
-                XBCSpecService<XBCSpec> specService = catalog.getCatalogService(XBCSpecService.class);
-                XBCNodeService<XBCNode> nodeService = catalog.getCatalogService(XBCNodeService.class);
+                XBCSpecService specService = catalog.getCatalogService(XBCSpecService.class);
+                XBCNodeService nodeService = catalog.getCatalogService(XBCNodeService.class);
                 Optional<XBCNode> node = nodeService.getItem(nodeId);
 
                 XBPListenerSerialHandler listener = new XBPListenerSerialHandler(resultInput);
@@ -440,7 +437,7 @@ public class XBPSpecSkeleton {
                 long xbIndex = provider.pullLongAttribute();
                 provider.end();
 
-                XBCSpecService<XBCSpec> specService = catalog.getCatalogService(XBCSpecService.class);
+                XBCSpecService specService = catalog.getCatalogService(XBCSpecService.class);
                 Optional<XBCSpec> spec = specService.getItem(specId);
                 XBCSpecDef def = spec.isPresent() ? specService.findSpecDefByXB(spec.get(), xbIndex) : null;
 
@@ -458,7 +455,7 @@ public class XBPSpecSkeleton {
                 long specId = provider.pullLongAttribute();
                 provider.end();
 
-                XBCSpecService<XBCSpec> specService = catalog.getCatalogService(XBCSpecService.class);
+                XBCSpecService specService = catalog.getCatalogService(XBCSpecService.class);
                 Optional<XBCSpec> spec = specService.getItem(specId);
                 List<XBCSpecDef> itemList = specService.getSpecDefs(spec.get());
 
@@ -482,7 +479,7 @@ public class XBPSpecSkeleton {
                 long specId = provider.pullLongAttribute();
                 provider.end();
 
-                XBCSpecService<XBCSpec> specService = catalog.getCatalogService(XBCSpecService.class);
+                XBCSpecService specService = catalog.getCatalogService(XBCSpecService.class);
                 Optional<XBCSpec> spec = specService.getItem(specId);
 
                 XBPListenerSerialHandler listener = new XBPListenerSerialHandler(resultInput);
@@ -500,7 +497,7 @@ public class XBPSpecSkeleton {
                 long xbIndex = provider.pullLongAttribute();
                 provider.end();
 
-                XBCSpecService<XBCSpec> specService = catalog.getCatalogService(XBCSpecService.class);
+                XBCSpecService specService = catalog.getCatalogService(XBCSpecService.class);
                 Optional<XBCSpec> spec = specService.getItem(specId);
                 XBESpecDef specDef = (XBESpecDef) specService.findSpecDefByXB(spec.get(), xbIndex);
 
@@ -534,7 +531,7 @@ public class XBPSpecSkeleton {
                 provider.matchType(blockType);
                 provider.end();
 
-                XBCSpecService<XBCSpec> specService = catalog.getCatalogService(XBCSpecService.class);
+                XBCSpecService specService = catalog.getCatalogService(XBCSpecService.class);
 
                 XBPListenerSerialHandler listener = new XBPListenerSerialHandler(resultInput);
                 listener.process(new UBNat32(specService.getAllFormatSpecsCount()));
@@ -549,7 +546,7 @@ public class XBPSpecSkeleton {
                 provider.matchType(blockType);
                 provider.end();
 
-                XBCSpecService<XBCSpec> specService = catalog.getCatalogService(XBCSpecService.class);
+                XBCSpecService specService = catalog.getCatalogService(XBCSpecService.class);
 
                 XBPListenerSerialHandler listener = new XBPListenerSerialHandler(resultInput);
                 listener.process(new UBNat32(specService.getAllGroupSpecsCount()));
@@ -564,7 +561,7 @@ public class XBPSpecSkeleton {
                 provider.matchType(blockType);
                 provider.end();
 
-                XBCSpecService<XBCSpec> specService = catalog.getCatalogService(XBCSpecService.class);
+                XBCSpecService specService = catalog.getCatalogService(XBCSpecService.class);
 
                 XBPListenerSerialHandler listener = new XBPListenerSerialHandler(resultInput);
                 listener.process(new UBNat32(specService.getAllBlockSpecsCount()));
@@ -579,7 +576,7 @@ public class XBPSpecSkeleton {
                 provider.matchType(blockType);
                 provider.end();
 
-                XBCSpecService<XBCSpec> specService = catalog.getCatalogService(XBCSpecService.class);
+                XBCSpecService specService = catalog.getCatalogService(XBCSpecService.class);
 
                 XBPListenerSerialHandler listener = new XBPListenerSerialHandler(resultInput);
                 listener.process(new UBNat32(specService.getAllSpecsCount()));
@@ -595,7 +592,7 @@ public class XBPSpecSkeleton {
                 long index = provider.pullLongAttribute();
                 provider.end();
 
-                XBCSpecService<XBCSpec> specService = catalog.getCatalogService(XBCSpecService.class);
+                XBCSpecService specService = catalog.getCatalogService(XBCSpecService.class);
                 XBESpecDef specDef = (XBESpecDef) specService.getSpecDef(index);
 
                 XBPListenerSerialHandler listener = new XBPListenerSerialHandler(resultInput);
@@ -611,7 +608,7 @@ public class XBPSpecSkeleton {
                 provider.matchType(blockType);
                 provider.end();
 
-                XBCSpecService<XBCSpec> specService = catalog.getCatalogService(XBCSpecService.class);
+                XBCSpecService specService = catalog.getCatalogService(XBCSpecService.class);
 
                 XBPListenerSerialHandler listener = new XBPListenerSerialHandler(resultInput);
                 listener.process(new UBNat32(specService.getItemsCount()));

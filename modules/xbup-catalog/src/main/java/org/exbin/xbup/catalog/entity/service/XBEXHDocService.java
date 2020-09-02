@@ -24,6 +24,7 @@ import org.exbin.xbup.catalog.entity.XBEXHDoc;
 import org.exbin.xbup.catalog.entity.manager.XBEXHDocManager;
 import org.exbin.xbup.core.catalog.base.XBCExtension;
 import org.exbin.xbup.core.catalog.base.XBCItem;
+import org.exbin.xbup.core.catalog.base.XBCXHDoc;
 import org.exbin.xbup.core.catalog.base.manager.XBCXHDocManager;
 import org.exbin.xbup.core.catalog.base.service.XBCXFileService;
 import org.exbin.xbup.core.catalog.base.service.XBCXHDocService;
@@ -38,7 +39,7 @@ import org.springframework.stereotype.Service;
  */
 @ParametersAreNonnullByDefault
 @Service
-public class XBEXHDocService extends XBEDefaultService<XBEXHDoc> implements XBCXHDocService<XBEXHDoc>, Serializable {
+public class XBEXHDocService extends XBEDefaultService<XBCXHDoc> implements XBCXHDocService, Serializable {
 
     @Autowired
     private XBEXHDocManager manager;

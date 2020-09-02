@@ -24,6 +24,7 @@ import org.exbin.xbup.client.catalog.remote.XBRXIconMode;
 import org.exbin.xbup.core.block.declaration.XBDeclBlockType;
 import org.exbin.xbup.core.catalog.base.XBCItem;
 import org.exbin.xbup.core.catalog.base.XBCXFile;
+import org.exbin.xbup.core.catalog.base.XBCXIcon;
 import org.exbin.xbup.core.catalog.base.XBCXIconMode;
 
 /**
@@ -33,7 +34,7 @@ import org.exbin.xbup.core.catalog.base.XBCXIconMode;
  * @author ExBin Project (http://exbin.org)
  */
 @ParametersAreNonnullByDefault
-public class XBPXIconStub extends XBPBaseStub<XBRXIcon> {
+public class XBPXIconStub extends XBPBaseStub<XBCXIcon> {
 
     public static long[] OWNER_ICON_PROCEDURE = {0, 2, 13, 0, 0};
     public static long[] MODE_ICON_PROCEDURE = {0, 2, 13, 1, 0};
@@ -46,7 +47,7 @@ public class XBPXIconStub extends XBPBaseStub<XBRXIcon> {
     private final XBCatalogServiceClient client;
 
     public XBPXIconStub(XBCatalogServiceClient client) {
-        super(client, new XBPConstructorMethod<XBRXIcon>() {
+        super(client, new XBPConstructorMethod<XBCXIcon>() {
             @Override
             public XBRXIcon itemConstructor(XBCatalogServiceClient client, long itemId) {
                 return new XBRXIcon(client, itemId);

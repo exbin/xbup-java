@@ -28,10 +28,9 @@ import org.exbin.xbup.core.catalog.base.XBCXPlugin;
  *
  * @version 0.2.1 2020/08/26
  * @author ExBin Project (http://exbin.org)
- * @param <T> entity
  */
 @ParametersAreNonnullByDefault
-public interface XBCXPlugManager<T extends XBCXPlugin> extends XBCManager<T>, XBCExtension {
+public interface XBCXPlugManager extends XBCManager<XBCXPlugin>, XBCExtension {
 
     /**
      * Gets count of all plugins.

@@ -15,6 +15,8 @@
  */
 package org.exbin.xbup.core.catalog.base.service;
 
+import java.util.Optional;
+import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 import org.exbin.xbup.core.catalog.base.XBCExtension;
 import org.exbin.xbup.core.catalog.base.XBCXLanguage;
@@ -22,12 +24,11 @@ import org.exbin.xbup.core.catalog.base.XBCXLanguage;
 /**
  * Interface for XBCXLanguage items service.
  *
- * @version 0.2.1 2020/08/26
+ * @version 0.2.1 2020/09/01
  * @author ExBin Project (http://exbin.org)
- * @param <T> entity
  */
 @ParametersAreNonnullByDefault
-public interface XBCXLangService<T extends XBCXLanguage> extends XBCService<T>, XBCExtension {
+public interface XBCXLangService extends XBCService<XBCXLanguage>, XBCExtension {
 
     /**
      * Gets default language.
@@ -35,4 +36,13 @@ public interface XBCXLangService<T extends XBCXLanguage> extends XBCService<T>, 
      * @return language
      */
     XBCXLanguage getDefaultLang();
+
+    /**
+     * Finds language by code.
+     *
+     * @param langCode code
+     * @return language
+     */
+    @Nonnull
+    Optional<XBCXLanguage> findByCode(String langCode);
 }

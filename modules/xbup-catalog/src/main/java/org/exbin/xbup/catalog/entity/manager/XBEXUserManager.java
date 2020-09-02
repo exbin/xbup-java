@@ -18,10 +18,12 @@ package org.exbin.xbup.catalog.entity.manager;
 import java.io.Serializable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 import javax.persistence.NoResultException;
 import org.exbin.xbup.catalog.XBECatalog;
 import org.exbin.xbup.catalog.entity.XBEXUser;
+import org.exbin.xbup.core.catalog.base.XBCXUser;
 import org.exbin.xbup.core.catalog.base.manager.XBCXUserManager;
 import org.springframework.stereotype.Repository;
 
@@ -33,7 +35,7 @@ import org.springframework.stereotype.Repository;
  */
 @ParametersAreNonnullByDefault
 @Repository
-public class XBEXUserManager extends XBEDefaultCatalogManager<XBEXUser> implements XBCXUserManager<XBEXUser>, Serializable {
+public class XBEXUserManager extends XBEDefaultCatalogManager<XBCXUser> implements XBCXUserManager, Serializable {
 
     public XBEXUserManager() {
         super();
@@ -43,9 +45,15 @@ public class XBEXUserManager extends XBEDefaultCatalogManager<XBEXUser> implemen
         super(catalog);
     }
 
+    @Nonnull
+    @Override
+    public Class getEntityClass() {
+        return XBEXUser.class;
+    }
+
     public XBEXUser findByLogin(String userLogin) {
         try {
-            return (XBEXUser) em.createQuery("SELECT object(o) FROM XBXUser as o WHERE o.login = '" + userLogin.replace("'", "''").trim().toLowerCase() + "'").getSingleResult();
+            return (XBEXUser) em.createQuery("SELECT object(o) FROM XBXUser as o WHERE o.login = '" + DatabaseUtils.sqlEscapeString(userLogin.trim().toLowerCase()) + "'").getSingleResult();
         } catch (NoResultException e) {
             return null;
         } catch (Exception ex) {

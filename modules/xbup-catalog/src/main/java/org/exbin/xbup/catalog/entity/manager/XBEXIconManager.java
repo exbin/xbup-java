@@ -41,7 +41,7 @@ import org.springframework.stereotype.Repository;
  */
 @ParametersAreNonnullByDefault
 @Repository
-public class XBEXIconManager extends XBEDefaultCatalogManager<XBEXIcon> implements XBCXIconManager<XBEXIcon>, Serializable {
+public class XBEXIconManager extends XBEDefaultCatalogManager<XBCXIcon> implements XBCXIconManager, Serializable {
 
     public XBEXIconManager() {
         super();
@@ -49,6 +49,12 @@ public class XBEXIconManager extends XBEDefaultCatalogManager<XBEXIcon> implemen
 
     public XBEXIconManager(XBECatalog catalog) {
         super(catalog);
+    }
+
+    @Nonnull
+    @Override
+    public Class getEntityClass() {
+        return XBEXIcon.class;
     }
 
     public Long getAllIconsCount() {

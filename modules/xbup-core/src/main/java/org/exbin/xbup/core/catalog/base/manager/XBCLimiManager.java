@@ -22,7 +22,6 @@ import org.exbin.xbup.core.catalog.base.XBCItemLimi;
  *
  * @version 0.2.1 2020/08/26
  * @author ExBin Project (http://exbin.org)
- * @param <T> entity
  */
-public interface XBCLimiManager<T extends XBCItemLimi> extends XBCCatalogManager<T> {
+public interface XBCLimiManager extends XBCCatalogManager<XBCItemLimi> {
 }

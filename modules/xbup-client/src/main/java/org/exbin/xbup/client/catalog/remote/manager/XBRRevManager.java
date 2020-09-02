@@ -31,7 +31,7 @@ import org.exbin.xbup.core.catalog.base.manager.XBCRevManager;
  * @author ExBin Project (http://exbin.org)
  */
 @ParametersAreNonnullByDefault
-public class XBRRevManager extends XBRDefaultManager<XBRRev> implements XBCRevManager<XBRRev> {
+public class XBRRevManager extends XBRDefaultManager<XBCRev> implements XBCRevManager {
 
     private final XBPRevStub revStub;
 

@@ -16,6 +16,7 @@
 package org.exbin.xbup.catalog.convert;
 
 import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -25,8 +26,16 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
+import org.exbin.xbup.catalog.entity.XBEBlockSpec;
+import org.exbin.xbup.catalog.entity.XBEFormatSpec;
+import org.exbin.xbup.catalog.entity.XBEGroupSpec;
 import org.exbin.xbup.catalog.entity.XBENode;
-import org.exbin.xbup.catalog.entity.service.XBENodeService;
+import org.exbin.xbup.catalog.entity.XBEXDesc;
+import org.exbin.xbup.catalog.entity.XBEXFile;
+import org.exbin.xbup.catalog.entity.XBEXHDoc;
+import org.exbin.xbup.catalog.entity.XBEXIcon;
+import org.exbin.xbup.catalog.entity.XBEXName;
+import org.exbin.xbup.catalog.entity.XBEXStri;
 import org.exbin.xbup.core.block.XBBlockType;
 import org.exbin.xbup.core.block.XBFixedBlockType;
 import org.exbin.xbup.core.catalog.XBACatalog;
@@ -35,12 +44,12 @@ import org.exbin.xbup.core.catalog.base.XBCFormatSpec;
 import org.exbin.xbup.core.catalog.base.XBCGroupSpec;
 import org.exbin.xbup.core.catalog.base.XBCItem;
 import org.exbin.xbup.core.catalog.base.XBCNode;
-import org.exbin.xbup.core.catalog.base.XBCRev;
-import org.exbin.xbup.core.catalog.base.XBCSpec;
 import org.exbin.xbup.core.catalog.base.XBCXDesc;
 import org.exbin.xbup.core.catalog.base.XBCXFile;
 import org.exbin.xbup.core.catalog.base.XBCXHDoc;
 import org.exbin.xbup.core.catalog.base.XBCXIcon;
+import org.exbin.xbup.core.catalog.base.XBCXIconMode;
+import org.exbin.xbup.core.catalog.base.XBCXLanguage;
 import org.exbin.xbup.core.catalog.base.XBCXName;
 import org.exbin.xbup.core.catalog.base.XBCXStri;
 import org.exbin.xbup.core.catalog.base.service.XBCNodeService;
@@ -50,6 +59,7 @@ import org.exbin.xbup.core.catalog.base.service.XBCXDescService;
 import org.exbin.xbup.core.catalog.base.service.XBCXFileService;
 import org.exbin.xbup.core.catalog.base.service.XBCXHDocService;
 import org.exbin.xbup.core.catalog.base.service.XBCXIconService;
+import org.exbin.xbup.core.catalog.base.service.XBCXLangService;
 import org.exbin.xbup.core.catalog.base.service.XBCXNameService;
 import org.exbin.xbup.core.catalog.base.service.XBCXStriService;
 import org.exbin.xbup.core.parser.XBParserMode;
@@ -66,13 +76,14 @@ import org.exbin.xbup.core.parser.token.pull.convert.XBToXBTPullConvertor;
 import org.exbin.xbup.core.serial.param.XBPListenerSerialHandler;
 import org.exbin.xbup.core.serial.param.XBPProviderSerialHandler;
 import org.exbin.xbup.core.type.XBString;
+import org.exbin.xbup.core.util.StreamUtils;
 
 /**
  * XB Catalog import and export to XB.
  *
  * TODO: Block types
  *
- * @version 0.2.1 2020/09/01
+ * @version 0.2.1 2020/09/02
  * @author ExBin Project (http://exbin.org)
  */
 @ParametersAreNonnullByDefault
@@ -105,22 +116,30 @@ public class XBCatalogXb {
         serialInput.begin();
         serialInput.putType(new XBFixedBlockType());
 
-        XBCNodeService<XBCNode> nodeService = catalog.getCatalogService(XBCNodeService.class);
-        XBCNode mainRootNode = nodeService.getMainRootNode().get();
-        exportAllNodes(serialInput, mainRootNode);
-//        exportAllFiles(serialInput);
-//        exportProperties(serialInput, CatalogItemType.NODE);
-//
-//        exportAllSpecs(serialInput, mainRootNode, CatalogItemType.BLOCK);
-//        exportProperties(serialInput, CatalogItemType.BLOCK);
-//        exportAllSpecs(serialInput, mainRootNode, CatalogItemType.GROUP);
-//        exportProperties(serialInput, CatalogItemType.GROUP);
-//        exportAllSpecs(serialInput, mainRootNode, CatalogItemType.FORMAT);
-//        exportProperties(serialInput, CatalogItemType.FORMAT);
+        exportAllNodes(serialInput);
+        exportAllFiles(serialInput);
+        exportAllProperties(serialInput, CatalogItemType.NODE);
+
+        exportAllSpecs(serialInput, CatalogItemType.BLOCK);
+        exportAllProperties(serialInput, CatalogItemType.BLOCK);
+        exportAllSpecs(serialInput, CatalogItemType.GROUP);
+        exportAllProperties(serialInput, CatalogItemType.GROUP);
+        exportAllSpecs(serialInput, CatalogItemType.FORMAT);
+        exportAllProperties(serialInput, CatalogItemType.FORMAT);
         serialInput.end();
     }
 
-    private void exportAllNodes(XBPListenerSerialHandler serialInput, XBCNode node) throws XBProcessingException, IOException {
+    private void exportAllNodes(XBPListenerSerialHandler serialInput) throws XBProcessingException, IOException {
+        XBCNodeService nodeService = catalog.getCatalogService(XBCNodeService.class);
+        XBCNode mainRootNode = nodeService.getMainRootNode().get();
+
+        serialInput.begin();
+        serialInput.putType(new XBFixedBlockType());
+        exportNodes(serialInput, mainRootNode);
+        serialInput.end();
+    }
+
+    private void exportNodes(XBPListenerSerialHandler serialInput, XBCNode node) throws XBProcessingException, IOException {
         XBCNodeService nodeService = catalog.getCatalogService(XBCNodeService.class);
 
         serialInput.begin();
@@ -131,71 +150,24 @@ public class XBCatalogXb {
 
         List<XBCNode> subNodes = nodeService.getSubNodes(node);
         for (XBCNode subNode : subNodes) {
-            exportAllNodes(serialInput, subNode);
+            exportNodes(serialInput, subNode);
         }
-    }
-
-    private void exportAllSpecs(XBPListenerSerialHandler serialInput, XBCNode node, CatalogItemType itemType) throws XBProcessingException, IOException {
-        XBCNodeService nodeService = catalog.getCatalogService(XBCNodeService.class);
-        XBCSpecService specService = catalog.getCatalogService(XBCSpecService.class);
-        XBCRevService revService = catalog.getCatalogService(XBCRevService.class);
-
-        Long[] nodePath = nodeService.getNodeXBPath(node);
-
-        List<XBCItem> items = getItems(serialInput, itemType, node);
-
-        for (XBCItem item : items) {
-            serialInput.begin();
-            serialInput.putType(new XBFixedBlockType());
-            serialInput.putAttribute(item.getXBIndex());
-            putPath(serialInput, nodePath);
-
-            List<XBCRev> revs = revService.getRevs((XBCSpec) item);
-            for (XBCRev specRev : revs) {
-                serialInput.begin();
-                serialInput.putType(new XBFixedBlockType());
-                serialInput.putAttribute(specRev.getXBIndex());
-                serialInput.putAttribute(specRev.getXBLimit());
-
-                // List<XBCSpecDef> specDefs = specService.getSpecDefs((XBCSpec) item);
-//                XBSerializable decl = item instanceof XBCFormatSpec ? specService.getFormatDeclAsLocal(new XBCFormatDecl((XBCFormatRev) specRev, catalog))
-//                        : item instanceof XBCGroupSpec ? specService.getGroupDeclAsLocal(new XBCGroupDecl((XBCGroupRev) specRev, catalog))
-//                                : item instanceof XBCBlockSpec ? specService.getBlockDeclAsLocal(new XBCBlockDecl((XBCBlockRev) specRev, catalog)) : null;
-//                serialInput.consist(decl);
-                serialInput.end();
-            }
-
-            serialInput.end();
-        }
-
-        List<XBCNode> subNodes = nodeService.getSubNodes(node);
-        for (XBCNode subNode : subNodes) {
-            exportAllSpecs(serialInput, subNode, itemType);
-        }
-    }
-
-    private void exportProperties(XBPListenerSerialHandler serialInput, CatalogItemType itemType) throws XBProcessingException, IOException {
-        exportNames(serialInput, itemType);
-        exportDescs(serialInput, itemType);
-        exportStri(serialInput, itemType);
-        exportHDocs(serialInput, itemType);
-        exportIcons(serialInput, itemType);
     }
 
     private void exportAllFiles(XBPListenerSerialHandler serialInput) throws XBProcessingException, IOException {
         serialInput.begin();
         serialInput.putType(new XBFixedBlockType());
 
-        XBCNodeService<XBCNode> nodeService = catalog.getCatalogService(XBCNodeService.class);
+        XBCNodeService nodeService = catalog.getCatalogService(XBCNodeService.class);
         XBCNode mainRootNode = nodeService.getMainRootNode().get();
-        exportAllFiles(serialInput, mainRootNode);
+        exportFiles(serialInput, mainRootNode);
 
         serialInput.end();
     }
 
-    private void exportAllFiles(XBPListenerSerialHandler serialInput, XBCNode node) throws XBProcessingException, IOException {
-        XBCNodeService<XBCNode> nodeService = catalog.getCatalogService(XBCNodeService.class);
-        XBCXFileService<XBCXFile> fileService = catalog.getCatalogService(XBCXFileService.class);
+    private void exportFiles(XBPListenerSerialHandler serialInput, XBCNode node) throws XBProcessingException, IOException {
+        XBCNodeService nodeService = catalog.getCatalogService(XBCNodeService.class);
+        XBCXFileService fileService = catalog.getCatalogService(XBCXFileService.class);
         Long[] nodePath = nodeService.getNodeXBPath(node);
 
         List<XBCXFile> files = fileService.findFilesForNode(node);
@@ -216,15 +188,72 @@ public class XBCatalogXb {
 
         List<XBCNode> subNodes = nodeService.getSubNodes(node);
         for (XBCNode subNode : subNodes) {
-            exportAllFiles(serialInput, subNode);
+            exportFiles(serialInput, subNode);
         }
     }
 
-    private void exportNames(XBPListenerSerialHandler serialInput, CatalogItemType itemType) throws XBProcessingException, IOException {
+    private void exportAllSpecs(XBPListenerSerialHandler serialInput, CatalogItemType itemType) throws XBProcessingException, IOException {
         serialInput.begin();
         serialInput.putType(new XBFixedBlockType());
 
-        XBCNodeService<XBCNode> nodeService = catalog.getCatalogService(XBCNodeService.class);
+        XBCNodeService nodeService = catalog.getCatalogService(XBCNodeService.class);
+        XBCNode mainRootNode = nodeService.getMainRootNode().get();
+        exportSpecs(serialInput, mainRootNode, itemType);
+
+        serialInput.end();
+    }
+
+    private void exportSpecs(XBPListenerSerialHandler serialInput, XBCNode node, CatalogItemType itemType) throws XBProcessingException, IOException {
+        XBCNodeService nodeService = catalog.getCatalogService(XBCNodeService.class);
+        XBCSpecService specService = catalog.getCatalogService(XBCSpecService.class);
+        XBCRevService revService = catalog.getCatalogService(XBCRevService.class);
+
+        Long[] nodePath = nodeService.getNodeXBPath(node);
+
+        List<XBCItem> items = getItems(serialInput, itemType, node);
+
+        for (XBCItem item : items) {
+            serialInput.begin();
+            serialInput.putType(new XBFixedBlockType());
+            serialInput.putAttribute(item.getXBIndex());
+            putPath(serialInput, nodePath);
+
+//            List<XBCRev> revs = revService.getRevs((XBCSpec) item);
+//            for (XBCRev specRev : revs) {
+//                serialInput.begin();
+//                serialInput.putType(new XBFixedBlockType());
+//                serialInput.putAttribute(specRev.getXBIndex());
+//                serialInput.putAttribute(specRev.getXBLimit());
+//
+//                // List<XBCSpecDef> specDefs = specService.getSpecDefs((XBCSpec) item);
+////                XBSerializable decl = item instanceof XBCFormatSpec ? specService.getFormatDeclAsLocal(new XBCFormatDecl((XBCFormatRev) specRev, catalog))
+////                        : item instanceof XBCGroupSpec ? specService.getGroupDeclAsLocal(new XBCGroupDecl((XBCGroupRev) specRev, catalog))
+////                                : item instanceof XBCBlockSpec ? specService.getBlockDeclAsLocal(new XBCBlockDecl((XBCBlockRev) specRev, catalog)) : null;
+////                serialInput.consist(decl);
+//                serialInput.end();
+//            }
+            serialInput.end();
+        }
+
+        List<XBCNode> subNodes = nodeService.getSubNodes(node);
+        for (XBCNode subNode : subNodes) {
+            exportSpecs(serialInput, subNode, itemType);
+        }
+    }
+
+    private void exportAllProperties(XBPListenerSerialHandler serialInput, CatalogItemType itemType) throws XBProcessingException, IOException {
+        exportAllNames(serialInput, itemType);
+        exportAllDescs(serialInput, itemType);
+        exportAllStri(serialInput, itemType);
+        exportAllHDocs(serialInput, itemType);
+        exportAllIcons(serialInput, itemType);
+    }
+
+    private void exportAllNames(XBPListenerSerialHandler serialInput, CatalogItemType itemType) throws XBProcessingException, IOException {
+        serialInput.begin();
+        serialInput.putType(new XBFixedBlockType());
+
+        XBCNodeService nodeService = catalog.getCatalogService(XBCNodeService.class);
         XBCNode mainRootNode = nodeService.getMainRootNode().get();
         exportNames(serialInput, itemType, mainRootNode);
 
@@ -232,7 +261,7 @@ public class XBCatalogXb {
     }
 
     private void exportNames(XBPListenerSerialHandler serialInput, CatalogItemType itemType, XBCNode node) throws XBProcessingException, IOException {
-        XBCNodeService<XBCNode> nodeService = catalog.getCatalogService(XBCNodeService.class);
+        XBCNodeService nodeService = catalog.getCatalogService(XBCNodeService.class);
         Long[] nodePath = nodeService.getNodeXBPath(node);
 
         List<XBCItem> items = getItems(serialInput, itemType, node);
@@ -257,11 +286,11 @@ public class XBCatalogXb {
         }
     }
 
-    private void exportDescs(XBPListenerSerialHandler serialInput, CatalogItemType itemType) throws XBProcessingException, IOException {
+    private void exportAllDescs(XBPListenerSerialHandler serialInput, CatalogItemType itemType) throws XBProcessingException, IOException {
         serialInput.begin();
         serialInput.putType(new XBFixedBlockType());
 
-        XBCNodeService<XBCNode> nodeService = catalog.getCatalogService(XBCNodeService.class);
+        XBCNodeService nodeService = catalog.getCatalogService(XBCNodeService.class);
         XBCNode mainRootNode = nodeService.getMainRootNode().get();
         exportDescs(serialInput, itemType, mainRootNode);
 
@@ -294,11 +323,11 @@ public class XBCatalogXb {
         }
     }
 
-    private void exportStri(XBPListenerSerialHandler serialInput, CatalogItemType itemType) throws XBProcessingException, IOException {
+    private void exportAllStri(XBPListenerSerialHandler serialInput, CatalogItemType itemType) throws XBProcessingException, IOException {
         serialInput.begin();
         serialInput.putType(new XBFixedBlockType());
 
-        XBCNodeService<XBCNode> nodeService = catalog.getCatalogService(XBCNodeService.class);
+        XBCNodeService nodeService = catalog.getCatalogService(XBCNodeService.class);
         XBCNode mainRootNode = nodeService.getMainRootNode().get();
         exportStri(serialInput, itemType, mainRootNode);
 
@@ -330,11 +359,11 @@ public class XBCatalogXb {
         }
     }
 
-    private void exportHDocs(XBPListenerSerialHandler serialInput, CatalogItemType itemType) throws XBProcessingException, IOException {
+    private void exportAllHDocs(XBPListenerSerialHandler serialInput, CatalogItemType itemType) throws XBProcessingException, IOException {
         serialInput.begin();
         serialInput.putType(new XBFixedBlockType());
 
-        XBCNodeService<XBCNode> nodeService = catalog.getCatalogService(XBCNodeService.class);
+        XBCNodeService nodeService = catalog.getCatalogService(XBCNodeService.class);
         XBCNode mainRootNode = nodeService.getMainRootNode().get();
         exportHDocs(serialInput, itemType, mainRootNode);
 
@@ -368,11 +397,11 @@ public class XBCatalogXb {
         }
     }
 
-    private void exportIcons(XBPListenerSerialHandler serialInput, CatalogItemType itemType) throws XBProcessingException, IOException {
+    private void exportAllIcons(XBPListenerSerialHandler serialInput, CatalogItemType itemType) throws XBProcessingException, IOException {
         serialInput.begin();
         serialInput.putType(new XBFixedBlockType());
 
-        XBCNodeService<XBCNode> nodeService = catalog.getCatalogService(XBCNodeService.class);
+        XBCNodeService nodeService = catalog.getCatalogService(XBCNodeService.class);
         XBCNode mainRootNode = nodeService.getMainRootNode().get();
         exportIcons(serialInput, itemType, mainRootNode);
 
@@ -450,7 +479,7 @@ public class XBCatalogXb {
     public void importFromXb(InputStream stream) {
         try {
             XBPProviderSerialHandler serialOutput = new XBPProviderSerialHandler(new XBToXBTPullConvertor(new XBPullReader(stream, XBParserMode.SINGLE_BLOCK)));
-            
+
             importAll(serialOutput);
         } catch (XBProcessingException | IOException ex) {
             Logger.getLogger(XBCatalogXb.class.getName()).log(Level.SEVERE, null, ex);
@@ -461,22 +490,25 @@ public class XBCatalogXb {
         serialOutput.begin();
         serialOutput.pullType();
 
-        importAllNodes(serialOutput);
-//        importAllFiles(serialOutput);
-//        importProperties(serialOutput, CatalogItemType.NODE);
-//
-//        importAllSpecs(serialOutput, mainRootNode, CatalogItemType.BLOCK);
-//        importProperties(serialOutput, CatalogItemType.BLOCK);
-//        importAllSpecs(serialOutput, mainRootNode, CatalogItemType.GROUP);
-//        importProperties(serialOutput, CatalogItemType.GROUP);
-//        importAllSpecs(serialOutput, mainRootNode, CatalogItemType.FORMAT);
-//        importProperties(serialOutput, CatalogItemType.FORMAT);
+        importNodes(serialOutput);
+        importFiles(serialOutput);
+        importProperties(serialOutput, CatalogItemType.NODE);
+
+        importSpecs(serialOutput, CatalogItemType.BLOCK);
+        importProperties(serialOutput, CatalogItemType.BLOCK);
+        importSpecs(serialOutput, CatalogItemType.GROUP);
+        importProperties(serialOutput, CatalogItemType.GROUP);
+        importSpecs(serialOutput, CatalogItemType.FORMAT);
+        importProperties(serialOutput, CatalogItemType.FORMAT);
+
         serialOutput.pullEnd();
     }
 
-    private void importAllNodes(XBPProviderSerialHandler serialOutput) throws XBProcessingException, IOException {
+    private void importNodes(XBPProviderSerialHandler serialOutput) throws XBProcessingException, IOException {
         XBCNodeService nodeService = catalog.getCatalogService(XBCNodeService.class);
 
+        serialOutput.pullBegin();
+        serialOutput.pullType();
         while (!serialOutput.isFinishedNext()) {
             serialOutput.pullBegin();
             serialOutput.pullType();
@@ -484,11 +516,267 @@ public class XBCatalogXb {
             Long[] nodePath = pullPath(serialOutput);
             XBENode parentNode = (XBENode) nodeService.findOwnerByXBPath(nodePath);
             serialOutput.pullEnd();
+
+            if (parentNode == null) {
+                XBCNode mainRootNode = nodeService.getMainRootNode().get();
+                XBCXNameService nameService = catalog.getCatalogService(XBCXNameService.class);
+                List<XBCXName> itemNames = nameService.getItemNames(mainRootNode);
+                itemNames.forEach(name -> {
+                    nameService.removeItem(name);
+                });
+            }
             XBENode node = (XBENode) nodeService.createItem();
             node.setParent(parentNode);
             node.setXBIndex(xbIndex);
             nodeService.persistItem(node);
         }
+        serialOutput.pullEnd();
+    }
+
+    private void importFiles(XBPProviderSerialHandler serialOutput) throws XBProcessingException, IOException {
+        XBCXFileService fileService = catalog.getCatalogService(XBCXFileService.class);
+        XBCNodeService nodeService = catalog.getCatalogService(XBCNodeService.class);
+
+        serialOutput.pullBegin();
+        serialOutput.pullType();
+        while (!serialOutput.isFinishedNext()) {
+            serialOutput.pullBegin();
+            serialOutput.pullType();
+            Long[] nodePath = pullPath(serialOutput);
+            XBENode node = (XBENode) nodeService.findNodeByXBPath(nodePath);
+            XBString fileName = new XBString();
+            serialOutput.pullConsist(fileName);
+            serialOutput.pullBegin();
+            InputStream fileDataStream = serialOutput.pullData();
+            byte[] fileData;
+            try (ByteArrayOutputStream stream = new ByteArrayOutputStream()) {
+                StreamUtils.copyInputStreamToOutputStream(fileDataStream, stream);
+                fileData = stream.toByteArray();
+            }
+            serialOutput.pullEnd();
+            serialOutput.pullEnd();
+            XBEXFile file = (XBEXFile) fileService.createItem();
+            file.setNode(node);
+            file.setContent(fileData);
+            file.setFilename(fileName.getValue());
+            fileService.persistItem(file);
+        }
+        serialOutput.pullEnd();
+    }
+
+    private void importSpecs(XBPProviderSerialHandler serialOutput, CatalogItemType itemType) throws XBProcessingException, IOException {
+        XBCNodeService nodeService = catalog.getCatalogService(XBCNodeService.class);
+        XBCSpecService specService = catalog.getCatalogService(XBCSpecService.class);
+        XBCRevService revService = catalog.getCatalogService(XBCRevService.class);
+
+        serialOutput.pullBegin();
+        serialOutput.pullType();
+        while (!serialOutput.isFinishedNext()) {
+            serialOutput.pullBegin();
+            serialOutput.pullType();
+            long xbIndex = serialOutput.pullAttribute().getNaturalLong();
+            Long[] nodePath = pullPath(serialOutput);
+            XBENode node = (XBENode) nodeService.findNodeByXBPath(nodePath);
+
+            while (!serialOutput.isFinishedNext()) {
+                serialOutput.pullBegin();
+                serialOutput.pullType();
+
+                serialOutput.pullEnd();
+            }
+            serialOutput.pullEnd();
+
+            switch (itemType) {
+                case BLOCK: {
+                    XBEBlockSpec blockSpec = (XBEBlockSpec) specService.createBlockSpec();
+                    blockSpec.setParent(node);
+                    blockSpec.setXBIndex(xbIndex);
+                    specService.persistItem(blockSpec);
+
+                    // TODO rev + specdef
+                    break;
+                }
+                case GROUP: {
+                    XBEGroupSpec groupSpec = (XBEGroupSpec) specService.createGroupSpec();
+                    groupSpec.setParent(node);
+                    groupSpec.setXBIndex(xbIndex);
+                    specService.persistItem(groupSpec);
+                    break;
+                }
+                case FORMAT: {
+                    XBEFormatSpec formatSpec = (XBEFormatSpec) specService.createFormatSpec();
+                    formatSpec.setParent(node);
+                    formatSpec.setXBIndex(xbIndex);
+                    specService.persistItem(formatSpec);
+                    break;
+                }
+            }
+        }
+        serialOutput.pullEnd();
+    }
+
+    private void importProperties(XBPProviderSerialHandler serialOutput, CatalogItemType itemType) throws XBProcessingException, IOException {
+        importNames(serialOutput, itemType);
+        importDescs(serialOutput, itemType);
+        importStri(serialOutput, itemType);
+        importHDocs(serialOutput, itemType);
+        importIcons(serialOutput, itemType);
+    }
+
+    private void importNames(XBPProviderSerialHandler serialOutput, CatalogItemType itemType) throws XBProcessingException, IOException {
+        XBCXLangService langService = catalog.getCatalogService(XBCXLangService.class);
+        XBCXNameService nameService = catalog.getCatalogService(XBCXNameService.class);
+        XBCNodeService nodeService = catalog.getCatalogService(XBCNodeService.class);
+
+        serialOutput.pullBegin();
+        serialOutput.pullType();
+        while (!serialOutput.isFinishedNext()) {
+            serialOutput.pullBegin();
+            serialOutput.pullType();
+            long xbIndex = serialOutput.pullAttribute().getNaturalLong();
+            Long[] nodePath = pullPath(serialOutput);
+            XBENode parentNode = (XBENode) nodeService.findOwnerByXBPath(nodePath);
+            XBCItem item = findItem(parentNode, xbIndex, itemType);
+            XBString langCode = new XBString();
+            serialOutput.pullConsist(langCode);
+            XBString text = new XBString();
+            serialOutput.pullConsist(text);
+            serialOutput.pullEnd();
+
+            XBCXLanguage language = langService.findByCode(langCode.getValue()).get();
+            XBEXName name = (XBEXName) nameService.createItem();
+            name.setItem(item);
+            name.setText(text.getValue());
+            name.setLang(language);
+
+            nameService.persistItem(name);
+        }
+        serialOutput.pullEnd();
+    }
+
+    private void importDescs(XBPProviderSerialHandler serialOutput, CatalogItemType itemType) throws XBProcessingException, IOException {
+        XBCXLangService langService = catalog.getCatalogService(XBCXLangService.class);
+        XBCXDescService descService = catalog.getCatalogService(XBCXDescService.class);
+        XBCNodeService nodeService = catalog.getCatalogService(XBCNodeService.class);
+
+        serialOutput.pullBegin();
+        serialOutput.pullType();
+        while (!serialOutput.isFinishedNext()) {
+            serialOutput.pullBegin();
+            serialOutput.pullType();
+            long xbIndex = serialOutput.pullAttribute().getNaturalLong();
+            Long[] nodePath = pullPath(serialOutput);
+            XBENode parentNode = (XBENode) nodeService.findOwnerByXBPath(nodePath);
+            XBCItem item = findItem(parentNode, xbIndex, itemType);
+            XBString langCode = new XBString();
+            serialOutput.pullConsist(langCode);
+            XBString text = new XBString();
+            serialOutput.pullConsist(text);
+            serialOutput.pullEnd();
+
+            XBCXLanguage language = langService.findByCode(langCode.getValue()).get();
+            XBEXDesc desc = (XBEXDesc) descService.createItem();
+            desc.setItem(item);
+            desc.setText(text.getValue());
+            desc.setLang(language);
+
+            descService.persistItem(desc);
+        }
+        serialOutput.pullEnd();
+    }
+
+    private void importStri(XBPProviderSerialHandler serialOutput, CatalogItemType itemType) throws XBProcessingException, IOException {
+        XBCXStriService striService = catalog.getCatalogService(XBCXStriService.class);
+        XBCNodeService nodeService = catalog.getCatalogService(XBCNodeService.class);
+
+        serialOutput.pullBegin();
+        serialOutput.pullType();
+        while (!serialOutput.isFinishedNext()) {
+            serialOutput.pullBegin();
+            serialOutput.pullType();
+            long xbIndex = serialOutput.pullAttribute().getNaturalLong();
+            Long[] nodePath = pullPath(serialOutput);
+            XBENode parentNode = (XBENode) nodeService.findOwnerByXBPath(nodePath);
+            XBCItem item = findItem(parentNode, xbIndex, itemType);
+            XBString text = new XBString();
+            serialOutput.pullConsist(text);
+            serialOutput.pullEnd();
+
+            XBEXStri stri = (XBEXStri) striService.createItem();
+            stri.setItem(item);
+            stri.setText(text.getValue());
+
+            striService.persistItem(stri);
+        }
+        serialOutput.pullEnd();
+    }
+
+    private void importHDocs(XBPProviderSerialHandler serialOutput, CatalogItemType itemType) throws XBProcessingException, IOException {
+        XBCXFileService fileService = catalog.getCatalogService(XBCXFileService.class);
+        XBCXLangService langService = catalog.getCatalogService(XBCXLangService.class);
+        XBCXHDocService hdocService = catalog.getCatalogService(XBCXHDocService.class);
+        XBCNodeService nodeService = catalog.getCatalogService(XBCNodeService.class);
+
+        serialOutput.pullBegin();
+        serialOutput.pullType();
+        while (!serialOutput.isFinishedNext()) {
+            serialOutput.pullBegin();
+            serialOutput.pullType();
+            long xbIndex = serialOutput.pullAttribute().getNaturalLong();
+            Long[] nodePath = pullPath(serialOutput);
+            XBENode parentNode = (XBENode) nodeService.findNodeByXBPath(nodePath);
+            XBCItem item = findItem(parentNode, xbIndex, itemType);
+            XBString langCode = new XBString();
+            serialOutput.pullConsist(langCode);
+            Long[] fileNodePath = pullPath(serialOutput);
+            XBENode fileNode = (XBENode) nodeService.findNodeByXBPath(fileNodePath);
+            XBString fileName = new XBString();
+            serialOutput.pullConsist(fileName);
+            serialOutput.pullEnd();
+
+            XBCXLanguage language = langService.findByCode(langCode.getValue()).get();
+            XBCXFile file = fileService.findFile(fileNode, fileName.getValue());
+            XBEXHDoc hdoc = (XBEXHDoc) hdocService.createItem();
+            hdoc.setItem(item);
+            hdoc.setLang(language);
+            hdoc.setDocFile(file);
+
+            hdocService.persistItem(hdoc);
+        }
+        serialOutput.pullEnd();
+    }
+
+    private void importIcons(XBPProviderSerialHandler serialOutput, CatalogItemType itemType) throws XBProcessingException, IOException {
+        XBCXFileService fileService = catalog.getCatalogService(XBCXFileService.class);
+        XBCXIconService iconService = catalog.getCatalogService(XBCXIconService.class);
+        XBCNodeService nodeService = catalog.getCatalogService(XBCNodeService.class);
+
+        serialOutput.pullBegin();
+        serialOutput.pullType();
+        while (!serialOutput.isFinishedNext()) {
+            serialOutput.pullBegin();
+            serialOutput.pullType();
+            long xbIndex = serialOutput.pullAttribute().getNaturalLong();
+            Long[] nodePath = pullPath(serialOutput);
+            XBENode parentNode = (XBENode) nodeService.findNodeByXBPath(nodePath);
+            XBCItem item = findItem(parentNode, xbIndex, itemType);
+            long iconModeIndex = serialOutput.pullLongAttribute();
+            Long[] fileNodePath = pullPath(serialOutput);
+            XBENode fileNode = (XBENode) nodeService.findNodeByXBPath(fileNodePath);
+            XBString fileName = new XBString();
+            serialOutput.pullConsist(fileName);
+            serialOutput.pullEnd();
+
+            XBCXFile file = fileService.findFile(fileNode, fileName.getValue());
+            XBCXIconMode mode = iconService.getIconMode(iconModeIndex);
+            XBEXIcon icon = (XBEXIcon) iconService.createItem();
+            icon.setParent(item);
+            icon.setMode(mode);
+            icon.setIconFile(file);
+
+            iconService.persistItem(icon);
+        }
+        serialOutput.pullEnd();
     }
 
     @Nonnull
@@ -502,6 +790,30 @@ public class XBCatalogXb {
         }
         serialOutput.pullEnd();
         return result;
+    }
+
+    @Nonnull
+    private XBCItem findItem(XBENode parentNode, long xbIndex, CatalogItemType itemType) {
+        switch (itemType) {
+            case NODE: {
+                XBCNodeService nodeService = catalog.getCatalogService(XBCNodeService.class);
+                return nodeService.getSubNode(parentNode, xbIndex);
+            }
+            case BLOCK: {
+                XBCSpecService specService = catalog.getCatalogService(XBCSpecService.class);
+                return specService.findBlockSpecByXB(parentNode, xbIndex);
+            }
+            case GROUP: {
+                XBCSpecService specService = catalog.getCatalogService(XBCSpecService.class);
+                return specService.findGroupSpecByXB(parentNode, xbIndex);
+            }
+            case FORMAT: {
+                XBCSpecService specService = catalog.getCatalogService(XBCSpecService.class);
+                return specService.findFormatSpecByXB(parentNode, xbIndex);
+            }
+        }
+
+        throw new IllegalStateException("Invalid itemtype " + itemType.name());
     }
 
     @ParametersAreNonnullByDefault

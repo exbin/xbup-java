@@ -42,7 +42,7 @@ import org.springframework.stereotype.Service;
  */
 @ParametersAreNonnullByDefault
 @Service
-public class XBEXNameService extends XBEDefaultService<XBEXName> implements XBCXNameService<XBEXName>, Serializable {
+public class XBEXNameService extends XBEDefaultService<XBCXName> implements XBCXNameService, Serializable {
 
     @Autowired
     private XBEXNameManager manager;

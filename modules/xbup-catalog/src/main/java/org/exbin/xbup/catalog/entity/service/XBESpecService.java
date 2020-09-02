@@ -73,7 +73,7 @@ import org.springframework.stereotype.Service;
  */
 @ParametersAreNonnullByDefault
 @Service
-public class XBESpecService extends XBEDefaultService<XBESpec> implements XBCSpecService<XBESpec>, Serializable {
+public class XBESpecService extends XBEDefaultService<XBCSpec> implements XBCSpecService, Serializable {
 
     @Autowired
     private XBESpecManager manager;

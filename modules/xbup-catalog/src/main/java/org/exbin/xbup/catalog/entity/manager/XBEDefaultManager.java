@@ -17,7 +17,6 @@ package org.exbin.xbup.catalog.entity.manager;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.ParameterizedType;
 import java.util.List;
 import java.util.Optional;
 import java.util.logging.Level;
@@ -36,12 +35,12 @@ import org.exbin.xbup.core.catalog.base.manager.XBCManager;
 /**
  * Default manager for entity items.
  *
- * @version 0.2.1 2020/08/17
+ * @version 0.2.1 2020/09/02
  * @author ExBin Project (http://exbin.org)
  * @param <T> entity class
  */
 @ParametersAreNonnullByDefault
-public class XBEDefaultManager<T extends XBCBase> implements XBCManager<T> {
+public abstract class XBEDefaultManager<T extends XBCBase> implements XBCManager<T> {
 
     @PersistenceContext
     protected EntityManager em;
@@ -58,7 +57,7 @@ public class XBEDefaultManager<T extends XBCBase> implements XBCManager<T> {
     @Override
     public T createItem() {
         try {
-            return (T) getGenericClass().getDeclaredConstructor().newInstance();
+            return (T) getEntityClass().getDeclaredConstructor().newInstance();
         } catch (InstantiationException | IllegalAccessException | NoSuchMethodException
                 | SecurityException | IllegalArgumentException | InvocationTargetException ex) {
             throw new IllegalStateException("Unable to create new item", ex);
@@ -102,16 +101,8 @@ public class XBEDefaultManager<T extends XBCBase> implements XBCManager<T> {
     @SuppressWarnings("unchecked")
     @Override
     public Optional<T> getItem(long itemId) {
-        Object result = em.find(getGenericClass(), itemId);
+        Object result = em.find(getEntityClass(), itemId);
         return Optional.ofNullable((T) result);
-        /*        try {
-         return (T) em.createQuery("SELECT object(o) FROM XBItem as o WHERE o.id = "+ itemId).getSingleResult();
-         } catch (NoResultException ex) {
-         return null;
-         } catch (Exception ex) {
-         Logger.getLogger(XBEDefaultCatalogManager.class.getName()).log(Level.SEVERE, null, ex);
-         return null;
-         } */
     }
 
     @Override
@@ -144,15 +135,12 @@ public class XBEDefaultManager<T extends XBCBase> implements XBCManager<T> {
     }
 
     /**
-     * Gets class on which is this class parametrized / generic of.
+     * Returns entity class.
      *
-     * @return generic class of this class
+     * @return entity class
      */
     @Nonnull
-    public Class getGenericClass() {
-        ParameterizedType parameterizedType = (ParameterizedType) getClass().getGenericSuperclass();
-        return (Class) parameterizedType.getActualTypeArguments()[0];
-    }
+    public abstract Class getEntityClass();
 
     /**
      * Gets table name for this manager.
@@ -162,13 +150,13 @@ public class XBEDefaultManager<T extends XBCBase> implements XBCManager<T> {
     @Nonnull
     @SuppressWarnings("unchecked")
     public String getTableName() {
-        Class genClass = getGenericClass();
-        Annotation annotation = genClass.getAnnotation(Entity.class);
+        Class entityClass = getEntityClass();
+        Annotation annotation = entityClass.getAnnotation(Entity.class);
         if (annotation != null) {
             return ((Entity) annotation).name();
         }
 
-        return genClass.getSimpleName();
+        return entityClass.getSimpleName();
     }
 
     @Override

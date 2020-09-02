@@ -41,7 +41,7 @@ import org.exbin.xbup.core.serial.param.XBPProviderSerialHandler;
  * @author ExBin Project (http://exbin.org)
  */
 @ParametersAreNonnullByDefault
-public class XBPXDescStub extends XBPBaseStub<XBRXDesc> {
+public class XBPXDescStub extends XBPBaseStub<XBCXDesc> {
 
     public static long[] ITEM_DESC_PROCEDURE = {0, 2, 10, 0, 0};
     public static long[] TEXT_DESC_PROCEDURE = {0, 2, 10, 1, 0};

@@ -42,7 +42,7 @@ import org.exbin.xbup.core.util.StreamUtils;
  * @author ExBin Project (http://exbin.org)
  */
 @ParametersAreNonnullByDefault
-public class XBRXIconManager extends XBRDefaultManager<XBRXIcon> implements XBCXIconManager<XBRXIcon> {
+public class XBRXIconManager extends XBRDefaultManager<XBCXIcon> implements XBCXIconManager {
 
     private final XBPXIconStub iconStub;
 

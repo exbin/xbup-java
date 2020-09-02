@@ -16,9 +16,10 @@
 package org.exbin.xbup.catalog.entity.manager;
 
 import java.io.Serializable;
-import java.util.List;
+import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
@@ -31,12 +32,12 @@ import org.springframework.stereotype.Repository;
 /**
  * XBUP catalog language manager.
  *
- * @version 0.2.1 2020/08/26
+ * @version 0.2.1 2020/09/01
  * @author ExBin Project (http://exbin.org)
  */
 @ParametersAreNonnullByDefault
 @Repository
-public class XBEXLangManager extends XBEDefaultCatalogManager<XBEXLanguage> implements XBCXLangManager<XBEXLanguage>, Serializable {
+public class XBEXLangManager extends XBEDefaultCatalogManager<XBCXLanguage> implements XBCXLangManager, Serializable {
 
     private XBEXLanguage defaultLanguageCache = null;
 
@@ -46,6 +47,12 @@ public class XBEXLangManager extends XBEDefaultCatalogManager<XBEXLanguage> impl
 
     public XBEXLangManager(XBECatalog catalog) {
         super(catalog);
+    }
+
+    @Nonnull
+    @Override
+    public Class getEntityClass() {
+        return XBEXLanguage.class;
     }
 
     @Override
@@ -67,15 +74,16 @@ public class XBEXLangManager extends XBEDefaultCatalogManager<XBEXLanguage> impl
         }
     }
 
-    @SuppressWarnings("unchecked")
-    public List<XBCXLanguage> getLangs() {
+    @Nonnull
+    @Override
+    public Optional<XBCXLanguage> findByCode(String langCode) {
         try {
-            return (List<XBCXLanguage>) catalog.getEntityManager().createQuery("SELECT object(o) FROM XBXLanguage as o").getResultList();
+            return Optional.of((XBEXLanguage) catalog.getEntityManager().createQuery("SELECT object(o) FROM XBXLanguage as o WHERE o.langCode = '" + DatabaseUtils.sqlEscapeString(langCode) + "'").getSingleResult());
         } catch (NoResultException ex) {
-            return null;
+            return Optional.empty();
         } catch (Exception ex) {
             Logger.getLogger(XBEXLangManager.class.getName()).log(Level.SEVERE, null, ex);
-            return null;
+            return Optional.empty();
         }
     }
 
@@ -83,31 +91,10 @@ public class XBEXLangManager extends XBEDefaultCatalogManager<XBEXLanguage> impl
     public void initializeExtension() {
     }
 
+    @Nonnull
     @Override
     public String getExtensionName() {
         return "Language Extension";
-    }
-
-    public Long getAllLangsCount() {
-        try {
-            return (Long) catalog.getEntityManager().createQuery("SELECT count(o) FROM XBLanguage as o").getSingleResult();
-        } catch (NoResultException ex) {
-            return 0l;
-        } catch (Exception ex) {
-            Logger.getLogger(XBEXLangManager.class.getName()).log(Level.SEVERE, null, ex);
-            return null;
-        }
-    }
-
-    public XBEXLanguage findById(long id) {
-        try {
-            return (XBEXLanguage) catalog.getEntityManager().createQuery("SELECT object(o) FROM XBXLanguage as o WHERE o.id = " + id).getSingleResult();
-        } catch (NoResultException ex) {
-            return null;
-        } catch (Exception ex) {
-            Logger.getLogger(XBEXLangManager.class.getName()).log(Level.SEVERE, null, ex);
-            return null;
-        }
     }
 
     @Override

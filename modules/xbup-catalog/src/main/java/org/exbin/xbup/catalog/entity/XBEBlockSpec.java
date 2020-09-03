@@ -16,7 +16,6 @@
 package org.exbin.xbup.catalog.entity;
 
 import java.io.Serializable;
-import java.util.Optional;
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 import javax.persistence.Entity;
@@ -41,7 +40,7 @@ public class XBEBlockSpec extends XBESpec implements XBMBlockSpec, Serializable 
 
     @Nonnull
     @Override
-    public Optional<XBCNode> getParent() {
+    public XBCNode getParent() {
         return super.getParent();
     }
 }

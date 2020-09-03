@@ -41,8 +41,8 @@ public class XBESpec extends XBEItem implements XBMSpec, Serializable {
 
     @Nonnull
     @Override
-    public Optional<XBCNode> getParent() {
-        return super.getParentItem().map(t -> (XBCNode) t);
+    public XBCNode getParent() {
+        return (XBCNode) super.getParentItem().get();
     }
 
     @Override

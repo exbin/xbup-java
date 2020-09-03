@@ -16,7 +16,6 @@
 package org.exbin.xbup.catalog.entity;
 
 import java.io.Serializable;
-import java.util.Optional;
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 import javax.persistence.Entity;
@@ -45,7 +44,7 @@ public class XBEFormatSpec extends XBESpec implements XBMFormatSpec, Serializabl
 
     @Nonnull
     @Override
-    public Optional<XBCNode> getParent() {
+    public XBCNode getParent() {
         return super.getParent();
     }
 }

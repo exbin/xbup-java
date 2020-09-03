@@ -18,11 +18,12 @@ package org.exbin.xbup.core.serial.sequence;
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 import org.exbin.xbup.core.serial.XBSerializable;
+import org.exbin.xbup.core.serial.param.XBPTokenWrapper;
 
 /**
  * XBUP level 1 serialization sequence.
  *
- * @version 0.1.24 2015/01/22
+ * @version 0.2.1 2020/09/03
  * @author ExBin Project (http://exbin.org)
  */
 @ParametersAreNonnullByDefault
@@ -52,5 +53,10 @@ public class XBSerialSequenceItem {
 
     public void setItem(XBSerializable item) {
         this.item = item;
+    }
+
+    @Override
+    public String toString() {
+        return "XBSerialSequenceItem{" + "pp=" + sequenceOp.name() + (sequenceOp == XBSerialSequenceOp.TOKEN ? ",token=" + ((XBPTokenWrapper) item).getToken().getTokenType().name() : "") + "}";
     }
 }

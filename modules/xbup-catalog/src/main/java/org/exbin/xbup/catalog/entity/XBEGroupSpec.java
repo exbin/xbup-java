@@ -16,7 +16,6 @@
 package org.exbin.xbup.catalog.entity;
 
 import java.io.Serializable;
-import java.util.Optional;
 import javax.annotation.Nonnull;
 import javax.persistence.Entity;
 import javax.persistence.Inheritance;
@@ -39,7 +38,7 @@ public class XBEGroupSpec extends XBESpec implements XBMGroupSpec, Serializable 
 
     @Nonnull
     @Override
-    public Optional<XBCNode> getParent() {
+    public XBCNode getParent() {
         return super.getParent();
     }
 }

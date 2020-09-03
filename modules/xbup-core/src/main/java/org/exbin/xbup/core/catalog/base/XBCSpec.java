@@ -15,7 +15,6 @@
  */
 package org.exbin.xbup.core.catalog.base;
 
-import java.util.Optional;
 import javax.annotation.Nonnull;
 
 /**
@@ -32,5 +31,5 @@ public interface XBCSpec extends XBCItem {
      * @return the node
      */
     @Nonnull
-    Optional<XBCNode> getParent();
+    XBCNode getParent();
 }

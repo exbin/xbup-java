@@ -16,6 +16,7 @@
 package org.exbin.xbup.client.catalog.remote;
 
 import java.util.Optional;
+import javax.annotation.Nonnull;
 import org.exbin.xbup.client.XBCatalogServiceClient;
 import org.exbin.xbup.core.catalog.base.XBCItem;
 import org.exbin.xbup.core.catalog.base.XBCLimitSpec;
@@ -41,11 +42,13 @@ public class XBRLimitSpec implements XBCLimitSpec {
         return id;
     }
 
+    @Nonnull
     @Override
-    public Optional<XBCNode> getParent() {
+    public XBCNode getParent() {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
+    @Nonnull
     @Override
     public Optional<XBCItem> getParentItem() {
         throw new UnsupportedOperationException("Not supported yet.");

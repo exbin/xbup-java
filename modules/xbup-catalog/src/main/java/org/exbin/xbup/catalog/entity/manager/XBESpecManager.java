@@ -140,13 +140,12 @@ public class XBESpecManager extends XBEDefaultCatalogManager<XBCSpec> implements
     @Override
     public Long[] getSpecXBPath(XBCSpec spec) {
         ArrayList<Long> list = new ArrayList<>();
-        Optional<XBCNode> optionalParent = spec.getParent();
-        while (optionalParent.isPresent()) {
-            XBCNode parent = optionalParent.get();
+        XBCNode parent = spec.getParent();
+        while (parent != null) {
             if (parent.getParent().isPresent()) {
                 list.add(0, parent.getXBIndex());
             }
-            optionalParent = parent.getParent();
+            parent = parent.getParent().orElse(null);
         }
         list.add(spec.getXBIndex());
         return (Long[]) list.toArray(new Long[list.size()]);

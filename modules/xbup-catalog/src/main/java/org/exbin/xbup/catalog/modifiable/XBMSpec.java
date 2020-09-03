@@ -15,16 +15,17 @@
  */
 package org.exbin.xbup.catalog.modifiable;
 
-import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
 import org.exbin.xbup.core.catalog.base.XBCNode;
 import org.exbin.xbup.core.catalog.base.XBCSpec;
 
 /**
  * Interface for catalog specification entity.
  *
- * @version 0.2.1 2020/08/11
+ * @version 0.2.1 2020/09/03
  * @author ExBin Project (http://exbin.org)
  */
+@ParametersAreNonnullByDefault
 public interface XBMSpec extends XBCSpec, XBMItem {
 
     /**
@@ -32,5 +33,5 @@ public interface XBMSpec extends XBCSpec, XBMItem {
      *
      * @param node node
      */
-    void setParent(@Nullable XBCNode node);
+    void setParent(XBCNode node);
 }

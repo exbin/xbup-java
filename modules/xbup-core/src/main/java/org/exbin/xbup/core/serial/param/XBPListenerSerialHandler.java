@@ -63,7 +63,7 @@ import org.exbin.xbup.core.ubnumber.type.UBNat32;
 /**
  * XBUP level 2 serialization handler using parameter mapping to listener.
  *
- * @version 0.2.1 2020/09/03
+ * @version 0.2.1 2020/09/04
  * @author ExBin Project (http://exbin.org)
  */
 @ParametersAreNonnullByDefault
@@ -106,7 +106,7 @@ public class XBPListenerSerialHandler implements XBPOutputSerialHandler, XBPSequ
             }
             ((XBTBasicSerializable) serial).serializeToXB(basicOutputSerialHandler);
         } else {
-            throw new UnsupportedOperationException("Serialization method " + serial.getClass().getCanonicalName() + " not supported.");
+            throw new UnsupportedOperationException("Serialization method " + (serial == null ? "null" : serial.getClass().getCanonicalName()) + " not supported.");
         }
     }
 
@@ -281,17 +281,21 @@ public class XBPListenerSerialHandler implements XBPOutputSerialHandler, XBPSequ
             // } else { }
             while (!processingStates.isEmpty()) {
                 ProcessingState topState = getCurrentState();
-                ProcessingState superState = processingStates.size() > 1 ? processingStates.get(processingStates.size() - 2) : null;
+                int processingStatesSize = processingStates.size();
+                ProcessingState superState = processingStatesSize > 1 ? processingStates.get(processingStatesSize - 2) : null;
                 boolean pass = false;
                 if (topState.serialSequence.isEmpty()) {
-                    eventListener.putXBTToken(XBTEndToken.create());
+                    if (superState != null) {
+                        eventListener.putXBTToken(XBTEndToken.create());
+                    }
+
                     if (superState != null && !superState.serialSequence.isEmpty()) {
                         topState.mode = Mode.BEGIN;
                         topState.serialSequence = new XBPSerialSequence();
                         topState.isInOrder = false;
                         pass = true;
                     } else {
-                        processingStates.remove(processingStates.size() - 1);
+                        processingStates.remove(processingStatesSize - 1);
                     }
                 } else {
                     ProcessingState nextState = new ProcessingState();
@@ -301,11 +305,21 @@ public class XBPListenerSerialHandler implements XBPOutputSerialHandler, XBPSequ
 
                 if (pass) {
                     processingState = XBParamProcessingState.START;
-                    while (!topState.serialSequence.isEmpty() && processingState != XBParamProcessingState.END) {
-                        putItem(topState.serialSequence.pullItem());
+                    if (!topState.serialSequence.isEmpty()) {
+                        XBSerialSequenceItem pullItem = topState.serialSequence.pullItem();
+                        if (pullItem.getSequenceOp() != XBSerialSequenceOp.TOKEN) {
+                            process(pullItem.getItem());
+                        } else {
+                            putItem(pullItem);
+                        }
+
+                        while (!topState.serialSequence.isEmpty()) {
+                            putItem(topState.serialSequence.pullItem());
+                        }
                     }
                 }
             }
+            return;
         } else if (currentState.isPassing()) {
             eventListener.putXBTToken(XBTEndToken.create());
             return;
@@ -402,7 +416,7 @@ public class XBPListenerSerialHandler implements XBPOutputSerialHandler, XBPSequ
     @Override
     public void putConsist(XBSerializable serial) throws XBProcessingException, IOException {
         ProcessingState currentState = getCurrentState();
-        if (currentState.isCollecting()) {
+        if (currentState.isCollecting() && subDepth > 0) {
             currentState.serialSequence.putConsist(serial);
             return;
         } else if (currentState.isPassing()) {

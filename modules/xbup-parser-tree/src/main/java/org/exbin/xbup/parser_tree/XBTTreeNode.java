@@ -296,6 +296,7 @@ public class XBTTreeNode implements TreeNode, XBTEditableBlock, UBStreamable {
                     } while (itemSize < attributePartSize.getInt());
                 }
 
+                // TODO Rework to use iteration instead of recursion
                 if (dataPartSize.isInfinity() || dataPartSize.getInt() > 0) {
                     size += childrenFromStreamUB(stream, dataPartSizeValue);
                 }
@@ -883,7 +884,7 @@ public class XBTTreeNode implements TreeNode, XBTEditableBlock, UBStreamable {
      * @return size in bytes
      * @throws java.io.IOException exception on input/output error
      */
-    public int childrenFromStreamUB(InputStream stream, Integer maxSize) throws IOException, XBProcessingException {
+    public int childrenFromStreamUB(InputStream stream, @Nullable Integer maxSize) throws IOException, XBProcessingException {
         children.clear();
         if (maxSize != null && maxSize == 0) {
             return 0;

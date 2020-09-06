@@ -76,7 +76,6 @@ public class XBPListenerSerialHandler implements XBPOutputSerialHandler, XBPSequ
     private XBParamProcessingState processingState = XBParamProcessingState.START;
     private final List<Processing> processings = new ArrayList<>();
     private int subDepth = 0;
-    private int endCount = 0;
 
     private static final String PULL_NOT_ALLOWED_EXCEPTION = "Pulling data not allowed in pushing mode";
 
@@ -153,7 +152,6 @@ public class XBPListenerSerialHandler implements XBPOutputSerialHandler, XBPSequ
                                     throw new XBProcessingException("Unexpected token order", XBProcessingExceptionType.UNEXPECTED_ORDER);
                                 }
                                 case END: {
-                                    endCount++;
                                     currentState.mode = Mode.END;
                                     break;
                                 }
@@ -191,10 +189,8 @@ public class XBPListenerSerialHandler implements XBPOutputSerialHandler, XBPSequ
             } else if (currentState.mode == Mode.END) {
                 while (currentState.childSequence.isEmpty() && currentState.mode == Mode.END) {
                     processings.remove(processings.size() - 1);
+                    eventListener.putXBTToken(XBTEndToken.create());
                     if (processings.isEmpty()) {
-                        for (int i = 0; i < endCount; i++) {
-                            eventListener.putXBTToken(XBTEndToken.create());
-                        }
                         currentState = null;
                         break;
                     }
@@ -295,7 +291,6 @@ public class XBPListenerSerialHandler implements XBPOutputSerialHandler, XBPSequ
             }
             case END: {
                 if (processingState != XBParamProcessingState.BEGIN && processingState != XBParamProcessingState.START) {
-                    eventListener.putXBTToken(convertToToken(item, token));
                     processingState = XBParamProcessingState.END;
                     currentState.mode = Mode.END;
                 } else {
@@ -643,7 +638,7 @@ public class XBPListenerSerialHandler implements XBPOutputSerialHandler, XBPSequ
 
         private final List<XBSerialSequenceItem> items = new ArrayList<>();
         private int depth = 0;
-        private boolean isInOrder = false; // TODO optimize later
+        private boolean isInOrder = false; // TODO optimalizations later
         private boolean childPresent = false;
 
         public XBPSerialSequence() {

@@ -26,8 +26,19 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
+import org.exbin.xbup.catalog.entity.XBEBlockCons;
+import org.exbin.xbup.catalog.entity.XBEBlockJoin;
+import org.exbin.xbup.catalog.entity.XBEBlockListCons;
+import org.exbin.xbup.catalog.entity.XBEBlockListJoin;
+import org.exbin.xbup.catalog.entity.XBEBlockRev;
 import org.exbin.xbup.catalog.entity.XBEBlockSpec;
+import org.exbin.xbup.catalog.entity.XBEFormatCons;
+import org.exbin.xbup.catalog.entity.XBEFormatJoin;
+import org.exbin.xbup.catalog.entity.XBEFormatRev;
 import org.exbin.xbup.catalog.entity.XBEFormatSpec;
+import org.exbin.xbup.catalog.entity.XBEGroupCons;
+import org.exbin.xbup.catalog.entity.XBEGroupJoin;
+import org.exbin.xbup.catalog.entity.XBEGroupRev;
 import org.exbin.xbup.catalog.entity.XBEGroupSpec;
 import org.exbin.xbup.catalog.entity.XBENode;
 import org.exbin.xbup.catalog.entity.XBEXDesc;
@@ -39,6 +50,7 @@ import org.exbin.xbup.catalog.entity.XBEXPlugin;
 import org.exbin.xbup.catalog.entity.XBEXStri;
 import org.exbin.xbup.core.block.XBBlockType;
 import org.exbin.xbup.core.block.XBFixedBlockType;
+import org.exbin.xbup.core.block.definition.XBParamType;
 import org.exbin.xbup.core.catalog.XBACatalog;
 import org.exbin.xbup.core.catalog.base.XBCBlockRev;
 import org.exbin.xbup.core.catalog.base.XBCBlockSpec;
@@ -112,7 +124,7 @@ public class XBCatalogXb {
 
     public void exportToXb(OutputStream stream) {
         try {
-            XBPListenerSerialHandler serialInput = new XBPListenerSerialHandler(new TypeDroppingFilter(new XBTToXBEventConvertor(new XBEventWriter(stream, XBParserMode.SINGLE_BLOCK))));
+            XBPListenerSerialHandler serialInput = new XBPListenerSerialHandler(new TypeDroppingFilter(new XBTToXBEventConvertor(new XBEventWriter(stream, XBParserMode.FULL))));
 
             exportAll(serialInput);
         } catch (XBProcessingException | IOException ex) {
@@ -591,7 +603,7 @@ public class XBCatalogXb {
 
     public void importFromXb(InputStream stream) {
         try {
-            XBPProviderSerialHandler serialOutput = new XBPProviderSerialHandler(new XBToXBTPullConvertor(new XBPullReader(stream, XBParserMode.SINGLE_BLOCK)));
+            XBPProviderSerialHandler serialOutput = new XBPProviderSerialHandler(new XBToXBTPullConvertor(new XBPullReader(stream, XBParserMode.FULL)));
 
             importAll(serialOutput);
         } catch (XBProcessingException | IOException ex) {
@@ -693,12 +705,46 @@ public class XBCatalogXb {
             Long[] nodePath = pullPath(serialOutput);
             XBENode node = (XBENode) nodeService.findNodeByXBPath(nodePath);
 
+            serialOutput.pullBegin();
+            serialOutput.pullType();
+            List<RevRecord> revRecords = new ArrayList<>();
             while (!serialOutput.isFinishedNext()) {
+                RevRecord revRecord = new RevRecord();
                 serialOutput.pullBegin();
                 serialOutput.pullType();
+                revRecord.xbIndex = serialOutput.pullLongAttribute();
+                revRecord.xbLimit = serialOutput.pullLongAttribute();
+                serialOutput.pullEnd();
+                revRecords.add(revRecord);
+            }
+            serialOutput.pullEnd();
+
+            serialOutput.pullBegin();
+            serialOutput.pullType();
+            List<SpecDefRecord> specDefRecords = new ArrayList<>();
+            while (!serialOutput.isFinishedNext()) {
+                SpecDefRecord specDefRecord = new SpecDefRecord();
+                serialOutput.pullBegin();
+                serialOutput.pullType();
+                specDefRecord.type = serialOutput.pullIntAttribute();
+                specDefRecord.xbIndex = serialOutput.pullLongAttribute();
+
+                if (!serialOutput.isFinishedNext()) {
+                    serialOutput.pullBegin();
+                    serialOutput.pullType();
+                    specDefRecord.targetNodePath = pullPath(serialOutput);
+                    specDefRecord.targetSpecIndex = serialOutput.pullLongAttribute();
+                    specDefRecord.targetRevIndex = serialOutput.pullLongAttribute();
+                    serialOutput.pullEnd();
+                } else {
+                    specDefRecord.targetNodePath = null;
+                }
 
                 serialOutput.pullEnd();
+                specDefRecords.add(specDefRecord);
             }
+            serialOutput.pullEnd();
+
             serialOutput.pullEnd();
 
             switch (itemType) {
@@ -708,7 +754,62 @@ public class XBCatalogXb {
                     blockSpec.setXBIndex(xbIndex);
                     specService.persistItem(blockSpec);
 
-                    // TODO rev + specdef
+                    for (RevRecord revRecord : revRecords) {
+                        XBEBlockRev blockRev = (XBEBlockRev) revService.createRev(blockSpec);
+                        blockRev.setXBIndex(revRecord.xbIndex);
+                        blockRev.setXBLimit(revRecord.xbLimit);
+                        revService.persistItem(blockRev);
+                    }
+
+                    for (SpecDefRecord specDefRecord : specDefRecords) {
+                        XBENode targetNode = specDefRecord.targetNodePath == null ? null : (XBENode) nodeService.findNodeByXBPath(specDefRecord.targetNodePath);
+                        switch (XBParamType.values()[specDefRecord.type]) {
+                            case CONSIST: {
+                                XBEBlockCons def = (XBEBlockCons) specService.createSpecDef(blockSpec, XBParamType.CONSIST);
+                                def.setXBIndex(specDefRecord.xbIndex);
+                                if (targetNode != null) {
+                                    XBCBlockSpec targetBlockSpec = specService.findBlockSpecByXB(targetNode, specDefRecord.targetSpecIndex);
+                                    XBEBlockRev targetRev = (XBEBlockRev) revService.findRevByXB(targetBlockSpec, specDefRecord.targetRevIndex);
+                                    def.setTarget(targetRev);
+                                }
+                                specService.persistSpecDef(def);
+                                break;
+                            }
+                            case JOIN: {
+                                XBEBlockJoin def = (XBEBlockJoin) specService.createSpecDef(blockSpec, XBParamType.JOIN);
+                                def.setXBIndex(specDefRecord.xbIndex);
+                                if (targetNode != null) {
+                                    XBCBlockSpec targetBlockSpec = specService.findBlockSpecByXB(targetNode, specDefRecord.targetSpecIndex);
+                                    XBEBlockRev targetRev = (XBEBlockRev) revService.findRevByXB(targetBlockSpec, specDefRecord.targetRevIndex);
+                                    def.setTarget(targetRev);
+                                }
+                                specService.persistSpecDef(def);
+                                break;
+                            }
+                            case LIST_CONSIST: {
+                                XBEBlockListCons def = (XBEBlockListCons) specService.createSpecDef(blockSpec, XBParamType.LIST_CONSIST);
+                                def.setXBIndex(specDefRecord.xbIndex);
+                                if (targetNode != null) {
+                                    XBCBlockSpec targetBlockSpec = specService.findBlockSpecByXB(targetNode, specDefRecord.targetSpecIndex);
+                                    XBEBlockRev targetRev = (XBEBlockRev) revService.findRevByXB(targetBlockSpec, specDefRecord.targetRevIndex);
+                                    def.setTarget(targetRev);
+                                }
+                                specService.persistSpecDef(def);
+                                break;
+                            }
+                            case LIST_JOIN: {
+                                XBEBlockListJoin def = (XBEBlockListJoin) specService.createSpecDef(blockSpec, XBParamType.LIST_JOIN);
+                                def.setXBIndex(specDefRecord.xbIndex);
+                                if (targetNode != null) {
+                                    XBCBlockSpec targetBlockSpec = specService.findBlockSpecByXB(targetNode, specDefRecord.targetSpecIndex);
+                                    XBEBlockRev targetRev = (XBEBlockRev) revService.findRevByXB(targetBlockSpec, specDefRecord.targetRevIndex);
+                                    def.setTarget(targetRev);
+                                }
+                                specService.persistSpecDef(def);
+                                break;
+                            }
+                        }
+                    }
                     break;
                 }
                 case GROUP: {
@@ -716,6 +817,41 @@ public class XBCatalogXb {
                     groupSpec.setParent(node);
                     groupSpec.setXBIndex(xbIndex);
                     specService.persistItem(groupSpec);
+
+                    for (RevRecord revRecord : revRecords) {
+                        XBEGroupRev groupRev = (XBEGroupRev) revService.createRev(groupSpec);
+                        groupRev.setXBIndex(revRecord.xbIndex);
+                        groupRev.setXBLimit(revRecord.xbLimit);
+                        revService.persistItem(groupRev);
+                    }
+
+                    for (SpecDefRecord specDefRecord : specDefRecords) {
+                        XBENode targetNode = (XBENode) nodeService.findNodeByXBPath(specDefRecord.targetNodePath);
+                        switch (XBParamType.values()[specDefRecord.type]) {
+                            case CONSIST: {
+                                XBEGroupCons def = (XBEGroupCons) specService.createSpecDef(groupSpec, XBParamType.CONSIST);
+                                def.setXBIndex(specDefRecord.xbIndex);
+                                if (targetNode != null) {
+                                    XBCBlockSpec targetBlockSpec = specService.findBlockSpecByXB(targetNode, specDefRecord.targetSpecIndex);
+                                    XBEBlockRev targetRev = (XBEBlockRev) revService.findRevByXB(targetBlockSpec, specDefRecord.targetRevIndex);
+                                    def.setTarget(targetRev);
+                                }
+                                specService.persistSpecDef(def);
+                                break;
+                            }
+                            case JOIN: {
+                                XBEGroupJoin def = (XBEGroupJoin) specService.createSpecDef(groupSpec, XBParamType.JOIN);
+                                def.setXBIndex(specDefRecord.xbIndex);
+                                if (targetNode != null) {
+                                    XBCGroupSpec targetGroupSpec = specService.findGroupSpecByXB(targetNode, specDefRecord.targetSpecIndex);
+                                    XBEGroupRev targetRev = (XBEGroupRev) revService.findRevByXB(targetGroupSpec, specDefRecord.targetRevIndex);
+                                    def.setTarget(targetRev);
+                                }
+                                specService.persistSpecDef(def);
+                                break;
+                            }
+                        }
+                    }
                     break;
                 }
                 case FORMAT: {
@@ -723,6 +859,41 @@ public class XBCatalogXb {
                     formatSpec.setParent(node);
                     formatSpec.setXBIndex(xbIndex);
                     specService.persistItem(formatSpec);
+
+                    for (RevRecord revRecord : revRecords) {
+                        XBEFormatRev formatRev = (XBEFormatRev) revService.createRev(formatSpec);
+                        formatRev.setXBIndex(revRecord.xbIndex);
+                        formatRev.setXBLimit(revRecord.xbLimit);
+                        revService.persistItem(formatRev);
+                    }
+
+                    for (SpecDefRecord specDefRecord : specDefRecords) {
+                        XBENode targetNode = (XBENode) nodeService.findNodeByXBPath(specDefRecord.targetNodePath);
+                        switch (XBParamType.values()[specDefRecord.type]) {
+                            case CONSIST: {
+                                XBEFormatCons def = (XBEFormatCons) specService.createSpecDef(formatSpec, XBParamType.CONSIST);
+                                def.setXBIndex(specDefRecord.xbIndex);
+                                if (targetNode != null) {
+                                    XBCGroupSpec targetGroupSpec = specService.findGroupSpecByXB(targetNode, specDefRecord.targetSpecIndex);
+                                    XBEGroupRev targetRev = (XBEGroupRev) revService.findRevByXB(targetGroupSpec, specDefRecord.targetRevIndex);
+                                    def.setTarget(targetRev);
+                                }
+                                specService.persistSpecDef(def);
+                                break;
+                            }
+                            case JOIN: {
+                                XBEFormatJoin def = (XBEFormatJoin) specService.createSpecDef(formatSpec, XBParamType.JOIN);
+                                def.setXBIndex(specDefRecord.xbIndex);
+                                if (targetNode != null) {
+                                    XBCFormatSpec targetFormatSpec = specService.findFormatSpecByXB(targetNode, specDefRecord.targetSpecIndex);
+                                    XBEFormatRev targetRev = (XBEFormatRev) revService.findRevByXB(targetFormatSpec, specDefRecord.targetRevIndex);
+                                    def.setTarget(targetRev);
+                                }
+                                specService.persistSpecDef(def);
+                                break;
+                            }
+                        }
+                    }
                     break;
                 }
             }
@@ -1018,5 +1189,21 @@ public class XBCatalogXb {
         public void attachXBTEventListener(XBTEventListener eventListener) {
             this.listener = eventListener;
         }
+    }
+
+    private static class RevRecord {
+
+        long xbIndex;
+        long xbLimit;
+    }
+
+    private static class SpecDefRecord {
+
+        int type;
+        long xbIndex;
+
+        Long[] targetNodePath;
+        long targetSpecIndex;
+        long targetRevIndex;
     }
 }

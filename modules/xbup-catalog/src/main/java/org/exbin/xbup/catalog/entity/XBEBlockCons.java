@@ -64,7 +64,7 @@ public class XBEBlockCons extends XBEConsDef implements XBMBlockCons {
 
     @Override
     public void setTarget(@Nullable XBMBlockRev blockRev) {
-        if (blockRev != null && !(blockRev instanceof XBEBlockSpec)) {
+        if (blockRev != null && !(blockRev instanceof XBEBlockRev)) {
             throw new IllegalArgumentException();
         }
         setTargetRev(blockRev);

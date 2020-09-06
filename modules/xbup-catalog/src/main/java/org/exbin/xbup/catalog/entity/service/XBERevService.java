@@ -129,11 +129,17 @@ public class XBERevService extends XBEDefaultService<XBCRev> implements XBCRevSe
     @Override
     public XBCRev createRev(XBCSpec spec) {
         if (spec instanceof XBCBlockSpec) {
-            return new XBEBlockRev();
+            XBEBlockRev rev = new XBEBlockRev();
+            rev.setParent(spec);
+            return rev;
         } else if (spec instanceof XBCGroupSpec) {
-            return new XBEGroupRev();
+            XBEGroupRev rev = new XBEGroupRev();
+            rev.setParent(spec);
+            return rev;
         } else if (spec instanceof XBCFormatSpec) {
-            return new XBEFormatRev();
+            XBEFormatRev rev = new XBEFormatRev();
+            rev.setParent(spec);
+            return rev;
         }
 
         throw new UnsupportedOperationException("Not supported yet.");

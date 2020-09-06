@@ -242,7 +242,6 @@ public class XBCatalogYaml {
             specService.persistSpecDef(specDef);
             importItem(def, specDef);
 
-            specDef.setSpec(blockSpec);
             specDef.setXBIndex(Long.valueOf(defId));
 
             String type = (String) def.get("type");

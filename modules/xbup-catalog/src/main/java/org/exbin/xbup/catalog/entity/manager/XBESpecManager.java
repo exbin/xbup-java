@@ -19,7 +19,6 @@ import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.Nonnull;
@@ -57,7 +56,7 @@ import org.springframework.stereotype.Repository;
 /**
  * XBUP catalog specification manager.
  *
- * @version 0.2.1 2020/08/26
+ * @version 0.2.1 2020/09/07
  * @author ExBin Project (http://exbin.org)
  */
 @ParametersAreNonnullByDefault
@@ -503,31 +502,51 @@ public class XBESpecManager extends XBEDefaultCatalogManager<XBCSpec> implements
         if (spec instanceof XBCBlockSpec) {
             switch (type) {
                 case CONSIST:
-                    return newInstance(XBEBlockCons.class);
+                    XBEBlockCons blockCons = newInstance(XBEBlockCons.class);
+                    blockCons.setSpec(spec);
+                    return blockCons;
                 case JOIN:
-                    return newInstance(XBEBlockJoin.class);
+                    XBEBlockJoin blockJoin = newInstance(XBEBlockJoin.class);
+                    blockJoin.setSpec(spec);
+                    return blockJoin;
+
                 case LIST_CONSIST:
-                    return newInstance(XBEBlockListCons.class);
+                    XBEBlockListCons listCons = newInstance(XBEBlockListCons.class);
+                    listCons.setSpec(spec);
+                    return listCons;
+
                 case LIST_JOIN:
-                    return newInstance(XBEBlockListJoin.class);
+                    XBEBlockListJoin listJoin = newInstance(XBEBlockListJoin.class);
+                    listJoin.setSpec(spec);
+                    return listJoin;
+
                 default:
                     return null; // TODO: Or throw?
                 }
         } else if (spec instanceof XBCGroupSpec) {
             switch (type) {
                 case CONSIST:
-                    return newInstance(XBEGroupCons.class);
+                    XBEGroupCons groupCons = newInstance(XBEGroupCons.class);
+                    groupCons.setSpec(spec);
+                    return groupCons;
+
                 case JOIN:
-                    return newInstance(XBEGroupJoin.class);
+                    XBEGroupJoin groupJoin = newInstance(XBEGroupJoin.class);
+                    groupJoin.setSpec(spec);
+                    return groupJoin;
                 default:
                     return null; // TODO: Or throw?
                 }
         } else if (spec instanceof XBCFormatSpec) {
             switch (type) {
                 case CONSIST:
-                    return newInstance(XBEFormatCons.class);
+                    XBEFormatCons formatCons = newInstance(XBEFormatCons.class);
+                    formatCons.setSpec(spec);
+                    return formatCons;
                 case JOIN:
-                    return newInstance(XBEFormatJoin.class);
+                    XBEFormatJoin formatJoin = newInstance(XBEFormatJoin.class);
+                    formatJoin.setSpec(spec);
+                    return formatJoin;
                 default:
                     return null; // TODO: Or throw?
                 }

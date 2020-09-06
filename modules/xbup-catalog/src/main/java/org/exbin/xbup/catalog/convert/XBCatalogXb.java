@@ -91,7 +91,7 @@ import org.exbin.xbup.core.util.StreamUtils;
 /**
  * XB Catalog import and export to XB.
  *
- * @version 0.2.1 2020/09/03
+ * @version 0.2.1 2020/09/06
  * @author ExBin Project (http://exbin.org)
  */
 @ParametersAreNonnullByDefault
@@ -229,42 +229,42 @@ public class XBCatalogXb {
             serialInput.putAttribute(item.getXBIndex());
             putPath(serialInput, nodePath);
 
-//            {
-//                serialInput.begin();
-//                serialInput.putType(new XBFixedBlockType());
-//                List<XBCRev> revs = revService.getRevs((XBCSpec) item);
-//                for (XBCRev specRev : revs) {
-//                    serialInput.begin();
-//                    serialInput.putType(new XBFixedBlockType());
-//                    serialInput.putAttribute(specRev.getXBIndex());
-//                    serialInput.putAttribute(specRev.getXBLimit());
-//                    serialInput.end();
-//                }
-//                serialInput.end();
-//            }
-//
-//            {
-//                serialInput.begin();
-//                serialInput.putType(new XBFixedBlockType());
-//                List<XBCSpecDef> specDefs = specService.getSpecDefs((XBCSpec) item);
-//                for (XBCSpecDef specDef : specDefs) {
-//                    serialInput.begin();
-//                    serialInput.putType(new XBFixedBlockType());
-//                    serialInput.putAttribute(specDef.getType().ordinal());
-//                    serialInput.putAttribute(specDef.getXBIndex());
-//                    XBCRev targetRev = specDef.getTargetRev().orElse(null);
-//                    if (targetRev != null) {
-//                        XBCSpec targetSpec = targetRev.getParent();
-//                        XBCNode targetSpecNode = targetSpec.getParent();
-//                        Long[] targetNodePath = nodeService.getNodeXBPath(targetSpecNode);
-//                        putPath(serialInput, targetNodePath);
-//                        serialInput.putAttribute(targetSpec.getXBIndex());
-//                        serialInput.putAttribute(targetRev.getXBIndex());
-//                    }
-//                    serialInput.end();
-//                }
-//                serialInput.end();
-//            }
+            {
+                serialInput.begin();
+                serialInput.putType(new XBFixedBlockType());
+                List<XBCRev> revs = revService.getRevs((XBCSpec) item);
+                for (XBCRev specRev : revs) {
+                    serialInput.begin();
+                    serialInput.putType(new XBFixedBlockType());
+                    serialInput.putAttribute(specRev.getXBIndex());
+                    serialInput.putAttribute(specRev.getXBLimit());
+                    serialInput.end();
+                }
+                serialInput.end();
+            }
+
+            {
+                serialInput.begin();
+                serialInput.putType(new XBFixedBlockType());
+                List<XBCSpecDef> specDefs = specService.getSpecDefs((XBCSpec) item);
+                for (XBCSpecDef specDef : specDefs) {
+                    serialInput.begin();
+                    serialInput.putType(new XBFixedBlockType());
+                    serialInput.putAttribute(specDef.getType().ordinal());
+                    serialInput.putAttribute(specDef.getXBIndex());
+                    XBCRev targetRev = specDef.getTargetRev().orElse(null);
+                    if (targetRev != null) {
+                        XBCSpec targetSpec = targetRev.getParent();
+                        XBCNode targetSpecNode = targetSpec.getParent();
+                        Long[] targetNodePath = nodeService.getNodeXBPath(targetSpecNode);
+                        putPath(serialInput, targetNodePath);
+                        serialInput.putAttribute(targetSpec.getXBIndex());
+                        serialInput.putAttribute(targetRev.getXBIndex());
+                    }
+                    serialInput.end();
+                }
+                serialInput.end();
+            }
 
             serialInput.end();
         }

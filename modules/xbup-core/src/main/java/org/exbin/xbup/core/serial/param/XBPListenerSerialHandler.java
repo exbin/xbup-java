@@ -65,7 +65,7 @@ import org.exbin.xbup.core.ubnumber.type.UBNat32;
 /**
  * XBUP level 2 serialization handler using parameter mapping to listener.
  *
- * @version 0.2.1 2020/09/05
+ * @version 0.2.1 2020/09/06
  * @author ExBin Project (http://exbin.org)
  */
 @ParametersAreNonnullByDefault
@@ -75,8 +75,8 @@ public class XBPListenerSerialHandler implements XBPOutputSerialHandler, XBPSequ
 
     private XBParamProcessingState processingState = XBParamProcessingState.START;
     private final List<Processing> processings = new ArrayList<>();
-    private final List<JoinState> joinStates = new ArrayList<>();
     private int subDepth = 0;
+    private int endCount = 0;
 
     private static final String PULL_NOT_ALLOWED_EXCEPTION = "Pulling data not allowed in pushing mode";
 
@@ -90,102 +90,149 @@ public class XBPListenerSerialHandler implements XBPOutputSerialHandler, XBPSequ
     }
 
     private void processItem(XBSerialSequenceOp op, @Nullable XBTTokenType tokenType, @Nullable XBSerialSequenceItem item, @Nullable XBTToken token) throws XBProcessingException, IOException {
-        Processing currentState = getCurrentState();
+        boolean loop;
         do {
-            if (!currentState.extractionSequence.isEmpty()) {
-                // TODO
-            }
-
+            Processing currentState = getCurrentState();
             if (currentState.isCollecting()) {
                 if (subDepth > 0) {
                     currentState.childSequence.putItem(item != null ? item : new XBSerialSequenceItem(XBSerialSequenceOp.TOKEN, new XBPTokenWrapper(token)));
-                    switch (op) {
-                        case TOKEN: {
-                            subDepth++;
-                            break;
+                    if (op == XBSerialSequenceOp.TOKEN) {
+                        switch (tokenType) {
+                            case BEGIN: {
+                                subDepth++;
+                                break;
+                            }
+                            case END: {
+                                subDepth--;
+                                break;
+                            }
                         }
                     }
                 } else {
                     switch (op) {
                         case CONSIST: {
+                            currentState.childSequence.putItem(item);
                             break;
                         }
                         case JOIN: {
+                            XBPSerialSequence seq = new XBPSerialSequence();
+                            extractItem(Objects.requireNonNull(item).getItem(), seq);
+                            seq.dropLevel();
+                            currentState.extractionSequence.insertAtBegining(seq);
                             break;
                         }
                         case LIST_CONSIST: {
+                            XBPSerialSequence seq = new XBPSerialSequence();
+                            XBListConsistSerializable list = (XBListConsistSerializable) Objects.requireNonNull(item).getItem();
+                            extractConsistList(list, seq);
+                            currentState.extractionSequence.insertAtBegining(seq);
                             break;
                         }
                         case LIST_JOIN: {
+                            XBPSerialSequence seq = new XBPSerialSequence();
+                            XBListJoinSerializable list = (XBListJoinSerializable) Objects.requireNonNull(item).getItem();
+                            extractJoinList(list, seq);
+                            currentState.extractionSequence.insertAtBegining(seq);
                             break;
                         }
                         case TOKEN: {
                             switch (tokenType) {
                                 case BEGIN: {
                                     subDepth++;
+                                    currentState.childSequence.putItem(item != null ? item : new XBSerialSequenceItem(XBSerialSequenceOp.TOKEN, new XBPTokenWrapper(token)));
                                     break;
                                 }
                                 case TYPE: {
-                                    if (!joinStates.isEmpty()) {
-                                        JoinState joinState = joinStates.get(joinStates.size() - 1);
-                                        if (joinState == JoinState.BEGIN_SKIPPED) {
-                                            joinStates.set(joinStates.size() - 1, JoinState.TYPE_SKIPPED);
-                                            return;
-                                        }
-                                    }
+                                    throw new XBProcessingException("Unexpected token order", XBProcessingExceptionType.UNEXPECTED_ORDER);
                                 }
                                 case ATTRIBUTE: {
+                                    eventListener.putXBTToken(convertToToken(item, token));
                                     break;
                                 }
+                                case DATA: {
+                                    throw new XBProcessingException("Unexpected token order", XBProcessingExceptionType.UNEXPECTED_ORDER);
+                                }
                                 case END: {
+                                    endCount++;
+                                    currentState.mode = Mode.END;
                                     break;
                                 }
                                 default:
-                                    throw new IllegalStateException("Unexpected token " + (tokenType == null ? "null" : tokenType.name()));
+                                    throw new IllegalStateException("Unexpected token type " + tokenType.name());
                             }
                             break;
                         }
                         default:
-                            throw new IllegalStateException("Unexpected sequence operation " + op.name());
+                            throw new XBProcessingException("Unexpected operation order", XBProcessingExceptionType.UNEXPECTED_ORDER);
                     }
                 }
             } else if (currentState.isPassing()) {
                 eventListener.putXBTToken(convertToToken(item, token));
             } else {
                 switch (op) {
-                    case CONSIST: {
-                        currentState.mode = Mode.COLLECTING;
-                        currentState.childSequence.putConsist(Objects.requireNonNull(item).getItem());
-
-                        break;
-                    }
-                    case JOIN: {
-                        break;
-                    }
-                    case LIST_CONSIST: {
-                        XBListJoinSerializable list = (XBListJoinSerializable) Objects.requireNonNull(item).getItem();
-                        UBNatural count = list.getSize();
-                        putAttribute(count);
-
-                        list.reset();
-                        int listSize = count.getInt();
-                        for (int i = 0; i < listSize; i++) {
-                            putJoin(list.next());
-                        }
-                        break;
-                    }
-                    case LIST_JOIN: {
-                        break;
-                    }
                     case TOKEN: {
                         processToken(tokenType, item, token);
                         break;
                     }
-                    default:
-                        throw new IllegalStateException("Unexpected sequence operation " + op.name());
+                    default: {
+                        currentState.mode = Mode.COLLECTING;
+                        currentState.childSequence.putItem(Objects.requireNonNull(item));
+                    }
                 }
             }
-        } while (!currentState.extractionSequence.isEmpty());
+
+            loop = false;
+            if (!currentState.extractionSequence.isEmpty()) {
+                item = currentState.extractionSequence.pullItem();
+                token = null;
+                op = item.getSequenceOp();
+                tokenType = (item.getSequenceOp() == XBSerialSequenceOp.TOKEN) ? ((XBPTokenWrapper) item.getItem()).getToken().getTokenType() : null;
+                loop = true;
+            } else if (currentState.mode == Mode.END) {
+                while (currentState.childSequence.isEmpty() && currentState.mode == Mode.END) {
+                    processings.remove(processings.size() - 1);
+                    if (processings.isEmpty()) {
+                        for (int i = 0; i < endCount; i++) {
+                            eventListener.putXBTToken(XBTEndToken.create());
+                        }
+                        currentState = null;
+                        break;
+                    }
+                    currentState = getCurrentState();
+                }
+
+                if (currentState != null && !currentState.childSequence.isEmpty()) {
+                    Processing nextState = new Processing();
+                    processings.add(nextState);
+
+                    XBSerialSequenceItem nextItem = currentState.childSequence.pullItem();
+                    XBSerialSequenceOp nextOp = nextItem.getSequenceOp();
+                    switch (nextOp) {
+                        case CONSIST: {
+                            extractItem(nextItem.getItem(), nextState.extractionSequence);
+                            break;
+                        }
+                        case TOKEN: {
+                            nextState.extractionSequence.putItem(nextItem);
+                            break;
+                        }
+                        default:
+                            throw new XBProcessingException("Unexpected operation order", XBProcessingExceptionType.UNEXPECTED_ORDER);
+                    }
+
+                    while (!currentState.childSequence.isEmpty() && !nextState.extractionSequence.isClosed()) {
+                        nextState.extractionSequence.putItem(currentState.childSequence.pullItem());
+                    }
+
+                    processingState = XBParamProcessingState.START;
+                    item = nextState.extractionSequence.pullItem();
+                    token = null;
+                    op = item.getSequenceOp();
+                    tokenType = (item.getSequenceOp() == XBSerialSequenceOp.TOKEN) ? ((XBPTokenWrapper) item.getItem()).getToken().getTokenType() : null;
+                    loop = true;
+                }
+            }
+        } while (loop);
     }
 
     private void processToken(XBTTokenType tokenType, @Nullable XBSerialSequenceItem item, @Nullable XBTToken token) throws XBProcessingException, IOException {
@@ -212,9 +259,8 @@ public class XBPListenerSerialHandler implements XBPOutputSerialHandler, XBPSequ
                         }
                         break;
                     }
-                    default: {
+                    default:
                         throw new XBProcessingException("Unexpected token order", XBProcessingExceptionType.UNEXPECTED_ORDER);
-                    }
                 }
 
                 break;
@@ -230,6 +276,12 @@ public class XBPListenerSerialHandler implements XBPOutputSerialHandler, XBPSequ
                 break;
             }
             case ATTRIBUTE: {
+                if (processingState == XBParamProcessingState.BEGIN || processingState == XBParamProcessingState.TYPE || processingState == XBParamProcessingState.ATTRIBUTES) {
+                    eventListener.putXBTToken(convertToToken(item, token));
+                    processingState = XBParamProcessingState.ATTRIBUTES;
+                } else {
+                    throw new XBProcessingException("Unexpected token order", XBProcessingExceptionType.UNEXPECTED_ORDER);
+                }
                 break;
             }
             case DATA: {
@@ -245,6 +297,7 @@ public class XBPListenerSerialHandler implements XBPOutputSerialHandler, XBPSequ
                 if (processingState != XBParamProcessingState.BEGIN && processingState != XBParamProcessingState.START) {
                     eventListener.putXBTToken(convertToToken(item, token));
                     processingState = XBParamProcessingState.END;
+                    currentState.mode = Mode.END;
                 } else {
                     throw new XBProcessingException("Unexpected token order", XBProcessingExceptionType.UNEXPECTED_ORDER);
                 }
@@ -258,19 +311,27 @@ public class XBPListenerSerialHandler implements XBPOutputSerialHandler, XBPSequ
 
     private void extractItem(XBSerializable serial, XBPListener listener) throws IOException, XBProcessingException {
         if (serial instanceof XBPSerializable) {
-            ((XBPSerializable) serial).serializeToXB(listener instanceof XBPOutputSerialHandler ? (XBPOutputSerialHandler) listener : new SerialHandlerWrapper(listener));
+            ((XBPSerializable) serial).serializeToXB(
+                    listener instanceof XBPOutputSerialHandler ? (XBPOutputSerialHandler) listener : new SerialHandlerWrapper(listener)
+            );
         } else if (serial instanceof XBPSequenceSerializable) {
-            ((XBPSequenceSerializable) serial).serializeXB(listener instanceof XBPSequenceSerialHandler ? (XBPSequenceSerialHandler) listener : new SerialHandlerWrapper(listener));
+            ((XBPSequenceSerializable) serial).serializeXB(
+                    listener instanceof XBPSequenceSerialHandler ? (XBPSequenceSerialHandler) listener : new SerialHandlerWrapper(listener)
+            );
         } else if (serial instanceof XBTChildSerializable) {
-            ((XBTChildSerializable) serial).serializeToXB(listener instanceof XBTChildOutputSerialHandler ? (XBTChildOutputSerialHandler) listener : new SerialHandlerWrapper(listener));
+            ((XBTChildSerializable) serial).serializeToXB(
+                    listener instanceof XBTChildOutputSerialHandler ? (XBTChildOutputSerialHandler) listener : new SerialHandlerWrapper(listener)
+            );
         } else if (serial instanceof XBTBasicSerializable) {
-            ((XBTBasicSerializable) serial).serializeToXB(listener instanceof XBTBasicOutputSerialHandler ? (XBTBasicOutputSerialHandler) listener : new SerialHandlerWrapper(listener));
+            ((XBTBasicSerializable) serial).serializeToXB(
+                    listener instanceof XBTBasicOutputSerialHandler ? (XBTBasicOutputSerialHandler) listener : new SerialHandlerWrapper(listener)
+            );
         } else {
             throw new UnsupportedOperationException("Serialization method " + (serial == null ? "null" : serial.getClass().getCanonicalName()) + " not supported.");
         }
     }
-    
-    private void extractList(XBListConsistSerializable list, XBPListener listener) throws IOException, XBProcessingException {
+
+    private void extractConsistList(XBListConsistSerializable list, XBPListener listener) throws IOException, XBProcessingException {
         UBENatural count = list.getSize();
         listener.putAttribute(count.convertToNatural());
 
@@ -278,6 +339,17 @@ public class XBPListenerSerialHandler implements XBPOutputSerialHandler, XBPSequ
         int listSize = count.getInt();
         for (int i = 0; i < listSize; i++) {
             listener.putConsist(list.next());
+        }
+    }
+
+    private void extractJoinList(XBListJoinSerializable list, XBPListener listener) throws IOException, XBProcessingException {
+        UBNatural count = list.getSize();
+        listener.putAttribute(count.convertToNatural());
+
+        list.reset();
+        int listSize = count.getInt();
+        for (int i = 0; i < listSize; i++) {
+            listener.putJoin(list.next());
         }
     }
 
@@ -347,72 +419,6 @@ public class XBPListenerSerialHandler implements XBPOutputSerialHandler, XBPSequ
     @Override
     public void putEnd() throws XBProcessingException, IOException {
         processItem(XBSerialSequenceOp.TOKEN, XBTTokenType.END, null, XBTEndToken.create());
-
-//            if (!joinStates.isEmpty()) {
-//                JoinState joinState = joinStates.get(joinStates.size() - 1);
-//                if (joinState == JoinState.TYPE_SKIPPED) {
-//                    joinStates.remove(joinStates.size() - 1);
-//                    return;
-//                }
-//            }
-//
-//            if (processings.size() > 1) {
-//                processingState = XBParamProcessingState.END;
-//                return;
-//            }
-//
-//            // TODO optimize for currentState.isInOrder
-//            // if (currentState.isInOrder) {
-//            //     currentState.mode = Mode.PASSING;
-//            // } else { }
-//            while (!processings.isEmpty()) {
-//                Processing topState = getCurrentState();
-//                int processingStatesSize = processings.size();
-//                Processing superState = processingStatesSize > 1 ? processings.get(processingStatesSize - 2) : null;
-//                boolean pass = false;
-//                if (topState.childSequence.isEmpty()) {
-//                    if (superState != null) {
-//                        eventListener.putXBTToken(XBTEndToken.create());
-//                    }
-//
-//                    if (superState != null && !superState.childSequence.isEmpty()) {
-//                        topState.mode = Mode.BEGIN;
-//                        topState.childSequence = new XBPSerialSequence();
-//                        topState.isInOrder = false;
-//                        pass = true;
-//                    } else {
-//                        processings.remove(processingStatesSize - 1);
-//                    }
-//                } else {
-//                    Processing nextState = new Processing();
-//                    processings.add(nextState);
-//                    pass = true;
-//                }
-//
-//                if (pass) {
-//                    processingState = XBParamProcessingState.START;
-//                    if (!topState.childSequence.isEmpty()) {
-//                        XBSerialSequenceItem pullItem = topState.childSequence.pullItem();
-//                        if (pullItem.getSequenceOp() != XBSerialSequenceOp.TOKEN) {
-//                            process(pullItem.getItem());
-//                        } else {
-//                            putItem(pullItem);
-//                        }
-//
-//                        while (!topState.childSequence.isEmpty()) {
-//                            putItem(topState.childSequence.pullItem());
-//                            if (processingStatesSize != processings.size()) {
-//                                break;
-//                            }
-//                        }
-//                    }
-//                }
-//            }
-//            return;
-//        } else if (currentState.isPassing()) {
-//            eventListener.putXBTToken(XBTEndToken.create());
-//            return;
-//        }
     }
 
     @Override
@@ -448,80 +454,11 @@ public class XBPListenerSerialHandler implements XBPOutputSerialHandler, XBPSequ
     @Override
     public void putJoin(XBSerializable serial) throws XBProcessingException, IOException {
         processItem(XBSerialSequenceOp.JOIN, null, new XBSerialSequenceItem(XBSerialSequenceOp.JOIN, serial), null);
-
-//        Processing currentState = getCurrentState();
-//        if (currentState.isCollecting()) {
-//            if (subDepth > 0) {
-//                // TODO optimize
-//                currentState.isInOrder = false;
-//                currentState.childSequence.putJoin(serial);
-//            } else {
-//                joinStates.add(JoinState.START);
-//                process(serial);
-//            }
-//            return;
-//        } else if (currentState.isPassing()) {
-//            process(serial);
-//            return;
-//        }
-//
-//        currentState.mode = Mode.COLLECTING;
-//        if (subDepth > 0) {
-//            // TODO optimize
-//            currentState.isInOrder = false;
-//            currentState.childSequence.putJoin(serial);
-//        } else {
-//            joinStates.add(JoinState.START);
-//            process(serial);
-//        }
     }
 
     @Override
     public void putListConsist(XBSerializable serial) throws XBProcessingException, IOException {
         processItem(XBSerialSequenceOp.LIST_CONSIST, null, new XBSerialSequenceItem(XBSerialSequenceOp.LIST_CONSIST, serial), null);
-
-//        Processing currentState = getCurrentState();
-//        if (currentState.isCollecting()) {
-//            if (subDepth > 0) {
-//                currentState.childSequence.putListConsist(serial);
-//                return;
-//            } else {
-//                XBListConsistSerializable list = (XBListConsistSerializable) serial;
-//                UBENatural count = list.getSize();
-//                putAttribute(count.convertToNatural());
-//
-//                list.reset();
-//                int listSize = count.getInt();
-//                for (int i = 0; i < listSize; i++) {
-//                    currentState.childSequence.putConsist(list.next());
-//                }
-//                return;
-//            }
-//        } else if (currentState.isPassing()) {
-//            XBListConsistSerializable list = (XBListConsistSerializable) serial;
-//            UBENatural count = list.getSize();
-//            eventListener.putXBTToken(XBTAttributeToken.create(count.convertToNatural()));
-//
-//            currentState.mode = Mode.COLLECTING;
-//            list.reset();
-//            int listSize = count.getInt();
-//            for (int i = 0; i < listSize; i++) {
-//                process(list.next());
-//            }
-//
-//            return;
-//        }
-//
-//        XBListConsistSerializable list = (XBListConsistSerializable) serial;
-//        UBENatural count = list.getSize();
-//        putAttribute(count.convertToNatural());
-//
-//        currentState.mode = Mode.COLLECTING;
-//        list.reset();
-//        int listSize = count.getInt();
-//        for (int i = 0; i < listSize; i++) {
-//            currentState.childSequence.putConsist(list.next());
-//        }
     }
 
     @Override
@@ -541,8 +478,7 @@ public class XBPListenerSerialHandler implements XBPOutputSerialHandler, XBPSequ
 
     @Override
     public void putAppend(XBSerializable serial) throws XBProcessingException, IOException {
-        throw new UnsupportedOperationException("Not supported yet.");
-        // process(serial);
+        processItem(XBSerialSequenceOp.JOIN, null, new XBSerialSequenceItem(XBSerialSequenceOp.JOIN, serial), null);
     }
 
     @Nonnull
@@ -713,12 +649,6 @@ public class XBPListenerSerialHandler implements XBPOutputSerialHandler, XBPSequ
         public XBPSerialSequence() {
         }
 
-        private void checkStarted() {
-            if (depth == 0) {
-                throw new XBProcessingException("Unexpected serialization event when sequencing", XBProcessingExceptionType.WRITING_AFTER_END);
-            }
-        }
-
         @Override
         public void putBegin(XBBlockTerminationMode terminationMode) throws XBProcessingException, IOException {
             depth++;
@@ -728,7 +658,6 @@ public class XBPListenerSerialHandler implements XBPOutputSerialHandler, XBPSequ
 
         @Override
         public void putType(XBBlockType type) throws XBProcessingException, IOException {
-            checkStarted();
             items.add(new XBSerialSequenceItem(XBSerialSequenceOp.TOKEN, new XBPTokenWrapper(XBTTypeToken.create(type))));
         }
 
@@ -737,7 +666,6 @@ public class XBPListenerSerialHandler implements XBPOutputSerialHandler, XBPSequ
             if (childPresent) {
                 isInOrder = false;
             }
-            checkStarted();
             items.add(new XBSerialSequenceItem(XBSerialSequenceOp.TOKEN, new XBPTokenWrapper(XBTAttributeToken.create(attribute))));
         }
 
@@ -746,7 +674,6 @@ public class XBPListenerSerialHandler implements XBPOutputSerialHandler, XBPSequ
             if (childPresent) {
                 isInOrder = false;
             }
-            checkStarted();
             putAttribute(new UBNat32(attributeValue));
         }
 
@@ -755,7 +682,6 @@ public class XBPListenerSerialHandler implements XBPOutputSerialHandler, XBPSequ
             if (childPresent) {
                 isInOrder = false;
             }
-            checkStarted();
             putAttribute(new UBNat32(attributeValue));
         }
 
@@ -764,7 +690,6 @@ public class XBPListenerSerialHandler implements XBPOutputSerialHandler, XBPSequ
             if (childPresent) {
                 isInOrder = false;
             }
-            checkStarted();
             putAttribute(new UBNat32(attributeValue));
         }
 
@@ -773,19 +698,16 @@ public class XBPListenerSerialHandler implements XBPOutputSerialHandler, XBPSequ
             if (childPresent) {
                 isInOrder = false;
             }
-            checkStarted();
             putAttribute(new UBNat32(attributeValue));
         }
 
         @Override
         public void putData(InputStream data) throws XBProcessingException, IOException {
-            checkStarted();
             items.add(new XBSerialSequenceItem(XBSerialSequenceOp.TOKEN, new XBPTokenWrapper(XBTDataToken.create(data))));
         }
 
         @Override
         public void putEnd() throws XBProcessingException, IOException {
-            checkStarted();
             items.add(new XBSerialSequenceItem(XBSerialSequenceOp.TOKEN, new XBPTokenWrapper(XBTEndToken.create())));
             depth--;
             childPresent = true;
@@ -830,19 +752,14 @@ public class XBPListenerSerialHandler implements XBPOutputSerialHandler, XBPSequ
                         break;
                     }
                     case END: {
-                        checkStarted();
                         depth--;
                         childPresent = true;
                         break;
-                    }
-                    default: {
-                        checkStarted();
                     }
                 }
 
                 items.add(item);
             } else {
-                checkStarted();
                 items.add(item);
             }
         }
@@ -855,6 +772,33 @@ public class XBPListenerSerialHandler implements XBPOutputSerialHandler, XBPSequ
         @Nonnull
         public XBSerialSequenceItem pullItem() {
             return items.remove(0);
+        }
+
+        public void insertAtBegining(XBPSerialSequence sequence) {
+            items.addAll(0, sequence.items);
+        }
+
+        public void insertAtBegining(XBSerialSequenceItem item) {
+            items.add(0, item);
+        }
+
+        public void insertAtEnd(XBPSerialSequence sequence) {
+            items.addAll(sequence.items);
+        }
+
+        public void dropLevel() {
+            XBSerialSequenceItem beginItem = items.remove(0);
+            if (beginItem == null || beginItem.getSequenceOp() != XBSerialSequenceOp.TOKEN || ((XBPTokenWrapper) beginItem.getItem()).getToken().getTokenType() != XBTTokenType.BEGIN) {
+                throw new XBProcessingException("Missing begin token");
+            }
+            XBSerialSequenceItem typeItem = items.remove(0);
+            if (typeItem == null || typeItem.getSequenceOp() != XBSerialSequenceOp.TOKEN || ((XBPTokenWrapper) typeItem.getItem()).getToken().getTokenType() != XBTTokenType.TYPE) {
+                throw new XBProcessingException("Missing type token");
+            }
+            XBSerialSequenceItem endItem = items.remove(items.size() - 1);
+            if (endItem == null || endItem.getSequenceOp() != XBSerialSequenceOp.TOKEN || ((XBPTokenWrapper) endItem.getItem()).getToken().getTokenType() != XBTTokenType.END) {
+                throw new XBProcessingException("Missing end token");
+            }
         }
 
         public boolean isEmpty() {
@@ -945,7 +889,7 @@ public class XBPListenerSerialHandler implements XBPOutputSerialHandler, XBPSequ
 
         @Override
         public XBSerializationMode getSerializationMode() {
-            throw new UnsupportedOperationException("Not supported yet.");
+            return XBSerializationMode.PUSH;
         }
 
         @Override
@@ -955,12 +899,12 @@ public class XBPListenerSerialHandler implements XBPOutputSerialHandler, XBPSequ
 
         @Override
         public void matchType(XBBlockType blockType) throws XBProcessingException, IOException {
-            throw new XBProcessingException(PULL_NOT_ALLOWED_EXCEPTION, XBProcessingExceptionType.ILLEGAL_OPERATION);
+            putType(blockType);
         }
 
         @Override
         public void matchType() throws XBProcessingException, IOException {
-            throw new XBProcessingException(PULL_NOT_ALLOWED_EXCEPTION, XBProcessingExceptionType.ILLEGAL_OPERATION);
+            matchType(XBFixedBlockType.UNKNOWN_BLOCK_TYPE);
         }
 
         @Override
@@ -1175,11 +1119,7 @@ public class XBPListenerSerialHandler implements XBPOutputSerialHandler, XBPSequ
         }
     }
 
-    private enum JoinState {
-        START, BEGIN_SKIPPED, TYPE_SKIPPED
-    }
-
     private enum Mode {
-        BEGIN, COLLECTING, PASSING
+        BEGIN, COLLECTING, PASSING, END
     }
 }

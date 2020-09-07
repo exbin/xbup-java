@@ -35,7 +35,7 @@ import org.exbin.xbup.core.catalog.base.manager.XBCManager;
 /**
  * Default manager for entity items.
  *
- * @version 0.2.1 2020/09/02
+ * @version 0.2.1 2020/09/07
  * @author ExBin Project (http://exbin.org)
  * @param <T> entity class
  */
@@ -157,6 +157,22 @@ public abstract class XBEDefaultManager<T extends XBCBase> implements XBCManager
         }
 
         return entityClass.getSimpleName();
+    }
+
+    public void setItemId(T item, long itemId) {
+        EntityTransaction transaction = null;
+        try {
+            transaction = em.getTransaction();
+            transaction.begin();
+        } catch (IllegalStateException ex) {
+        }
+
+        em.createQuery("UPDATE " + getTableName() + " SET id = " + itemId + " WHERE id = " + item.getId());
+
+        if (em.getFlushMode() == FlushModeType.COMMIT && transaction != null) {
+            em.flush();
+            transaction.commit();
+        }
     }
 
     @Override

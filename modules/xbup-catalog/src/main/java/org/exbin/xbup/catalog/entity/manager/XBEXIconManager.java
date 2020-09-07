@@ -36,7 +36,7 @@ import org.springframework.stereotype.Repository;
 /**
  * XBUP catalog icon manager.
  *
- * @version 0.2.1 2020/08/26
+ * @version 0.2.1 2020/09/07
  * @author ExBin Project (http://exbin.org)
  */
 @ParametersAreNonnullByDefault
@@ -180,5 +180,31 @@ public class XBEXIconManager extends XBEDefaultCatalogManager<XBCXIcon> implemen
     public byte[] getDefaultSmallIconData(XBCItem item) {
         XBEXIcon icon = (XBEXIcon) getDefaultSmallIcon(item);
         return icon == null || icon.getIconFile() == null ? null : icon.getIconFile().getContent();
+    }
+
+    @Override
+    public boolean initCatalog() {
+        XBEDefaultCatalogManager<XBEXIconMode> iconModeManager = new XBEDefaultCatalogManager<XBEXIconMode>(catalog) {
+            @Override
+            public Class getEntityClass() {
+                return XBEXIconMode.class;
+            }
+        };
+
+        XBEXIconMode iconMode1 = new XBEXIconMode();
+        iconMode1.setCaption("PNG 16x16");
+        iconMode1.setMIME("image/png");
+        iconMode1.setType(1l);
+        em.persist(iconMode1);
+        iconModeManager.setItemId(iconMode1, 1);
+
+        XBEXIconMode iconMode2 = new XBEXIconMode();
+        iconMode2.setCaption("PNG 32x32");
+        iconMode2.setMIME("image/png");
+        iconMode2.setType(1l);
+        em.persist(iconMode2);
+        iconModeManager.setItemId(iconMode2, 2);
+
+        return true;
     }
 }

@@ -78,8 +78,8 @@ public class XBEXIconService extends XBEDefaultService<XBCXIcon> implements XBCX
     }
 
     @Override
-    public XBEXIconMode getIconMode(Long type) {
-        return ((XBEXIconManager) itemManager).getIconMode(type);
+    public XBEXIconMode getIconMode(Long modeId) {
+        return ((XBEXIconManager) itemManager).getIconMode(modeId);
     }
 
     @Override

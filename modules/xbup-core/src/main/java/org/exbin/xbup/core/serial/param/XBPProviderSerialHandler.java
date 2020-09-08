@@ -18,6 +18,7 @@ package org.exbin.xbup.core.serial.param;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
@@ -31,6 +32,8 @@ import org.exbin.xbup.core.parser.XBProcessingExceptionType;
 import org.exbin.xbup.core.parser.basic.XBTConsumer;
 import org.exbin.xbup.core.parser.basic.XBTListener;
 import org.exbin.xbup.core.parser.basic.XBTProvider;
+import org.exbin.xbup.core.parser.basic.convert.XBTProducerToProvider;
+import org.exbin.xbup.core.parser.param.XBParamProcessingState;
 import org.exbin.xbup.core.parser.token.XBAttribute;
 import org.exbin.xbup.core.parser.token.XBEditableAttribute;
 import org.exbin.xbup.core.parser.token.XBTAttributeToken;
@@ -41,7 +44,12 @@ import org.exbin.xbup.core.parser.token.XBTToken;
 import org.exbin.xbup.core.parser.token.XBTTokenType;
 import org.exbin.xbup.core.parser.token.XBTTypeToken;
 import org.exbin.xbup.core.parser.token.convert.XBTListenerToToken;
+import org.exbin.xbup.core.parser.token.event.XBTEventProducer;
+import org.exbin.xbup.core.parser.token.event.convert.XBTEventProducerToProducer;
+import org.exbin.xbup.core.parser.token.pull.XBTPullConsumer;
 import org.exbin.xbup.core.parser.token.pull.XBTPullProvider;
+import org.exbin.xbup.core.parser.token.pull.convert.XBTProviderToPullProvider;
+import org.exbin.xbup.core.parser.token.pull.convert.XBTPullPreLoader;
 import org.exbin.xbup.core.serial.XBSerializable;
 import org.exbin.xbup.core.serial.basic.XBTBasicInputSerialHandler;
 import org.exbin.xbup.core.serial.basic.XBTBasicSerializable;
@@ -59,7 +67,7 @@ import org.exbin.xbup.core.ubnumber.type.UBENat32;
 /**
  * XBUP level 2 serialization handler using parameter mapping to provider.
  *
- * @version 0.2.1 2020/09/01
+ * @version 0.2.1 2020/09/08
  * @author ExBin Project (http://exbin.org)
  */
 @ParametersAreNonnullByDefault
@@ -487,6 +495,214 @@ public class XBPProviderSerialHandler implements XBPInputSerialHandler, XBPSeque
         throw new XBProcessingException(PUSH_NOT_ALLOWED_EXCEPTION, XBProcessingExceptionType.ILLEGAL_OPERATION);
     }
 
+    public static class XBPSequencePullConsumer implements XBTPullConsumer {
+
+        private XBTPullPreLoader pullProvider;
+        private final List<List<XBTAttributeToken>> attributeSequences = new ArrayList<>();
+        private List<XBTAttributeToken> attributeSequence = new LinkedList<>();
+        private XBParamProcessingState processingState = XBParamProcessingState.START;
+        private boolean emptyNodeMode = false;
+
+        public XBPSequencePullConsumer(XBOutput output) {
+            if (output instanceof XBTPullProvider) {
+                attachProvider((XBTPullProvider) output);
+            } else if (output instanceof XBTProvider) {
+                attachProvider(new XBTProviderToPullProvider((XBTProvider) output));
+            } else if (output instanceof XBTEventProducer) {
+                attachProvider(new XBTProviderToPullProvider(new XBTProducerToProvider(new XBTEventProducerToProducer((XBTEventProducer) output))));
+            } else {
+                throw new UnsupportedOperationException("Not supported yet.");
+            }
+        }
+
+        @Override
+        public void attachXBTPullProvider(XBTPullProvider pullProvider) {
+            attachProvider(pullProvider);
+        }
+
+        private void attachProvider(XBTPullProvider pullProvider) {
+            if (pullProvider instanceof XBTPullPreLoader) {
+                this.pullProvider = (XBTPullPreLoader) pullProvider;
+            } else {
+                this.pullProvider = new XBTPullPreLoader(pullProvider);
+            }
+        }
+
+        @Nonnull
+        public XBTToken pullToken(XBTTokenType tokenType) throws XBProcessingException, IOException {
+            switch (tokenType) {
+                case BEGIN: {
+                    if (processingState == XBParamProcessingState.DATA || processingState == XBParamProcessingState.BEGIN) {
+                        throw new XBProcessingException("Begin token out of order", XBProcessingExceptionType.UNEXPECTED_ORDER);
+                    }
+
+                    if (processingState == XBParamProcessingState.TYPE || processingState == XBParamProcessingState.ATTRIBUTES) {
+                        processAttributes();
+                        attributeSequences.add(attributeSequence);
+                        attributeSequence = new LinkedList<>();
+                    }
+
+                    XBTToken token = pullProvider.pullXBTToken();
+                    processingState = XBParamProcessingState.BEGIN;
+                    if (token.getTokenType() == XBTTokenType.END) {
+                        emptyNodeMode = true;
+                        return XBTBeginToken.create(XBBlockTerminationMode.SIZE_SPECIFIED);
+                    } else if (token.getTokenType() != XBTTokenType.BEGIN) {
+                        throw new XBProcessingException("Unexpected token type " + token.getTokenType(), XBProcessingExceptionType.UNEXPECTED_ORDER);
+                    }
+
+                    return token;
+                }
+                case TYPE: {
+                    if (processingState != XBParamProcessingState.BEGIN && !emptyNodeMode) {
+                        throw new XBProcessingException("Type token out of order", XBProcessingExceptionType.UNEXPECTED_ORDER);
+                    }
+
+                    XBTToken token = pullProvider.pullXBTToken();
+                    if (token.getTokenType() != XBTTokenType.TYPE) {
+                        throw new XBProcessingException("Unexpected token type", XBProcessingExceptionType.UNEXPECTED_ORDER);
+                    }
+                    processingState = XBParamProcessingState.TYPE;
+                    return token;
+                }
+                case ATTRIBUTE: {
+                    if (processingState == XBParamProcessingState.DATA || processingState == XBParamProcessingState.START || emptyNodeMode) {
+                        throw new XBProcessingException("Attribute token out of order", XBProcessingExceptionType.UNEXPECTED_ORDER);
+                    }
+
+                    if (pullProvider.getNextTokenType() != XBTTokenType.ATTRIBUTE) {
+                        processingState = XBParamProcessingState.ATTRIBUTES;
+                        if (!attributeSequence.isEmpty()) {
+                            return attributeSequence.remove(0);
+                        } else {
+                            return XBTAttributeToken.createZeroToken();
+                        }
+                    }
+
+                    XBTToken token = pullProvider.pullXBTToken();
+                    if (token.getTokenType() != XBTTokenType.ATTRIBUTE) {
+                        throw new XBProcessingException("Unexpected token type", XBProcessingExceptionType.UNEXPECTED_ORDER);
+                    }
+                    processingState = XBParamProcessingState.ATTRIBUTES;
+                    return token;
+                }
+                case DATA: {
+                    if (processingState != XBParamProcessingState.BEGIN) {
+                        throw new XBProcessingException("Data token out of order", XBProcessingExceptionType.UNEXPECTED_ORDER);
+                    }
+
+                    processingState = XBParamProcessingState.DATA;
+                    if (emptyNodeMode) {
+                        return XBTDataToken.createEmptyToken();
+                    }
+
+                    XBTToken token = pullProvider.pullXBTToken();
+                    if (token.getTokenType() != XBTTokenType.DATA) {
+                        throw new XBProcessingException("Unexpected token type", XBProcessingExceptionType.UNEXPECTED_ORDER);
+                    }
+                    return token;
+                }
+                case END: {
+                    if (processingState == XBParamProcessingState.BEGIN) {
+                        throw new XBProcessingException("Unexpected token type", XBProcessingExceptionType.UNEXPECTED_ORDER);
+                    }
+
+                    processingState = XBParamProcessingState.END;
+                    if (emptyNodeMode) {
+                        emptyNodeMode = false;
+                    } else if (!attributeSequences.isEmpty()) {
+                        attributeSequence = attributeSequences.remove(attributeSequences.size() - 1);
+                    }
+
+                    return XBTEndToken.create();
+                }
+            }
+
+            throw new IllegalStateException();
+        }
+
+        /**
+         * Pulls single token for preserving minimal form.
+         *
+         * @throws XBProcessingException if not matching
+         * @throws IOException if input/output exception occurs
+         * @return token
+         */
+        @Nonnull
+        public XBTToken pullToken() throws XBProcessingException, IOException {
+            if (emptyNodeMode) {
+                return pullToken(processingState == XBParamProcessingState.DATA ? XBTTokenType.END : XBTTokenType.DATA);
+            } else {
+                return pullToken(pullProvider.getNextTokenType());
+            }
+        }
+
+        public boolean pullIfEmpty() throws XBProcessingException, IOException {
+            if (processingState != XBParamProcessingState.BEGIN) {
+                throw new XBProcessingException("Empty data token test out of order", XBProcessingExceptionType.UNEXPECTED_ORDER);
+            }
+
+            if (emptyNodeMode) {
+                processingState = XBParamProcessingState.DATA;
+                return true;
+            }
+
+            XBTToken nextToken = pullProvider.getNextToken();
+            if (nextToken != null && nextToken.getTokenType() == XBTTokenType.DATA) {
+                if (((XBTDataToken) nextToken).isEmpty()) {
+                    pullProvider.pullXBTToken();
+                    processingState = XBParamProcessingState.DATA;
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        public void processAttributes() throws XBProcessingException, IOException {
+            while (pullProvider.getNextTokenType() == XBTTokenType.ATTRIBUTE) {
+                attributeSequence.add((XBTAttributeToken) pullProvider.pullXBTToken());
+            }
+        }
+
+        /**
+         * Returns true if current block was processed.
+         *
+         * @return true if block processed
+         */
+        public boolean isFinished() {
+            return processingState == XBParamProcessingState.END;
+        }
+
+        /**
+         * Returns true if block will be finished with next token.
+         *
+         * @return true if block will be finished next
+         */
+        public boolean isFinishedNext() {
+            return pullProvider.getNextTokenType() == XBTTokenType.END;
+        }
+
+        @Nonnull
+        public List<XBTAttributeToken> getAttributeSequence() {
+            return attributeSequence;
+        }
+
+        public void resetSequence() {
+            attributeSequence = new LinkedList<>();
+            processingState = XBParamProcessingState.START;
+        }
+
+        public void pullRest() throws XBProcessingException, IOException {
+            pullProvider.skipAttributes();
+            pullProvider.skipChildren();
+            XBTToken token = pullProvider.pullXBTToken();
+            if (token.getTokenType() != XBTTokenType.END) {
+                throw new XBProcessingException("End token was expected, but " + token.getTokenType().name() + " token was received", XBProcessingExceptionType.UNEXPECTED_ORDER);
+            }
+        }
+    }
+
     @ParametersAreNonnullByDefault
     private static class XBTChildInputSerialHandlerImpl implements XBTChildInputSerialHandler {
 
@@ -572,13 +788,9 @@ public class XBPProviderSerialHandler implements XBPInputSerialHandler, XBPSeque
 
         @Override
         public void process(XBTConsumer consumer) {
-            consumer.attachXBTProvider(new XBTProvider() {
-
-                @Override
-                public void produceXBT(XBTListener listener) throws XBProcessingException, IOException {
-                    XBTToken token = handler.pullToken();
-                    XBTListenerToToken.tokenToListener(token, listener);
-                }
+            consumer.attachXBTProvider((XBTListener listener) -> {
+                XBTToken token = handler.pullToken();
+                XBTListenerToToken.tokenToListener(token, listener);
             });
         }
     }

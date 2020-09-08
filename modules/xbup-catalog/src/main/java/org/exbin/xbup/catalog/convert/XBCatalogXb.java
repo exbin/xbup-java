@@ -107,7 +107,7 @@ import org.exbin.xbup.core.util.StreamUtils;
 /**
  * XB Catalog import and export to XB.
  *
- * @version 0.2.1 2020/09/06
+ * @version 0.2.1 2020/09/08
  * @author ExBin Project (http://exbin.org)
  */
 @ParametersAreNonnullByDefault
@@ -126,9 +126,19 @@ public class XBCatalogXb {
         this.catalog = catalog;
     }
 
-    public void exportToXb(OutputStream stream) {
+    public void exportToXbFile(OutputStream stream) {
         try {
             XBPListenerSerialHandler serialInput = new XBPListenerSerialHandler(new TypeDroppingFilter(new XBTToXBEventConvertor(new XBEventWriter(stream, XBParserMode.FULL))));
+
+            exportAll(serialInput);
+        } catch (XBProcessingException | IOException ex) {
+            Logger.getLogger(XBCatalogXb.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public void exportToXbStream(OutputStream stream) {
+        try {
+            XBPListenerSerialHandler serialInput = new XBPListenerSerialHandler(new TypeDroppingFilter(new XBTToXBEventConvertor(new XBEventWriter(stream, XBParserMode.SKIP_HEAD))));
 
             exportAll(serialInput);
         } catch (XBProcessingException | IOException ex) {
@@ -674,9 +684,19 @@ public class XBCatalogXb {
         serialInput.end();
     }
 
-    public void importFromXb(InputStream stream, XBCatalog catalog) {
+    public void importFromXbFile(InputStream stream, XBCatalog catalog) {
         try {
             XBPProviderSerialHandler serialOutput = new XBPProviderSerialHandler(new XBToXBTPullConvertor(new XBPullReader(stream, XBParserMode.FULL)));
+
+            importAll(serialOutput, catalog);
+        } catch (XBProcessingException | IOException ex) {
+            Logger.getLogger(XBCatalogXb.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public void importFromXbStream(InputStream stream, XBCatalog catalog) {
+        try {
+            XBPProviderSerialHandler serialOutput = new XBPProviderSerialHandler(new XBToXBTPullConvertor(new XBPullReader(stream, XBParserMode.SKIP_HEAD)));
 
             importAll(serialOutput, catalog);
         } catch (XBProcessingException | IOException ex) {
@@ -688,7 +708,7 @@ public class XBCatalogXb {
         EntityManager em = ((XBECatalog) catalog).getEntityManager();
         EntityTransaction tx = em.getTransaction();
         tx.begin();
-        
+
         serialOutput.begin();
         serialOutput.pullType();
 
@@ -1217,16 +1237,14 @@ public class XBCatalogXb {
         while (!serialOutput.isFinishedNext()) {
             serialOutput.pullBegin();
             serialOutput.pullType();
-            // TODO Move down after serial output fix
-            long pluginIndex = serialOutput.pullLongAttribute();
-
             Long[] nodePath = pullPath(serialOutput);
             XBENode node = (XBENode) nodeService.findNodeByXBPath(nodePath);
+            long pluginIndex = serialOutput.pullLongAttribute();
             Long[] fileNodePath = pullPath(serialOutput);
             XBENode fileNode = (XBENode) nodeService.findNodeByXBPath(fileNodePath);
             XBString fileName = new XBString();
-            XBEXFile pluginFile = (XBEXFile) fileService.findFile(fileNode, fileName.getValue());
             serialOutput.pullConsist(fileName);
+            XBEXFile pluginFile = (XBEXFile) fileService.findFile(fileNode, fileName.getValue());
             serialOutput.pullEnd();
 
             XBEXPlugin plugin = (XBEXPlugin) plugService.createItem();

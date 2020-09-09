@@ -15,12 +15,14 @@
  */
 package org.exbin.xbup.catalog.update;
 
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 import org.exbin.xbup.catalog.XBAECatalog;
+import org.exbin.xbup.catalog.convert.XBCatalogXb;
 import org.exbin.xbup.client.XBCatalogNetServiceClient;
 import org.exbin.xbup.client.stub.XBPRootStub;
 import org.exbin.xbup.client.update.XBCUpdateHandler;
@@ -29,7 +31,7 @@ import org.exbin.xbup.client.update.XBCUpdateListener;
 /**
  * Catalog service update handler.
  *
- * @version 0.2.1 2020/08/23
+ * @version 0.2.1 2020/09/09
  * @author ExBin Project (http://exbin.org)
  */
 @ParametersAreNonnullByDefault
@@ -57,7 +59,10 @@ public class XBCatalogServiceUpdateHandler implements XBCUpdateHandler {
 
     @Override
     public void performUpdateMain() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        XBPRootStub rootStub = new XBPRootStub(serviceClient);
+        InputStream stream = rootStub.getMainRootExport();
+        XBCatalogXb catalogXb = new XBCatalogXb();
+        catalogXb.importFromXbStream(stream, catalog);
     }
 
     @Override

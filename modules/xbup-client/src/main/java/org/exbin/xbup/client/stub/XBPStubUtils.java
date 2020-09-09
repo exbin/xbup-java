@@ -15,9 +15,14 @@
  */
 package org.exbin.xbup.client.stub;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
 import org.exbin.xbup.core.block.XBBlockType;
 import org.exbin.xbup.core.parser.XBProcessingException;
 import org.exbin.xbup.core.remote.XBCallHandler;
@@ -25,14 +30,21 @@ import org.exbin.xbup.core.serial.param.XBPListenerSerialHandler;
 import org.exbin.xbup.core.serial.param.XBPProviderSerialHandler;
 import org.exbin.xbup.core.type.XBString;
 import org.exbin.xbup.core.ubnumber.type.UBNat32;
+import org.exbin.xbup.core.util.StreamUtils;
 
 /**
  * RPC Stub utilities.
  *
- * @version 0.1.25 2015/03/18
+ * TODO: Should be replaced with something less stupid
+ *
+ * @version 0.2.1 2020/09/09
  * @author ExBin Project (http://exbin.org)
  */
+@ParametersAreNonnullByDefault
 public class XBPStubUtils {
+
+    private XBPStubUtils() {
+    }
 
     /**
      * Performs single RPC method passing single long attribute and receiving
@@ -43,6 +55,7 @@ public class XBPStubUtils {
      * @param parameter long parameter
      * @return long result
      */
+    @Nullable
     public static Long longToLongMethod(XBCallHandler procedureCall, XBBlockType type, Long parameter) {
         try {
             XBPListenerSerialHandler serialInput = new XBPListenerSerialHandler(procedureCall.getParametersInput());
@@ -96,6 +109,7 @@ public class XBPStubUtils {
      * @param parameter2 second long parameter
      * @return long result
      */
+    @Nullable
     public static Long twoLongsToLongMethod(XBCallHandler procedureCall, XBBlockType type, Long parameter1, Long parameter2) {
         try {
             XBPListenerSerialHandler serialInput = new XBPListenerSerialHandler(procedureCall.getParametersInput());
@@ -129,6 +143,7 @@ public class XBPStubUtils {
      * @param parameter3 third long parameter
      * @return long result
      */
+    @Nullable
     public static Long threeLongsToLongMethod(XBCallHandler procedureCall, XBBlockType type, Long parameter1, Long parameter2, Long parameter3) {
         try {
             XBPListenerSerialHandler serialInput = new XBPListenerSerialHandler(procedureCall.getParametersInput());
@@ -160,6 +175,7 @@ public class XBPStubUtils {
      * @param type procedure type
      * @return long result
      */
+    @Nullable
     public static Long voidToLongMethod(XBCallHandler procedureCall, XBBlockType type) {
         try {
             XBPListenerSerialHandler serialInput = new XBPListenerSerialHandler(procedureCall.getParametersInput());
@@ -189,6 +205,7 @@ public class XBPStubUtils {
      * @param parameter long parameter
      * @return string result
      */
+    @Nullable
     public static String longToStringMethod(XBCallHandler procedureCall, XBBlockType type, Long parameter) {
         try {
             XBPListenerSerialHandler serialInput = new XBPListenerSerialHandler(procedureCall.getParametersInput());
@@ -204,6 +221,28 @@ public class XBPStubUtils {
                 return result.getValue();
             }
             procedureCall.execute();
+        } catch (XBProcessingException | IOException ex) {
+            Logger.getLogger(XBPItemStub.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+    
+    public static InputStream voidToDataMethod(XBCallHandler procedureCall, XBBlockType type) {
+        try {
+            XBPListenerSerialHandler serialInput = new XBPListenerSerialHandler(procedureCall.getParametersInput());
+            serialInput.begin();
+            serialInput.putType(type);
+            serialInput.end();
+
+            ByteArrayOutputStream streamCopy = new ByteArrayOutputStream();
+            XBPProviderSerialHandler serialOutput = new XBPProviderSerialHandler(procedureCall.getResultOutput());
+            serialOutput.begin();
+            InputStream pullData = serialOutput.pullData();
+            // TODO avoid copy
+            StreamUtils.copyInputStreamToOutputStream(pullData, streamCopy);
+            serialOutput.end();
+            procedureCall.execute();
+            return new ByteArrayInputStream(streamCopy.toByteArray());
         } catch (XBProcessingException | IOException ex) {
             Logger.getLogger(XBPItemStub.class.getName()).log(Level.SEVERE, null, ex);
         }

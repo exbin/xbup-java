@@ -15,10 +15,13 @@
  */
 package org.exbin.xbup.service.skeleton;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.Date;
 import java.util.Optional;
 import org.exbin.xbup.catalog.XBAECatalog;
+import org.exbin.xbup.catalog.convert.XBCatalogXb;
 import org.exbin.xbup.client.stub.XBPRootStub;
 import org.exbin.xbup.core.block.XBBlockType;
 import org.exbin.xbup.core.block.XBTEmptyBlock;
@@ -38,7 +41,7 @@ import org.exbin.xbup.core.ubnumber.type.UBNat32;
 /**
  * RPC skeleton class for XBRNode catalog items.
  *
- * @version 0.2.1 2020/08/18
+ * @version 0.2.1 2020/09/09
  * @author ExBin Project (http://exbin.org)
  */
 public class XBPRootSkeleton {
@@ -98,6 +101,26 @@ public class XBPRootSkeleton {
                 XBPListenerSerialHandler listener = new XBPListenerSerialHandler(resultInput);
                 Optional<XBCRoot> root = rootService.getItem(rootId);
                 listener.process(root.isPresent() ? new UBNat32(root.get().getId()) : XBTEmptyBlock.getEmptyBlock());
+            }
+        });
+
+        remoteServer.addXBProcedure(new XBDeclBlockType(XBPRootStub.CATALOG_MAIN_EXPORT_PROCEDURE), new XBMultiProcedure() {
+            @Override
+            public void execute(XBBlockType blockType, XBOutput parameters, XBInput resultInput) throws XBProcessingException, IOException {
+                XBPProviderSerialHandler provider = new XBPProviderSerialHandler(parameters);
+                provider.begin();
+                provider.matchType(blockType);
+                provider.end();
+
+                // TODO avoid copy
+                ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+                XBCatalogXb catalogXb = new XBCatalogXb();
+                catalogXb.exportToXbStream(outputStream);
+
+                XBPListenerSerialHandler listener = new XBPListenerSerialHandler(resultInput);
+                listener.begin();
+                listener.putData(new ByteArrayInputStream(outputStream.toByteArray()));
+                listener.end();
             }
         });
     }

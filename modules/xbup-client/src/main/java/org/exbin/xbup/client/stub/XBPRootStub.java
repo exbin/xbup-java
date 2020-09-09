@@ -16,6 +16,7 @@
 package org.exbin.xbup.client.stub;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Date;
 import java.util.Optional;
 import java.util.logging.Level;
@@ -35,7 +36,7 @@ import org.exbin.xbup.core.type.XBDateTime;
 /**
  * RPC stub class for XBRRoot catalog items.
  *
- * @version 0.2.1 2020/08/26
+ * @version 0.2.1 2020/09/09
  * @author ExBin Project (http://exbin.org)
  */
 @ParametersAreNonnullByDefault
@@ -44,6 +45,7 @@ public class XBPRootStub extends XBPBaseStub<XBCRoot> {
     public static long[] ROOT_PROCEDURE = {0, 2, 4, 29, 0};
     public static long[] CATALOG_ROOT_PROCEDURE = {0, 2, 4, 30, 0};
     public static long[] LASTUPDATE_ROOT_PROCEDURE = {0, 2, 4, 31, 0};
+    public static long[] CATALOG_MAIN_EXPORT_PROCEDURE = {0, 2, 4, 32, 0};
 
     private final XBCatalogServiceClient client;
 
@@ -89,5 +91,9 @@ public class XBPRootStub extends XBPBaseStub<XBCRoot> {
     @Nonnull
     public Optional<Date> getMainLastUpdate() {
         return getRootLastUpdate(getMainRoot().getId());
+    }
+
+    public InputStream getMainRootExport() {
+        return XBPStubUtils.voidToDataMethod(client.procedureCall(), new XBDeclBlockType(CATALOG_MAIN_EXPORT_PROCEDURE));
     }
 }

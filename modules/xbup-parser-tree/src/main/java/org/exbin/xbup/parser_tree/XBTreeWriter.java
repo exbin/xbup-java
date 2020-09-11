@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.annotation.ParametersAreNonnullByDefault;
 import org.exbin.xbup.core.block.XBBlock;
 import org.exbin.xbup.core.block.XBBlockDataMode;
 import org.exbin.xbup.core.block.XBDefaultDocument;
@@ -37,6 +38,7 @@ import org.exbin.xbup.core.parser.basic.XBProvider;
  * @version 0.1.25 2015/07/26
  * @author ExBin Project (http://exbin.org)
  */
+@ParametersAreNonnullByDefault
 public class XBTreeWriter implements XBProvider, XBProducer {
 
     private final XBDocument source;

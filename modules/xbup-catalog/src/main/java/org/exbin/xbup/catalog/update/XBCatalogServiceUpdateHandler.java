@@ -62,7 +62,8 @@ public class XBCatalogServiceUpdateHandler implements XBCUpdateHandler {
         XBPRootStub rootStub = new XBPRootStub(serviceClient);
         InputStream stream = rootStub.getMainRootExport();
         XBCatalogXb catalogXb = new XBCatalogXb();
-        catalogXb.importFromXbStream(stream, catalog);
+        catalogXb.setCatalog(catalog);
+        catalogXb.importFromXbStream(stream);
     }
 
     @Override

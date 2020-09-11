@@ -93,6 +93,7 @@ public class XBPRootStub extends XBPBaseStub<XBCRoot> {
         return getRootLastUpdate(getMainRoot().getId());
     }
 
+    @Nonnull
     public InputStream getMainRootExport() {
         return XBPStubUtils.voidToDataMethod(client.procedureCall(), new XBDeclBlockType(CATALOG_MAIN_EXPORT_PROCEDURE));
     }

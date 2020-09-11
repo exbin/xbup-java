@@ -22,6 +22,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.Nonnull;
@@ -55,7 +56,6 @@ import org.exbin.xbup.core.block.XBBlockType;
 import org.exbin.xbup.core.block.XBFixedBlockType;
 import org.exbin.xbup.core.block.definition.XBParamType;
 import org.exbin.xbup.core.catalog.XBACatalog;
-import org.exbin.xbup.core.catalog.XBCatalog;
 import org.exbin.xbup.core.catalog.base.XBCBlockRev;
 import org.exbin.xbup.core.catalog.base.XBCBlockSpec;
 import org.exbin.xbup.core.catalog.base.XBCFormatSpec;
@@ -684,27 +684,27 @@ public class XBCatalogXb {
         serialInput.end();
     }
 
-    public void importFromXbFile(InputStream stream, XBCatalog catalog) {
+    public void importFromXbFile(InputStream stream) {
         try {
             XBPProviderSerialHandler serialOutput = new XBPProviderSerialHandler(new XBToXBTPullConvertor(new XBPullReader(stream, XBParserMode.FULL)));
 
-            importAll(serialOutput, catalog);
+            importAll(serialOutput);
         } catch (XBProcessingException | IOException ex) {
             Logger.getLogger(XBCatalogXb.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
-    public void importFromXbStream(InputStream stream, XBCatalog catalog) {
+    public void importFromXbStream(InputStream stream) {
         try {
             XBPProviderSerialHandler serialOutput = new XBPProviderSerialHandler(new XBToXBTPullConvertor(new XBPullReader(stream, XBParserMode.SKIP_HEAD)));
 
-            importAll(serialOutput, catalog);
+            importAll(serialOutput);
         } catch (XBProcessingException | IOException ex) {
             Logger.getLogger(XBCatalogXb.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
-    private void importAll(XBPProviderSerialHandler serialOutput, XBCatalog catalog) throws XBProcessingException, IOException {
+    private void importAll(XBPProviderSerialHandler serialOutput) throws XBProcessingException, IOException {
         EntityManager em = ((XBECatalog) catalog).getEntityManager();
         EntityTransaction tx = em.getTransaction();
         tx.begin();
@@ -1090,13 +1090,17 @@ public class XBCatalogXb {
             serialOutput.pullEnd();
 
             if (itemType != CatalogItemType.NODE || !item.getParentItem().isEmpty()) {
-                XBCXLanguage language = langService.findByCode(langCode.getValue()).get();
-                XBEXName name = (XBEXName) nameService.createItem();
-                name.setItem(item);
-                name.setText(text.getValue());
-                name.setLang(language);
+                // TODO Support for more languages
+                Optional<XBCXLanguage> optionalLanguage = langService.findByCode(langCode.getValue());
+                if (!optionalLanguage.isEmpty()) {
+                    XBCXLanguage language = optionalLanguage.get();
+                    XBEXName name = (XBEXName) nameService.createItem();
+                    name.setItem(item);
+                    name.setText(text.getValue());
+                    name.setLang(language);
 
-                nameService.persistItem(name);
+                    nameService.persistItem(name);
+                }
             }
         }
         serialOutput.pullEnd();
@@ -1122,13 +1126,17 @@ public class XBCatalogXb {
             serialOutput.pullConsist(text);
             serialOutput.pullEnd();
 
-            XBCXLanguage language = langService.findByCode(langCode.getValue()).get();
-            XBEXDesc desc = (XBEXDesc) descService.createItem();
-            desc.setItem(item);
-            desc.setText(text.getValue());
-            desc.setLang(language);
+            // TODO Support for more languages
+            Optional<XBCXLanguage> optionalLanguage = langService.findByCode(langCode.getValue());
+            if (!optionalLanguage.isEmpty()) {
+                XBCXLanguage language = optionalLanguage.get();
+                XBEXDesc desc = (XBEXDesc) descService.createItem();
+                desc.setItem(item);
+                desc.setText(text.getValue());
+                desc.setLang(language);
 
-            descService.persistItem(desc);
+                descService.persistItem(desc);
+            }
         }
         serialOutput.pullEnd();
     }

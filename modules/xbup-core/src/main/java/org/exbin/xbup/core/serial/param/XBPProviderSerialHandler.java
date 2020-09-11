@@ -67,7 +67,7 @@ import org.exbin.xbup.core.ubnumber.type.UBENat32;
 /**
  * XBUP level 2 serialization handler using parameter mapping to provider.
  *
- * @version 0.2.1 2020/09/08
+ * @version 0.2.1 2020/09/11
  * @author ExBin Project (http://exbin.org)
  */
 @ParametersAreNonnullByDefault
@@ -87,20 +87,6 @@ public class XBPProviderSerialHandler implements XBPInputSerialHandler, XBPSeque
 
     public XBPProviderSerialHandler(XBOutput output) {
         performAttachXBOutput(output);
-    }
-
-    public void process(XBSerializable serial) throws IOException, XBProcessingException {
-        if (serial instanceof XBPSerializable) {
-            ((XBPSerializable) serial).serializeFromXB(this);
-        } else if (serial instanceof XBPSequenceSerializable) {
-            ((XBPSequenceSerializable) serial).serializeXB(this);
-        } else if (serial instanceof XBTChildSerializable) {
-            ((XBTChildSerializable) serial).serializeFromXB(new XBTChildInputSerialHandlerImpl(this));
-        } else if (serial instanceof XBTBasicSerializable) {
-            ((XBTBasicSerializable) serial).serializeFromXB(new XBTBasicInputSerialHandlerImpl(this));
-        } else {
-            throw new UnsupportedOperationException("Serialization method " + serial.getClass().getCanonicalName() + " not supported.");
-        }
     }
 
     @Override
@@ -415,6 +401,32 @@ public class XBPProviderSerialHandler implements XBPInputSerialHandler, XBPSeque
         return finished && paramTypes.isEmpty();
     }
 
+    private void extractSerial(XBSerializable serial, XBPProvider provider) throws IOException, XBProcessingException {
+        if (serial instanceof XBPSerializable) {
+            ((XBPSerializable) serial).serializeFromXB(
+                    provider instanceof XBPInputSerialHandler ? (XBPInputSerialHandler) provider : new SerialHandlerWrapper(provider)
+            );
+        } else if (serial instanceof XBPSequenceSerializable) {
+            ((XBPSequenceSerializable) serial).serializeXB(
+                    provider instanceof XBPSequenceSerialHandler ? (XBPSequenceSerialHandler) provider : new SerialHandlerWrapper(provider)
+            );
+        } else if (serial instanceof XBTChildSerializable) {
+            ((XBTChildSerializable) serial).serializeFromXB(
+                    provider instanceof XBTChildInputSerialHandler ? (XBTChildInputSerialHandler) provider : new SerialHandlerWrapper(provider)
+            );
+        } else if (serial instanceof XBTBasicSerializable) {
+            ((XBTBasicSerializable) serial).serializeFromXB(
+                    provider instanceof XBTBasicInputSerialHandler ? (XBTBasicInputSerialHandler) provider : new SerialHandlerWrapper(provider)
+            );
+        } else {
+            throw new UnsupportedOperationException("Serialization method " + (serial == null ? "null" : serial.getClass().getCanonicalName()) + " not supported.");
+        }
+    }
+
+    public void process(XBSerializable serial) throws IOException, XBProcessingException {
+        extractSerial(serial, this);
+    }
+
     @Override
     public void putBegin(XBBlockTerminationMode terminationMode) throws XBProcessingException, IOException {
         throw new XBProcessingException(PUSH_NOT_ALLOWED_EXCEPTION, XBProcessingExceptionType.ILLEGAL_OPERATION);
@@ -704,94 +716,278 @@ public class XBPProviderSerialHandler implements XBPInputSerialHandler, XBPSeque
     }
 
     @ParametersAreNonnullByDefault
-    private static class XBTChildInputSerialHandlerImpl implements XBTChildInputSerialHandler {
+    private static class SerialHandlerWrapper implements XBTChildInputSerialHandler, XBTBasicInputSerialHandler, XBPInputSerialHandler, XBPSequenceSerialHandler {
 
-        private final XBPProviderSerialHandler handler;
+        private final XBPProvider provider;
 
-        public XBTChildInputSerialHandlerImpl(XBPProviderSerialHandler handler) {
-            this.handler = handler;
+        public SerialHandlerWrapper(XBPProvider provider) {
+            this.provider = provider;
         }
 
         @Nonnull
         @Override
         public XBBlockTerminationMode pullBegin() throws XBProcessingException, IOException {
-            return handler.pullBegin();
+            return provider.pullBegin();
         }
 
         @Nonnull
         @Override
         public XBBlockType pullType() throws XBProcessingException, IOException {
-            return handler.pullType();
+            return provider.pullType();
         }
 
         @Nonnull
         @Override
         public XBAttribute pullAttribute() throws XBProcessingException, IOException {
-            return handler.pullAttribute();
+            return provider.pullAttribute();
         }
 
         @Override
         public byte pullByteAttribute() throws XBProcessingException, IOException {
-            return handler.pullByteAttribute();
+            return provider.pullByteAttribute();
         }
 
         @Override
         public short pullShortAttribute() throws XBProcessingException, IOException {
-            return handler.pullShortAttribute();
+            return provider.pullShortAttribute();
         }
 
         @Override
         public int pullIntAttribute() throws XBProcessingException, IOException {
-            return handler.pullIntAttribute();
+            return provider.pullIntAttribute();
         }
 
         @Override
         public long pullLongAttribute() throws XBProcessingException, IOException {
-            return handler.pullLongAttribute();
+            return provider.pullLongAttribute();
         }
 
         @Override
         public void pullChild(XBSerializable child) throws XBProcessingException, IOException {
-            handler.pullConsist(child);
+            provider.pullConsist(child);
         }
 
         @Override
         public void pullAppend(XBSerializable serial) throws XBProcessingException, IOException {
-            handler.process(serial);
+            provider.pullAppend(serial);
         }
 
         @Nonnull
         @Override
         public InputStream pullData() throws XBProcessingException, IOException {
-            return handler.pullData();
+            return provider.pullData();
         }
 
         @Override
         public void pullEnd() throws XBProcessingException, IOException {
-            handler.pullEnd();
+            provider.pullEnd();
         }
 
         @Override
         public void attachXBTPullProvider(XBTPullProvider provider) {
             throw new IllegalStateException();
         }
-    }
-
-    @ParametersAreNonnullByDefault
-    private static class XBTBasicInputSerialHandlerImpl implements XBTBasicInputSerialHandler {
-
-        private final XBPProviderSerialHandler handler;
-
-        public XBTBasicInputSerialHandlerImpl(XBPProviderSerialHandler handler) {
-            this.handler = handler;
-        }
 
         @Override
         public void process(XBTConsumer consumer) {
             consumer.attachXBTProvider((XBTListener listener) -> {
-                XBTToken token = handler.pullToken();
+                XBTToken token = provider.pullToken();
                 XBTListenerToToken.tokenToListener(token, listener);
             });
+        }
+
+        @Nonnull
+        @Override
+        public XBSerializationMode getSerializationMode() {
+            return XBSerializationMode.PUSH;
+        }
+
+        @Override
+        public void begin() throws XBProcessingException, IOException {
+            pullBegin();
+        }
+
+        @Override
+        public void matchType(XBBlockType blockType) throws XBProcessingException, IOException {
+            XBBlockType type = pullType();
+            if (blockType != null && blockType.getAsBasicType() != XBBasicBlockType.UNKNOWN_BLOCK) {
+                if (type.getAsBasicType() != XBBasicBlockType.UNKNOWN_BLOCK) {
+                    if (!blockType.equals(type)) {
+                        throw new XBProcessingException("Block type doesn't match", XBProcessingExceptionType.BLOCK_TYPE_MISMATCH);
+                    }
+                }
+            }
+        }
+
+        @Override
+        public void matchType() throws XBProcessingException, IOException {
+            pullType();
+        }
+
+        @Override
+        public void end() throws XBProcessingException, IOException {
+            pullEnd();
+        }
+
+        @Override
+        public void attribute(XBEditableAttribute attributeValue) throws XBProcessingException, IOException {
+            if (attributeValue instanceof UBNatural) {
+                ((UBNatural) attributeValue).setValue(pullAttribute().getNaturalLong());
+            } else {
+                attributeValue.convertFromNatural(pullAttribute().convertToNatural());
+            }
+        }
+
+        @Override
+        public void consist(XBSerializable serial) throws XBProcessingException, IOException {
+            pullConsist(serial);
+        }
+
+        @Override
+        public void join(XBSerializable serial) throws XBProcessingException, IOException {
+            pullJoin(serial);
+        }
+
+        @Override
+        public void listConsist(XBSerializable serial) throws XBProcessingException, IOException {
+            pullListConsist(serial);
+        }
+
+        @Override
+        public void listJoin(XBSerializable serial) throws XBProcessingException, IOException {
+            pullListJoin(serial);
+        }
+
+        @Override
+        public void append(XBSerializable serial) throws XBProcessingException, IOException {
+            pullAppend(serial);
+        }
+
+        @Override
+        public void putBegin(XBBlockTerminationMode terminationMode) throws XBProcessingException, IOException {
+            throw new XBProcessingException(PUSH_NOT_ALLOWED_EXCEPTION, XBProcessingExceptionType.ILLEGAL_OPERATION);
+        }
+
+        @Override
+        public void putType(XBBlockType type) throws XBProcessingException, IOException {
+            throw new XBProcessingException(PUSH_NOT_ALLOWED_EXCEPTION, XBProcessingExceptionType.ILLEGAL_OPERATION);
+        }
+
+        @Override
+        public void putAttribute(XBAttribute attribute) throws XBProcessingException, IOException {
+            throw new XBProcessingException(PUSH_NOT_ALLOWED_EXCEPTION, XBProcessingExceptionType.ILLEGAL_OPERATION);
+        }
+
+        @Override
+        public void putAttribute(byte attributeValue) throws XBProcessingException, IOException {
+            throw new XBProcessingException(PUSH_NOT_ALLOWED_EXCEPTION, XBProcessingExceptionType.ILLEGAL_OPERATION);
+        }
+
+        @Override
+        public void putAttribute(short attributeValue) throws XBProcessingException, IOException {
+            throw new XBProcessingException(PUSH_NOT_ALLOWED_EXCEPTION, XBProcessingExceptionType.ILLEGAL_OPERATION);
+        }
+
+        @Override
+        public void putAttribute(int attributeValue) throws XBProcessingException, IOException {
+            throw new XBProcessingException(PUSH_NOT_ALLOWED_EXCEPTION, XBProcessingExceptionType.ILLEGAL_OPERATION);
+        }
+
+        @Override
+        public void putAttribute(long attributeValue) throws XBProcessingException, IOException {
+            throw new XBProcessingException(PUSH_NOT_ALLOWED_EXCEPTION, XBProcessingExceptionType.ILLEGAL_OPERATION);
+        }
+
+        @Override
+        public void putData(InputStream data) throws XBProcessingException, IOException {
+            throw new XBProcessingException(PUSH_NOT_ALLOWED_EXCEPTION, XBProcessingExceptionType.ILLEGAL_OPERATION);
+        }
+
+        @Override
+        public void putEnd() throws XBProcessingException, IOException {
+            throw new XBProcessingException(PUSH_NOT_ALLOWED_EXCEPTION, XBProcessingExceptionType.ILLEGAL_OPERATION);
+        }
+
+        @Override
+        public void putToken(XBTToken token) throws XBProcessingException, IOException {
+            throw new XBProcessingException(PUSH_NOT_ALLOWED_EXCEPTION, XBProcessingExceptionType.ILLEGAL_OPERATION);
+        }
+
+        @Override
+        public void putConsist(XBSerializable serial) throws XBProcessingException, IOException {
+            throw new XBProcessingException(PUSH_NOT_ALLOWED_EXCEPTION, XBProcessingExceptionType.ILLEGAL_OPERATION);
+        }
+
+        @Override
+        public void putJoin(XBSerializable serial) throws XBProcessingException, IOException {
+            throw new XBProcessingException(PUSH_NOT_ALLOWED_EXCEPTION, XBProcessingExceptionType.ILLEGAL_OPERATION);
+        }
+
+        @Override
+        public void putListConsist(XBSerializable serial) throws XBProcessingException, IOException {
+            throw new XBProcessingException(PUSH_NOT_ALLOWED_EXCEPTION, XBProcessingExceptionType.ILLEGAL_OPERATION);
+        }
+
+        @Override
+        public void putListJoin(XBSerializable serial) throws XBProcessingException, IOException {
+            throw new XBProcessingException(PUSH_NOT_ALLOWED_EXCEPTION, XBProcessingExceptionType.ILLEGAL_OPERATION);
+        }
+
+        @Override
+        public void putItem(XBSerialSequenceItem item) throws XBProcessingException, IOException {
+            throw new XBProcessingException(PUSH_NOT_ALLOWED_EXCEPTION, XBProcessingExceptionType.ILLEGAL_OPERATION);
+        }
+
+        @Override
+        public void putAppend(XBSerializable serial) throws XBProcessingException, IOException {
+            throw new XBProcessingException(PUSH_NOT_ALLOWED_EXCEPTION, XBProcessingExceptionType.ILLEGAL_OPERATION);
+        }
+
+        @Override
+        public boolean pullIfEmptyData() throws XBProcessingException, IOException {
+            return provider.pullIfEmptyData();
+        }
+
+        @Override
+        public boolean pullIfEmptyBlock() throws XBProcessingException, IOException {
+            return provider.pullIfEmptyBlock();
+        }
+
+        @Nonnull
+        @Override
+        public XBTToken pullToken(XBTTokenType tokenType) throws XBProcessingException, IOException {
+            return provider.pullToken(tokenType);
+        }
+
+        @Nonnull
+        @Override
+        public XBTToken pullToken() throws XBProcessingException, IOException {
+            return provider.pullToken();
+        }
+
+        @Override
+        public void pullConsist(XBSerializable child) throws XBProcessingException, IOException {
+            provider.pullConsist(child);
+        }
+
+        @Override
+        public void pullJoin(XBSerializable serial) throws XBProcessingException, IOException {
+            provider.pullJoin(serial);
+        }
+
+        @Override
+        public void pullListConsist(XBSerializable child) throws XBProcessingException, IOException {
+            provider.pullListConsist(child);
+        }
+
+        @Override
+        public void pullListJoin(XBSerializable serial) throws XBProcessingException, IOException {
+            provider.pullListJoin(serial);
+        }
+
+        @Override
+        public void pullItem(XBSerialSequenceItem item) throws XBProcessingException, IOException {
+            provider.pullItem(item);
         }
     }
 }

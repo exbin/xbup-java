@@ -115,6 +115,7 @@ public class XBPRootSkeleton {
                 // TODO avoid copy
                 ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
                 XBCatalogXb catalogXb = new XBCatalogXb();
+                catalogXb.setCatalog(catalog);
                 catalogXb.exportToXbStream(outputStream);
 
                 XBPListenerSerialHandler listener = new XBPListenerSerialHandler(resultInput);

@@ -17,6 +17,7 @@ package org.exbin.xbup.core.parser.basic.wrapper;
 
 import java.io.IOException;
 import java.io.InputStream;
+import javax.annotation.ParametersAreNonnullByDefault;
 import org.exbin.xbup.core.parser.XBParsingException;
 import org.exbin.xbup.core.parser.XBProcessingExceptionType;
 import org.exbin.xbup.core.stream.FinishableStream;
@@ -27,29 +28,31 @@ import org.exbin.xbup.core.stream.FinishableStream;
  * Terminator is 0x0000. Sequence 0x00XX for XX &gt; 0 is interpreted as
  * sequence of zeros XX bytes long.
  *
- * @version 0.1.25 2015/07/25
+ * @version 0.2.1 2020/09/11
  * @author ExBin Project (http://exbin.org)
  */
+@ParametersAreNonnullByDefault
 public class TerminatedDataInputStreamWrapper extends InputStream implements FinishableStream {
 
     private final InputStream source;
 
-    private int nextValue;
-    private int zeroCount;
-    private int length = 0;
+    private int zeroCount = 0;
+    private long processedLength = 0;
+    private boolean terminated = false;
+    private int nextValue = 0;
 
     public TerminatedDataInputStreamWrapper(final InputStream source) throws IOException {
         this.source = source;
-        fillNextValue();
+        nextValue = getNextValue();
     }
 
     @Override
     public int read() throws IOException {
-        int value = nextValue;
+        int next = nextValue;
         if (nextValue != -1) {
-            fillNextValue();
+            nextValue = getNextValue();
         }
-        return value;
+        return next;
     }
 
     @Override
@@ -62,49 +65,51 @@ public class TerminatedDataInputStreamWrapper extends InputStream implements Fin
         return super.read(b);
     }
 
-    private void fillNextValue() throws IOException {
-        if (zeroCount > 0) {
-            zeroCount--;
-            nextValue = 0;
-        } else {
-            zeroCount = -1;
-            nextValue = source.read();
-            length++;
-            if (nextValue == 0) {
-                zeroCount = source.read();
-                length++;
-
-                if (zeroCount == 0) {
-                    nextValue = -1;
-                }
-            }
-        }
-    }
-
     @Override
     public long finish() throws IOException, XBParsingException {
-        int blockLength;
-        while (nextValue >= 0) {
-            blockLength = read();
-            if (blockLength < 0) {
-                break;
-            }
+        while (!terminated) {
+            read();
         }
 
-        if (zeroCount < 0) {
-            throw new XBParsingException("Missing data block terminator", XBProcessingExceptionType.UNEXPECTED_END_OF_STREAM);
-        }
-
-        return length;
+        return processedLength;
     }
 
     @Override
     public int available() throws IOException {
-        return nextValue == -1 ? 0 : 1;
+        return terminated ? 0 : 1;
     }
 
     @Override
     public long getLength() {
-        return length;
+        return processedLength;
+    }
+
+    private int getNextValue() throws IOException {
+        if (zeroCount > 0) {
+            zeroCount--;
+            return 0;
+        }
+
+        int next = source.read();
+        if (next == -1) {
+            throw new XBParsingException("Missing data block terminator", XBProcessingExceptionType.UNEXPECTED_END_OF_STREAM);
+        }
+        if (next == 0) {
+            zeroCount = source.read();
+            if (zeroCount < 0) {
+                throw new XBParsingException("Missing data block terminator", XBProcessingExceptionType.UNEXPECTED_END_OF_STREAM);
+            } else if (zeroCount == 0) {
+                processedLength += 2;
+                terminated = true;
+                return -1;
+            }
+
+            processedLength += 2;
+            zeroCount--;
+            return 0;
+        }
+
+        processedLength++;
+        return next;
     }
 }

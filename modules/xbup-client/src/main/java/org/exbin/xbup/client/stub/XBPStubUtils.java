@@ -21,6 +21,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 import org.exbin.xbup.core.block.XBBlockType;
@@ -227,6 +228,7 @@ public class XBPStubUtils {
         return null;
     }
     
+    @Nonnull
     public static InputStream voidToDataMethod(XBCallHandler procedureCall, XBBlockType type) {
         try {
             XBPListenerSerialHandler serialInput = new XBPListenerSerialHandler(procedureCall.getParametersInput());
@@ -234,11 +236,11 @@ public class XBPStubUtils {
             serialInput.putType(type);
             serialInput.end();
 
-            ByteArrayOutputStream streamCopy = new ByteArrayOutputStream();
             XBPProviderSerialHandler serialOutput = new XBPProviderSerialHandler(procedureCall.getResultOutput());
             serialOutput.begin();
             InputStream pullData = serialOutput.pullData();
             // TODO avoid copy
+            ByteArrayOutputStream streamCopy = new ByteArrayOutputStream();
             StreamUtils.copyInputStreamToOutputStream(pullData, streamCopy);
             serialOutput.end();
             procedureCall.execute();

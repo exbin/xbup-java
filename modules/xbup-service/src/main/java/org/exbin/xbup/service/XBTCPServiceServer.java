@@ -148,16 +148,16 @@ public class XBTCPServiceServer implements XBServiceServer {
                 }
             } catch (IOException | XBProcessingException ex) {
                 Logger.getLogger(XBTCPServiceServer.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (Exception ex) {
+                Logger.getLogger(XBTCPServiceServer.class.getName()).log(Level.SEVERE, null, ex);
             }
 
             if (outputStream != null) {
                 outputStream.close();
             }
 
-        } catch (XBParsingException ex) {
+        } catch (XBParsingException | IOException ex) {
             Logger.getLogger(XBTCPServiceServer.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException e) {
-            System.err.println(e);
         }
     }
 

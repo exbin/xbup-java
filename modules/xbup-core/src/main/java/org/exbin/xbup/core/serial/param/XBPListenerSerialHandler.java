@@ -115,7 +115,7 @@ public class XBPListenerSerialHandler implements XBPOutputSerialHandler, XBPSequ
                         }
                         case JOIN: {
                             XBPSerialSequence seq = new XBPSerialSequence();
-                            extractItem(Objects.requireNonNull(item).getItem(), seq);
+                            extractSerial(Objects.requireNonNull(item).getItem(), seq);
                             seq.dropLevel();
                             currentState.extractionSequence.insertAtBegining(seq);
                             break;
@@ -205,7 +205,7 @@ public class XBPListenerSerialHandler implements XBPOutputSerialHandler, XBPSequ
                     XBSerialSequenceOp nextOp = nextItem.getSequenceOp();
                     switch (nextOp) {
                         case CONSIST: {
-                            extractItem(nextItem.getItem(), nextState.extractionSequence);
+                            extractSerial(nextItem.getItem(), nextState.extractionSequence);
                             break;
                         }
                         case TOKEN: {
@@ -304,7 +304,7 @@ public class XBPListenerSerialHandler implements XBPOutputSerialHandler, XBPSequ
         }
     }
 
-    private void extractItem(XBSerializable serial, XBPListener listener) throws IOException, XBProcessingException {
+    private void extractSerial(XBSerializable serial, XBPListener listener) throws IOException, XBProcessingException {
         if (serial instanceof XBPSerializable) {
             ((XBPSerializable) serial).serializeToXB(
                     listener instanceof XBPOutputSerialHandler ? (XBPOutputSerialHandler) listener : new SerialHandlerWrapper(listener)
@@ -359,7 +359,7 @@ public class XBPListenerSerialHandler implements XBPOutputSerialHandler, XBPSequ
     }
 
     public void process(XBSerializable serial) throws IOException, XBProcessingException {
-        extractItem(serial, this);
+        extractSerial(serial, this);
     }
 
     @Override
@@ -889,7 +889,7 @@ public class XBPListenerSerialHandler implements XBPOutputSerialHandler, XBPSequ
 
         @Override
         public void begin() throws XBProcessingException, IOException {
-            listener.putBegin(XBBlockTerminationMode.TERMINATED_BY_ZERO);
+            listener.putBegin(XBBlockTerminationMode.SIZE_SPECIFIED);
         }
 
         @Override

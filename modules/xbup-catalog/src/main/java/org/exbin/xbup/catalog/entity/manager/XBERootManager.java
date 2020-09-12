@@ -79,6 +79,14 @@ public class XBERootManager extends XBEDefaultCatalogManager<XBCRoot> implements
         }
     }
 
+    public void setMainLastUpdate(Date updateDate) {
+        try {
+            em.createQuery("UPDATE XBRoot AS o SET o.lastUpdate = " + updateDate.getTime() + " WHERE o.url IS NULL").executeUpdate();
+        } catch (Exception ex) {
+            Logger.getLogger(XBERootManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
     /**
      * Set last update time mark to current database time.
      *

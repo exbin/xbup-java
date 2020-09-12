@@ -60,4 +60,9 @@ public class XBRRootService extends XBRDefaultService<XBCRoot> implements XBCRoo
     public void setMainLastUpdateToNow() {
         ((XBRRootManager) itemManager).setMainLastUpdateToNow();
     }
+
+    @Override
+    public void setMainLastUpdate(Date updateDate) {
+        ((XBRRootManager) itemManager).setMainLastUpdate(updateDate);
+    }
 }

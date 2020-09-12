@@ -47,14 +47,22 @@ public interface XBCRootService extends XBCService<XBCRoot> {
     Optional<Date> getMainLastUpdate();
 
     /**
-     * Resutrn true if main root is available.
+     * Returns true if main root is available.
      *
      * @return true if available
      */
     boolean isMainPresent();
 
     /**
+     * Sets last update date for main catalog.
+     *
+     * @param updateDate update date
+     */
+    void setMainLastUpdate(Date updateDate);
+
+    /**
      * Sets main last update to now.
      */
     void setMainLastUpdateToNow();
+
 }

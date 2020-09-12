@@ -66,4 +66,8 @@ public class XBRRootManager extends XBRDefaultManager<XBCRoot> implements XBCRoo
     public void setMainLastUpdateToNow() {
         throw new UnsupportedOperationException("Not supported yet.");
     }
+
+    public void setMainLastUpdate(Date updateDate) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
 }

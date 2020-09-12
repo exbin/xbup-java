@@ -76,6 +76,11 @@ public class XBERootService extends XBEDefaultService<XBCRoot> implements XBCRoo
     }
 
     @Override
+    public void setMainLastUpdate(Date updateDate) {
+        ((XBERootManager) itemManager).setMainLastUpdate(updateDate);
+    }
+
+    @Override
     public void setMainLastUpdateToNow() {
         ((XBERootManager) itemManager).setMainLastUpdateToNow();
     }

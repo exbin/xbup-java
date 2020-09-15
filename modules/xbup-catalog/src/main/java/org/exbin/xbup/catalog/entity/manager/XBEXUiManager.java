@@ -16,11 +16,14 @@
 package org.exbin.xbup.catalog.entity.manager;
 
 import java.io.Serializable;
+import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
+import javax.persistence.EntityTransaction;
+import javax.persistence.FlushModeType;
 import javax.persistence.NoResultException;
 import org.exbin.xbup.catalog.XBECatalog;
 import org.exbin.xbup.catalog.entity.XBEBlockRev;
@@ -64,6 +67,7 @@ public class XBEXUiManager extends XBEDefaultCatalogManager<XBCXBlockUi> impleme
     public void initializeExtension() {
     }
 
+    @Nonnull
     @Override
     public String getExtensionName() {
         return "UI Extension";
@@ -269,5 +273,55 @@ public class XBEXUiManager extends XBEDefaultCatalogManager<XBCXBlockUi> impleme
         }
 
         return true;
+    }
+
+    @Nonnull
+    @Override
+    public XBEXPlugUi createPlugUi() {
+        return newInstance(XBEXPlugUi.class);
+    }
+
+    @Override
+    public void persistPlugUi(XBCXPlugUi plugUi) {
+        EntityTransaction transaction = null;
+        try {
+            transaction = em.getTransaction();
+            transaction.begin();
+        } catch (IllegalStateException ex) {
+        }
+
+        em.persist(plugUi); // was merge
+
+        if (em.getFlushMode() == FlushModeType.COMMIT && transaction != null) {
+            em.flush();
+            transaction.commit();
+        }
+    }
+
+    @Override
+    public void removePlugUi(XBCXPlugUi plugUi) {
+        EntityTransaction transaction = null;
+        try {
+            transaction = em.getTransaction();
+            transaction.begin();
+        } catch (IllegalStateException ex) {
+        }
+
+        XBCXPlugUi removedItem = em.merge(plugUi);
+        em.remove(removedItem);
+
+        if (em.getFlushMode() == FlushModeType.COMMIT && transaction != null) {
+            em.flush();
+            transaction.commit();
+        }
+    }
+
+    @Nonnull
+    private static <T> T newInstance(Class<T> tClass) {
+        try {
+            return tClass.getDeclaredConstructor().newInstance();
+        } catch (NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) {
+            throw new IllegalStateException("Unable to create new item", ex);
+        }
     }
 }

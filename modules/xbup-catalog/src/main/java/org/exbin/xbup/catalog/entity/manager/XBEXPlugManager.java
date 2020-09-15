@@ -98,6 +98,7 @@ public class XBEXPlugManager extends XBEDefaultCatalogManager<XBCXPlugin> implem
     public void initializeExtension() {
     }
 
+    @Nonnull
     @Override
     public String getExtensionName() {
         return "Plugin Extension";

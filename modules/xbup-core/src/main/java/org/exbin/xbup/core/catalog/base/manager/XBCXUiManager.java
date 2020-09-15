@@ -30,7 +30,7 @@ import org.exbin.xbup.core.catalog.base.XBCXPlugin;
 /**
  * Interface for XBCBlockUi catalog manager.
  *
- * @version 0.2.1 2020/08/26
+ * @version 0.2.1 2020/09/15
  * @author ExBin Project (http://exbin.org)
  */
 @ParametersAreNonnullByDefault
@@ -159,4 +159,26 @@ public interface XBCXUiManager extends XBCManager<XBCXBlockUi>, XBCExtension {
      * @return count of plugin UIs
      */
     long getAllPlugUisCount();
+
+    /**
+     * Creates new instance of plugin UI method.
+     *
+     * @return plugin UI method
+     */
+    @Nonnull
+    XBCXPlugUi createPlugUi();
+
+    /**
+     * Persists plugin UI method.
+     *
+     * @param plugUi plugin UI method
+     */
+    void persistPlugUi(XBCXPlugUi plugUi);
+
+    /**
+     * Removes plugin UI method.
+     *
+     * @param plugUi plugin UI method
+     */
+    void removePlugUi(XBCXPlugUi plugUi);
 }

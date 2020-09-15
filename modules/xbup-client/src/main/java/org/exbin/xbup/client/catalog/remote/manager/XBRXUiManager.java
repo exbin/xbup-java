@@ -146,4 +146,19 @@ public class XBRXUiManager extends XBRDefaultManager<XBCXBlockUi> implements XBC
     public XBRXPlugUi findPlugUiById(long id) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
+
+    @Override
+    public XBCXPlugUi createPlugUi() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public void persistPlugUi(XBCXPlugUi plugUi) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public void removePlugUi(XBCXPlugUi plugUi) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
 }

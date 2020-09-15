@@ -555,16 +555,19 @@ public class XBESpecManager extends XBEDefaultCatalogManager<XBCSpec> implements
         return null;
     }
 
+    @Nonnull
     @Override
     public XBEBlockSpec createBlockSpec() {
         return newInstance(XBEBlockSpec.class);
     }
 
+    @Nonnull
     @Override
     public XBCGroupSpec createGroupSpec() {
         return newInstance(XBEGroupSpec.class);
     }
 
+    @Nonnull
     @Override
     public XBCFormatSpec createFormatSpec() {
         return newInstance(XBEFormatSpec.class);
@@ -605,14 +608,12 @@ public class XBESpecManager extends XBEDefaultCatalogManager<XBCSpec> implements
         }
     }
 
-    @Nullable
+    @Nonnull
     private static <T> T newInstance(Class<T> tClass) {
         try {
             return tClass.getDeclaredConstructor().newInstance();
         } catch (NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) {
-            Logger.getLogger(XBESpecManager.class.getName()).log(Level.SEVERE, null, ex);
+            throw new IllegalStateException("Unable to create new item", ex);
         }
-
-        return null;
     }
 }

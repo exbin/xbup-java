@@ -45,17 +45,20 @@ import org.exbin.xbup.catalog.entity.XBEGroupJoin;
 import org.exbin.xbup.catalog.entity.XBEGroupRev;
 import org.exbin.xbup.catalog.entity.XBEGroupSpec;
 import org.exbin.xbup.catalog.entity.XBENode;
+import org.exbin.xbup.catalog.entity.XBEXBlockUi;
 import org.exbin.xbup.catalog.entity.XBEXDesc;
 import org.exbin.xbup.catalog.entity.XBEXFile;
 import org.exbin.xbup.catalog.entity.XBEXHDoc;
 import org.exbin.xbup.catalog.entity.XBEXIcon;
 import org.exbin.xbup.catalog.entity.XBEXName;
+import org.exbin.xbup.catalog.entity.XBEXPlugUi;
 import org.exbin.xbup.catalog.entity.XBEXPlugin;
 import org.exbin.xbup.catalog.entity.XBEXStri;
 import org.exbin.xbup.core.block.XBBlockType;
 import org.exbin.xbup.core.block.XBFixedBlockType;
 import org.exbin.xbup.core.block.definition.XBParamType;
 import org.exbin.xbup.core.catalog.XBACatalog;
+import org.exbin.xbup.core.catalog.XBPlugUiType;
 import org.exbin.xbup.core.catalog.base.XBCBlockRev;
 import org.exbin.xbup.core.catalog.base.XBCBlockSpec;
 import org.exbin.xbup.core.catalog.base.XBCFormatSpec;
@@ -107,7 +110,7 @@ import org.exbin.xbup.core.util.StreamUtils;
 /**
  * XB Catalog import and export to XB.
  *
- * @version 0.2.1 2020/09/08
+ * @version 0.2.1 2020/09/15
  * @author ExBin Project (http://exbin.org)
  */
 @ParametersAreNonnullByDefault
@@ -584,7 +587,6 @@ public class XBCatalogXb {
             XBString fileName = new XBString(pluginFile.getFilename());
             serialInput.putConsist(fileName);
             serialInput.end();
-            break;
         }
         serialInput.end();
     }
@@ -597,6 +599,8 @@ public class XBCatalogXb {
         serialInput.begin();
         serialInput.putType(new XBFixedBlockType());
 
+        serialInput.begin();
+        serialInput.putType(new XBFixedBlockType());
         List<XBCXPlugin> plugins = plugService.getAllItems();
         for (XBCXPlugin plugin : plugins) {
             List<XBCXPlugUi> plugUis = uiService.getPlugUis(plugin);
@@ -614,7 +618,10 @@ public class XBCatalogXb {
                 serialInput.end();
             }
         }
+        serialInput.end();
 
+        serialInput.begin();
+        serialInput.putType(new XBFixedBlockType());
         List<XBCXBlockUi> blockUis = uiService.getAllItems();
         for (XBCXBlockUi blockUi : blockUis) {
             serialInput.begin();
@@ -625,6 +632,7 @@ public class XBCatalogXb {
             Long[] nodePath = nodeService.getNodeXBPath(node);
             putPath(serialInput, nodePath);
             serialInput.putAttribute(plugin.getPluginIndex());
+            serialInput.putAttribute(plugUi.getUiType().getId());
             serialInput.putAttribute(plugUi.getMethodIndex());
             XBCBlockRev blockRev = blockUi.getBlockRev();
             XBCBlockSpec blockSpec = blockRev.getParent();
@@ -638,6 +646,8 @@ public class XBCatalogXb {
             serialInput.putConsist(name);
             serialInput.end();
         }
+        serialInput.end();
+
         serialInput.end();
     }
 
@@ -1265,33 +1275,71 @@ public class XBCatalogXb {
     }
 
     private void importUis(XBPProviderSerialHandler serialOutput) throws XBProcessingException, IOException {
-        XBCXFileService fileService = catalog.getCatalogService(XBCXFileService.class);
+        XBCXUiService uiService = catalog.getCatalogService(XBCXUiService.class);
         XBCNodeService nodeService = catalog.getCatalogService(XBCNodeService.class);
+        XBCXPlugService plugService = catalog.getCatalogService(XBCXPlugService.class);
+        XBCSpecService specService = catalog.getCatalogService(XBCSpecService.class);
+        XBCRevService revService = catalog.getCatalogService(XBCRevService.class);
+
+        serialOutput.pullBegin();
+        serialOutput.pullType();
 
         serialOutput.pullBegin();
         serialOutput.pullType();
         while (!serialOutput.isFinishedNext()) {
             serialOutput.pullBegin();
             serialOutput.pullType();
-            Long[] nodePath = pullPath(serialOutput);
-            XBENode node = (XBENode) nodeService.findNodeByXBPath(nodePath);
-            XBString fileName = new XBString();
-            serialOutput.pullConsist(fileName);
-            serialOutput.pullBegin();
-            InputStream fileDataStream = serialOutput.pullData();
-            byte[] fileData;
-            try (ByteArrayOutputStream stream = new ByteArrayOutputStream()) {
-                StreamUtils.copyInputStreamToOutputStream(fileDataStream, stream);
-                fileData = stream.toByteArray();
-            }
+            Long[] pluginNodePath = pullPath(serialOutput);
+            XBENode pluginNode = (XBENode) nodeService.findNodeByXBPath(pluginNodePath);
+            long pluginIndex = serialOutput.pullLongAttribute();
+            int uiTypeId = serialOutput.pullIntAttribute();
+            long methodIndex = serialOutput.pullLongAttribute();
+            XBString name = new XBString();
+            serialOutput.pullConsist(name);
             serialOutput.pullEnd();
-            serialOutput.pullEnd();
-            XBEXFile file = (XBEXFile) fileService.createItem();
-            file.setNode(node);
-            file.setContent(fileData);
-            file.setFilename(fileName.getValue());
-            fileService.persistItem(file);
+            
+            XBCXPlugin plugin = plugService.findPlugin(pluginNode, pluginIndex);
+            XBEXPlugUi plugUi = (XBEXPlugUi) uiService.createPlugUi();
+            plugUi.setMethodIndex(methodIndex);
+            plugUi.setUiType(uiService.findTypeById(uiTypeId));
+            plugUi.setName(name.getValue());
+            plugUi.setPlugin(plugin);
+            uiService.persistPlugUi(plugUi);
         }
+        serialOutput.pullEnd();
+        
+        serialOutput.pullBegin();
+        serialOutput.pullType();
+        while (!serialOutput.isFinishedNext()) {
+            serialOutput.pullBegin();
+            serialOutput.pullType();
+            Long[] pluginNodePath = pullPath(serialOutput);
+            XBENode pluginNode = (XBENode) nodeService.findNodeByXBPath(pluginNodePath);
+            long pluginIndex = serialOutput.pullLongAttribute();
+            int uiTypeId = serialOutput.pullIntAttribute();
+            long methodIndex = serialOutput.pullLongAttribute();
+            Long[] specNodePath = pullPath(serialOutput);
+            XBENode specNode = (XBENode) nodeService.findNodeByXBPath(specNodePath);
+            long specXbIndex = serialOutput.pullLongAttribute();
+            long revXbIndex = serialOutput.pullLongAttribute();
+            long priority = serialOutput.pullLongAttribute();
+            XBString name = new XBString();
+            serialOutput.pullConsist(name);
+            serialOutput.pullEnd();
+            
+            XBCXPlugin plugin = plugService.findPlugin(pluginNode, pluginIndex);
+            XBCXPlugUi plugUi = uiService.getPlugUi(plugin, XBPlugUiType.findByDbIndex(uiTypeId), methodIndex);
+            XBCBlockSpec blockSpec = specService.findBlockSpecByXB(specNode, specXbIndex);
+            XBCBlockRev blockRev = (XBCBlockRev) revService.findRevByXB(blockSpec, revXbIndex);
+            XBEXBlockUi blockUi = (XBEXBlockUi) uiService.createItem();
+            blockUi.setUi(plugUi);
+            blockUi.setBlockRev(blockRev);
+            blockUi.setPriority(priority);
+            blockUi.setName(name.getValue());
+            uiService.persistItem(blockUi);
+        }
+        serialOutput.pullEnd();
+
         serialOutput.pullEnd();
     }
 

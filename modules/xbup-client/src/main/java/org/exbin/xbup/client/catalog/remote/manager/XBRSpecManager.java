@@ -16,6 +16,7 @@
 package org.exbin.xbup.client.catalog.remote.manager;
 
 import java.util.List;
+import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 import org.exbin.xbup.client.catalog.XBRCatalog;
 import org.exbin.xbup.client.catalog.remote.XBRBlockSpec;
@@ -200,16 +201,19 @@ public class XBRSpecManager extends XBRDefaultManager<XBCSpec> implements XBCSpe
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
+    @Nonnull
     @Override
     public XBCBlockSpec createBlockSpec() {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
+    @Nonnull
     @Override
     public XBCGroupSpec createGroupSpec() {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
+    @Nonnull
     @Override
     public XBCFormatSpec createFormatSpec() {
         throw new UnsupportedOperationException("Not supported yet.");

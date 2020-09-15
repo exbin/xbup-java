@@ -16,6 +16,7 @@
 package org.exbin.xbup.core.catalog.base.manager;
 
 import java.util.List;
+import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 import org.exbin.xbup.core.block.definition.XBParamType;
 import org.exbin.xbup.core.catalog.base.XBCBlockSpec;
@@ -289,6 +290,7 @@ public interface XBCSpecManager extends XBCCatalogManager<XBCSpec> {
      *
      * @return block specification
      */
+    @Nonnull
     XBCBlockSpec createBlockSpec();
 
     /**
@@ -296,6 +298,7 @@ public interface XBCSpecManager extends XBCCatalogManager<XBCSpec> {
      *
      * @return group specification
      */
+    @Nonnull
     XBCGroupSpec createGroupSpec();
 
     /**
@@ -303,6 +306,7 @@ public interface XBCSpecManager extends XBCCatalogManager<XBCSpec> {
      *
      * @return format specification
      */
+    @Nonnull
     XBCFormatSpec createFormatSpec();
 
     /**

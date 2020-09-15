@@ -37,9 +37,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
- * Interface for XBEXBlockLine items service.
+ * Interface for XBEXBlockUi items service.
  *
- * @version 0.2.1 2020/08/26
+ * @version 0.2.1 2020/09/15
  * @author ExBin Project (http://exbin.org)
  */
 @ParametersAreNonnullByDefault
@@ -148,5 +148,21 @@ public class XBEXUiService extends XBEDefaultService<XBCXBlockUi> implements XBC
     @Override
     public void initializeExtension() {
         ((XBCExtension) itemManager).initializeExtension();
+    }
+
+    @Nonnull
+    @Override
+    public XBCXPlugUi createPlugUi() {
+        return ((XBEXUiManager) itemManager).createPlugUi();
+    }
+
+    @Override
+    public void persistPlugUi(XBCXPlugUi plugUi) {
+        ((XBEXUiManager) itemManager).persistPlugUi(plugUi);
+    }
+
+    @Override
+    public void removePlugUi(XBCXPlugUi plugUi) {
+        ((XBEXUiManager) itemManager).removePlugUi(plugUi);
     }
 }

@@ -18,6 +18,7 @@ package org.exbin.xbup.service.entity;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
+import javax.annotation.Nullable;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -86,7 +87,7 @@ public class ServiceELogItem implements ServiceLogItem, Serializable {
      * <code>false</code> otherwise.
      */
     @Override
-    public boolean equals(Object object) {
+    public boolean equals(@Nullable Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
         if (!(object instanceof ServiceELogItem)) {
             return false;

@@ -20,7 +20,9 @@ import java.util.logging.Handler;
 import java.util.logging.Level;
 import java.util.logging.LogRecord;
 import java.util.logging.Logger;
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
 import javax.persistence.EntityManager;
 import org.exbin.xbup.catalog.XBAECatalog;
 import org.exbin.xbup.client.update.XBCUpdateHandler;
@@ -49,6 +51,7 @@ import org.exbin.xbup.service.skeleton.XBPXUiSkeleton;
  * @version 0.2.1 2020/08/23
  * @author ExBin Project (http://exbin.org)
  */
+@ParametersAreNonnullByDefault
 public class XBCatalogNetServiceServer extends XBTCPServiceServer {
 
     private static final String LOG_BUNDLE = "sun.util.logging.resources.logging";
@@ -91,6 +94,7 @@ public class XBCatalogNetServiceServer extends XBTCPServiceServer {
         setStop(true);
     }
 
+    @Nonnull
     public String getVersion() {
         return resourceBundle.getString("Application.version");
     }
@@ -106,13 +110,15 @@ public class XBCatalogNetServiceServer extends XBTCPServiceServer {
         return 0;
     }
 
+    @ParametersAreNonnullByDefault
     private static class XBServiceStatus extends Level {
 
-        public XBServiceStatus(String string, int i, String defaultBundle) {
-            super(string, i, defaultBundle);
+        public XBServiceStatus(String string, int value, String defaultBundle) {
+            super(string, value, defaultBundle);
         }
     }
 
+    @ParametersAreNonnullByDefault
     public static class XBServiceLogHandler extends Handler {
 
         boolean verboseMode;

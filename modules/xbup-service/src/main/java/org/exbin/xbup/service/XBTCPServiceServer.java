@@ -27,6 +27,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
 import javax.persistence.EntityManager;
 import org.exbin.xbup.client.XBLoggingInputStream;
 import org.exbin.xbup.client.XBLoggingOutputStream;
@@ -66,9 +68,10 @@ import org.exbin.xbup.service.entity.service.ServiceELogItemService;
 /**
  * XBUP level 1 RPC server using TCP/IP networking.
  *
- * @version 0.2.0 2017/01/20
+ * @version 0.2.1 2020/09/17
  * @author ExBin Project (http://exbin.org)
  */
+@ParametersAreNonnullByDefault
 public class XBTCPServiceServer implements XBServiceServer {
 
     private final static int BACK_LOG_LIMIT = 50;
@@ -81,7 +84,7 @@ public class XBTCPServiceServer implements XBServiceServer {
     private final EntityManager entityManager;
 
     /**
-     * Creates a new instance of XBTCPRemoteServer.
+     * Creates a new instance of XBTCPServiceServer.
      *
      * @param entityManager entity manager
      * @param catalog catalog
@@ -214,6 +217,7 @@ public class XBTCPServiceServer implements XBServiceServer {
         return stop;
     }
 
+    @Nonnull
     public Map<XBBlockType, XBExecutable> getProcMap() {
         return procMap;
     }
@@ -230,6 +234,7 @@ public class XBTCPServiceServer implements XBServiceServer {
         this.debugMode = debugMode;
     }
 
+    @ParametersAreNonnullByDefault
     private class XBTTypePreloadingPullProvider implements XBTPullProvider {
 
         private final XBTPullProvider pullProvider;
@@ -242,6 +247,7 @@ public class XBTCPServiceServer implements XBServiceServer {
             typeToken = (XBTTypeToken) pullProvider.pullXBTToken();
         }
 
+        @Nonnull
         @Override
         public XBTToken pullXBTToken() throws XBProcessingException, IOException {
             if (typeToken == null) {
@@ -257,11 +263,13 @@ public class XBTCPServiceServer implements XBServiceServer {
             }
         }
 
+        @Nonnull
         public XBBlockType getBlockType() {
             return typeToken.getBlockType();
         }
     }
 
+    @ParametersAreNonnullByDefault
     private class ExecutionEventListener implements XBTEventListener {
 
         private boolean started = false;

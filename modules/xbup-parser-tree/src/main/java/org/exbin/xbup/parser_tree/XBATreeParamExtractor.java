@@ -28,6 +28,7 @@ import org.exbin.xbup.core.block.XBTEditableBlock;
 import org.exbin.xbup.core.block.declaration.XBBlockDecl;
 import org.exbin.xbup.core.block.declaration.XBDeclBlockType;
 import org.exbin.xbup.core.block.declaration.catalog.XBCBlockDecl;
+import org.exbin.xbup.core.block.declaration.local.XBLBlockDecl;
 import org.exbin.xbup.core.block.definition.XBBlockDef;
 import org.exbin.xbup.core.block.definition.XBBlockParam;
 import org.exbin.xbup.core.catalog.XBACatalog;
@@ -557,13 +558,18 @@ public class XBATreeParamExtractor implements XBTPullProvider, XBTEventListener 
                         }
 
                         case JOIN: {
-                            ProcessingState joinState = new ProcessingState((XBCBlockDecl) blockParam.getBlockDecl());
-                            if (joinState.blockDecl.getBlockSpecRev() == null) {
-                                parameterInfo.attributeCount++;
+                            XBBlockDecl blockDecl = blockParam.getBlockDecl();
+                            if (blockDecl instanceof XBCBlockDecl) {
+                                ProcessingState joinState = new ProcessingState((XBCBlockDecl) blockParam.getBlockDecl());
+                                if (joinState.blockDecl.getBlockSpecRev() == null) {
+                                    parameterInfo.attributeCount++;
+                                } else {
+                                    long revision = joinState.blockDecl.getRevision();
+                                    joinState.parametersCount = joinState.blockDecl.getBlockDef().getRevisionDef().getRevisionLimit(revision);
+                                    processingStates.add(joinState);
+                                }
                             } else {
-                                long revision = joinState.blockDecl.getRevision();
-                                joinState.parametersCount = joinState.blockDecl.getBlockDef().getRevisionDef().getRevisionLimit(revision);
-                                processingStates.add(joinState);
+                                // TODO
                             }
 
                             break;
@@ -618,25 +624,25 @@ public class XBATreeParamExtractor implements XBTPullProvider, XBTEventListener 
         } while (true);
     }
 
-    private class ProcessingState {
+    private static class ProcessingState {
 
-        public XBCBlockDecl blockDecl = null;
-        public int processingParameter = 0;
-        public int parametersCount = 0;
+        XBCBlockDecl blockDecl = null;
+        int processingParameter = 0;
+        int parametersCount = 0;
 
-        public ProcessingState(XBCBlockDecl blockDecl) {
+        ProcessingState(XBCBlockDecl blockDecl) {
             this.blockDecl = blockDecl;
         }
     }
 
-    private class ParameterInfo {
+    private static class ParameterInfo {
 
-        public XBBlockDecl blockDecl = null;
-        public int attributeCount = 0;
-        public int childCount = 0;
-        public int listSize;
+        XBBlockDecl blockDecl = null;
+        int attributeCount = 0;
+        int childCount = 0;
+        int listSize;
 
-        public boolean isEmpty() {
+        boolean isEmpty() {
             return attributeCount == 0 && childCount == 0;
         }
     }

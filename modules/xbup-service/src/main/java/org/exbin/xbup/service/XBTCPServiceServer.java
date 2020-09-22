@@ -30,6 +30,7 @@ import java.util.logging.Logger;
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 import javax.persistence.EntityManager;
+import javax.persistence.EntityTransaction;
 import org.exbin.xbup.client.XBLoggingInputStream;
 import org.exbin.xbup.client.XBLoggingOutputStream;
 import org.exbin.xbup.client.XBTCPServiceClient;
@@ -68,7 +69,7 @@ import org.exbin.xbup.service.entity.service.ServiceELogItemService;
 /**
  * XBUP level 1 RPC server using TCP/IP networking.
  *
- * @version 0.2.1 2020/09/17
+ * @version 0.2.1 2020/09/22
  * @author ExBin Project (http://exbin.org)
  */
 @ParametersAreNonnullByDefault
@@ -174,6 +175,8 @@ public class XBTCPServiceServer implements XBServiceServer {
     }
 
     public void respondMessage(XBTPullTypeDeclaringFilterNoDeclaration input, XBTEventTypeUndeclaringFilterNoDeclaration output) throws IOException, XBProcessingException {
+        EntityTransaction tx = entityManager.getTransaction();
+        tx.begin();
         XBTTypePreloadingPullProvider preloading = new XBTTypePreloadingPullProvider(input);
         // TODO do proper matching later
         XBDeclBlockType blockType = (XBDeclBlockType) preloading.getBlockType();
@@ -193,6 +196,7 @@ public class XBTCPServiceServer implements XBServiceServer {
             throw new UnsupportedOperationException("Not supported yet.");
         }
         eventListener.putXBTToken(XBTEndToken.create());
+        tx.commit();
     }
 
     @Override

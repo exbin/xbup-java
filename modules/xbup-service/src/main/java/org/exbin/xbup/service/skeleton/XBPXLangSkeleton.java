@@ -26,7 +26,6 @@ import org.exbin.xbup.core.block.XBBlockType;
 import org.exbin.xbup.core.block.XBTEmptyBlock;
 import org.exbin.xbup.core.block.declaration.XBDeclBlockType;
 import org.exbin.xbup.core.catalog.base.XBCXLanguage;
-import org.exbin.xbup.core.catalog.base.service.XBCXLangService;
 import org.exbin.xbup.core.parser.XBProcessingException;
 import org.exbin.xbup.core.parser.token.XBAttribute;
 import org.exbin.xbup.core.remote.XBMultiProcedure;
@@ -44,14 +43,15 @@ import org.exbin.xbup.core.ubnumber.type.UBNat32;
  * @version 0.2.1 2020/08/17
  * @author ExBin Project (http://exbin.org)
  */
-public class XBPXLangSkeleton {
+public class XBPXLangSkeleton implements XBPCatalogSkeleton {
 
-    private final XBAECatalog catalog;
+    private XBAECatalog catalog;
 
     public XBPXLangSkeleton(XBAECatalog catalog) {
         this.catalog = catalog;
     }
 
+    @Override
     public void registerProcedures(XBServiceServer remoteServer) {
         remoteServer.addXBProcedure(new XBDeclBlockType(XBPXLangStub.CODE_LANG_PROCEDURE), new XBMultiProcedure() {
             @Override
@@ -122,5 +122,10 @@ public class XBPXLangSkeleton {
                 listener.process(new UBNat32(langService.getItemsCount()));
             }
         });
+    }
+
+    @Override
+    public void setCatalog(XBAECatalog catalog) {
+        this.catalog = catalog;
     }
 }

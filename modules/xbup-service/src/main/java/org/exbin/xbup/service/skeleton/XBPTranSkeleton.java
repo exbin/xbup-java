@@ -15,6 +15,7 @@
  */
 package org.exbin.xbup.service.skeleton;
 
+import org.exbin.xbup.catalog.XBAECatalog;
 import org.exbin.xbup.core.remote.XBServiceServer;
 
 /**
@@ -23,9 +24,14 @@ import org.exbin.xbup.core.remote.XBServiceServer;
  * @version 0.1.25 2015/02/18
  * @author ExBin Project (http://exbin.org)
  */
-public class XBPTranSkeleton {
+public class XBPTranSkeleton implements XBPCatalogSkeleton {
 
+    @Override
     public void registerProcedures(XBServiceServer remoteServer) {
 
+    }
+
+    @Override
+    public void setCatalog(XBAECatalog catalog) {
     }
 }

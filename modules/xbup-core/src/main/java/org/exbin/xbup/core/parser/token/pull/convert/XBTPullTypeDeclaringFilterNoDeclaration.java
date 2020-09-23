@@ -46,7 +46,7 @@ import org.exbin.xbup.core.util.StreamUtils;
  *
  * TODO: Drop
  *
- * @version 0.2.0 2017/01/20
+ * @version 0.2.1 2020/09/23
  * @author ExBin Project (http://exbin.org)
  */
 public class XBTPullTypeDeclaringFilterNoDeclaration implements XBTPullFilter {
@@ -146,6 +146,14 @@ public class XBTPullTypeDeclaringFilterNoDeclaration implements XBTPullFilter {
         }
 
         throw new IllegalStateException("Unexpected token type " + token.getTokenType().toString());
+    }
+    
+    public void setCatalog(XBCatalog catalog) {
+        this.catalog = catalog;
+        currentContext.replaceCatalog(catalog, catalog.getRootContext());
+        contexts.forEach(context -> {
+            context.replaceCatalog(catalog, catalog.getRootContext());
+        });
     }
 
     @Override

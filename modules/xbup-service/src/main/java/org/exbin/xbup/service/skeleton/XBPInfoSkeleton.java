@@ -45,14 +45,15 @@ import org.exbin.xbup.core.ubnumber.type.UBNat32;
  * @version 0.2.1 2020/08/17
  * @author ExBin Project (http://exbin.org)
  */
-public class XBPInfoSkeleton {
+public class XBPInfoSkeleton implements XBPCatalogSkeleton {
 
-    private final XBAECatalog catalog;
+    private XBAECatalog catalog;
 
     public XBPInfoSkeleton(XBAECatalog catalog) {
         this.catalog = catalog;
     }
 
+    @Override
     public void registerProcedures(XBServiceServer remoteServer) {
         remoteServer.addXBProcedure(new XBDeclBlockType(XBPInfoStub.NODE_INFO_PROCEDURE), new XBMultiProcedure() {
             @Override
@@ -86,5 +87,10 @@ public class XBPInfoSkeleton {
                 listener.process(new UBNat32(infoService.getItemsCount()));
             }
         });
+    }
+
+    @Override
+    public void setCatalog(XBAECatalog catalog) {
+        this.catalog = catalog;
     }
 }

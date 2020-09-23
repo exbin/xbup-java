@@ -19,7 +19,6 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 import org.exbin.xbup.catalog.XBAECatalog;
-import org.exbin.xbup.catalog.entity.XBEItem;
 import org.exbin.xbup.catalog.entity.XBEXDesc;
 import org.exbin.xbup.catalog.entity.service.XBEItemService;
 import org.exbin.xbup.catalog.entity.service.XBEXDescService;
@@ -52,14 +51,15 @@ import org.exbin.xbup.core.ubnumber.type.UBNat32;
  * @version 0.2.1 2020/08/17
  * @author ExBin Project (http://exbin.org)
  */
-public class XBPXDescSkeleton {
+public class XBPXDescSkeleton implements XBPCatalogSkeleton {
 
-    private final XBAECatalog catalog;
+    private XBAECatalog catalog;
 
     public XBPXDescSkeleton(XBAECatalog catalog) {
         this.catalog = catalog;
     }
 
+    @Override
     public void registerProcedures(XBServiceServer remoteServer) {
         remoteServer.addXBProcedure(new XBDeclBlockType(XBPXDescStub.ITEM_DESC_PROCEDURE), new XBMultiProcedure() {
             @Override
@@ -192,5 +192,10 @@ public class XBPXDescSkeleton {
                 listener.process(new UBNat32(descService.getItemsCount()));
             }
         });
+    }
+
+    @Override
+    public void setCatalog(XBAECatalog catalog) {
+        this.catalog = catalog;
     }
 }

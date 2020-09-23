@@ -15,30 +15,20 @@
  */
 package org.exbin.xbup.service.skeleton;
 
+import javax.annotation.ParametersAreNonnullByDefault;
 import org.exbin.xbup.catalog.XBAECatalog;
 import org.exbin.xbup.core.remote.XBServiceServer;
 
 /**
- * RPC skeleton class for XBRLimit catalog items.
+ * Skeleton utilizing catalog.
  *
- * @version 0.1.25 2015/02/20
+ * @version 0.2.1 2020/09/23
  * @author ExBin Project (http://exbin.org)
  */
-public class XBPLimiSkeleton implements XBPCatalogSkeleton {
+@ParametersAreNonnullByDefault
+public interface XBPCatalogSkeleton {
+    
+    void registerProcedures(XBServiceServer remoteServer);
 
-    private XBAECatalog catalog;
-
-    public XBPLimiSkeleton(XBAECatalog catalog) {
-        this.catalog = catalog;
-    }
-
-    @Override
-    public void registerProcedures(XBServiceServer remoteServer) {
-
-    }
-
-    @Override
-    public void setCatalog(XBAECatalog catalog) {
-        this.catalog = catalog;
-    }
+    void setCatalog(XBAECatalog catalog);
 }

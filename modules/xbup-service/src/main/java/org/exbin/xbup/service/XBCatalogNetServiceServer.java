@@ -15,6 +15,8 @@
  */
 package org.exbin.xbup.service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Handler;
 import java.util.logging.Level;
@@ -26,8 +28,10 @@ import javax.annotation.ParametersAreNonnullByDefault;
 import javax.persistence.EntityManager;
 import org.exbin.xbup.catalog.XBAECatalog;
 import org.exbin.xbup.client.update.XBCUpdateHandler;
+import org.exbin.xbup.core.catalog.XBACatalog;
 import org.exbin.xbup.core.catalog.base.service.XBCRootService;
 import org.exbin.xbup.core.remote.XBServiceServer;
+import org.exbin.xbup.service.skeleton.XBPCatalogSkeleton;
 import org.exbin.xbup.service.skeleton.XBPInfoSkeleton;
 import org.exbin.xbup.service.skeleton.XBPItemSkeleton;
 import org.exbin.xbup.service.skeleton.XBPNodeSkeleton;
@@ -48,7 +52,7 @@ import org.exbin.xbup.service.skeleton.XBPXUiSkeleton;
 /**
  * XBUP catalog service server.
  *
- * @version 0.2.1 2020/08/23
+ * @version 0.2.1 2020/09/23
  * @author ExBin Project (http://exbin.org)
  */
 @ParametersAreNonnullByDefault
@@ -59,34 +63,50 @@ public class XBCatalogNetServiceServer extends XBTCPServiceServer {
 
     private final ResourceBundle resourceBundle = ResourceBundle.getBundle("org/exbin/xbup/service/messages");
     private XBCUpdateHandler updateHandler = null;
+    private final List<XBPCatalogSkeleton> skeletons = new ArrayList<>();
 
-    public XBCatalogNetServiceServer(EntityManager entityManager, final XBAECatalog catalog) {
-        super(entityManager, catalog);
-        
+    public XBCatalogNetServiceServer() {
+        super();
+
 //        updateHandler = new XBCatalogServiceUpdateHandler(catalog, /* MainServiceClient */);
 //        updateHandler.init();
 //        ((XBAECatalog) catalog).setUpdateHandler(updateHandler);
-
-        XBServiceServer server = this;
         // Register procedures
-        new XBPServiceSkeleton(this).registerProcedures(server);
+        new XBPServiceSkeleton(this).registerProcedures(this);
+    }
 
-        new XBPItemSkeleton(catalog).registerProcedures(server);
-        new XBPRootSkeleton(catalog).registerProcedures(server);
-        new XBPNodeSkeleton(catalog).registerProcedures(server);
-        new XBPSpecSkeleton(catalog).registerProcedures(server);
-        new XBPRevSkeleton(catalog).registerProcedures(server);
+    @Override
+    public void replaceCatalog() {
+        super.replaceCatalog();
+        XBAECatalog aeCatalog = (XBAECatalog) this.catalog;
 
-        new XBPXLangSkeleton(catalog).registerProcedures(server);
-        new XBPXNameSkeleton(catalog).registerProcedures(server);
-        new XBPXDescSkeleton(catalog).registerProcedures(server);
-        new XBPInfoSkeleton(catalog).registerProcedures(server);
-        new XBPXFileSkeleton(catalog).registerProcedures(server);
-        new XBPXIconSkeleton(catalog).registerProcedures(server);
-        new XBPXPlugSkeleton(catalog).registerProcedures(server);
-        new XBPXStriSkeleton(catalog).registerProcedures(server);
-        new XBPXUiSkeleton(catalog).registerProcedures(server);
-        new XBPXHDocSkeleton(catalog).registerProcedures(server);
+        if (skeletons.isEmpty()) {
+            XBServiceServer server = this;
+            skeletons.add(new XBPItemSkeleton(aeCatalog));
+            skeletons.add(new XBPRootSkeleton(aeCatalog));
+            skeletons.add(new XBPNodeSkeleton(aeCatalog));
+            skeletons.add(new XBPSpecSkeleton(aeCatalog));
+            skeletons.add(new XBPRevSkeleton(aeCatalog));
+
+            skeletons.add(new XBPXLangSkeleton(aeCatalog));
+            skeletons.add(new XBPXNameSkeleton(aeCatalog));
+            skeletons.add(new XBPXDescSkeleton(aeCatalog));
+            skeletons.add(new XBPInfoSkeleton(aeCatalog));
+            skeletons.add(new XBPXFileSkeleton(aeCatalog));
+            skeletons.add(new XBPXIconSkeleton(aeCatalog));
+            skeletons.add(new XBPXPlugSkeleton(aeCatalog));
+            skeletons.add(new XBPXStriSkeleton(aeCatalog));
+            skeletons.add(new XBPXUiSkeleton(aeCatalog));
+            skeletons.add(new XBPXHDocSkeleton(aeCatalog));
+
+            for (XBPCatalogSkeleton skeleton : skeletons) {
+                skeleton.registerProcedures(server);
+            }
+        } else {
+            for (XBPCatalogSkeleton skeleton : skeletons) {
+                skeleton.setCatalog(aeCatalog);
+            }
+        }
     }
 
     public void performStop() {
@@ -154,8 +174,8 @@ public class XBCatalogNetServiceServer extends XBTCPServiceServer {
      *
      * @return true if update required
      */
-    public boolean shallUpdate() {
-        XBCRootService rootService = catalog.getCatalogService(XBCRootService.class);
+    public boolean shallUpdate(XBACatalog checkedCatalog) {
+        XBCRootService rootService = checkedCatalog.getCatalogService(XBCRootService.class);
 
         if (!rootService.isMainPresent()) {
             return true;

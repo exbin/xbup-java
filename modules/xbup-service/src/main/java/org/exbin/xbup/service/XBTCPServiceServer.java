@@ -28,9 +28,8 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityTransaction;
 import org.exbin.xbup.client.XBLoggingInputStream;
 import org.exbin.xbup.client.XBLoggingOutputStream;
 import org.exbin.xbup.client.XBTCPServiceClient;
@@ -63,13 +62,14 @@ import org.exbin.xbup.core.remote.XBExecutable;
 import org.exbin.xbup.core.remote.XBMultiProcedure;
 import org.exbin.xbup.core.remote.XBProcedure;
 import org.exbin.xbup.core.remote.XBServiceServer;
+import org.exbin.xbup.service.XBTCPServiceServer.CatalogProvider;
 import org.exbin.xbup.service.entity.ServiceELogItem;
 import org.exbin.xbup.service.entity.service.ServiceELogItemService;
 
 /**
  * XBUP level 1 RPC server using TCP/IP networking.
  *
- * @version 0.2.1 2020/09/22
+ * @version 0.2.1 2020/09/23
  * @author ExBin Project (http://exbin.org)
  */
 @ParametersAreNonnullByDefault
@@ -77,22 +77,14 @@ public class XBTCPServiceServer implements XBServiceServer {
 
     private final static int BACK_LOG_LIMIT = 50;
 
-    protected XBACatalog catalog;
     private ServerSocket serverSocket;
+    protected XBACatalog catalog = null;
+    private CatalogProvider catalogProvider;
     private boolean stop;
     private final Map<XBBlockType, XBExecutable> procMap = new HashMap<>();
     private boolean debugMode = false;
-    private final EntityManager entityManager;
 
-    /**
-     * Creates a new instance of XBTCPServiceServer.
-     *
-     * @param entityManager entity manager
-     * @param catalog catalog
-     */
-    public XBTCPServiceServer(EntityManager entityManager, XBACatalog catalog) {
-        this.entityManager = entityManager;
-        this.catalog = catalog;
+    public XBTCPServiceServer() {
         stop = false;
     }
 
@@ -134,9 +126,11 @@ public class XBTCPServiceServer implements XBServiceServer {
                         ? new XBLoggingOutputStream(socket.getOutputStream()) : socket.getOutputStream();
                 XBHead.checkXBUPHead(inputStream);
                 while (!isStop()) {
-                    XBTPullTypeDeclaringFilterNoDeclaration input = new XBTPullTypeDeclaringFilterNoDeclaration(catalog, new XBTPrintPullFilter("I", new XBToXBTPullConvertor(new XBPullReader(inputStream, XBParserMode.SINGLE_BLOCK))));
-                    XBTEventTypeUndeclaringFilterNoDeclaration output = new XBTEventTypeUndeclaringFilterNoDeclaration(catalog, new XBTPrintEventFilter("O", new XBTToXBEventConvertor(new XBEventWriter(outputStream, XBParserMode.SINGLE_BLOCK))));
-                    respondMessage(input, output);
+                    if (catalog == null) {
+                        replaceCatalog();
+                    }
+
+                    respondMessage(inputStream, outputStream);
 
                     if (debugMode) {
                         ServiceELogItem logItem = (ServiceELogItem) logItemService.createItem();
@@ -174,10 +168,19 @@ public class XBTCPServiceServer implements XBServiceServer {
         }
     }
 
-    public void respondMessage(XBTPullTypeDeclaringFilterNoDeclaration input, XBTEventTypeUndeclaringFilterNoDeclaration output) throws IOException, XBProcessingException {
-        EntityTransaction tx = entityManager.getTransaction();
-        tx.begin();
-        XBTTypePreloadingPullProvider preloading = new XBTTypePreloadingPullProvider(input);
+    public void respondMessage(InputStream inputStream, OutputStream outputStream) throws IOException, XBProcessingException {
+        XBTPullTypeDeclaringFilterNoDeclaration input = new XBTPullTypeDeclaringFilterNoDeclaration(catalog, new XBTPrintPullFilter("I", new XBToXBTPullConvertor(new XBPullReader(inputStream, XBParserMode.SINGLE_BLOCK))));
+
+        XBTTypePreloadingPullProvider preloading;
+        try {
+            preloading = new XBTTypePreloadingPullProvider(input);
+        } catch (Exception ex) {
+            replaceCatalog();
+            input.setCatalog(catalog);
+            preloading = new XBTTypePreloadingPullProvider(input);
+        }
+
+        XBTEventTypeUndeclaringFilterNoDeclaration output = new XBTEventTypeUndeclaringFilterNoDeclaration(catalog, new XBTPrintEventFilter("O", new XBTToXBEventConvertor(new XBEventWriter(outputStream, XBParserMode.SINGLE_BLOCK))));
         // TODO do proper matching later
         XBDeclBlockType blockType = (XBDeclBlockType) preloading.getBlockType();
         XBCBlockDecl blockDecl = (XBCBlockDecl) blockType.getBlockDecl();
@@ -196,7 +199,6 @@ public class XBTCPServiceServer implements XBServiceServer {
             throw new UnsupportedOperationException("Not supported yet.");
         }
         eventListener.putXBTToken(XBTEndToken.create());
-        tx.commit();
     }
 
     @Override
@@ -209,10 +211,7 @@ public class XBTCPServiceServer implements XBServiceServer {
         procMap.remove(procedureType);
     }
 
-    public XBACatalog getCatalog() {
-        return catalog;
-    }
-
+    @Nullable
     public ServerSocket getServerSocket() {
         return serverSocket;
     }
@@ -236,6 +235,20 @@ public class XBTCPServiceServer implements XBServiceServer {
 
     public void setDebugMode(boolean debugMode) {
         this.debugMode = debugMode;
+    }
+
+    public void setCatalogProvider(CatalogProvider catalogProvider) {
+        this.catalogProvider = catalogProvider;
+    }
+
+    public void replaceCatalog() {
+        catalog = catalogProvider.createCatalog();
+    }
+
+    public interface CatalogProvider {
+
+        @Nonnull
+        XBACatalog createCatalog();
     }
 
     @ParametersAreNonnullByDefault

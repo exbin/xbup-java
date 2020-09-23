@@ -154,4 +154,8 @@ public class XBLevelContext implements XBTListener, XBTEventListener {
             declarationBuilderListener = null;
         }
     }
+
+    public void replaceCatalog(XBCatalog catalog, XBContext rootContext) {
+        this.catalog = catalog;
+    }
 }

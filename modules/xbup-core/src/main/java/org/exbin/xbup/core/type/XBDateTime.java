@@ -69,6 +69,7 @@ public class XBDateTime implements XBPSerializable {
             int second = serial.pullIntAttribute();
 
             Calendar calendar = Calendar.getInstance();
+            calendar.clear();
             calendar.set(year, month, day, hour, minute, second);
             value = calendar.getTime();
             serial.end();

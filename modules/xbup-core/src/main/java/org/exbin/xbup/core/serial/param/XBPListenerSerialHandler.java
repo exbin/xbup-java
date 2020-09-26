@@ -633,6 +633,16 @@ public class XBPListenerSerialHandler implements XBPOutputSerialHandler, XBPSequ
         throw new XBProcessingException(PULL_NOT_ALLOWED_EXCEPTION, XBProcessingExceptionType.ILLEGAL_OPERATION);
     }
 
+    @Override
+    public boolean isEndNext() {
+        throw new XBProcessingException(PULL_NOT_ALLOWED_EXCEPTION, XBProcessingExceptionType.ILLEGAL_OPERATION);
+    }
+
+    @Override
+    public XBTTokenType getFutureTokenType() {
+        throw new XBProcessingException(PULL_NOT_ALLOWED_EXCEPTION, XBProcessingExceptionType.ILLEGAL_OPERATION);
+    }
+
     @ParametersAreNonnullByDefault
     public static class XBPSerialSequence implements XBPListener {
 
@@ -1064,6 +1074,16 @@ public class XBPListenerSerialHandler implements XBPOutputSerialHandler, XBPSequ
 
         @Override
         public void pullAppend(XBSerializable serial) throws XBProcessingException, IOException {
+            throw new XBProcessingException(PULL_NOT_ALLOWED_EXCEPTION, XBProcessingExceptionType.ILLEGAL_OPERATION);
+        }
+
+        @Override
+        public boolean isEndNext() {
+            throw new XBProcessingException(PULL_NOT_ALLOWED_EXCEPTION, XBProcessingExceptionType.ILLEGAL_OPERATION);
+        }
+
+        @Override
+        public XBTTokenType getFutureTokenType() {
             throw new XBProcessingException(PULL_NOT_ALLOWED_EXCEPTION, XBProcessingExceptionType.ILLEGAL_OPERATION);
         }
 

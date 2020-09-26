@@ -110,7 +110,7 @@ import org.exbin.xbup.core.util.StreamUtils;
 /**
  * XB Catalog import and export to XB.
  *
- * @version 0.2.1 2020/09/15
+ * @version 0.2.1 2020/09/26
  * @author ExBin Project (http://exbin.org)
  */
 @ParametersAreNonnullByDefault
@@ -349,6 +349,7 @@ public class XBCatalogXb {
                     serialInput.putAttribute(specDef.getType().ordinal());
                     serialInput.putAttribute(specDef.getXBIndex());
                     XBCRev targetRev = specDef.getTargetRev().orElse(null);
+                    serialInput.putAttribute(targetRev != null ? 1 : 0);
                     if (targetRev != null) {
                         XBCSpec targetSpec = targetRev.getParent();
                         XBCNode targetSpecNode = targetSpec.getParent();
@@ -357,6 +358,12 @@ public class XBCatalogXb {
                         serialInput.putAttribute(targetSpec.getXBIndex());
                         serialInput.putAttribute(targetRev.getXBIndex());
                     }
+
+                    // Export spec properties
+                    serialInput.begin();
+                    serialInput.putType(new XBFixedBlockType());
+                    exportSpecDefProperties(serialInput, specDef);
+                    serialInput.end();
                     serialInput.end();
                 }
             }
@@ -367,6 +374,58 @@ public class XBCatalogXb {
         List<XBCNode> subNodes = nodeService.getSubNodes(node);
         for (XBCNode subNode : subNodes) {
             exportSpecDefs(serialInput, subNode, itemType);
+        }
+    }
+
+    private void exportSpecDefProperties(XBPListenerSerialHandler serialInput, XBCSpecDef specDef) throws XBProcessingException, IOException {
+        {
+            serialInput.begin();
+            serialInput.putType(new XBFixedBlockType());
+
+            XBCXNameService nameService = catalog.getCatalogService(XBCXNameService.class);
+            List<XBCXName> itemNames = nameService.getItemNames(specDef);
+            for (XBCXName itemName : itemNames) {
+                serialInput.begin();
+                serialInput.putType(new XBFixedBlockType());
+                serialInput.consist(new XBString(itemName.getLang().getLangCode()));
+                serialInput.consist(new XBString(itemName.getText()));
+                serialInput.end();
+            }
+
+            serialInput.end();
+        }
+
+        {
+            serialInput.begin();
+            serialInput.putType(new XBFixedBlockType());
+
+            XBCXDescService descService = catalog.getCatalogService(XBCXDescService.class);
+            List<XBCXDesc> itemDescs = descService.getItemDescs(specDef);
+            for (XBCXDesc itemDesc : itemDescs) {
+                serialInput.begin();
+                serialInput.putType(new XBFixedBlockType());
+                serialInput.consist(new XBString(itemDesc.getLang().getLangCode()));
+                serialInput.consist(new XBString(itemDesc.getText()));
+                serialInput.end();
+            }
+
+            serialInput.end();
+        }
+
+        {
+            serialInput.begin();
+            serialInput.putType(new XBFixedBlockType());
+
+            XBCXStriService striService = catalog.getCatalogService(XBCXStriService.class);
+            XBCXStri stri = striService.getItemStringId(specDef);
+            if (stri != null) {
+                serialInput.begin();
+                serialInput.putType(new XBFixedBlockType());
+                serialInput.consist(new XBString(stri.getText()));
+                serialInput.end();
+            }
+
+            serialInput.end();
         }
     }
 
@@ -751,7 +810,7 @@ public class XBCatalogXb {
 
         serialOutput.pullBegin();
         serialOutput.pullType();
-        while (!serialOutput.isFinishedNext()) {
+        while (!serialOutput.isEndNext()) {
             serialOutput.pullBegin();
             serialOutput.pullType();
             long xbIndex = serialOutput.pullAttribute().getNaturalLong();
@@ -773,7 +832,7 @@ public class XBCatalogXb {
 
         serialOutput.pullBegin();
         serialOutput.pullType();
-        while (!serialOutput.isFinishedNext()) {
+        while (!serialOutput.isEndNext()) {
             serialOutput.pullBegin();
             serialOutput.pullType();
             Long[] nodePath = pullPath(serialOutput);
@@ -804,7 +863,7 @@ public class XBCatalogXb {
 
         serialOutput.pullBegin();
         serialOutput.pullType();
-        while (!serialOutput.isFinishedNext()) {
+        while (!serialOutput.isEndNext()) {
             serialOutput.pullBegin();
             serialOutput.pullType();
             long xbIndex = serialOutput.pullAttribute().getNaturalLong();
@@ -846,7 +905,7 @@ public class XBCatalogXb {
 
         serialOutput.pullBegin();
         serialOutput.pullType();
-        while (!serialOutput.isFinishedNext()) {
+        while (!serialOutput.isEndNext()) {
             serialOutput.pullBegin();
             serialOutput.pullType();
             long xbIndex = serialOutput.pullAttribute().getNaturalLong();
@@ -854,7 +913,7 @@ public class XBCatalogXb {
             XBENode node = (XBENode) nodeService.findNodeByXBPath(nodePath);
 
             List<RevRecord> revRecords = new ArrayList<>();
-            while (!serialOutput.isFinishedNext()) {
+            while (!serialOutput.isEndNext()) {
                 RevRecord revRecord = new RevRecord();
                 serialOutput.pullBegin();
                 serialOutput.pullType();
@@ -915,10 +974,14 @@ public class XBCatalogXb {
         XBCNodeService nodeService = catalog.getCatalogService(XBCNodeService.class);
         XBCSpecService specService = catalog.getCatalogService(XBCSpecService.class);
         XBCRevService revService = catalog.getCatalogService(XBCRevService.class);
+        XBCXLangService langService = catalog.getCatalogService(XBCXLangService.class);
+        XBCXNameService nameService = catalog.getCatalogService(XBCXNameService.class);
+        XBCXDescService descService = catalog.getCatalogService(XBCXDescService.class);
+        XBCXStriService striService = catalog.getCatalogService(XBCXStriService.class);
 
         serialOutput.pullBegin();
         serialOutput.pullType();
-        while (!serialOutput.isFinishedNext()) {
+        while (!serialOutput.isEndNext()) {
             serialOutput.pullBegin();
             serialOutput.pullType();
             long xbIndex = serialOutput.pullAttribute().getNaturalLong();
@@ -926,14 +989,14 @@ public class XBCatalogXb {
             XBENode node = (XBENode) nodeService.findNodeByXBPath(nodePath);
 
             List<SpecDefRecord> specDefRecords = new ArrayList<>();
-            while (!serialOutput.isFinishedNext()) {
+            while (!serialOutput.isEndNext()) {
                 SpecDefRecord specDefRecord = new SpecDefRecord();
                 serialOutput.pullBegin();
                 serialOutput.pullType();
                 specDefRecord.type = serialOutput.pullIntAttribute();
                 specDefRecord.xbIndex = serialOutput.pullLongAttribute();
-
-                if (!serialOutput.isFinishedNext()) {
+                byte isPresent = serialOutput.pullByteAttribute();
+                if (isPresent == 1) {
                     specDefRecord.targetNodePath = pullPath(serialOutput);
                     specDefRecord.targetSpecIndex = serialOutput.pullLongAttribute();
                     specDefRecord.targetRevIndex = serialOutput.pullLongAttribute();
@@ -941,7 +1004,80 @@ public class XBCatalogXb {
                     specDefRecord.targetNodePath = null;
                 }
 
+                // Process properties
+                serialOutput.pullBegin();
+                serialOutput.pullType();
+
+                {
+                    serialOutput.pullBegin();
+                    serialOutput.pullType();
+                    while (!serialOutput.isEndNext()) {
+                        serialOutput.pullBegin();
+                        serialOutput.pullType();
+                        XBString langCode = new XBString();
+                        serialOutput.pullConsist(langCode);
+                        XBString text = new XBString();
+                        serialOutput.pullConsist(text);
+                        serialOutput.pullEnd();
+
+                        // TODO Support for more languages
+                        Optional<XBCXLanguage> optionalLanguage = langService.findByCode(langCode.getValue());
+                        if (!optionalLanguage.isEmpty()) {
+                            XBCXLanguage language = optionalLanguage.get();
+                            XBEXName name = (XBEXName) nameService.createItem();
+                            name.setText(text.getValue());
+                            name.setLang(language);
+
+                            specDefRecord.names.add(name);
+                        }
+                    }
+                    serialOutput.pullEnd();
+                }
+                {
+                    serialOutput.pullBegin();
+                    serialOutput.pullType();
+                    while (!serialOutput.isEndNext()) {
+                        serialOutput.pullBegin();
+                        serialOutput.pullType();
+                        XBString langCode = new XBString();
+                        serialOutput.pullConsist(langCode);
+                        XBString text = new XBString();
+                        serialOutput.pullConsist(text);
+                        serialOutput.pullEnd();
+
+                        // TODO Support for more languages
+                        Optional<XBCXLanguage> optionalLanguage = langService.findByCode(langCode.getValue());
+                        if (!optionalLanguage.isEmpty()) {
+                            XBCXLanguage language = optionalLanguage.get();
+                            XBEXDesc desc = (XBEXDesc) descService.createItem();
+                            desc.setText(text.getValue());
+                            desc.setLang(language);
+
+                            specDefRecord.descs.add(desc);
+                        }
+                    }
+                    serialOutput.pullEnd();
+                }
+                {
+                    serialOutput.pullBegin();
+                    serialOutput.pullType();
+                    if (!serialOutput.isEndNext()) {
+                        serialOutput.pullBegin();
+                        serialOutput.pullType();
+                        XBString text = new XBString();
+                        serialOutput.pullConsist(text);
+                        serialOutput.pullEnd();
+
+                        XBEXStri stri = (XBEXStri) striService.createItem();
+                        stri.setText(text.getValue());
+
+                        specDefRecord.stri = stri;
+                    }
+                    serialOutput.pullEnd();
+                }
                 serialOutput.pullEnd();
+                serialOutput.pullEnd();
+
                 specDefRecords.add(specDefRecord);
             }
 
@@ -963,6 +1099,7 @@ public class XBCatalogXb {
                                     def.setTarget(targetRev);
                                 }
                                 specService.persistSpecDef(def);
+                                importSpecDefProperties(def, specDefRecord, nameService, descService, striService);
                                 break;
                             }
                             case JOIN: {
@@ -974,6 +1111,7 @@ public class XBCatalogXb {
                                     def.setTarget(targetRev);
                                 }
                                 specService.persistSpecDef(def);
+                                importSpecDefProperties(def, specDefRecord, nameService, descService, striService);
                                 break;
                             }
                             case LIST_CONSIST: {
@@ -985,6 +1123,7 @@ public class XBCatalogXb {
                                     def.setTarget(targetRev);
                                 }
                                 specService.persistSpecDef(def);
+                                importSpecDefProperties(def, specDefRecord, nameService, descService, striService);
                                 break;
                             }
                             case LIST_JOIN: {
@@ -996,6 +1135,7 @@ public class XBCatalogXb {
                                     def.setTarget(targetRev);
                                 }
                                 specService.persistSpecDef(def);
+                                importSpecDefProperties(def, specDefRecord, nameService, descService, striService);
                                 break;
                             }
                         }
@@ -1017,6 +1157,7 @@ public class XBCatalogXb {
                                     def.setTarget(targetRev);
                                 }
                                 specService.persistSpecDef(def);
+                                importSpecDefProperties(def, specDefRecord, nameService, descService, striService);
                                 break;
                             }
                             case JOIN: {
@@ -1028,6 +1169,7 @@ public class XBCatalogXb {
                                     def.setTarget(targetRev);
                                 }
                                 specService.persistSpecDef(def);
+                                importSpecDefProperties(def, specDefRecord, nameService, descService, striService);
                                 break;
                             }
                         }
@@ -1049,6 +1191,7 @@ public class XBCatalogXb {
                                     def.setTarget(targetRev);
                                 }
                                 specService.persistSpecDef(def);
+                                importSpecDefProperties(def, specDefRecord, nameService, descService, striService);
                                 break;
                             }
                             case JOIN: {
@@ -1060,6 +1203,7 @@ public class XBCatalogXb {
                                     def.setTarget(targetRev);
                                 }
                                 specService.persistSpecDef(def);
+                                importSpecDefProperties(def, specDefRecord, nameService, descService, striService);
                                 break;
                             }
                         }
@@ -1069,6 +1213,23 @@ public class XBCatalogXb {
             }
         }
         serialOutput.pullEnd();
+    }
+
+    private void importSpecDefProperties(XBCSpecDef specDef, SpecDefRecord specDefRecord, XBCXNameService nameService, XBCXDescService descService, XBCXStriService striService) {
+        for (XBEXName name : specDefRecord.names) {
+            name.setItem(specDef);
+            nameService.persistItem(name);
+        }
+        
+        for (XBEXDesc desc : specDefRecord.descs) {
+            desc.setItem(specDef);
+            descService.persistItem(desc);
+        }
+        
+        if (specDefRecord.stri != null) {
+            specDefRecord.stri.setItem(specDef);
+            striService.persistItem(specDefRecord.stri);
+        }
     }
 
     private void importProperties(XBPProviderSerialHandler serialOutput, CatalogItemType itemType) throws XBProcessingException, IOException {
@@ -1086,7 +1247,7 @@ public class XBCatalogXb {
 
         serialOutput.pullBegin();
         serialOutput.pullType();
-        while (!serialOutput.isFinishedNext()) {
+        while (!serialOutput.isEndNext()) {
             serialOutput.pullBegin();
             serialOutput.pullType();
             long xbIndex = serialOutput.pullAttribute().getNaturalLong();
@@ -1123,7 +1284,7 @@ public class XBCatalogXb {
 
         serialOutput.pullBegin();
         serialOutput.pullType();
-        while (!serialOutput.isFinishedNext()) {
+        while (!serialOutput.isEndNext()) {
             serialOutput.pullBegin();
             serialOutput.pullType();
             long xbIndex = serialOutput.pullAttribute().getNaturalLong();
@@ -1157,7 +1318,7 @@ public class XBCatalogXb {
 
         serialOutput.pullBegin();
         serialOutput.pullType();
-        while (!serialOutput.isFinishedNext()) {
+        while (!serialOutput.isEndNext()) {
             serialOutput.pullBegin();
             serialOutput.pullType();
             long xbIndex = serialOutput.pullAttribute().getNaturalLong();
@@ -1185,7 +1346,7 @@ public class XBCatalogXb {
 
         serialOutput.pullBegin();
         serialOutput.pullType();
-        while (!serialOutput.isFinishedNext()) {
+        while (!serialOutput.isEndNext()) {
             serialOutput.pullBegin();
             serialOutput.pullType();
             long xbIndex = serialOutput.pullAttribute().getNaturalLong();
@@ -1219,7 +1380,7 @@ public class XBCatalogXb {
 
         serialOutput.pullBegin();
         serialOutput.pullType();
-        while (!serialOutput.isFinishedNext()) {
+        while (!serialOutput.isEndNext()) {
             serialOutput.pullBegin();
             serialOutput.pullType();
             long xbIndex = serialOutput.pullAttribute().getNaturalLong();
@@ -1252,7 +1413,7 @@ public class XBCatalogXb {
 
         serialOutput.pullBegin();
         serialOutput.pullType();
-        while (!serialOutput.isFinishedNext()) {
+        while (!serialOutput.isEndNext()) {
             serialOutput.pullBegin();
             serialOutput.pullType();
             Long[] nodePath = pullPath(serialOutput);
@@ -1286,7 +1447,7 @@ public class XBCatalogXb {
 
         serialOutput.pullBegin();
         serialOutput.pullType();
-        while (!serialOutput.isFinishedNext()) {
+        while (!serialOutput.isEndNext()) {
             serialOutput.pullBegin();
             serialOutput.pullType();
             Long[] pluginNodePath = pullPath(serialOutput);
@@ -1297,7 +1458,7 @@ public class XBCatalogXb {
             XBString name = new XBString();
             serialOutput.pullConsist(name);
             serialOutput.pullEnd();
-            
+
             XBCXPlugin plugin = plugService.findPlugin(pluginNode, pluginIndex);
             XBEXPlugUi plugUi = (XBEXPlugUi) uiService.createPlugUi();
             plugUi.setMethodIndex(methodIndex);
@@ -1307,10 +1468,10 @@ public class XBCatalogXb {
             uiService.persistPlugUi(plugUi);
         }
         serialOutput.pullEnd();
-        
+
         serialOutput.pullBegin();
         serialOutput.pullType();
-        while (!serialOutput.isFinishedNext()) {
+        while (!serialOutput.isEndNext()) {
             serialOutput.pullBegin();
             serialOutput.pullType();
             Long[] pluginNodePath = pullPath(serialOutput);
@@ -1326,7 +1487,7 @@ public class XBCatalogXb {
             XBString name = new XBString();
             serialOutput.pullConsist(name);
             serialOutput.pullEnd();
-            
+
             XBCXPlugin plugin = plugService.findPlugin(pluginNode, pluginIndex);
             XBCXPlugUi plugUi = uiService.getPlugUi(plugin, XBPlugUiType.findByDbIndex(uiTypeId), methodIndex);
             XBCBlockSpec blockSpec = specService.findBlockSpecByXB(specNode, specXbIndex);
@@ -1416,6 +1577,10 @@ public class XBCatalogXb {
     }
 
     private static class SpecDefRecord {
+
+        List<XBEXName> names = new ArrayList<>();
+        List<XBEXDesc> descs = new ArrayList<>();
+        XBEXStri stri = null;
 
         int type;
         long xbIndex;

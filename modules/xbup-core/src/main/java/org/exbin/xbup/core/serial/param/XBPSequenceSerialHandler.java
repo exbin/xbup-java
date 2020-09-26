@@ -15,14 +15,31 @@
  */
 package org.exbin.xbup.core.serial.param;
 
+import javax.annotation.Nullable;
+import org.exbin.xbup.core.parser.token.XBTTokenType;
 import org.exbin.xbup.core.serial.XBSerialHandler;
 
 /**
  * Interface for XBUP level 2 serialization handler using serialization
  * sequence.
  *
- * @version 0.1.24 2014/12/06
+ * @version 0.2.1 2020/09/26
  * @author ExBin Project (http://exbin.org)
  */
 public interface XBPSequenceSerialHandler extends XBSerialHandler, XBPSequencer {
+
+    /**
+     * Returns true if next future pull token is end token.
+     *
+     * @return true if next future pull token is end token
+     */
+    boolean isEndNext();
+
+    /**
+     * Returns future token type for next token pulling operation.
+     *
+     * @return token type
+     */
+    @Nullable
+    XBTTokenType getFutureTokenType();
 }

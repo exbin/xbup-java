@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 import org.exbin.xbup.core.block.XBBasicBlockType;
 import org.exbin.xbup.core.block.XBBlockTerminationMode;
@@ -67,7 +68,7 @@ import org.exbin.xbup.core.ubnumber.type.UBENat32;
 /**
  * XBUP level 2 serialization handler using parameter mapping to provider.
  *
- * @version 0.2.1 2020/09/11
+ * @version 0.2.1 2020/09/26
  * @author ExBin Project (http://exbin.org)
  */
 @ParametersAreNonnullByDefault
@@ -177,7 +178,7 @@ public class XBPProviderSerialHandler implements XBPInputSerialHandler, XBPSeque
     @Override
     public boolean pullIfEmptyBlock() throws XBProcessingException, IOException {
         pullProvider.processAttributes();
-        if (pullProvider.isFinishedNext()) {
+        if (pullProvider.isEndNext()) {
             return true;
         }
 
@@ -194,8 +195,14 @@ public class XBPProviderSerialHandler implements XBPInputSerialHandler, XBPSeque
         return false;
     }
 
-    public boolean isFinishedNext() {
-        return pullProvider.isFinishedNext();
+    @Override
+    public boolean isEndNext() {
+        return pullProvider.isEndNext();
+    }
+
+    @Override
+    public XBTTokenType getFutureTokenType() {
+        return pullProvider.getFutureTokenType();
     }
 
     @Override
@@ -401,7 +408,7 @@ public class XBPProviderSerialHandler implements XBPInputSerialHandler, XBPSeque
         return finished && paramTypes.isEmpty();
     }
 
-    private void extractSerial(XBSerializable serial, XBPProvider provider) throws IOException, XBProcessingException {
+    private void extractSerial(XBSerializable serial, XBPProviderSerialHandler provider) throws IOException, XBProcessingException {
         if (serial instanceof XBPSerializable) {
             ((XBPSerializable) serial).serializeFromXB(
                     provider instanceof XBPInputSerialHandler ? (XBPInputSerialHandler) provider : new SerialHandlerWrapper(provider)
@@ -687,12 +694,18 @@ public class XBPProviderSerialHandler implements XBPInputSerialHandler, XBPSeque
         }
 
         /**
-         * Returns true if block will be finished with next token.
+         * Returns token type of the next token while keeping it still in
+         * stream.
          *
-         * @return true if block will be finished next
+         * @return token type
          */
-        public boolean isFinishedNext() {
-            return pullProvider.getNextTokenType() == XBTTokenType.END;
+        @Nullable
+        public XBTTokenType getFutureTokenType() {
+            return pullProvider.getNextTokenType();
+        }
+
+        public boolean isEndNext() {
+            return getFutureTokenType() == XBTTokenType.END;
         }
 
         @Nonnull
@@ -718,9 +731,9 @@ public class XBPProviderSerialHandler implements XBPInputSerialHandler, XBPSeque
     @ParametersAreNonnullByDefault
     private static class SerialHandlerWrapper implements XBTChildInputSerialHandler, XBTBasicInputSerialHandler, XBPInputSerialHandler, XBPSequenceSerialHandler {
 
-        private final XBPProvider provider;
+        private final XBPProviderSerialHandler provider;
 
-        public SerialHandlerWrapper(XBPProvider provider) {
+        public SerialHandlerWrapper(XBPProviderSerialHandler provider) {
             this.provider = provider;
         }
 
@@ -988,6 +1001,17 @@ public class XBPProviderSerialHandler implements XBPInputSerialHandler, XBPSeque
         @Override
         public void pullItem(XBSerialSequenceItem item) throws XBProcessingException, IOException {
             provider.pullItem(item);
+        }
+
+        @Override
+        public boolean isEndNext() {
+            return provider.isEndNext();
+        }
+
+        @Nullable
+        @Override
+        public XBTTokenType getFutureTokenType() {
+            return provider.getFutureTokenType();
         }
     }
 }

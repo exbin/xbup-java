@@ -141,6 +141,7 @@ public class XBDefaultModuleRepository implements XBModuleRepository {
         }
 
         XBModuleInfo moduleInfo = new XBModuleInfo();
+        moduleInfo.setClassLoader(getClass().getClassLoader());
         if (moduleRecordStream != null) {
             try {
                 XBPullReader pullReader = new XBPullReader(moduleRecordStream);
@@ -159,11 +160,20 @@ public class XBDefaultModuleRepository implements XBModuleRepository {
                     ClassLoader loader;
                     loader = URLClassLoader.newInstance(
                             new URL[]{libraryUri.toURL()},
-                            getClass().getClassLoader()
+                            moduleInfo.getClassLoader()
                     );
                     clazz = Class.forName(moduleInfo.getModuleId(), true, loader);
+                    moduleInfo.setClassLoader(loader);
                 } else {
                     clazz = Class.forName(moduleInfo.getModuleId());
+//                    ClassLoader loader;
+//                    loader = URLClassLoader.newInstance(
+//                            new URL[]{new URL("file:///home/hajdam/Software/Projekty/exbin/xbup-tools-java/tools/xbeditor/plugins/exbin-framework-darcula-laf-0.2.1-SNAPSHOT.jar")},
+//                            moduleInfo.getClassLoader()
+//                    );
+//                    
+//                    clazz = Class.forName(moduleInfo.getModuleId(), true, loader);
+//                    moduleInfo.setClassLoader(loader);
                 }
                 Constructor<?> ctor = clazz.getConstructor();
                 module = (XBModule) ctor.newInstance();
@@ -178,7 +188,7 @@ public class XBDefaultModuleRepository implements XBModuleRepository {
 
     private void addModule(XBModule module) {
         String canonicalName = module.getClass().getCanonicalName();
-        XBModuleInfo moduleInfo = new XBModuleInfo(canonicalName, module);
+        XBModuleInfo moduleInfo = new XBModuleInfo(canonicalName, module, module.getClass().getClassLoader());
         URL moduleClassLocation = moduleInfo.getClass().getProtectionDomain().getCodeSource().getLocation();
         URL moduleRecordUrl;
         InputStream moduleRecordStream = null;
@@ -205,8 +215,23 @@ public class XBDefaultModuleRepository implements XBModuleRepository {
      */
     @Override
     public void initModules() {
-        // Process dependencies
         List<XBModuleRecord> unprocessedModules = new ArrayList<>(modules.values());
+        // Priority modules first, ignore dependecy for now
+        {
+            int moduleIndex = 0;
+            while (moduleIndex < unprocessedModules.size()) {
+                XBModuleRecord moduleRecord = unprocessedModules.get(moduleIndex);
+                XBModule module = moduleRecord.getModule();
+                if (module instanceof LookAndFeelApplier) {
+                    module.init(moduleHandler);
+                    unprocessedModules.remove(moduleIndex);
+                } else {
+                    moduleIndex++;
+                }
+            }
+        }
+
+        // Process dependencies
         int preRoundCount;
         int postRoundCount;
         do {

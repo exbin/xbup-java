@@ -22,6 +22,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 import org.exbin.xbup.core.parser.XBProcessingException;
 import org.exbin.xbup.core.parser.token.XBTDataToken;
@@ -100,10 +101,12 @@ public class XBTPullPreLoader implements XBTPullFilter {
         return returnToken;
     }
 
+    @Nullable
     public XBTToken getNextToken() {
         return nextToken;
     }
 
+    @Nullable
     public XBTTokenType getNextTokenType() {
         return nextToken != null ? nextToken.getTokenType() : null;
     }

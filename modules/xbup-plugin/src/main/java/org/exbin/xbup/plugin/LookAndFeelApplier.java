@@ -13,15 +13,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.exbin.xbup.catalog.convert;
+package org.exbin.xbup.plugin;
+
+import javax.annotation.ParametersAreNonnullByDefault;
 
 /**
- * Catalog Specification Item Type.
+ * Interface for application module management.
  *
  * @version 0.2.1 2020/09/26
  * @author ExBin Project (http://exbin.org)
  */
-public enum CatalogItemType {
+@ParametersAreNonnullByDefault
+public interface LookAndFeelApplier {
 
-    NODE, FORMAT, GROUP, BLOCK, SPEC
+    /**
+     * Apply look and feel.
+     *
+     * @param className LaF class name
+     */
+    void applyLookAndFeel(String className);
 }

@@ -23,6 +23,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 import org.exbin.xbup.core.parser.XBProcessingException;
 import org.exbin.xbup.core.parser.token.XBAttributeToken;
@@ -48,7 +49,7 @@ import org.exbin.xbup.core.ubnumber.type.UBNat32;
 /**
  * Record about single module.
  *
- * @version 0.2.1 2017/05/19
+ * @version 0.2.1 2020/09/26
  * @author ExBin Project (http://exbin.org)
  */
 @ParametersAreNonnullByDefault
@@ -58,6 +59,7 @@ public class XBModuleInfo implements XBPSequenceSerializable, XBModuleRecord {
 
     private String moduleId;
     private XBModule module;
+    private ClassLoader classLoader;
     private String name;
     private String description;
     private final List<String> optionalModuleIds = new ArrayList<>();
@@ -66,14 +68,19 @@ public class XBModuleInfo implements XBPSequenceSerializable, XBModuleRecord {
     public XBModuleInfo() {
     }
 
-    public XBModuleInfo(String moduleId, XBModule module) {
+    private XBModuleInfo(String moduleId) {
+        this.moduleId = moduleId;
+    }
+
+    public XBModuleInfo(String moduleId, XBModule module, ClassLoader classLoader) {
         this.moduleId = moduleId;
         this.module = module;
+        this.classLoader = classLoader;
     }
 
     // Temporary method to create module file.
     public static void main(String[] params) {
-        XBModuleInfo module = new XBModuleInfo("org.exbin.framework.gui.help.GuiHelpModule", null);
+        XBModuleInfo module = new XBModuleInfo("org.exbin.framework.gui.help.GuiHelpModule");
         module.setName("XBUP Help Support Module");
         module.setDescription("Module supporting basic help support");
         String[] depedency = new String[]{}; // "org.exbin.framework.gui.file.GuiFileModule", "org.exbin.framework.gui.menu.GuiMenuModule" };
@@ -89,7 +96,7 @@ public class XBModuleInfo implements XBPSequenceSerializable, XBModuleRecord {
 
     }
 
-    @Nonnull
+    @Nullable
     @Override
     public String getModuleId() {
         return moduleId;
@@ -106,6 +113,18 @@ public class XBModuleInfo implements XBPSequenceSerializable, XBModuleRecord {
 
     public void setModule(XBModule module) {
         this.module = module;
+    }
+
+    @Nonnull
+    public ClassLoader getClassLoader() {
+        if (classLoader == null) {
+            throw new IllegalStateException("Attempt to use uninitialized module");
+        }
+        return classLoader;
+    }
+
+    public void setClassLoader(ClassLoader classLoader) {
+        this.classLoader = classLoader;
     }
 
     @Nonnull

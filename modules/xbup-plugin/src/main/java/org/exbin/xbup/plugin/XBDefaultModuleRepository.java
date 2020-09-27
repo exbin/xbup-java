@@ -166,14 +166,6 @@ public class XBDefaultModuleRepository implements XBModuleRepository {
                     moduleInfo.setClassLoader(loader);
                 } else {
                     clazz = Class.forName(moduleInfo.getModuleId());
-//                    ClassLoader loader;
-//                    loader = URLClassLoader.newInstance(
-//                            new URL[]{new URL("file:///home/hajdam/Software/Projekty/exbin/xbup-tools-java/tools/xbeditor/plugins/exbin-framework-darcula-laf-0.2.1-SNAPSHOT.jar")},
-//                            moduleInfo.getClassLoader()
-//                    );
-//                    
-//                    clazz = Class.forName(moduleInfo.getModuleId(), true, loader);
-//                    moduleInfo.setClassLoader(loader);
                 }
                 Constructor<?> ctor = clazz.getConstructor();
                 module = (XBModule) ctor.newInstance();

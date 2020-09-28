@@ -15,6 +15,7 @@
  */
 package org.exbin.xbup.plugin;
 
+import java.io.ByteArrayOutputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -118,7 +119,9 @@ public class XBPluginRepository {
             }
             if (pluginRecordStream != null) {
                 try {
-                    String className = new String(pluginRecordStream.readAllBytes(), StringUtils.ENCODING_UTF8);
+                    ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+                    StreamUtils.copyInputStreamToOutputStream(pluginRecordStream, outputStream);
+                    String className = new String(outputStream.toByteArray(), StringUtils.ENCODING_UTF8);
                     Class<?> clazz = Class.forName(className, true, loader);
                     Constructor<?> ctor = clazz.getConstructor();
                     return (XBCatalogPlugin) ctor.newInstance();

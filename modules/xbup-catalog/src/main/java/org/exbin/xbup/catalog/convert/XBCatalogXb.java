@@ -1022,7 +1022,7 @@ public class XBCatalogXb {
 
                         // TODO Support for more languages
                         Optional<XBCXLanguage> optionalLanguage = langService.findByCode(langCode.getValue());
-                        if (!optionalLanguage.isEmpty()) {
+                        if (optionalLanguage.isPresent()) {
                             XBCXLanguage language = optionalLanguage.get();
                             XBEXName name = (XBEXName) nameService.createItem();
                             name.setText(text.getValue());
@@ -1047,7 +1047,7 @@ public class XBCatalogXb {
 
                         // TODO Support for more languages
                         Optional<XBCXLanguage> optionalLanguage = langService.findByCode(langCode.getValue());
-                        if (!optionalLanguage.isEmpty()) {
+                        if (optionalLanguage.isPresent()) {
                             XBCXLanguage language = optionalLanguage.get();
                             XBEXDesc desc = (XBEXDesc) descService.createItem();
                             desc.setText(text.getValue());
@@ -1260,10 +1260,10 @@ public class XBCatalogXb {
             serialOutput.pullConsist(text);
             serialOutput.pullEnd();
 
-            if (itemType != CatalogItemType.NODE || !item.getParentItem().isEmpty()) {
+            if (itemType != CatalogItemType.NODE || item.getParentItem().isPresent()) {
                 // TODO Support for more languages
                 Optional<XBCXLanguage> optionalLanguage = langService.findByCode(langCode.getValue());
-                if (!optionalLanguage.isEmpty()) {
+                if (optionalLanguage.isPresent()) {
                     XBCXLanguage language = optionalLanguage.get();
                     XBEXName name = (XBEXName) nameService.createItem();
                     name.setItem(item);
@@ -1299,7 +1299,7 @@ public class XBCatalogXb {
 
             // TODO Support for more languages
             Optional<XBCXLanguage> optionalLanguage = langService.findByCode(langCode.getValue());
-            if (!optionalLanguage.isEmpty()) {
+            if (optionalLanguage.isPresent()) {
                 XBCXLanguage language = optionalLanguage.get();
                 XBEXDesc desc = (XBEXDesc) descService.createItem();
                 desc.setItem(item);

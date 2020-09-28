@@ -10,8 +10,8 @@ This should provide following advantages:
  * Flexibility - General framework should provide data transformations/processing and compatibility issues solving capability
  * Comprehensibility - Catalog of data types, metadata, relations and abstraction should allow better understanding of data
 
-Homepage: http://xbup.exbin.org
-Version: 0.2.1-SNAPSHOT
+Homepage: https://xbup.exbin.org
+Version: 0.2.1
 
 This repository contains Java implementation of the protocol and support tools and sample files.
 

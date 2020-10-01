@@ -33,7 +33,7 @@ import org.springframework.stereotype.Service;
 /**
  * Interface for XBENode items service.
  *
- * @version 0.2.1 2020/08/26
+ * @version 0.2.2 2020/10/01
  * @author ExBin Project (http://exbin.org)
  */
 @ParametersAreNonnullByDefault
@@ -112,5 +112,10 @@ public class XBENodeService extends XBEDefaultService<XBCNode> implements XBCNod
     @Override
     public long getSubNodesSeq(XBCNode node) {
         return ((XBENodeManager) itemManager).getSubNodesSeq(node);
+    }
+
+    @Override
+    public void removeNodeFully(XBCNode node) {
+        ((XBENodeManager) itemManager).removeNodeFully(node);
     }
 }

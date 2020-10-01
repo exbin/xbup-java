@@ -101,4 +101,9 @@ public class XBRNodeManager extends XBRDefaultManager<XBCNode> implements XBCNod
     public long getSubNodesSeq(XBCNode node) {
         return nodeStub.getSubNodesSeq(node);
     }
+
+    @Override
+    public void removeNodeFully(XBCNode node) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
 }

@@ -24,7 +24,9 @@ import javax.annotation.PostConstruct;
 import org.exbin.xbup.catalog.XBECatalog;
 import org.exbin.xbup.catalog.entity.XBERoot;
 import org.exbin.xbup.catalog.entity.manager.XBERootManager;
+import org.exbin.xbup.core.catalog.base.XBCNode;
 import org.exbin.xbup.core.catalog.base.XBCRoot;
+import org.exbin.xbup.core.catalog.base.manager.XBCNodeManager;
 import org.exbin.xbup.core.catalog.base.manager.XBCRootManager;
 import org.exbin.xbup.core.catalog.base.service.XBCRootService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -83,5 +85,12 @@ public class XBERootService extends XBEDefaultService<XBCRoot> implements XBCRoo
     @Override
     public void setMainLastUpdateToNow() {
         ((XBERootManager) itemManager).setMainLastUpdateToNow();
+    }
+
+    @Override
+    public void removeAllForRoot(XBCRoot root) {
+        XBCNode rootNode = root.getNode();
+        XBCNodeManager nodeManager = catalog.getCatalogManager(XBCNodeManager.class);
+        nodeManager.removeNodeFully(rootNode);
     }
 }

@@ -24,7 +24,7 @@ import org.exbin.xbup.core.catalog.base.XBCNode;
 /**
  * Interface for XBCNode items service.
  *
- * @version 0.2.1 2020/08/26
+ * @version 0.2.2 2020/10/01
  * @author ExBin Project (http://exbin.org)
  */
 @ParametersAreNonnullByDefault
@@ -121,4 +121,11 @@ public interface XBCNodeService extends XBCService<XBCNode> {
      * @return XB index or null
      */
     Long findMaxSubNodeXB(XBCNode node);
+
+    /**
+     * Removes node including all dependencies.
+     *
+     * @param node target node
+     */
+    void removeNodeFully(XBCNode node);
 }

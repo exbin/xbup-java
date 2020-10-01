@@ -204,4 +204,11 @@ public class XBENodeManager extends XBEDefaultCatalogManager<XBCNode> implements
             return 0;
         }
     }
+
+    @Override
+    public void removeNodeFully(XBCNode node) {
+        throw new UnsupportedOperationException("Not supported yet.");
+        
+        // removeItem(node);
+    }
 }

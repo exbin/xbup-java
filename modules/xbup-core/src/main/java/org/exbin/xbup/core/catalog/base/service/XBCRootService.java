@@ -24,7 +24,7 @@ import org.exbin.xbup.core.catalog.base.XBCRoot;
 /**
  * Interface for XBCRoot items service.
  *
- * @version 0.2.1 2020/08/26
+ * @version 0.2.2 2020/10/01
  * @author ExBin Project (http://exbin.org)
  */
 @ParametersAreNonnullByDefault
@@ -65,4 +65,10 @@ public interface XBCRootService extends XBCService<XBCRoot> {
      */
     void setMainLastUpdateToNow();
 
+    /**
+     * Removes all items related to specific catalog root.
+     *
+     * @param root catalog root
+     */
+    void removeAllForRoot(XBCRoot root);
 }

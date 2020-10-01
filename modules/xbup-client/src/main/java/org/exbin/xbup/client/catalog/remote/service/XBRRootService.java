@@ -21,7 +21,9 @@ import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 import org.exbin.xbup.client.catalog.XBRCatalog;
 import org.exbin.xbup.client.catalog.remote.manager.XBRRootManager;
+import org.exbin.xbup.core.catalog.base.XBCNode;
 import org.exbin.xbup.core.catalog.base.XBCRoot;
+import org.exbin.xbup.core.catalog.base.manager.XBCNodeManager;
 import org.exbin.xbup.core.catalog.base.manager.XBCRootManager;
 import org.exbin.xbup.core.catalog.base.service.XBCRootService;
 
@@ -64,5 +66,12 @@ public class XBRRootService extends XBRDefaultService<XBCRoot> implements XBCRoo
     @Override
     public void setMainLastUpdate(Date updateDate) {
         ((XBRRootManager) itemManager).setMainLastUpdate(updateDate);
+    }
+
+    @Override
+    public void removeAllForRoot(XBCRoot root) {
+        XBCNode rootNode = root.getNode();
+        XBCNodeManager nodeManager = catalog.getCatalogManager(XBCNodeManager.class);
+        nodeManager.removeNodeFully(rootNode);
     }
 }

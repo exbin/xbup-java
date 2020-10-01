@@ -96,4 +96,9 @@ public class XBRNodeService extends XBRDefaultService<XBCNode> implements XBCNod
     public long getSubNodesSeq(XBCNode node) {
         return ((XBRNodeManager) itemManager).getSubNodesSeq(node);
     }
+
+    @Override
+    public void removeNodeFully(XBCNode node) {
+        ((XBRNodeManager) itemManager).removeNodeFully(node);
+    }
 }

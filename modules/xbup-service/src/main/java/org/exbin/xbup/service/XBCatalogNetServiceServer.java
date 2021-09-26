@@ -25,7 +25,6 @@ import java.util.logging.Logger;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
-import javax.persistence.EntityManager;
 import org.exbin.xbup.catalog.XBAECatalog;
 import org.exbin.xbup.client.update.XBCUpdateHandler;
 import org.exbin.xbup.core.catalog.XBACatalog;

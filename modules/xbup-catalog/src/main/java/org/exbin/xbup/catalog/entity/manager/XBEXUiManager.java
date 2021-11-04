@@ -17,6 +17,7 @@ package org.exbin.xbup.catalog.entity.manager;
 
 import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
+import java.util.Collections;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -103,10 +104,10 @@ public class XBEXUiManager extends XBEDefaultCatalogManager<XBCXBlockUi> impleme
         try {
             return (List<XBCXBlockUi>) catalog.getEntityManager().createQuery("SELECT object(o) FROM XBXBlockUi as o WHERE o.blockRev.id = " + ((XBEBlockRev) rev).getId()).getResultList();
         } catch (NoResultException e) {
-            return List.of();
+            return Collections.emptyList();
         } catch (Exception ex) {
             Logger.getLogger(XBEXUiManager.class.getName()).log(Level.SEVERE, null, ex);
-            return List.of();
+            return Collections.emptyList();
         }
     }
 
@@ -116,10 +117,10 @@ public class XBEXUiManager extends XBEDefaultCatalogManager<XBCXBlockUi> impleme
         try {
             return (List<XBCXBlockUi>) catalog.getEntityManager().createQuery("SELECT object(o) FROM XBXBlockUi as o WHERE o.blockRev.id = " + ((XBEBlockRev) rev).getId() + " AND o.plugUi.uiType.id = " + type.getDbIndex()).getResultList();
         } catch (NoResultException e) {
-            return List.of();
+            return Collections.emptyList();
         } catch (Exception ex) {
             Logger.getLogger(XBEXUiManager.class.getName()).log(Level.SEVERE, null, ex);
-            return List.of();
+            return Collections.emptyList();
         }
     }
 
@@ -174,10 +175,10 @@ public class XBEXUiManager extends XBEDefaultCatalogManager<XBCXBlockUi> impleme
         try {
             return (List<XBCXPlugUi>) catalog.getEntityManager().createQuery("SELECT object(o) FROM XBXPlugUi as o WHERE o.plugin.id = " + ((XBEXPlugin) plugin).getId()).getResultList();
         } catch (NoResultException e) {
-            return List.of();
+            return Collections.emptyList();
         } catch (Exception ex) {
             Logger.getLogger(XBEXUiManager.class.getName()).log(Level.SEVERE, null, ex);
-            return List.of();
+            return Collections.emptyList();
         }
     }
 
@@ -187,10 +188,10 @@ public class XBEXUiManager extends XBEDefaultCatalogManager<XBCXBlockUi> impleme
         try {
             return (List<XBCXPlugUi>) catalog.getEntityManager().createQuery("SELECT object(o) FROM XBXPlugUi as o WHERE o.plugin.id = " + ((XBEXPlugin) plugin).getId() + " AND o.uiType.id = " + type.getDbIndex()).getResultList();
         } catch (NoResultException e) {
-            return List.of();
+            return Collections.emptyList();
         } catch (Exception ex) {
             Logger.getLogger(XBEXUiManager.class.getName()).log(Level.SEVERE, null, ex);
-            return List.of();
+            return Collections.emptyList();
         }
     }
 

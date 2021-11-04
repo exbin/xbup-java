@@ -17,6 +17,7 @@ package org.exbin.xbup.catalog.entity.manager;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.InvocationTargetException;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.logging.Level;
@@ -90,10 +91,10 @@ public abstract class XBEDefaultManager<T extends XBCBase> implements XBCManager
             List result = em.createQuery("SELECT object(o) FROM " + getTableName() + " as o").getResultList();
             return (List<T>) result;
         } catch (NoResultException ex) {
-            return List.of();
+            return Collections.emptyList();
         } catch (Exception ex) {
             Logger.getLogger(XBEDefaultManager.class.getName()).log(Level.SEVERE, null, ex);
-            return List.of();
+            return Collections.emptyList();
         }
     }
 

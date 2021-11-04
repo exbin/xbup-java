@@ -16,6 +16,7 @@
 package org.exbin.xbup.catalog.entity.manager;
 
 import java.io.Serializable;
+import java.util.Collections;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -102,10 +103,10 @@ public class XBEXIconManager extends XBEDefaultCatalogManager<XBCXIcon> implemen
         try {
             return catalog.getEntityManager().createQuery("SELECT object(o) FROM XBXIcon as o WHERE o.parent.id = " + item.getId()).getResultList();
         } catch (NoResultException ex) {
-            return List.of();
+            return Collections.emptyList();
         } catch (Exception ex) {
             Logger.getLogger(XBEXIconManager.class.getName()).log(Level.SEVERE, null, ex);
-            return List.of();
+            return Collections.emptyList();
         }
     }
 

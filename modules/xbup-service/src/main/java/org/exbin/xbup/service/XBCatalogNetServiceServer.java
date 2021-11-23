@@ -171,6 +171,7 @@ public class XBCatalogNetServiceServer extends XBTCPServiceServer {
     /**
      * Performs update from update source.
      *
+     * @param checkedCatalog catalog to check
      * @return true if update required
      */
     public boolean shallUpdate(XBACatalog checkedCatalog) {

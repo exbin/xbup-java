@@ -219,4 +219,3 @@ if (gradle.startParameter.taskNames.contains("uploadArchives") && !version.endsW
         }
     }
 }
-

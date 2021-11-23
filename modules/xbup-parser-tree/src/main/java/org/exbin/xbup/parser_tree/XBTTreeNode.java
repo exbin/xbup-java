@@ -20,7 +20,6 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.List;
@@ -797,8 +796,20 @@ public class XBTTreeNode implements TreeNode, XBTEditableBlock, UBStreamable {
     }
 
     @Override
-    public Enumeration children() {
-        return Collections.enumeration(children);
+    public Enumeration<XBTTreeNode> children() {
+        return new Enumeration<XBTTreeNode>() {
+            private final Iterator<XBTBlock> i = children.iterator();
+
+            @Override
+            public boolean hasMoreElements() {
+                return i.hasNext();
+            }
+
+            @Override
+            public XBTTreeNode nextElement() {
+                return (XBTTreeNode) i.next();
+            }
+        };
     }
 
     public void setContext(XBContext context) {

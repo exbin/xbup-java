@@ -5,7 +5,7 @@ buildscript {
         }
     }
     dependencies {
-        classpath "at.bxm.gradleplugins:gradle-svntools-plugin:3.1"
+        classpath "at.bxm.gradleplugins:gradle-svntools-plugin:2.2"
         classpath "org.tmatesoft.svnkit:svnkit:1.10.1"
     }
 }
@@ -61,7 +61,7 @@ if (file('deps/.downloaded').exists()) {
     def currentProjectProperties = project.gradle.startParameter.projectProperties
     artefactProjectProperties << currentProjectProperties
     artefactProjectProperties << ['moduleDep': depsLevel]
-
+    
     // Terminate currently invalid tasks
     // TODO: Fix support for other tasks like distZip
     subprojects.each { subproject ->

@@ -53,18 +53,14 @@ def fetchModule(String svnUrl, targetDir, Long revision) {
 // - local maven repository module will be used if available
 // - otherwise module will be download to deps directory
 project.dependencies.ext.moduleDep = { depsName, packageName, moduleName ->
-    if (depsName == ext.depsRoot) {
+    if (depsName == ext.depsThis) {
         return project(':modules:' + moduleName)
     }
 
-    def depVersion = ext['deps' + depsName].version
-    def depGithubProfile = ext['deps' + depsName].githubProfile
-    def depGithubRepo = ext['deps' + depsName].githubRepo
-
-    def mavenModuleDir = repositories.mavenLocal().url.path + packageName.replace('.', '/') + '/' + moduleName + '/' + depVersion
+    def mavenModuleDir = repositories.mavenLocal().url.path + packageName.replace('.', '/') + '/' + moduleName + '/' + ext['deps' + depsName].version
     if (new File(mavenModuleDir).isDirectory()) {
         // Use maven package if available
-        return packageName + ':' + moduleName + ':' + depVersion
+        return packageName + ':' + moduleName + ':' + ext['deps' + depsName].version
     }
 
     def depsDir = rootProject.buildDir.parent + '/deps/'
@@ -75,7 +71,7 @@ project.dependencies.ext.moduleDep = { depsName, packageName, moduleName ->
     def depModuleDir = depsDir + moduleName
     if (!new File(depModuleDir).isDirectory()) {
         // Download module
-        def githubModulePath = 'https://github.com/' + depGithubProfile + '/' + depGithubRepo + '/trunk/modules/' + moduleName
+        def githubModulePath = 'https://github.com/' + ext['deps' + depsName].githubProfile + '/' + ext['deps' + depsName].githubRepo + '/trunk/modules/' + moduleName
         println 'Downloading ' + githubModulePath
 
         fetchModule(githubModulePath, depModuleDir, null)
@@ -95,7 +91,7 @@ project.dependencies.ext.moduleDep = { depsName, packageName, moduleName ->
 }
 
 project.dependencies.ext.moduleDepPath = { depsName, moduleName ->
-    if (depsName == ext.depsRoot) {
+    if (depsName == ext.depsThis) {
         return ":modules:${moduleName}"
     }
 

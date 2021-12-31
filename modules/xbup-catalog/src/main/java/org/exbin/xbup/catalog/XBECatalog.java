@@ -236,8 +236,8 @@ public class XBECatalog implements XBCatalog {
         return rootContext;
     }
 
-    public void setRootContext(XBContext context) {
-        rootContext = context;
+    public void setRootContext(XBContext rootContext) {
+        this.rootContext = rootContext;
     }
 
     public void initCatalog() {

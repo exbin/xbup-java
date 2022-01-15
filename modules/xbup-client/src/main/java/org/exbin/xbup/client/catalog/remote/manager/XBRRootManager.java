@@ -62,6 +62,17 @@ public class XBRRootManager extends XBRDefaultManager<XBCRoot> implements XBCRoo
         return mainRoot != null;
     }
 
+    @Nonnull
+    @Override
+    public XBCRoot createEmptyRoot(String catalogUrl) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public void removeFully(XBCRoot root) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
     @Override
     public void setMainLastUpdateToNow() {
         throw new UnsupportedOperationException("Not supported yet.");

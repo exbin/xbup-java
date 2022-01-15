@@ -207,6 +207,30 @@ public class XBENodeManager extends XBEDefaultCatalogManager<XBCNode> implements
 
     @Override
     public void removeNodeFully(XBCNode node) {
+        long nodeId = node.getId();
+        String nodeTreeCond = "(nt.node_id = " + nodeId + " OR nt.owner_id = " + nodeId + ")";
+
+        em.createQuery("DELETE * FROM XBXName WHERE EXISTS(SELECT 1 FROM XBItem it, XBNodeTree nt WHERE it.id = XBXName.item_id AND nt.node_id = it.owner_id AND " + nodeTreeCond + ")").executeUpdate();
+        em.createQuery("DELETE * FROM XBXDesc WHERE EXISTS(SELECT 1 FROM XBItem it, XBNodeTree nt WHERE it.id = XBXDesc.item_id AND nt.node_id = it.owner_id AND " + nodeTreeCond + ")").executeUpdate();
+        em.createQuery("DELETE * FROM XBXStri WHERE EXISTS(SELECT 1 FROM XBItem it, XBNodeTree nt WHERE it.id = XBXStri.item_id AND nt.node_id = it.owner_id AND " + nodeTreeCond + ")").executeUpdate();
+
+        em.createQuery("DELETE * FROM XBXHDoc WHERE EXISTS(SELECT 1 FROM XBXFile fl, XBNodeTree nt WHERE fl.id = XBXHDoc.file_id AND nt.node_id = fl.node_id AND " + nodeTreeCond + ")").executeUpdate();
+        em.createQuery("DELETE * FROM XBXHDoc WHERE EXISTS(SELECT 1 FROM XBItem it, XBNodeTree nt WHERE it.id = XBXHDoc.item_id AND nt.node_id = it.owner_id AND " + nodeTreeCond + ")").executeUpdate();
+
+        em.createQuery("DELETE * FROM XBXIcon WHERE EXISTS(SELECT 1 FROM XBXFile fl, XBNodeTree nt WHERE fl.id = XBXFile.file_id AND nt.node_id = fl.node_id AND " + nodeTreeCond + ")").executeUpdate();
+        em.createQuery("DELETE * FROM XBXIcon WHERE EXISTS(SELECT 1 FROM XBItem it, XBNodeTree nt WHERE it.id = XBXStri.item_id AND nt.node_id = it.owner_id AND " + nodeTreeCond + ")").executeUpdate();
+
+        em.createQuery("DELETE * FROM XBXFile WHERE EXISTS(SELECT 1 FROM XBItem it, XBNodeTree nt WHERE it.id = XBXFile.item_id AND nt.node_id = it.owner_id AND " + nodeTreeCond + ")").executeUpdate();
+        
+        em.createQuery("DELETE * FROM XBConsDef WHERE EXISTS(SELECT 1 FROM XBItem it, XBItem sp, XBNodeTree nt WHERE it.id = XBConsDef.id AND sp.id = it.owner_id AND nt.node_id = sp.owner_id AND " + nodeTreeCond + ")").executeUpdate();
+        em.createQuery("DELETE * FROM XBJoinDef WHERE EXISTS(SELECT 1 FROM XBItem it, XBItem sp, XBNodeTree nt WHERE it.id = XBJoinDef.id AND sp.id = it.owner_id AND nt.node_id = sp.owner_id AND " + nodeTreeCond + ")").executeUpdate();
+        em.createQuery("DELETE * FROM XBSpecDef WHERE EXISTS(SELECT 1 FROM XBItem it, XBItem sp, XBNodeTree nt WHERE it.id = XBSpecDef.id AND sp.id = it.owner_id AND nt.node_id = sp.owner_id AND " + nodeTreeCond + ")").executeUpdate();
+        em.createQuery("DELETE * FROM XBItem WHERE dtype IN ('XBBlockSpec', 'XBGroupSpec', 'XBFormatSpec') AND EXISTS(SELECT 1 FROM XBItem it, XBItem sp, XBNodeTree nt WHERE it.id = XBItem.id AND sp.id = it.owner_id AND nt.node_id = sp.owner_id AND " + nodeTreeCond + ")").executeUpdate();
+
+        em.createQuery("DELETE * FROM XBItem WHERE EXISTS(SELECT 1 FROM XBNodeTree nt WHERE (NOT XBXItem.dType = 'XBNode') AND nt.node_id = XBItem.id AND " + nodeTreeCond + ")").executeUpdate();
+        em.createQuery("DELETE * FROM XBNode WHERE EXISTS(SELECT 1 FROM XBNodeTree nt WHERE nt.node_id = XBNode.id AND " + nodeTreeCond + ")").executeUpdate();
+        em.createQuery("DELETE * FROM XBItem WHERE EXISTS(SELECT 1 FROM XBNodeTree nt WHERE nt.node_id = XBItem.id AND " + nodeTreeCond + ")").executeUpdate();
+
         throw new UnsupportedOperationException("Not supported yet.");
         
         // removeItem(node);

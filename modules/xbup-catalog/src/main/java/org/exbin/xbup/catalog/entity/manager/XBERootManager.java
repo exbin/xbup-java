@@ -22,18 +22,22 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityTransaction;
 import javax.persistence.NoResultException;
 import org.exbin.xbup.catalog.XBECatalog;
 import org.exbin.xbup.catalog.entity.XBENode;
 import org.exbin.xbup.catalog.entity.XBERoot;
+import org.exbin.xbup.core.catalog.base.XBCNode;
 import org.exbin.xbup.core.catalog.base.XBCRoot;
+import org.exbin.xbup.core.catalog.base.manager.XBCNodeManager;
 import org.exbin.xbup.core.catalog.base.manager.XBCRootManager;
 import org.springframework.stereotype.Repository;
 
 /**
  * XBUP catalog root manager.
  *
- * @version 0.2.1 2020/08/26
+ * @version 0.2.1 2022/01/15
  * @author ExBin Project (http://exbin.org)
  */
 @ParametersAreNonnullByDefault
@@ -111,6 +115,44 @@ public class XBERootManager extends XBEDefaultCatalogManager<XBCRoot> implements
         } catch (Exception ex) {
             throw new IllegalStateException("Missing main root", ex);
         }
+    }
+
+    @Nonnull
+    @Override
+    public XBERoot createEmptyRoot(String catalogUrl) {
+        XBCNodeManager nodeManager = catalog.getCatalogManager(XBCNodeManager.class);
+        EntityManager em = ((XBECatalog) catalog).getEntityManager();
+        EntityTransaction transaction = em.getTransaction();
+        transaction.begin();
+
+        XBERoot catalogRoot = (XBERoot) createItem();
+        catalogRoot.setUrl(catalogUrl);
+        catalogRoot.setLastUpdate(new java.util.Date());
+
+        XBENode rootNode = (XBENode) nodeManager.createItem();
+        catalogRoot.setNode(rootNode);
+
+        nodeManager.persistItem(rootNode);
+        persistItem(catalogRoot);
+        em.flush();
+        transaction.commit();
+
+        return catalogRoot;
+    }
+
+    @Override
+    public void removeFully(XBCRoot root) {
+        XBCNodeManager nodeManager = catalog.getCatalogManager(XBCNodeManager.class);
+        EntityManager em = ((XBECatalog) catalog).getEntityManager();
+        EntityTransaction transaction = em.getTransaction();
+        transaction.begin();
+
+        XBCNode node = root.getNode();
+        removeItem(root);
+        nodeManager.removeNodeFully(node);
+
+        em.flush();
+        transaction.commit();
     }
 
     @Override

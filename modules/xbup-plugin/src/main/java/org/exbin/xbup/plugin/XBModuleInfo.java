@@ -106,7 +106,7 @@ public class XBModuleInfo implements XBPSequenceSerializable, XBModuleRecord {
     @Override
     public XBModule getModule() {
         if (module == null) {
-            throw new IllegalStateException("Attempt to use uninitialized module");
+            throw new IllegalStateException("Attempt to use uninitialized module: " + moduleId);
         }
         return module;
     }
@@ -118,7 +118,7 @@ public class XBModuleInfo implements XBPSequenceSerializable, XBModuleRecord {
     @Nonnull
     public ClassLoader getClassLoader() {
         if (classLoader == null) {
-            throw new IllegalStateException("Attempt to use uninitialized module");
+            throw new IllegalStateException("Attempt to use uninitialized module: " + moduleId);
         }
         return classLoader;
     }

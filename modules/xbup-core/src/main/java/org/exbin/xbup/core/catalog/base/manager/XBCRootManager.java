@@ -24,11 +24,20 @@ import org.exbin.xbup.core.catalog.base.XBCRoot;
 /**
  * Interface for XBCRoot catalog manager.
  *
- * @version 0.2.1 2020/08/26
+ * @version 0.2.1 2022/01/15
  * @author ExBin Project (http://exbin.org)
  */
 @ParametersAreNonnullByDefault
 public interface XBCRootManager extends XBCCatalogManager<XBCRoot> {
+
+    /**
+     * Creates catalog's root with empty node.
+     *
+     * @param catalogUrl catalog URL
+     * @return root record
+     */
+    @Nonnull
+    XBCRoot createEmptyRoot(String catalogUrl);
 
     /**
      * Gets main catalog root record.
@@ -45,6 +54,13 @@ public interface XBCRootManager extends XBCCatalogManager<XBCRoot> {
      */
     @Nonnull
     Optional<Date> getMainLastUpdate();
+
+    /**
+     * Fully removes given root with all it's content
+     *
+     * @param root root record
+     */
+    void removeFully(XBCRoot root);
 
     /**
      * Sets main last update to now.

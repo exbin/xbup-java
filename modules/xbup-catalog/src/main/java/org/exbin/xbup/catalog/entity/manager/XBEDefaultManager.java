@@ -70,8 +70,11 @@ public abstract class XBEDefaultManager<T extends XBCBase> implements XBCManager
         EntityTransaction transaction = null;
         try {
             transaction = em.getTransaction();
-            transaction.begin();
+            if (!transaction.isActive()) {
+                transaction.begin();
+            }
         } catch (IllegalStateException ex) {
+            Logger.getLogger(XBEDefaultManager.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         T removedItem = em.merge(item);
@@ -123,8 +126,11 @@ public abstract class XBEDefaultManager<T extends XBCBase> implements XBCManager
         EntityTransaction transaction = null;
         try {
             transaction = em.getTransaction();
-            transaction.begin();
+            if (!transaction.isActive()) {
+                transaction.begin();
+            }
         } catch (IllegalStateException ex) {
+            Logger.getLogger(XBEDefaultManager.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         em.persist(item); // was merge
@@ -164,8 +170,11 @@ public abstract class XBEDefaultManager<T extends XBCBase> implements XBCManager
         EntityTransaction transaction = null;
         try {
             transaction = em.getTransaction();
-            transaction.begin();
+            if (!transaction.isActive()) {
+                transaction.begin();
+            }
         } catch (IllegalStateException ex) {
+            Logger.getLogger(XBEDefaultManager.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         em.createQuery("UPDATE " + getTableName() + " SET id = " + itemId + " WHERE id = " + item.getId());

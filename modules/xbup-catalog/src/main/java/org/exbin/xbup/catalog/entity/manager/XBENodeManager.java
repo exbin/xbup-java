@@ -220,6 +220,11 @@ public class XBENodeManager extends XBEDefaultCatalogManager<XBCNode> implements
         em.createQuery("DELETE * FROM XBXIcon WHERE EXISTS(SELECT 1 FROM XBXFile fl, XBNodeTree nt WHERE fl.id = XBXFile.file_id AND nt.node_id = fl.node_id AND " + nodeTreeCond + ")").executeUpdate();
         em.createQuery("DELETE * FROM XBXIcon WHERE EXISTS(SELECT 1 FROM XBItem it, XBNodeTree nt WHERE it.id = XBXStri.item_id AND nt.node_id = it.owner_id AND " + nodeTreeCond + ")").executeUpdate();
 
+        em.createQuery("DELETE * FROM XBXPluginUi WHERE EXISTS(SELECT 1 FROM XBPlugin pg, XBXFile fl, XBNodeTree nt WHERE pg.id = XBXPluginUi.plugin_id AND fl.id = pg.pluginfile_id AND nt.node_id = fl.node_id AND " + nodeTreeCond + ")").executeUpdate();
+        em.createQuery("DELETE * FROM XBXPluginUi WHERE EXISTS(SELECT 1 FROM XBPlugin pg, XBNodeTree nt WHERE pg.id = XBXPluginUi.plugin_id AND nt.node_id = pg.owner_id AND " + nodeTreeCond + ")").executeUpdate();
+        em.createQuery("DELETE * FROM XBXPlugin WHERE EXISTS(SELECT 1 FROM XBXFile fl, XBNodeTree nt WHERE fl.id = XBXPlugin.pluginfile_id AND nt.node_id = fl.node_id AND " + nodeTreeCond + ")").executeUpdate();
+        em.createQuery("DELETE * FROM XBXPlugin WHERE EXISTS(SELECT 1 FROM XBNodeTree nt WHERE nt.node_id = XBXPlugin.owner_id AND " + nodeTreeCond + ")").executeUpdate();
+
         em.createQuery("DELETE * FROM XBXFile WHERE EXISTS(SELECT 1 FROM XBItem it, XBNodeTree nt WHERE it.id = XBXFile.item_id AND nt.node_id = it.owner_id AND " + nodeTreeCond + ")").executeUpdate();
         
         em.createQuery("DELETE * FROM XBConsDef WHERE EXISTS(SELECT 1 FROM XBItem it, XBItem sp, XBNodeTree nt WHERE it.id = XBConsDef.id AND sp.id = it.owner_id AND nt.node_id = sp.owner_id AND " + nodeTreeCond + ")").executeUpdate();
@@ -227,6 +232,10 @@ public class XBENodeManager extends XBEDefaultCatalogManager<XBCNode> implements
         em.createQuery("DELETE * FROM XBSpecDef WHERE EXISTS(SELECT 1 FROM XBItem it, XBItem sp, XBNodeTree nt WHERE it.id = XBSpecDef.id AND sp.id = it.owner_id AND nt.node_id = sp.owner_id AND " + nodeTreeCond + ")").executeUpdate();
         em.createQuery("DELETE * FROM XBItem WHERE dtype IN ('XBBlockSpec', 'XBGroupSpec', 'XBFormatSpec') AND EXISTS(SELECT 1 FROM XBItem it, XBItem sp, XBNodeTree nt WHERE it.id = XBItem.id AND sp.id = it.owner_id AND nt.node_id = sp.owner_id AND " + nodeTreeCond + ")").executeUpdate();
 
+        em.createQuery("DELETE * FROM XBRev WHERE EXISTS(SELECT 1 FROM XBItem it, XBItem rv, XBItem sp, XBNodeTree nt WHERE XBRev.id = rv.id AND rv.owner_id = sp.id AND nt.node_id = sp.owner_id AND " + nodeTreeCond + ")").executeUpdate();
+        em.createQuery("DELETE * FROM XBItem WHERE dtype IN ('XBRev') AND EXISTS(SELECT 1 FROM XBItem it, XBItem sp, XBNodeTree nt WHERE it.id = XBItem.id AND sp.id = it.owner_id AND nt.node_id = sp.owner_id AND " + nodeTreeCond + ")").executeUpdate();
+        em.createQuery("DELETE * FROM XBSpec WHERE EXISTS(SELECT 1 FROM XBItem it, XBNodeTree nt WHERE XBSpec.id = it.owner_id AND nt.node_id = sp.owner_id AND " + nodeTreeCond + ")").executeUpdate();
+        
         em.createQuery("DELETE * FROM XBItem WHERE EXISTS(SELECT 1 FROM XBNodeTree nt WHERE (NOT XBXItem.dType = 'XBNode') AND nt.node_id = XBItem.id AND " + nodeTreeCond + ")").executeUpdate();
         em.createQuery("DELETE * FROM XBNode WHERE EXISTS(SELECT 1 FROM XBNodeTree nt WHERE nt.node_id = XBNode.id AND " + nodeTreeCond + ")").executeUpdate();
         em.createQuery("DELETE * FROM XBItem WHERE EXISTS(SELECT 1 FROM XBNodeTree nt WHERE nt.node_id = XBItem.id AND " + nodeTreeCond + ")").executeUpdate();

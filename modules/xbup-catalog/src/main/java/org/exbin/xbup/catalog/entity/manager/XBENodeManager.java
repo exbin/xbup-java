@@ -5,7 +5,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -34,8 +34,7 @@ import org.springframework.stereotype.Repository;
 /**
  * XBUP catalog node manager.
  *
- * @version 0.2.1 2020/09/01
- * @author ExBin Project (http://exbin.org)
+ * @author ExBin Project (https://exbin.org)
  */
 @ParametersAreNonnullByDefault
 @Repository
@@ -226,7 +225,7 @@ public class XBENodeManager extends XBEDefaultCatalogManager<XBCNode> implements
         em.createQuery("DELETE * FROM XBXPlugin WHERE EXISTS(SELECT 1 FROM XBNodeTree nt WHERE nt.node_id = XBXPlugin.owner_id AND " + nodeTreeCond + ")").executeUpdate();
 
         em.createQuery("DELETE * FROM XBXFile WHERE EXISTS(SELECT 1 FROM XBItem it, XBNodeTree nt WHERE it.id = XBXFile.item_id AND nt.node_id = it.owner_id AND " + nodeTreeCond + ")").executeUpdate();
-        
+
         em.createQuery("DELETE * FROM XBConsDef WHERE EXISTS(SELECT 1 FROM XBItem it, XBItem sp, XBNodeTree nt WHERE it.id = XBConsDef.id AND sp.id = it.owner_id AND nt.node_id = sp.owner_id AND " + nodeTreeCond + ")").executeUpdate();
         em.createQuery("DELETE * FROM XBJoinDef WHERE EXISTS(SELECT 1 FROM XBItem it, XBItem sp, XBNodeTree nt WHERE it.id = XBJoinDef.id AND sp.id = it.owner_id AND nt.node_id = sp.owner_id AND " + nodeTreeCond + ")").executeUpdate();
         em.createQuery("DELETE * FROM XBSpecDef WHERE EXISTS(SELECT 1 FROM XBItem it, XBItem sp, XBNodeTree nt WHERE it.id = XBSpecDef.id AND sp.id = it.owner_id AND nt.node_id = sp.owner_id AND " + nodeTreeCond + ")").executeUpdate();
@@ -235,13 +234,13 @@ public class XBENodeManager extends XBEDefaultCatalogManager<XBCNode> implements
         em.createQuery("DELETE * FROM XBRev WHERE EXISTS(SELECT 1 FROM XBItem it, XBItem rv, XBItem sp, XBNodeTree nt WHERE XBRev.id = rv.id AND rv.owner_id = sp.id AND nt.node_id = sp.owner_id AND " + nodeTreeCond + ")").executeUpdate();
         em.createQuery("DELETE * FROM XBItem WHERE dtype IN ('XBRev') AND EXISTS(SELECT 1 FROM XBItem it, XBItem sp, XBNodeTree nt WHERE it.id = XBItem.id AND sp.id = it.owner_id AND nt.node_id = sp.owner_id AND " + nodeTreeCond + ")").executeUpdate();
         em.createQuery("DELETE * FROM XBSpec WHERE EXISTS(SELECT 1 FROM XBItem it, XBNodeTree nt WHERE XBSpec.id = it.owner_id AND nt.node_id = sp.owner_id AND " + nodeTreeCond + ")").executeUpdate();
-        
+
         em.createQuery("DELETE * FROM XBItem WHERE EXISTS(SELECT 1 FROM XBNodeTree nt WHERE (NOT XBXItem.dType = 'XBNode') AND nt.node_id = XBItem.id AND " + nodeTreeCond + ")").executeUpdate();
         em.createQuery("DELETE * FROM XBNode WHERE EXISTS(SELECT 1 FROM XBNodeTree nt WHERE nt.node_id = XBNode.id AND " + nodeTreeCond + ")").executeUpdate();
         em.createQuery("DELETE * FROM XBItem WHERE EXISTS(SELECT 1 FROM XBNodeTree nt WHERE nt.node_id = XBItem.id AND " + nodeTreeCond + ")").executeUpdate();
 
         throw new UnsupportedOperationException("Not supported yet.");
-        
+
         // removeItem(node);
     }
 }

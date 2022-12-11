@@ -5,7 +5,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -22,8 +22,7 @@ import org.exbin.xbup.core.serial.token.XBTokenInputSerialHandler;
  * Interface for XBUP level 0 serialization input handler using basic child
  * serialization.
  *
- * @version 0.1.24 2014/08/23
- * @author ExBin Project (http://exbin.org)
+ * @author ExBin Project (https://exbin.org)
  */
 public interface XBChildInputSerialHandler extends XBInputSerialHandler, XBChildProvider, XBTokenInputSerialHandler {
 }

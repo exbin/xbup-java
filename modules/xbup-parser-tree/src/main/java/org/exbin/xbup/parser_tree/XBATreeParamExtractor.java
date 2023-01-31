@@ -28,7 +28,6 @@ import org.exbin.xbup.core.block.XBTEditableBlock;
 import org.exbin.xbup.core.block.declaration.XBBlockDecl;
 import org.exbin.xbup.core.block.declaration.XBDeclBlockType;
 import org.exbin.xbup.core.block.declaration.catalog.XBCBlockDecl;
-import org.exbin.xbup.core.block.declaration.local.XBLBlockDecl;
 import org.exbin.xbup.core.block.definition.XBBlockDef;
 import org.exbin.xbup.core.block.definition.XBBlockParam;
 import org.exbin.xbup.core.catalog.XBACatalog;
@@ -473,9 +472,10 @@ public class XBATreeParamExtractor implements XBTPullProvider, XBTEventListener 
         XBBlockDef blockDef = position.blockDecl.getBlockDef();
 
         if (blockDef != null) {
-            XBBlockParam paramDecl = blockDef.getBlockParam(currentParameter);
-            processingState.blockDecl = (XBCBlockDecl) paramDecl.getBlockDecl();
-            parameterInfo.blockDecl = (XBCBlockDecl) paramDecl.getBlockDecl();
+            XBBlockParam paramParam = blockDef.getBlockParam(currentParameter);
+            XBBlockDecl blockDecl = paramParam.getBlockDecl();
+            processingState.blockDecl = blockDecl;
+            parameterInfo.blockDecl = blockDecl;
             long revision = processingState.blockDecl.getRevision();
             processingState.parametersCount = processingState.blockDecl.getBlockDef().getRevisionDef().getRevisionLimit(revision);
             processingStates.add(processingState);
@@ -560,7 +560,7 @@ public class XBATreeParamExtractor implements XBTPullProvider, XBTEventListener 
                             XBBlockDecl blockDecl = blockParam.getBlockDecl();
                             if (blockDecl instanceof XBCBlockDecl) {
                                 ProcessingState joinState = new ProcessingState((XBCBlockDecl) blockParam.getBlockDecl());
-                                if (joinState.blockDecl.getBlockSpecRev() == null) {
+                                if (joinState.blockDecl instanceof XBCBlockDecl && ((XBCBlockDecl) joinState.blockDecl).getBlockSpecRev() == null) {
                                     parameterInfo.attributeCount++;
                                 } else {
                                     long revision = joinState.blockDecl.getRevision();
@@ -596,7 +596,7 @@ public class XBATreeParamExtractor implements XBTPullProvider, XBTEventListener 
                             parameterInfo.attributeCount++;
                             while (listSize > 0) {
                                 ProcessingState joinState = new ProcessingState((XBCBlockDecl) blockParam.getBlockDecl());
-                                if (joinState.blockDecl.getBlockSpecRev() == null) {
+                                if (joinState.blockDecl instanceof XBCBlockDecl && ((XBCBlockDecl) joinState.blockDecl).getBlockSpecRev() == null) {
                                     parameterInfo.attributeCount++;
                                 } else {
                                     long revision = joinState.blockDecl.getRevision();
@@ -625,11 +625,11 @@ public class XBATreeParamExtractor implements XBTPullProvider, XBTEventListener 
 
     private static class ProcessingState {
 
-        XBCBlockDecl blockDecl = null;
+        XBBlockDecl blockDecl = null;
         int processingParameter = 0;
         int parametersCount = 0;
 
-        ProcessingState(XBCBlockDecl blockDecl) {
+        ProcessingState(XBBlockDecl blockDecl) {
             this.blockDecl = blockDecl;
         }
     }

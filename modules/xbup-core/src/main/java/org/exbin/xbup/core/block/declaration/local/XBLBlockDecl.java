@@ -109,6 +109,58 @@ public class XBLBlockDecl implements XBBlockDecl, XBPSequenceSerializable, XBTBa
     }
 
     @Override
+    public void serializeRecvToXB(XBTBasicOutputReceivingSerialHandler serializationHandler) throws XBProcessingException, IOException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    public XBCBlockSpec getBlockSpec(XBCatalog catalog) {
+        return (XBCBlockSpec) catalog.findBlockTypeByPath(getCatalogObjectPath(), revision);
+    }
+
+    /**
+     * Gets catalog path as array of Long instances.
+     *
+     * @return the catalogPath
+     */
+    public Long[] getCatalogObjectPath() {
+        Long[] objectPath = new Long[catalogPath.length];
+        for (int i = 0; i < objectPath.length; i++) {
+            objectPath[i] = catalogPath[i];
+        }
+        return objectPath;
+    }
+
+    public long[] getCatalogPath() {
+        return catalogPath;
+    }
+
+    public void setCatalogPath(long[] catalogPath) {
+        this.catalogPath = catalogPath;
+    }
+
+    public void setCatalogPath(Long[] path) {
+        setCatalogObjectPath(path);
+    }
+
+    @Override
+    public long getRevision() {
+        return revision;
+    }
+
+    @Override
+    public XBBlockDef getBlockDef() {
+        return blockDef;
+    }
+
+    public void setBlockDef(XBBlockDef blockDef) {
+        this.blockDef = blockDef;
+    }
+
+    public void setRevision(int revision) {
+        this.revision = revision;
+    }
+
+    @Override
     public void serializeXB(XBPSequenceSerialHandler serial) throws XBProcessingException, IOException {
         serial.begin();
         serial.matchType(new XBFixedBlockType(XBBasicBlockType.BLOCK_DECLARATION));
@@ -141,15 +193,15 @@ public class XBLBlockDecl implements XBBlockDecl, XBPSequenceSerializable, XBTBa
         serial.end();
     }
 
-    private enum RecvProcessingState {
-
-        START, BEGIN, TYPE, CATALOG_PATH_SIZE, CATALOG_PATH, REVISION, BLOCK_DEFINITION, END
-    }
-
     @Override
     public void serializeRecvFromXB(XBTBasicInputReceivingSerialHandler serializationHandler) throws XBProcessingException, IOException {
         clear();
         serializationHandler.process(new RecvSerialization());
+    }
+
+    private enum RecvProcessingState {
+
+        START, BEGIN, TYPE, CATALOG_PATH_SIZE, CATALOG_PATH, REVISION, BLOCK_DEFINITION, END
     }
 
     private class RecvSerialization implements XBTListener, XBReceivingFinished {
@@ -266,57 +318,5 @@ public class XBLBlockDecl implements XBBlockDecl, XBPSequenceSerializable, XBTBa
         public boolean isFinished() {
             return processingState == RecvProcessingState.END;
         }
-    }
-
-    @Override
-    public void serializeRecvToXB(XBTBasicOutputReceivingSerialHandler serializationHandler) throws XBProcessingException, IOException {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    public XBCBlockSpec getBlockSpec(XBCatalog catalog) {
-        return (XBCBlockSpec) catalog.findBlockTypeByPath(getCatalogObjectPath(), revision);
-    }
-
-    /**
-     * Gets catalog path as array of Long instances.
-     *
-     * @return the catalogPath
-     */
-    public Long[] getCatalogObjectPath() {
-        Long[] objectPath = new Long[catalogPath.length];
-        for (int i = 0; i < objectPath.length; i++) {
-            objectPath[i] = catalogPath[i];
-        }
-        return objectPath;
-    }
-
-    public long[] getCatalogPath() {
-        return catalogPath;
-    }
-
-    public void setCatalogPath(long[] catalogPath) {
-        this.catalogPath = catalogPath;
-    }
-
-    public void setCatalogPath(Long[] path) {
-        setCatalogObjectPath(path);
-    }
-
-    @Override
-    public long getRevision() {
-        return revision;
-    }
-
-    @Override
-    public XBBlockDef getBlockDef() {
-        return blockDef;
-    }
-
-    public void setBlockDef(XBBlockDef blockDef) {
-        this.blockDef = blockDef;
-    }
-
-    public void setRevision(int revision) {
-        this.revision = revision;
     }
 }

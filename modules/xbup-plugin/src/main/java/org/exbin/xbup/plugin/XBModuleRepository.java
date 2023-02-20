@@ -115,4 +115,12 @@ public interface XBModuleRepository {
      * Processes all modules and initializes them in proper order.
      */
     void initModules();
+
+    /**
+     * Returns class loader with loaded plugins.
+     *
+     * @return context class loader
+     */
+    @Nonnull
+    ClassLoader getContextClassLoader();
 }

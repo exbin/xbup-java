@@ -25,7 +25,6 @@ import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
-import java.net.URLClassLoader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -53,6 +52,7 @@ public class XBDefaultModuleRepository implements XBModuleRepository {
     private static final String MODULE_ID = "MODULE_ID";
     private final Map<String, XBModuleRecord> modules = new HashMap<>();
     private final XBModuleHandler moduleHandler;
+    private DynamicClassLoader contextClassLoader = new DynamicClassLoader();
 
     public XBDefaultModuleRepository(XBModuleHandler moduleHandler) {
         this.moduleHandler = moduleHandler;
@@ -123,6 +123,12 @@ public class XBDefaultModuleRepository implements XBModuleRepository {
         }
     }
 
+    @Nonnull
+    @Override
+    public ClassLoader getContextClassLoader() {
+        return contextClassLoader;
+    }
+
     /**
      * Attempts to load main library class if library URL contains valid module
      * declaration.
@@ -139,8 +145,8 @@ public class XBDefaultModuleRepository implements XBModuleRepository {
             // ignore
         }
 
-        XBModuleInfo moduleInfo = new XBModuleInfo();
-        moduleInfo.setClassLoader(getClass().getClassLoader());
+        final XBModuleInfo moduleInfo = new XBModuleInfo();
+        moduleInfo.setClassLoader(contextClassLoader);
         if (moduleRecordStream != null) {
             try {
                 XBPullReader pullReader = new XBPullReader(moduleRecordStream);
@@ -156,15 +162,20 @@ public class XBDefaultModuleRepository implements XBModuleRepository {
             try {
                 Class<?> clazz;
                 if (loadClass) {
-                    ClassLoader loader;
-                    loader = URLClassLoader.newInstance(
-                            new URL[]{libraryUri.toURL()},
-                            moduleInfo.getClassLoader()
-                    );
+                    DynamicClassLoader loader = new DynamicClassLoader(contextClassLoader);
+                    loader.add(libraryUri.toURL());
                     clazz = Class.forName(moduleInfo.getModuleId(), true, loader);
+
+                    if (LookAndFeelApplier.class.isAssignableFrom(clazz)) {
+                        loader = contextClassLoader;
+                        loader.add(libraryUri.toURL());
+                        clazz = Class.forName(moduleInfo.getModuleId(), true, loader);
+                    }
+
                     moduleInfo.setClassLoader(loader);
                 } else {
-                    clazz = Class.forName(moduleInfo.getModuleId());
+                    clazz = contextClassLoader.loadClass(moduleInfo.getModuleId());
+                    moduleInfo.setClassLoader(contextClassLoader);
                 }
                 Constructor<?> ctor = clazz.getConstructor();
                 module = (XBModule) ctor.newInstance();
@@ -179,7 +190,7 @@ public class XBDefaultModuleRepository implements XBModuleRepository {
 
     private void addModule(XBModule module) {
         String canonicalName = module.getClass().getCanonicalName();
-        XBModuleInfo moduleInfo = new XBModuleInfo(canonicalName, module, module.getClass().getClassLoader());
+        XBModuleInfo moduleInfo = new XBModuleInfo(canonicalName, module, contextClassLoader);
         URL moduleClassLocation = moduleInfo.getClass().getProtectionDomain().getCodeSource().getLocation();
         URL moduleRecordUrl;
         InputStream moduleRecordStream = null;
@@ -258,7 +269,7 @@ public class XBDefaultModuleRepository implements XBModuleRepository {
             throw new IllegalStateException("Circular dependency detected");
         }
     }
-
+    
     /**
      * Gets info about module.
      *

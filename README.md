@@ -39,4 +39,4 @@ License
 
 Project uses various libraries with specific licenses and some tools are licensed with multiple licenses with exceptions for specific modules to cover license requirements for used libraries.
 
-License: Apache V2 (see LICENSE-2.0.txt)  
+License: Apache V2 (see LICENSE.txt)  

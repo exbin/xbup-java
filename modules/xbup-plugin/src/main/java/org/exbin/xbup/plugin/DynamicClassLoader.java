@@ -35,15 +35,19 @@ public class DynamicClassLoader extends URLClassLoader {
         registerAsParallelCapable();
     }
 
-    public DynamicClassLoader(String name, ClassLoader parent) {
-        super(name, new URL[0], parent);
-    }
+    /*
+     * Required when this classloader is used as the system classloader.
+     * Java 8+
+     */
+//    public DynamicClassLoader(String name, ClassLoader parent) {
+//        super(name, new URL[0], parent);
+//    }
 
     /*
      * Required when this classloader is used as the system classloader.
      */
     public DynamicClassLoader(ClassLoader parent) {
-        this("classpath", parent);
+        super(new URL[0], parent);
     }
 
     public DynamicClassLoader() {
@@ -68,7 +72,8 @@ public class DynamicClassLoader extends URLClassLoader {
     }
 
     /**
-     *  Required for Java Agents when this classloader is used as the system classloader.
+     * Required for Java Agents when this classloader is used as the system
+     * classloader.
      */
     @SuppressWarnings("unused")
     private void appendToClassPathForInstrumentation(String jarfile) throws IOException {

@@ -162,7 +162,14 @@ public class XBDefaultModuleRepository implements XBModuleRepository {
             try {
                 Class<?> clazz;
                 if (loadClass) {
-                    DynamicClassLoader loader = new DynamicClassLoader(contextClassLoader);
+                    DynamicClassLoader loader;
+//                    try {
+//                        loader = new DynamicClassLoader("classpath", contextClassLoader);
+//                    } catch (Throwable tw) {
+                        // Alternative when executed from Java 8
+                        loader = new DynamicClassLoader(contextClassLoader);
+//                    }
+                    
                     loader.add(libraryUri.toURL());
                     clazz = Class.forName(moduleInfo.getModuleId(), true, loader);
 

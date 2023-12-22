@@ -23,7 +23,8 @@ dependencies {
     implementation moduleDep('XbupJava', 'org.exbin.xbup', 'xbup-core')
     implementation moduleDep('XbupJava', 'org.exbin.xbup', 'xbup-catalog')
     implementation moduleDep('XbupJava', 'org.exbin.xbup', 'xbup-client')
-    implementation moduleDep('ExbinAuxiliaryJava', 'org.exbin.auxiliary', 'paged_data')
+    implementation moduleDep('ExbinAuxiliaryJava', 'org.exbin.auxiliary', 'binary_data')
+    implementation moduleDep('ExbinAuxiliaryJava', 'org.exbin.auxiliary', 'binary_data-paged')
     implementation 'javax.persistence:persistence-api:1.0.2'
     implementation group: 'org.springframework', name: 'spring-core', version: '4.0.5.RELEASE'
     implementation 'org.springframework:spring-core:4.0.5.RELEASE', 'org.springframework:spring-context:4.0.5.RELEASE', 'org.springframework:spring-beans:4.0.5.RELEASE'
@@ -34,5 +35,5 @@ dependencies {
     )
     compileOnly group: 'javax.annotation', name: 'javax.annotation-api', version: '1.3.2'
     compileOnly group: 'com.google.code.findbugs', name: 'jsr305', version: '3.0.2'
-    testImplementation group: 'junit', name: 'junit', version: '4.10'    
+    testImplementation group: 'junit', name: 'junit', version: '4.13.2'
 }

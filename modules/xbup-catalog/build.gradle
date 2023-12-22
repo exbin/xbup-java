@@ -35,6 +35,6 @@ dependencies {
     implementation group: 'javax.activation', name: 'activation', version: '1.1.1'
     implementation group: 'javax.jws', name: 'javax.jws-api', version: '1.1'
     compileOnly group: 'com.google.code.findbugs', name: 'jsr305', version: '3.0.2'
-    implementation moduleDep('ExbinAuxiliaryJava', 'org.exbin.auxiliary', 'paged_data')
-    testImplementation group: 'junit', name: 'junit', version: '4.10'    
+    implementation moduleDep('ExbinAuxiliaryJava', 'org.exbin.auxiliary', 'binary_data')
+    testImplementation group: 'junit', name: 'junit', version: '4.13.2'
 }

@@ -15,13 +15,23 @@
  */
 package org.exbin.xbup.client.stub;
 
+import java.io.IOException;
 import java.util.Optional;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 import org.exbin.xbup.client.XBCatalogServiceClient;
 import org.exbin.xbup.client.catalog.remote.XBRItem;
 import org.exbin.xbup.core.block.declaration.XBDeclBlockType;
 import org.exbin.xbup.core.catalog.base.XBCItem;
+import org.exbin.xbup.core.parser.XBProcessingException;
+import org.exbin.xbup.core.remote.XBCallHandler;
+import org.exbin.xbup.core.serial.param.XBPListenerSerialHandler;
+import org.exbin.xbup.core.serial.param.XBPProviderSerialHandler;
+import org.exbin.xbup.core.type.XBString;
+import org.exbin.xbup.core.ubnumber.type.UBNat32;
 
 /**
  * RPC stub class for XBRItem catalog items.
@@ -34,6 +44,7 @@ public class XBPItemStub extends XBPBaseStub<XBCItem> {
     public static long[] OWNER_ITEM_PROCEDURE = {0, 2, 3, 0, 0};
     public static long[] XBINDEX_ITEM_PROCEDURE = {0, 2, 3, 1, 0};
     public static long[] ITEMSCOUNT_ITEM_PROCEDURE = {0, 2, 3, 2, 0};
+    public static long[] FIND_ALL_PAGED_ITEM_PROCEDURE = {0, 2, 3, 3, 0};
 
     private final XBCatalogServiceClient client;
 
@@ -50,5 +61,29 @@ public class XBPItemStub extends XBPBaseStub<XBCItem> {
 
     public Long getXBIndex(Long itemId) {
         return XBPStubUtils.longToLongMethod(client.procedureCall(), new XBDeclBlockType(XBINDEX_ITEM_PROCEDURE), itemId);
+    }
+
+    @Nullable
+    public Integer findAllPagedCount(String filterCondition, String specType) {
+        XBCallHandler procedureCall = client.procedureCall();
+        try {
+            XBPListenerSerialHandler serialInput = new XBPListenerSerialHandler(procedureCall.getParametersInput());
+            serialInput.begin();
+            serialInput.putType(new XBDeclBlockType(FIND_ALL_PAGED_ITEM_PROCEDURE));
+            serialInput.putAppend(new XBString(filterCondition));
+            serialInput.putAppend(new XBString(specType));
+            serialInput.end();
+
+            XBPProviderSerialHandler serialOutput = new XBPProviderSerialHandler(procedureCall.getResultOutput());
+            if (!serialOutput.pullIfEmptyBlock()) {
+                UBNat32 result = new UBNat32();
+                serialOutput.process(result);
+                return result.getInt();
+            }
+            procedureCall.execute();
+        } catch (XBProcessingException | IOException ex) {
+            Logger.getLogger(XBPItemStub.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
     }
 }

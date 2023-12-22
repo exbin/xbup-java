@@ -23,7 +23,7 @@ import java.io.OutputStream;
 import java.util.Optional;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import org.exbin.auxiliary.paged_data.BinaryData;
+import org.exbin.auxiliary.binary_data.BinaryData;
 import org.exbin.xbup.core.block.XBBlock;
 import org.exbin.xbup.core.block.XBEditableDocument;
 import org.exbin.xbup.core.parser.XBProcessingException;

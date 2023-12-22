@@ -21,7 +21,7 @@ import java.io.OutputStream;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.ParametersAreNonnullByDefault;
-import org.exbin.auxiliary.paged_data.BinaryData;
+import org.exbin.auxiliary.binary_data.BinaryData;
 import org.exbin.xbup.core.util.StreamUtils;
 
 /**

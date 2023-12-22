@@ -21,7 +21,7 @@ import java.util.Optional;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
-import org.exbin.auxiliary.paged_data.BinaryData;
+import org.exbin.auxiliary.binary_data.BinaryData;
 import org.exbin.xbup.core.parser.token.XBAttribute;
 import org.exbin.xbup.core.type.XBData;
 

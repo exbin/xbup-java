@@ -37,6 +37,7 @@ public class XBRItemManager extends XBRDefaultManager<XBCItem> implements XBCIte
     public XBRItemManager(XBRCatalog catalog) {
         super(catalog);
         itemStub = new XBPItemStub(client);
+        setManagerStub(itemStub);
     }
 
     @Override
@@ -51,6 +52,6 @@ public class XBRItemManager extends XBRDefaultManager<XBCItem> implements XBCIte
 
     @Override
     public int findAllPagedCount(@Nullable String filterCondition, @Nullable String specType) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return itemStub.findAllPagedCount(filterCondition, specType);
     }
 }

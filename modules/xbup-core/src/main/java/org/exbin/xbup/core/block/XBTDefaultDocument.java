@@ -19,7 +19,7 @@ import java.io.InputStream;
 import java.util.Optional;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import org.exbin.auxiliary.paged_data.BinaryData;
+import org.exbin.auxiliary.binary_data.BinaryData;
 
 /**
  * Basic plain implementation of XBTDocument interface.

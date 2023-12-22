@@ -19,7 +19,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Optional;
 import javax.annotation.Nonnull;
-import org.exbin.auxiliary.paged_data.BinaryData;
+import org.exbin.auxiliary.binary_data.BinaryData;
 import org.exbin.xbup.core.block.XBBlock;
 import org.exbin.xbup.core.block.XBBlockDataMode;
 import org.exbin.xbup.core.block.XBBlockTerminationMode;

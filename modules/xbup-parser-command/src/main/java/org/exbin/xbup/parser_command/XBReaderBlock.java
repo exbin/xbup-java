@@ -26,7 +26,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import org.exbin.auxiliary.paged_data.BinaryData;
+import org.exbin.auxiliary.binary_data.BinaryData;
 import org.exbin.xbup.core.block.XBBlock;
 import org.exbin.xbup.core.block.XBBlockDataMode;
 import org.exbin.xbup.core.block.XBBlockTerminationMode;

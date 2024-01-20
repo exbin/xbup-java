@@ -17,7 +17,6 @@ package org.exbin.xbup.core.parser.basic;
 
 import java.io.IOException;
 import java.io.InputStream;
-import static junit.framework.Assert.assertEquals;
 import junit.framework.TestCase;
 import org.exbin.xbup.core.parser.XBParsingException;
 import org.exbin.xbup.core.parser.XBProcessingException;

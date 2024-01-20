@@ -30,6 +30,7 @@ import org.exbin.xbup.core.block.declaration.XBDeclBlockType;
 import org.exbin.xbup.core.block.declaration.catalog.XBCBlockDecl;
 import org.exbin.xbup.core.block.definition.XBBlockDef;
 import org.exbin.xbup.core.block.definition.XBBlockParam;
+import org.exbin.xbup.core.block.definition.XBRevisionDef;
 import org.exbin.xbup.core.catalog.XBACatalog;
 import org.exbin.xbup.core.parser.XBProcessingException;
 import org.exbin.xbup.core.parser.XBProcessingExceptionType;
@@ -476,8 +477,19 @@ public class XBATreeParamExtractor implements XBTPullProvider, XBTEventListener 
             XBBlockDecl blockDecl = paramParam.getBlockDecl();
             processingState.blockDecl = blockDecl;
             parameterInfo.blockDecl = blockDecl;
-            long revision = processingState.blockDecl.getRevision();
-            processingState.parametersCount = processingState.blockDecl.getBlockDef().getRevisionDef().getRevisionLimit(revision);
+            int parametersCount = 0;
+            if (blockDecl != null) {
+                long revision = blockDecl.getRevision();
+                XBBlockDef paramBlockDef = processingState.blockDecl.getBlockDef();
+                if (paramBlockDef != null) {
+                    XBRevisionDef paramRevisionDef = paramBlockDef.getRevisionDef();
+                    if (paramRevisionDef != null) {
+                        parametersCount = paramRevisionDef.getRevisionLimit(revision);
+                    }
+                }
+            }
+            
+            processingState.parametersCount = parametersCount;
             processingStates.add(processingState);
             processState(parameterInfo);
         }

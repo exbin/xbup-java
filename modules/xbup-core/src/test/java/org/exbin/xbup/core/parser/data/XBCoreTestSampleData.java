@@ -17,7 +17,7 @@ package org.exbin.xbup.core.parser.data;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import junit.framework.Assert;
+import org.junit.Assert;
 import org.exbin.xbup.core.block.XBBlock;
 import org.exbin.xbup.core.block.XBBlockTerminationMode;
 import org.exbin.xbup.core.block.XBDefaultBlock;

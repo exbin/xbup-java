@@ -20,8 +20,8 @@ repositories {
 }
 
 dependencies {
-    implementation moduleDep('XbupJava', 'org.exbin.xbup', 'xbup-core')
-    implementation moduleDep('XbupJava', 'org.exbin.xbup', 'xbup-client')
+    implementation moduleDep('XbupJava', 'org.exbin.xbup', 'modules', 'xbup-core')
+    implementation moduleDep('XbupJava', 'org.exbin.xbup', 'modules', 'xbup-client')
     implementation group: 'org.springframework', name: 'spring-core', version: '4.0.5.RELEASE'
     implementation 'org.springframework:spring-core:4.0.5.RELEASE', 'org.springframework:spring-context:4.0.5.RELEASE', 'org.springframework:spring-beans:4.0.5.RELEASE'
     implementation(
@@ -35,6 +35,6 @@ dependencies {
     implementation group: 'javax.activation', name: 'activation', version: '1.1.1'
     implementation group: 'javax.jws', name: 'javax.jws-api', version: '1.1'
     compileOnly group: 'com.google.code.findbugs', name: 'jsr305', version: '3.0.2'
-    implementation moduleDep('ExbinAuxiliaryJava', 'org.exbin.auxiliary', 'binary_data')
+    implementation moduleDep('ExbinAuxiliaryJava', 'org.exbin.auxiliary', 'modules', 'binary_data')
     testImplementation group: 'junit', name: 'junit', version: '4.13.2'
 }

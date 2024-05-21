@@ -169,7 +169,7 @@ public class XBDefaultModuleRepository implements XBModuleRepository {
                         // Alternative when executed from Java 8
                         loader = new DynamicClassLoader(contextClassLoader);
 //                    }
-                    
+
                     loader.add(libraryUri.toURL());
                     clazz = Class.forName(moduleInfo.getModuleId(), true, loader);
 
@@ -276,7 +276,7 @@ public class XBDefaultModuleRepository implements XBModuleRepository {
             throw new IllegalStateException("Circular dependency detected");
         }
     }
-    
+
     /**
      * Gets info about module.
      *

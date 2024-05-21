@@ -19,7 +19,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Optional;
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 import org.exbin.xbup.core.block.XBTEditableDocument;
@@ -27,6 +26,7 @@ import org.exbin.xbup.core.type.XBData;
 import org.exbin.xbup.operation.CompoundOperation;
 import org.exbin.xbup.operation.Operation;
 import org.exbin.xbup.operation.XBTDocOperation;
+import org.exbin.xbup.operation.undo.UndoableOperation;
 
 /**
  * Compound operation for block change.
@@ -54,7 +54,7 @@ public class XBTCompoundBlockOperation extends XBTDocOperation implements Compou
     }
 
     @Override
-    public void execute() throws Exception {
+    public void execute() {
         for (Operation operation : operations) {
             operation.execute();
         }
@@ -62,16 +62,14 @@ public class XBTCompoundBlockOperation extends XBTDocOperation implements Compou
 
     @Nonnull
     @Override
-    public Optional<Operation> executeWithUndo() throws Exception {
+    public UndoableOperation executeWithUndo() {
         LinkedList<Operation> undoOperations = new LinkedList<>();
         for (Operation operation : operations) {
-            Optional<Operation> childOperation = operation.executeWithUndo();
-            if (childOperation.isPresent()) {
-                undoOperations.add(0, childOperation.get());
-            }
+            Operation childOperation = ((UndoableOperation) operation).executeWithUndo();
+            undoOperations.add(0, childOperation);
         }
 
-        return Optional.of(new XBTCompoundBlockOperation(document, undoOperations));
+        return new XBTCompoundBlockOperation(document, undoOperations);
     }
 
     @Override

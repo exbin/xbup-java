@@ -15,25 +15,20 @@
  */
 package org.exbin.xbup.operation.undo;
 
-import javax.annotation.Nonnull;
-import org.exbin.xbup.operation.Command;
-
 /**
- * Undo update listener.
+ * Interface for undo control.
  *
  * @author ExBin Project (https://exbin.org)
  */
-public interface XBUndoUpdateListener {
+public interface UndoRedoControl extends UndoRedoState {
 
     /**
-     * Notifies about change in undo state.
+     * Performs redo.
      */
-    void undoCommandPositionChanged();
+    void performRedo();
 
     /**
-     * Reports new command added to undo sequence.
-     *
-     * @param command command
+     * Performs undo.
      */
-    void undoCommandAdded(@Nonnull Command command);
+    void performUndo();
 }

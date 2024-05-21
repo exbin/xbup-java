@@ -36,6 +36,7 @@ import org.exbin.xbup.core.serial.param.XBPSequenceSerializable;
 import org.exbin.xbup.core.serial.param.XBSerializationMode;
 import org.exbin.xbup.operation.Operation;
 import org.exbin.xbup.operation.XBTDocOperation;
+import org.exbin.xbup.operation.undo.UndoableOperation;
 
 /**
  * Operation for deleting child block.
@@ -61,14 +62,14 @@ public class XBTDeleteBlockOperation extends XBTDocOperation {
     }
 
     @Override
-    public void execute() throws Exception {
+    public void execute() {
         execute(false);
     }
 
     @Nonnull
     @Override
-    public Optional<Operation> executeWithUndo() throws Exception {
-        return execute(true);
+    public UndoableOperation executeWithUndo() {
+        return (UndoableOperation) execute(true).get();
     }
 
     @Nonnull

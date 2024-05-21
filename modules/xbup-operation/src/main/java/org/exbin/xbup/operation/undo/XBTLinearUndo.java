@@ -17,6 +17,9 @@ package org.exbin.xbup.operation.undo;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
 import org.exbin.xbup.operation.Command;
 import org.exbin.xbup.parser_tree.XBTTreeDocument;
 
@@ -25,16 +28,14 @@ import org.exbin.xbup.parser_tree.XBTTreeDocument;
  *
  * @author ExBin Project (https://exbin.org)
  */
-public class XBTLinearUndo implements XBUndoHandler {
+@ParametersAreNonnullByDefault
+public class XBTLinearUndo implements UndoRedo {
 
-    private long undoMaximumCount;
-    private long undoMaximumSize;
-    private long usedSize;
     private long commandPosition;
-    private long syncPointPosition = -1;
+    private long syncPosition = -1;
     private final List<Command> commandList;
     private final XBTTreeDocument document;
-    private final List<XBUndoUpdateListener> listeners = new ArrayList<>();
+    private final List<UndoRedoChangeListener> listeners = new ArrayList<>();
 
     /**
      * Creates a new instance.
@@ -43,8 +44,6 @@ public class XBTLinearUndo implements XBUndoHandler {
      */
     public XBTLinearUndo(XBTTreeDocument document) {
         this.document = document;
-        undoMaximumCount = 1024;
-        undoMaximumSize = 65535;
         commandList = new ArrayList<>();
         init();
     }
@@ -53,10 +52,9 @@ public class XBTLinearUndo implements XBUndoHandler {
      * Adds new step into revert list.
      *
      * @param command command
-     * @throws java.lang.Exception exception
      */
     @Override
-    public void execute(Command command) throws Exception {
+    public void execute(Command command) {
         command.execute();
 
         if (document != null) {
@@ -67,7 +65,6 @@ public class XBTLinearUndo implements XBUndoHandler {
         addCommand(command);
     }
 
-    @Override
     public void addCommand(Command command) {
         // TODO: Check for undoOperationsMaximumCount & size
         while (commandList.size() > commandPosition) {
@@ -77,25 +74,23 @@ public class XBTLinearUndo implements XBUndoHandler {
         commandPosition++;
 
         undoUpdated();
-        for (XBUndoUpdateListener listener : listeners) {
-            listener.undoCommandAdded(command);
+        for (UndoRedoChangeListener listener : listeners) {
+            listener.undoChanged();
         }
     }
 
     /**
      * Performs single undo step.
-     *
-     * @throws java.lang.Exception exception
      */
     @Override
-    public void performUndo() throws Exception {
+    public void performUndo() {
         performUndoInt();
         undoUpdated();
     }
 
-    private void performUndoInt() throws Exception {
+    private void performUndoInt() {
         commandPosition--;
-        Command command = commandList.get((int) commandPosition);
+        UndoableCommand command = (UndoableCommand) commandList.get((int) commandPosition);
         command.undo();
         if (document != null) {
             document.processSpec();
@@ -104,17 +99,15 @@ public class XBTLinearUndo implements XBUndoHandler {
 
     /**
      * Performs single redo step.
-     *
-     * @throws java.lang.Exception exception
      */
     @Override
-    public void performRedo() throws Exception {
+    public void performRedo() {
         performRedoInt();
         undoUpdated();
     }
 
-    private void performRedoInt() throws Exception {
-        Command command = commandList.get((int) commandPosition);
+    private void performRedoInt() {
+        UndoableCommand command = (UndoableCommand) commandList.get((int) commandPosition);
         command.redo();
         commandPosition++;
         if (document != null) {
@@ -126,10 +119,9 @@ public class XBTLinearUndo implements XBUndoHandler {
      * Performs multiple undo step.
      *
      * @param count count of steps
-     * @throws Exception exception
      */
     @Override
-    public void performUndo(int count) throws Exception {
+    public void performUndo(int count) {
         if (commandPosition < count) {
             throw new IllegalArgumentException("Unable to perform " + count + " undo steps");
         }
@@ -145,10 +137,9 @@ public class XBTLinearUndo implements XBUndoHandler {
      * Performs multiple redo step.
      *
      * @param count count of steps
-     * @throws Exception exception
      */
     @Override
-    public void performRedo(int count) throws Exception {
+    public void performRedo(int count) {
         if (commandList.size() - commandPosition < count) {
             throw new IllegalArgumentException("Unable to perform " + count + " redo steps");
         }
@@ -176,67 +167,58 @@ public class XBTLinearUndo implements XBUndoHandler {
     }
 
     @Override
-    public long getMaximumUndo() {
-        return undoMaximumCount;
-    }
-
-    @Override
     public long getCommandPosition() {
         return commandPosition;
     }
 
     /**
      * Performs revert to sync point.
-     *
-     * @throws java.lang.Exception exception
      */
     @Override
-    public void doSync() throws Exception {
-        setCommandPosition(syncPointPosition);
-    }
-
-    public void setUndoMaxCount(long maxUndo) {
-        this.undoMaximumCount = maxUndo;
+    public void performSync() {
+        setCommandPosition(syncPosition);
     }
 
     @Override
-    public long getUndoMaximumSize() {
-        return undoMaximumSize;
-    }
-
-    public void setUndoMaximumSize(long maxSize) {
-        this.undoMaximumSize = maxSize;
+    public long getSyncPosition() {
+        return syncPosition;
     }
 
     @Override
-    public long getUsedSize() {
-        return usedSize;
+    public void setSyncPosition(long syncPoint) {
+        this.syncPosition = syncPoint;
     }
 
     @Override
-    public long getSyncPoint() {
-        return syncPointPosition;
+    public void setSyncPosition() {
+        this.syncPosition = commandPosition;
     }
 
-    @Override
-    public void setSyncPoint(long syncPoint) {
-        this.syncPointPosition = syncPoint;
-    }
-
-    @Override
-    public void setSyncPoint() {
-        this.syncPointPosition = commandPosition;
-    }
-
+    @Nonnull
     @Override
     public List<Command> getCommandList() {
         return commandList;
     }
 
+    @Nonnull
+    @Override
+    public Optional<Command> getTopUndoCommand() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public long getCommandsCount() {
+        return commandList.size();
+    }
+
+    @Override
+    public boolean isModified() {
+        return syncPosition != commandPosition;
+    }
+
     private void init() {
-        usedSize = 0;
         commandPosition = 0;
-        setSyncPoint(0);
+        setSyncPosition(0);
         commandList.clear();
     }
 
@@ -244,10 +226,8 @@ public class XBTLinearUndo implements XBUndoHandler {
      * Performs undo or redo operation to reach given position.
      *
      * @param targetPosition desired position
-     * @throws java.lang.Exception exception
      */
-    @Override
-    public void setCommandPosition(long targetPosition) throws Exception {
+    public void setCommandPosition(long targetPosition) {
         if (targetPosition < commandPosition) {
             performUndo((int) (commandPosition - targetPosition));
         } else if (targetPosition > commandPosition) {
@@ -256,18 +236,18 @@ public class XBTLinearUndo implements XBUndoHandler {
     }
 
     private void undoUpdated() {
-        for (XBUndoUpdateListener listener : listeners) {
-            listener.undoCommandPositionChanged();
+        for (UndoRedoChangeListener listener : listeners) {
+            listener.undoChanged();
         }
     }
 
     @Override
-    public void addUndoUpdateListener(XBUndoUpdateListener listener) {
+    public void addChangeListener(UndoRedoChangeListener listener) {
         listeners.add(listener);
     }
 
     @Override
-    public void removeUndoUpdateListener(XBUndoUpdateListener listener) {
+    public void removeChangeListener(UndoRedoChangeListener listener) {
         listeners.remove(listener);
     }
 }

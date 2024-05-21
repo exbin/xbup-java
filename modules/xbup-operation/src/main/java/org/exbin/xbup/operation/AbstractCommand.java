@@ -15,10 +15,8 @@
  */
 package org.exbin.xbup.operation;
 
-import java.util.Date;
-import java.util.Optional;
-import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
+import org.exbin.xbup.operation.undo.UndoableCommand;
 
 /**
  * Abstract command class.
@@ -26,41 +24,20 @@ import javax.annotation.ParametersAreNonnullByDefault;
  * @author ExBin Project (https://exbin.org)
  */
 @ParametersAreNonnullByDefault
-public abstract class AbstractCommand implements Command {
-
-    private Date executionTime = null;
+public abstract class AbstractCommand implements UndoableCommand {
 
     /**
      * Default execution method performs simply redo operation.
-     *
-     * @throws Exception exception
      */
     @Override
-    public void execute() throws Exception {
-        use();
+    public void execute() {
         redo();
     }
 
     /**
-     * Performs update of command use information.
-     */
-    @Override
-    public void use() {
-        executionTime = new Date();
-    }
-
-    /**
      * Default dispose method do nothing.
-     *
-     * @throws Exception exception
      */
     @Override
-    public void dispose() throws Exception {
-    }
-
-    @Nonnull
-    @Override
-    public Optional<Date> getExecutionTime() {
-        return Optional.ofNullable(executionTime);
+    public void dispose() {
     }
 }

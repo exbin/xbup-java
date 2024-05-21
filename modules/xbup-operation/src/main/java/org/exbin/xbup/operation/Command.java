@@ -15,70 +15,30 @@
  */
 package org.exbin.xbup.operation;
 
-import java.util.Date;
-import java.util.Optional;
 import javax.annotation.Nonnull;
 
 /**
- * Interface for XBUP editor command.
+ * Interface for command.
  *
  * @author ExBin Project (https://exbin.org)
  */
 public interface Command {
 
     /**
-     * Returns caption as text.
+     * Returns command name.
      *
      * @return text caption
      */
     @Nonnull
-    String getCaption();
+    String getName();
 
     /**
-     * Performs operation on given document.
-     *
-     * @throws java.lang.Exception exception
+     * Performs command on given document.
      */
-    void execute() throws Exception;
-
-    /**
-     * Performs update of command use information.
-     */
-    void use();
-
-    /**
-     * Performs redo on given document.
-     *
-     * @throws java.lang.Exception exception
-     */
-    void redo() throws Exception;
-
-    /**
-     * Performs undo operation on given document.
-     *
-     * @throws java.lang.Exception exception
-     */
-    void undo() throws Exception;
-
-    /**
-     * Returns true if command support undo operation.
-     *
-     * @return true if undo supported
-     */
-    boolean canUndo();
+    void execute();
 
     /**
      * Disposes command.
-     *
-     * @throws java.lang.Exception exception
      */
-    void dispose() throws Exception;
-
-    /**
-     * Returns time of command execution.
-     *
-     * @return time
-     */
-    @Nonnull
-    Optional<Date> getExecutionTime();
+    void dispose();
 }

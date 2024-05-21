@@ -13,34 +13,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.exbin.xbup.operation;
-
-import javax.annotation.Nonnull;
+package org.exbin.xbup.operation.undo;
 
 /**
- * Interface for XBUP editor operation.
+ * Interface for undo state.
  *
  * @author ExBin Project (https://exbin.org)
  */
-public interface Operation {
+public interface UndoRedoState {
 
     /**
-     * Returns operation name.
+     * Returns whether undo operation is available.
      *
-     * @return operation name
+     * @return true if undo possible
      */
-    @Nonnull
-    String getName();
+    boolean canUndo();
 
     /**
-     * Performs operation on given document.
-     */
-    void execute();
-
-    /**
-     * Disposes command.
+     * Returns whether redo operation is available.
      *
-     * @throws java.lang.Exception exception
+     * @return true if redo possible
      */
-    void dispose() throws Exception;
+    boolean canRedo();
 }

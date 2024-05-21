@@ -50,16 +50,14 @@ public abstract class XBTDocCommand extends AbstractCommand {
 
     /**
      * Default dispose is empty.
-     *
-     * @throws Exception exception
      */
     @Override
-    public void dispose() throws Exception {
+    public void dispose() {
     }
 
     @Nonnull
     @Override
-    public String getCaption() {
+    public String getName() {
         return getBasicType().getCaption();
     }
 }

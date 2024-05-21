@@ -121,7 +121,7 @@ public class XBLinearUndo {
     }
 
     public String getDesc(XBDocOperation undoStep) {
-        return undoStep.getCaption();
+        return undoStep.getName();
     }
 
     public void setMaxSize(long maxSize) {

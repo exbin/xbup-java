@@ -13,34 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.exbin.xbup.operation;
-
-import javax.annotation.Nonnull;
+package org.exbin.xbup.operation.undo;
 
 /**
- * Interface for XBUP editor operation.
+ * Undo change listener.
  *
  * @author ExBin Project (https://exbin.org)
  */
-public interface Operation {
+public interface UndoRedoChangeListener {
 
     /**
-     * Returns operation name.
-     *
-     * @return operation name
+     * Undo changed.
      */
-    @Nonnull
-    String getName();
-
-    /**
-     * Performs operation on given document.
-     */
-    void execute();
-
-    /**
-     * Disposes command.
-     *
-     * @throws java.lang.Exception exception
-     */
-    void dispose() throws Exception;
+    void undoChanged();
 }

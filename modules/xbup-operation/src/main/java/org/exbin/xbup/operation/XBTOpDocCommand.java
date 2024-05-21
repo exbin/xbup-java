@@ -57,14 +57,9 @@ public abstract class XBTOpDocCommand extends XBTDocCommand {
     }
 
     @Override
-    public boolean canUndo() {
-        return true;
-    }
-
-    @Override
-    public void undo() throws Exception {
+    public void undo() {
         if (isUndoMode) {
-            XBTDocOperation redoOperation = (XBTDocOperation) operation.executeWithUndo().orElse(null);
+            XBTDocOperation redoOperation = (XBTDocOperation) operation.executeWithUndo();
             if (document instanceof OperationListener) {
                 ((OperationListener) document).notifyChange(new OperationEvent(operation));
             }
@@ -77,9 +72,9 @@ public abstract class XBTOpDocCommand extends XBTDocCommand {
     }
 
     @Override
-    public void redo() throws Exception {
+    public void redo() {
         if (!isUndoMode) {
-            XBTDocOperation undoOperation = (XBTDocOperation) operation.executeWithUndo().orElse(null);
+            XBTDocOperation undoOperation = (XBTDocOperation) operation.executeWithUndo();
             if (document instanceof OperationListener) {
                 ((OperationListener) document).notifyChange(new OperationEvent(operation));
             }

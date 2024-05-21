@@ -15,32 +15,17 @@
  */
 package org.exbin.xbup.operation;
 
-import javax.annotation.Nonnull;
-
 /**
- * Interface for XBUP editor operation.
+ * Modified document state.
  *
  * @author ExBin Project (https://exbin.org)
  */
-public interface Operation {
+public interface ModifiedState {
 
     /**
-     * Returns operation name.
+     * Returns whether undo operation is modified.
      *
-     * @return operation name
+     * @return true if modified
      */
-    @Nonnull
-    String getName();
-
-    /**
-     * Performs operation on given document.
-     */
-    void execute();
-
-    /**
-     * Disposes command.
-     *
-     * @throws java.lang.Exception exception
-     */
-    void dispose() throws Exception;
+    boolean isModified();
 }

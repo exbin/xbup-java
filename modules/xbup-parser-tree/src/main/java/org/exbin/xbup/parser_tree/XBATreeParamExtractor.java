@@ -488,7 +488,7 @@ public class XBATreeParamExtractor implements XBTPullProvider, XBTEventListener 
                     }
                 }
             }
-            
+
             processingState.parametersCount = parametersCount;
             processingStates.add(processingState);
             processState(parameterInfo);

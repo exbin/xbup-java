@@ -13,34 +13,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.exbin.xbup.operation;
+package org.exbin.xbup.operation.undo;
 
 import javax.annotation.Nonnull;
+import org.exbin.xbup.operation.Operation;
 
 /**
- * Interface for XBUP editor operation.
+ * Undoable operation interface.
  *
  * @author ExBin Project (https://exbin.org)
  */
-public interface Operation {
+public interface UndoableOperation extends Operation {
 
     /**
-     * Returns operation name.
+     * Performs operation on given document and returns undo operation.
      *
-     * @return operation name
+     * @return undo operation
      */
     @Nonnull
-    String getName();
-
-    /**
-     * Performs operation on given document.
-     */
-    void execute();
-
-    /**
-     * Disposes command.
-     *
-     * @throws java.lang.Exception exception
-     */
-    void dispose() throws Exception;
+    UndoableOperation executeWithUndo();
 }

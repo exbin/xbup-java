@@ -29,14 +29,14 @@ import javax.annotation.ParametersAreNonnullByDefault;
 public interface CompoundCommand extends Command {
 
     /**
-     * Append command to the list of commands.
+     * Appends command to the list of commands.
      *
      * @param command appended command
      */
     void appendCommand(Command command);
 
     /**
-     * Append list of commands to the list of commands.
+     * Appends list of commands to the list of commands.
      *
      * @param commands appended commands
      */

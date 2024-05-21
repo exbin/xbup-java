@@ -59,7 +59,7 @@ public abstract class XBDocOperation implements Operation {
 
     @Nonnull
     @Override
-    public String getCaption() {
+    public String getName() {
         return getBasicType().getCaption();
     }
 }

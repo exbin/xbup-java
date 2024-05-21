@@ -20,6 +20,7 @@ import javax.annotation.ParametersAreNonnullByDefault;
 import org.exbin.xbup.core.block.XBTEditableDocument;
 import org.exbin.xbup.core.type.XBData;
 import org.exbin.xbup.operation.basic.XBBasicOperationType;
+import org.exbin.xbup.operation.undo.UndoableOperation;
 
 /**
  * Abstract class for operation using XBUP level 1 document.
@@ -27,7 +28,7 @@ import org.exbin.xbup.operation.basic.XBBasicOperationType;
  * @author ExBin Project (https://exbin.org)
  */
 @ParametersAreNonnullByDefault
-public abstract class XBTDocOperation implements Operation {
+public abstract class XBTDocOperation implements UndoableOperation {
 
     @Nonnull
     protected final XBTEditableDocument document;
@@ -74,7 +75,7 @@ public abstract class XBTDocOperation implements Operation {
 
     @Nonnull
     @Override
-    public String getCaption() {
+    public String getName() {
         return getBasicType().getCaption();
     }
 }

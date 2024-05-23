@@ -73,12 +73,12 @@ public class XBTCompoundBlockOperation extends XBTDocOperation implements Compou
     }
 
     @Override
-    public void appendOperation(Operation operation) {
+    public void addOperation(Operation operation) {
         operations.add(operation);
     }
 
     @Override
-    public void appendOperations(Collection<Operation> appendedOperations) {
+    public void addOperations(Collection<Operation> appendedOperations) {
         operations.addAll(appendedOperations);
     }
 

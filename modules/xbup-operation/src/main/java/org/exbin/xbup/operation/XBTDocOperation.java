@@ -66,11 +66,9 @@ public abstract class XBTDocOperation implements UndoableOperation {
      * Performs dispose of the operation.
      *
      * Default dispose is empty.
-     *
-     * @throws Exception exception
      */
     @Override
-    public void dispose() throws Exception {
+    public void dispose() {
     }
 
     @Nonnull

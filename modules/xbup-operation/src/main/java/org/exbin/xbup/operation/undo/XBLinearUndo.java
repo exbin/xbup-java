@@ -17,6 +17,7 @@ package org.exbin.xbup.operation.undo;
 
 import java.util.ArrayList;
 import java.util.List;
+import javax.annotation.ParametersAreNonnullByDefault;
 import org.exbin.xbup.operation.XBDocOperation;
 import org.exbin.xbup.parser_tree.XBTree;
 
@@ -27,13 +28,14 @@ import org.exbin.xbup.parser_tree.XBTree;
  *
  * @author ExBin Project (https://exbin.org)
  */
+@ParametersAreNonnullByDefault
 public class XBLinearUndo {
 
     private long maxUndo; // Max count of list of commands
     private long maxSize; // Max size of list of commands
     private long usedSize; // Currently used size
     private long position; // Current position in history qeue
-    private long syncPoint; // Position of currently stored state
+    private long syncPosition; // Position of currently stored state
     private final List<XBDocOperation> operationList;
     private final XBTree tree;
 
@@ -89,7 +91,7 @@ public class XBLinearUndo {
     private void init() {
         usedSize = 0;
         position = 0;
-        setSyncPoint(0);
+        setSyncPosition(0);
         operationList.clear();
     }
 
@@ -132,11 +134,11 @@ public class XBLinearUndo {
         return usedSize;
     }
 
-    public long getSyncPoint() {
-        return syncPoint;
+    public long getSyncPosition() {
+        return syncPosition;
     }
 
-    public void setSyncPoint(long syncPoint) {
-        this.syncPoint = syncPoint;
+    public void setSyncPosition(long syncPosition) {
+        this.syncPosition = syncPosition;
     }
 }

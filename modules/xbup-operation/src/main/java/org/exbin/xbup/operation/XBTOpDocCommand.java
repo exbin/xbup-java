@@ -31,7 +31,7 @@ public abstract class XBTOpDocCommand extends XBTDocCommand {
 
     @Nullable
     private XBTDocOperation operation;
-    private boolean isUndoMode = false;
+    private CommandPhase phase = CommandPhase.CREATED;
 
     public XBTOpDocCommand(XBTEditableDocument document) {
         super(document);
@@ -58,31 +58,23 @@ public abstract class XBTOpDocCommand extends XBTDocCommand {
 
     @Override
     public void undo() {
-        if (isUndoMode) {
-            XBTDocOperation redoOperation = (XBTDocOperation) operation.executeWithUndo();
-            if (document instanceof OperationListener) {
-                ((OperationListener) document).notifyChange(new OperationEvent(operation));
-            }
-
-            operation = redoOperation;
-            isUndoMode = false;
-        } else {
-            throw new UnsupportedOperationException("Not supported yet.");
+        if (phase == CommandPhase.REVERTED) {
+            throw new IllegalStateException();
         }
+
+        XBTDocOperation redoOperation = (XBTDocOperation) operation.executeWithUndo();
+        operation = redoOperation;
+        phase = CommandPhase.REVERTED;
     }
 
     @Override
     public void redo() {
-        if (!isUndoMode) {
-            XBTDocOperation undoOperation = (XBTDocOperation) operation.executeWithUndo();
-            if (document instanceof OperationListener) {
-                ((OperationListener) document).notifyChange(new OperationEvent(operation));
-            }
-
-            operation = undoOperation;
-            isUndoMode = true;
-        } else {
-            throw new UnsupportedOperationException("Not supported yet.");
+        if (phase == CommandPhase.EXECUTED) {
+            throw new IllegalStateException();
         }
+
+        XBTDocOperation undoOperation = (XBTDocOperation) operation.executeWithUndo();
+        operation = undoOperation;
+        phase = CommandPhase.EXECUTED;
     }
 }

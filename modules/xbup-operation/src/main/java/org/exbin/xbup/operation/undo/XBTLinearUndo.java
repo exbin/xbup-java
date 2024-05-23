@@ -31,8 +31,8 @@ import org.exbin.xbup.parser_tree.XBTTreeDocument;
 @ParametersAreNonnullByDefault
 public class XBTLinearUndo implements UndoRedo {
 
-    private long commandPosition;
-    private long syncPosition = -1;
+    private int commandPosition;
+    private int syncPosition = -1;
     private final List<Command> commandList;
     private final XBTTreeDocument document;
     private final List<UndoRedoChangeListener> listeners = new ArrayList<>();
@@ -167,7 +167,7 @@ public class XBTLinearUndo implements UndoRedo {
     }
 
     @Override
-    public long getCommandPosition() {
+    public int getCommandPosition() {
         return commandPosition;
     }
 
@@ -180,13 +180,13 @@ public class XBTLinearUndo implements UndoRedo {
     }
 
     @Override
-    public long getSyncPosition() {
+    public int getSyncPosition() {
         return syncPosition;
     }
 
     @Override
-    public void setSyncPosition(long syncPoint) {
-        this.syncPosition = syncPoint;
+    public void setSyncPosition(int syncPosition) {
+        this.syncPosition = syncPosition;
     }
 
     @Override
@@ -203,11 +203,11 @@ public class XBTLinearUndo implements UndoRedo {
     @Nonnull
     @Override
     public Optional<Command> getTopUndoCommand() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return commandPosition > 0 ? Optional.of(commandList.get(commandPosition - 1)) : Optional.empty();
     }
 
     @Override
-    public long getCommandsCount() {
+    public int getCommandsCount() {
         return commandList.size();
     }
 
@@ -227,7 +227,7 @@ public class XBTLinearUndo implements UndoRedo {
      *
      * @param targetPosition desired position
      */
-    public void setCommandPosition(long targetPosition) {
+    public void setCommandPosition(int targetPosition) {
         if (targetPosition < commandPosition) {
             performUndo((int) (commandPosition - targetPosition));
         } else if (targetPosition > commandPosition) {

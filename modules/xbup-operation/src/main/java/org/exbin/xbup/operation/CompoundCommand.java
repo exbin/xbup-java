@@ -29,18 +29,18 @@ import javax.annotation.ParametersAreNonnullByDefault;
 public interface CompoundCommand extends Command {
 
     /**
-     * Appends command to the list of commands.
+     * Adds command to the list of commands.
      *
      * @param command appended command
      */
-    void appendCommand(Command command);
+    void addCommand(Command command);
 
     /**
-     * Appends list of commands to the list of commands.
+     * Adds list of commands to the list of commands.
      *
      * @param commands appended commands
      */
-    void appendCommands(Collection<Command> commands);
+    void addCommands(Collection<Command> commands);
 
     /**
      * Returns list of commands.

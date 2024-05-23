@@ -18,17 +18,18 @@ package org.exbin.xbup.operation;
 import javax.annotation.ParametersAreNonnullByDefault;
 
 /**
- * Operation execution listener.
+ * Interface for appendable command.
  *
  * @author ExBin Project (https://exbin.org)
  */
 @ParametersAreNonnullByDefault
-public interface OperationListener {
+public interface AppendableCommand {
 
     /**
-     * Notifies about change in document content.
+     * Attempts to append command.
      *
-     * @param event change event
+     * @param command command
+     * @return true if sucessfully appended
      */
-    void notifyChange(OperationEvent event);
+    boolean appendCommand(Command command);
 }

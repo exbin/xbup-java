@@ -15,6 +15,7 @@
  */
 package org.exbin.xbup.operation.basic.command;
 
+import javax.annotation.ParametersAreNonnullByDefault;
 import org.exbin.xbup.core.block.XBTEditableDocument;
 import org.exbin.xbup.operation.XBTOpDocCommand;
 import org.exbin.xbup.operation.basic.XBBasicCommandType;
@@ -26,6 +27,7 @@ import org.exbin.xbup.parser_tree.XBTTreeNode;
  *
  * @author ExBin Project (https://exbin.org)
  */
+@ParametersAreNonnullByDefault
 public class XBTDeleteBlockCommand extends XBTOpDocCommand {
 
     public XBTDeleteBlockCommand(XBTEditableDocument document, XBTTreeNode node) {

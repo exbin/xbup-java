@@ -29,18 +29,18 @@ import javax.annotation.ParametersAreNonnullByDefault;
 public interface CompoundOperation extends Operation {
 
     /**
-     * Appends operation to the list of operations.
+     * Adds operation to the list of operations.
      *
      * @param operation appended operation
      */
-    void appendOperation(Operation operation);
+    void addOperation(Operation operation);
 
     /**
-     * Appends list of operations to the list of operations.
+     * Adds list of operations to the list of operations.
      *
      * @param operations appended operations
      */
-    void appendOperations(Collection<Operation> operations);
+    void addOperations(Collection<Operation> operations);
 
     /**
      * Returns list of operations.

@@ -20,6 +20,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Optional;
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 import org.exbin.xbup.core.block.XBTEditableDocument;
 import org.exbin.xbup.core.parser.XBProcessingException;
@@ -29,7 +30,6 @@ import org.exbin.xbup.core.serial.param.XBPSequenceSerialHandler;
 import org.exbin.xbup.core.serial.param.XBPSequenceSerializable;
 import org.exbin.xbup.core.serial.param.XBSerializationMode;
 import org.exbin.xbup.core.type.XBData;
-import org.exbin.xbup.operation.Operation;
 import org.exbin.xbup.operation.XBTDocOperation;
 import org.exbin.xbup.operation.undo.UndoableOperation;
 
@@ -63,11 +63,11 @@ public class XBTTailDataOperation extends XBTDocOperation {
     @Nonnull
     @Override
     public UndoableOperation executeWithUndo() {
-        return (UndoableOperation) execute(true).get();
+        return execute(true);
     }
 
-    @Nonnull
-    private Optional<Operation> execute(boolean withUndo) {
+    @Nullable
+    private UndoableOperation execute(boolean withUndo) {
         XBTTailDataOperation undoOperation = null;
         try {
             if (withUndo) {
@@ -89,7 +89,7 @@ public class XBTTailDataOperation extends XBTDocOperation {
             throw new IllegalStateException("Unable to process data", ex);
         }
 
-        return Optional.ofNullable(undoOperation);
+        return undoOperation;
     }
 
     @ParametersAreNonnullByDefault

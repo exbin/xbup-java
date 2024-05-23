@@ -23,6 +23,7 @@ import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 import org.exbin.xbup.core.block.XBTBlock;
 import org.exbin.xbup.core.block.XBTDefaultBlock;
@@ -34,7 +35,6 @@ import org.exbin.xbup.core.serial.XBPSerialWriter;
 import org.exbin.xbup.core.serial.param.XBPSequenceSerialHandler;
 import org.exbin.xbup.core.serial.param.XBPSequenceSerializable;
 import org.exbin.xbup.core.serial.param.XBSerializationMode;
-import org.exbin.xbup.operation.Operation;
 import org.exbin.xbup.operation.XBTDocOperation;
 import org.exbin.xbup.operation.undo.UndoableOperation;
 
@@ -69,11 +69,11 @@ public class XBTDeleteBlockOperation extends XBTDocOperation {
     @Nonnull
     @Override
     public UndoableOperation executeWithUndo() {
-        return (UndoableOperation) execute(true).get();
+        return execute(true);
     }
 
-    @Nonnull
-    private Optional<Operation> execute(boolean withUndo) {
+    @Nullable
+    private UndoableOperation execute(boolean withUndo) {
         InputStream dataInputStream = getData().getDataInputStream();
         XBPSerialReader reader = new XBPSerialReader(dataInputStream);
         Serializator serial = new Serializator();
@@ -110,7 +110,7 @@ public class XBTDeleteBlockOperation extends XBTDocOperation {
             parentNode.removeChild(childIndex);
         }
 
-        return Optional.ofNullable(undoOperation);
+        return undoOperation;
     }
 
     @ParametersAreNonnullByDefault

@@ -44,10 +44,10 @@ public class XBTChangeBlockCommand extends XBTOpDocCommand {
         return XBBasicCommandType.BLOCK_MODIFIED;
     }
 
-    public void appendOperation(Operation operation) {
+    public void addOperation(Operation operation) {
         Optional<XBTDocOperation> commandOperation = getOperation();
         if (commandOperation.isPresent()) {
-            ((XBTCompoundBlockOperation) commandOperation.get()).appendOperation(operation);
+            ((XBTCompoundBlockOperation) commandOperation.get()).addOperation(operation);
         } else {
             setOperation((XBTDocOperation) operation);
         }

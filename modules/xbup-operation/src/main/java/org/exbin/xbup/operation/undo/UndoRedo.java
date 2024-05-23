@@ -60,14 +60,14 @@ public interface UndoRedo extends UndoRedoControl, ModifiedState {
      *
      * @return position in sequence.
      */
-    long getCommandPosition();
+    int getCommandPosition();
 
     /**
      * Returns commands count.
      *
      * @return commands count.
      */
-    long getCommandsCount();
+    int getCommandsCount();
 
     /**
      * Resets / clears all commands in sequence.
@@ -98,14 +98,14 @@ public interface UndoRedo extends UndoRedoControl, ModifiedState {
      *
      * @return command position
      */
-    long getSyncPosition();
+    int getSyncPosition();
 
     /**
      * Sets synchronization mark position.
      *
      * @param commandPosition command position
      */
-    void setSyncPosition(long commandPosition);
+    void setSyncPosition(int commandPosition);
 
     /**
      * Sets synchronization mark position to current command position.

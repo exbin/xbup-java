@@ -18,7 +18,6 @@ package org.exbin.xbup.operation.basic;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.Nonnull;
@@ -39,7 +38,6 @@ import org.exbin.xbup.core.serial.param.XBPSequenceSerialHandler;
 import org.exbin.xbup.core.serial.param.XBPSequenceSerializable;
 import org.exbin.xbup.core.serial.param.XBSerializationMode;
 import org.exbin.xbup.core.type.XBData;
-import org.exbin.xbup.operation.Operation;
 import org.exbin.xbup.operation.XBTDocOperation;
 import org.exbin.xbup.operation.undo.UndoableOperation;
 import org.exbin.xbup.parser_tree.XBTBlockToXBBlock;
@@ -77,11 +75,11 @@ public class XBTAddBlockOperation extends XBTDocOperation {
     @Nonnull
     @Override
     public UndoableOperation executeWithUndo() {
-        return (UndoableOperation) execute(true).get();
+        return execute(true);
     }
 
-    @Nonnull
-    private Optional<Operation> execute(boolean withUndo) {
+    @Nullable
+    private UndoableOperation execute(boolean withUndo) {
         InputStream dataInputStream = getData().getDataInputStream();
         XBPSerialReader reader = new XBPSerialReader(dataInputStream);
         Serializator serial = new Serializator();
@@ -103,7 +101,7 @@ public class XBTAddBlockOperation extends XBTDocOperation {
                 if (serial.childIndex < parentNode.getChildrenCount()) {
                     parentNode.setChildrenCount(parentNode.getChildrenCount() + 1);
                     for (int i = parentNode.getChildrenCount() - 1; i > serial.childIndex; i--) {
-                        parentNode.setChildAt(parentNode.getChildAt(i-1), i);
+                        parentNode.setChildAt(parentNode.getChildAt(i - 1), i);
                     }
                 }
                 parentNode.setChildAt(serial.newNode, serial.childIndex);
@@ -120,10 +118,10 @@ public class XBTAddBlockOperation extends XBTDocOperation {
             } else {
                 undoOperation = new XBTDeleteBlockOperation(document, document.getRootBlock().get());
             }
-            return Optional.of(undoOperation);
+            return undoOperation;
         }
 
-        return Optional.empty();
+        return null;
     }
 
     @ParametersAreNonnullByDefault

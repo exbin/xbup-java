@@ -15,30 +15,14 @@
  */
 package org.exbin.xbup.operation;
 
-import javax.annotation.Nonnull;
-
 /**
- * Interface for XBUP editor operation.
+ * Enumeration of command execution phases.
  *
  * @author ExBin Project (https://exbin.org)
  */
-public interface Operation {
+public enum CommandPhase {
 
-    /**
-     * Returns operation name.
-     *
-     * @return operation name
-     */
-    @Nonnull
-    String getName();
-
-    /**
-     * Performs operation on given document.
-     */
-    void execute();
-
-    /**
-     * Disposes command.
-     */
-    void dispose();
+    CREATED,
+    EXECUTED,
+    REVERTED
 }

@@ -15,29 +15,21 @@
  */
 package org.exbin.xbup.operation;
 
-import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
 /**
- * Operation execution event.
+ * Interface for appendable operation.
  *
  * @author ExBin Project (https://exbin.org)
  */
 @ParametersAreNonnullByDefault
-public class OperationEvent {
+public interface AppendableOperation {
 
-    private Operation operation;
-
-    public OperationEvent(Operation operation) {
-        this.operation = operation;
-    }
-
-    @Nonnull
-    public Operation getOperation() {
-        return operation;
-    }
-
-    public void setOperation(Operation operation) {
-        this.operation = operation;
-    }
+    /**
+     * Attempts to append operation.
+     *
+     * @param operation operation
+     * @return true if sucessfully appended
+     */
+    boolean appendOperation(Operation operation);
 }

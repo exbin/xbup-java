@@ -13,9 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.exbin.xbup.operation;
+package org.exbin.xbup.operation.undo;
 
 import javax.annotation.ParametersAreNonnullByDefault;
+import org.exbin.xbup.operation.Command;
 
 /**
  * Interface for appendable command.
@@ -26,10 +27,10 @@ import javax.annotation.ParametersAreNonnullByDefault;
 public interface AppendableCommand {
 
     /**
-     * Attempts to append command.
+     * Attempts to execute command as an append to existing command.
      *
      * @param command command
      * @return true if sucessfully appended
      */
-    boolean appendCommand(Command command);
+    boolean appendExecute(Command command);
 }

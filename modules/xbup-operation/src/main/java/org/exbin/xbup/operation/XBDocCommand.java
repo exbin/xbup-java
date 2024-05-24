@@ -58,6 +58,6 @@ public abstract class XBDocCommand extends AbstractCommand {
     @Nonnull
     @Override
     public String getName() {
-        return getBasicType().getCaption();
+        return getBasicType().getName();
     }
 }

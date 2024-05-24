@@ -13,47 +13,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.exbin.xbup.operation.basic;
+package org.exbin.xbup.operation.undo;
 
-import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
-import org.exbin.xbup.operation.OperationType;
+import org.exbin.xbup.operation.Operation;
 
 /**
- * Document operation type enumeration.
+ * Interface for appendable operation.
  *
  * @author ExBin Project (https://exbin.org)
  */
 @ParametersAreNonnullByDefault
-public enum XBBasicOperationType implements OperationType {
+public interface AppendableOperation {
 
     /**
-     * Block added.
+     * Attempts to append an operation.
+     *
+     * @param operation operation
+     * @return true if sucessfully appended
      */
-    ADD_BLOCK("Add block"),
-    /**
-     * Block deleted.
-     */
-    DELETE_BLOCK("Delete block"),
-    /**
-     * Block modified.
-     */
-    MODIFY_BLOCK("Modify block"),
-    /**
-     * Block moved.
-     */
-    MOVE_BLOCK("Move block");
-
-    @Nonnull
-    private final String name;
-
-    private XBBasicOperationType(String name) {
-        this.name = name;
-    }
-
-    @Nonnull
-    @Override
-    public String getName() {
-        return name;
-    }
+    boolean appendOperation(Operation operation);
 }

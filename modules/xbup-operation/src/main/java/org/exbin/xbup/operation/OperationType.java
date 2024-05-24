@@ -13,46 +13,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.exbin.xbup.operation.basic;
+package org.exbin.xbup.operation;
 
 import javax.annotation.Nonnull;
-import javax.annotation.ParametersAreNonnullByDefault;
-import org.exbin.xbup.operation.CommandType;
 
 /**
- * Document command type enumeration.
+ * Operation type interface.
  *
  * @author ExBin Project (https://exbin.org)
  */
-@ParametersAreNonnullByDefault
-public enum XBBasicCommandType implements CommandType {
+public interface OperationType {
 
     /**
-     * Block added.
+     * Returns operation type name.
+     *
+     * @return operation type name
      */
-    BLOCK_ADDED("Block added"),
-    /**
-     * Block deleted.
-     */
-    BLOCK_DELETED("Block deleted"),
-    /**
-     * Block modified.
-     */
-    BLOCK_MODIFIED("Block modified"),
-    /**
-     * Block moved.
-     */
-    BLOCK_MOVED("Block moved");
-
-    private final String name;
-
-    private XBBasicCommandType(String name) {
-        this.name = name;
-    }
-
     @Nonnull
-    @Override
-    public String getName() {
-        return name;
-    }
+    String getName();
 }

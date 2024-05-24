@@ -74,6 +74,6 @@ public abstract class XBTDocOperation implements UndoableOperation {
     @Nonnull
     @Override
     public String getName() {
-        return getBasicType().getCaption();
+        return getBasicType().getName();
     }
 }

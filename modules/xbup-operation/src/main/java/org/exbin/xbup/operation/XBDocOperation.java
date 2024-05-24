@@ -58,6 +58,6 @@ public abstract class XBDocOperation implements Operation {
     @Nonnull
     @Override
     public String getName() {
-        return getBasicType().getCaption();
+        return getBasicType().getName();
     }
 }

@@ -24,7 +24,7 @@ dependencies {
     implementation moduleDep('XbupJava', 'org.exbin.xbup', 'modules', 'xbup-catalog')
     implementation moduleDep('XbupJava', 'org.exbin.xbup', 'modules', 'xbup-client')
     implementation moduleDep('ExbinAuxiliaryJava', 'org.exbin.auxiliary', 'modules', 'binary_data')
-    implementation moduleDep('ExbinAuxiliaryJava', 'org.exbin.auxiliary', 'modules', 'binary_data-paged')
+    implementation moduleDep('ExbinAuxiliaryJava', 'org.exbin.auxiliary', 'modules', 'binary_data-array')
     implementation 'javax.persistence:persistence-api:1.0.2'
     implementation group: 'org.springframework', name: 'spring-core', version: '4.0.5.RELEASE'
     implementation 'org.springframework:spring-core:4.0.5.RELEASE', 'org.springframework:spring-context:4.0.5.RELEASE', 'org.springframework:spring-beans:4.0.5.RELEASE'

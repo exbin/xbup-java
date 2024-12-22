@@ -18,7 +18,7 @@ package org.exbin.xbup.core.type;
 import java.io.IOException;
 import javax.annotation.ParametersAreNonnullByDefault;
 import org.exbin.auxiliary.binary_data.BinaryData;
-import org.exbin.auxiliary.binary_data.paged.PagedData;
+import org.exbin.auxiliary.binary_data.paged.ByteArrayPagedData;
 import org.exbin.xbup.core.block.XBBlockTerminationMode;
 import org.exbin.xbup.core.parser.XBProcessingException;
 import org.exbin.xbup.core.serial.child.XBTChildInputSerialHandler;
@@ -34,7 +34,7 @@ import org.exbin.xbup.core.serial.child.XBTChildSerializable;
  * @author ExBin Project (https://exbin.org)
  */
 @ParametersAreNonnullByDefault
-public class XBData extends PagedData implements XBTChildSerializable {
+public class XBData extends ByteArrayPagedData implements XBTChildSerializable {
 
     public XBData() {
         super();

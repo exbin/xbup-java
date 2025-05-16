@@ -50,7 +50,7 @@ public interface XBPSequencer extends XBPListener, XBPProvider {
     /**
      * Performs matching to given block type.
      *
-     * Reading will check if value fully equals, writting will write it.
+     * Reading will check if value fully equals, writing will write it.
      *
      * @param blockType block type to match to
      * @throws java.io.IOException if input/output error
@@ -60,7 +60,7 @@ public interface XBPSequencer extends XBPListener, XBPProvider {
     /**
      * Performs matching to unknown block type.
      *
-     * Reading will check if value fully equals, writting will write it.
+     * Reading will check if value fully equals, writing will write it.
      *
      * @throws java.io.IOException if input/output error
      */

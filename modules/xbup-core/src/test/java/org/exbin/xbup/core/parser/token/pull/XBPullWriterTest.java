@@ -52,7 +52,7 @@ public class XBPullWriterTest extends TestCase {
     }
 
     /**
-     * Tests XBPullWriter class writting sample data.
+     * Tests XBPullWriter class writing sample data.
      *
      * @throws java.lang.Exception
      */
@@ -71,7 +71,7 @@ public class XBPullWriterTest extends TestCase {
     }
 
     /**
-     * Tests XBPullWriter class writting sample data.
+     * Tests XBPullWriter class writing sample data.
      *
      * @throws java.lang.Exception
      */
@@ -90,7 +90,7 @@ public class XBPullWriterTest extends TestCase {
     }
 
     /**
-     * Tests XBPullWriter class writting sample data.
+     * Tests XBPullWriter class writing sample data.
      *
      * @throws java.lang.Exception
      */
@@ -109,7 +109,7 @@ public class XBPullWriterTest extends TestCase {
     }
 
     /**
-     * Tests XBPullWriter class writting sample data.
+     * Tests XBPullWriter class writing sample data.
      *
      * @throws java.lang.Exception
      */
@@ -128,7 +128,7 @@ public class XBPullWriterTest extends TestCase {
     }
 
     /**
-     * Tests XBPullWriter class writting sample data.
+     * Tests XBPullWriter class writing sample data.
      *
      * @throws java.lang.Exception
      */
@@ -147,7 +147,7 @@ public class XBPullWriterTest extends TestCase {
     }
 
     /**
-     * Tests XBPullWriter class writting sample data.
+     * Tests XBPullWriter class writing sample data.
      *
      * @throws java.lang.Exception
      */
@@ -166,7 +166,7 @@ public class XBPullWriterTest extends TestCase {
     }
 
     /**
-     * Tests XBPullWriter class writting sample data.
+     * Tests XBPullWriter class writing sample data.
      *
      * @throws java.lang.Exception
      */
@@ -185,7 +185,7 @@ public class XBPullWriterTest extends TestCase {
     }
 
     /**
-     * Tests XBPullWriter class writting sample data.
+     * Tests XBPullWriter class writing sample data.
      *
      * @throws java.lang.Exception
      */
@@ -204,7 +204,7 @@ public class XBPullWriterTest extends TestCase {
     }
 
     /**
-     * Tests XBPullWriter class writting sample data.
+     * Tests XBPullWriter class writing sample data.
      *
      * @throws java.lang.Exception
      */
@@ -223,7 +223,7 @@ public class XBPullWriterTest extends TestCase {
     }
 
     /**
-     * Tests XBPullWriter class writting sample data.
+     * Tests XBPullWriter class writing sample data.
      *
      * @throws java.lang.Exception
      */
@@ -242,7 +242,7 @@ public class XBPullWriterTest extends TestCase {
     }
 
     /**
-     * Tests XBPullWriter class writting sample data.
+     * Tests XBPullWriter class writing sample data.
      *
      * @throws java.lang.Exception
      */
@@ -261,7 +261,7 @@ public class XBPullWriterTest extends TestCase {
     }
 
     /**
-     * Tests XBPullWriter class writting sample data.
+     * Tests XBPullWriter class writing sample data.
      *
      * @throws java.lang.Exception
      */
@@ -280,7 +280,7 @@ public class XBPullWriterTest extends TestCase {
     }
 
     /**
-     * Tests XBPullWriter class writting sample data.
+     * Tests XBPullWriter class writing sample data.
      *
      * @throws java.lang.Exception
      */
@@ -299,7 +299,7 @@ public class XBPullWriterTest extends TestCase {
     }
 
     /**
-     * Tests XBPullWriter class writting sample data.
+     * Tests XBPullWriter class writing sample data.
      *
      * @throws java.lang.Exception
      */
@@ -318,7 +318,7 @@ public class XBPullWriterTest extends TestCase {
     }
 
     /**
-     * Tests XBPullWriter class writting sample data.
+     * Tests XBPullWriter class writing sample data.
      *
      * @throws java.lang.Exception
      */
@@ -337,7 +337,7 @@ public class XBPullWriterTest extends TestCase {
     }
 
     /**
-     * Tests XBPullWriter class writting sample data.
+     * Tests XBPullWriter class writing sample data.
      *
      * @throws java.lang.Exception
      */
@@ -356,7 +356,7 @@ public class XBPullWriterTest extends TestCase {
     }
 
     /**
-     * Tests XBPullWriter class writting sample data.
+     * Tests XBPullWriter class writing sample data.
      *
      * @throws java.lang.Exception
      */
@@ -375,7 +375,7 @@ public class XBPullWriterTest extends TestCase {
     }
 
     /**
-     * Tests XBPullWriter class writting sample data.
+     * Tests XBPullWriter class writing sample data.
      *
      * @throws java.lang.Exception
      */
@@ -394,7 +394,7 @@ public class XBPullWriterTest extends TestCase {
     }
 
     /**
-     * Tests XBPullWriter class writting sample data.
+     * Tests XBPullWriter class writing sample data.
      *
      * @throws java.lang.Exception
      */
@@ -413,7 +413,7 @@ public class XBPullWriterTest extends TestCase {
     }
 
     /**
-     * Tests XBPullWriter class writting sample data.
+     * Tests XBPullWriter class writing sample data.
      *
      * @throws java.lang.Exception
      */
@@ -432,7 +432,7 @@ public class XBPullWriterTest extends TestCase {
     }
 
     /**
-     * Tests XBPullWriter class writting sample data.
+     * Tests XBPullWriter class writing sample data.
      *
      * @throws java.lang.Exception
      */
@@ -451,7 +451,7 @@ public class XBPullWriterTest extends TestCase {
     }
 
     /**
-     * Tests XBPullWriter class writting sample data.
+     * Tests XBPullWriter class writing sample data.
      *
      * @throws java.lang.Exception
      */
@@ -470,7 +470,7 @@ public class XBPullWriterTest extends TestCase {
     }
 
     /**
-     * Tests XBPullWriter class writting corrupted data.
+     * Tests XBPullWriter class writing corrupted data.
      *
      * @throws java.lang.Exception
      */
@@ -492,7 +492,7 @@ public class XBPullWriterTest extends TestCase {
     }
 
     /**
-     * Tests XBPullWriter class writting corrupted data.
+     * Tests XBPullWriter class writing corrupted data.
      *
      * @throws java.lang.Exception
      */

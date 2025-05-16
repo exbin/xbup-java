@@ -52,7 +52,7 @@ public class XBEventWriterTest extends TestCase {
     }
 
     /**
-     * Tests XBEventWriter class writting sample data.
+     * Tests XBEventWriter class writing sample data.
      *
      * @throws java.lang.Exception
      */
@@ -73,7 +73,7 @@ public class XBEventWriterTest extends TestCase {
     }
 
     /**
-     * Tests XBEventWriter class writting sample data.
+     * Tests XBEventWriter class writing sample data.
      *
      * @throws java.lang.Exception
      */
@@ -94,7 +94,7 @@ public class XBEventWriterTest extends TestCase {
     }
 
     /**
-     * Tests XBEventWriter class writting sample data.
+     * Tests XBEventWriter class writing sample data.
      *
      * @throws java.lang.Exception
      */
@@ -115,7 +115,7 @@ public class XBEventWriterTest extends TestCase {
     }
 
     /**
-     * Tests XBEventWriter class writting sample data.
+     * Tests XBEventWriter class writing sample data.
      *
      * @throws java.lang.Exception
      */
@@ -136,7 +136,7 @@ public class XBEventWriterTest extends TestCase {
     }
 
     /**
-     * Tests XBEventWriter class writting sample data.
+     * Tests XBEventWriter class writing sample data.
      *
      * @throws java.lang.Exception
      */
@@ -157,7 +157,7 @@ public class XBEventWriterTest extends TestCase {
     }
 
     /**
-     * Tests XBEventWriter class writting sample data.
+     * Tests XBEventWriter class writing sample data.
      *
      * @throws java.lang.Exception
      */
@@ -178,7 +178,7 @@ public class XBEventWriterTest extends TestCase {
     }
 
     /**
-     * Tests XBEventWriter class writting sample data.
+     * Tests XBEventWriter class writing sample data.
      *
      * @throws java.lang.Exception
      */
@@ -199,7 +199,7 @@ public class XBEventWriterTest extends TestCase {
     }
 
     /**
-     * Tests XBEventWriter class writting sample data.
+     * Tests XBEventWriter class writing sample data.
      *
      * @throws java.lang.Exception
      */
@@ -220,7 +220,7 @@ public class XBEventWriterTest extends TestCase {
     }
 
     /**
-     * Tests XBEventWriter class writting sample data.
+     * Tests XBEventWriter class writing sample data.
      *
      * @throws java.lang.Exception
      */
@@ -241,7 +241,7 @@ public class XBEventWriterTest extends TestCase {
     }
 
     /**
-     * Tests XBEventWriter class writting sample data.
+     * Tests XBEventWriter class writing sample data.
      *
      * @throws java.lang.Exception
      */
@@ -262,7 +262,7 @@ public class XBEventWriterTest extends TestCase {
     }
 
     /**
-     * Tests XBEventWriter class writting sample data.
+     * Tests XBEventWriter class writing sample data.
      *
      * @throws java.lang.Exception
      */
@@ -283,7 +283,7 @@ public class XBEventWriterTest extends TestCase {
     }
 
     /**
-     * Tests XBEventWriter class writting sample data.
+     * Tests XBEventWriter class writing sample data.
      *
      * @throws java.lang.Exception
      */
@@ -304,7 +304,7 @@ public class XBEventWriterTest extends TestCase {
     }
 
     /**
-     * Tests XBEventWriter class writting sample data.
+     * Tests XBEventWriter class writing sample data.
      *
      * @throws java.lang.Exception
      */
@@ -325,7 +325,7 @@ public class XBEventWriterTest extends TestCase {
     }
 
     /**
-     * Tests XBEventWriter class writting sample data.
+     * Tests XBEventWriter class writing sample data.
      *
      * @throws java.lang.Exception
      */
@@ -346,7 +346,7 @@ public class XBEventWriterTest extends TestCase {
     }
 
     /**
-     * Tests XBEventWriter class writting sample data.
+     * Tests XBEventWriter class writing sample data.
      *
      * @throws java.lang.Exception
      */
@@ -367,7 +367,7 @@ public class XBEventWriterTest extends TestCase {
     }
 
     /**
-     * Tests XBEventWriter class writting sample data.
+     * Tests XBEventWriter class writing sample data.
      *
      * @throws java.lang.Exception
      */
@@ -388,7 +388,7 @@ public class XBEventWriterTest extends TestCase {
     }
 
     /**
-     * Tests XBEventWriter class writting sample data.
+     * Tests XBEventWriter class writing sample data.
      *
      * @throws java.lang.Exception
      */
@@ -409,7 +409,7 @@ public class XBEventWriterTest extends TestCase {
     }
 
     /**
-     * Tests XBEventWriter class writting sample data.
+     * Tests XBEventWriter class writing sample data.
      *
      * @throws java.lang.Exception
      */
@@ -430,7 +430,7 @@ public class XBEventWriterTest extends TestCase {
     }
 
     /**
-     * Tests XBEventWriter class writting sample data.
+     * Tests XBEventWriter class writing sample data.
      *
      * @throws java.lang.Exception
      */
@@ -451,7 +451,7 @@ public class XBEventWriterTest extends TestCase {
     }
 
     /**
-     * Tests XBEventWriter class writting sample data.
+     * Tests XBEventWriter class writing sample data.
      *
      * @throws java.lang.Exception
      */
@@ -472,7 +472,7 @@ public class XBEventWriterTest extends TestCase {
     }
 
     /**
-     * Tests XBEventWriter class writting sample data.
+     * Tests XBEventWriter class writing sample data.
      *
      * @throws java.lang.Exception
      */
@@ -493,7 +493,7 @@ public class XBEventWriterTest extends TestCase {
     }
 
     /**
-     * Tests XBEventWriter class writting sample data.
+     * Tests XBEventWriter class writing sample data.
      *
      * @throws java.lang.Exception
      */
@@ -514,7 +514,7 @@ public class XBEventWriterTest extends TestCase {
     }
 
     /**
-     * Tests XBEventWriter class writting corrupted data.
+     * Tests XBEventWriter class writing corrupted data.
      *
      * @throws java.lang.Exception
      */
@@ -535,7 +535,7 @@ public class XBEventWriterTest extends TestCase {
     }
 
     /**
-     * Tests XBEventWriter class writting corrupted data.
+     * Tests XBEventWriter class writing corrupted data.
      *
      * @throws java.lang.Exception
      */

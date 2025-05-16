@@ -18,7 +18,7 @@ package org.exbin.xbup.core.serial;
 import javax.annotation.ParametersAreNonnullByDefault;
 
 /**
- * Interface for XBUP level 1 serialization writting processor.
+ * Interface for XBUP level 1 serialization writing processor.
  *
  * @author ExBin Project (https://exbin.org)
  */

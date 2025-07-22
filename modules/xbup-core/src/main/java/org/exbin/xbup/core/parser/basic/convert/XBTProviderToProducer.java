@@ -44,7 +44,7 @@ public class XBTProviderToProducer implements XBTProducer {
             try {
                 provider.produceXBT(countingListener);
             } catch (XBProcessingException | IOException ex) {
-                Logger.getLogger(XBProviderToProducer.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(XBTProviderToProducer.class.getName()).log(Level.SEVERE, null, ex);
             }
         } while (!countingListener.isFinished());
     }

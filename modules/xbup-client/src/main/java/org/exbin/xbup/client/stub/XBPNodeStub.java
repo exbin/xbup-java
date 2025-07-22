@@ -99,7 +99,7 @@ public class XBPNodeStub extends XBPBaseStub<XBCNode> {
 
             return null;
         } catch (XBProcessingException | IOException ex) {
-            Logger.getLogger(XBPItemStub.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(XBPNodeStub.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
     }
@@ -163,7 +163,7 @@ public class XBPNodeStub extends XBPBaseStub<XBCNode> {
             procedureCall.execute();
             return null;
         } catch (XBProcessingException | IOException ex) {
-            Logger.getLogger(XBPItemStub.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(XBPNodeStub.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
     }

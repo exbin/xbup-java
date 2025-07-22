@@ -44,7 +44,7 @@ public class XBListenerToConsumer implements XBConsumer {
             try {
                 provider.produceXB(countingListener);
             } catch (XBProcessingException | IOException ex) {
-                Logger.getLogger(XBProviderToProducer.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(XBListenerToConsumer.class.getName()).log(Level.SEVERE, null, ex);
             }
         } while (!countingListener.isFinished());
     }

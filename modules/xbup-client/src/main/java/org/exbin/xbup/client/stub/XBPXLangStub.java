@@ -85,7 +85,7 @@ public class XBPXLangStub extends XBPBaseStub<XBCXLanguage> {
             procedureCall.execute();
             return null;
         } catch (XBProcessingException | IOException ex) {
-            Logger.getLogger(XBPItemStub.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(XBPXLangStub.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
     }

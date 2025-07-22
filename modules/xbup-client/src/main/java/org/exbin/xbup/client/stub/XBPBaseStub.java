@@ -106,7 +106,7 @@ public class XBPBaseStub<T extends XBCBase> implements XBPManagerStub<T> {
 
             procedureCall.execute();
         } catch (XBProcessingException | IOException ex) {
-            Logger.getLogger(XBPItemStub.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(XBPBaseStub.class.getName()).log(Level.SEVERE, null, ex);
         }
         return result;
     }

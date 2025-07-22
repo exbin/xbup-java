@@ -79,7 +79,7 @@ public abstract class XBTDataToken implements XBTToken {
             try {
                 return data.available() == 0;
             } catch (IOException ex) {
-                Logger.getLogger(XBDataToken.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(XBTDataToken.class.getName()).log(Level.SEVERE, null, ex);
             }
 
             return false;

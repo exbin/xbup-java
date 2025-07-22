@@ -406,7 +406,7 @@ public class XBTTreeNode implements TreeNode, XBTEditableBlock, UBStreamable {
                 try {
                     size += 2 + XBTokenBuffer.computeAdjustedSize(getData());
                 } catch (IOException ex) {
-                    Logger.getLogger(XBTreeNode.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(XBTTreeNode.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
 

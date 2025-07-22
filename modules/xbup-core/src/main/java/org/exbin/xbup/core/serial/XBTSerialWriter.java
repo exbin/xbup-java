@@ -52,7 +52,7 @@ public class XBTSerialWriter implements XBTWriteSerialHandler {
             try {
                 ((XBTBasicSerializable) serial).serializeToXB(listenerHandler);
             } catch (XBProcessingException | IOException ex) {
-                Logger.getLogger(XBSerialReader.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(XBTSerialWriter.class.getName()).log(Level.SEVERE, null, ex);
             }
         } else if (serial instanceof XBTTokenSerializable) {
             XBTEventListenerSerialHandler listenerHandler = new XBTEventListenerSerialHandler();
@@ -60,7 +60,7 @@ public class XBTSerialWriter implements XBTWriteSerialHandler {
             try {
                 ((XBTTokenSerializable) serial).serializeToXB(listenerHandler);
             } catch (XBProcessingException | IOException ex) {
-                Logger.getLogger(XBSerialReader.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(XBTSerialWriter.class.getName()).log(Level.SEVERE, null, ex);
             }
         } else if (serial instanceof XBTChildSerializable) {
             XBTChildListenerSerialHandler childOutput = new XBTChildListenerSerialHandler(this);

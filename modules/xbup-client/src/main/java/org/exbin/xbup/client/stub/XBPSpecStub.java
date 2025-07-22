@@ -113,7 +113,7 @@ public class XBPSpecStub extends XBPBaseStub<XBCSpec> {
             // TODO type
             return target.isZero() ? null : new XBRRev(client, target.getLong());
         } catch (XBProcessingException | IOException ex) {
-            Logger.getLogger(XBPItemStub.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(XBPSpecStub.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
     }
@@ -174,7 +174,7 @@ public class XBPSpecStub extends XBPBaseStub<XBCSpec> {
             procedureCall.execute();
             return null;
         } catch (XBProcessingException | IOException ex) {
-            Logger.getLogger(XBPItemStub.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(XBPSpecStub.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
     }
@@ -245,7 +245,7 @@ public class XBPSpecStub extends XBPBaseStub<XBCSpec> {
             procedureCall.execute();
             return null;
         } catch (XBProcessingException | IOException ex) {
-            Logger.getLogger(XBPItemStub.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(XBPSpecStub.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
     }
@@ -277,7 +277,7 @@ public class XBPSpecStub extends XBPBaseStub<XBCSpec> {
             procedureCall.execute();
             return null;
         } catch (XBProcessingException | IOException ex) {
-            Logger.getLogger(XBPItemStub.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(XBPSpecStub.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
     }
@@ -309,7 +309,7 @@ public class XBPSpecStub extends XBPBaseStub<XBCSpec> {
             procedureCall.execute();
             return null;
         } catch (XBProcessingException | IOException ex) {
-            Logger.getLogger(XBPItemStub.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(XBPSpecStub.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
     }
@@ -474,7 +474,7 @@ public class XBPSpecStub extends XBPBaseStub<XBCSpec> {
             procedureCall.execute();
             return null;
         } catch (XBProcessingException | IOException ex) {
-            Logger.getLogger(XBPItemStub.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(XBPSpecStub.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
     }

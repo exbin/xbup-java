@@ -47,7 +47,7 @@ public class XBPSerialWriter implements XBPWriteSerialHandler {
         try {
             listener = new XBTToXBEventConvertor(new XBEventWriter(outputStream));
         } catch (IOException ex) {
-            Logger.getLogger(XBPSerialReader.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(XBPSerialWriter.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         eventListener = listener;

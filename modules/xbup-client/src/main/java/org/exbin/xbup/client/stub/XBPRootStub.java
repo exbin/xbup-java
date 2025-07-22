@@ -72,7 +72,7 @@ public class XBPRootStub extends XBPBaseStub<XBCRoot> {
             }
             procedureCall.execute();
         } catch (XBProcessingException | IOException ex) {
-            Logger.getLogger(XBPItemStub.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(XBPRootStub.class.getName()).log(Level.SEVERE, null, ex);
         }
         return Optional.empty();
     }

@@ -72,7 +72,7 @@ public class XBPStubUtils {
             }
             procedureCall.execute();
         } catch (XBProcessingException | IOException ex) {
-            Logger.getLogger(XBPItemStub.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(XBPStubUtils.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
     }
@@ -95,7 +95,7 @@ public class XBPStubUtils {
 
             procedureCall.execute();
         } catch (XBProcessingException | IOException ex) {
-            Logger.getLogger(XBPItemStub.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(XBPStubUtils.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -127,7 +127,7 @@ public class XBPStubUtils {
             }
             procedureCall.execute();
         } catch (XBProcessingException | IOException ex) {
-            Logger.getLogger(XBPItemStub.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(XBPStubUtils.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
     }
@@ -162,7 +162,7 @@ public class XBPStubUtils {
             }
             procedureCall.execute();
         } catch (XBProcessingException | IOException ex) {
-            Logger.getLogger(XBPItemStub.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(XBPStubUtils.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
     }
@@ -191,7 +191,7 @@ public class XBPStubUtils {
             }
             procedureCall.execute();
         } catch (XBProcessingException | IOException ex) {
-            Logger.getLogger(XBPItemStub.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(XBPStubUtils.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
     }
@@ -222,7 +222,7 @@ public class XBPStubUtils {
             }
             procedureCall.execute();
         } catch (XBProcessingException | IOException ex) {
-            Logger.getLogger(XBPItemStub.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(XBPStubUtils.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
     }
@@ -245,7 +245,7 @@ public class XBPStubUtils {
             procedureCall.execute();
             return new ByteArrayInputStream(streamCopy.toByteArray());
         } catch (XBProcessingException | IOException ex) {
-            Logger.getLogger(XBPItemStub.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(XBPStubUtils.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
     }

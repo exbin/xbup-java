@@ -51,7 +51,7 @@ public class XBSerialWriter implements XBWriteSerialHandler {
             try {
                 ((XBBasicSerializable) serial).serializeToXB(listenerHandler);
             } catch (XBProcessingException | IOException ex) {
-                Logger.getLogger(XBSerialReader.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(XBSerialWriter.class.getName()).log(Level.SEVERE, null, ex);
             }
         } else if (serial instanceof XBTokenSerializable) {
             XBEventListenerSerialHandler listenerHandler = new XBEventListenerSerialHandler();
@@ -59,7 +59,7 @@ public class XBSerialWriter implements XBWriteSerialHandler {
             try {
                 ((XBTokenSerializable) serial).serializeToXB(listenerHandler);
             } catch (XBProcessingException | IOException ex) {
-                Logger.getLogger(XBSerialReader.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(XBSerialWriter.class.getName()).log(Level.SEVERE, null, ex);
             }
         } else if (serial instanceof XBChildSerializable) {
             XBChildListenerSerialHandler childOutput = new XBChildListenerSerialHandler(this);
@@ -67,7 +67,7 @@ public class XBSerialWriter implements XBWriteSerialHandler {
             try {
                 ((XBChildSerializable) serial).serializeToXB(childOutput);
             } catch (XBProcessingException | IOException ex) {
-                Logger.getLogger(XBSerialReader.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(XBSerialWriter.class.getName()).log(Level.SEVERE, null, ex);
             }
         } else {
             throw new UnsupportedOperationException("Serialization method " + serial.getClass().getCanonicalName() + " not supported.");

@@ -111,7 +111,7 @@ public class XBPXNameStub extends XBPBaseStub<XBCXName> {
             procedureCall.execute();
             return null;
         } catch (XBProcessingException | IOException ex) {
-            Logger.getLogger(XBPItemStub.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(XBPXNameStub.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
     }

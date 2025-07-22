@@ -135,7 +135,7 @@ public class XBTreeWriter implements XBProvider, XBProducer {
         try {
             produceXB(listener, true);
         } catch (XBProcessingException | IOException ex) {
-            Logger.getLogger(XBTreeNode.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(XBTreeWriter.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

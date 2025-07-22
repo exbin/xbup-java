@@ -477,7 +477,7 @@ public class XBESpecManager extends XBEDefaultCatalogManager<XBCSpec> implements
         } catch (NoResultException ex) {
             return 0;
         } catch (Exception ex) {
-            Logger.getLogger(XBEItemManager.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(XBESpecManager.class.getName()).log(Level.SEVERE, null, ex);
             return 0;
         }
     }
@@ -491,7 +491,7 @@ public class XBESpecManager extends XBEDefaultCatalogManager<XBCSpec> implements
          } catch (NoResultException ex) {
          return null;
          } catch (Exception ex) {
-         Logger.getLogger(XBEItemManager.class.getName()).log(Level.SEVERE, null, ex);
+         Logger.getLogger(XBESpecManager.class.getName()).log(Level.SEVERE, null, ex);
          return null;
          } */
     }

@@ -84,7 +84,7 @@ public class XBPXFileStub extends XBPBaseStub<XBCXFile> {
             procedureCall.execute();
             return new ImageIcon(data.toByteArray());
         } catch (XBProcessingException | IOException ex) {
-            Logger.getLogger(XBPItemStub.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(XBPXFileStub.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
     }
@@ -105,7 +105,7 @@ public class XBPXFileStub extends XBPBaseStub<XBCXFile> {
             procedureCall.execute();
             return data.getDataInputStream();
         } catch (XBProcessingException | IOException ex) {
-            Logger.getLogger(XBPItemStub.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(XBPXFileStub.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
     }
@@ -137,7 +137,7 @@ public class XBPXFileStub extends XBPBaseStub<XBCXFile> {
 
             return null;
         } catch (XBProcessingException | IOException ex) {
-            Logger.getLogger(XBPItemStub.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(XBPXFileStub.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
     }

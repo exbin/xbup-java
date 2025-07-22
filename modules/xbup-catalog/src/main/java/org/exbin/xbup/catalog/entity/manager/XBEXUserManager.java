@@ -56,7 +56,7 @@ public class XBEXUserManager extends XBEDefaultCatalogManager<XBCXUser> implemen
         } catch (NoResultException e) {
             return null;
         } catch (Exception ex) {
-            Logger.getLogger(XBENodeManager.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(XBEXUserManager.class.getName()).log(Level.SEVERE, null, ex);
             return null;
         }
     }

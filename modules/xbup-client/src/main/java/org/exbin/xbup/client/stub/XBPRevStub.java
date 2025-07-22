@@ -165,7 +165,7 @@ public class XBPRevStub extends XBPBaseStub<XBCRev> {
             procedureCall.execute();
             return null;
         } catch (XBProcessingException | IOException ex) {
-            Logger.getLogger(XBPItemStub.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(XBPRevStub.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
     }

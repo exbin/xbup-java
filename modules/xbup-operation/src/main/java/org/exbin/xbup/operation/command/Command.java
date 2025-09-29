@@ -13,31 +13,32 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.exbin.xbup.operation;
+package org.exbin.xbup.operation.command;
 
-import javax.annotation.ParametersAreNonnullByDefault;
-import org.exbin.xbup.operation.undo.UndoableCommand;
+import javax.annotation.Nonnull;
 
 /**
- * Abstract command class.
+ * Interface for command.
  *
  * @author ExBin Project (https://exbin.org)
  */
-@ParametersAreNonnullByDefault
-public abstract class AbstractCommand implements UndoableCommand {
+public interface Command {
 
     /**
-     * Default execution method performs simply redo operation.
+     * Returns command name.
+     *
+     * @return text caption
      */
-    @Override
-    public void execute() {
-        redo();
-    }
+    @Nonnull
+    String getName();
 
     /**
-     * Default dispose method do nothing.
+     * Performs command on given document.
      */
-    @Override
-    public void dispose() {
-    }
+    void execute();
+
+    /**
+     * Disposes command.
+     */
+    void dispose();
 }

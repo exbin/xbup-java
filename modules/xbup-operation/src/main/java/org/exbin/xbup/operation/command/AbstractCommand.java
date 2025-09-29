@@ -13,16 +13,31 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.exbin.xbup.operation;
+package org.exbin.xbup.operation.command;
+
+import javax.annotation.ParametersAreNonnullByDefault;
+import org.exbin.xbup.operation.undo.UndoableCommand;
 
 /**
- * Enumeration of command execution phases.
+ * Abstract command class.
  *
  * @author ExBin Project (https://exbin.org)
  */
-public enum CommandPhase {
+@ParametersAreNonnullByDefault
+public abstract class AbstractCommand implements UndoableCommand {
 
-    CREATED,
-    EXECUTED,
-    REVERTED
+    /**
+     * Default execution method performs simply redo operation.
+     */
+    @Override
+    public void execute() {
+        redo();
+    }
+
+    /**
+     * Default dispose method do nothing.
+     */
+    @Override
+    public void dispose() {
+    }
 }

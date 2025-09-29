@@ -13,24 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.exbin.xbup.operation.undo;
-
-import javax.annotation.ParametersAreNonnullByDefault;
-import org.exbin.xbup.operation.Operation;
+package org.exbin.xbup.operation.command;
 
 /**
- * Interface for appendable operation.
+ * Enumeration of command execution phases.
  *
  * @author ExBin Project (https://exbin.org)
  */
-@ParametersAreNonnullByDefault
-public interface AppendableOperation {
+public enum CommandPhase {
 
-    /**
-     * Attempts to append an operation.
-     *
-     * @param operation operation
-     * @return true if sucessfully appended
-     */
-    boolean appendOperation(Operation operation);
+    CREATED,
+    EXECUTED,
+    REVERTED
 }

@@ -15,7 +15,7 @@
  */
 package org.exbin.xbup.operation.undo;
 
-import org.exbin.xbup.operation.Command;
+import org.exbin.xbup.operation.command.Command;
 
 /**
  * Undoable command.

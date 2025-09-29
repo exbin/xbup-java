@@ -21,8 +21,7 @@ import javax.annotation.ParametersAreNonnullByDefault;
 import org.exbin.xbup.core.block.XBTEditableDocument;
 import org.exbin.xbup.operation.Operation;
 import org.exbin.xbup.operation.XBTDocOperation;
-import org.exbin.xbup.operation.XBTOpDocCommand;
-import org.exbin.xbup.operation.basic.XBBasicCommandType;
+import org.exbin.xbup.operation.command.XBTOpDocCommand;
 import org.exbin.xbup.operation.basic.XBTCompoundBlockOperation;
 
 /**

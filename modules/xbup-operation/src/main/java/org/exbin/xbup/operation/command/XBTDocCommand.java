@@ -13,46 +13,51 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.exbin.xbup.operation.basic;
+package org.exbin.xbup.operation.command;
 
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
-import org.exbin.xbup.operation.CommandType;
+import org.exbin.xbup.core.block.XBTEditableDocument;
+import org.exbin.xbup.operation.basic.command.XBBasicCommandType;
 
 /**
- * Document command type enumeration.
+ * Abstract class for operation using XBUP level 1 document.
  *
  * @author ExBin Project (https://exbin.org)
  */
 @ParametersAreNonnullByDefault
-public enum XBBasicCommandType implements CommandType {
+public abstract class XBTDocCommand extends AbstractCommand {
+
+    @Nonnull
+    protected final XBTEditableDocument document;
+
+    public XBTDocCommand(XBTEditableDocument document) {
+        this.document = document;
+    }
 
     /**
-     * Block added.
+     * Returns type of the command.
+     *
+     * @return command type
      */
-    BLOCK_ADDED("Block added"),
-    /**
-     * Block deleted.
-     */
-    BLOCK_DELETED("Block deleted"),
-    /**
-     * Block modified.
-     */
-    BLOCK_MODIFIED("Block modified"),
-    /**
-     * Block moved.
-     */
-    BLOCK_MOVED("Block moved");
+    @Nonnull
+    public abstract XBBasicCommandType getBasicType();
 
-    private final String name;
+    @Nonnull
+    public XBTEditableDocument getDocument() {
+        return document;
+    }
 
-    private XBBasicCommandType(String name) {
-        this.name = name;
+    /**
+     * Default dispose is empty.
+     */
+    @Override
+    public void dispose() {
     }
 
     @Nonnull
     @Override
     public String getName() {
-        return name;
+        return getBasicType().getName();
     }
 }

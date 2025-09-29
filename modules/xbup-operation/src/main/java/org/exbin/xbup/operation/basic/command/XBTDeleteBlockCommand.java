@@ -17,8 +17,7 @@ package org.exbin.xbup.operation.basic.command;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 import org.exbin.xbup.core.block.XBTEditableDocument;
-import org.exbin.xbup.operation.XBTOpDocCommand;
-import org.exbin.xbup.operation.basic.XBBasicCommandType;
+import org.exbin.xbup.operation.command.XBTOpDocCommand;
 import org.exbin.xbup.operation.basic.XBTDeleteBlockOperation;
 import org.exbin.xbup.parser_tree.XBTTreeNode;
 

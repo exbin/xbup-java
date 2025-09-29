@@ -13,10 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.exbin.xbup.operation.undo;
+package org.exbin.xbup.operation.command;
 
 import javax.annotation.ParametersAreNonnullByDefault;
-import org.exbin.xbup.operation.Command;
 
 /**
  * Interface for appendable command.

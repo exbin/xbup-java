@@ -13,13 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.exbin.xbup.operation;
+package org.exbin.xbup.operation.command;
 
 import java.util.Optional;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 import org.exbin.xbup.core.block.XBTEditableDocument;
+import org.exbin.xbup.operation.XBTDocOperation;
 
 /**
  * Abstract class for operation using XBUP level 1 document.

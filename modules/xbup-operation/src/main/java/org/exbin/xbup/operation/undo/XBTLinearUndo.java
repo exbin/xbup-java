@@ -20,7 +20,7 @@ import java.util.List;
 import java.util.Optional;
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
-import org.exbin.xbup.operation.Command;
+import org.exbin.xbup.operation.command.Command;
 import org.exbin.xbup.parser_tree.XBTTreeDocument;
 
 /**

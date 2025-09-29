@@ -15,30 +15,21 @@
  */
 package org.exbin.xbup.operation;
 
-import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
 
 /**
- * Interface for command.
+ * Interface for appendable operation.
  *
  * @author ExBin Project (https://exbin.org)
  */
-public interface Command {
+@ParametersAreNonnullByDefault
+public interface AppendableOperation {
 
     /**
-     * Returns command name.
+     * Attempts to append an operation.
      *
-     * @return text caption
+     * @param operation operation
+     * @return true if sucessfully appended
      */
-    @Nonnull
-    String getName();
-
-    /**
-     * Performs command on given document.
-     */
-    void execute();
-
-    /**
-     * Disposes command.
-     */
-    void dispose();
+    boolean appendOperation(Operation operation);
 }

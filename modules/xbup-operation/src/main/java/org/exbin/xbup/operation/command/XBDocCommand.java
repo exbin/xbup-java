@@ -13,30 +13,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.exbin.xbup.operation;
+package org.exbin.xbup.operation.command;
 
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
-import org.exbin.xbup.core.block.XBTEditableDocument;
-import org.exbin.xbup.operation.basic.XBBasicCommandType;
+import org.exbin.xbup.core.block.XBEditableDocument;
+import org.exbin.xbup.operation.basic.command.XBBasicCommandType;
 
 /**
- * Abstract class for operation using XBUP level 1 document.
+ * Abstract class for operation using XBUP level 0 document.
  *
  * @author ExBin Project (https://exbin.org)
  */
 @ParametersAreNonnullByDefault
-public abstract class XBTDocCommand extends AbstractCommand {
+public abstract class XBDocCommand extends AbstractCommand {
 
     @Nonnull
-    protected final XBTEditableDocument document;
-
-    public XBTDocCommand(XBTEditableDocument document) {
-        this.document = document;
-    }
+    protected XBEditableDocument document;
 
     /**
-     * Returns type of the command.
+     * Returns command type.
      *
      * @return command type
      */
@@ -44,8 +40,12 @@ public abstract class XBTDocCommand extends AbstractCommand {
     public abstract XBBasicCommandType getBasicType();
 
     @Nonnull
-    public XBTEditableDocument getDocument() {
+    public XBEditableDocument getDocument() {
         return document;
+    }
+
+    public void setDocument(XBEditableDocument document) {
+        this.document = document;
     }
 
     /**

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) ExBin Project
+ * Copyright (C) ExBin Project, https://exbin.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,8 +23,6 @@ import org.exbin.xbup.core.ubnumber.type.UBNat32;
  * Block type defined as fixed group and block indexes.
  *
  * Class is supposed to be immutable.
- *
- * @author ExBin Project (https://exbin.org)
  */
 public class XBFixedBlockType implements XBFBlockType {
 

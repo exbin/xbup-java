@@ -1,5 +1,5 @@
 /*
- * Copyright (C) ExBin Project
+ * Copyright (C) ExBin Project, https://exbin.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,8 +20,6 @@ import java.io.InputStream;
 
 /**
  * Input stream wrapper for tail data.
- *
- * @author ExBin Project (https://exbin.org)
  */
 public class TailDataInputStreamWrapper extends InputStream {
 

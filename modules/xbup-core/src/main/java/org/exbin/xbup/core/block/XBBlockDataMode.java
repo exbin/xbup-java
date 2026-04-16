@@ -1,5 +1,5 @@
 /*
- * Copyright (C) ExBin Project
+ * Copyright (C) ExBin Project, https://exbin.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,8 +19,6 @@ package org.exbin.xbup.core.block;
  * Block data mode enumeration.
  *
  * Standard block can be either data block or node block.
- *
- * @author ExBin Project (https://exbin.org)
  */
 public enum XBBlockDataMode {
 

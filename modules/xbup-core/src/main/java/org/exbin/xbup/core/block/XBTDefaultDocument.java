@@ -1,5 +1,5 @@
 /*
- * Copyright (C) ExBin Project
+ * Copyright (C) ExBin Project, https://exbin.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,8 +23,6 @@ import org.exbin.auxiliary.binary_data.BinaryData;
 
 /**
  * Basic plain implementation of XBTDocument interface.
- *
- * @author ExBin Project (https://exbin.org)
  */
 public class XBTDefaultDocument implements XBTDocument {
 

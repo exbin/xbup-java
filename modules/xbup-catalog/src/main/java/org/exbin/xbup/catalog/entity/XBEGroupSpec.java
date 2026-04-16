@@ -1,5 +1,5 @@
 /*
- * Copyright (C) ExBin Project
+ * Copyright (C) ExBin Project, https://exbin.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,8 +25,6 @@ import org.exbin.xbup.core.catalog.base.XBCNode;
 
 /**
  * Group specification database entity.
- *
- * @author ExBin Project (https://exbin.org)
  */
 @Entity(name = "XBGroupSpec")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)

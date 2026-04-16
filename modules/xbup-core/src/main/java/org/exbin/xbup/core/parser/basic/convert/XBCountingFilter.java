@@ -1,5 +1,5 @@
 /*
- * Copyright (C) ExBin Project
+ * Copyright (C) ExBin Project, https://exbin.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,8 +25,6 @@ import org.exbin.xbup.core.ubnumber.UBNatural;
  * XBUP level 0 counting filter.
  *
  * Keeps track of current depth level and provides isFinished method.
- *
- * @author ExBin Project (https://exbin.org)
  */
 public class XBCountingFilter extends XBSDefaultFilter {
 

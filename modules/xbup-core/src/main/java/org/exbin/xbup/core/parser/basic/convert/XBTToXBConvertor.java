@@ -1,5 +1,5 @@
 /*
- * Copyright (C) ExBin Project
+ * Copyright (C) ExBin Project, https://exbin.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -33,8 +33,6 @@ import org.exbin.xbup.core.ubnumber.UBNatural;
 
 /**
  * XBUP level 1 to level 0 convertor.
- *
- * @author ExBin Project (https://exbin.org)
  */
 public class XBTToXBConvertor implements XBTListener, XBTSListener, XBProducer {
 

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) ExBin Project
+ * Copyright (C) ExBin Project, https://exbin.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,8 +24,6 @@ import org.exbin.xbup.core.stream.FinishableStream;
  *
  * Terminator is 0x0000. Sequence 0x00XX for XX &gt; 0 is interpreted as
  * sequence of zeros XX bytes long.
- *
- * @author ExBin Project (https://exbin.org)
  */
 public class TerminatedDataOutputStreamWrapper extends OutputStream implements FinishableStream {
 

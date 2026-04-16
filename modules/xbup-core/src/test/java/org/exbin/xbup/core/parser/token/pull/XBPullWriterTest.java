@@ -1,5 +1,5 @@
 /*
- * Copyright (C) ExBin Project
+ * Copyright (C) ExBin Project, https://exbin.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -32,8 +32,6 @@ import org.junit.Test;
 
 /**
  * Test class for XBPullWriter.
- *
- * @author ExBin Project (https://exbin.org)
  */
 public class XBPullWriterTest extends TestCase {
 

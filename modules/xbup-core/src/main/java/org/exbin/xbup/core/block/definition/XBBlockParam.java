@@ -1,5 +1,5 @@
 /*
- * Copyright (C) ExBin Project
+ * Copyright (C) ExBin Project, https://exbin.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,8 +25,6 @@ import org.exbin.xbup.core.serial.XBSerializable;
  * Parameter is one of four types: Join, Consist, Join List, Consist List.
  * Without declaration (blockDecl) it means single attribute for join and data
  * block for consist mode and their lists respectively.
- *
- * @author ExBin Project (https://exbin.org)
  */
 public interface XBBlockParam extends XBSpecParam, XBSerializable {
 

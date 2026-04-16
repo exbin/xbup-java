@@ -1,5 +1,5 @@
 /*
- * Copyright (C) ExBin Project
+ * Copyright (C) ExBin Project, https://exbin.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,8 +17,6 @@ package org.exbin.xbup.core.catalog.base;
 
 /**
  * Interface for group specification entity.
- *
- * @author ExBin Project (https://exbin.org)
  */
 public interface XBCGroupSpec extends XBCSpec {
 }

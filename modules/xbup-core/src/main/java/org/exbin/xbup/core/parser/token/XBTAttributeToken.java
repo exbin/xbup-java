@@ -1,5 +1,5 @@
 /*
- * Copyright (C) ExBin Project
+ * Copyright (C) ExBin Project, https://exbin.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,8 +24,6 @@ import org.exbin.xbup.core.ubnumber.type.UBNat32;
  * XBUP protocol level 1 attribute token.
  *
  * This class carry single UBNatural value.
- *
- * @author ExBin Project (https://exbin.org)
  */
 @ParametersAreNonnullByDefault
 public abstract class XBTAttributeToken implements XBTToken {

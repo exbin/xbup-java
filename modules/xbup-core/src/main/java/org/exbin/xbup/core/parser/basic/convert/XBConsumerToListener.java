@@ -1,5 +1,5 @@
 /*
- * Copyright (C) ExBin Project
+ * Copyright (C) ExBin Project, https://exbin.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -40,8 +40,6 @@ import org.exbin.xbup.core.ubnumber.UBNatural;
  * XBUP level 0 consumer to listener convertor.
  *
  * Uses token buffer stored in memory.
- *
- * @author ExBin Project (https://exbin.org)
  */
 public class XBConsumerToListener implements XBSListener {
 

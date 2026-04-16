@@ -1,5 +1,5 @@
 /*
- * Copyright (C) ExBin Project
+ * Copyright (C) ExBin Project, https://exbin.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,8 +24,6 @@ import org.exbin.xbup.core.parser.token.XBAttribute;
 /**
  * TODO: Filter primary document content - process/skip all basic blocks and
  * extensions.
- *
- * @author ExBin Project (https://exbin.org)
  */
 public class XBTRootDocumentFilter implements XBTListener {
 

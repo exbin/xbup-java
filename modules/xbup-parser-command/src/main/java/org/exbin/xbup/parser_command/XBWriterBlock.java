@@ -1,5 +1,5 @@
 /*
- * Copyright (C) ExBin Project
+ * Copyright (C) ExBin Project, https://exbin.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -36,8 +36,6 @@ import org.exbin.xbup.core.parser.token.XBAttribute;
 
 /**
  * XBUP level 0 command writer block.
- *
- * @author ExBin Project (https://exbin.org)
  */
 public class XBWriterBlock implements XBCommandBlock, XBEditableBlock, Closeable {
 

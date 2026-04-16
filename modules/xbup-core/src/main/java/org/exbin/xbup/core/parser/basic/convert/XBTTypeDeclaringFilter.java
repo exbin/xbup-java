@@ -1,5 +1,5 @@
 /*
- * Copyright (C) ExBin Project
+ * Copyright (C) ExBin Project, https://exbin.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -35,8 +35,6 @@ import org.exbin.xbup.core.parser.token.XBAttribute;
 
 /**
  * Filter to convert block types from fixed types to stand-alone declared types.
- *
- * @author ExBin Project (https://exbin.org)
  */
 public class XBTTypeDeclaringFilter implements XBTFilter {
 

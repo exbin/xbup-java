@@ -1,5 +1,5 @@
 /*
- * Copyright (C) ExBin Project
+ * Copyright (C) ExBin Project, https://exbin.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,8 +23,6 @@ import org.exbin.xbup.core.serial.XBSerializable;
 /**
  * Interface is providing serialization methods for serialization from and into
  * XBUP level 1 protocol using basic parser.
- *
- * @author ExBin Project (https://exbin.org)
  */
 @ParametersAreNonnullByDefault
 public interface XBTBasicSerializable extends XBSerializable {

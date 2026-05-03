@@ -17,7 +17,6 @@ package org.exbin.xbup.core.block;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Optional;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
@@ -47,15 +46,6 @@ public interface XBTEditableDocument extends XBTDocument {
      * Clears all data in this document.
      */
     void clear();
-
-    /**
-     * Finds node using depth-first traversal index.
-     *
-     * @param index order of the block in document
-     * @return block if found else null
-     */
-    @Nonnull
-    Optional<XBTBlock> findBlockByIndex(long index);
 
     /**
      * Creates new instance of block as next child for given block.

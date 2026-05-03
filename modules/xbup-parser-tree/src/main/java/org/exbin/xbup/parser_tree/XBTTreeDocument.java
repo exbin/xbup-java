@@ -188,7 +188,6 @@ public class XBTTreeDocument extends XBTTree implements XBTEditableDocument {
     }
 
     @Nonnull
-    @Override
     public Optional<XBTBlock> findBlockByIndex(long index) {
         return super.findNodeByIndex(index);
     }

@@ -39,6 +39,7 @@ import org.exbin.xbup.core.serial.param.XBPSequenceSerialHandler;
 import org.exbin.xbup.core.serial.param.XBPSequenceSerializable;
 import org.exbin.xbup.core.serial.param.XBSerializationMode;
 import org.exbin.xbup.core.type.XBData;
+import org.exbin.xbup.operation.DocumentUtils;
 import org.exbin.xbup.operation.XBTDocOperation;
 import org.exbin.xbup.operation.undo.UndoableOperation;
 import org.exbin.xbup.parser_tree.XBTBlockToXBBlock;
@@ -88,7 +89,7 @@ public class XBTModifyBlockOperation extends XBTDocOperation {
             throw new IllegalStateException("Unable to process data");
         }
 
-        XBTEditableBlock node = (XBTEditableBlock) document.findBlockByIndex(serial.position).get();
+        XBTEditableBlock node = (XBTEditableBlock) DocumentUtils.findBlockByIndex(document, serial.position).get();
         Optional<XBTBlock> optParentNode = node.getParentBlock();
         if (!optParentNode.isPresent()) {
             document.setRootBlock(serial.newNode);

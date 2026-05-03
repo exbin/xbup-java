@@ -35,6 +35,7 @@ import org.exbin.xbup.core.serial.XBPSerialWriter;
 import org.exbin.xbup.core.serial.param.XBPSequenceSerialHandler;
 import org.exbin.xbup.core.serial.param.XBPSequenceSerializable;
 import org.exbin.xbup.core.serial.param.XBSerializationMode;
+import org.exbin.xbup.operation.DocumentUtils;
 import org.exbin.xbup.operation.XBTDocOperation;
 import org.exbin.xbup.operation.undo.UndoableOperation;
 
@@ -91,7 +92,7 @@ public class XBTDeleteBlockOperation extends XBTDocOperation {
             if (serial.position < 1) {
                 deletedNode = (XBTEditableBlock) document.getRootBlock().get();
             } else {
-                deletedNode = (XBTEditableBlock) document.findBlockByIndex(serial.position).get();
+                deletedNode = (XBTEditableBlock) DocumentUtils.findBlockByIndex(document, serial.position).get();
                 XBTEditableBlock parentNode = (XBTEditableBlock) deletedNode.getParentBlock().get();
                 parentPosition = (long) XBTDefaultBlock.getBlockIndex(parentNode);
                 childIndex = Arrays.asList(parentNode.getChildren()).indexOf(deletedNode);
@@ -102,7 +103,7 @@ public class XBTDeleteBlockOperation extends XBTDocOperation {
         if (serial.position < 1) {
             document.clear();
         } else {
-            XBTEditableBlock node = (XBTEditableBlock) document.findBlockByIndex(serial.position).get();
+            XBTEditableBlock node = (XBTEditableBlock) DocumentUtils.findBlockByIndex(document, serial.position).get();
             XBTEditableBlock parentNode = (XBTEditableBlock) node.getParentBlock().get();
             int childIndex = Arrays.asList(parentNode.getChildren()).indexOf(node);
             parentNode.removeChild(childIndex);

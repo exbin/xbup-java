@@ -1,0 +1,48 @@
+/*
+ * Copyright (C) ExBin Project, https://exbin.org
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.exbin.xbup.operation;
+
+import java.util.Optional;
+import javax.annotation.Nonnull;
+import org.exbin.xbup.core.block.XBTBlock;
+import org.exbin.xbup.core.block.XBTDocument;
+import org.exbin.xbup.parser_tree.XBTTreeDocument;
+
+/**
+ * Document utilities.
+ */
+public class DocumentUtils {
+
+    private DocumentUtils() {
+    }
+
+    /**
+     * Finds node using depth-first traversal index.
+     *
+     * @param document document
+     * @param index order of the block in document
+     * @return block if found else null
+     */
+    @Nonnull
+    public static Optional<XBTBlock> findBlockByIndex(XBTDocument document, long index) {
+        if (document instanceof XBTTreeDocument) {
+            return ((XBTTreeDocument) document).findBlockByIndex(index);
+        }
+        
+        // TODO
+        return Optional.empty();
+    }
+}

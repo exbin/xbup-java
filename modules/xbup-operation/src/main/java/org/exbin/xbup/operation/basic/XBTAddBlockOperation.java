@@ -38,6 +38,7 @@ import org.exbin.xbup.core.serial.param.XBPSequenceSerialHandler;
 import org.exbin.xbup.core.serial.param.XBPSequenceSerializable;
 import org.exbin.xbup.core.serial.param.XBSerializationMode;
 import org.exbin.xbup.core.type.XBData;
+import org.exbin.xbup.operation.DocumentUtils;
 import org.exbin.xbup.operation.XBTDocOperation;
 import org.exbin.xbup.operation.undo.UndoableOperation;
 import org.exbin.xbup.parser_tree.XBTBlockToXBBlock;
@@ -93,7 +94,7 @@ public class XBTAddBlockOperation extends XBTDocOperation {
                 document.setRootBlock(serial.newNode);
             }
         } else {
-            XBTEditableBlock parentNode = (XBTEditableBlock) document.findBlockByIndex(serial.parentPosition - 1).orElse(null);
+            XBTEditableBlock parentNode = (XBTEditableBlock) DocumentUtils.findBlockByIndex(document, serial.parentPosition - 1).orElse(null);
             if (parentNode != null) {
                 // If inserted in the middle, shift children blocks (add method to interface for this?)
                 if (serial.childIndex < parentNode.getChildrenCount()) {
@@ -110,7 +111,7 @@ public class XBTAddBlockOperation extends XBTDocOperation {
         if (withUndo) {
             XBTDeleteBlockOperation undoOperation;
             if (serial.parentPosition > 0) {
-                XBTEditableBlock parentNode = (XBTEditableBlock) document.findBlockByIndex(serial.parentPosition - 1).get();
+                XBTEditableBlock parentNode = (XBTEditableBlock) DocumentUtils.findBlockByIndex(document, serial.parentPosition - 1).get();
                 XBTBlock node = parentNode.getChildAt(serial.childIndex);
                 undoOperation = new XBTDeleteBlockOperation(document, node);
             } else {
